@@ -195,9 +195,10 @@ def docx(name: str) -> bytes:
 	return made
 
 
-def read(name: str, content: bytes) -> str:
+def read(name: str, content: bytes, heard: list | None = None) -> str:
 	"""A Word file as the document's HTML: its pictures become pictures in
-	the document, read through it."""
+	the document, read through it. What the reader said about the file on
+	the way (styles it did not know) goes into `heard`."""
 	import mammoth
 	from frappe.utils.html_utils import sanitize_html
 
@@ -223,7 +224,18 @@ def read(name: str, content: bytes) -> str:
 		said = mammoth.convert_to_html(io.BytesIO(content), convert_image=mammoth.images.img_element(kept))
 	except Exception:
 		frappe.throw(_("This file cannot be opened."))
+	if heard is not None:
+		heard.extend(said.messages or [])
 	return sanitize_html(said.value or "", linkify=False)
+
+
+def dropped(content: bytes, heard: list, own: bool) -> list[str]:
+	"""What OneWriter does not keep of a Word file, but for the styles
+	`build` writes itself; a document of One's own never had fonts and
+	colours to lose."""
+	from onedesk.one_storage import fidelity
+
+	return fidelity.document(content, heard, built=("Quote", *BULLETS, *NUMBERS), formatting=not own)
 
 
 def write(name: str, content: bytes) -> None:
@@ -231,17 +243,22 @@ def write(name: str, content: bytes) -> None:
 	document's, what it said before kept as a version, and the editor builds
 	itself from it the next time it opens. A record's text, or a document
 	with the record's fields in it, is not written from Word, which would
-	keep the fields' values and lose the fields."""
+	keep the fields' values and lose the fields. What the Word file had that
+	the document does not keep is noted on it, shown when it next opens."""
 	from onedesk.one_doc import versions
+	from onedesk.one_storage import saving
 
-	api._may(name, "write")
+	item = api._may(name, "write")
+	saving.check(api.DOCUMENT, name, item)
 	held = frappe.db.get_value(api.DOCUMENT, name, ["html", "bound_doctype"], as_dict=True)
 	if held.bound_doctype or 'data-field="' in (held.html or ""):
 		frappe.throw(_("A document with a record's fields in it can only be edited in OneWriter."), frappe.PermissionError)
-	html = read(name, content)
+	heard = []
+	html = read(name, content, heard)
 	if held.html:
-		versions.new_version(name, held.html, _("Before a Word save"))
+		versions.new_version(name, held.html, saving.before(_("Before a Word save")))
 	frappe.db.set_value(api.DOCUMENT, name, {"html": html, "content": None, "byte_size": len(html.encode("utf-8"))}, update_modified=True)
+	saving.outside(api.DOCUMENT, name, dropped(content, heard, own=True))
 
 
 def of_file(file: str) -> str | None:
@@ -269,45 +286,40 @@ def open_file(file: str) -> dict:
 		made.flags.ignore_permissions = True
 		made.insert()
 		held = made.name
-	html = read(held, frappe.get_doc("File", file).get_content())
+	from onedesk.one_storage import saving
+
+	content = frappe.get_doc("File", file).get_content()
+	heard = []
+	html = read(held, content, heard)
 	frappe.db.set_value(api.DOCUMENT, held, {"html": html, "content": None})
+	saving.opened(api.DOCUMENT, held, dropped(content, heard, own=False))
 	return {"document": held}
 
 
 @frappe.whitelist(methods=["POST"])
-def write_back(name: str) -> dict:
+def write_back(name: str, choice: str = "", edited: int = 1) -> dict:
 	"""What was written in a .docx File's document, as the File's content:
-	what it held before is kept as a version (one_storage/history.py)."""
-	from onedesk.one_storage import history
-	from onedesk.one_storage import namespace as ns
+	what it held before is kept as a version (one_storage/history.py). When
+	that would drop parts of the file, it waits for the reader's `choice`,
+	over or copy (one_storage/saving.py); `edited` says whether anything
+	was written beyond the editor's first paint."""
+	from onedesk.one_storage import saving
 
 	item = api._may(name, "write")
 	if frappe.db.get_value(api.DOCUMENT, name, "source_kind") != "docx":
 		frappe.throw(_("This document is not linked to a Word file."))
-	made = frappe.get_doc(
-		{
-			"doctype": "File",
-			"file_name": item["file_name"],
-			"content": build(name),
-			"is_private": item.get("is_private", 1),
-			"folder": item.get("folder") or None,
-		}
-	)
-	made.flags.ignore_permissions = True
-	made.insert()
-	frappe.flags.one_writing_back = True
-	try:
-		history.replace(ns.row(item["name"]), made.name)
-	finally:
-		frappe.flags.one_writing_back = False
-	return {"file": item["name"], "size": frappe.db.get_value("File", item["name"], "file_size")}
+	waits = not choice and saving.listed(frappe.db.get_value(api.DOCUMENT, name, "would_lose"))
+	return saving.write_back(api.DOCUMENT, name, item, b"" if waits else build(name), choice, edited=frappe.utils.cint(edited))
 
 
 def file_replaced(file: str) -> None:
 	"""A new version of a .docx File put in from outside the editor: its
-	document reads it in again the next time it is opened."""
+	document reads it in again the next time it is opened, or, holding
+	changes that waited for a choice, is kept as a copy instead."""
+	from onedesk.one_storage import saving
+
 	name = None if frappe.flags.one_writing_back else of_file(file)
-	if name:
+	if name and not saving.set_aside(api.DOCUMENT, name, api.URL):
 		frappe.db.set_value(api.DOCUMENT, name, {"html": "", "content": None})
 
 

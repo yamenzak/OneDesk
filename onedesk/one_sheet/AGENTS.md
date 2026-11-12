@@ -28,7 +28,13 @@ under **Versions** in OneCloud. A CSV keeps only the first sheet, as a CSV
 can hold only one.
 
 Upload a new version of the file and it is read in again the next time it
-is opened.
+is opened. Only the cells that changed are written into the Excel file,
+so its fonts, colours, borders, comments, data validation, conditional
+formatting, tables and pictures stay. When the file has what that drops
+(charts, slicers, shapes, sparklines and the rest `one_storage/fidelity.py`
+reads for), nothing is saved over it until the person chooses **Save Over
+Original** or **Save as Copy**. An .xlsm or .xls opens read-only, and so does
+any file while somebody has it in OneOS.
 
 Any workbook downloads as an Excel or CSV file from OneCloud: right-click
 it › **Download as Excel** or **Download as CSV**. It opens, works its
@@ -350,7 +356,10 @@ Only the transport is ours. `realtime/handlers.js` is loaded by Frappe's own
 socketio process for every app (`frappe/realtime/index.js`), so live editing
 needs no second service. A browser joins a workbook's room with
 `onedesk_join`; the relay asks `live.admit` once, as that socket's session,
-and the server names the room and says whether the person may write. After
+and the server names the room and says whether the person may write (never
+while the File is held alone, `one_storage/saving.state`), and records them
+on the File's lease; `live.here` every minute and `live.leave` on leave or
+disconnect keep it current (one_storage README, One lease per file). After
 that a change goes browser → node → the others, never through Python. A
 reader may ask for the state and be seen, nothing else; only a writer may
 send cell updates or answer with a whole state. Who somebody is in the
@@ -533,12 +542,28 @@ sheet left out.
 and answers the same one the next time. `get_sheet`'s `source` says where
 the File's bytes are and whether the workbook has read them yet (`fresh`);
 the editor reads them in through the importer it already had
-(`useExportImport.readSource`), then writes itself back a minute after a
-save and when it is left (`fileContent`, SheetJS) to `write_back`, which
-puts the bytes in a new File and hands them to OneCloud's
+(`useExportImport.readSource`), then asks for itself to be written back a
+minute after a save and when it is left (`write_back`). For an xlsx,
+`patching.file` opens the File's own bytes with openpyxl and writes the
+saved workbook into it: a cell's value or formula where it differs from the
+file's (compared as the editor reads it in, so `_xlfn.` and a date's form
+are no change), cells the editor no longer holds cleared, sheets added,
+removed and renamed where they stand, merges, number formats where the
+editor's differs, bold and italic it set, and widths, heights and frozen
+rows it holds. Everything else in the file stays; a row inserted in the
+editor moves values but not the file's styles. A CSV is what the editor
+sends (`fileContent`). `write_back` puts the bytes in a new File and hands them to OneCloud's
 `history.replace`, keeping what the File held as a Cloud File Version.
 `history.replace` calls `file_replaced`, which empties the workbook when
 the new version came from anywhere else, so it reads the file in again.
+`get_sheet` weighs a fresh Excel file with `fidelity.workbook` into
+`would_lose`; while it is not empty the editor calls `write_back` with no
+content after each save, which answers `held` (and stamps `held_back`) until
+`choice` is `over` or `copy`, and a version arriving meanwhile sets the
+workbook aside as One's own copy (`saving.set_aside`). Saves in one sitting
+are one version (`history.merges`). `excel.write` keeps the workbook as
+**Before an Excel save** first and notes in `outside_dropped` what Excel had
+that it left out, shown as `dropped` until `dismiss_dropped`.
 `save_sheet` leaves such a File's size alone. OneCloud's Download as Excel
 or CSV opens the editor with `?export=`, which exports once the workbook has
 loaded: only the browser can work a workbook's formulas out.

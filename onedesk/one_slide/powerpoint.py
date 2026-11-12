@@ -17,6 +17,9 @@ import frappe
 EMU = 9525
 #: A pixel of type, in points.
 POINT = 0.75
+#: How the master's elements are named on every slide (master.filled), and
+#: their shapes in the file, so a save from the drive leaves them to the master.
+MASTER = "master-"
 
 COLOUR = re.compile(r"#([0-9a-fA-F]{6})([0-9a-fA-F]{2})?")
 RGB = re.compile(r"rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)")
@@ -313,7 +316,10 @@ def build(name: str, reader: str | None = None) -> tuple[bytes, list[int]]:
 		whole = True
 		for element in sorted(elements, key=lambda one: one.get("zIndex") or 0):
 			try:
+				count = len(slide.shapes)
 				whole = _drawn(slide, element) and whole
+				if str(element.get("id") or "").startswith(MASTER) and len(slide.shapes) > count:
+					slide.shapes[-1].name = element["id"]
 			except Exception:
 				frappe.log_error(title="PowerPoint: an element was left out")
 				whole = False

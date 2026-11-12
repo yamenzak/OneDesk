@@ -122,6 +122,7 @@
       @tab="(one) => openTab(one.url)"
       @moved="moved"
       :editable="(one) => ({ save: stored(one), copy: can.add })"
+      :edit-choices="editChoices"
       @edited="edited"
     />
     <input ref="pickFiles" type="file" multiple hidden @change="picked($event)" />
@@ -177,7 +178,7 @@ import {
   interfaceTree,
 } from "../kit";
 import { sizes as slideSizes } from "../slide/shim/frame.js";
-import { API, COLORS, PDF_PARTS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, opensInOneOS, sizeText, stored, takes, typeOf, viewedAs } from "./cloud";
+import { API, COLORS, PDF_PARTS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, opensInOneOS, sizeText, stored, takes, typeOf, viewedAs } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
 import CloudViewer from "./CloudViewer.vue";
@@ -213,6 +214,7 @@ const renaming = ref(null);
 const dragging = ref(null);
 const dropOn = ref(null);
 const uploads = ref([]);
+const oneosOffer = ref(null);
 const menu = ref([]);
 const root = ref(null);
 const list = ref(null);
@@ -371,6 +373,7 @@ async function refresh() {
   can.folder = !!answer.can_make_folder;
   can.library = !!answer.can_make_library;
   can.mount = !!answer.can_make_mount;
+  oneosOffer.value = answer.oneos || null;
   const live = new Set(items.value.map((one) => one.id));
   for (const id of [...selected]) if (!live.has(id)) selected.delete(id);
   if (!room) drawTree();
@@ -753,8 +756,7 @@ function itemMenu() {
       ["open", one && one.folder ? "lucide-folder-open" : "lucide-external-link", __("Open"), true],
       one && one.parent && search.value ? ["open-location", "lucide-folder-open", __("Open file location"), true] : null,
       one && one.record && !room ? ["open-record", "lucide-external-link", __("Open record"), true] : null,
-      files.length === picked.length ? ["download", "lucide-download", __("Download"), true] : null,
-      one && one.workbook ? ["download-xlsx", "lucide-file-spreadsheet", __("Download as Excel"), true] : null,
+      files.length === picked.length && !(one && editChoices(one).length) ? ["download", "lucide-download", __("Download"), true] : null,
       one && one.workbook ? ["download-csv", "lucide-file-text", __("Download as CSV"), true] : null,
       files.length === picked.length ? ["copy-link", "lucide-link", __("Copy link"), true] : null,
     ],
@@ -772,13 +774,13 @@ function itemMenu() {
       one && one.folder && !one.virtual ? ["drive", "lucide-hard-drive", __("Connect as a drive…"), true] : null,
       ["combine", "lucide-file-stack", __("Combine into PDF…"), combinable(picked)],
       one && !one.folder && filed(one) && viewedAs(one) === "office" ? ["to-pdf", "lucide-file-output", __("Convert to PDF"), can.add] : null,
-      one && filed(one) && opensInOneOS(one) ? ["oneos", "lucide-monitor", __("Open in OneOS"), true] : null,
       one && one.oneos && one.oneos.mine ? ["oneos-close", "lucide-monitor-off", __("Close in OneOS"), true] : null,
       one && !one.folder && intakeOn() && filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "lucide-scan-text", __("Read with OneAI"), true] : null,
       ["rename", "lucide-pencil", __("Rename"), !!(one && allStored) && kind.value !== "record"],
       ["delete", "lucide-trash-2", __("Delete"), allStored, "red"],
     ],
   ]);
+  if (one && editChoices(one).length) out.splice(1, 0, { group: __("Edit"), hideLabel: true, options: editChoices(one) });
   if (picked.length && allStored && picked.every((item) => item.folder && !item.virtual)) {
     out[out.length - 1].options.splice(-2, 0, { label: __("Color…"), icon: "lucide-palette", onClick: () => act("color") });
   }
@@ -938,17 +940,14 @@ async function act(name) {
       reveal = made.id;
       return refresh();
     }
-    case "oneos":
-      return openInOneOS(picked[0]);
     case "oneos-close":
       await call("onedesk.one_storage.oneos.close", { node: picked[0].id });
       alert(__("{0} closed in OneOS.", [picked[0].name]));
       return refresh();
     case "download":
       return download(picked.filter((one) => !one.folder && one.url));
-    case "download-xlsx":
     case "download-csv":
-      return goTo("workbook", picked[0].workbook, { export: name.slice(9) });
+      return goTo("workbook", picked[0].workbook, { export: "csv" });
     case "copy-link":
       return copyText(picked.map((one) => document.location.origin + one.url).join("\n"));
     case "open":
@@ -996,6 +995,7 @@ async function act(name) {
 
 function openedDeck(made) {
   if (made.lost?.length) alert(__("Slides {0} had parts that could not be brought in.", [made.lost.join(", ")]), "yellow");
+  else if (made.made) alert(__("Presentation made from {0}. The file stays as it was.", [made.name]));
   goTo("presentation", made.presentation);
 }
 
@@ -1009,13 +1009,100 @@ function openItems(list) {
   if (one?.workbook) return goTo("workbook", one.workbook);
   if (one?.document) return goTo("document", one.document);
   if (one?.presentation) return goTo("presentation", one.presentation);
-  // An Excel or CSV file opens in OneWorkbook and a Word file in OneWriter,
-  // each saved back into itself.
-  if (one && !one.folder && SHEETS.includes(extension(one))) return call("onedesk.one_sheet.api.open_file", { file: one.id }).then((made) => goTo("workbook", made.workbook));
-  if (one && !one.folder && extension(one) === "docx") return call("onedesk.one_doc.word.open_file", { file: one.id }).then((made) => goTo("document", made.document));
-  if (one && !one.folder && ["pptx", "ppsx"].includes(extension(one))) return call("onedesk.one_slide.from_powerpoint.open_file", { file: one.id }).then(openedDeck);
+  if (one?.office?.edit && filed(one)) return openOffice(one);
   const first = list.find((item) => !item.folder && item.url);
   if (first) view(first.id);
+}
+
+const NATIVE = {
+  workbook: (one) => call("onedesk.one_sheet.api.open_file", { file: one.id }).then((made) => goTo("workbook", made.workbook)),
+  document: (one) => call("onedesk.one_doc.word.open_file", { file: one.id }).then((made) => goTo("document", made.document)),
+  presentation: (one) => call("onedesk.one_slide.from_powerpoint.open_file", { file: one.id }).then((made) => openedDeck({ ...made, name: one.name })),
+};
+const APPS = { workbook: "OneWorkbook", document: "OneWriter" };
+
+async function weigh(one) {
+  if (Array.isArray(one.office.loses) && !one.office.loses.length) return { loses: [] };
+  const said = await call("onedesk.one_storage.opening.weigh", { node: one.id });
+  one.office.loses = said.loses;
+  return said;
+}
+
+async function openOffice(one) {
+  const said = await weigh(one);
+  if (said.loses.length && !said.waiting) return view(one.id);
+  return NATIVE[one.office.edit](one);
+}
+
+async function editHere(one) {
+  const said = await weigh(one);
+  if (!said.loses.length) return NATIVE[one.office.edit](one);
+  cloud().edit_anyway(said.said, {
+    oneos: oneosOffer.value ? () => openInOneOS(one) : null,
+    here: () => NATIVE[one.office.edit](one),
+  });
+}
+
+async function oneCopy(one) {
+  alert(__("Copying {0} into One…", [one.name]), "blue");
+  const made = await call("onedesk.one_storage.opening.one_copy", { node: one.id });
+  alert(__("Copied into One as {0}.", [made.name]));
+  if (made.workbook) return goTo("workbook", made.workbook);
+  goTo("document", made.document);
+}
+
+const OWN = {
+  workbook: { app: "OneWorkbook", suffix: ".xlsx", download: () => __("Download as Excel") },
+  document: { app: "OneWriter", suffix: ".docx", download: () => __("Download as Word") },
+  presentation: { app: "OneSlide", suffix: ".pptx", download: () => __("Download as PowerPoint") },
+};
+const ownKind = (one) => (one && !one.folder ? Object.keys(OWN).find((kind) => one[kind]) : null);
+
+const oneOSChoice = (one) => ({
+  label: __("Edit in OneOS"),
+  short: __("Edit in OneOS"),
+  icon: "lucide-monitor",
+  description: __("{0} OneCredits an hour", [oneosOffer.value.credits_an_hour]),
+  onClick: () => openInOneOS(one),
+});
+
+function ownChoices(one, kind) {
+  const choices = [{ label: __("Edit in {0}", [OWN[kind].app]), short: __("Edit"), icon: "lucide-pencil", onClick: () => goTo(kind, one[kind]) }];
+  if (oneosOffer.value) choices.push(oneOSChoice(one));
+  const name = one.name.toLowerCase().endsWith(OWN[kind].suffix) ? one.name : one.name + OWN[kind].suffix;
+  const exported = { ...one, name, url: `/api/method/onedesk.one_storage.opening.download?node=${encodeURIComponent(one.id)}` };
+  choices.push({ label: OWN[kind].download(), short: OWN[kind].download(), icon: "lucide-download", quiet: true, onClick: () => download([exported]) });
+  return choices;
+}
+
+function editChoices(one) {
+  const kind = ownKind(one);
+  if (kind && filed(one)) return ownChoices(one, kind);
+  if (!one || one.folder || !filed(one) || !(one.office || opensInOneOS(one))) return [];
+  const way = one.office || {};
+  const choices = [];
+  if (way.edit) choices.push({ label: __("Edit in {0}", [APPS[way.edit]]), short: __("Edit"), icon: "lucide-pencil", onClick: () => editHere(one) });
+  if (way.make) {
+    choices.push({
+      label: __("Make a Presentation"),
+      short: __("Make a Presentation"),
+      icon: "lucide-presentation",
+      description: __("A new OneSlide presentation. The file stays as it is."),
+      onClick: () => NATIVE.presentation(one),
+    });
+  }
+  if (oneosOffer.value && opensInOneOS(one)) choices.push(oneOSChoice(one));
+  choices.push({ label: __("Download"), short: __("Download"), icon: "lucide-download", quiet: true, onClick: () => download([one]) });
+  if (way.copy) {
+    choices.push({
+      label: __("Make a One Copy"),
+      short: __("Make a One Copy"),
+      icon: "lucide-copy-plus",
+      description: way.copy === "workbook" ? __("A workbook of One's own from this file.") : __("A document of One's own from this file."),
+      onClick: () => oneCopy(one),
+    });
+  }
+  return choices;
 }
 
 // A file opened is shown in One (CloudViewer); on its page the address says
@@ -1136,7 +1223,8 @@ function remove(list) {
 // A file opened in OneOS in a tab of its own. The tab is opened at the
 // click, before the server answers, so the browser does not block it.
 async function openInOneOS(item, copy = 0) {
-  const choices = { copy: () => openInOneOS(item, 1), view: () => view(item.id) };
+  const kind = ownKind(item);
+  const choices = { copy: () => openInOneOS(item, 1), view: () => (kind ? goTo(kind, item[kind]) : view(item.id)) };
   if (!copy && item.oneos && !item.oneos.mine) return cloud().oneos_held(item, item.oneos, choices);
   const tab = openTab("");
   let said;

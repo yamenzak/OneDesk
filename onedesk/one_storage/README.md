@@ -111,10 +111,11 @@ dialog that isn't attached to a record goes to your My Files.
   free or to a shape, turn it, flip it, straighten it, set its width, and
   change its brightness, contrast and saturation. **Save** keeps the old one
   as a version; **Save as Copy** makes a new file beside it.
-- A Word, Excel, PowerPoint or OpenDocument file opened in the viewer offers
-  **Preview**: it is turned into a PDF to read there, for 1 credit, and the
-  same file previews free for the rest of the day. **Convert to PDF** in its
-  right-click menu saves the PDF beside it.
+- A Word, Excel, PowerPoint or OpenDocument file that OneWorkbook or
+  OneWriter can't show as it is opens as a PDF preview straight away, for 1
+  credit. Each version of a file is turned into a PDF once, so opening it
+  again is free. Other files in the viewer offer **Preview**. **Convert to
+  PDF** in its right-click menu saves the PDF beside it.
 - **Open** a PowerPoint file to make it a presentation in OneSlide, beside
   it. A Word file opens in OneWriter and an Excel file in OneWorkbook.
 - **Combine into PDF…** puts the PDFs and pictures you chose into one new
@@ -208,9 +209,15 @@ When you upload a file with the same name as one in the folder, you can
 version. So does **Upload new version** (right-click a file).
 
 The preview pane shows a file's versions. You can open any of them, or
-**Restore** one, which keeps the current file as a version. It also shows the
+**Restore** one, which keeps the current file as a version. A version can't
+be restored while somebody is editing the file in OneOS. It also shows the
 file's activity: who created, renamed, moved, shared, linked or replaced it.
 A replaced file keeps its shares and links.
+
+Saves by one person in one sitting are one version: in OneWorkbook or
+OneWriter, in OneOS or from the drive, each save less than 10 minutes after
+the one before takes the place of the last. The version from before you
+started is always kept.
 
 ## As a drive on your computer
 
@@ -230,7 +237,20 @@ only opens your drive. It doesn't work for One in a browser or for the API.
 The drive works like any other: open, save, drag in, rename, create folders
 and delete. It shows exactly what you can open in OneCloud. Saving over a
 file keeps the old one as a version, and deleting moves it to the Recycle
-Bin.
+Bin. A document, workbook or presentation made in One shows as a Word,
+Excel or PowerPoint file, and saving it there saves it back into One.
+
+While you have a file open from the drive in Word, Excel or LibreOffice,
+nobody else can change it: their app opens it read-only and says it's
+yours, and OneOS and the editors in OneCloud do the same. If somebody is
+editing it in OneWorkbook, OneWriter or OneOS, your app opens it
+read-only and says who. Your saves while it's open are one version.
+
+An app that doesn't hold the file open, such as one on a phone, never
+saves over a newer version. If the file changed after you opened it, your
+save is kept beside it, named for you, such as *Budget (Huda's copy).xlsx*,
+and your next saves go into that copy. If somebody moves a file you have
+open to the Recycle Bin, you're told.
 
 ## Servers as folders
 
@@ -333,14 +353,77 @@ isn't room for it.
 
 ## Opening a file
 
-Clicking a file anywhere in One opens it from cloud storage in a new tab.
-Downloading saves it under its own name.
+Clicking a file anywhere in One opens it in One: a picture, a PDF, a video
+or a text file shows as it is. Downloading saves it under its own name.
 
-A workbook opens in OneWorkbook instead, in the same tab. **New › Workbook**
-makes one in the folder you are in (OneWorkbook's guide). So does an Excel
-or CSV file, and what is changed in it is saved back into the same file,
-what it held before kept as a version. A workbook's menu has **Download as
-Excel** and **Download as CSV**.
+A workbook opens in OneWorkbook, in the same tab. **New › Workbook** makes
+one in the folder you are in (OneWorkbook's guide). A workbook's menu has
+**Download as Excel** and **Download as CSV**.
+
+### Office files
+
+An Excel or CSV file opens in OneWorkbook, and a Word file in OneWriter,
+when they keep everything in it. What is changed is saved back into the
+same file, and what it held before is kept as a version. A file with
+something they don't keep, such as comments or charts, opens as an exact
+preview instead, so looking at it never changes it.
+
+| File | Clicking it | **Edit** offers |
+| --- | --- | --- |
+| Excel (.xlsx), CSV, Word (.docx) | OneWorkbook or OneWriter, or the preview if they would drop something | **Edit in OneWorkbook** or **Edit in OneWriter**, **Edit in OneOS**, **Download** |
+| PowerPoint (.pptx) | The preview | **Make a Presentation**, **Edit in OneOS**, **Download** |
+| With macros (.xlsm, .docm), older Excel (.xls) | The preview | **Edit in OneOS**, **Download**, **Make a One Copy** |
+| OpenDocument, older Word and PowerPoint (.doc, .ppt) | The preview | **Edit in OneOS**, **Download** |
+
+**Edit** is at the top of the preview, and in the file's right-click menu.
+
+- **Make a Presentation** makes a new OneSlide presentation from the slides.
+  The PowerPoint file stays as it is.
+- **Make a One Copy** makes a workbook or document of One's own from the
+  file, beside it. The file stays as it is.
+- **Edit in OneOS** says what an hour of it costs.
+
+A file somebody is editing says so under its name, such as **Huda is
+editing in OneWorkbook**.
+
+### When the file has more than the editor keeps
+
+OneWorkbook and OneWriter don't keep everything an Excel or Word file can
+hold. OneWorkbook keeps an Excel file's look and changes only the cells you
+edit, but charts, slicers, shapes and a few more change or go; OneWriter
+drops comments, tracked changes, headers and footers and the like. Choosing **Edit in OneWorkbook** or **Edit in OneWriter** on
+such a file first names them, such as *This file has charts and slicers
+OneWorkbook can't keep.*
+
+| Button | What it does |
+| --- | --- |
+| **Edit in OneOS** | Opens the file in a full office app, which keeps everything. |
+| **Edit Here Anyway** | Opens it in OneWorkbook or OneWriter. Nothing is dropped until you choose Save Over Original. |
+
+In the editor, a bar over it names what would go, and your changes stay
+there until you choose:
+
+| Button | What it does |
+| --- | --- |
+| **Save Over Original** | Saves your changes into the file. What the bar names is dropped. The file as it was is kept as a version. |
+| **Save as Copy** | Saves your changes as a new file beside it, and goes on in the copy. The original stays as it was. |
+
+If a new version of the file arrives before you choose, your changes are
+kept as a copy beside it, named for you, such as *Budget (Huda's copy)*.
+Until you choose, clicking the file opens it in the editor with the bar.
+
+### Workbooks, documents and presentations made in One
+
+| Made in | Clicking it | **Edit** offers |
+| --- | --- | --- |
+| OneWorkbook | OneWorkbook | **Edit in OneWorkbook**, **Edit in OneOS**, **Download as Excel** |
+| OneWriter | OneWriter | **Edit in OneWriter**, **Edit in OneOS**, **Download as Word** |
+| OneSlide | OneSlide | **Edit in OneSlide**, **Edit in OneOS**, **Download as PowerPoint** |
+
+A workbook, document or presentation made in One and saved from Excel,
+Word or PowerPoint on the drive, or in OneOS, keeps what it was as a
+version first. If the file had something One doesn't keep, the bar says so
+the next time it is opened.
 
 A private file opens only for you and for people who can see the record it's
 attached to. Anyone else who gets the link sees nothing. Public files, such
@@ -350,8 +433,14 @@ as a logo on a web page or an image in an email, open for anyone.
 
 OneOS is a desktop in the browser. It opens a Word, Excel, PowerPoint,
 OpenDocument or CSV file in a full office app, without installing anything.
+A workbook, document or presentation made in One opens there as an Excel,
+Word or PowerPoint file, and each save comes back into it, with what it was
+before kept in **Version History** as *Before a OneOS save*. A workbook of a
+record's table, a document with a record's fields and a presentation with
+words from records are edited only in their own editor.
 
-1. Right-click the file and choose **Open in OneOS**.
+1. Open the file and choose **Edit › Edit in OneOS**, or right-click it
+   and choose **Edit in OneOS**.
 2. OneOS opens in a new tab. It takes a minute or two the first time.
 3. Edit, then save as you would on a computer. Each save is kept in OneCloud
    as a new version of the file.
@@ -360,17 +449,22 @@ OpenDocument or CSV file in a full office app, without installing anything.
 
 | What you see | What it means |
 | --- | --- |
-| **You are editing in OneOS** under the file's name | You have it open. Open it in OneOS again to go back to it. |
+| **You are editing in OneOS** under the file's name | You have it open. Choose Edit in OneOS again to go back to it. |
 | **Huda is editing in OneOS** | Someone else has it open. You can **Make a Copy** and edit that, or **View Read-Only**. |
+| **Huda is editing it in OneWorkbook** when you open it in OneOS | Someone has it open to change it there. Make a copy, or wait until they leave it. |
+| **Samir is editing this in OneOS** over the editor | It opens read-only in OneWorkbook or OneWriter until he closes it. |
 | A warning that it closes in 5 minutes | Nothing was typed or clicked for 10 minutes. Use it to keep it open. |
 
-Only one person edits a file in OneOS at a time. A file you can only read
-offers **Make a Copy** too, put beside it or in My Files.
+Only one person edits a file in OneOS at a time, and never while somebody
+has it open to change in OneWorkbook or OneWriter. A file you can only read
+offers **Make a Copy** too, put beside it or in My Files. While a file is
+open in OneOS, saving it from the drive is refused too.
 
 A session closes by itself after 15 minutes without use, after 8 hours, or
 when the workspace runs out of OneCredits. You are told when it does, and
-what you saved is kept. Each minute OneOS is open uses OneCredits; OneAdmin's
-price list says how many.
+what you saved is kept. Each minute OneOS is open uses OneCredits, and
+**Edit in OneOS** says how many an hour takes. OneOS isn't offered during a
+trial.
 
 ## Asking OneAI
 
@@ -448,9 +542,9 @@ another required Link column is not offered, since the sender could not fill
 it.
 
 **OneOS** (`oneos.py`, `one_admin/oneos.py`, `deploy/oneos`). The workspace
-keeps the lease on the File itself (`one_os_lease`, `one_os_session`,
-`one_os_user`, `one_os_until`, custom/file.json): taken under a row lock in
-`start`, one person per file, renewed for two minutes each time the
+keeps the lease on the File itself, the File's one lease below with kind
+`oneos`: taken under a row lock in `start`, one person per file and never
+while anybody may write in it live, renewed for two minutes each time the
 every-minute `tick` hears from OneAdmin (`proxy.oneos_state`) that the
 session runs, and let go when it stopped or OneAdmin has not answered for
 those two minutes. The container is given two addresses on the workspace,
@@ -468,6 +562,123 @@ time limit, credits, not answering, an operator) is a toast through
 `onecloud_oneos` and the **Closed in OneOS** notification. Read-only for
 somebody else's lease is the viewer, since the container has no read-only
 mode yet.
+
+A workbook, document or presentation of One's own (`opening.own_of`) goes
+to the container as the file the drive serves (`opening.exported`:
+`excel.xlsx`, `word.docx`, `drive.pptx`, named by `opening.office_name`),
+and `save` reads each one back with `dav.write_own`, as a drive save does,
+inside `saving.through(lease.ONEOS)`: the editors' `saving.check` lets the
+lease's own holder through, the version kept first is named by
+`saving.before` ("Before a OneOS save"; a workbook's is still Excel's own),
+and `saving.outside` notes `in` so the bar says OneOS. The drive's save of
+its own lock goes through `saving.through(lease.DAV)` the same way. A save
+is once per content a session sends (`onecloud_oneos_saved:<lock>`, seeded
+with what `file` sent). `start` refuses what `opening.kept_inside` names, the
+same three the drive refuses. `opening.download` is Edit's **Download as**.
+
+**Previews** (`office.py`). A preview is billed when OneAdmin converts it.
+The PDF is kept by the version's content: in the cache for a day, and in R2
+under `previews/<content_hash>.pdf` (on the disk under
+`private/onecloud-previews` where there is no store), with the File's
+`one_preview_of` naming the version it was made from, so the listing says
+`previewed` and the viewer opens it as the PDF without asking. The viewer
+opens the clicked file as its PDF when the editors can't show it
+(`opening.row` has no `edit`, or `loses` is not empty); `weigh` says
+`waiting` when the editor holds changes back, and then the editor opens.
+
+### One lease per file (lease.py)
+
+Every File has one lease, and a workbook or document leases the File it
+sits behind. **Alone** is one holder, a OneOS session (`oneos`) or a
+desktop app's WebDAV lock (`dav`, dav_locks.py below), kept on the
+File (`one_lease_kind`, `_lock`, `_session`, `_user`, `_until`,
+custom/file.json; patches/one_lease_on_file moved OneOS's own fields onto
+it), so it outlives the cache and a restart. **Live** is anybody in
+OneWorkbook or OneWriter, in the cache as a hash per File of `user|socket id`
+to `{seen, write, app}`: realtime/handlers.js asks `one_sheet/live.admit`
+on join (which records it), `live.here` every minute while the room is open,
+and `live.leave` on leave and on disconnect; a holder not heard from for two
+minutes is gone. A person who is live in two tabs writes if either may. The
+rules are pure (`refused`, `reading`, `present`, tested in
+tests/test_lease.py): alone is refused while somebody else holds it alone,
+the asker holds it another way, or anybody, the asker included, may write
+live, and a reader does not stop it; while alone is held, the editors open
+read-only with `lease.told` ("Samir is editing this in OneOS"), their saves
+are refused, a WebDAV PUT is 423 Locked and a version is not restored.
+`lease.of(target)` answers the UI for a File, workbook or document: the
+mode, who holds it alone and who is live.
+
+**A sitting.** `history.replace(item, new, sitting=…)` takes the place of
+the last version instead of adding one when the File still holds what the
+same person last saved in the same sitting, under ten minutes ago
+(`history.merges`, pure). The sitting is the alone lock while the saver holds
+one (OneOS passes its lock), else the way in: `editor` for a write-back,
+`drive` for a WebDAV PUT. An upload in the explorer has none and is always
+a version. The last save is in the cache (`onecloud_sitting:<file>`, ten
+minutes), with the URL it left, so a restore or anybody else's save between
+breaks the sitting; losing the cache only adds a version. The object a
+merged save takes the place of is dropped from R2 once nothing names it.
+The version from before the sitting is the one the first save kept.
+
+### Nothing lost silently (fidelity.py, saving.py)
+
+`fidelity.workbook` and `fidelity.document` read an office file's parts
+(zip names and a few XML markers) for what the native editors drop, pure
+and tested in tests/test_fidelity.py. OneWorkbook writes into the Excel file
+itself with openpyxl (one_sheet/patching.py), so for Excel it is what
+openpyxl does not save: macros, threaded comments (the plain note stays),
+charts (rewritten through its model), slicers and timelines, WMF and EMF
+pictures, the x14 data validation, conditional formatting and sparklines in
+a sheet's extLst, shapes and text boxes, embedded objects, form controls,
+and connections and query tables. `fidelity.read_in` is the longer list for
+an Excel file read into a workbook of One's own from the drive. For Word: macros, comments, tracked changes, headers and footers,
+footnotes, charts, text boxes, equations, embedded files, links, fields and
+fonts, sizes and colours for Word, plus the styles mammoth said it did not
+know (its `messages`, kept by `word.read`, less those `word.build` writes).
+The list is kept on the Workbook or Writer Document (`would_lose`) when the
+file is read in: `get_sheet` when it is fresh, `word.open_file`.
+`saving.state` is what both editors and `live.admit` open with: `can_write`
+off while alone is held or for macros (.xlsm, .docm, or a vbaProject inside)
+and .xls, with `notice` saying why, and `loses`, the line naming what saving
+over drops. `saving.write_back` returns `held` and stamps `held_back` while
+the list is not empty and nobody chose; `over` writes (the file as it was
+kept as a version) and clears the list, `copy` writes a File beside it and
+moves the record onto it. A new version arriving while `held_back` is set
+(`file_replaced`) sets the record aside as One's own copy, "Name (Huda's
+copy)", rather than reading the file in over the changes. A save from the
+drive into One's own record (`word.write`, `excel.write`) keeps a named
+version first ("Before a Word save", "Before an Excel save") and notes what
+the file had that was not kept (`outside_dropped`, shown until dismissed).
+
+### Opening an office file (opening.py)
+
+`opening.way(file_name)`, pure, is what Edit offers by extension: `edit` in
+OneWorkbook (xlsx, csv) or OneWriter (docx), `make` a OneSlide deck (pptx,
+ppsx), `copy` into a workbook or document of One's own (xlsm, xltm, xls,
+docm, dotm). `namespace.node` puts it on the row as `office`, with `loses`
+once this version has been read. `opening.weigh` reads it the first time
+(`fidelity.workbook`, `fidelity.document` without mammoth's messages, so a
+style it does not know is only found when OneWriter reads the file in) and
+keeps the list on the File (`one_fidelity`) with the version it was read
+from (`one_fidelity_of`, the `content_hash`, else the URL), so a listing
+never opens a file. The island (`OneCloud.vue` openItems, editChoices)
+opens a file with nothing to lose in its editor and anything else in
+CloudViewer's PDF preview; Edit in OneWorkbook on a file with losses asks
+first (`onecloud_dialogs.js` edit_anyway), and step 1's bar does the rest.
+`opening.one_copy` makes One's own workbook (`excel.read`, an .xls through
+xlrd as values) or document (`word.read`) beside the file. `opening.editing`
+reads every row's live hash in one Redis pipeline and puts who writes on it
+(`editing`); `one_sheet/live.admit` and `leave` redraw the folders it shows
+in (`opening.redraw`). Edit in OneOS is not offered inside the editors:
+whoever is in an editor to write is live, and alone is refused while
+anybody is.
+
+**OneOS offered** (`oneos.offered`). OneAdmin's hello says `oneos`: on
+while OneOS is set up there and the workspace is not in its trial
+(`one_admin/oneos.on_trial`), and an hour's credits at the size it opens.
+The account keeps it (`oneos_on`, `oneos_credits_an_hour`); the listing
+sends it, the island shows Edit in OneOS only with it, and `oneos.start`
+refuses without it. OneAdmin's own start refuses a trial too.
 
 ### The bars at the foot of the rail (api.capacity)
 
@@ -788,6 +999,46 @@ not a second R2 integration.
   file whose name is there replaces it and keeps a version, and deleting
   sends it to the Recycle Bin. A folder is its own drive at the same URL
   with the folder's path after it, since clients mount any collection.
+
+- `dav_locks.py` — a drive lock is the File's lease. wsgidav's lock
+  storage (redis, under the site's name) is subclassed: a LOCK on a file
+  takes the `dav` lease for its person with the lock's token as the
+  lease's lock (so it is the sitting for merged versions) and its timeout,
+  clamped to a minute to an hour (`seconds`); a refresh extends it, or takes
+  it again once lapsed; UNLOCK, and wsgidav purging an expired lock, let it
+  go; a lock that simply runs out ends with the lease's own `until`. A LOCK
+  `lease.refused` for the DAV kind (somebody else alone, the asker in
+  OneOS, anybody writing live) is deleted again and answered 423. A
+  PROPFIND of the file's lockdiscovery, asked of the file itself, lists a
+  made-up exclusive lock owned by "Samir Haddad (OneOS)" when it is held
+  another way, which is what Word and Excel read to say who has it. A file
+  first made under a lock (Finder locks a name, then writes it) adopts
+  that lock as its lease (`adopt`). `FrappeSignIn.require_authentication`
+  gives wsgidav the person's name, which it empties just before asking, so
+  each lock has its principal and only they may UNLOCK it.
+
+- `dav_saves.py` — saves from the drive (`save_into`). Refused 423 while
+  somebody else holds the file alone. Without the saver's lock, a save from
+  a version the file no longer holds goes beside it as "Name (Huda's
+  copy).ext" (`copy_name`), and that person's saves on the file go into the
+  copy for ten minutes. A version is its ETag, `tag`: id, a hash of the
+  content's URL and size, so a rename does not change it. Where a save
+  started is its If-Match, judged in `serve` before wsgidav would answer
+  412, else the tag the same person last downloaded (twelve hours in the
+  cache); neither means as before, over the file. The empty first write of
+  a save from an older version writes nothing. Safe saves stay saves of
+  the same File: a MOVE or COPY onto a file defers wsgidav's delete of it
+  (`Document.delete` during MOVE or COPY at the destination) and makes the
+  source the file's new version (Mac Office, Pages, TextEdit's `.sb-`
+  files); a file moved aside to a temporary name (`temporary`: Word's
+  ~WRL0001.tmp, Mac Office's Work File, `.sb-`, "(A Document Being Saved
+  By …)") or deleted leaves its name for two minutes (`left`), and the same
+  person's MOVE or PUT into that name brings it back (out of the Recycle
+  Bin, or renamed back) and saves into it, the name it was put aside to
+  answering DELETE as a `Ghost` (Word on Windows). The lease and the lock
+  follow the File's id through all of it. A file deleted in OneCloud while
+  somebody has it open (`lease.in_it`: the alone holder and everybody
+  live) goes to the Recycle Bin and they get Deleted While Open.
 
 - `mounts.py` and `doctype/cloud_mount` — servers as folders. A `Cloud
   Mount` keeps where a server is and the sign-in (password and key in

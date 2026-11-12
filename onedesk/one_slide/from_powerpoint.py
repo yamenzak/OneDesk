@@ -12,7 +12,7 @@ import frappe
 from frappe import _
 from lxml import etree
 
-from onedesk.one_slide.powerpoint import EMU, POINT, SHAPES
+from onedesk.one_slide.powerpoint import EMU, MASTER, POINT, SHAPES
 
 SUFFIXES = (".pptx", ".ppsx")
 DRAWN = {value: key for key, value in SHAPES.items()} | {"ROUNDED_RECTANGLE": "rectangle", "STAR_5_POINT": "star"}
@@ -256,10 +256,12 @@ def _background(slide, theme: dict) -> str:
 		return ""
 
 
-def read(content: bytes, keep) -> tuple[int, int, list[dict], list[int]]:
+def read(content: bytes, keep, mastered: bool = False) -> tuple[int, int, list[dict], list[int]]:
 	"""A .pptx's size in pixels, its slides as the editor keeps them, and the
 	numbers of the slides that lost something the editor has nothing like.
-	`keep(file_name, bytes)` keeps a picture and answers its address."""
+	`keep(file_name, bytes)` keeps a picture and answers its address. For a
+	presentation with a master, the master's shapes (powerpoint.MASTER) are
+	left to the master."""
 	from pptx import Presentation as Deck
 
 	deck = Deck(io.BytesIO(content))
@@ -268,6 +270,8 @@ def read(content: bytes, keep) -> tuple[int, int, list[dict], list[int]]:
 	for number, slide in enumerate(deck.slides, start=1):
 		drawn, missed = [], False
 		for made, _shape in _walk(slide.shapes, theme, keep):
+			if mastered and str(_shape.name or "").startswith(MASTER):
+				continue
 			if made is None:
 				missed = missed or not (getattr(_shape, "has_text_frame", False) and not _shape.text_frame.text.strip())
 				continue

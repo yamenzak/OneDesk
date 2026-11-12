@@ -23,7 +23,8 @@ REACH = {"api.make": "draft_workbook", "api.save_sheet": "write_cells"}
 NOT_FOR_AI = {
 	"api.rename_sheet": "A workbook is named from its title in the editor, by the person working on it.",
 	"api.open_file": "It answers an Excel or CSV file opened from OneCloud.",
-	"api.write_back": "It writes the Excel or CSV file back as the person works on it in the editor.",
+	"api.write_back": "It writes the Excel or CSV file back as the person works on it in the editor, or chooses how.",
+	"api.dismiss_dropped": "It puts away the note of what a save from the drive left out, in the editor.",
 	"paper.pdf": "Printing is the person's choice of sheets, letter head and page, made in the editor's Print dialog.",
 	"table.open_table": "A record's table opens in a workbook from the record's form, by the person reading it.",
 	"table.redrawn": "It draws a record's table again in the open editor after the record changed on its form.",

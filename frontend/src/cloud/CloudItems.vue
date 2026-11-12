@@ -118,6 +118,10 @@
               <span class="lucide-monitor size-3 shrink-0" aria-hidden="true" />
               <span class="truncate">{{ item.oneos.mine ? __("You are editing in OneOS") : __("{0} is editing in OneOS", [item.oneos.by]) }}</span>
             </span>
+            <span v-else-if="item.editing" class="flex min-w-0 items-center gap-1 text-sm text-ink-blue-7">
+              <span class="lucide-pencil size-3 shrink-0" aria-hidden="true" />
+              <span class="truncate">{{ editingText(item.editing) }}</span>
+            </span>
           </span>
         </span>
         <template v-if="view === 'details'">
@@ -138,7 +142,7 @@
 import { computed, nextTick, ref, watch } from "vue";
 import { Button, Checkbox } from "frappe-ui";
 
-import { __, count, oneaiMark } from "../kit";
+import { __, andList, count, oneaiMark } from "../kit";
 import { PREVIEW, dateText, extension, iconOf, inkOf, sizeText, typeOf } from "./cloud";
 
 const props = defineProps({
@@ -169,6 +173,12 @@ const WITH_WHERE =
   "grid-cols-[minmax(0,1fr)_9rem_9.5rem_7rem_4.5rem] max-lg:grid-cols-[minmax(0,1fr)_9rem_9.5rem_4.5rem] max-md:grid-cols-[minmax(0,1fr)_8rem] gap-2";
 const WITHOUT_WHERE = "grid-cols-[minmax(0,1fr)_9.5rem_7rem_4.5rem] max-lg:grid-cols-[minmax(0,1fr)_9.5rem_4.5rem] max-md:grid-cols-[minmax(0,1fr)] gap-2";
 const readNote = __("Read by OneAI");
+
+function editingText({ by, mine, app }) {
+  if (!by.length) return __("You are editing in {0}", [app]);
+  const names = mine ? [__("You"), ...by] : by;
+  return names.length === 1 ? __("{0} is editing in {1}", [names[0], app]) : __("{0} are editing in {1}", [andList(names), app]);
+}
 const publicNote = __("Anyone with the link can open this file");
 
 const showWhere = computed(() => !!props.whereHead || props.scoped || props.searching);

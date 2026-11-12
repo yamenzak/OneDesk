@@ -143,15 +143,59 @@ sha256sum "$out/$sha.bench.tar.gz" | cut -d' ' -f1 > "$out/$sha.bench.tar.gz.sha
 echo "$held_python" > "$out/$sha.bench.python"
 echo "archives: made at ${SECONDS}s"
 
+rule() { python3 "$repo/deploy/release/template.py" "$@"; }
+
+installed() {
+	pilot -y -b "$name" new-site "$site" --apps frappe erpnext hrms onedesk --admin-password "T$(openssl rand -hex 12)-Z9"
+	pilot -b "$name" frappe --site "$site" migrate
+}
+
+migrated() {
+	local stale kept
+	stale="$(mktemp)"
+	kept="$(mktemp -d)"
+	rule stale "$repo" "$from" "$sha" > "$stale" || return 1
+	tar xzf "$template/site.tar.gz" -C "$kept" || return 1
+	in_pilot "$repo/deploy/release/template.py" restore "$bench" "$site" "$kept" "T$(openssl rand -hex 12)-Z9" || return 1
+	(cd "$bench/sites" && "$bench/env/bin/python" "$repo/deploy/release/template.py" unstamp "$site" "$stale") || return 1
+	pilot -b "$name" frappe --site "$site" migrate || return 1
+}
+
+from=""
+why="no template was kept"
 if [ -n "$template" ] && [ -s "$template/site.tar.gz" ] && tar tzf "$template/site.tar.gz" > /dev/null; then
+	from="$(cat "$template/commit" 2> /dev/null || true)"
+	why="the kept template does not say which commit made it"
+	if [ -n "$from" ]; then
+		why="$(rule why "$repo" "$from" "$sha" 2>&1)" || why="the rule failed: $why"
+	fi
+fi
+
+if [ -n "$from" ] && [ "$from" = "$sha" ]; then
 	cp "$template/site.tar.gz" "$out/$sha.site.tar.gz"
-	echo "template: reused"
+	echo "template: reused, made at this commit"
 else
+	began="$SECONDS"
 	pilot -b "$name" start > "$out/start.log" 2>&1 &
 	started=$!
 	pilot -b "$name" wait-for-database
-	pilot -y -b "$name" new-site "$site" --apps frappe erpnext hrms onedesk --admin-password "T$(openssl rand -hex 12)-Z9"
-	pilot -b "$name" frappe --site "$site" migrate
+	how=""
+	if [ -n "$from" ] && [ -z "$why" ]; then
+		echo "template: migrating the one made at $from"
+		if migrated; then
+			how="migrated from $from"
+		else
+			echo "::warning::template: migrating the one made at $from failed, so it is installed afresh"
+			pilot -y -b "$name" drop-site "$site" --no-backup --force || rm -rf "$bench/sites/$site"
+		fi
+	else
+		echo "template: installing afresh, since"
+		echo "$why" | sed 's/^/  /'
+	fi
+	if [ -z "$how" ]; then
+		installed
+		how="installed afresh"
+	fi
 	pilot -b "$name" frappe --site "$site" execute onedesk.one_admin.spares.as_template
 	pilot -b "$name" frappe --site "$site" backup
 	kill "$started" || true
@@ -165,9 +209,11 @@ else
 	cp -a "$held/private/files" "$made/private/" 2>/dev/null || mkdir -p "$made/private/files"
 	tar czf "$out/$sha.site.tar.gz" -C "$made" database.sql.gz site_config.json public private
 	if [ -n "$template" ]; then
+		rm -f "$template/site.tar.gz" "$template/commit"
 		cp "$out/$sha.site.tar.gz" "$template/site.tar.gz"
+		echo "$sha" > "$template/commit"
 	fi
-	echo "template: built at ${SECONDS}s"
+	echo "template: $how in $((SECONDS - began))s, at ${SECONDS}s"
 fi
 sha256sum "$out/$sha.site.tar.gz" | cut -d' ' -f1 > "$out/$sha.site.tar.gz.sha256"
 

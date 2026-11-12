@@ -88,6 +88,29 @@ def rates(markup: float | None = None, per_dollar: float | None = None) -> list[
 	]
 
 
+def on_trial(status: str, trial_days: int, since, today) -> bool:
+	"""Whether a workspace is still in its plan's free days. Pure."""
+	from frappe.utils import add_days, getdate
+
+	return status == "Live" and bool(trial_days) and bool(since) and add_days(getdate(since), trial_days) >= getdate(today)
+
+
+def _trying(tenant) -> bool:
+	from frappe.utils import today
+
+	days = frappe.db.get_value("Offering", tenant.offering, "trial_days") if tenant.get("offering") else 0
+	return on_trial(tenant.status, days, tenant.get("live_on") or tenant.get("creation"), today())
+
+
+def offered(tenant) -> dict:
+	"""Whether a workspace is offered OneOS, and what an hour of it costs at
+	the size it opens: never while OneOS is not set up here, nor during a
+	trial."""
+	url = frappe.get_cached_doc("One Admin Settings").get("oneos_url")
+	hour = next((one["credits_an_hour"] for one in rates() if one["size"] == SIZE), 0)
+	return {"on": bool(url) and not _trying(tenant), "credits_an_hour": hour}
+
+
 def owed(started: datetime, upto: datetime, billed: int, whole: bool = False) -> int:
 	"""The minutes run since `started` not billed yet: whole minutes while it
 	runs, and the minute begun once it stops. Pure."""
@@ -171,6 +194,8 @@ def start(tenant: str, user: str, file: str, file_name: str, file_url: str, save
 	file is given a new address rather than a second session."""
 	site.require_admin()
 	url, secret = _where()
+	if _trying(frappe.get_doc("Tenant", tenant)):
+		raise Refused("on a trial")
 	if again:
 		held = frappe.db.get_value(DOCTYPE, again, ["tenant", "user", "file", "state", "started_at"], as_dict=True)
 		if held and held.tenant == tenant and held.user == user and held.file == file and held.state in LIVE:
@@ -373,5 +398,7 @@ def said(raised: Exception) -> str:
 		return _("The workspace doesn't have enough OneCredits to open this in OneOS.")
 	if "not set up" in str(raised):
 		return _("OneOS isn't available yet.")
+	if "on a trial" in str(raised):
+		return _("OneOS opens once the trial is over.")
 	return _("OneOS could not be started. Try again in a few minutes.")
 

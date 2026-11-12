@@ -93,14 +93,19 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 
 	item = _may(name, "read")
 	table.refresh(name)
+	from onedesk.one_storage import saving
+
 	doc = frappe.get_doc(WORKBOOK, name)
+	source = _source(doc, item)
+	if source and source["fresh"] and source["kind"] == "xlsx":
+		_weighed(name, item)
 	raw = doc.sheets_data
 	return {
 		"name": doc.name,
 		"title": item["file_name"],
 		"file": item["name"],
 		"folder": item.get("folder"),
-		"can_write": ns.may(item, "write"),
+		**saving.state(WORKBOOK, name, item, ns.may(item, "write")),
 		"can_template": rights.held(WORKBOOK, "sheet_template"),
 		"sheets_data": raw if frappe.utils.cint(compressed) else storage.decode_sheets_data(raw),
 		"owner": item.get("owner"),
@@ -108,8 +113,16 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 		"trail": ns.trail(item["folder"]) if item.get("folder") and not doc.bound_doctype else [],
 		"brand": style.brand(),
 		"record": table.record_of(name),
-		"source": _source(doc, item),
+		"source": source,
 	}
+
+
+def _weighed(name: str, item: dict) -> None:
+	"""What the Excel file about to be read in has that OneWorkbook drops."""
+	from onedesk.one_storage import api as cloud
+	from onedesk.one_storage import fidelity, saving
+
+	saving.opened(WORKBOOK, name, fidelity.workbook(cloud._content(item)))
 
 
 def _source(doc, item: dict) -> dict | None:
@@ -152,7 +165,10 @@ def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", requ
 	the bound sheet's worked-out values, for the record behind it (table.py)."""
 	if not name:
 		frappe.throw(_("Create the workbook in OneCloud first."))
+	from onedesk.one_storage import saving
+
 	item = _may(name, "write")
+	saving.check(WORKBOOK, name, item)
 	plain = storage.decode_sheets_data(sheets_data)
 	if len(plain.encode("utf-8")) > storage.MAX_SHEETS_DATA_BYTES:
 		storage._throw_bomb()
@@ -235,41 +251,53 @@ def open_file(file: str) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def write_back(name: str, content: str) -> dict:
+def write_back(name: str, content: str = "", choice: str = "") -> dict:
 	"""What the editor made of an xlsx or csv File, as that File's content:
-	what it held before is kept as a version (one_storage/history.py)."""
+	an Excel file is the File's own with the saved workbook written into it
+	(patching.py), a CSV is what the editor sends. What it held before is
+	kept as a version (one_storage/history.py). When that would drop parts
+	of the file, it waits for the reader's `choice`, over or copy
+	(one_storage/saving.py)."""
 	import base64
 
-	from onedesk.one_storage import history
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_storage import saving
 
 	item = _may(name, "write")
-	if not frappe.db.get_value(WORKBOOK, name, "source_kind"):
+	kind = frappe.db.get_value(WORKBOOK, name, "source_kind")
+	if not kind:
 		frappe.throw(_("This workbook is not linked to an Excel or CSV file."))
-	made = frappe.get_doc(
-		{
-			"doctype": "File",
-			"file_name": item["file_name"],
-			"content": base64.b64decode(content),
-			"is_private": item.get("is_private", 1),
-			"folder": item.get("folder") or None,
-		}
-	)
-	made.flags.ignore_permissions = True
-	made.insert()
-	frappe.flags.one_writing_back = True
-	try:
-		history.replace(ns.row(item["name"]), made.name)
-	finally:
-		frappe.flags.one_writing_back = False
-	return {"file": item["name"], "size": frappe.db.get_value("File", item["name"], "file_size")}
+	if kind == "xlsx":
+		return saving.write_back(WORKBOOK, name, item, lambda: _patched(name, item), choice)
+	return saving.write_back(WORKBOOK, name, item, base64.b64decode(content) if content else b"", choice)
+
+
+def _patched(name: str, item: dict) -> bytes:
+	from onedesk.one_sheet import excel, patching
+	from onedesk.one_storage import api as cloud
+
+	data = excel._data(name)
+	if not excel._sheets(data):
+		frappe.throw(_("{0} is still being read in. Try again in a moment.").format(item["file_name"]))
+	return patching.file(data, cloud._content(frappe._dict(item)), excel._symbol)
+
+
+@frappe.whitelist(methods=["POST"])
+def dismiss_dropped(name: str) -> None:
+	"""The note of what a save from the drive left out, put away."""
+	from onedesk.one_storage import saving
+
+	_may(name, "write")
+	saving.dismiss(WORKBOOK, name)
 
 
 def file_replaced(file: str) -> None:
 	"""A new version of an Excel or CSV File put in from outside the editor:
-	the workbook editing it reads it in again the next time it is opened."""
+	the workbook editing it reads it in again the next time it is opened, or,
+	holding changes that waited for a choice, is kept as a copy instead."""
+	from onedesk.one_storage import saving
+
 	name = None if frappe.flags.one_writing_back else of_file(file)
-	if name:
+	if name and not saving.set_aside(WORKBOOK, name, URL):
 		frappe.db.set_value(WORKBOOK, name, "sheets_data", "{}")
 
 

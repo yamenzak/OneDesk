@@ -25,7 +25,13 @@
         <Button v-if="files.length > 1" variant="ghost" icon="lucide-chevron-right" :aria-label="__('Next')" :title="__('Next')" :disabled="at === files.length - 1" @click="step(1)" />
         <span class="mx-1 h-5 w-px bg-surface-gray-4" />
         <Button v-if="canEdit" variant="ghost" icon="lucide-sliders-horizontal" :aria-label="__('Edit')" :title="__('Edit')" @click="editing = true" />
-        <Button variant="ghost" icon="lucide-download" :aria-label="__('Download')" :title="__('Download')" @click="emit('download', item)" />
+        <div v-if="choices.length" class="flex">
+          <Button variant="subtle" class="rounded-e-none" :icon-left="first.icon" :label="first.short" @click="first.onClick()" />
+          <Dropdown :options="choices" align="end">
+            <Button variant="subtle" icon="lucide-chevron-down" :aria-label="__('Ways to Edit')" :title="__('Ways to Edit')" class="rounded-s-none border-s border-outline-gray-2" />
+          </Dropdown>
+        </div>
+        <Button v-if="!choices.length" variant="ghost" icon="lucide-download" :aria-label="__('Download')" :title="__('Download')" @click="emit('download', item)" />
         <Button variant="ghost" icon="lucide-external-link" :aria-label="__('Open in New Tab')" :title="__('Open in New Tab')" @click="emit('tab', item)" />
         <Button variant="ghost" icon="lucide-x" :aria-label="__('Close')" :title="__('Close')" @click="emit('close')" />
       </template>
@@ -65,6 +71,9 @@
         <span class="text-base text-ink-gray-7">{{ __("This file can't be shown here.") }}</span>
         <Button variant="solid" icon-left="lucide-download" :label="__('Download')" @click="emit('download', item)" />
       </div>
+      <div v-if="kind === 'office' && previewed.has(item.id) && !editing && choices.length" class="absolute top-3 start-1/2 -translate-x-1/2 rounded-full bg-surface-gray-3 px-3 py-1 text-sm text-ink-gray-7">
+        {{ __("A preview. Edit ▾ to change it.") }}
+      </div>
       <div v-if="cut" class="absolute bottom-3 start-1/2 -translate-x-1/2 rounded-full bg-surface-gray-3 px-3 py-1 text-sm text-ink-gray-7">
         {{ __("Showing the first {0}", [sizeText(MOST)]) }}
       </div>
@@ -79,7 +88,7 @@
 // Markdown as it reads (frappe's converter, in a frame that runs nothing),
 // and the files beside it a step away with the arrows, the keys or a swipe.
 import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
-import { Button, usePortalTarget } from "frappe-ui";
+import { Button, Dropdown, usePortalTarget } from "frappe-ui";
 
 import { Loading, __, call } from "../kit";
 import { API, extension, iconOf, inkOf, officeUrl, sizeText, viewedAs } from "./cloud";
@@ -92,6 +101,7 @@ const props = defineProps({
   files: { type: Array, required: true },
   start: { type: String, required: true },
   editable: { type: Function, default: () => ({}) },
+  editChoices: { type: Function, default: () => [] },
 });
 const emit = defineEmits(["close", "download", "tab", "moved", "edited"]);
 
@@ -109,6 +119,8 @@ const editing = ref(false);
 const previewed = reactive(new Set());
 const saving = ref(null);
 const editorPart = ref(null);
+const choices = computed(() => (item.value ? props.editChoices(item.value) : []));
+const first = computed(() => choices.value.find((one) => !one.quiet) || choices.value[0]);
 const canEdit = computed(() => {
   const may = item.value && EDITS.includes(extension(item.value)) ? props.editable(item.value) : {};
   return Boolean(may.save || may.copy);
@@ -153,6 +165,20 @@ watch(
     const now = files.findIndex((one) => one.id === id);
     if (now >= 0) at.value = now;
   }
+);
+
+function shownAsPdf(one) {
+  if (!one || viewedAs(one) !== "office") return false;
+  if (one.office?.previewed) return true;
+  return one.id === props.start && (!one.office?.edit || !!one.office?.loses?.length);
+}
+
+watch(
+  () => item.value?.id,
+  () => {
+    if (shownAsPdf(item.value)) previewed.add(item.value.id);
+  },
+  { immediate: true }
 );
 
 watch(() => item.value?.id, () => {

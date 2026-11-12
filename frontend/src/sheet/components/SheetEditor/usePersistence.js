@@ -35,6 +35,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   const currency = ref('') // One: the workspace's currency, the $ button's first
   const source = ref(null) // One: the Excel or CSV File this workbook edits in place
   const canTemplate = ref(false) // One: whether the reader keeps company templates (one_sheet/abilities.py)
+  const fileSaid = ref({ notice: '', loses: '', dropped: '' }) // One: why it is read-only, what saving over its file drops, what a drive save left out (one_storage/saving.py)
 
   async function loadSheet(name) {
     loadError.value = null
@@ -46,6 +47,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       setContext({ record: doc.record, brand: doc.brand }) // One: what RECORD() and BRAND() read
       currency.value = doc.brand?.currency || ''
       source.value = doc.source || null
+      fileSaid.value = { notice: doc.notice || '', loses: doc.loses || '', dropped: doc.dropped || '' }
       if (saved.formats)    formats.restore(saved.formats)
       sheet.restore(
         unpackSheet(saved.sheet) ?? { sheets: { Sheet1: {} }, current: 'Sheet1' },
@@ -248,5 +250,5 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency, source, canTemplate }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency, source, canTemplate, fileSaid }
 }

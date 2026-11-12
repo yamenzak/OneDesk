@@ -1,6 +1,7 @@
 """A file's past, and a person's: versions, Recent, Starred and activity."""
 
 import json
+import time
 
 import frappe
 from frappe import _
@@ -10,6 +11,7 @@ from onedesk.one_storage import api, store
 from onedesk.one_storage import namespace as ns
 
 RECENT = 50
+SITTING_SECONDS = 10 * 60
 
 
 def keep(item: dict) -> None:
@@ -29,17 +31,47 @@ def keep(item: dict) -> None:
 	).insert(ignore_permissions=True)
 
 
-def replace(item: dict, new: str) -> str:
+def merges(last: dict | None, url: str, by: str, sitting: str | None, now: float) -> bool:
+	"""Whether a save takes the place of the saver's last version rather
+	than adding one: the file still holds what the same person saved last in
+	the same sitting, under ten minutes ago. The version from before the
+	sitting stays. Pure."""
+	return bool(
+		sitting
+		and last
+		and last.get("sitting") == sitting
+		and last.get("by") == by
+		and last.get("url") == url
+		and now - float(last.get("on") or 0) < SITTING_SECONDS
+	)
+
+
+def _sitting_key(name: str) -> str:
+	return f"onecloud_sitting:{name}"
+
+
+def replace(item: dict, new: str, sitting: str | None = None) -> str:
 	"""Point `item` at the content of the File `new`, keeping what it held as
 	a version, and take `new`'s row away without touching the content. An
-	empty file is not kept: a drive writes one first and its content after."""
-	if item.file_size:
-		keep(item)
+	empty file is not kept: a drive writes one first and its content after.
+	Saves in one `sitting` (the editor, a OneOS session, the drive) by one
+	person, each under ten minutes after the last, are one version."""
 	fresh = frappe.db.get_value(
 		"File", new, ["file_url", "file_size", "content_hash", "thumbnail_url"], as_dict=True
 	)
+	merged = merges(frappe.cache.get_value(_sitting_key(item.name)), item.file_url, frappe.session.user, sitting, time.time())
+	if merged and fresh.file_url != item.file_url:
+		_let_go_of(item)
+	elif not merged and item.file_size:
+		keep(item)
 	frappe.db.set_value("File", item.name, {**fresh, "modified": now_datetime(), "modified_by": frappe.session.user})
 	frappe.db.delete("File", new)
+	if sitting:
+		frappe.cache.set_value(
+			_sitting_key(item.name),
+			{"sitting": sitting, "by": frappe.session.user, "url": fresh.file_url, "on": time.time()},
+			expires_in_sec=SITTING_SECONDS,
+		)
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import api as sheets
 	from onedesk.one_storage import live
@@ -48,8 +80,18 @@ def replace(item: dict, new: str) -> str:
 	word.file_replaced(item.name)
 
 	live.announce(item)
-	note(item.name, _("uploaded a new version"))
+	if not merged:
+		note(item.name, _("uploaded a new version"))
 	return item.name
+
+
+def _let_go_of(item: dict) -> None:
+	"""The content a merged save takes the place of, deleted from storage
+	once nothing else names it."""
+	url = item.file_url
+	if store.is_stored(url) and not store._named_elsewhere(item.name, url):
+		key = store.key_of(url)
+		frappe.db.after_commit.add(lambda: store._drop([key]))
 
 
 @frappe.whitelist()
@@ -80,12 +122,18 @@ def versions(node: str) -> list[dict]:
 @frappe.whitelist(methods=["POST"])
 def restore(node: str, version: str) -> None:
 	"""Make an old version current again; what was current becomes a version."""
+	from onedesk.one_storage import lease
+
 	item = api._item(node)
 	api._need(item, "write")
 	old = frappe.get_doc("Cloud File Version", version)
 	if old.file != item.name:
 		frappe.throw(_("This version doesn't belong to {0}.").format(item.file_name))
+	held = lease.blocking(item.name)
+	if held:
+		frappe.throw(lease.told(held))
 	keep(item)
+	frappe.cache.delete_value(_sitting_key(item.name))
 	frappe.db.set_value(
 		"File",
 		item.name,

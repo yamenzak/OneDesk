@@ -330,6 +330,26 @@ opening the file again opens the same one. Sizes a placeholder inherits from
 its layout are guessed (44pt for a title, 24 for a body), and bullets a
 layout gives are read as plain paragraphs.
 
+### On the drive
+
+On the WebDAV drive (`one_storage/dav.py`) a presentation is "Name.pptx",
+like a workbook's .xlsx and a document's .docx. `drive.pptx` is
+`powerpoint.build` for the reader (chips filled as they may see them), kept
+in redis per presentation, master and reader until either changes. A
+PROPFIND never builds it: the length listed is the File's `file_size`, or
+the built file's when one is already kept, and a GET or HEAD builds it. The
+etag and last-modified are the later `modified` of the presentation and its
+master (`drive.stamp`), so they stay put until it changes. `build` names each
+master shape after its element (`master-<id>`), and `drive.write`, a PUT,
+reads the file with `from_powerpoint.read(mastered=True)`, which leaves those
+shapes to the master. It replaces the slides, keeps a named version first
+("Before a save from the drive"), and writes the slides that lost something
+into `lost`, which the editor shows on opening and its next save clears. A
+file python-pptx cannot open is a 415; a presentation with `sources` is a
+403, since its chips would come back as their values. Slide ids,
+transitions, animations, hidden elements and anything `build` leaves out
+are not in the file, so they do not survive a save from outside.
+
 ### Fonts
 
 `fonts.py` is the workspace's font library, which every editor and the TV

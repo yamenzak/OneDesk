@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-08 10:06:31.597872",
+ "modified": "2026-11-12 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -55,6 +55,14 @@
    "fieldtype": "Link",
    "label": "From File",
    "options": "File",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "lost",
+   "fieldtype": "Data",
+   "label": "Not Brought In",
+   "description": "The slides whose last save from the drive had parts that could not be brought in.",
    "read_only": 1,
    "hidden": 1
   },
@@ -132,6 +140,7 @@
   "title",
   "file",
   "from_file",
+  "lost",
   "theme",
   "width",
   "height",
