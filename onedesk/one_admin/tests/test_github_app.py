@@ -264,3 +264,11 @@ def test_setup_knows_an_image_the_registry_does_not_have():
 	assert setup.image_missing("Error: manifest unknown: registry.cloudflare.com/acc/one-os:abc")
 	assert setup.image_missing("The image registry.cloudflare.com/acc/one-os:abc does not exist")
 	assert not setup.image_missing("Authentication error [code: 10000]")
+
+
+def test_a_bucket_keeps_its_cors_rules_once_they_are_ours():
+	from onedesk.one_admin import setup
+
+	assert setup.same_cors({"rules": setup.CORS["rules"]}, setup.CORS)
+	assert not setup.same_cors({"rules": []}, setup.CORS)
+	assert not setup.same_cors(None, setup.CORS)

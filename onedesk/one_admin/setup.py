@@ -44,6 +44,15 @@ OFFICE_MOST = 2
 OFFICE_FILES = ("worker.js", "package.json")
 ONEOS = "one-os"
 ONEOS_WORKFLOW = "oneos-image.yml"
+CORS = {
+	"rules": [
+		{
+			"allowed": {"origins": ["*"], "methods": ["GET", "HEAD", "PUT"], "headers": ["*"]},
+			"exposeHeaders": ["Content-Disposition", "Content-Length", "Content-Type", "ETag"],
+			"maxAgeSeconds": 3600,
+		}
+	]
+}
 ONEOS_IMAGE = "registry.cloudflare.com/{account}/one-os:{tag}"
 ONEOS_TYPE = "standard-1"
 ONEOS_MOST = 10
@@ -139,6 +148,11 @@ GUARDRAILS = {
 }
 
 OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "needs attention"
+
+
+def same_cors(held, wanted: dict) -> bool:
+	"""Whether a bucket's CORS rules are already ours. Pure."""
+	return bool(held) and (held.get("rules") or []) == wanted["rules"]
 
 
 def image_missing(said: str) -> bool:
@@ -462,6 +476,21 @@ class Setup:
 				self.call("POST", f"/accounts/{self.account}/r2/buckets", headers=headers, json={"name": name})
 				self.note(f"bucket {jurisdiction}", MADE, name)
 			self.keep(field, name)
+			self.cors(name, headers)
+
+	def cors(self, name: str, headers: dict) -> None:
+		"""A workspace's page reads and writes its files straight from the
+		bucket through signed addresses that last minutes, so the bucket
+		answers any origin for those."""
+		base = f"/accounts/{self.account}/r2/buckets/{name}/cors"
+		try:
+			held = self.call("GET", base, headers=headers)["result"]
+		except Refused:
+			held = None
+		if same_cors(held, CORS):
+			return self.note(f"cors {name}", OURS)
+		self.call("PUT", base, headers=headers, json=CORS)
+		self.note(f"cors {name}", MADE)
 
 	def docs_media(self) -> None:
 		"""Help's pictures and clips: a bucket of their own, shared by every
