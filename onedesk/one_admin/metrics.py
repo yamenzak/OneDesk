@@ -230,7 +230,7 @@ def _row(server: str):
 
 def _workspaces() -> dict[str, list[dict]]:
 	found: dict[str, list[dict]] = {}
-	for one in frappe.get_all("Tenant", filters={"status": ["not in", GONE], "is_house": 0}, fields=["workspace_name", "slug", "server"]):
+	for one in frappe.get_all("Tenant", filters={"status": ["not in", GONE], "is_house": 0, "is_test": 0}, fields=["workspace_name", "slug", "server"]):
 		found.setdefault(one.server, []).append({"name": one.workspace_name or one.slug, "slug": one.slug})
 	return found
 

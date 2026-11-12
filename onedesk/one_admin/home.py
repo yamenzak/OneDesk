@@ -42,7 +42,7 @@ def _may() -> None:
 def _filters() -> dict:
 	"""What each count counts, as the list it opens filters it."""
 	return {
-		"live": ("Tenant", {"status": "Live", "is_house": 0}),
+		"live": ("Tenant", {"status": "Live", "is_house": 0, "is_test": 0}),
 		"building": ("Provisioning Job", {"kind": "Provision", "status": ["in", ["Pending", "Waiting"]]}),
 		"owing": ("Tenant", {"status": ["in", ["Overdue", "Suspended"]]}),
 		"failed": ("Provisioning Job", {"status": "Failed"}),

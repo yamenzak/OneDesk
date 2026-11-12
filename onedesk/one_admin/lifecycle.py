@@ -44,7 +44,7 @@ def paid(tenant) -> str | None:
 	Dropped, or an Archive job past its first step) the operators are told
 	(Paid While Archived) instead. A workspace being built has nothing to climb.
 	"""
-	if tenant.status == "Live":
+	if tenant.status == "Live" or tenant.get("is_test"):
 		return None
 	if tenant.status in ("Archived", "Dropped") or archiving(tenant.name):
 		from onedesk.one_admin import tell
@@ -94,8 +94,11 @@ def fall(tenant, rung: str | None = None, why: str | None = None) -> str | None:
 
 	`rung` is for an operator doing it by hand, who may also archive a build
 	that failed (ladder.by_hand). Left out, the clock decides, and a workspace
-	that is not due stays where it is.
+	that is not due stays where it is. A test workspace stays Live.
 	"""
+	from onedesk.one_admin import testbed
+
+	testbed.refuse(tenant, "moved")
 	rung = rung or ladder.due(tenant.status, tenant.status_since, now_datetime(), _days())
 	if rung is None:
 		return None

@@ -15,6 +15,7 @@
   "column_break_who",
   "status",
   "is_house",
+  "is_test",
   "offering",
   "customer",
   "place_section",
@@ -126,6 +127,14 @@
    "read_only": 1,
    "depends_on": "eval:doc.is_house",
    "description": "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
+  },
+  {
+   "fieldname": "is_test",
+   "fieldtype": "Check",
+   "label": "Test Workspace",
+   "read_only": 1,
+   "depends_on": "eval:doc.is_test",
+   "description": "If enabled, the workspace is never billed, moved or updated, and sends its own backups. Credits are given by hand."
   },
   {
    "fieldname": "offering",
@@ -503,7 +512,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-10 02:00:00.000000",
+ "modified": "2026-11-12 02:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

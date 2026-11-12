@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 17:35+0000\n"
-"PO-Revision-Date: 2026-11-12 17:35+0000\n"
+"POT-Creation-Date: 2026-11-12 17:38+0000\n"
+"PO-Revision-Date: 2026-11-12 17:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -744,7 +744,7 @@ msgid "A customer is mailed the invoice a week after it falls due."
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_admin/doctype/tenant/tenant.json:530
+#: onedesk/one_admin/doctype/tenant/tenant.json:539
 msgid "A customer workspace. Created from a paid Account Request."
 msgstr ""
 
@@ -2283,7 +2283,7 @@ msgstr ""
 #. Label in the One Landed Cost Voucher print format
 #: frontend/portal/src/pages/Menu.vue:13
 #: frontend/portal/src/parts/PortalSidebar.vue:14
-#: onedesk/one_admin/doctype/tenant/tenant.json:406
+#: onedesk/one_admin/doctype/tenant/tenant.json:415
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -2879,7 +2879,7 @@ msgstr ""
 msgid "Add a Widget"
 msgstr ""
 
-#: onedesk/one_admin/topup.py:115
+#: onedesk/one_admin/topup.py:117
 msgid "Add a card first."
 msgstr ""
 
@@ -3153,7 +3153,7 @@ msgstr ""
 #. Label of the add_ons (Table) field in DocType 'Workspace Account'
 #. Label of the add_ons (Table) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:198
-#: onedesk/one_admin/doctype/tenant/tenant.json:275
+#: onedesk/one_admin/doctype/tenant/tenant.json:284
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:159
 #: onedesk/public/js/one_account/account_center.js:855
 msgid "Add-ons"
@@ -5275,8 +5275,8 @@ msgstr ""
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
 #: frontend/src/mail/OneMail.vue:532 onedesk/one_account/heads.py:19
 #: onedesk/one_admin/accounts.py:123
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:14
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:15
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:33
 #: onedesk/one_admin/heads.py:23
 msgid "Archived"
@@ -5428,7 +5428,7 @@ msgid "As shown"
 msgstr ""
 
 #. Description of the 'Database Used' (Long Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:357
+#: onedesk/one_admin/doctype/tenant/tenant.json:366
 msgid "As the workspace last measured it."
 msgstr ""
 
@@ -5541,7 +5541,7 @@ msgstr ""
 msgid "Ask for retention from {0}"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:132
+#: onedesk/one_admin/ai.py:134
 msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr ""
 
@@ -6299,7 +6299,7 @@ msgid "Auto Reply in Their Language"
 msgstr ""
 
 #. Label of the auto_topup_section (Section Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:439
+#: onedesk/one_admin/doctype/tenant/tenant.json:448
 #: onedesk/public/js/one_account/account_center.js:913
 #: onedesk/public/js/one_account/account_center.js:934
 msgid "Auto Top-Up"
@@ -6643,7 +6643,7 @@ msgid "Background Tasks"
 msgstr ""
 
 #. Label of the backup_ready (Check) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:300
+#: onedesk/one_admin/doctype/tenant/tenant.json:309
 msgid "Backs Itself Up"
 msgstr ""
 
@@ -6656,7 +6656,7 @@ msgid "Backup"
 msgstr ""
 
 #. Label of the archived_backup (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:286
+#: onedesk/one_admin/doctype/tenant/tenant.json:295
 msgid "Backup Before Archive"
 msgstr ""
 
@@ -7128,7 +7128,7 @@ msgstr ""
 
 #: onedesk/one_admin/accounts.py:118 onedesk/one_admin/accounts.py:119
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:11
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:10
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:11
 #: onedesk/one_admin/heads.py:19 onedesk/one_admin/heads.py:39
 msgid "Being built"
 msgstr ""
@@ -7193,7 +7193,7 @@ msgstr ""
 
 #. Label of the bench (Data) field in DocType 'Tenant'
 #. Label of the bench (Data) field in DocType 'Workspace Session'
-#: onedesk/one_admin/doctype/tenant/tenant.json:187
+#: onedesk/one_admin/doctype/tenant/tenant.json:196
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:107
 msgid "Bench"
 msgstr ""
@@ -7451,7 +7451,7 @@ msgstr ""
 #. Label of the one_billing_section (Section Break) field in DocType 'Projects
 #. Settings'
 #: frontend/src/admin/AdminHome.vue:11
-#: onedesk/one_admin/doctype/tenant/tenant.json:257
+#: onedesk/one_admin/doctype/tenant/tenant.json:266
 #: onedesk/one_admin/page/oneadmin_billing/oneadmin_billing.js:2
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:157
 #: onedesk/one_project/custom/projects_settings.json:6
@@ -7469,7 +7469,7 @@ msgid "Billing Owner"
 msgstr ""
 
 #. Label of the tab_billing (Tab Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:252
+#: onedesk/one_admin/doctype/tenant/tenant.json:261
 msgid "Billing and Storage"
 msgstr ""
 
@@ -7553,7 +7553,7 @@ msgid "Blank Workbook"
 msgstr ""
 
 #. Description of the 'Primary Domain' (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:222
+#: onedesk/one_admin/doctype/tenant/tenant.json:231
 msgid "Blank if the workspace still uses the address it was given."
 msgstr ""
 
@@ -8232,12 +8232,12 @@ msgid "By {0}"
 msgstr ""
 
 #. Description of the 'Pending' (Long Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:389
+#: onedesk/one_admin/doctype/tenant/tenant.json:398
 msgid "Bytes signed for since the last measurement."
 msgstr ""
 
 #. Description of the 'Storage' (Long Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:382
+#: onedesk/one_admin/doctype/tenant/tenant.json:391
 msgid "Bytes, from the last measurement."
 msgstr ""
 
@@ -8569,7 +8569,7 @@ msgid "Cannot Run Here"
 msgstr ""
 
 #. Description of the 'Jurisdiction' (Select) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:180
+#: onedesk/one_admin/doctype/tenant/tenant.json:189
 msgid "Cannot be changed. Storage is pinned to it when the workspace is created."
 msgstr ""
 
@@ -10024,7 +10024,7 @@ msgid "Closing Asked"
 msgstr ""
 
 #. Label of the closing_asked_by (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:322
+#: onedesk/one_admin/doctype/tenant/tenant.json:331
 msgid "Closing Asked By"
 msgstr ""
 
@@ -10036,7 +10036,7 @@ msgstr ""
 #. Label of the closing_on (Date) field in DocType 'Workspace Account'
 #. Label of the closing_on (Date) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:353
-#: onedesk/one_admin/doctype/tenant/tenant.json:315
+#: onedesk/one_admin/doctype/tenant/tenant.json:324
 msgid "Closing On"
 msgstr ""
 
@@ -10125,7 +10125,7 @@ msgstr ""
 msgid "Cloudflare did not answer for {0}."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:281
+#: onedesk/one_admin/setup.py:267
 #, python-brace-format
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
@@ -10162,7 +10162,7 @@ msgstr ""
 #. Label of the cluster (Data) field in DocType 'Account Request'
 #. Label of the cluster (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json:91
-#: onedesk/one_admin/doctype/tenant/tenant.json:157
+#: onedesk/one_admin/doctype/tenant/tenant.json:166
 msgid "Cluster"
 msgstr ""
 
@@ -10895,7 +10895,7 @@ msgstr ""
 msgid "Connect GitHub first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:834
+#: onedesk/one_admin/setup.py:805
 msgid "Connect GitHub, then set up again."
 msgstr ""
 
@@ -11472,6 +11472,10 @@ msgstr ""
 msgid "Copy Of"
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:46
+msgid "Copy Site Config"
+msgstr ""
+
 #: onedesk/public/js/project_template_list.js:13
 msgid "Copy Template"
 msgstr ""
@@ -11990,7 +11994,7 @@ msgstr ""
 #: onedesk/one/doctype/news_source/news_source.json:174
 #: onedesk/one/doctype/weather_place/weather_place.json:40
 #: onedesk/one_admin/doctype/account_request/account_request.json:110
-#: onedesk/one_admin/doctype/tenant/tenant.json:164
+#: onedesk/one_admin/doctype/tenant/tenant.json:173
 #: onedesk/one_hr/control.py:80
 #: onedesk/one_hr/custom/identification_document_type.json:7
 #: onedesk/public/js/one/news_add.js:207
@@ -12053,6 +12057,7 @@ msgstr ""
 #: frontend/src/mail/MailPanel.vue:39 frontend/src/mail/MailPanel.vue:41
 #: frontend/src/mail/OneMail.vue:359
 #: frontend/src/writer/components/NewVersionDialog.vue:8
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:55
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
@@ -12686,7 +12691,7 @@ msgstr ""
 #. Label in the One Supplier Quotation print format
 #. Label in the One Timesheet print format
 #: frontend/src/project/Invoices.vue:24 frontend/src/project/Money.vue:17
-#: onedesk/one/ready.py:195 onedesk/one_admin/doctype/tenant/tenant.json:144
+#: onedesk/one/ready.py:195 onedesk/one_admin/doctype/tenant/tenant.json:153
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:57
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:30
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json:18
@@ -12976,7 +12981,7 @@ msgstr ""
 #. Label of the database_limit (Long Int) field in DocType 'Workspace Account'
 #. Label of the database_limit (Long Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:170
-#: onedesk/one_admin/doctype/tenant/tenant.json:363
+#: onedesk/one_admin/doctype/tenant/tenant.json:372
 msgid "Database Limit"
 msgstr ""
 
@@ -12992,7 +12997,7 @@ msgstr ""
 #. Label of the database_bytes (Long Int) field in DocType 'Workspace Account'
 #. Label of the database_bytes (Long Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:163
-#: onedesk/one_admin/doctype/tenant/tenant.json:355
+#: onedesk/one_admin/doctype/tenant/tenant.json:364
 msgid "Database Used"
 msgstr ""
 
@@ -15325,7 +15330,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:87
 #: onedesk/one_account/doctype/workspace_domain/workspace_domain.json:20
-#: onedesk/one_admin/doctype/tenant/tenant.json:213
+#: onedesk/one_admin/doctype/tenant/tenant.json:222
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:25
 #: onedesk/one_ai/doctype/identifier/identifier.json:23
 #: onedesk/public/js/one_mail/onemail_settings.js:1095
@@ -15816,8 +15821,8 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:15
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:16
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:33
 #: onedesk/one_admin/heads.py:24
 msgid "Dropped"
@@ -16036,7 +16041,7 @@ msgstr ""
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json:103
-#: onedesk/one_admin/doctype/tenant/tenant.json:177
+#: onedesk/one_admin/doctype/tenant/tenant.json:186
 msgid "EU"
 msgstr ""
 
@@ -17185,7 +17190,7 @@ msgid "Enable"
 msgstr ""
 
 #. Label of the auto_topup (Check) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:444
+#: onedesk/one_admin/doctype/tenant/tenant.json:453
 #: onedesk/public/js/one_account/account_center.js:925
 msgid "Enable Auto Top-Up"
 msgstr ""
@@ -17394,7 +17399,7 @@ msgstr ""
 msgid "Enter the AWS Template URL first. It must be the template's address on Amazon S3."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:1189
+#: onedesk/one_admin/setup.py:1160
 msgid "Enter the Cloudflare master token first."
 msgstr ""
 
@@ -17406,7 +17411,7 @@ msgstr ""
 msgid "Enter the OAuth Scopes first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:752
+#: onedesk/one_admin/setup.py:723
 #, python-brace-format
 msgid "Enter the Sender Email for {0}."
 msgstr ""
@@ -17431,7 +17436,7 @@ msgstr ""
 msgid "Enter the street address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:443
+#: onedesk/one_admin/setup.py:429
 #, python-brace-format
 msgid "Enter the workspace and mail domains for {0}."
 msgstr ""
@@ -18778,7 +18783,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json:40
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:53
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:26
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:43
 #: onedesk/one_admin/heads.py:32 onedesk/one_admin/home.py:62
 #: onedesk/one_admin/number_card/jobs_failed/jobs_failed.json
@@ -19272,7 +19277,7 @@ msgstr ""
 msgid "Files someone has asked you for, each sent from here."
 msgstr ""
 
-#: onedesk/one_admin/billing.py:154
+#: onedesk/one_admin/billing.py:155
 #, python-brace-format
 msgid "Files use {0} GB and the plan allows {1} GB."
 msgstr ""
@@ -20373,7 +20378,7 @@ msgid "Foundations"
 msgstr ""
 
 #. Description of the 'Ours' (Check) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:128
+#: onedesk/one_admin/doctype/tenant/tenant.json:129
 msgid "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
 msgstr ""
 
@@ -21068,7 +21073,7 @@ msgstr ""
 msgid "GitHub did not answer: {0}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:842 onedesk/one_admin/setup.py:949
+#: onedesk/one_admin/setup.py:813 onedesk/one_admin/setup.py:920
 #, python-brace-format
 msgid "GitHub did not answer: {0}. Set up again."
 msgstr ""
@@ -21247,7 +21252,7 @@ msgstr ""
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json:103
-#: onedesk/one_admin/doctype/tenant/tenant.json:177
+#: onedesk/one_admin/doctype/tenant/tenant.json:186
 msgid "Global"
 msgstr ""
 
@@ -21495,7 +21500,7 @@ msgid "Granted at the start of each month and does not roll over."
 msgstr ""
 
 #. Description of the 'Monthly Credits' (Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:345
+#: onedesk/one_admin/doctype/tenant/tenant.json:354
 msgid "Granted at the start of each month. The plan's and the add-ons'."
 msgstr ""
 
@@ -22612,11 +22617,11 @@ msgstr ""
 msgid "How do notifications work?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:100
+#: onedesk/one_admin/ai.py:102
 msgid "How do our plans compare?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:102
+#: onedesk/one_admin/ai.py:104
 msgid "How do our plans compare? Go through the price list: what each plan costs and gives, where the steps between plans are uneven, and whether the add-ons and packs are priced in line with them."
 msgstr ""
 
@@ -22724,11 +22729,11 @@ msgstr ""
 msgid "How is this project going? Say in a few lines where it stands against its dates and its budget, what is late and what it holds up, the next milestone, and what the team said last."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:75
+#: onedesk/one_admin/ai.py:77
 msgid "How is this workspace doing?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:77
+#: onedesk/one_admin/ai.py:79
 msgid "How is this workspace doing? Say where it stands and whether anything is wrong: its payments, storage, credits, domains and its last jobs, and what I should do about anything that is."
 msgstr ""
 
@@ -23346,8 +23351,13 @@ msgstr ""
 msgid "If enabled, the slide fills the screen and is cropped to fit."
 msgstr ""
 
+#. Description of the 'Test Workspace' (Check) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json:137
+msgid "If enabled, the workspace is never billed, moved or updated, and sends its own backups. Credits are given by hand."
+msgstr ""
+
 #. Description of the 'Backs Itself Up' (Check) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:302
+#: onedesk/one_admin/doctype/tenant/tenant.json:311
 msgid "If enabled, the workspace sends its own backup every night."
 msgstr ""
 
@@ -23699,7 +23709,7 @@ msgid "In and Out by Month"
 msgstr ""
 
 #. Description of the 'Limit' (Long Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:399
+#: onedesk/one_admin/doctype/tenant/tenant.json:408
 msgid "In bytes. Zero means unlimited."
 msgstr ""
 
@@ -24762,11 +24772,11 @@ msgstr ""
 msgid "Is empty"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:164
+#: onedesk/one_admin/ai.py:166
 msgid "Is everything OneAdmin runs on set up? Say which connections are missing and what each stops, what Set Up Cloudflare last said, and whether the money settings look sensible."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:162
+#: onedesk/one_admin/ai.py:164
 msgid "Is everything set up?"
 msgstr ""
 
@@ -25762,7 +25772,7 @@ msgstr ""
 #. Label of the jurisdiction (Select) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:98
 #: onedesk/one_admin/doctype/account_request/account_request.json:102
-#: onedesk/one_admin/doctype/tenant/tenant.json:176
+#: onedesk/one_admin/doctype/tenant/tenant.json:185
 msgid "Jurisdiction"
 msgstr ""
 
@@ -26183,7 +26193,7 @@ msgid "Last Answered"
 msgstr ""
 
 #. Label of the last_backup (Datetime) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:293
+#: onedesk/one_admin/doctype/tenant/tenant.json:302
 msgid "Last Backup"
 msgstr ""
 
@@ -26904,7 +26914,7 @@ msgstr ""
 
 #. Description of the 'Monthly Limit (OneCredits)' (Int) field in DocType
 #. 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:308
+#: onedesk/one_admin/doctype/tenant/tenant.json:317
 msgid "Leave empty for no limit. Set by the workspace's administrators in AccountCenter."
 msgstr ""
 
@@ -27400,7 +27410,7 @@ msgstr ""
 #. Label of the storage_limit (Long Int) field in DocType 'Workspace Account'
 #. Label of the storage_limit (Long Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:148
-#: onedesk/one_admin/doctype/tenant/tenant.json:398
+#: onedesk/one_admin/doctype/tenant/tenant.json:407
 msgid "Limit"
 msgstr ""
 
@@ -27409,7 +27419,7 @@ msgid "Limited time"
 msgstr ""
 
 #. Label of the limits_section (Section Break) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:329
+#: onedesk/one_admin/doctype/tenant/tenant.json:338
 msgid "Limits"
 msgstr ""
 
@@ -27523,6 +27533,11 @@ msgstr ""
 
 #: onedesk/one_mail/flow.py:331 onedesk/public/js/one_mail/rule_builder.js:47
 msgid "Link to Their Record"
+msgstr ""
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:35
+#, python-brace-format
+msgid "Link {0}"
 msgstr ""
 
 #: frontend/portal/src/pages/Record.vue:75
@@ -27687,8 +27702,8 @@ msgstr ""
 #. Label of a number card
 #. Label of a number card in the One Admin Workspace
 #: onedesk/one_admin/accounts.py:120 onedesk/one_admin/console.py:19
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:11
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:12
 #: onedesk/one_admin/heads.py:20 onedesk/one_admin/home.py:59
 #: onedesk/one_admin/number_card/workspaces_live/workspaces_live.json
 #: onedesk/one_admin/workspace/one_admin/one_admin.json:27
@@ -27697,7 +27712,7 @@ msgid "Live"
 msgstr ""
 
 #. Label of the live_on (Datetime) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:239
+#: onedesk/one_admin/doctype/tenant/tenant.json:248
 msgid "Live On"
 msgstr ""
 
@@ -27983,7 +27998,7 @@ msgstr ""
 msgid "Look at the notifications One sends here. Which should people get by email as well as in the bell, and which are better left to the bell? Say why for each."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:122
+#: onedesk/one_admin/ai.py:124
 msgid "Look at the price check: what is wrong and what is close, with the numbers. Say what to change first, and by how much, to make the price list hold."
 msgstr ""
 
@@ -29627,7 +29642,7 @@ msgid "Minimal"
 msgstr ""
 
 #. Label of the auto_topup_below (Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:458
+#: onedesk/one_admin/doctype/tenant/tenant.json:467
 #: onedesk/public/js/one_account/account_center.js:927
 msgid "Minimum Balance"
 msgstr ""
@@ -29808,7 +29823,7 @@ msgstr ""
 #. Label of the credits_a_month (Int) field in DocType 'Offering'
 #. Label of the credits_a_month (Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/offering/offering.json:170
-#: onedesk/one_admin/doctype/tenant/tenant.json:343
+#: onedesk/one_admin/doctype/tenant/tenant.json:352
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:23
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:119
 #: onedesk/public/js/one_account/account_center.js:1209
@@ -29836,18 +29851,18 @@ msgstr ""
 #. Label of the credits_limit (Int) field in DocType 'Workspace Account'
 #. Label of the spend_limit (Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:254
-#: onedesk/one_admin/doctype/tenant/tenant.json:307
+#: onedesk/one_admin/doctype/tenant/tenant.json:316
 #: onedesk/public/js/one_account/account_center.js:1344
 msgid "Monthly Limit (OneCredits)"
 msgstr ""
 
 #. Label of the auto_topup_cap (Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:465
+#: onedesk/one_admin/doctype/tenant/tenant.json:474
 #: onedesk/public/js/one_account/account_center.js:928
 msgid "Monthly Pack Limit"
 msgstr ""
 
-#: onedesk/one_admin/topup.py:117
+#: onedesk/one_admin/topup.py:119
 #, python-brace-format
 msgid "Monthly Pack Limit must be between 1 and {0}, and Minimum Balance above 0."
 msgstr ""
@@ -29873,7 +29888,7 @@ msgstr ""
 msgid "Monthly Spend"
 msgstr ""
 
-#: onedesk/one_admin/topup.py:157
+#: onedesk/one_admin/topup.py:160
 #, python-brace-format
 msgid "Monthly credit for {0}"
 msgstr ""
@@ -30211,7 +30226,7 @@ msgstr ""
 
 #. Label of the update_moving (Check) field in DocType 'Tenant'
 #: frontend/src/admin/ReleasesHome.vue:55
-#: onedesk/one_admin/doctype/tenant/tenant.json:494
+#: onedesk/one_admin/doctype/tenant/tenant.json:503
 msgid "Moving"
 msgstr ""
 
@@ -30581,16 +30596,16 @@ msgstr ""
 msgid "Needs a quality check before it closes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:890
+#: onedesk/one_admin/setup.py:861
 msgid "Needs an operator to tell."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:515 onedesk/one_admin/setup.py:591
-#: onedesk/one_admin/setup.py:887
+#: onedesk/one_admin/setup.py:486 onedesk/one_admin/setup.py:562
+#: onedesk/one_admin/setup.py:858
 msgid "Needs the KV namespace first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:853
+#: onedesk/one_admin/setup.py:824
 msgid "Needs the buckets and the storage token first."
 msgstr ""
 
@@ -31043,6 +31058,11 @@ msgstr ""
 msgid "New Template"
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:24
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:54
+msgid "New Test Workspace"
+msgstr ""
+
 #. Label of the draft (JSON) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.js:157
 #: onedesk/one_studio/doctype/extension/extension.json:194
@@ -31405,7 +31425,7 @@ msgstr ""
 #. Label of the update_at (Datetime) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:282
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:243
-#: onedesk/one_admin/doctype/tenant/tenant.json:419
+#: onedesk/one_admin/doctype/tenant/tenant.json:428
 msgid "Next Update"
 msgstr ""
 
@@ -32607,7 +32627,7 @@ msgstr ""
 msgid "Nobody yet."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:987
+#: onedesk/one_admin/setup.py:958
 #, python-brace-format
 msgid "Node is not on this server: {0}"
 msgstr ""
@@ -34387,7 +34407,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/private_app/private_app.json:100
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:146
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:85
-#: onedesk/one_admin/doctype/tenant/tenant.json:521
+#: onedesk/one_admin/doctype/tenant/tenant.json:530
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:115
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:105
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:106
@@ -35180,11 +35200,11 @@ msgstr ""
 msgid "OneOS Session"
 msgstr ""
 
-#: onedesk/one_admin/oneos.py:403 onedesk/one_storage/oneos.py:141
+#: onedesk/one_admin/oneos.py:405 onedesk/one_storage/oneos.py:141
 msgid "OneOS could not be started. Try again in a few minutes."
 msgstr ""
 
-#: onedesk/one_admin/oneos.py:400
+#: onedesk/one_admin/oneos.py:402
 msgid "OneOS isn't available yet."
 msgstr ""
 
@@ -35192,7 +35212,7 @@ msgstr ""
 msgid "OneOS isn't offered to this workspace."
 msgstr ""
 
-#: onedesk/one_admin/oneos.py:402
+#: onedesk/one_admin/oneos.py:404
 msgid "OneOS opens once the trial is over."
 msgstr ""
 
@@ -35205,11 +35225,11 @@ msgstr ""
 msgid "OneOS uses OneCredits for each minute it is open."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:950
+#: onedesk/one_admin/setup.py:921
 msgid "OneOS's desktop is being built. Set up again in about 15 minutes."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:943
+#: onedesk/one_admin/setup.py:914
 msgid "OneOS's desktop isn't built yet. Connect GitHub, then set up again."
 msgstr ""
 
@@ -35363,7 +35383,7 @@ msgstr ""
 msgid "Only a link that still opens can be sent."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:122
+#: onedesk/one_admin/operator.py:124
 msgid "Only a live workspace is moved."
 msgstr ""
 
@@ -35387,7 +35407,7 @@ msgstr ""
 msgid "Only a running session can be stopped."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:113
+#: onedesk/one_admin/operator.py:115
 msgid "Only a running workspace is rolled back. Use Rebuild for an archived one."
 msgstr ""
 
@@ -35443,7 +35463,7 @@ msgstr ""
 msgid "Only an application still waiting can be answered."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:103
+#: onedesk/one_admin/operator.py:105
 msgid "Only an archived workspace is rebuilt. Use Roll Back for one that is running."
 msgstr ""
 
@@ -36183,7 +36203,7 @@ msgstr ""
 msgid "Operators"
 msgstr ""
 
-#: onedesk/one_admin/operator.py:79
+#: onedesk/one_admin/operator.py:81
 #, python-brace-format
 msgid "Operators can't set {0}."
 msgstr ""
@@ -36788,7 +36808,7 @@ msgstr ""
 
 #. Label of the is_house (Check) field in DocType 'Tenant'
 #. Label of the ours (Select) field in DocType 'Reading Party'
-#: onedesk/one_admin/doctype/tenant/tenant.json:125
+#: onedesk/one_admin/doctype/tenant/tenant.json:126
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:147
 msgid "Ours"
 msgstr ""
@@ -37008,7 +37028,7 @@ msgstr ""
 #. Label in the One Sales Invoice with Images print format
 #: frontend/src/books/BooksHome.vue:108 frontend/src/books/BooksHome.vue:192
 #: frontend/src/project/Invoices.vue:109
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:33
 #: onedesk/one_book/heads.py:707
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -37155,7 +37175,7 @@ msgstr ""
 #: frontend/src/cloud/CloudPreview.vue:96
 #: frontend/src/cloud/CloudPreview.vue:112
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:104
-#: onedesk/one_admin/doctype/tenant/tenant.json:101
+#: onedesk/one_admin/doctype/tenant/tenant.json:102
 #: onedesk/public/js/onecloud_dialogs.js:65
 #: onedesk/public/js/onecloud_dialogs.js:206 onedesk/public/js/task_new.js:32
 msgid "Owner"
@@ -37175,7 +37195,7 @@ msgid "PDF document"
 msgstr ""
 
 #. Label of the auto_topup_pack (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:451
+#: onedesk/one_admin/doctype/tenant/tenant.json:460
 #: onedesk/public/js/one_account/account_center.js:926
 #: onedesk/public/js/one_account/account_center.js:1373
 msgid "Pack"
@@ -38336,7 +38356,7 @@ msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed ther
 msgstr ""
 
 #: onedesk/one_account/heads.py:17 onedesk/one_admin/accounts.py:121
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:12
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:13
 #: onedesk/one_admin/heads.py:21 onedesk/one_admin/home.py:197
 #: onedesk/one_admin/tell.py:130
 msgid "Payment overdue"
@@ -38506,7 +38526,7 @@ msgstr ""
 #. Label of the storage_pending (Long Int) field in DocType 'Tenant'
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:53
-#: onedesk/one_admin/doctype/tenant/tenant.json:387
+#: onedesk/one_admin/doctype/tenant/tenant.json:396
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:57
 #: onedesk/public/js/one_ai/ai_proposal_list.js:7
 #: onedesk/public/js/one_legal/trust_center.js:129
@@ -39183,7 +39203,7 @@ msgstr ""
 #. Account'
 #. Label of the place_section (Section Break) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:93
-#: onedesk/one_admin/doctype/tenant/tenant.json:151
+#: onedesk/one_admin/doctype/tenant/tenant.json:160
 msgid "Placement"
 msgstr ""
 
@@ -39219,7 +39239,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request.json:82
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:89
 #: onedesk/one_admin/doctype/offering/offering.json:63
-#: onedesk/one_admin/doctype/tenant/tenant.json:133
+#: onedesk/one_admin/doctype/tenant/tenant.json:142
 #: onedesk/one_admin/heads.py:545
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:157
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
@@ -39762,7 +39782,7 @@ msgid "Press OK to enable sound"
 msgstr ""
 
 #. Label of the site (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:207
+#: onedesk/one_admin/doctype/tenant/tenant.json:216
 msgid "Press Site"
 msgstr ""
 
@@ -39927,7 +39947,7 @@ msgid "Primary"
 msgstr ""
 
 #. Label of the primary_domain (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:219
+#: onedesk/one_admin/doctype/tenant/tenant.json:228
 msgid "Primary Domain"
 msgstr ""
 
@@ -40695,7 +40715,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json:67
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
 msgid "Provisioning"
 msgstr ""
 
@@ -40704,7 +40724,7 @@ msgstr ""
 msgid "Provisioning Job"
 msgstr ""
 
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:16
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:17
 #: onedesk/one_admin/heads.py:25
 msgid "Provisioning failed"
 msgstr ""
@@ -42947,7 +42967,7 @@ msgid "Remind a customer of an overdue invoice"
 msgstr ""
 
 #. Label of the terms_reminded_on (Date) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:500
+#: onedesk/one_admin/doctype/tenant/tenant.json:509
 msgid "Reminded About Terms"
 msgstr ""
 
@@ -43658,7 +43678,7 @@ msgstr ""
 #: frontend/src/inventory/item/ItemBuying.vue:14
 #: frontend/src/inventory/to_order/ToOrderPage.vue:90
 #: frontend/src/inventory/to_order/ToOrderPage.vue:143
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
 #: onedesk/one_inventory/heads.py:607
 msgid "Requested"
 msgstr ""
@@ -44859,7 +44879,7 @@ msgid "SFTP only. Used instead of a password."
 msgstr ""
 
 #. Description of the 'Token Hash' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:229
+#: onedesk/one_admin/doctype/tenant/tenant.json:238
 msgid "SHA-256 of the token written into the site's config."
 msgstr ""
 
@@ -45796,7 +45816,7 @@ msgstr ""
 #. Label of the seats (Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:155
 #: onedesk/one_admin/doctype/offering/offering.json:149
-#: onedesk/one_admin/doctype/tenant/tenant.json:335
+#: onedesk/one_admin/doctype/tenant/tenant.json:344
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:20
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:112
 #: onedesk/public/js/one_account/account_center.js:752
@@ -46511,7 +46531,7 @@ msgstr ""
 #. Session'
 #. Label of the server (Link) field in DocType 'Workspace Session'
 #. Label of the host (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_admin/doctype/tenant/tenant.json:193
+#: onedesk/one_admin/doctype/tenant/tenant.json:202
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:35
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:95
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:48
@@ -46852,7 +46872,7 @@ msgid "Set by an operator"
 msgstr ""
 
 #. Description of the 'Status' (Select) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:118
+#: onedesk/one_admin/doctype/tenant/tenant.json:119
 msgid "Set by billing events and by the actions in the toolbar."
 msgstr ""
 
@@ -47786,6 +47806,10 @@ msgstr ""
 msgid "Shown on the screen at {0}, or on a radio at {1}."
 msgstr ""
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:43
+msgid "Shown only once, for deploy/local/link.sh on the machine that serves the site."
+msgstr ""
+
 #. Description of the 'Background' (Data) field in DocType 'Widget Collection'
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:48
 msgid "Shown when no slide is playing. Defaults to the brand colour."
@@ -48048,7 +48072,7 @@ msgstr ""
 msgid "Signed in as {0}. The workspace joins your account."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:389
+#: onedesk/one_admin/setup.py:375
 msgid "Signed in to Cloudflare for this run."
 msgstr ""
 
@@ -48142,11 +48166,19 @@ msgstr ""
 #. Label of the site_section (Section Break) field in DocType 'Tenant'
 #. Label of the site (Data) field in DocType 'Workspace Session'
 #. Label of the one_site (Link) field in DocType 'Project'
-#: onedesk/one_admin/doctype/tenant/tenant.json:201
+#: onedesk/one_admin/doctype/tenant/tenant.json:210
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:113
 #: onedesk/one_project/custom/project.json:106
 #: onedesk/public/js/project_new.js:163
 msgid "Site"
+msgstr ""
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:27
+msgid "Site Address"
+msgstr ""
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:40
+msgid "Site Config"
 msgstr ""
 
 #. Task in the Aluminium & Glazing project template
@@ -48593,7 +48625,7 @@ msgstr ""
 
 #. Label of the slug (Data) field in DocType 'Tenant'
 #. Label of the slug (Data) field in DocType 'Presentation'
-#: onedesk/one_admin/doctype/tenant/tenant.json:85
+#: onedesk/one_admin/doctype/tenant/tenant.json:86
 #: onedesk/one_slide/doctype/presentation/presentation.json:114
 msgid "Slug"
 msgstr ""
@@ -49705,7 +49737,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:73
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json:42
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:52
-#: onedesk/one_admin/doctype/tenant/tenant.json:115
+#: onedesk/one_admin/doctype/tenant/tenant.json:116
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:56
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:68
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:44
@@ -49780,7 +49812,7 @@ msgid "Status Board"
 msgstr ""
 
 #. Label of the status_since (Datetime) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:245
+#: onedesk/one_admin/doctype/tenant/tenant.json:254
 msgid "Status Since"
 msgstr ""
 
@@ -50273,7 +50305,7 @@ msgstr ""
 #. Label of the storage_bytes (Long Int) field in DocType 'Tenant'
 #: onedesk/one/home.py:180 onedesk/one_account/heads.py:86
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:323
-#: onedesk/one_admin/doctype/tenant/tenant.json:369
+#: onedesk/one_admin/doctype/tenant/tenant.json:378
 #: onedesk/one_admin/heads.py:546
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:113
 #: onedesk/one_storage/api.py:137
@@ -50391,7 +50423,7 @@ msgid "Stripe"
 msgstr ""
 
 #. Label of the stripe_customer (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:262
+#: onedesk/one_admin/doctype/tenant/tenant.json:271
 msgid "Stripe Customer"
 msgstr ""
 
@@ -50411,7 +50443,7 @@ msgid "Stripe Session"
 msgstr ""
 
 #. Label of the stripe_subscription (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:268
+#: onedesk/one_admin/doctype/tenant/tenant.json:277
 msgid "Stripe Subscription"
 msgstr ""
 
@@ -51066,8 +51098,8 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_account/heads.py:18 onedesk/one_admin/accounts.py:122
-#: onedesk/one_admin/doctype/tenant/tenant.json:116
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:13
+#: onedesk/one_admin/doctype/tenant/tenant.json:117
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:14
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:33
 #: onedesk/one_admin/heads.py:22
 msgid "Suspended"
@@ -51926,7 +51958,7 @@ msgid "Temporary Opening still holds {0}: post the other side of the opening bal
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_admin/doctype/tenant/tenant.json:509
+#: onedesk/one_admin/doctype/tenant/tenant.json:518
 msgid "Tenant"
 msgstr ""
 
@@ -52093,6 +52125,7 @@ msgid "Territory-wise Sales"
 msgstr ""
 
 #. Task in the ERP Rollout project template
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:8
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Test"
 msgstr ""
@@ -52101,6 +52134,11 @@ msgstr ""
 #: onedesk/public/js/one_admin/admin_control.js:315
 #: onedesk/public/js/one_admin/admin_settings.js:3
 msgid "Test Gateway"
+msgstr ""
+
+#. Label of the is_test (Check) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json:134
+msgid "Test Workspace"
 msgstr ""
 
 #. Task in the ERP Rollout project template
@@ -52295,11 +52333,19 @@ msgstr ""
 msgid "That is not a recording."
 msgstr ""
 
+#: onedesk/one_admin/backups.py:158
+msgid "That is not a rescue key."
+msgstr ""
+
+#: onedesk/one_admin/backups.py:165
+msgid "That is not a rescue kit."
+msgstr ""
+
 #: onedesk/one_account/center.py:624
 msgid "That is not an email address."
 msgstr ""
 
-#: onedesk/one_admin/billing.py:204
+#: onedesk/one_admin/billing.py:205
 msgid "That is not one of this workspace's invoices."
 msgstr ""
 
@@ -52967,13 +53013,13 @@ msgstr ""
 msgid "The database is nearly full"
 msgstr ""
 
-#: onedesk/one_admin/billing.py:156
+#: onedesk/one_admin/billing.py:157
 #, python-brace-format
 msgid "The database uses {0} GB and the plan allows {1} GB."
 msgstr ""
 
 #. Description of the 'Closing On' (Date) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:317
+#: onedesk/one_admin/doctype/tenant/tenant.json:326
 msgid "The date the workspace closes, set when the account owner asks to close it."
 msgstr ""
 
@@ -53551,7 +53597,7 @@ msgid "The new version has not passed its review, so it cannot be used. Ask OneA
 msgstr ""
 
 #. Description of the 'Backup Before Archive' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:288
+#: onedesk/one_admin/doctype/tenant/tenant.json:297
 msgid "The newest backup on the server when the site was archived."
 msgstr ""
 
@@ -53844,7 +53890,7 @@ msgid "The plan was not changed"
 msgstr ""
 
 #. Description of the 'Seats' (Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:337
+#: onedesk/one_admin/doctype/tenant/tenant.json:346
 msgid "The plan's and the add-ons'. Zero means no limit."
 msgstr ""
 
@@ -54130,7 +54176,7 @@ msgid "The server didn't respond in time."
 msgstr ""
 
 #. Description of the 'Server' (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:196
+#: onedesk/one_admin/doctype/tenant/tenant.json:205
 msgid "The server it runs on, chosen from Settings when it was built."
 msgstr ""
 
@@ -54143,7 +54189,7 @@ msgstr ""
 msgid "The server's name or address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:401
+#: onedesk/one_admin/setup.py:387
 msgid "The setup token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -54349,12 +54395,12 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:426
+#: onedesk/one_admin/setup.py:412
 #, python-brace-format
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:448
+#: onedesk/one_admin/setup.py:434
 #, python-brace-format
 msgid "The token has no zone for {0}."
 msgstr ""
@@ -54436,7 +54482,7 @@ msgstr ""
 msgid "The workspace does not open at it yet."
 msgstr ""
 
-#: onedesk/one_admin/oneos.py:398
+#: onedesk/one_admin/oneos.py:400
 msgid "The workspace doesn't have enough OneCredits to open this in OneOS."
 msgstr ""
 
@@ -54751,6 +54797,10 @@ msgstr ""
 #: onedesk/one/notification_words.py:113 onedesk/one/notify.py:446
 #, python-brace-format
 msgid "There is no notification type {0}."
+msgstr ""
+
+#: onedesk/one_admin/testbed.py:78
+msgid "There is no plan on sale. Add one to the Price List first."
 msgstr ""
 
 #: onedesk/one/notification_words.py:212 onedesk/one/notification_words.py:329
@@ -55620,7 +55670,7 @@ msgstr ""
 msgid "This workspace has agreements outstanding. Agree to them, then try again."
 msgstr ""
 
-#: onedesk/one_admin/billing.py:225 onedesk/one_admin/stripe.py:236
+#: onedesk/one_admin/billing.py:227 onedesk/one_admin/stripe.py:236
 msgid "This workspace has no billing account yet."
 msgstr ""
 
@@ -55637,7 +55687,7 @@ msgstr ""
 msgid "This workspace has no room for another {0}."
 msgstr ""
 
-#: onedesk/one_admin/billing.py:69
+#: onedesk/one_admin/billing.py:70
 msgid "This workspace has no subscription. Contact support to set one up."
 msgstr ""
 
@@ -55924,7 +55974,7 @@ msgstr ""
 #. Label of the time_zone (Data) field in DocType 'Account Request'
 #. Label of the time_zone (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/account_request/account_request.json:117
-#: onedesk/one_admin/doctype/tenant/tenant.json:476
+#: onedesk/one_admin/doctype/tenant/tenant.json:485
 msgid "Time Zone"
 msgstr ""
 
@@ -56455,7 +56505,7 @@ msgstr ""
 #. Recipient'
 #. Label of the token_hash (Data) field in DocType 'Cloud Link'
 #: onedesk/one_account/doctype/device/device.json:106
-#: onedesk/one_admin/doctype/tenant/tenant.json:233
+#: onedesk/one_admin/doctype/tenant/tenant.json:242
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:58
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:127
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:57
@@ -56877,7 +56927,7 @@ msgid "Training"
 msgstr ""
 
 #. Label of the copies_agreed_on (Datetime) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:488
+#: onedesk/one_admin/doctype/tenant/tenant.json:497
 msgid "Training Copies Agreed On"
 msgstr ""
 
@@ -57270,7 +57320,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:537
+#: onedesk/one_admin/setup.py:508
 #, python-brace-format
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
@@ -58114,14 +58164,14 @@ msgstr ""
 #. Label of the update_weekday (Int) field in DocType 'Workspace Account'
 #. Label of the update_weekday (Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:288
-#: onedesk/one_admin/doctype/tenant/tenant.json:425
+#: onedesk/one_admin/doctype/tenant/tenant.json:434
 msgid "Update Day"
 msgstr ""
 
 #. Label of the update_hour (Int) field in DocType 'Workspace Account'
 #. Label of the update_hour (Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:294
-#: onedesk/one_admin/doctype/tenant/tenant.json:432
+#: onedesk/one_admin/doctype/tenant/tenant.json:441
 msgid "Update Hour"
 msgstr ""
 
@@ -58186,7 +58236,7 @@ msgstr ""
 #. Label of the updates_section (Section Break) field in DocType 'Tenant'
 #. Label in the One Project Update print format
 #: frontend/src/project/Overview.vue:89
-#: onedesk/one_admin/doctype/tenant/tenant.json:414
+#: onedesk/one_admin/doctype/tenant/tenant.json:423
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 #: onedesk/public/js/one_account/account_center.js:947
 msgid "Updates"
@@ -58311,7 +58361,7 @@ msgid "Urgent requests are referred to {0}."
 msgstr ""
 
 #. Label of the storage_said (HTML) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:374
+#: onedesk/one_admin/doctype/tenant/tenant.json:383
 #: onedesk/one_ai/abilities.py:26 onedesk/public/js/one_ai/ai_center.js:328
 #: onedesk/public/js/one_ai/ai_center.js:330
 msgid "Usage"
@@ -59085,7 +59135,7 @@ msgid "Waiting For a Reply"
 msgstr ""
 
 #. Label of the terms_pending (Check) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:482
+#: onedesk/one_admin/doctype/tenant/tenant.json:491
 msgid "Waiting On New Terms"
 msgstr ""
 
@@ -59193,7 +59243,7 @@ msgstr ""
 msgid "Waiting to Start"
 msgstr ""
 
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:9
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:10
 #: onedesk/one_admin/heads.py:18
 msgid "Waiting to be built"
 msgstr ""
@@ -60247,11 +60297,11 @@ msgstr ""
 msgid "What needs fixing?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:68
+#: onedesk/one_admin/ai.py:70
 msgid "What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 msgstr ""
 
-#: onedesk/one/ai.py:364 onedesk/one_admin/ai.py:66
+#: onedesk/one/ai.py:364 onedesk/one_admin/ai.py:68
 msgid "What needs me today?"
 msgstr ""
 
@@ -60291,11 +60341,11 @@ msgstr ""
 msgid "What should I do first?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:130
+#: onedesk/one_admin/ai.py:132
 msgid "What should they buy?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:120
+#: onedesk/one_admin/ai.py:122
 msgid "What should we change?"
 msgstr ""
 
@@ -60564,7 +60614,7 @@ msgid "What the suggestion was made from. Attached to the record it makes."
 msgstr ""
 
 #. Description of the 'Plan' (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:136
+#: onedesk/one_admin/doctype/tenant/tenant.json:145
 msgid "What the workspace was sold. Quotas are copied to this record, not read from here."
 msgstr ""
 
@@ -60669,7 +60719,7 @@ msgid "What waits for your approval in every app, oldest first."
 msgstr ""
 
 #. Description of the 'Add-ons' (Table) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:277
+#: onedesk/one_admin/doctype/tenant/tenant.json:286
 msgid "What was added to the plan. Changed from the workspace, through Stripe."
 msgstr ""
 
@@ -61736,7 +61786,7 @@ msgid "When items fall to their reorder level and a material request is raised f
 msgstr ""
 
 #. Description of the 'Last Backup' (Datetime) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:295
+#: onedesk/one_admin/doctype/tenant/tenant.json:304
 msgid "When its backup and files were last copied into the locked backup bucket."
 msgstr ""
 
@@ -62134,7 +62184,7 @@ msgid "When the copy of your data you asked for on your profile is ready."
 msgstr ""
 
 #. Description of the 'Status Since' (Datetime) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:247
+#: onedesk/one_admin/doctype/tenant/tenant.json:256
 msgid "When the current status was set."
 msgstr ""
 
@@ -62424,7 +62474,7 @@ msgstr ""
 msgid "Where calls from this queue are announced."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:184
+#: onedesk/one_admin/ai.py:186
 msgid "Where did the credits go?"
 msgstr ""
 
@@ -62436,7 +62486,7 @@ msgstr ""
 msgid "Where did this project's time go this month? Say who logged it, on which tasks, how much is billable, and what is still a draft."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:186
+#: onedesk/one_admin/ai.py:188
 msgid "Where did this workspace's OneCredits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
 msgstr ""
 
@@ -62830,7 +62880,7 @@ msgstr ""
 msgid "Which work orders are open, for what, how far along, and which are late?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:111
+#: onedesk/one_admin/ai.py:113
 msgid "Which workspaces have this, how many are live, and what do they pay?"
 msgstr ""
 
@@ -62970,7 +63020,7 @@ msgstr ""
 msgid "Who has this file alone."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:110
+#: onedesk/one_admin/ai.py:112
 msgid "Who has this?"
 msgstr ""
 
@@ -63002,11 +63052,11 @@ msgstr ""
 msgid "Who is held to a territory, a department or another record, and to which?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:176
+#: onedesk/one_admin/ai.py:178
 msgid "Who is spending the most on OneAI this month, on which models and for which actions? Say what it was charged, what it cost us and the margin, and anything that looks wrong."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:174
+#: onedesk/one_admin/ai.py:176
 msgid "Who is spending the most?"
 msgstr ""
 
@@ -63079,7 +63129,7 @@ msgid "Who the copy is for. Somebody who is not a user has only this."
 msgstr ""
 
 #. Description of the 'Customer' (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:146
+#: onedesk/one_admin/doctype/tenant/tenant.json:155
 msgid "Who this workspace is in the admin site's own books. Made when it first paid."
 msgstr ""
 
@@ -63370,7 +63420,7 @@ msgid "Whose"
 msgstr ""
 
 #. Description of the 'Account' (Link) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json:408
+#: onedesk/one_admin/doctype/tenant/tenant.json:417
 msgid "Whose One account holds this workspace. Set when it is paid for."
 msgstr ""
 
@@ -63411,11 +63461,11 @@ msgstr ""
 msgid "Why did these fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:140
+#: onedesk/one_admin/ai.py:142
 msgid "Why did this job fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:142
+#: onedesk/one_admin/ai.py:144
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr ""
 
@@ -63439,11 +63489,11 @@ msgstr ""
 msgid "Why is this extension off, and what would it take to turn it on?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:150
+#: onedesk/one_admin/ai.py:152
 msgid "Why is this job waiting?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:152
+#: onedesk/one_admin/ai.py:154
 msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
 msgstr ""
 
@@ -63451,11 +63501,11 @@ msgstr ""
 msgid "Why is this one off?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:87
+#: onedesk/one_admin/ai.py:89
 msgid "Why isn't this domain working?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:89
+#: onedesk/one_admin/ai.py:91
 msgid "Why isn't this domain working? Say what Cloudflare says is wrong in plain words, what the customer has to change in their DNS, and whether anything is ours to fix."
 msgstr ""
 
@@ -63468,11 +63518,11 @@ msgstr ""
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:196
+#: onedesk/one_admin/ai.py:198
 msgid "Why wasn't this built?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:198
+#: onedesk/one_admin/ai.py:200
 msgid "Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build Workspace is likely to work now, and what to do if it is not."
 msgstr ""
 
@@ -64120,7 +64170,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/private_app/private_app.js:6
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json:23
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:30
-#: onedesk/one_admin/doctype/tenant/tenant.json:79
+#: onedesk/one_admin/doctype/tenant/tenant.json:80
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:34
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:24
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:26
@@ -64302,6 +64352,7 @@ msgstr ""
 
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json:45
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:28
 msgid "Workspace Name"
 msgstr ""
 
@@ -66329,8 +66380,8 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:879 onedesk/one_admin/setup.py:908
-#: onedesk/one_admin/setup.py:1018
+#: onedesk/one_admin/setup.py:850 onedesk/one_admin/setup.py:879
+#: onedesk/one_admin/setup.py:989
 msgid "deployed"
 msgstr ""
 
@@ -66729,11 +66780,11 @@ msgstr ""
 msgid "left early"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:832
+#: onedesk/one_admin/setup.py:803
 msgid "left to production"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:681
+#: onedesk/one_admin/setup.py:652
 #, python-brace-format
 msgid "left to {0}"
 msgstr ""
@@ -66807,7 +66858,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:353 onedesk/one_admin/setup.py:815
+#: onedesk/one_admin/setup.py:339 onedesk/one_admin/setup.py:786
 #, python-brace-format
 msgid "missing permissions: {0}"
 msgstr ""
@@ -67526,7 +67577,7 @@ msgstr ""
 msgid "tracked changes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:1029
+#: onedesk/one_admin/setup.py:1000
 msgid "unchanged"
 msgstr ""
 
@@ -67624,12 +67675,12 @@ msgstr ""
 msgid "words, with commas"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:967
+#: onedesk/one_admin/setup.py:938
 #, python-brace-format
 msgid "wrangler did not say where {0} is"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:989
+#: onedesk/one_admin/setup.py:960
 #, python-brace-format
 msgid "wrangler took too long: {0}"
 msgstr ""
@@ -68072,7 +68123,7 @@ msgstr ""
 msgid "{0} already has a field called {1}."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:261
+#: onedesk/one_admin/operator.py:263
 #, python-brace-format
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr ""
@@ -68559,7 +68610,7 @@ msgstr ""
 #: frontend/src/hr/HrStory.vue:72
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/stages.py:33
-#: onedesk/one_admin/setup.py:801 onedesk/one_ai/reading/understand.py:520
+#: onedesk/one_admin/setup.py:772 onedesk/one_ai/reading/understand.py:520
 #: onedesk/one_crm/heads.py:34 onedesk/one_crm/heads.py:42
 #: onedesk/one_hr/heads.py:28 onedesk/one_hr/heads.py:680
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/ai.py:865
@@ -68996,7 +69047,7 @@ msgstr ""
 msgid "{0} has no {1} account to create {2} under."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:182
+#: onedesk/one_admin/operator.py:184
 #, python-brace-format
 msgid "{0} has not failed."
 msgstr ""
@@ -69031,7 +69082,7 @@ msgstr ""
 msgid "{0} has {1} credits ({2} on hold)."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:258
+#: onedesk/one_admin/operator.py:260
 #, python-brace-format
 msgid "{0} hasn't been paid."
 msgstr ""
@@ -69195,6 +69246,21 @@ msgstr ""
 msgid "{0} is a template."
 msgstr ""
 
+#: onedesk/one_admin/testbed.py:23
+#, python-brace-format
+msgid "{0} is a test workspace and isn't billed."
+msgstr ""
+
+#: onedesk/one_admin/testbed.py:21
+#, python-brace-format
+msgid "{0} is a test workspace. It is updated on its own machine, not from OneAdmin."
+msgstr ""
+
+#: onedesk/one_admin/testbed.py:22
+#, python-brace-format
+msgid "{0} is a test workspace. It isn't on our servers, so OneAdmin doesn't run jobs on it."
+msgstr ""
+
 #: onedesk/one_book/ready.py:122
 #, python-brace-format
 msgid "{0} is added in a form, but not to one made by One, OneAI or an import."
@@ -69213,6 +69279,11 @@ msgstr ""
 #: onedesk/one_crm/capture.py:35
 #, python-brace-format
 msgid "{0} is already a lead: {1}"
+msgstr ""
+
+#: onedesk/one_admin/testbed.py:106 onedesk/one_admin/testbed.py:108
+#, python-brace-format
+msgid "{0} is already a workspace."
 msgstr ""
 
 #: onedesk/one_ai/reading/mark.py:124
@@ -69510,7 +69581,7 @@ msgstr ""
 msgid "{0} is not a grant."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:226
+#: onedesk/one_admin/operator.py:228
 #, python-brace-format
 msgid "{0} is not a job."
 msgstr ""
@@ -69550,7 +69621,7 @@ msgstr ""
 msgid "{0} is not a picture or a video."
 msgstr ""
 
-#: onedesk/one_admin/billing.py:138
+#: onedesk/one_admin/billing.py:139
 #, python-brace-format
 msgid "{0} is not a plan on sale."
 msgstr ""
@@ -69665,7 +69736,7 @@ msgstr ""
 msgid "{0} is not a workspace."
 msgstr ""
 
-#: onedesk/one_admin/billing.py:142
+#: onedesk/one_admin/billing.py:143
 #, python-brace-format
 msgid "{0} is not an add-on on sale."
 msgstr ""
@@ -69695,7 +69766,7 @@ msgstr ""
 msgid "{0} is not in a folder."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:710
+#: onedesk/one_admin/setup.py:681
 #, python-brace-format
 msgid "{0} is not in the zone {1}."
 msgstr ""
@@ -69801,7 +69872,7 @@ msgstr ""
 msgid "{0} is not under this project."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:206
+#: onedesk/one_admin/operator.py:208
 #, python-brace-format
 msgid "{0} is not waiting to run."
 msgstr ""
@@ -69829,6 +69900,11 @@ msgstr ""
 #: onedesk/public/js/one_mail/mail_compose.js:230
 #, python-brace-format
 msgid "{0} is on leave until {1}."
+msgstr ""
+
+#: onedesk/one_admin/testbed.py:103
+#, python-brace-format
+msgid "{0} is one of One's own addresses."
 msgstr ""
 
 #: onedesk/one_storage/oneos.py:162
@@ -69912,6 +69988,11 @@ msgstr ""
 msgid "{0} is too large to show on a screen."
 msgstr ""
 
+#: onedesk/one_admin/testbed.py:100
+#, python-brace-format
+msgid "{0} is too long for a workspace address."
+msgstr ""
+
 #: onedesk/one_mail/mail_templates.py:110
 #, python-brace-format
 msgid "{0} is used by {1}. Choose another template there first."
@@ -69932,7 +70013,7 @@ msgstr ""
 msgid "{0} is writing a reply"
 msgstr ""
 
-#: onedesk/one_admin/lifecycle.py:104
+#: onedesk/one_admin/lifecycle.py:107
 #, python-brace-format
 msgid "{0} is {1} and can't move to {2}."
 msgstr ""
@@ -70279,7 +70360,7 @@ msgstr ""
 #: frontend/src/slide/components/NavigationPanel.vue:16
 #: frontend/src/slide/shim/PresenterView.vue:104
 #: onedesk/one_account/heads.py:69
-#: onedesk/one_admin/doctype/tenant/tenant_list.js:29
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:67
 #: onedesk/one_admin/heads.py:143 onedesk/one_crm/heads.py:298
 #: onedesk/one_display/doctype/voice_pack/voice_pack.js:6
 #: onedesk/one_factory/heads.py:26 onedesk/one_factory/heads.py:49
@@ -70636,7 +70717,7 @@ msgstr ""
 msgid "{0} people at this level, who are notified"
 msgstr ""
 
-#: onedesk/one_admin/billing.py:152
+#: onedesk/one_admin/billing.py:153
 #, python-brace-format
 msgid "{0} people have seats and the plan allows {1}. Deactivate someone first."
 msgstr ""
@@ -71444,7 +71525,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:707
+#: onedesk/one_admin/setup.py:678
 #, python-brace-format
 msgid "{0}, on the mail domain"
 msgstr ""
@@ -71454,7 +71535,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:687
+#: onedesk/one_admin/setup.py:658
 #, python-brace-format
 msgid "{0}, replacing the previous rule"
 msgstr ""
@@ -71495,17 +71576,17 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:553
+#: onedesk/one_admin/setup.py:524
 #, python-brace-format
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:574
+#: onedesk/one_admin/setup.py:545
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:660
+#: onedesk/one_admin/setup.py:631
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""

@@ -8,8 +8,9 @@
 # Run it inside Ubuntu, as your own user (not root):
 #
 #   bash setup.sh             the two sites above, on this machine
-#   bash setup.sh 4dl.dev     one.4dl.dev and admin.4dl.dev instead, through a
-#                             Cloudflare Tunnel (public.sh), and no .localhost
+#   bash setup.sh 4dl.dev     one.4dl.dev instead, a workspace through a
+#                             Cloudflare Tunnel (public.sh) linked to
+#                             production's OneAdmin, and no .localhost
 #
 # Run again with no domain on a bench public.sh already put on one, it keeps
 # to that domain rather than adding the .localhost pair.
@@ -24,10 +25,11 @@
 #
 #   ONE_RESCUE_PASSPHRASE=... bash setup.sh
 #
-# fetches the rescue kit from the keeper, which puts every key back (GitHub and
-# the tunnel included), builds the bench and the domain's sites, puts the newest
-# nightly backup of each back, and turns the service on (README, A new dev
-# machine). The domain comes from the kit.
+# fetches the rescue kit from production's keeper, which puts every key back
+# (GitHub and the tunnel included), builds the bench and the domain's
+# workspace, puts back the newest backup it sent itself (one sign-in to
+# Cloudflare), and turns the service on (README, A new dev machine). The domain
+# comes from the kit.
 
 set -euo pipefail
 
@@ -38,7 +40,7 @@ PY_VERSION=3.14
 NODE_VERSION=24
 SITES=(one.localhost admin.localhost)
 DOMAIN="${1:-}"
-KEEPER="${ONE_KEEPER_URL:-https://one-keeper-dev.4dl.workers.dev}"
+KEEPER="${ONE_KEEPER_URL:-https://one-keeper.4dl.workers.dev}"
 RESCUE="${ONE_RESCUE_PASSPHRASE:-}"
 
 say() { printf '\n\033[1;34m== %s\033[0m\n' "$*"; }
@@ -312,7 +314,7 @@ done
 if [ -n "$DOMAIN" ]; then
 	bash apps/onedesk/deploy/local/public.sh "$DOMAIN"
 	[ -n "$RESCUE" ] || exit 0
-	say "The newest backups"
+	say "The newest backup of one.$DOMAIN"
 	started=()
 	for port in 13000 11000; do
 		if ! redis-cli -p "$port" ping >/dev/null 2>&1; then
@@ -322,13 +324,17 @@ if [ -n "$DOMAIN" ]; then
 			started+=("$port")
 		fi
 	done
-	env/bin/python apps/onedesk/scripts/rescue.py restore "one.$DOMAIN" "admin.$DOMAIN"
+	if [ -f "$HOME/.one-keys-prod.json" ]; then
+		env/bin/python apps/onedesk/scripts/rescue.py restore "one.$DOMAIN"
+	else
+		echo "No ~/.one-keys-prod.json in the kit: one.$DOMAIN is left new. Run dev-config.sh $DOMAIN for the demo and the link."
+	fi
 	for port in "${started[@]}"; do
 		redis-cli -p "$port" shutdown nosave >/dev/null 2>&1 || true
 	done
 	bash apps/onedesk/deploy/local/always-on.sh
 	say "Rebuilt"
-	echo "https://one.$DOMAIN and https://admin.$DOMAIN are back, from the newest backups."
+	echo "https://one.$DOMAIN is back, linked to production's OneAdmin as it was when the kit was packed."
 	exit 0
 fi
 

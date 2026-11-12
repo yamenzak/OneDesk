@@ -31,7 +31,7 @@ def growth(joined: list, upto: list[str]) -> list[int]:
 
 
 def _tenants() -> list:
-	return frappe.get_all("Tenant", filters={"is_house": 0}, fields=["name", "workspace_name", "status", "offering", "creation"])
+	return frappe.get_all("Tenant", filters={"is_house": 0, "is_test": 0}, fields=["name", "workspace_name", "status", "offering", "creation"])
 
 
 def _servers() -> list[dict]:

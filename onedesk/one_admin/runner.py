@@ -247,6 +247,9 @@ def start(tenant: str, kind: str = "Provision", payload: dict | None = None) -> 
 	to destroy the same one.
 	"""
 	site.require_admin()
+	from onedesk.one_admin import testbed
+
+	testbed.refuse(tenant, "moved")
 	said = json.dumps(payload, sort_keys=True) if payload else None
 	open_already = frappe.get_all(
 		"Provisioning Job",

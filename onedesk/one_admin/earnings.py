@@ -51,7 +51,7 @@ def from_first(span: list[str], values: list[float]) -> int:
 
 def _live() -> tuple[list, list, dict]:
 	sold = {one.name: one for one in frappe.get_all("Offering", fields=["name", "label", "amount", "currency", "recurring"])}
-	live = frappe.get_all("Tenant", filters={"is_house": 0, "status": "Live"}, fields=["name", "offering", "storage_bytes", "database_bytes"])
+	live = frappe.get_all("Tenant", filters={"is_house": 0, "is_test": 0, "status": "Live"}, fields=["name", "offering", "storage_bytes", "database_bytes"])
 	add_ons = frappe.get_all("Tenant Add-on", filters={"parenttype": "Tenant", "parent": ["in", [one.name for one in live] or [""]]}, fields=["parent", "offering", "quantity"])
 	return live, add_ons, sold
 

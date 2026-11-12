@@ -11476,6 +11476,10 @@ msgstr ""
 msgid "Copy Of"
 msgstr "Kopie von"
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:46
+msgid "Copy Site Config"
+msgstr "Website-Konfiguration kopieren"
+
 #: onedesk/public/js/project_template_list.js:13
 msgid "Copy Template"
 msgstr "Vorlage übernehmen"
@@ -23342,6 +23346,11 @@ msgstr "Wenn aktiviert, werden an Datensätze angehängte Scans und Fotos ebenfa
 msgid "If enabled, the slide fills the screen and is cropped to fit."
 msgstr "Wenn aktiviert, füllt die Folie den Bildschirm und wird passend zugeschnitten."
 
+#. Description of the 'Test Workspace' (Check) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json:137
+msgid "If enabled, the workspace is never billed, moved or updated, and sends its own backups. Credits are given by hand."
+msgstr "Wenn aktiviert, wird der Arbeitsbereich nie abgerechnet, verschoben oder aktualisiert und sendet seine Sicherungen selbst. Guthaben wird von Hand vergeben."
+
 #. Description of the 'Backs Itself Up' (Check) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:302
 msgid "If enabled, the workspace sends its own backup every night."
@@ -27517,6 +27526,11 @@ msgstr "Mit Datensatz verknüpfen"
 msgid "Link to Their Record"
 msgstr "Mit ihrem Datensatz verknüpfen"
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:35
+#, python-brace-format
+msgid "Link {0}"
+msgstr "{0} verknüpfen"
+
 #: frontend/portal/src/pages/Record.vue:75
 #: frontend/src/slide/shim/DataDialog.vue:40
 msgid "Linked"
@@ -31032,6 +31046,11 @@ msgstr "Neue Aufgabe"
 #: onedesk/public/js/doctype_settings.js:119
 msgid "New Template"
 msgstr "Neue Vorlage"
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:24
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:54
+msgid "New Test Workspace"
+msgstr "Neuer Test-Arbeitsbereich"
 
 #. Label of the draft (JSON) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.js:157
@@ -47770,6 +47789,10 @@ msgstr "Wird auf allen Bildschirmen angezeigt, bis der Alarm beendet ist."
 msgid "Shown on the screen at {0}, or on a radio at {1}."
 msgstr "Wird auf dem Bildschirm unter {0} oder auf einem Radio unter {1} angezeigt."
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:43
+msgid "Shown only once, for deploy/local/link.sh on the machine that serves the site."
+msgstr "Wird nur einmal angezeigt, für deploy/local/link.sh auf dem Rechner, der die Website bereitstellt."
+
 #. Description of the 'Background' (Data) field in DocType 'Widget Collection'
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:48
 msgid "Shown when no slide is playing. Defaults to the brand colour."
@@ -48132,6 +48155,14 @@ msgstr "Einzelne Seite"
 #: onedesk/public/js/project_new.js:163
 msgid "Site"
 msgstr "Standort"
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:27
+msgid "Site Address"
+msgstr "Website-Adresse"
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:40
+msgid "Site Config"
+msgstr "Website-Konfiguration"
 
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
@@ -52068,6 +52099,11 @@ msgstr "Test"
 msgid "Test Gateway"
 msgstr "Gateway testen"
 
+#. Label of the is_test (Check) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json:134
+msgid "Test Workspace"
+msgstr "Test-Arbeitsbereich"
+
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Test scripts written"
@@ -52259,6 +52295,14 @@ msgstr "Das ist kein gültiger Tag mit Uhrzeit."
 #: onedesk/one_hr/hiring.py:577
 msgid "That is not a recording."
 msgstr "Das ist keine Aufnahme."
+
+#: onedesk/one_admin/backups.py:158
+msgid "That is not a rescue key."
+msgstr "Das ist kein Wiederherstellungsschlüssel."
+
+#: onedesk/one_admin/backups.py:165
+msgid "That is not a rescue kit."
+msgstr "Das ist kein Wiederherstellungspaket."
 
 #: onedesk/one_account/center.py:624
 msgid "That is not an email address."
@@ -54710,6 +54754,10 @@ msgstr "Es gibt keine neue Version von {0}."
 #, python-brace-format
 msgid "There is no notification type {0}."
 msgstr "Es gibt keinen Benachrichtigungstyp {0}."
+
+#: onedesk/one_admin/testbed.py:78
+msgid "There is no plan on sale. Add one to the Price List first."
+msgstr "Es wird kein Tarif angeboten. Zuerst einen zur Preisliste hinzufügen."
 
 #: onedesk/one/notification_words.py:212 onedesk/one/notification_words.py:329
 #: onedesk/one/notification_words.py:360
@@ -69137,6 +69185,21 @@ msgstr "{0} ist eine Tabelle: geben Sie ihre Spalten an"
 msgid "{0} is a template."
 msgstr "{0} ist jetzt eine Vorlage."
 
+#: onedesk/one_admin/testbed.py:23
+#, python-brace-format
+msgid "{0} is a test workspace and isn't billed."
+msgstr "{0} ist ein Test-Arbeitsbereich und wird nicht abgerechnet."
+
+#: onedesk/one_admin/testbed.py:21
+#, python-brace-format
+msgid "{0} is a test workspace. It is updated on its own machine, not from OneAdmin."
+msgstr "{0} ist ein Test-Arbeitsbereich. Er wird auf seinem eigenen Rechner aktualisiert, nicht über OneAdmin."
+
+#: onedesk/one_admin/testbed.py:22
+#, python-brace-format
+msgid "{0} is a test workspace. It isn't on our servers, so OneAdmin doesn't run jobs on it."
+msgstr "{0} ist ein Test-Arbeitsbereich. Er liegt nicht auf unseren Servern, daher führt OneAdmin keine Aufträge darauf aus."
+
 #: onedesk/one_book/ready.py:122
 #, python-brace-format
 msgid "{0} is added in a form, but not to one made by One, OneAI or an import."
@@ -69156,6 +69219,11 @@ msgstr "{0} ist bereits ein Interessent."
 #, python-brace-format
 msgid "{0} is already a lead: {1}"
 msgstr "{0} ist bereits ein Lead: {1}"
+
+#: onedesk/one_admin/testbed.py:106 onedesk/one_admin/testbed.py:108
+#, python-brace-format
+msgid "{0} is already a workspace."
+msgstr "{0} ist bereits ein Arbeitsbereich."
 
 #: onedesk/one_ai/reading/mark.py:124
 #, python-brace-format
@@ -69773,6 +69841,11 @@ msgstr "{0} befindet sich in einem privaten Netzwerk. OneCloud kann sich nicht d
 msgid "{0} is on leave until {1}."
 msgstr "{0} ist bis {1} im Urlaub."
 
+#: onedesk/one_admin/testbed.py:103
+#, python-brace-format
+msgid "{0} is one of One's own addresses."
+msgstr "{0} ist eine Adresse von One selbst."
+
 #: onedesk/one_storage/oneos.py:162
 #, python-brace-format
 msgid "{0} is open in OneOS by {1}."
@@ -69853,6 +69926,11 @@ msgstr "{0} kommt zweimal vor oder ist ein Name, den frappe für sich behält."
 #, python-brace-format
 msgid "{0} is too large to show on a screen."
 msgstr "{0} ist zu groß, um auf einem Bildschirm gezeigt zu werden."
+
+#: onedesk/one_admin/testbed.py:100
+#, python-brace-format
+msgid "{0} is too long for a workspace address."
+msgstr "{0} ist zu lang für die Adresse eines Arbeitsbereichs."
 
 #: onedesk/one_mail/mail_templates.py:110
 #, python-brace-format

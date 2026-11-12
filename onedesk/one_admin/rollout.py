@@ -131,7 +131,7 @@ def _read() -> dict:
 	held = [{"server": one.server, "name": one.name, "benches": servers.benches(one)} for one in fleet.rows()]
 	tenants = frappe.get_all(
 		"Tenant",
-		filters={"site": ["is", "set"], "status": ["not in", releases.GONE], "is_house": 0},
+		filters={"site": ["is", "set"], "status": ["not in", releases.GONE], "is_house": 0, "is_test": 0},
 		fields=["name", "workspace_name", "status", "server", "bench", "update_at", "update_moving", "terms_pending"],
 	)
 	workspaces = [{"server": one.server, "bench": one.bench, "name": one.name, "workspace": one.workspace_name or one.name} for one in tenants]
