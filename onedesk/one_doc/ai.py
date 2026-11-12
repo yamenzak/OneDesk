@@ -30,7 +30,8 @@ NOT_FOR_AI = {
 	"templates.save_as": "A template is kept from the editor's File menu by whoever may keep company templates.",
 	"versions.new_version": "A version is taken while somebody writes, or named by them in Version History.",
 	"word.open_file": "It answers a Word file opened from OneCloud.",
-	"word.write_back": "It writes the Word file back when the person leaves it in the editor.",
+	"word.write_back": "It writes the Word file back when the person leaves it in the editor, or chooses how.",
+	"api.dismiss_dropped": "It puts away the note of what a save from the drive left out, in the editor.",
 }
 
 #: The most characters of a document a read answers with.

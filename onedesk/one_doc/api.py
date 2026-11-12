@@ -107,6 +107,7 @@ def get_document(name: str) -> dict:
 
 	from onedesk.one import rights
 	from onedesk.one_doc import field
+	from onedesk.one_storage import saving
 
 	item = _may(name, "read")
 	doc = frappe.get_doc(DOCUMENT, name)
@@ -121,7 +122,7 @@ def get_document(name: str) -> dict:
 		"title": item["file_name"],
 		"file": item["name"],
 		"folder": item.get("folder"),
-		"can_write": ns.may(item, "write") and (not bound or bound["writable"]),
+		**saving.state(DOCUMENT, name, item, ns.may(item, "write") and (not bound or bound["writable"])),
 		"can_template": rights.held(DOCUMENT, "doc_template"),
 		"bound": bound,
 		"word": doc.source_kind == "docx",
@@ -152,16 +153,28 @@ def save_document(name: str, content: str, html: str, title: str | None = None, 
 	"""Keep what the editor sends: its Yjs state, which it opens from, and
 	the same document as HTML, which everything else reads."""
 	from onedesk.one_doc import field
+	from onedesk.one_storage import saving
 
 	item = _may(name, "write")
+	saving.check(DOCUMENT, name, item)
 	size = len(content.encode("utf-8")) + len(html.encode("utf-8"))
 	if size > MOST_BYTES:
 		frappe.throw(_("This document is too large to save."))
 	put = field.put(name, frappe.db.get_value(DOCUMENT, name, "html"), html)
 	frappe.db.set_value(DOCUMENT, name, {"content": content, "html": put.get("html", html), "byte_size": size}, update_modified=True)
-	frappe.db.set_value("File", item["name"], "file_size", size, update_modified=True)
+	if not frappe.db.get_value(DOCUMENT, name, "source_kind"):
+		frappe.db.set_value("File", item["name"], "file_size", size, update_modified=True)
 	_retitle(name, item, title)
 	return {"name": name, **({} if put["ok"] else {"refused": put["message"]})}
+
+
+@frappe.whitelist(methods=["POST"])
+def dismiss_dropped(name: str) -> None:
+	"""The note of what a save from the drive left out, put away."""
+	from onedesk.one_storage import saving
+
+	_may(name, "write")
+	saving.dismiss(DOCUMENT, name)
 
 
 @frappe.whitelist(methods=["POST"])

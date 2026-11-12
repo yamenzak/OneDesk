@@ -567,8 +567,9 @@ class Document(_DAVNonCollection):
 	def end_write(self, *, with_errors):
 		"""A written file: a new one, or a new version of the one there. An
 		empty file first and its content after is how Finder and Explorer
-		write, and the empty one is not kept as a version."""
-		from onedesk.one_storage import upload
+		write, and the empty one is not kept as a version. A file somebody
+		has alone in OneOS is locked."""
+		from onedesk.one_storage import lease, upload
 
 		spool, self._spool = self._spool, None
 		if spool is None:
@@ -600,6 +601,10 @@ class Document(_DAVNonCollection):
 				raise _error(415) from None
 			_forget()
 			return
+		same = self.item.get("id")
+		held = lease.blocking(same) if same else None
+		if held and not (held["mine"] and held["kind"] == lease.DAV):
+			raise _error(423)
 		parent = self.item.get("parent") or walk(_parent_and_name(self.path)[0])
 		try:
 			upload._place(
@@ -607,7 +612,8 @@ class Document(_DAVNonCollection):
 				None,
 				{"file_name": self.item["name"], "content": content},
 				replace=1,
-				version_of=self.item.get("id"),
+				version_of=same,
+				sitting=lease.sitting(same, "drive") if same else None,
 			)
 		except frappe.PermissionError:
 			raise _error(403) from None

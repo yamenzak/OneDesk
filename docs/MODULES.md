@@ -198,7 +198,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Workbook | 12 | document |
+| Workbook | 15 | document |
 | Workbook Change | 10 | document |
 | Workbook Version | 9 | document |
 
@@ -208,7 +208,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Writer Document | 12 | document |
+| Writer Document | 15 | document |
 | Writer Document Version | 4 | document |
 
 ## One Account
@@ -691,6 +691,7 @@ No doctypes yet.
 * `onedesk.one_display.starters.offered`
 * `onedesk.one_display.voices.record`
 * `onedesk.one_doc.api.add_picture`
+* `onedesk.one_doc.api.dismiss_dropped`
 * `onedesk.one_doc.api.download`
 * `onedesk.one_doc.api.drop_pictures`
 * `onedesk.one_doc.api.get_document`
@@ -988,6 +989,7 @@ No doctypes yet.
 * `onedesk.one_project.view.to_quote`
 * `onedesk.one_project.view.updates`
 * `onedesk.one_quality.home.read`
+* `onedesk.one_sheet.api.dismiss_dropped`
 * `onedesk.one_sheet.api.download`
 * `onedesk.one_sheet.api.get_link_preview`
 * `onedesk.one_sheet.api.get_sheet`
@@ -999,6 +1001,8 @@ No doctypes yet.
 * `onedesk.one_sheet.api.titles`
 * `onedesk.one_sheet.api.write_back`
 * `onedesk.one_sheet.live.admit`
+* `onedesk.one_sheet.live.here`
+* `onedesk.one_sheet.live.leave`
 * `onedesk.one_sheet.paper.letter_heads`
 * `onedesk.one_sheet.paper.pdf`
 * `onedesk.one_sheet.table.make_missing`
@@ -1106,6 +1110,7 @@ No doctypes yet.
 * `onedesk.one_storage.history.restore`
 * `onedesk.one_storage.history.star`
 * `onedesk.one_storage.history.versions`
+* `onedesk.one_storage.lease.of`
 * `onedesk.one_storage.library.add`
 * `onedesk.one_storage.library.make`
 * `onedesk.one_storage.library.members`

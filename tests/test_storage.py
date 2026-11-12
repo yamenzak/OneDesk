@@ -358,7 +358,7 @@ def test_a_drive_is_found_by_its_client():
 
 
 def test_an_empty_file_is_not_kept_as_a_version():
-	assert "if item.file_size:" in _body(HISTORY, "replace")
+	assert "elif not merged and item.file_size:" in _body(HISTORY, "replace")
 
 
 MOUNTS = tree.APP / "one_storage" / "mounts.py"

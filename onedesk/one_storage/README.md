@@ -208,9 +208,15 @@ When you upload a file with the same name as one in the folder, you can
 version. So does **Upload new version** (right-click a file).
 
 The preview pane shows a file's versions. You can open any of them, or
-**Restore** one, which keeps the current file as a version. It also shows the
+**Restore** one, which keeps the current file as a version. A version can't
+be restored while somebody is editing the file in OneOS. It also shows the
 file's activity: who created, renamed, moved, shared, linked or replaced it.
 A replaced file keeps its shares and links.
+
+Saves by one person in one sitting are one version: in OneWorkbook or
+OneWriter, in OneOS or from the drive, each save less than 10 minutes after
+the one before takes the place of the last. The version from before you
+started is always kept.
 
 ## As a drive on your computer
 
@@ -341,7 +347,29 @@ A workbook opens in OneWorkbook instead, in the same tab. **New › Workbook**
 makes one in the folder you are in (OneWorkbook's guide). So does an Excel
 or CSV file, and what is changed in it is saved back into the same file,
 what it held before kept as a version. A workbook's menu has **Download as
-Excel** and **Download as CSV**.
+Excel** and **Download as CSV**. A Word file opens in OneWriter the same way.
+
+### When the file has more than the editor keeps
+
+OneWorkbook and OneWriter don't keep everything an Excel or Word file can
+hold: comments, tracked changes, charts, pivot tables, headers and footers
+and the like. When a file has some, a bar over the editor names them, and
+your changes stay in the editor until you choose:
+
+| Button | What it does |
+| --- | --- |
+| **Save Over Original** | Saves your changes into the file. What the bar names is dropped. The file as it was is kept as a version. |
+| **Save as Copy** | Saves your changes as a new file beside it, and goes on in the copy. The original stays as it was. |
+
+If a new version of the file arrives before you choose, your changes are
+kept as a copy beside it, named for you, such as *Budget (Huda's copy)*.
+
+A file with macros (.xlsm, .docm) or an older Excel file (.xls) opens
+read-only. Open it in OneOS to edit it.
+
+A workbook or document made in One and saved from Excel or Word on the
+drive keeps what it was as a version first. If the file had something One
+doesn't keep, the bar says so the next time it is opened.
 
 A private file opens only for you and for people who can see the record it's
 attached to. Anyone else who gets the link sees nothing. Public files, such
@@ -363,10 +391,14 @@ OpenDocument or CSV file in a full office app, without installing anything.
 | --- | --- |
 | **You are editing in OneOS** under the file's name | You have it open. Open it in OneOS again to go back to it. |
 | **Huda is editing in OneOS** | Someone else has it open. You can **Make a Copy** and edit that, or **View Read-Only**. |
+| **Huda is editing it in OneWorkbook** when you open it in OneOS | Someone has it open to change it there. Make a copy, or wait until they leave it. |
+| **Samir is editing this in OneOS** over the editor | It opens read-only in OneWorkbook or OneWriter until he closes it. |
 | A warning that it closes in 5 minutes | Nothing was typed or clicked for 10 minutes. Use it to keep it open. |
 
-Only one person edits a file in OneOS at a time. A file you can only read
-offers **Make a Copy** too, put beside it or in My Files.
+Only one person edits a file in OneOS at a time, and never while somebody
+has it open to change in OneWorkbook or OneWriter. A file you can only read
+offers **Make a Copy** too, put beside it or in My Files. While a file is
+open in OneOS, saving it from the drive is refused too.
 
 A session closes by itself after 15 minutes without use, after 8 hours, or
 when the workspace runs out of OneCredits. You are told when it does, and
@@ -449,9 +481,9 @@ another required Link column is not offered, since the sender could not fill
 it.
 
 **OneOS** (`oneos.py`, `one_admin/oneos.py`, `deploy/oneos`). The workspace
-keeps the lease on the File itself (`one_os_lease`, `one_os_session`,
-`one_os_user`, `one_os_until`, custom/file.json): taken under a row lock in
-`start`, one person per file, renewed for two minutes each time the
+keeps the lease on the File itself, the File's one lease below with kind
+`oneos`: taken under a row lock in `start`, one person per file and never
+while anybody may write in it live, renewed for two minutes each time the
 every-minute `tick` hears from OneAdmin (`proxy.oneos_state`) that the
 session runs, and let go when it stopped or OneAdmin has not answered for
 those two minutes. The container is given two addresses on the workspace,
@@ -469,6 +501,66 @@ time limit, credits, not answering, an operator) is a toast through
 `onecloud_oneos` and the **Closed in OneOS** notification. Read-only for
 somebody else's lease is the viewer, since the container has no read-only
 mode yet.
+
+### One lease per file (lease.py)
+
+Every File has one lease, and a workbook or document leases the File it
+sits behind. **Alone** is one holder, a OneOS session (`oneos`) or, once
+the drive's locks join it, a desktop app's WebDAV lock (`dav`), kept on the
+File (`one_lease_kind`, `_lock`, `_session`, `_user`, `_until`,
+custom/file.json; patches/one_lease_on_file moved OneOS's own fields onto
+it), so it outlives the cache and a restart. **Live** is anybody in
+OneWorkbook or OneWriter, in the cache as a hash per File of `user|socket id`
+to `{seen, write, app}`: realtime/handlers.js asks `one_sheet/live.admit`
+on join (which records it), `live.here` every minute while the room is open,
+and `live.leave` on leave and on disconnect; a holder not heard from for two
+minutes is gone. A person who is live in two tabs writes if either may. The
+rules are pure (`refused`, `reading`, `present`, tested in
+tests/test_lease.py): alone is refused while somebody else holds it alone,
+the asker holds it another way, or anybody, the asker included, may write
+live, and a reader does not stop it; while alone is held, the editors open
+read-only with `lease.told` ("Samir is editing this in OneOS"), their saves
+are refused, a WebDAV PUT is 423 Locked and a version is not restored.
+`lease.of(target)` answers the UI for a File, workbook or document: the
+mode, who holds it alone and who is live.
+
+**A sitting.** `history.replace(item, new, sitting=…)` takes the place of
+the last version instead of adding one when the File still holds what the
+same person last saved in the same sitting, under ten minutes ago
+(`history.merges`, pure). The sitting is the alone lock while the saver holds
+one (OneOS passes its lock), else the way in: `editor` for a write-back,
+`drive` for a WebDAV PUT. An upload in the explorer has none and is always
+a version. The last save is in the cache (`onecloud_sitting:<file>`, ten
+minutes), with the URL it left, so a restore or anybody else's save between
+breaks the sitting; losing the cache only adds a version. The object a
+merged save takes the place of is dropped from R2 once nothing names it.
+The version from before the sitting is the one the first save kept.
+
+### Nothing lost silently (fidelity.py, saving.py)
+
+`fidelity.workbook` and `fidelity.document` read an office file's parts
+(zip names and a few XML markers) for what the native editors drop, pure
+and tested in tests/test_fidelity.py: macros, comments, charts, pivot tables
+and slicers, pictures, tables, data validation, conditional formatting,
+links to other workbooks, and fonts, fills and borders for Excel (SheetJS
+writes none); macros, comments, tracked changes, headers and footers,
+footnotes, charts, text boxes, equations, embedded files, links, fields and
+fonts, sizes and colours for Word, plus the styles mammoth said it did not
+know (its `messages`, kept by `word.read`, less those `word.build` writes).
+The list is kept on the Workbook or Writer Document (`would_lose`) when the
+file is read in: `get_sheet` when it is fresh, `word.open_file`.
+`saving.state` is what both editors and `live.admit` open with: `can_write`
+off while alone is held or for macros (.xlsm, .docm, or a vbaProject inside)
+and .xls, with `notice` saying why, and `loses`, the line naming what saving
+over drops. `saving.write_back` returns `held` and stamps `held_back` while
+the list is not empty and nobody chose; `over` writes (the file as it was
+kept as a version) and clears the list, `copy` writes a File beside it and
+moves the record onto it. A new version arriving while `held_back` is set
+(`file_replaced`) sets the record aside as One's own copy, "Name (Huda's
+copy)", rather than reading the file in over the changes. A save from the
+drive into One's own record (`word.write`, `excel.write`) keeps a named
+version first ("Before a Word save", "Before an Excel save") and notes what
+the file had that was not kept (`outside_dropped`, shown until dismissed).
 
 ### The bars at the foot of the rail (api.capacity)
 

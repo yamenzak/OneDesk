@@ -324,3 +324,74 @@ def a_document_is_a_word_file_on_the_drive():
 			assert not frappe.db.exists(api.DOCUMENT, opened), "and its document goes with the file"
 	finally:
 		frappe.db.rollback(save_point="doc_word_check")
+
+
+@check
+def a_word_file_is_never_saved_over_with_less():
+	"""A Word file with comments opens in OneWriter saying what saving over
+	it would drop, and waits: the file stays as it was until the owner
+	chooses Save as Copy, which leaves it alone, or Save Over Original. A
+	new version arriving while changes wait keeps them as a copy. A .docm
+	never opens here, and a document of One's own saved from Word with
+	comments says so when it next opens. All undone afterwards."""
+	import io
+
+	from docx import Document
+
+	from onedesk.one_doc import api, word
+	from onedesk.one_storage import history, saving
+	from onedesk.one_storage import namespace as ns
+
+	def letter(text: str, comment: bool = True) -> bytes:
+		made = Document()
+		said = made.add_paragraph(text)
+		if comment:
+			made.add_comment(said.runs[0], text="Check the date.", author="Huda")
+		out = io.BytesIO()
+		made.save(out)
+		return out.getvalue()
+
+	frappe.db.savepoint("doc_lose_check")
+	try:
+		with as_user(OWNER):
+			upload = frappe.get_doc({"doctype": "File", "file_name": "Lease check.docx", "content": letter("Signed on Monday."), "is_private": 1, "folder": ns.HOME})
+			upload.insert()
+			before = upload.file_url
+			opened = word.open_file(upload.name)["document"]
+			said = api.get_document(opened)
+			assert said["can_write"] and "comments" in (said["loses"] or ""), said["loses"]
+			api.save_document(opened, "AAA=", "<p>Signed on Tuesday.</p>")
+			assert "held" in word.write_back(opened), "saving over waits for a choice"
+			assert frappe.db.get_value("File", upload.name, "file_url") == before and frappe.db.get_value(api.DOCUMENT, opened, "held_back")
+			copy = word.write_back(opened, "copy")
+			assert copy["file"] != upload.name and frappe.db.get_value("File", upload.name, "file_url") == before, "a copy leaves the file alone"
+			assert frappe.db.get_value(api.DOCUMENT, opened, "file") == copy["file"], "and the document goes on in the copy"
+			again = word.open_file(upload.name)["document"]
+			api.save_document(again, "BBB=", "<p>Signed on Wednesday.</p>")
+			assert "held" in word.write_back(again)
+			replaced = frappe.get_doc({"doctype": "File", "file_name": "Lease check.docx", "content": letter("Signed on Thursday."), "is_private": 1, "folder": ns.HOME})
+			replaced.insert()
+			history.replace(ns.row(upload.name), replaced.name)
+			kept = frappe.db.get_value(api.DOCUMENT, again, ["file", "source_kind"], as_dict=True)
+			assert kept.file != upload.name and not kept.source_kind, "changes that waited are kept as a copy, not read over"
+			assert frappe.db.get_value("File", kept.file, "file_name").startswith("Lease check ("), frappe.db.get_value("File", kept.file, "file_name")
+			third = word.open_file(upload.name)["document"]
+			api.save_document(third, "CCC=", "<p>Signed on Friday.</p>")
+			word.write_back(third, "over")
+			assert Document(io.BytesIO(frappe.get_doc("File", upload.name).get_content())).paragraphs[0].text == "Signed on Friday."
+			assert not saving.listed(frappe.db.get_value(api.DOCUMENT, third, "would_lose")), "saved over, it is One's to keep"
+			macro = frappe.get_doc({"doctype": "File", "file_name": "Macro check.docm", "content": letter("x", False), "is_private": 1, "folder": ns.HOME})
+			macro.insert()
+			try:
+				word.open_file(macro.name)
+				raise AssertionError("a .docm opened in OneWriter")
+			except frappe.ValidationError:
+				pass
+			own = api.make("@my", "Own check")["document"]
+			api.save_document(own, "DDD=", "<p>Ours.</p>")
+			word.write(own, letter("From Word."))
+			assert "comments" in (api.get_document(own)["dropped"] or ""), "a save from Word that left comments out says so"
+			api.dismiss_dropped(own)
+			assert not api.get_document(own)["dropped"]
+	finally:
+		frappe.db.rollback(save_point="doc_lose_check")

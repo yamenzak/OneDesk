@@ -1390,10 +1390,6 @@ msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظ�
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr "مكان يُعرض طقسه على الشاشات وبجانب الساعة. مكان واحد مجاني، وكل مكان إضافي يستهلك 5 أرصدة يومياً."
 
-#: onedesk/one_slide/drive.py:63
-msgid "A presentation with words from records can only be edited in OneSlide."
-msgstr "لا يمكن تحرير عرض تقديمي يحتوي على كلمات من السجلات إلا في OneSlide."
-
 #. Description of a DocType
 #: onedesk/one_slide/doctype/presentation/presentation.json:21
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
@@ -7036,10 +7032,6 @@ msgstr "قبل موعد طلب الملفات، أو عندما يرسل صاح�
 msgid "Before a new {0} is saved for the first time"
 msgstr "قبل حفظ {0} جديد لأول مرة"
 
-#: onedesk/one_slide/drive.py:72
-msgid "Before a save from the drive"
-msgstr "قبل حفظ من محرك الأقراص"
-
 #: onedesk/one_studio/doctype/extension/extension.js:27
 #, python-brace-format
 msgid "Before a submitted {0} is changed and saved"
@@ -7059,6 +7051,10 @@ msgstr "قبل حذف {0}"
 #, python-brace-format
 msgid "Before a {0} is submitted"
 msgstr "قبل اعتماد {0}"
+
+#: onedesk/one_sheet/excel.py:339
+msgid "Before an Excel save"
+msgstr "قبل حفظ من Excel"
 
 #: onedesk/one_slide/resize.py:93
 msgid "Before changing the size"
@@ -22055,6 +22051,13 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 msgid "Held"
 msgstr "المحجوز"
 
+#. Label of the held_back (Datetime) field in DocType 'Writer Document'
+#. Label of the held_back (Datetime) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:118
+#: onedesk/one_sheet/doctype/workbook/workbook.json:118
+msgid "Held Back Since"
+msgstr "محجوز منذ"
+
 #. Label of the held_at (Datetime) field in DocType 'OneOS Session'
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:209
 msgid "Held Since"
@@ -26599,10 +26602,35 @@ msgstr "مُتعلَّم من {0} موظفين"
 msgid "Learning"
 msgstr "التعلّم"
 
+#. Label of the one_lease_lock (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:111
+msgid "Lease Lock"
+msgstr "قفل الحجز"
+
+#. Label of the one_lease_session (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:125
+msgid "Lease Session"
+msgstr "جلسة الحجز"
+
+#. Label of the one_lease_kind (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:97
+msgid "Lease Type"
+msgstr "نوع الحجز"
+
+#. Label of the one_lease_until (Datetime) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:155
+msgid "Lease Until"
+msgstr "الحجز حتى"
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Lease signed"
 msgstr "توقيع عقد الإيجار"
+
+#. Label of the one_lease_user (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:139
+msgid "Leased By"
+msgstr "محجوز بواسطة"
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label in the One Attendance print format
@@ -26948,6 +26976,13 @@ msgstr "غادر مبكراً بـ"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.js:32
 msgid "Left Early Only"
 msgstr "من غادروا مبكراً فقط"
+
+#. Label of the outside_dropped (JSON) field in DocType 'Writer Document'
+#. Label of the outside_dropped (JSON) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:124
+#: onedesk/one_sheet/doctype/workbook/workbook.json:124
+msgid "Left Out of Drive Save"
+msgstr "ما لم يُحفظ من حفظ محرك الأقراص"
 
 #: frontend/src/books/BooksHome.vue:259 frontend/src/crm/CrmHome.vue:258
 #: frontend/src/factory/home/FactoryHome.vue:201
@@ -32578,11 +32613,6 @@ msgstr "ساعات غير مفوترة"
 msgid "Not Booked"
 msgstr "غير مسجّل"
 
-#. Label of the lost (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:63
-msgid "Not Brought In"
-msgstr "لم يُنقل"
-
 #. Name of a notification
 #: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:268
 msgid "Not Checked In"
@@ -32619,6 +32649,13 @@ msgstr "غير مثبّت"
 #: onedesk/one_project/money.py:221
 msgid "Not Invoiced Yet"
 msgstr "لم تُفوتر بعد"
+
+#. Label of the would_lose (JSON) field in DocType 'Writer Document'
+#. Label of the would_lose (JSON) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:111
+#: onedesk/one_sheet/doctype/workbook/workbook.json:111
+msgid "Not Kept From File"
+msgstr "ما لا يُحفظ من الملف"
 
 #. Name of a notification
 #: onedesk/one_display/notifications.py
@@ -34992,16 +35029,6 @@ msgstr "OneMail"
 msgid "OneOS"
 msgstr "OneOS"
 
-#. Label of the one_os_lease (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:93
-msgid "OneOS Lease"
-msgstr "حجز OneOS"
-
-#. Label of the one_os_until (Datetime) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:137
-msgid "OneOS Lease Until"
-msgstr "حجز OneOS حتى"
-
 #: onedesk/one_storage/oneos.py:114
 msgid "OneOS Not Started"
 msgstr "لم يبدأ OneOS"
@@ -35762,11 +35789,6 @@ msgstr "افتح في OneCloud"
 #: onedesk/public/js/onecloud_dialogs.js:598
 msgid "Open in OneOS"
 msgstr "فتح في OneOS"
-
-#. Label of the one_os_user (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:121
-msgid "Open in OneOS By"
-msgstr "مفتوح في OneOS بواسطة"
 
 #: onedesk/public/js/table_workbook.js:97
 msgid "Open in OneWorkbook"
@@ -37498,6 +37520,14 @@ msgstr "قطع وعمل تحوّلت إلى أصل."
 #, python-brace-format, python-format
 msgid "Parts in {{ }} and {% %} are filled in when it is sent."
 msgstr "تُملأ الأجزاء بين {{ }} و{% %} عند الإرسال."
+
+#. Description of the 'Not Kept From File' (JSON) field in DocType 'Writer
+#. Document'
+#. Description of the 'Not Kept From File' (JSON) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:113
+#: onedesk/one_sheet/doctype/workbook/workbook.json:113
+msgid "Parts of the file this editor does not keep."
+msgstr "أجزاء الملف التي لا يحتفظ بها هذا المحرر."
 
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
 #. Label of the party_name (Dynamic Link) field in DocType 'Reading'
@@ -45005,6 +45035,11 @@ msgstr "حفظ العنوان"
 msgid "Save Layout"
 msgstr "حفظ التخطيط"
 
+#: frontend/src/sheet/components/SheetEditor/index.vue:165
+#: frontend/src/writer/DocumentPage.vue:29
+msgid "Save Over Original"
+msgstr "حفظ فوق الأصل"
+
 #: frontend/src/sheet/shim/PrintDialog.vue:18
 #: frontend/src/writer/shim/PrintDialog.vue:17
 msgid "Save PDF to OneCloud"
@@ -45120,10 +45155,11 @@ msgstr "تم الحفظ باسم {0}."
 msgid "Saved document"
 msgstr "حُفظ المستند"
 
-#: frontend/src/slide/stores/presentation.js:331
+#: frontend/src/sheet/components/SheetEditor/index.vue:2090
+#: frontend/src/writer/DocumentPage.vue:403
 #, python-brace-format
-msgid "Saved from the drive: slides {0} had parts that could not be brought in."
-msgstr "حُفظ من محرك الأقراص: تضمنت الشرائح {0} أجزاء تعذّر نقلها."
+msgid "Saved over {0}."
+msgstr "تم الحفظ فوق {0}."
 
 #: onedesk/one_studio/ai_setup.py:243
 #, python-brace-format
@@ -53155,11 +53191,6 @@ msgstr "سيُطبع التخطيط بشكل سيئ: {0}."
 msgid "The lead's or opportunity's owner"
 msgstr "مالك العميل المحتمل أو الفرصة"
 
-#. Description of the 'OneOS Lease' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:101
-msgid "The lease that lets one OneOS session save this file."
-msgstr "الحجز الذي يتيح لجلسة OneOS واحدة حفظ هذا الملف."
-
 #: onedesk/one_hr/home.py:376
 msgid "The leave each person has left, kind by kind."
 msgstr "الإجازات المتبقية لكل شخص، نوعًا نوعًا."
@@ -53203,6 +53234,11 @@ msgstr "يعمل الرابط مرة واحدة، لمدة {minutes} دقيقة.
 #: onedesk/one_inventory/home.py:163
 msgid "The lists prices are kept in, for buying and selling."
 msgstr "القوائم التي تُحفظ فيها الأسعار، للشراء والبيع."
+
+#. Description of the 'Lease Lock' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:115
+msgid "The lock that lets the holder save this file."
+msgstr "القفل الذي يتيح لصاحب الحجز حفظ هذا الملف."
 
 #: onedesk/public/js/one/one_control.js:285
 msgid "The logo and colours on letter heads and around every screen."
@@ -53933,11 +53969,6 @@ msgstr "مشغّلو الموقع، أي لا أحد في مساحة العمل"
 #: frontend/src/slide/shim/libraryKeep.js:17
 msgid "The slide is in the library."
 msgstr "الشريحة في المكتبة."
-
-#. Description of the 'Not Brought In' (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:63
-msgid "The slides whose last save from the drive had parts that could not be brought in."
-msgstr "الشرائح التي تضمّن آخر حفظ لها من محرك الأقراص أجزاء تعذّر نقلها."
 
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
 #: onedesk/one_slide/doctype/presentation/presentation.json:78
@@ -54878,10 +54909,6 @@ msgstr "لا يمكن فتح هذا الملف."
 #: onedesk/one_admin/office.py:86 onedesk/one_storage/office.py:40
 msgid "This file could not be converted."
 msgstr "تعذّر تحويل هذا الملف."
-
-#: onedesk/one_slide/drive.py:69
-msgid "This file is not a presentation."
-msgstr "هذا الملف ليس عرضًا تقديميًا."
 
 #: onedesk/one_doc/api.py:264
 msgid "This file is too large to put into a document."
@@ -60118,6 +60145,15 @@ msgstr "ما قالته النظرة الأولى عن هذا قبل قراءت�
 msgid "What the folder is called in OneCloud."
 msgstr "اسم المجلد في OneCloud."
 
+#. Description of the 'Left Out of Drive Save' (JSON) field in DocType 'Writer
+#. Document'
+#. Description of the 'Left Out of Drive Save' (JSON) field in DocType
+#. 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:126
+#: onedesk/one_sheet/doctype/workbook/workbook.json:126
+msgid "What the last save from the drive had that was not kept, shown when it is next opened."
+msgstr "ما احتواه آخر حفظ من محرك الأقراص ولم يُحفظ، ويظهر عند فتحه في المرة التالية."
+
 #. Description of the 'Size Unit' (Link) field in DocType 'BOM Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'BOM Secondary Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Subcontracting
@@ -61872,10 +61908,10 @@ msgstr "عندما تُنقل أو تُصرف كل الأصناف التي طل�
 msgid "When the last task a task waits on is done."
 msgstr "عند إنجاز آخر مهمة تنتظرها المهمة."
 
-#. Description of the 'OneOS Lease Until' (Datetime) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:145
-msgid "When the lease lapses unless OneOS says the session still runs."
-msgstr "وقت انتهاء الحجز ما لم يُفِد OneOS بأن الجلسة ما زالت تعمل."
+#. Description of the 'Lease Until' (Datetime) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:159
+msgid "When the lease lapses unless its holder renews it."
+msgstr "متى ينتهي الحجز ما لم يجدده صاحبه."
 
 #. When a notification is sent
 #: onedesk/one_crm/notifications.py
@@ -62663,10 +62699,10 @@ msgstr "من لم يسجّل الدخول منذ شهر أو أكثر، وهل �
 msgid "Who has not signed in lately?"
 msgstr "من لم يسجّل الدخول مؤخرًا؟"
 
-#. Description of the 'Open in OneOS By' (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:129
-msgid "Who has this file open in OneOS."
-msgstr "من فتح هذا الملف في OneOS."
+#. Description of the 'Leased By' (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:145
+msgid "Who has this file alone."
+msgstr "من يحجز هذا الملف وحده."
 
 #: onedesk/one_admin/ai.py:110
 msgid "Who has this?"
@@ -64560,6 +64596,19 @@ msgstr "لديك مفتاح مرور بالفعل. أزله قبل تسجيل م
 msgid "You are editing in OneOS"
 msgstr "أنت تحرره في OneOS"
 
+#: onedesk/one_storage/lease.py:173
+msgid "You are editing this in OneOS."
+msgstr "أنت تحرر هذا في OneOS."
+
+#: onedesk/one_storage/lease.py:174
+msgid "You are editing this on the drive."
+msgstr "أنت تحرر هذا على محرك الأقراص."
+
+#: onedesk/public/js/onecloud_dialogs.js:598
+#, python-brace-format
+msgid "You are editing {0} in {1}. Make a copy to edit it in OneOS, or view it read-only."
+msgstr "أنت تحرر {0} في {1}. أنشئ نسخة لتحريرها في OneOS، أو اعرضه للقراءة فقط."
+
 #: onedesk/one_hr/rules.py:22
 msgid "You are outside every location this shift may check in from."
 msgstr "أنت خارج جميع المواقع التي يجوز لهذه المناوبة تسجيل الحضور منها."
@@ -65134,6 +65183,11 @@ msgstr "رابط تقويمك في الإعدادات من زر الترس، و�
 #, python-brace-format
 msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your One account."
 msgstr "لم تُخصم بطاقتك. إن لم تُدفع، ستُعلّق {workspace} في {date}. ادفعها أو غيّر بطاقتك في حسابك على One."
+
+#: onedesk/one_storage/fidelity.py:170
+#, python-brace-format
+msgid "Your changes are saved here. Saving them over {0} would drop its {1}."
+msgstr "تغييراتك محفوظة هنا. حفظها فوق {0} سيُسقط منه {1}."
 
 #: onedesk/one_book/home.py:406
 msgid "Your chart of accounts read in from a spreadsheet."
@@ -65904,9 +65958,21 @@ msgstr "الفئة"
 msgid "changed"
 msgstr "غيّر"
 
+#: onedesk/one_storage/fidelity.py:142
+msgid "charts"
+msgstr "المخططات"
+
+#: onedesk/one_storage/fidelity.py:138
+msgid "comments"
+msgstr "التعليقات"
+
 #: onedesk/one_project/activity.py:352
 msgid "completed"
 msgstr "أنجز"
+
+#: onedesk/one_storage/fidelity.py:147
+msgid "conditional formatting"
+msgstr "التنسيق الشرطي"
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json:8
@@ -65960,6 +66026,10 @@ msgstr ""
 #: onedesk/one_display/packs.py:33
 msgid "dash"
 msgstr "شرطة"
+
+#: onedesk/one_storage/fidelity.py:146
+msgid "data validation"
+msgstr "التحقق من البيانات"
 
 #: onedesk/one_admin/offerings.py:165
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:23
@@ -66056,6 +66126,10 @@ msgstr "التعليم"
 msgid "email"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:153
+msgid "embedded files"
+msgstr "الملفات المضمنة"
+
 #: onedesk/one_account/center.py:144 onedesk/one_account/center.py:145
 #: onedesk/one_account/center.py:146
 msgid "emergency contact"
@@ -66075,6 +66149,10 @@ msgstr "ينتهي بـ"
 #, python-brace-format
 msgid "ends with {0}"
 msgstr "ينتهي بـ {0}"
+
+#: onedesk/one_storage/fidelity.py:152
+msgid "equations"
+msgstr "المعادلات"
 
 #: frontend/src/writer/components/TemplateDialog.vue:84
 msgid "esc"
@@ -66100,6 +66178,22 @@ msgstr "انتهت {0}"
 #: onedesk/one_hr/heads.py:344
 msgid "feedback"
 msgstr "الملاحظات"
+
+#: onedesk/one_storage/fidelity.py:155
+msgid "fields such as a table of contents"
+msgstr "الحقول مثل جدول المحتويات"
+
+#: onedesk/one_storage/fidelity.py:149
+msgid "fonts, colours and borders"
+msgstr "الخطوط والألوان والحدود"
+
+#: onedesk/one_storage/fidelity.py:150
+msgid "fonts, sizes and colours"
+msgstr "الخطوط والأحجام والألوان"
+
+#: onedesk/one_storage/fidelity.py:141
+msgid "footnotes"
+msgstr "الحواشي السفلية"
 
 #: frontend/src/intake/IntakeReading.vue:13 onedesk/one_crm/heads.py:69
 #, python-brace-format
@@ -66165,6 +66259,10 @@ msgstr "يحتوي {0}"
 #, python-brace-format
 msgid "hasn't {0}"
 msgstr "لا يحتوي {0}"
+
+#: onedesk/one_storage/fidelity.py:140
+msgid "headers and footers"
+msgstr "الرؤوس والتذييلات"
 
 #: onedesk/public/js/one_mail/rule_builder.js:616
 msgid "help, problem, not working, broken"
@@ -66313,6 +66411,11 @@ msgstr ""
 msgid "just you"
 msgstr "أنت فقط"
 
+#: onedesk/one_storage/saving.py:152
+#, python-brace-format
+msgid "kept the changes not saved to {0}"
+msgstr "احتفظ بالتغييرات التي لم تُحفظ في {0}"
+
 #: onedesk/one/ai.py:1173 onedesk/one/ai.py:1175
 #: onedesk/one/shortcut_center.py:97
 #: onedesk/one_display/doctype/widget_collection/widget_collection.py:21
@@ -66350,6 +66453,14 @@ msgstr "انصرف مبكراً"
 msgid "left to {0}"
 msgstr "تُرك لـ {0}"
 
+#: onedesk/one_storage/fidelity.py:154
+msgid "links"
+msgstr "الروابط"
+
+#: onedesk/one_storage/fidelity.py:148
+msgid "links to other workbooks"
+msgstr "الروابط إلى مصنفات أخرى"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1034
 msgid "literal."
 msgstr "نص حرفي."
@@ -66371,6 +66482,10 @@ msgstr "سجّل {0} على مدى {1} أيام"
 #: onedesk/public/js/onecloud_dialogs.js:521
 msgid "macOS"
 msgstr "macOS"
+
+#: onedesk/one_storage/fidelity.py:137
+msgid "macros"
+msgstr "وحدات الماكرو"
 
 #: onedesk/one_portal/share.py:287
 #, python-brace-format
@@ -66623,6 +66738,11 @@ msgstr "سنة واحدة"
 msgid "oneai"
 msgstr "OneAI"
 
+#. Description of the 'Lease Type' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:101
+msgid "oneos while a OneOS session has this file alone, dav while a desktop app on the drive does."
+msgstr "oneos عندما تحجز جلسة OneOS هذا الملف وحدها، وdav عندما يحجزه تطبيق مكتبي على محرك الأقراص."
+
 #: onedesk/one_studio/ai_setup.py:695
 #, python-brace-format
 msgid "only on {0}"
@@ -66721,10 +66841,18 @@ msgstr "العنوان الدائم"
 msgid "phone"
 msgstr "الهاتف"
 
+#: onedesk/one_storage/fidelity.py:144
+msgid "pictures"
+msgstr "الصور"
+
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
 #: onedesk/one_storage/custom/file.json:81
 msgid "pink"
 msgstr ""
+
+#: onedesk/one_storage/fidelity.py:143
+msgid "pivot tables"
+msgstr "الجداول المحورية"
 
 #: onedesk/one_hr/hiring.py:339
 #, python-brace-format
@@ -66909,9 +67037,17 @@ msgstr "حالة"
 msgid "storage"
 msgstr "التخزين"
 
+#: onedesk/one_storage/fidelity.py:156
+msgid "styles"
+msgstr "الأنماط"
+
 #: onedesk/one_project/activity.py:338
 msgid "submitted"
 msgstr "اعتمد"
+
+#: onedesk/one_storage/fidelity.py:145
+msgid "tables"
+msgstr "الجداول"
 
 #: onedesk/public/js/one_mail/rule_builder.js:60
 msgid "task"
@@ -66926,6 +67062,10 @@ msgstr "الرقم الضريبي"
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "text"
 msgstr "نص"
+
+#: onedesk/one_storage/fidelity.py:151
+msgid "text boxes and shapes"
+msgstr "مربعات النص والأشكال"
 
 #: onedesk/one_admin/heads.py:362
 msgid "the AI Gateway"
@@ -66960,6 +67100,10 @@ msgstr "يوم السنة"
 #, python-brace-format
 msgid "the days off each week are now {0}"
 msgstr "أيام العطلة الأسبوعية الآن {0}"
+
+#: onedesk/one_storage/lease.py:134
+msgid "the drive"
+msgstr "محرك الأقراص"
 
 #: onedesk/public/js/doctype_settings.js:687
 msgid "the fiscal year (.TFY. for the short form)"
@@ -67079,6 +67223,10 @@ msgstr "غدًا"
 #: onedesk/one_hr/heads.py:527
 msgid "too far from the last check-in"
 msgstr "بعيد جدًا عن آخر تسجيل حضور"
+
+#: onedesk/one_storage/fidelity.py:139
+msgid "tracked changes"
+msgstr "التغييرات المتعقبة"
 
 #: onedesk/one_admin/setup.py:943
 msgid "unchanged"
@@ -67290,6 +67438,11 @@ msgstr "{0} (مورّد)"
 #, python-brace-format
 msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
+
+#: onedesk/one_storage/saving.py:148
+#, python-brace-format
+msgid "{0} ({1}'s copy)"
+msgstr "{0} (نسخة {1})"
 
 #: onedesk/one/tell.py:532 onedesk/one/tell.py:673
 #: onedesk/one_studio/extensions.py:516 onedesk/public/js/privacy_copy.js:22
@@ -68411,6 +68564,11 @@ msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "انتهت {0} ولم يُنقل ربحها بعد إلى الأرباح المحتجزة."
 
+#: onedesk/one_storage/fidelity.py:131
+#, python-brace-format
+msgid "{0} has macros, so it opens read-only here. Open it in OneOS to edit it."
+msgstr "يحتوي {0} على وحدات ماكرو، لذا يُفتح هنا للقراءة فقط. افتحه في OneOS لتحريره."
+
 #: onedesk/one_ai/brief.py:54
 #, python-brace-format
 msgid "{0} has no OneAI summary."
@@ -68864,10 +69022,20 @@ msgstr "أُنجز {0}"
 msgid "{0} is editing in OneOS"
 msgstr "{0} يحرره في OneOS"
 
-#: onedesk/public/js/onecloud_dialogs.js:596
+#: onedesk/one_storage/lease.py:173
 #, python-brace-format
-msgid "{0} is editing {1} in OneOS. Make a copy to edit it, or view it read-only."
-msgstr "{0} يحرر {1} في OneOS. أنشئ نسخة لتحريرها، أو اعرضه للقراءة فقط."
+msgid "{0} is editing this in OneOS."
+msgstr "{0} يحرر هذا في OneOS."
+
+#: onedesk/one_storage/lease.py:174
+#, python-brace-format
+msgid "{0} is editing this on the drive."
+msgstr "{0} يحرر هذا على محرك الأقراص."
+
+#: onedesk/public/js/onecloud_dialogs.js:599
+#, python-brace-format
+msgid "{0} is editing {1} in {2}. Make a copy to edit it in OneOS, or view it read-only."
+msgstr "{0} يحرر {1} في {2}. أنشئ نسخة لتحريرها في OneOS، أو اعرضه للقراءة فقط."
 
 #: onedesk/one/unsubscribe.py:133
 #, python-brace-format
@@ -68888,6 +69056,11 @@ msgstr "{0} يمتلئ"
 #, python-brace-format
 msgid "{0} is in Presentation Templates."
 msgstr "{0} موجود في قوالب العروض التقديمية."
+
+#: onedesk/one_storage/fidelity.py:132
+#, python-brace-format
+msgid "{0} is in an older Excel format, so it opens read-only here. Open it in OneOS to edit it."
+msgstr "{0} بتنسيق Excel قديم، لذا يُفتح هنا للقراءة فقط. افتحه في OneOS لتحريره."
 
 #: onedesk/one_storage/api.py:313
 #, python-brace-format
@@ -70265,6 +70438,11 @@ msgstr "أُضيفت {0} صفوف"
 #, python-brace-format
 msgid "{0} rows removed"
 msgstr "أُزيلت {0} صفوف"
+
+#: onedesk/one_storage/saving.py:54
+#, python-brace-format
+msgid "{0} saved this from the drive on {1}. Its {2} could not be kept. What it held before is in Version History."
+msgstr "حفظ {0} هذا من محرك الأقراص في {1}. تعذر الاحتفاظ بـ{2}. ما كان يحتويه من قبل موجود في سجل النسخ."
 
 #: frontend/src/writer/shim/PrintDialog.vue:109
 #, python-brace-format

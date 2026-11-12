@@ -206,6 +206,81 @@ def a_spreadsheet_file_opens_and_saves_back_into_itself():
 
 
 @check
+def an_excel_file_is_never_saved_over_with_less():
+	"""An Excel file with comments and a chart opens in OneWorkbook saying
+	what saving over it would drop, and is not saved over until somebody
+	chooses; an .xlsm opens read-only and refuses a save. Saves by one person
+	in one sitting are one version, the one from before the sitting kept. A
+	workbook of One's own saved from Excel keeps itself as it was first and
+	notes what was left out. All undone afterwards."""
+	import base64
+	import io
+
+	from openpyxl import Workbook
+	from openpyxl.chart import BarChart, Reference
+	from openpyxl.comments import Comment
+
+	from onedesk.one_sheet import api, excel
+	from onedesk.one_storage import history
+	from onedesk.one_storage import namespace as ns
+
+	def book(rate: int, rich: bool = True) -> bytes:
+		made = Workbook()
+		sheet = made.active
+		sheet["A1"], sheet["B1"] = "GL", rate
+		if rich:
+			sheet["B1"].comment = Comment("From the supplier.", "Karim")
+			chart = BarChart()
+			chart.add_data(Reference(sheet, min_col=2, min_row=1, max_row=1))
+			sheet.add_chart(chart, "D2")
+		out = io.BytesIO()
+		made.save(out)
+		return out.getvalue()
+
+	sheets = json.dumps({"sheet": {"v": 2, "current": "Sheet", "sheets": {"Sheet": {"rows": {"0": ["GL", "65"]}}}}})
+	frappe.db.savepoint("sheet_lose_check")
+	try:
+		with as_user(OWNER):
+			rich = frappe.get_doc({"doctype": "File", "file_name": "Rates check.xlsx", "content": book(60), "is_private": 1, "folder": ns.HOME})
+			rich.insert()
+			opened = api.open_file(rich.name)["workbook"]
+			said = api.get_sheet(opened)
+			assert said["can_write"] and "comments" in said["loses"] and "charts" in said["loses"], said["loses"]
+			api.save_sheet("Rates check.xlsx", sheets, opened)
+			assert "held" in api.write_back(opened), "saving over waits for a choice"
+			assert frappe.db.get_value("File", rich.name, "file_url") == rich.file_url
+			copy = api.write_back(opened, base64.b64encode(book(65, rich=False)).decode(), "copy")
+			assert copy["file"] != rich.name and frappe.db.get_value("File", rich.name, "file_url") == rich.file_url, "a copy leaves the file alone"
+			plain = frappe.get_doc({"doctype": "File", "file_name": "Plain check.xlsx", "content": book(60, rich=False), "is_private": 1, "folder": ns.HOME})
+			plain.insert()
+			edited = api.open_file(plain.name)["workbook"]
+			assert not api.get_sheet(edited)["loses"]
+			for rate in (61, 62, 63):
+				api.write_back(edited, base64.b64encode(book(rate, rich=False)).decode())
+			assert len(history.versions(plain.name)) == 1, "three saves in one sitting are one version"
+			assert history.versions(plain.name)[0]["url"] == plain.file_url, "and the one kept is the file from before the sitting"
+			macros = frappe.get_doc({"doctype": "File", "file_name": "Macros check.xlsm", "content": book(60, rich=False), "is_private": 1, "folder": ns.HOME})
+			macros.insert()
+			locked = api.open_file(macros.name)["workbook"]
+			said = api.get_sheet(locked)
+			assert not said["can_write"] and "macros" in said["notice"], said["notice"]
+			try:
+				api.save_sheet("Macros check.xlsm", sheets, locked)
+				raise AssertionError("a workbook with macros was saved in OneWorkbook")
+			except frappe.PermissionError:
+				frappe.clear_last_message()
+			own = api.make("@my", "Own rates check")["workbook"]
+			api.save_sheet("Own rates check", sheets, own)
+			excel.write(own, book(70))
+			assert frappe.db.exists("Workbook Version", {"workbook": own, "label": "Before an Excel save"}), "kept as it was first"
+			assert "comments" in (api.get_sheet(own)["dropped"] or ""), "and what Excel had that was left out is noted"
+			api.dismiss_dropped(own)
+			assert not api.get_sheet(own)["dropped"]
+	finally:
+		frappe.db.rollback(save_point="sheet_lose_check")
+
+
+@check
 def a_sheet_prints_under_the_letter_head():
 	"""A sheet prints as a PDF under the workspace's letter head, or another
 	one chosen, or none, drawn as it is on screen and never from HTML the

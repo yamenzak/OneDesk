@@ -5,7 +5,9 @@
  * once a connection (frappe/realtime/index.js), so this needs no second
  * service. A message goes browser → node → browsers and never touches Python;
  * Python is asked once a room a socket, `admit`: who this is, and whether they
- * may write. After OneApp's realtime/handlers.js. onedesk/one_sheet/AGENTS.md.
+ * may write; then told every minute the socket is still in its rooms, and when
+ * it leaves one, so the File's lease knows who is in it. After OneApp's
+ * realtime/handlers.js. onedesk/one_sheet/AGENTS.md.
  */
 
 // What a client may ask to join; what each means is one_sheet/live.py's.
@@ -17,6 +19,7 @@ const KINDS = new Set(["workbook", "document"]);
 const READERS_MAY = new Set(["yjs_state_request", "yjs_awareness", "yjs_awareness_bye", "yjs_comments"]);
 
 const MAX_BYTES = 2 * 1024 * 1024;
+const HERE_EVERY_MS = 60 * 1000;
 
 // What a phone remote and the presenter view it drives may say to each other.
 const REMOTE_SAYS = new Set(["hello", "go", "point", "state"]);
@@ -43,14 +46,15 @@ function onedesk_handlers(socket) {
 		const reply = typeof ack === "function" ? ack : () => {};
 		if (!KINDS.has(kind) || !name) return reply({ ok: false });
 		try {
-			const res = await socket.frappe_request("/api/method/onedesk.one_sheet.live.admit", { kind, name });
+			const res = await socket.frappe_request("/api/method/onedesk.one_sheet.live.admit", { kind, name, sid: socket.id });
 			const { message } = await res.json();
 			if (!message || !message.ok) return reply({ ok: false });
 			// The room the server named, never the one the client asked for.
 			const room = roomName(kind, message.name);
 			socket.onedesk_who = message.who;
-			joined.set(room, { write: !!message.write });
+			joined.set(room, { write: !!message.write, kind, name: message.name });
 			socket.join(room);
+			stillHere();
 			reply({ ok: true, room, write: !!message.write, who: message.who });
 		} catch (err) {
 			console.warn("onedesk_join failed", err);
@@ -77,10 +81,27 @@ function onedesk_handlers(socket) {
 		socket.to(room).emit("onedesk_said", { room, event, payload });
 	});
 
+	// Who is in a file is its lease's (one_storage/lease.py): told on
+	// join, every minute while the room is open, and on leave.
+	let renewing = null;
+	function stillHere() {
+		if (renewing) return;
+		renewing = setInterval(() => {
+			if (!joined.size) return;
+			const rooms = JSON.stringify([...joined.values()].map((seat) => [seat.kind, seat.name]));
+			socket.frappe_request("/api/method/onedesk.one_sheet.live.here", { rooms, sid: socket.id }).catch(() => {});
+		}, HERE_EVERY_MS);
+	}
+	function gone(seat) {
+		socket.frappe_request("/api/method/onedesk.one_sheet.live.leave", { kind: seat.kind, name: seat.name, sid: socket.id }).catch(() => {});
+	}
+
 	socket.on("onedesk_leave", (room) => {
-		if (!joined.has(room)) return;
+		const seat = joined.get(room);
+		if (!seat) return;
 		joined.delete(room);
 		socket.leave(room);
+		gone(seat);
 	});
 
 	// A OneDisplay screen joins by its token, never by a cookie: it is
@@ -155,7 +176,12 @@ function onedesk_handlers(socket) {
 		socket.to(room).emit("onedesk_remote", { event, payload });
 	});
 
-	socket.on("disconnect", () => joined.clear());
+	socket.on("disconnect", () => {
+		for (const seat of joined.values()) gone(seat);
+		joined.clear();
+		clearInterval(renewing);
+		renewing = null;
+	});
 }
 
 module.exports = onedesk_handlers;

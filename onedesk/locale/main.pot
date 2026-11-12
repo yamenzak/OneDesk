@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 09:01+0000\n"
-"PO-Revision-Date: 2026-11-12 09:01+0000\n"
+"POT-Creation-Date: 2026-11-12 09:05+0000\n"
+"PO-Revision-Date: 2026-11-12 09:05+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -42,8 +42,8 @@ msgstr ""
 msgid "(1 row changed)"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:587
-#: frontend/src/sheet/components/SheetEditor/index.vue:1074
+#: frontend/src/sheet/components/SheetEditor/index.vue:598
+#: frontend/src/sheet/components/SheetEditor/index.vue:1085
 msgid "(Blanks)"
 msgstr ""
 
@@ -89,7 +89,7 @@ msgstr ""
 msgid ", holding passport number {0},"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:417
+#: frontend/src/sheet/components/SheetEditor/index.vue:428
 msgid ", or use the button above. Notes appear here once added."
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr ""
 msgid "2"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4876
+#: frontend/src/sheet/components/SheetEditor/index.vue:4913
 msgid "2-colour (low → high)"
 msgstr ""
 
@@ -424,7 +424,7 @@ msgstr ""
 msgid "3"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4877
+#: frontend/src/sheet/components/SheetEditor/index.vue:4914
 msgid "3-colour (low, mid, high)"
 msgstr ""
 
@@ -792,7 +792,7 @@ msgstr ""
 msgid "A document is opened in Documents."
 msgstr ""
 
-#: onedesk/one_doc/word.py:240
+#: onedesk/one_doc/word.py:255
 msgid "A document with a record's fields in it can only be edited in OneWriter."
 msgstr ""
 
@@ -950,7 +950,7 @@ msgstr ""
 msgid "A file that belongs to a record as well as to where it is kept."
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:619
+#: onedesk/public/js/onecloud_dialogs.js:622
 msgid "A file with this name is already here"
 msgstr ""
 
@@ -1386,10 +1386,6 @@ msgstr ""
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr ""
 
-#: onedesk/one_slide/drive.py:63
-msgid "A presentation with words from records can only be edited in OneSlide."
-msgstr ""
-
 #. Description of a DocType
 #: onedesk/one_slide/doctype/presentation/presentation.json:21
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
@@ -1493,7 +1489,7 @@ msgstr ""
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr ""
 
-#: onedesk/one_sheet/excel.py:330
+#: onedesk/one_sheet/excel.py:335
 msgid "A record's workbook can only be edited in OneWorkbook."
 msgstr ""
 
@@ -2542,7 +2538,7 @@ msgstr ""
 msgid "Active Sessions"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:300
+#: frontend/src/sheet/components/SheetEditor/index.vue:311
 #, python-brace-format
 msgid "Active cell {0}"
 msgstr ""
@@ -2610,8 +2606,8 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
-#: frontend/src/sheet/components/SheetEditor/index.vue:621
-#: frontend/src/sheet/components/SheetEditor/index.vue:624
+#: frontend/src/sheet/components/SheetEditor/index.vue:632
+#: frontend/src/sheet/components/SheetEditor/index.vue:635
 #: frontend/src/slide/shim/DataDialog.vue:139
 #: frontend/src/slide/shim/FontsDialog.vue:22
 #: frontend/src/task/TaskWaits.vue:18 onedesk/one/ai.py:1852
@@ -2761,7 +2757,7 @@ msgstr ""
 msgid "Add Series"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1950
+#: frontend/src/sheet/components/SheetEditor/index.vue:1962
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:3
 msgid "Add Sheets From a Template"
 msgstr ""
@@ -2867,7 +2863,7 @@ msgstr ""
 msgid "Add a card first."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1109
+#: frontend/src/sheet/components/SheetEditor/index.vue:1120
 msgid "Add a comment…"
 msgstr ""
 
@@ -3000,7 +2996,7 @@ msgstr ""
 msgid "Add from a List"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:939
+#: frontend/src/sheet/components/SheetEditor/index.vue:950
 msgid "Add item"
 msgstr ""
 
@@ -3016,7 +3012,7 @@ msgstr ""
 msgid "Add named range"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:412
+#: frontend/src/sheet/components/SheetEditor/index.vue:423
 #, python-brace-format
 msgid "Add note to {0}"
 msgstr ""
@@ -3043,7 +3039,7 @@ msgstr ""
 msgid "Add several at once"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:637
+#: frontend/src/sheet/components/SheetEditor/index.vue:648
 msgid "Add sheet"
 msgstr ""
 
@@ -3091,7 +3087,7 @@ msgstr ""
 msgid "Add to the Slide"
 msgstr ""
 
-#: onedesk/one_ai/reading/panel.py:209 onedesk/one_doc/ai.py:217
+#: onedesk/one_ai/reading/panel.py:209 onedesk/one_doc/ai.py:218
 #, python-brace-format
 msgid "Add to {0}"
 msgstr ""
@@ -3782,7 +3778,7 @@ msgstr ""
 msgid "Align top"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:214
+#: frontend/src/sheet/components/SheetEditor/index.vue:225
 msgid "Alignment"
 msgstr ""
 
@@ -4034,7 +4030,7 @@ msgstr ""
 msgid "Allow notifications for this site in your browser settings."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:985
+#: frontend/src/sheet/components/SheetEditor/index.vue:996
 msgid "Allow, but show a warning"
 msgstr ""
 
@@ -4868,11 +4864,11 @@ msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:31
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:42
-#: frontend/src/sheet/components/SheetEditor/index.vue:612
-#: frontend/src/sheet/components/SheetEditor/index.vue:893
-#: frontend/src/sheet/components/SheetEditor/index.vue:992
-#: frontend/src/sheet/components/SheetEditor/index.vue:1041
-#: frontend/src/sheet/components/SheetEditor/index.vue:1239
+#: frontend/src/sheet/components/SheetEditor/index.vue:623
+#: frontend/src/sheet/components/SheetEditor/index.vue:904
+#: frontend/src/sheet/components/SheetEditor/index.vue:1003
+#: frontend/src/sheet/components/SheetEditor/index.vue:1052
+#: frontend/src/sheet/components/SheetEditor/index.vue:1250
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:6
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:7
 msgid "Apply"
@@ -4895,10 +4891,10 @@ msgstr ""
 msgid "Apply to all slides"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1185
-#: frontend/src/sheet/components/SheetEditor/index.vue:1212
-#: frontend/src/sheet/components/SheetEditor/index.vue:1226
-#: frontend/src/sheet/components/SheetEditor/index.vue:1232
+#: frontend/src/sheet/components/SheetEditor/index.vue:1196
+#: frontend/src/sheet/components/SheetEditor/index.vue:1223
+#: frontend/src/sheet/components/SheetEditor/index.vue:1237
+#: frontend/src/sheet/components/SheetEditor/index.vue:1243
 #, python-brace-format
 msgid "Apply to range: {0}"
 msgstr ""
@@ -5354,7 +5350,7 @@ msgstr ""
 msgid "Arrow"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4881
+#: frontend/src/sheet/components/SheetEditor/index.vue:4918
 msgid "Arrows (red/grey/green)"
 msgstr ""
 
@@ -6247,7 +6243,7 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1855
+#: frontend/src/sheet/components/SheetEditor/index.vue:1867
 msgid "Auto (locale)"
 msgstr ""
 
@@ -6308,11 +6304,11 @@ msgstr ""
 msgid "Auto top-up is now off. Update the card and turn it on again in Plan and Credits."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:785
+#: frontend/src/sheet/components/SheetEditor/index.vue:796
 msgid "Auto-fit height"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:770
+#: frontend/src/sheet/components/SheetEditor/index.vue:781
 msgid "Auto-fit width"
 msgstr ""
 
@@ -6327,7 +6323,7 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1169
+#: frontend/src/sheet/components/SheetEditor/index.vue:1180
 msgctxt "A colour chosen for you"
 msgid "Automatic"
 msgstr ""
@@ -6337,7 +6333,7 @@ msgctxt "Versions taken while writing"
 msgid "Automatic"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:921
+#: frontend/src/sheet/components/SheetEditor/index.vue:932
 msgid "Automatic colour"
 msgstr ""
 
@@ -6434,7 +6430,7 @@ msgstr ""
 msgid "Average wait today: about 15 minutes"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:707
+#: frontend/src/sheet/components/SheetEditor/index.vue:718
 #, python-brace-format
 msgid "Avg: {0}"
 msgstr ""
@@ -6858,8 +6854,8 @@ msgstr ""
 msgid "Bar"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1218
-#: frontend/src/sheet/components/SheetEditor/index.vue:1219
+#: frontend/src/sheet/components/SheetEditor/index.vue:1229
+#: frontend/src/sheet/components/SheetEditor/index.vue:1230
 msgid "Bar colour"
 msgstr ""
 
@@ -7018,7 +7014,7 @@ msgstr ""
 msgid "Before You Continue"
 msgstr ""
 
-#: onedesk/one_doc/word.py:243
+#: onedesk/one_doc/word.py:259
 msgid "Before a Word save"
 msgstr ""
 
@@ -7030,10 +7026,6 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.js:17
 #, python-brace-format
 msgid "Before a new {0} is saved for the first time"
-msgstr ""
-
-#: onedesk/one_slide/drive.py:73
-msgid "Before a save from the drive"
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:27
@@ -7054,6 +7046,10 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.js:22
 #, python-brace-format
 msgid "Before a {0} is submitted"
+msgstr ""
+
+#: onedesk/one_sheet/excel.py:339
+msgid "Before an Excel save"
 msgstr ""
 
 #: onedesk/one_slide/resize.py:93
@@ -7219,8 +7215,8 @@ msgstr ""
 msgid "Beta with real users"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:947
-#: frontend/src/sheet/components/SheetEditor/index.vue:4861
+#: frontend/src/sheet/components/SheetEditor/index.vue:958
+#: frontend/src/sheet/components/SheetEditor/index.vue:4898
 msgid "Between"
 msgstr ""
 
@@ -7641,7 +7637,7 @@ msgstr ""
 msgid "Bold"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:202
+#: frontend/src/sheet/components/SheetEditor/index.vue:213
 msgid "Bold (Ctrl+B)"
 msgstr ""
 
@@ -7704,7 +7700,7 @@ msgstr ""
 msgid "Border"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:266
+#: frontend/src/sheet/components/SheetEditor/index.vue:277
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:76
 msgid "Borders"
 msgstr ""
@@ -7778,8 +7774,8 @@ msgstr ""
 
 #. Label of the bound_doctype (Link) field in DocType 'Writer Document'
 #. Label of the bound_doctype (Link) field in DocType 'Workbook'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:73
-#: onedesk/one_sheet/doctype/workbook/workbook.json:61
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:76
+#: onedesk/one_sheet/doctype/workbook/workbook.json:64
 msgid "Bound To"
 msgstr ""
 
@@ -7957,7 +7953,7 @@ msgstr ""
 msgid "Building permit"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:368
+#: frontend/src/sheet/components/SheetEditor/index.vue:379
 msgid "Building pivot…"
 msgstr ""
 
@@ -8480,13 +8476,13 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:33
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:145
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:41
-#: frontend/src/sheet/components/SheetEditor/index.vue:749
-#: frontend/src/sheet/components/SheetEditor/index.vue:895
-#: frontend/src/sheet/components/SheetEditor/index.vue:994
-#: frontend/src/sheet/components/SheetEditor/index.vue:1014
-#: frontend/src/sheet/components/SheetEditor/index.vue:1042
-#: frontend/src/sheet/components/SheetEditor/index.vue:1241
-#: frontend/src/slide/stores/presentation.js:492
+#: frontend/src/sheet/components/SheetEditor/index.vue:760
+#: frontend/src/sheet/components/SheetEditor/index.vue:906
+#: frontend/src/sheet/components/SheetEditor/index.vue:1005
+#: frontend/src/sheet/components/SheetEditor/index.vue:1025
+#: frontend/src/sheet/components/SheetEditor/index.vue:1053
+#: frontend/src/sheet/components/SheetEditor/index.vue:1252
+#: frontend/src/slide/stores/presentation.js:491
 #: frontend/src/task/TaskWaits.vue:14
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
 #: onedesk/public/js/doctype_settings.js:253
@@ -8730,7 +8726,7 @@ msgstr ""
 
 #. Label of the cell_refs (Long Text) field in DocType 'Workbook Change'
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:69
-#: onedesk/one_sheet/ai.py:201
+#: onedesk/one_sheet/ai.py:202
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:52
 msgid "Cells"
 msgstr ""
@@ -9264,7 +9260,7 @@ msgstr ""
 msgid "Check-ins scoring between this and Refuse Below Score are written, and marked Flagged for review."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:907
+#: frontend/src/sheet/components/SheetEditor/index.vue:918
 msgid "Checkbox"
 msgstr ""
 
@@ -9621,7 +9617,7 @@ msgstr ""
 msgid "Chosen transactions posted to the books again."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4883
+#: frontend/src/sheet/components/SheetEditor/index.vue:4920
 msgid "Circles (empty → full)"
 msgstr ""
 
@@ -9692,10 +9688,10 @@ msgstr ""
 msgid "Cleaning"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:562
-#: frontend/src/sheet/components/SheetEditor/index.vue:613
-#: frontend/src/sheet/components/SheetEditor/index.vue:1068
-#: frontend/src/sheet/components/SheetEditor/index.vue:1135
+#: frontend/src/sheet/components/SheetEditor/index.vue:573
+#: frontend/src/sheet/components/SheetEditor/index.vue:624
+#: frontend/src/sheet/components/SheetEditor/index.vue:1079
+#: frontend/src/sheet/components/SheetEditor/index.vue:1146
 #: onedesk/one/weather.py:31
 msgid "Clear"
 msgstr ""
@@ -9714,7 +9710,7 @@ msgstr ""
 msgid "Clear for a plan paid once. A pack is always once and an add-on always monthly."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:251
+#: frontend/src/sheet/components/SheetEditor/index.vue:262
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:63
 #: frontend/src/writer/components/core-editor/menu-buttons.js:125
 msgid "Clear formatting"
@@ -9725,7 +9721,7 @@ msgstr ""
 msgid "Clear selection"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:562
+#: frontend/src/sheet/components/SheetEditor/index.vue:573
 msgid "Clear shown"
 msgstr ""
 
@@ -9749,7 +9745,7 @@ msgstr ""
 msgid "Click and Collect"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:887
+#: frontend/src/sheet/components/SheetEditor/index.vue:898
 msgid "Click here"
 msgstr ""
 
@@ -9781,7 +9777,7 @@ msgstr ""
 msgid "Clinics and Care"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2484
+#: frontend/src/sheet/components/SheetEditor/index.vue:2521
 msgid "Clip"
 msgstr ""
 
@@ -9874,7 +9870,7 @@ msgstr ""
 
 #: frontend/src/cloud/CloudUploads.vue:5 frontend/src/cloud/CloudViewer.vue:30
 #: frontend/src/kit/Drawer.vue:9
-#: frontend/src/sheet/components/SheetEditor/index.vue:614
+#: frontend/src/sheet/components/SheetEditor/index.vue:625
 #: onedesk/public/js/module_docs.js:492
 #: onedesk/public/js/one_ai/panel/Panel.vue:38
 #: onedesk/public/js/one_interface/dialogs.js:42
@@ -10313,8 +10309,8 @@ msgstr ""
 msgid "Colour"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4870
-#: frontend/src/sheet/components/SheetEditor/index.vue:5010
+#: frontend/src/sheet/components/SheetEditor/index.vue:4907
+#: frontend/src/sheet/components/SheetEditor/index.vue:5047
 msgid "Colour scale"
 msgstr ""
 
@@ -10332,7 +10328,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:329
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:405
-#: frontend/src/sheet/components/SheetEditor/index.vue:526
+#: frontend/src/sheet/components/SheetEditor/index.vue:537
 #, python-brace-format
 msgid "Column {0}"
 msgstr ""
@@ -10347,7 +10343,7 @@ msgstr ""
 #: frontend/src/slide/components/TableSection.vue:15
 #: frontend/src/slide/shim/DataDialog.vue:160
 #: onedesk/one_display/widgets.py:131
-#: onedesk/one_sheet/doctype/workbook/workbook.json:88
+#: onedesk/one_sheet/doctype/workbook/workbook.json:91
 #: onedesk/one_studio/ai_setup.py:227 onedesk/one_studio/letter_heads.py:16
 #: onedesk/public/js/one_interface/list.js:582
 msgid "Columns"
@@ -10434,8 +10430,8 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/kit/ActivityComposer.vue:10
-#: frontend/src/sheet/components/SheetEditor/index.vue:1084
-#: frontend/src/sheet/components/SheetEditor/index.vue:1113
+#: frontend/src/sheet/components/SheetEditor/index.vue:1095
+#: frontend/src/sheet/components/SheetEditor/index.vue:1124
 #: frontend/src/writer/components/CoreEditor.vue:297
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
@@ -10456,7 +10452,7 @@ msgstr ""
 msgid "Comment on Your Task"
 msgstr ""
 
-#: onedesk/one_sheet/ai.py:277
+#: onedesk/one_sheet/ai.py:278
 #, python-brace-format
 msgid "Comment on {0} in {1}"
 msgstr ""
@@ -10470,7 +10466,7 @@ msgstr ""
 #. Label in the One Training Result print format
 #. Label in the One Travel Request print format
 #: frontend/src/writer/components/CoreEditor.vue:180
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:61
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:64
 #: onedesk/one_hr/print_format/one_training_result/one_training_result.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 msgid "Comments"
@@ -10548,7 +10544,7 @@ msgstr ""
 #: onedesk/one_project/doctype/project_contact/project_contact.json:39
 #: onedesk/one_quality/custom/non_conformance.json:6
 #: onedesk/one_quality/custom/quality_action.json:17
-#: onedesk/one_storage/history.py:199 onedesk/one_storage/namespace.py:394
+#: onedesk/one_storage/history.py:247 onedesk/one_storage/namespace.py:394
 #: onedesk/one_storage/namespace.py:535 onedesk/one_storage/namespace.py:636
 #: onedesk/one_storage/namespace.py:892 onedesk/one_studio/letter_heads.py:586
 #: onedesk/public/js/one/one_control.js:20
@@ -10720,9 +10716,9 @@ msgstr ""
 msgid "Concept presented to the client"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:549
-#: frontend/src/sheet/components/SheetEditor/index.vue:945
-#: frontend/src/sheet/components/SheetEditor/index.vue:1162
+#: frontend/src/sheet/components/SheetEditor/index.vue:560
+#: frontend/src/sheet/components/SheetEditor/index.vue:956
+#: frontend/src/sheet/components/SheetEditor/index.vue:1173
 #: onedesk/public/js/one_mail/rule_builder.js:190
 msgid "Condition"
 msgstr ""
@@ -10732,13 +10728,13 @@ msgstr ""
 msgid "Condition, written by OneAI, that completes this step automatically. Leave empty to complete it by hand."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:261
-#: frontend/src/sheet/components/SheetEditor/index.vue:1140
+#: frontend/src/sheet/components/SheetEditor/index.vue:272
+#: frontend/src/sheet/components/SheetEditor/index.vue:1151
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:70
 msgid "Conditional formatting"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:813
+#: frontend/src/sheet/components/SheetEditor/index.vue:824
 msgid "Conditional format…"
 msgstr ""
 
@@ -11156,8 +11152,8 @@ msgid "Container"
 msgstr ""
 
 #. Label in the One Product Bundle print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:1925
-#: frontend/src/sheet/components/SheetEditor/index.vue:4862
+#: frontend/src/sheet/components/SheetEditor/index.vue:1937
+#: frontend/src/sheet/components/SheetEditor/index.vue:4899
 #: onedesk/one_inventory/print_format/one_product_bundle/one_product_bundle.json
 msgid "Contains"
 msgstr ""
@@ -11173,7 +11169,7 @@ msgstr ""
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:19
 #: onedesk/one_display/doctype/display_channel/display_channel.json:70
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:92
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:44
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:47
 #: onedesk/one_project/library/website.json
 msgid "Content"
 msgstr ""
@@ -11667,7 +11663,7 @@ msgstr ""
 msgid "Could not open a master: this presentation is already one."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:84
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:86
 msgid "Could not open this sheet"
 msgstr ""
 
@@ -11701,7 +11697,7 @@ msgstr ""
 msgid "Could not read range."
 msgstr ""
 
-#: onedesk/one_slide/from_powerpoint.py:319 onedesk/one_storage/pdf.py:102
+#: onedesk/one_slide/from_powerpoint.py:315 onedesk/one_storage/pdf.py:102
 #, python-brace-format
 msgid "Could not read {0}."
 msgstr ""
@@ -11720,7 +11716,7 @@ msgstr ""
 msgid "Could not save the template."
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:379
+#: frontend/src/writer/DocumentPage.vue:407
 #, python-brace-format
 msgid "Could not write {0} back: {1}"
 msgstr ""
@@ -11797,7 +11793,7 @@ msgstr ""
 msgid "Couldn't verify the server's certificate."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1508
+#: frontend/src/sheet/components/SheetEditor/index.vue:1520
 msgid "Couldn’t detect a pattern from your examples."
 msgstr ""
 
@@ -11805,20 +11801,20 @@ msgstr ""
 msgid "Couldn’t open this sheet"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:187
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:189
 msgid "Couldn’t prepare save payload."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:231
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:233
 msgid "Couldn’t save — check your connection, then click retry."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:230
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:232
 #, python-brace-format
 msgid "Couldn’t save: {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2061
+#: frontend/src/sheet/components/SheetEditor/index.vue:2094
 #, python-brace-format
 msgid "Couldn’t write {0} back: {1}"
 msgstr ""
@@ -11866,7 +11862,7 @@ msgstr ""
 msgid "Count of {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:705
+#: frontend/src/sheet/components/SheetEditor/index.vue:716
 #, python-brace-format
 msgid "Count: {0}"
 msgstr ""
@@ -12058,7 +12054,7 @@ msgstr ""
 msgid "Create Document"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:151
+#: onedesk/one_doc/ai.py:152
 #, python-brace-format
 msgid "Create Document {0}"
 msgstr ""
@@ -12104,7 +12100,7 @@ msgstr ""
 msgid "Create Version"
 msgstr ""
 
-#: onedesk/one_sheet/ai.py:195
+#: onedesk/one_sheet/ai.py:196
 #, python-brace-format
 msgid "Create Workbook {0}"
 msgstr ""
@@ -12156,7 +12152,7 @@ msgstr ""
 msgid "Create pivot table"
 msgstr ""
 
-#: onedesk/one_sheet/api.py:154
+#: onedesk/one_sheet/api.py:167
 msgid "Create the workbook in OneCloud first."
 msgstr ""
 
@@ -12444,8 +12440,8 @@ msgstr ""
 #. Label in the One Exchange Rate Revaluation print format
 #. Label in the One Income Tax Slab print format
 #. Label in the One Salary Structure print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:177
-#: frontend/src/sheet/components/SheetEditor/index.vue:1847
+#: frontend/src/sheet/components/SheetEditor/index.vue:188
+#: frontend/src/sheet/components/SheetEditor/index.vue:1859
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:188
 #: onedesk/one_admin/doctype/offering/offering.json:85
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:104
@@ -12475,7 +12471,7 @@ msgstr ""
 msgid "Currency Symbol"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2400
+#: frontend/src/sheet/components/SheetEditor/index.vue:2437
 #, python-brace-format
 msgid "Currency · {0}"
 msgstr ""
@@ -12529,8 +12525,8 @@ msgstr ""
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:28
-#: frontend/src/sheet/components/SheetEditor/index.vue:2404
-#: frontend/src/sheet/components/SheetEditor/index.vue:2416
+#: frontend/src/sheet/components/SheetEditor/index.vue:2441
+#: frontend/src/sheet/components/SheetEditor/index.vue:2453
 #: frontend/src/slide/shim/EditorNavbar.vue:221
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/display_widget/display_widget.json:28
@@ -12585,11 +12581,11 @@ msgstr ""
 msgid "Custom colour"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2417
+#: frontend/src/sheet/components/SheetEditor/index.vue:2454
 msgid "Custom format…"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1020
+#: frontend/src/sheet/components/SheetEditor/index.vue:1031
 msgid "Custom number format"
 msgstr ""
 
@@ -12890,8 +12886,8 @@ msgstr ""
 msgid "Data Processing Addendum"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4871
-#: frontend/src/sheet/components/SheetEditor/index.vue:5011
+#: frontend/src/sheet/components/SheetEditor/index.vue:4908
+#: frontend/src/sheet/components/SheetEditor/index.vue:5048
 msgid "Data bars"
 msgstr ""
 
@@ -12910,11 +12906,11 @@ msgstr ""
 msgid "Data is read with this user's permissions."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:901
+#: frontend/src/sheet/components/SheetEditor/index.vue:912
 msgid "Data validation"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:812
+#: frontend/src/sheet/components/SheetEditor/index.vue:823
 msgid "Data validation…"
 msgstr ""
 
@@ -13055,8 +13051,8 @@ msgstr ""
 #: frontend/src/mail/MailList.vue:22 frontend/src/project/Invoices.vue:25
 #: frontend/src/project/Suppliers.vue:80 frontend/src/project/Suppliers.vue:133
 #: frontend/src/project/Time.vue:25
-#: frontend/src/sheet/components/SheetEditor/index.vue:1854
-#: frontend/src/sheet/components/SheetEditor/index.vue:2401
+#: frontend/src/sheet/components/SheetEditor/index.vue:1866
+#: frontend/src/sheet/components/SheetEditor/index.vue:2438
 #: onedesk/one_ai/doctype/reading_date/reading_date.json:20
 #: onedesk/one_ai/reading/bundle.py:74
 #: onedesk/one_ai/report/deadlines/deadlines.py:35
@@ -13176,8 +13172,8 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1868
-#: frontend/src/sheet/components/SheetEditor/index.vue:2403
+#: frontend/src/sheet/components/SheetEditor/index.vue:1880
+#: frontend/src/sheet/components/SheetEditor/index.vue:2440
 msgid "Date + Time"
 msgstr ""
 
@@ -13203,7 +13199,7 @@ msgstr ""
 msgid "Date of Birth"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2401
+#: frontend/src/sheet/components/SheetEditor/index.vue:2438
 #, python-brace-format
 msgid "Date · {0}"
 msgstr ""
@@ -13465,11 +13461,11 @@ msgstr ""
 msgid "Decided On"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1843
+#: frontend/src/sheet/components/SheetEditor/index.vue:1855
 msgid "Decimal"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1844
+#: frontend/src/sheet/components/SheetEditor/index.vue:1856
 #, python-brace-format
 msgid "Decimal — Indian ({0})"
 msgstr ""
@@ -13532,7 +13528,7 @@ msgstr ""
 msgid "Declined on the portal."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:183
+#: frontend/src/sheet/components/SheetEditor/index.vue:194
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:66
 msgid "Decrease decimal places"
 msgstr ""
@@ -13656,7 +13652,7 @@ msgstr ""
 msgid "Default for {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:217
+#: frontend/src/sheet/components/SheetEditor/index.vue:228
 msgid "Default text color"
 msgstr ""
 
@@ -13712,12 +13708,12 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:779 frontend/src/mail/OneMail.vue:186
 #: frontend/src/mail/OneMail.vue:223 frontend/src/mail/OneMail.vue:333
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
-#: frontend/src/sheet/components/SheetEditor/index.vue:734
-#: frontend/src/sheet/components/SheetEditor/index.vue:1102
-#: frontend/src/sheet/components/SheetEditor/index.vue:1240
+#: frontend/src/sheet/components/SheetEditor/index.vue:745
+#: frontend/src/sheet/components/SheetEditor/index.vue:1113
+#: frontend/src/sheet/components/SheetEditor/index.vue:1251
 #: frontend/src/slide/components/ElementContextMenu.vue:188
 #: frontend/src/slide/components/PresentationPreview.vue:141
-#: frontend/src/slide/stores/presentation.js:494
+#: frontend/src/slide/stores/presentation.js:493
 #: frontend/src/slide/utils/slideMenu.js:23 frontend/src/template/Tasks.vue:160
 #: frontend/src/writer/components/FloatingComments.vue:54
 #: frontend/src/writer/components/FloatingComments.vue:106
@@ -13781,7 +13777,7 @@ msgstr ""
 msgid "Delete Session"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1115
+#: frontend/src/sheet/components/SheetEditor/index.vue:1126
 msgid "Delete all"
 msgstr ""
 
@@ -13793,8 +13789,8 @@ msgstr ""
 msgid "Delete chart"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:765
-#: frontend/src/sheet/components/SheetEditor/index.vue:805
+#: frontend/src/sheet/components/SheetEditor/index.vue:776
+#: frontend/src/sheet/components/SheetEditor/index.vue:816
 #: frontend/src/slide/utils/tableMenu.js:62
 msgid "Delete column"
 msgstr ""
@@ -13822,12 +13818,12 @@ msgstr ""
 msgid "Delete pivot"
 msgstr ""
 
-#: frontend/src/slide/stores/presentation.js:489
+#: frontend/src/slide/stores/presentation.js:488
 msgid "Delete presentation"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:783
-#: frontend/src/sheet/components/SheetEditor/index.vue:801
+#: frontend/src/sheet/components/SheetEditor/index.vue:794
+#: frontend/src/sheet/components/SheetEditor/index.vue:812
 #: frontend/src/slide/utils/tableMenu.js:56
 msgid "Delete row"
 msgstr ""
@@ -13836,7 +13832,7 @@ msgstr ""
 msgid "Delete rows / columns"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1154
+#: frontend/src/sheet/components/SheetEditor/index.vue:1165
 msgid "Delete rule"
 msgstr ""
 
@@ -14411,7 +14407,7 @@ msgstr ""
 msgid "Describe It"
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_doc/api.py:291
+#: onedesk/one_display/make.py:80 onedesk/one_doc/api.py:304
 #: onedesk/one_storage/made.py:72
 msgid "Describe what OneAI should make."
 msgstr ""
@@ -14731,7 +14727,7 @@ msgstr ""
 msgid "Detect fields"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1509
+#: frontend/src/sheet/components/SheetEditor/index.vue:1521
 msgid "Detected a pattern but couldn’t apply it to any rows."
 msgstr ""
 
@@ -14986,6 +14982,8 @@ msgid "Disk Used"
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:32
+#: frontend/src/sheet/components/SheetEditor/index.vue:170
+#: frontend/src/writer/DocumentPage.vue:34
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:8
 msgid "Dismiss"
 msgstr ""
@@ -15088,11 +15086,11 @@ msgstr ""
 msgid "Display Widget"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:887
+#: frontend/src/sheet/components/SheetEditor/index.vue:898
 msgid "Display text"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:563
+#: frontend/src/sheet/components/SheetEditor/index.vue:574
 #, python-brace-format
 msgid "Displaying {0}"
 msgstr ""
@@ -15265,7 +15263,7 @@ msgstr ""
 msgid "Documents for the Tax Year"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4863
+#: frontend/src/sheet/components/SheetEditor/index.vue:4900
 msgid "Does not contain"
 msgstr ""
 
@@ -15475,11 +15473,11 @@ msgstr ""
 msgid "Download as Excel"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:274
+#: frontend/src/writer/DocumentPage.vue:286
 msgid "Download as HTML"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:275
+#: frontend/src/writer/DocumentPage.vue:287
 msgid "Download as Markdown"
 msgstr ""
 
@@ -15944,7 +15942,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:715
+#: frontend/src/sheet/components/SheetEditor/index.vue:726
 msgctxt "Copy a sheet"
 msgid "Duplicate"
 msgstr ""
@@ -16416,7 +16414,7 @@ msgstr ""
 msgid "Edit {0}"
 msgstr ""
 
-#: onedesk/one_sheet/ai.py:241
+#: onedesk/one_sheet/ai.py:242
 #, python-brace-format
 msgid "Edit {0}, {1}"
 msgstr ""
@@ -17357,7 +17355,7 @@ msgstr ""
 msgid "Enter the workspace and mail domains for {0}."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:316
+#: frontend/src/sheet/components/SheetEditor/index.vue:327
 msgid "Enter value or formula"
 msgstr ""
 
@@ -17385,12 +17383,12 @@ msgstr ""
 msgid "Environment"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:953
-#: frontend/src/sheet/components/SheetEditor/index.vue:4859
+#: frontend/src/sheet/components/SheetEditor/index.vue:964
+#: frontend/src/sheet/components/SheetEditor/index.vue:4896
 msgid "Equal to"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1926
+#: frontend/src/sheet/components/SheetEditor/index.vue:1938
 msgid "Equals"
 msgstr ""
 
@@ -17439,7 +17437,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:976
+#: frontend/src/sheet/components/SheetEditor/index.vue:987
 msgid "Error message (optional)"
 msgstr ""
 
@@ -18516,14 +18514,14 @@ msgstr ""
 msgid "Explanation"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1938
-#: frontend/src/writer/DocumentPage.vue:272
+#: frontend/src/sheet/components/SheetEditor/index.vue:1950
+#: frontend/src/writer/DocumentPage.vue:284
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 #: onedesk/public/js/doctype_settings.js:253
 msgid "Export"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1939
+#: frontend/src/sheet/components/SheetEditor/index.vue:1951
 msgid "Export as CSV"
 msgstr ""
 
@@ -18539,7 +18537,7 @@ msgstr ""
 msgid "Export as PowerPoint"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1940
+#: frontend/src/sheet/components/SheetEditor/index.vue:1952
 msgid "Export as XLSX"
 msgstr ""
 
@@ -18735,7 +18733,7 @@ msgstr ""
 msgid "Failed at step {number} of {steps}, {step}.<br>{error}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5047
+#: frontend/src/sheet/components/SheetEditor/index.vue:5084
 msgid "Failed to load cell history"
 msgstr ""
 
@@ -18931,7 +18929,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head_band/record_head_band.json:34
 #: onedesk/one/doctype/record_head_band/record_head_band.json:40
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:43
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:88
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:91
 #: onedesk/one_studio/automations.py:120
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:21
 #: onedesk/public/js/doctype_settings.js:764
@@ -19011,8 +19009,8 @@ msgstr ""
 #: onedesk/one_ai/doctype/file_link/file_link.json:20
 #: onedesk/one_ai/reading/bundle.py:74
 #: onedesk/one_display/doctype/display_track/display_track.json:16
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:36
-#: onedesk/one_sheet/doctype/workbook/workbook.json:36
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:39
+#: onedesk/one_sheet/doctype/workbook/workbook.json:39
 #: onedesk/one_slide/doctype/presentation/presentation.json:48
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:20
 #: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json:24
@@ -19221,10 +19219,10 @@ msgstr ""
 msgid "Fill What a Record Still Needs"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:229
-#: frontend/src/sheet/components/SheetEditor/index.vue:231
-#: frontend/src/sheet/components/SheetEditor/index.vue:1177
-#: frontend/src/sheet/components/SheetEditor/index.vue:1179
+#: frontend/src/sheet/components/SheetEditor/index.vue:240
+#: frontend/src/sheet/components/SheetEditor/index.vue:242
+#: frontend/src/sheet/components/SheetEditor/index.vue:1188
+#: frontend/src/sheet/components/SheetEditor/index.vue:1190
 msgid "Fill colour"
 msgstr ""
 
@@ -19232,7 +19230,7 @@ msgstr ""
 msgid "Fill down"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1505
+#: frontend/src/sheet/components/SheetEditor/index.vue:1517
 #, python-brace-format
 msgid "Fill in 1–2 example cells first, then select the range and press {0}."
 msgstr ""
@@ -19284,7 +19282,7 @@ msgstr ""
 msgid "Filter Based On"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1059
+#: frontend/src/sheet/components/SheetEditor/index.vue:1070
 msgid "Filter column"
 msgstr ""
 
@@ -19292,7 +19290,7 @@ msgstr ""
 msgid "Filter columns…"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:537
+#: frontend/src/sheet/components/SheetEditor/index.vue:548
 msgid "Filter mode"
 msgstr ""
 
@@ -19818,12 +19816,12 @@ msgstr ""
 msgid "Font"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:192
+#: frontend/src/sheet/components/SheetEditor/index.vue:203
 #: frontend/src/writer/components/WriterSettings.vue:18
 msgid "Font family"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:195
+#: frontend/src/sheet/components/SheetEditor/index.vue:206
 #: frontend/src/writer/components/WriterSettings.vue:24
 msgid "Font size"
 msgstr ""
@@ -20175,11 +20173,11 @@ msgstr ""
 msgid "Format as time"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1025
+#: frontend/src/sheet/components/SheetEditor/index.vue:1036
 msgid "Format code"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:250
+#: frontend/src/sheet/components/SheetEditor/index.vue:261
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:62
 msgid "Format painter"
 msgstr ""
@@ -20188,7 +20186,7 @@ msgstr ""
 msgid "Format the Cells"
 msgstr ""
 
-#: onedesk/one_sheet/ai.py:248
+#: onedesk/one_sheet/ai.py:249
 msgid "Formatted"
 msgstr ""
 
@@ -20368,19 +20366,19 @@ msgstr ""
 msgid "Freeze Data"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:809
+#: frontend/src/sheet/components/SheetEditor/index.vue:820
 msgid "Freeze cols to here"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:807
+#: frontend/src/sheet/components/SheetEditor/index.vue:818
 msgid "Freeze rows to here"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:774
+#: frontend/src/sheet/components/SheetEditor/index.vue:785
 msgid "Freeze up to this column"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:789
+#: frontend/src/sheet/components/SheetEditor/index.vue:800
 msgid "Freeze up to this row"
 msgstr ""
 
@@ -20687,7 +20685,7 @@ msgstr ""
 msgid "From the start"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:159
+#: onedesk/one_doc/ai.py:160
 msgid "From the template"
 msgstr ""
 
@@ -20883,9 +20881,9 @@ msgstr ""
 msgid "Genders"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1838
-#: frontend/src/sheet/components/SheetEditor/index.vue:1839
-#: frontend/src/sheet/components/SheetEditor/index.vue:2397
+#: frontend/src/sheet/components/SheetEditor/index.vue:1850
+#: frontend/src/sheet/components/SheetEditor/index.vue:1851
+#: frontend/src/sheet/components/SheetEditor/index.vue:2434
 #: frontend/src/slide/composables/useShortcuts.js:220
 #: frontend/src/slide/composables/useShortcuts.js:227
 #: frontend/src/slide/composables/useShortcuts.js:233
@@ -21436,17 +21434,17 @@ msgstr ""
 msgid "Gratuity Rule"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4857
+#: frontend/src/sheet/components/SheetEditor/index.vue:4894
 msgid "Greater or equal"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:949
-#: frontend/src/sheet/components/SheetEditor/index.vue:1927
-#: frontend/src/sheet/components/SheetEditor/index.vue:4855
+#: frontend/src/sheet/components/SheetEditor/index.vue:960
+#: frontend/src/sheet/components/SheetEditor/index.vue:1939
+#: frontend/src/sheet/components/SheetEditor/index.vue:4892
 msgid "Greater than"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:950
+#: frontend/src/sheet/components/SheetEditor/index.vue:961
 msgid "Greater than or equal"
 msgstr ""
 
@@ -21628,7 +21626,7 @@ msgstr ""
 
 #. Label of the guides (Long Text) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:172
-#: onedesk/one_slide/doctype/presentation/presentation.json:91
+#: onedesk/one_slide/doctype/presentation/presentation.json:83
 msgid "Guides"
 msgstr ""
 
@@ -21683,7 +21681,7 @@ msgid "HR managers"
 msgstr ""
 
 #. Label of the html (Long Text) field in DocType 'Writer Document'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:50
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:53
 #: onedesk/one_studio/print_html.py:187 onedesk/one_studio/printing.py:200
 msgid "HTML"
 msgstr ""
@@ -21843,7 +21841,7 @@ msgid "Have your ticket ready when your number is called."
 msgstr ""
 
 #. Label of the head_seq (Int) field in DocType 'Workbook'
-#: onedesk/one_sheet/doctype/workbook/workbook.json:55
+#: onedesk/one_sheet/doctype/workbook/workbook.json:58
 msgid "Head"
 msgstr ""
 
@@ -22034,7 +22032,7 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:55
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:55
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:84
+#: onedesk/one_slide/doctype/presentation/presentation.json:76
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:61
 #: onedesk/public/js/table_workbook.js:49
 msgid "Height"
@@ -22054,6 +22052,13 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:50
 #: onedesk/one_inventory/print_format/one_stock_reservation_entry/one_stock_reservation_entry.json
 msgid "Held"
+msgstr ""
+
+#. Label of the held_back (Datetime) field in DocType 'Writer Document'
+#. Label of the held_back (Datetime) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:118
+#: onedesk/one_sheet/doctype/workbook/workbook.json:118
+msgid "Held Back Since"
 msgstr ""
 
 #. Label of the held_at (Datetime) field in DocType 'OneOS Session'
@@ -22186,11 +22191,11 @@ msgstr ""
 msgid "Hide When Empty"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:771
+#: frontend/src/sheet/components/SheetEditor/index.vue:782
 msgid "Hide column"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:786
+#: frontend/src/sheet/components/SheetEditor/index.vue:797
 msgid "Hide row"
 msgstr ""
 
@@ -23106,9 +23111,9 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1231
-#: frontend/src/sheet/components/SheetEditor/index.vue:4872
-#: frontend/src/sheet/components/SheetEditor/index.vue:5012
+#: frontend/src/sheet/components/SheetEditor/index.vue:1242
+#: frontend/src/sheet/components/SheetEditor/index.vue:4909
+#: frontend/src/sheet/components/SheetEditor/index.vue:5049
 msgid "Icon set"
 msgstr ""
 
@@ -23388,11 +23393,11 @@ msgstr ""
 msgid "Imperial"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1943
+#: frontend/src/sheet/components/SheetEditor/index.vue:1955
 msgid "Import"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1944
+#: frontend/src/sheet/components/SheetEditor/index.vue:1956
 msgid "Import CSV"
 msgstr ""
 
@@ -23400,7 +23405,7 @@ msgstr ""
 msgid "Import Supplier Invoice"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1945
+#: frontend/src/sheet/components/SheetEditor/index.vue:1957
 msgid "Import XLSX"
 msgstr ""
 
@@ -23631,7 +23636,7 @@ msgstr ""
 msgid "In pixels."
 msgstr ""
 
-#: onedesk/one_doc/ai.py:227
+#: onedesk/one_doc/ai.py:228
 msgid "In place of"
 msgstr ""
 
@@ -23850,7 +23855,7 @@ msgstr ""
 msgid "Incorrect password."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:184
+#: frontend/src/sheet/components/SheetEditor/index.vue:195
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:67
 msgid "Increase decimal places"
 msgstr ""
@@ -23931,7 +23936,7 @@ msgid "Inquiry"
 msgstr ""
 
 #: frontend/src/admin/ServerMetrics.vue:114
-#: frontend/src/sheet/components/SheetEditor/index.vue:1013
+#: frontend/src/sheet/components/SheetEditor/index.vue:1024
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:86
 #: frontend/src/slide/composables/useShortcuts.js:272
 #: frontend/src/slide/composables/useShortcuts.js:280
@@ -23943,11 +23948,11 @@ msgstr ""
 msgid "Insert"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:764
+#: frontend/src/sheet/components/SheetEditor/index.vue:775
 msgid "Insert N columns…"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:782
+#: frontend/src/sheet/components/SheetEditor/index.vue:793
 msgid "Insert N rows…"
 msgstr ""
 
@@ -23955,12 +23960,12 @@ msgstr ""
 msgid "Insert Table"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:282
+#: frontend/src/writer/DocumentPage.vue:294
 #: frontend/src/writer/shim/FieldDialog.vue:3
 msgid "Insert a Field"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:286
+#: frontend/src/writer/DocumentPage.vue:298
 msgid "Insert a Template"
 msgstr ""
 
@@ -23970,53 +23975,53 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:3
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:190
-#: frontend/src/sheet/components/SheetEditor/index.vue:285
+#: frontend/src/sheet/components/SheetEditor/index.vue:296
 msgid "Insert chart"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:820
+#: frontend/src/sheet/components/SheetEditor/index.vue:831
 msgid "Insert chart…"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:762
-#: frontend/src/sheet/components/SheetEditor/index.vue:803
+#: frontend/src/sheet/components/SheetEditor/index.vue:773
+#: frontend/src/sheet/components/SheetEditor/index.vue:814
 msgid "Insert column left"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:763
-#: frontend/src/sheet/components/SheetEditor/index.vue:804
+#: frontend/src/sheet/components/SheetEditor/index.vue:774
+#: frontend/src/sheet/components/SheetEditor/index.vue:815
 msgid "Insert column right"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1000
+#: frontend/src/sheet/components/SheetEditor/index.vue:1011
 msgid "Insert columns"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:884
+#: frontend/src/sheet/components/SheetEditor/index.vue:895
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:71
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:111
 msgid "Insert hyperlink"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:262
+#: frontend/src/sheet/components/SheetEditor/index.vue:273
 msgid "Insert hyperlink (Ctrl+L)"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:819
+#: frontend/src/sheet/components/SheetEditor/index.vue:830
 msgid "Insert pivot table…"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:780
-#: frontend/src/sheet/components/SheetEditor/index.vue:799
+#: frontend/src/sheet/components/SheetEditor/index.vue:791
+#: frontend/src/sheet/components/SheetEditor/index.vue:810
 msgid "Insert row above"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:781
-#: frontend/src/sheet/components/SheetEditor/index.vue:800
+#: frontend/src/sheet/components/SheetEditor/index.vue:792
+#: frontend/src/sheet/components/SheetEditor/index.vue:811
 msgid "Insert row below"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1000
+#: frontend/src/sheet/components/SheetEditor/index.vue:1011
 msgid "Insert rows"
 msgstr ""
 
@@ -24024,7 +24029,7 @@ msgstr ""
 msgid "Insert rows / columns"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:821
+#: frontend/src/sheet/components/SheetEditor/index.vue:832
 msgid "Insert slicer"
 msgstr ""
 
@@ -24655,9 +24660,9 @@ msgstr ""
 #. Label of the is_template (Check) field in DocType 'Writer Document'
 #. Label of the is_template (Check) field in DocType 'Workbook'
 #. Label of the is_template (Check) field in DocType 'Presentation'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:94
-#: onedesk/one_sheet/doctype/workbook/workbook.json:94
-#: onedesk/one_slide/doctype/presentation/presentation.json:124
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:97
+#: onedesk/one_sheet/doctype/workbook/workbook.json:97
+#: onedesk/one_slide/doctype/presentation/presentation.json:116
 msgid "Is Template"
 msgstr ""
 
@@ -24665,8 +24670,8 @@ msgstr ""
 msgid "Is any numbering out of step?"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1929
-#: frontend/src/sheet/components/SheetEditor/index.vue:4864
+#: frontend/src/sheet/components/SheetEditor/index.vue:1941
+#: frontend/src/sheet/components/SheetEditor/index.vue:4901
 msgid "Is empty"
 msgstr ""
 
@@ -24686,8 +24691,8 @@ msgstr ""
 msgid "Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1930
-#: frontend/src/sheet/components/SheetEditor/index.vue:4865
+#: frontend/src/sheet/components/SheetEditor/index.vue:1942
+#: frontend/src/sheet/components/SheetEditor/index.vue:4902
 msgid "Is not empty"
 msgstr ""
 
@@ -25051,7 +25056,7 @@ msgstr ""
 msgid "Italic"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:203
+#: frontend/src/sheet/components/SheetEditor/index.vue:214
 msgid "Italic (Ctrl+I)"
 msgstr ""
 
@@ -25082,7 +25087,7 @@ msgstr ""
 #: frontend/src/inventory/stock/StockOnHand.vue:23
 #: frontend/src/inventory/supplier/SupplierItems.vue:15
 #: frontend/src/inventory/to_order/ToOrderPage.vue:18
-#: frontend/src/sheet/components/SheetEditor/index.vue:930
+#: frontend/src/sheet/components/SheetEditor/index.vue:941
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
@@ -25307,7 +25312,7 @@ msgstr ""
 #: frontend/portal/src/pages/Record.vue:22 frontend/portal/src/pages/Rfq.vue:11
 #: frontend/src/inventory/stock/StockOnHand.vue:153
 #: frontend/src/inventory/to_order/ToOrderPage.vue:142
-#: frontend/src/sheet/components/SheetEditor/index.vue:917
+#: frontend/src/sheet/components/SheetEditor/index.vue:928
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_pos_invoice/one_pos_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -25700,7 +25705,7 @@ msgstr ""
 msgid "Keep Until"
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:626
+#: onedesk/public/js/onecloud_dialogs.js:629
 msgid "Keep both"
 msgstr ""
 
@@ -25799,7 +25804,7 @@ msgid "Keyboard Shortcuts"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:117
-#: frontend/src/sheet/components/SheetEditor/index.vue:1050
+#: frontend/src/sheet/components/SheetEditor/index.vue:1061
 msgid "Keyboard shortcuts"
 msgstr ""
 
@@ -25962,8 +25967,8 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:922
-#: frontend/src/sheet/components/SheetEditor/index.vue:927
+#: frontend/src/sheet/components/SheetEditor/index.vue:933
+#: frontend/src/sheet/components/SheetEditor/index.vue:938
 msgid "Label colour"
 msgstr ""
 
@@ -26602,9 +26607,34 @@ msgstr ""
 msgid "Learning"
 msgstr ""
 
+#. Label of the one_lease_lock (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:111
+msgid "Lease Lock"
+msgstr ""
+
+#. Label of the one_lease_session (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:125
+msgid "Lease Session"
+msgstr ""
+
+#. Label of the one_lease_kind (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:97
+msgid "Lease Type"
+msgstr ""
+
+#. Label of the one_lease_until (Datetime) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:155
+msgid "Lease Until"
+msgstr ""
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Lease signed"
+msgstr ""
+
+#. Label of the one_lease_user (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:139
+msgid "Leased By"
 msgstr ""
 
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
@@ -26952,6 +26982,13 @@ msgstr ""
 msgid "Left Early Only"
 msgstr ""
 
+#. Label of the outside_dropped (JSON) field in DocType 'Writer Document'
+#. Label of the outside_dropped (JSON) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:124
+#: onedesk/one_sheet/doctype/workbook/workbook.json:124
+msgid "Left Out of Drive Save"
+msgstr ""
+
 #: frontend/src/books/BooksHome.vue:259 frontend/src/crm/CrmHome.vue:258
 #: frontend/src/factory/home/FactoryHome.vue:201
 #: frontend/src/inventory/home/InventoryHome.vue:279
@@ -27103,17 +27140,17 @@ msgstr ""
 msgid "Less Retention"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4858
+#: frontend/src/sheet/components/SheetEditor/index.vue:4895
 msgid "Less or equal"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:951
-#: frontend/src/sheet/components/SheetEditor/index.vue:1928
-#: frontend/src/sheet/components/SheetEditor/index.vue:4856
+#: frontend/src/sheet/components/SheetEditor/index.vue:962
+#: frontend/src/sheet/components/SheetEditor/index.vue:1940
+#: frontend/src/sheet/components/SheetEditor/index.vue:4893
 msgid "Less than"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:952
+#: frontend/src/sheet/components/SheetEditor/index.vue:963
 msgid "Less than or equal"
 msgstr ""
 
@@ -27358,7 +27395,7 @@ msgstr ""
 msgid "Link Shared"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:888
+#: frontend/src/sheet/components/SheetEditor/index.vue:899
 msgid "Link URL"
 msgstr ""
 
@@ -27529,7 +27566,7 @@ msgstr ""
 msgid "List Style"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:908
+#: frontend/src/sheet/components/SheetEditor/index.vue:919
 msgid "List of items"
 msgstr ""
 
@@ -27655,7 +27692,7 @@ msgstr ""
 #: frontend/src/slide/components/ElementContextMenu.vue:183
 #: frontend/src/slide/components/PropertiesPanel.vue:17
 #: frontend/src/slide/shim/LayersPanel.vue:56
-#: frontend/src/writer/DocumentPage.vue:290
+#: frontend/src/writer/DocumentPage.vue:302
 #: onedesk/one_book/report/tax_return/tax_return.js:63
 msgid "Lock"
 msgstr ""
@@ -27726,7 +27763,7 @@ msgstr ""
 msgid "Log in to create a calendar link."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1390
+#: frontend/src/sheet/components/SheetEditor/index.vue:1402
 msgid "Log out"
 msgstr ""
 
@@ -28513,7 +28550,7 @@ msgstr ""
 msgid "Make a Company Device"
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:600
+#: onedesk/public/js/onecloud_dialogs.js:603
 msgid "Make a Copy"
 msgstr ""
 
@@ -28833,7 +28870,7 @@ msgstr ""
 msgid "Mark it as read"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1090
+#: frontend/src/sheet/components/SheetEditor/index.vue:1101
 msgid "Mark resolved"
 msgstr ""
 
@@ -28940,7 +28977,7 @@ msgid "Master"
 msgstr ""
 
 #. Label of the master_of (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:106
+#: onedesk/one_slide/doctype/presentation/presentation.json:98
 msgid "Master Of"
 msgstr ""
 
@@ -29152,8 +29189,8 @@ msgstr ""
 
 #. Label in the One Quality Inspection print format
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:214
-#: frontend/src/sheet/components/SheetEditor/index.vue:969
-#: frontend/src/sheet/components/SheetEditor/index.vue:1202
+#: frontend/src/sheet/components/SheetEditor/index.vue:980
+#: frontend/src/sheet/components/SheetEditor/index.vue:1213
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 msgid "Max"
 msgstr ""
@@ -29162,7 +29199,7 @@ msgstr ""
 msgid "Max Discount (%)"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1203
+#: frontend/src/sheet/components/SheetEditor/index.vue:1214
 msgid "Max colour"
 msgstr ""
 
@@ -29240,7 +29277,7 @@ msgstr ""
 msgid "Medical Report"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1887
+#: frontend/src/sheet/components/SheetEditor/index.vue:1899
 #: onedesk/one_display/starters.py:828
 msgid "Medium"
 msgstr ""
@@ -29331,7 +29368,7 @@ msgstr ""
 msgid "Merge / unmerge"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:271
+#: frontend/src/sheet/components/SheetEditor/index.vue:282
 msgid "Merge / unmerge cells"
 msgstr ""
 
@@ -29423,11 +29460,11 @@ msgstr ""
 msgid "Metrics"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1198
+#: frontend/src/sheet/components/SheetEditor/index.vue:1209
 msgid "Mid"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1199
+#: frontend/src/sheet/components/SheetEditor/index.vue:1210
 msgid "Mid colour"
 msgstr ""
 
@@ -29470,13 +29507,13 @@ msgstr ""
 
 #. Label in the One Quality Inspection print format
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:213
-#: frontend/src/sheet/components/SheetEditor/index.vue:963
-#: frontend/src/sheet/components/SheetEditor/index.vue:1194
+#: frontend/src/sheet/components/SheetEditor/index.vue:974
+#: frontend/src/sheet/components/SheetEditor/index.vue:1205
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 msgid "Min"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1195
+#: frontend/src/sheet/components/SheetEditor/index.vue:1206
 msgid "Min colour"
 msgstr ""
 
@@ -29616,7 +29653,7 @@ msgstr ""
 msgid "Money somebody spent for work, paid back."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1823
+#: frontend/src/sheet/components/SheetEditor/index.vue:1835
 msgid "Mono"
 msgstr ""
 
@@ -29762,11 +29799,11 @@ msgstr ""
 #: frontend/portal/src/App.vue:17 frontend/src/display/Boards.vue:102
 #: frontend/src/intake/IntakeInbox.vue:42
 #: frontend/src/mail/MailConversation.vue:85
-#: frontend/src/sheet/components/SheetEditor/index.vue:292
-#: frontend/src/sheet/components/SheetEditor/index.vue:1166
+#: frontend/src/sheet/components/SheetEditor/index.vue:303
+#: frontend/src/sheet/components/SheetEditor/index.vue:1177
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:386
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:118
-#: onedesk/one_sheet/ai.py:247 onedesk/public/js/center_section.js:45
+#: onedesk/one_sheet/ai.py:248 onedesk/public/js/center_section.js:45
 #: onedesk/public/js/one_interface/form.js:368
 #: onedesk/public/js/one_interface/nav_tree.js:68
 #: onedesk/public/js/one_portal/portal.js:135
@@ -29891,11 +29928,11 @@ msgstr ""
 msgid "Move Up"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:767
+#: frontend/src/sheet/components/SheetEditor/index.vue:778
 msgid "Move column left"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:768
+#: frontend/src/sheet/components/SheetEditor/index.vue:779
 msgid "Move column right"
 msgstr ""
 
@@ -30135,7 +30172,7 @@ msgstr ""
 msgid "My Events"
 msgstr ""
 
-#: onedesk/one_storage/history.py:198 onedesk/one_storage/namespace.py:335
+#: onedesk/one_storage/history.py:246 onedesk/one_storage/namespace.py:335
 #: onedesk/one_storage/namespace.py:389 onedesk/one_storage/namespace.py:535
 #: onedesk/one_storage/namespace.py:640 onedesk/one_storage/namespace.py:876
 #: onedesk/public/js/onecloud_dialogs.js:378
@@ -30271,7 +30308,7 @@ msgstr ""
 msgid "Name for the copy"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5445
+#: frontend/src/sheet/components/SheetEditor/index.vue:5482
 msgid "Name is empty or already used."
 msgstr ""
 
@@ -31036,7 +31073,7 @@ msgstr ""
 msgid "New mail is sent from this mailbox unless the writer picks another."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:743
+#: frontend/src/sheet/components/SheetEditor/index.vue:754
 msgid "New name"
 msgstr ""
 
@@ -31696,7 +31733,7 @@ msgstr ""
 msgid "No checks yet"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:725
+#: frontend/src/sheet/components/SheetEditor/index.vue:736
 msgid "No colour"
 msgstr ""
 
@@ -31800,7 +31837,7 @@ msgstr ""
 msgid "No emails"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1506
+#: frontend/src/sheet/components/SheetEditor/index.vue:1518
 msgid "No empty cells in the selection to fill."
 msgstr ""
 
@@ -31832,11 +31869,12 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:522
+#: onedesk/one_doc/api.py:274 onedesk/one_slide/api.py:521
 msgid "No file was sent."
 msgstr ""
 
-#: onedesk/one_storage/oneos.py:225 onedesk/one_storage/upload.py:89
+#: onedesk/one_storage/oneos.py:190 onedesk/one_storage/saving.py:90
+#: onedesk/one_storage/upload.py:89
 msgid "No file was uploaded."
 msgstr ""
 
@@ -31844,8 +31882,8 @@ msgstr ""
 msgid "No files yet"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:228
-#: frontend/src/sheet/components/SheetEditor/index.vue:1177
+#: frontend/src/sheet/components/SheetEditor/index.vue:239
+#: frontend/src/sheet/components/SheetEditor/index.vue:1188
 msgid "No fill"
 msgstr ""
 
@@ -31977,7 +32015,7 @@ msgstr ""
 msgid "No matching roles"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:589
+#: frontend/src/sheet/components/SheetEditor/index.vue:600
 msgid "No matching values"
 msgstr ""
 
@@ -32020,7 +32058,7 @@ msgstr ""
 msgid "No notes for this slide."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:415
+#: frontend/src/sheet/components/SheetEditor/index.vue:426
 msgid "No notes yet."
 msgstr ""
 
@@ -32587,11 +32625,6 @@ msgstr ""
 msgid "Not Booked"
 msgstr ""
 
-#. Label of the lost (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:64
-msgid "Not Brought In"
-msgstr ""
-
 #. Name of a notification
 #: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:268
 msgid "Not Checked In"
@@ -32627,6 +32660,13 @@ msgstr ""
 #: frontend/src/project/Overview.vue:44 frontend/src/project/Overview.vue:151
 #: onedesk/one_project/money.py:221
 msgid "Not Invoiced Yet"
+msgstr ""
+
+#. Label of the would_lose (JSON) field in DocType 'Writer Document'
+#. Label of the would_lose (JSON) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:111
+#: onedesk/one_sheet/doctype/workbook/workbook.json:111
+msgid "Not Kept From File"
 msgstr ""
 
 #. Name of a notification
@@ -32753,7 +32793,7 @@ msgstr ""
 msgid "Not at Cloudflare"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:948
+#: frontend/src/sheet/components/SheetEditor/index.vue:959
 msgid "Not between"
 msgstr ""
 
@@ -32800,8 +32840,8 @@ msgstr ""
 msgid "Not enough {0} for one"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:954
-#: frontend/src/sheet/components/SheetEditor/index.vue:4860
+#: frontend/src/sheet/components/SheetEditor/index.vue:965
+#: frontend/src/sheet/components/SheetEditor/index.vue:4897
 msgid "Not equal to"
 msgstr ""
 
@@ -32836,16 +32876,16 @@ msgstr ""
 msgid "Not in the document ({0})"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:244
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:246
 msgid "Not in the record yet: one cell needs a look"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:246
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:248
 #, python-brace-format
 msgid "Not in the record yet: {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:245
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:247
 #, python-brace-format
 msgid "Not in the record yet: {0} cells need a look"
 msgstr ""
@@ -33062,7 +33102,7 @@ msgstr ""
 #. Label in the One Delivery Trip print format
 #. Label in the One Timesheet print format
 #: frontend/portal/src/pages/Rfq.vue:78
-#: frontend/src/sheet/components/SheetEditor/index.vue:405
+#: frontend/src/sheet/components/SheetEditor/index.vue:416
 #: onedesk/one_factory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
@@ -33416,7 +33456,7 @@ msgstr ""
 #. Label in the One Promotion Letter print format
 #. Label in the One Staffing Plan print format
 #. Label in the One Transfer Letter print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:4593
+#: frontend/src/sheet/components/SheetEditor/index.vue:4630
 #: frontend/src/slide/shim/PresenterView.vue:26
 #: frontend/src/slide/shim/WidgetMock.vue:195
 #: frontend/src/slide/shim/WidgetMock.vue:205
@@ -33485,9 +33525,9 @@ msgstr ""
 #. Label of the number (Data) field in DocType 'Employee Document'
 #. Label in the One Serial and Batch Bundle print format
 #. Label in the One Stock Reservation Entry print format
-#: frontend/src/sheet/components/SheetEditor/index.vue:909
-#: frontend/src/sheet/components/SheetEditor/index.vue:1842
-#: frontend/src/sheet/components/SheetEditor/index.vue:2404
+#: frontend/src/sheet/components/SheetEditor/index.vue:920
+#: frontend/src/sheet/components/SheetEditor/index.vue:1854
+#: frontend/src/sheet/components/SheetEditor/index.vue:2441
 #: onedesk/one_ai/reading/bundle.py:74 onedesk/one_ai/reading/panel.py:127
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -33529,7 +33569,7 @@ msgstr ""
 msgid "Number each page at the bottom right when printing."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:172
+#: frontend/src/sheet/components/SheetEditor/index.vue:183
 msgid "Number format"
 msgstr ""
 
@@ -33551,7 +33591,7 @@ msgstr ""
 msgid "Number of Shares"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1007
+#: frontend/src/sheet/components/SheetEditor/index.vue:1018
 msgid "Number of columns"
 msgstr ""
 
@@ -33561,7 +33601,7 @@ msgstr ""
 msgid "Number of distinct employees, and of check-ins each, before a Proposed network or location becomes Confirmed."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1007
+#: frontend/src/sheet/components/SheetEditor/index.vue:1018
 msgid "Number of rows"
 msgstr ""
 
@@ -33824,7 +33864,7 @@ msgid "Older items are deleted when new ones arrive. Set to 0 to keep all items.
 msgstr ""
 
 #: onedesk/one/ai.py:3553 onedesk/one/ai.py:3768 onedesk/one/rights.py:264
-#: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:158
+#: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:159
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:180
 #: onedesk/public/js/doctype_settings.js:214
@@ -34564,7 +34604,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_doc/api.py:295 onedesk/one_storage/made.py:92
+#: onedesk/one_doc/api.py:308 onedesk/one_storage/made.py:92
 msgid "OneAI could not make it. Try again, or describe it differently."
 msgstr ""
 
@@ -34623,7 +34663,7 @@ msgstr ""
 msgid "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Plan and Credits in AccountCenter."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2035
+#: frontend/src/sheet/components/SheetEditor/index.vue:2049
 msgid "OneAI edited this workbook. Reopen it to see the changes."
 msgstr ""
 
@@ -35001,17 +35041,7 @@ msgstr ""
 msgid "OneOS"
 msgstr ""
 
-#. Label of the one_os_lease (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:93
-msgid "OneOS Lease"
-msgstr ""
-
-#. Label of the one_os_until (Datetime) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:137
-msgid "OneOS Lease Until"
-msgstr ""
-
-#: onedesk/one_storage/oneos.py:114
+#: onedesk/one_storage/oneos.py:108
 msgid "OneOS Not Started"
 msgstr ""
 
@@ -35021,13 +35051,11 @@ msgid "OneOS Secret"
 msgstr ""
 
 #. Name of a DocType
-#. Label of the one_os_session (Data) field in DocType 'File'
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:233
-#: onedesk/one_storage/custom/file.json:107
 msgid "OneOS Session"
 msgstr ""
 
-#: onedesk/one_admin/oneos.py:376 onedesk/one_storage/oneos.py:127
+#: onedesk/one_admin/oneos.py:376 onedesk/one_storage/oneos.py:121
 msgid "OneOS could not be started. Try again in a few minutes."
 msgstr ""
 
@@ -35040,7 +35068,7 @@ msgstr ""
 msgid "OneOS stopped answering, so {0} was closed. Changes you saved are kept."
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:599
+#: onedesk/public/js/onecloud_dialogs.js:602
 msgid "OneOS uses OneCredits for each minute it is open."
 msgstr ""
 
@@ -35109,7 +35137,7 @@ msgstr ""
 msgid "Online"
 msgstr ""
 
-#: onedesk/one_sheet/api.py:227
+#: onedesk/one_sheet/api.py:243
 msgid "Only Excel and CSV files can be opened as a workbook."
 msgstr ""
 
@@ -35138,7 +35166,7 @@ msgstr ""
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr ""
 
-#: onedesk/one_slide/from_powerpoint.py:307
+#: onedesk/one_slide/from_powerpoint.py:303
 msgid "Only PowerPoint files can be opened as a presentation."
 msgstr ""
 
@@ -35146,7 +35174,7 @@ msgstr ""
 msgid "Only Those Whose"
 msgstr ""
 
-#: onedesk/one_doc/word.py:263
+#: onedesk/one_doc/word.py:280
 msgid "Only Word files can be opened as a document."
 msgstr ""
 
@@ -35768,13 +35796,8 @@ msgid "Open in OneCloud"
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:775
-#: onedesk/public/js/onecloud_dialogs.js:598
+#: onedesk/public/js/onecloud_dialogs.js:601
 msgid "Open in OneOS"
-msgstr ""
-
-#. Label of the one_os_user (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:121
-msgid "Open in OneOS By"
 msgstr ""
 
 #: onedesk/public/js/table_workbook.js:97
@@ -35864,8 +35887,8 @@ msgstr ""
 
 #. Label of the source_kind (Data) field in DocType 'Writer Document'
 #. Label of the source_kind (Data) field in DocType 'Workbook'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:101
-#: onedesk/one_sheet/doctype/workbook/workbook.json:101
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:104
+#: onedesk/one_sheet/doctype/workbook/workbook.json:104
 msgid "Opened From"
 msgstr ""
 
@@ -35980,7 +36003,7 @@ msgstr ""
 msgid "Opens the welcome page for this signup."
 msgstr ""
 
-#: onedesk/one_doc/ai.py:148
+#: onedesk/one_doc/ai.py:149
 msgid "Opens with"
 msgstr ""
 
@@ -36873,7 +36896,7 @@ msgstr ""
 msgid "Overdue · oldest {0} days"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2483
+#: frontend/src/sheet/components/SheetEditor/index.vue:2520
 msgid "Overflow"
 msgstr ""
 
@@ -37065,8 +37088,8 @@ msgid "Page Memory Limit (MB)"
 msgstr ""
 
 #. Label of the settings (JSON) field in DocType 'Writer Document'
-#: frontend/src/writer/DocumentPage.vue:285
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:56
+#: frontend/src/writer/DocumentPage.vue:297
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:59
 msgid "Page Setup"
 msgstr ""
 
@@ -37508,6 +37531,14 @@ msgstr ""
 msgid "Parts in {{ }} and {% %} are filled in when it is sent."
 msgstr ""
 
+#. Description of the 'Not Kept From File' (JSON) field in DocType 'Writer
+#. Document'
+#. Description of the 'Not Kept From File' (JSON) field in DocType 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:113
+#: onedesk/one_sheet/doctype/workbook/workbook.json:113
+msgid "Parts of the file this editor does not keep."
+msgstr ""
+
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
 #. Label of the party_name (Dynamic Link) field in DocType 'Reading'
 #. Label of the party_name (Dynamic Link) field in DocType 'Reading Lesson'
@@ -37726,11 +37757,11 @@ msgstr ""
 msgid "Paste a news site's address and see its latest headlines."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:796
+#: frontend/src/sheet/components/SheetEditor/index.vue:807
 msgid "Paste formats only"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:797
+#: frontend/src/sheet/components/SheetEditor/index.vue:808
 msgid "Paste formulas only"
 msgstr ""
 
@@ -37738,7 +37769,7 @@ msgstr ""
 msgid "Paste into folder"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:795
+#: frontend/src/sheet/components/SheetEditor/index.vue:806
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:110
 msgid "Paste values only"
 msgstr ""
@@ -38452,12 +38483,12 @@ msgstr ""
 msgid "Per Hour"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1845
-#: frontend/src/sheet/components/SheetEditor/index.vue:2404
+#: frontend/src/sheet/components/SheetEditor/index.vue:1857
+#: frontend/src/sheet/components/SheetEditor/index.vue:2441
 msgid "Percent"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:180
+#: frontend/src/sheet/components/SheetEditor/index.vue:191
 msgid "Percentage"
 msgstr ""
 
@@ -38966,7 +38997,7 @@ msgstr ""
 msgid "Pitch"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:517
+#: frontend/src/sheet/components/SheetEditor/index.vue:528
 msgid "Pivot table options"
 msgstr ""
 
@@ -39027,8 +39058,8 @@ msgstr ""
 msgid "Plain"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1840
-#: frontend/src/sheet/components/SheetEditor/index.vue:2404
+#: frontend/src/sheet/components/SheetEditor/index.vue:1852
+#: frontend/src/sheet/components/SheetEditor/index.vue:2441
 msgid "Plain text"
 msgstr ""
 
@@ -39616,7 +39647,7 @@ msgstr ""
 msgid "Preview pane"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1030
+#: frontend/src/sheet/components/SheetEditor/index.vue:1041
 msgid "Preview:"
 msgstr ""
 
@@ -39749,11 +39780,11 @@ msgstr ""
 msgid "Primary Domain"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1935
-#: frontend/src/sheet/components/SheetEditor/index.vue:1936
+#: frontend/src/sheet/components/SheetEditor/index.vue:1947
+#: frontend/src/sheet/components/SheetEditor/index.vue:1948
 #: frontend/src/sheet/shim/PrintDialog.vue:3
 #: frontend/src/sheet/shim/PrintDialog.vue:17
-#: frontend/src/writer/DocumentPage.vue:281
+#: frontend/src/writer/DocumentPage.vue:293
 #: frontend/src/writer/shim/PrintDialog.vue:3
 #: frontend/src/writer/shim/PrintDialog.vue:15
 #: onedesk/one_display/doctype/display_board/display_board.js:10
@@ -40473,11 +40504,11 @@ msgstr ""
 msgid "Prospects Engaged But Not Converted"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:814
+#: frontend/src/sheet/components/SheetEditor/index.vue:825
 msgid "Protect range"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:729
+#: frontend/src/sheet/components/SheetEditor/index.vue:740
 msgid "Protect sheet"
 msgstr ""
 
@@ -41568,7 +41599,7 @@ msgid "Read on behalf of {0}"
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:87
-#: frontend/src/writer/DocumentPage.vue:187
+#: frontend/src/writer/DocumentPage.vue:199
 msgid "Read only"
 msgstr ""
 
@@ -42048,9 +42079,9 @@ msgstr ""
 #: onedesk/one_book/heads.py:582
 #: onedesk/one_display/doctype/display_source/display_source.json:52
 #: onedesk/one_display/doctype/display_source/display_source.json:99
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:81
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:84
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:38
-#: onedesk/one_sheet/doctype/workbook/workbook.json:69
+#: onedesk/one_sheet/doctype/workbook/workbook.json:72
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:81
 #: onedesk/one_studio/ai.py:373
 #: onedesk/one_studio/doctype/extension/extension.json:66
@@ -42342,7 +42373,7 @@ msgstr ""
 msgid "Redo"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:244
+#: frontend/src/sheet/components/SheetEditor/index.vue:255
 msgid "Redo (Ctrl+Y)"
 msgstr ""
 
@@ -42592,7 +42623,7 @@ msgstr ""
 msgid "Reject it? The check-in stays on the record and stops counting towards the day."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:984
+#: frontend/src/sheet/components/SheetEditor/index.vue:995
 msgid "Reject the input"
 msgstr ""
 
@@ -42834,7 +42865,7 @@ msgstr ""
 
 #: frontend/portal/src/parts/WebForm.vue:27
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:54
-#: frontend/src/sheet/components/SheetEditor/index.vue:894
+#: frontend/src/sheet/components/SheetEditor/index.vue:905
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:35
 #: frontend/src/slide/shim/DataDialog.vue:13
 #: frontend/src/slide/shim/Rulers.vue:48 onedesk/one/ai.py:1866
@@ -42882,7 +42913,7 @@ msgstr ""
 msgid "Remove access"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:933
+#: frontend/src/sheet/components/SheetEditor/index.vue:944
 msgid "Remove item"
 msgstr ""
 
@@ -42895,15 +42926,15 @@ msgstr ""
 msgid "Remove one {0}? This saves {1} a month and removes what it adds."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:815
+#: frontend/src/sheet/components/SheetEditor/index.vue:826
 msgid "Remove protection"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:993
+#: frontend/src/sheet/components/SheetEditor/index.vue:1004
 msgid "Remove rule"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1063
+#: frontend/src/sheet/components/SheetEditor/index.vue:1074
 msgid "Remove slicer"
 msgstr ""
 
@@ -42981,11 +43012,11 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:677 frontend/src/cloud/OneCloud.vue:778
 #: frontend/src/mail/OneMail.vue:332 frontend/src/mail/OneMail.vue:366
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
-#: frontend/src/sheet/components/SheetEditor/index.vue:713
-#: frontend/src/sheet/components/SheetEditor/index.vue:748
+#: frontend/src/sheet/components/SheetEditor/index.vue:724
+#: frontend/src/sheet/components/SheetEditor/index.vue:759
 #: frontend/src/slide/components/PresentationPreview.vue:131
 #: frontend/src/slide/shim/EditorNavbar.vue:157
-#: frontend/src/writer/DocumentPage.vue:287
+#: frontend/src/writer/DocumentPage.vue:299
 #: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1852
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
@@ -43006,7 +43037,7 @@ msgstr ""
 msgid "Rename and Tag Files"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:741
+#: frontend/src/sheet/components/SheetEditor/index.vue:752
 msgid "Rename sheet"
 msgstr ""
 
@@ -43052,7 +43083,7 @@ msgstr ""
 msgid "Renews {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1090
+#: frontend/src/sheet/components/SheetEditor/index.vue:1101
 #: onedesk/public/js/onecloud_dialogs.js:502
 #: onedesk/public/js/opportunity.js:13
 msgid "Reopen"
@@ -43160,7 +43191,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/LinkPreviewCard.vue:78
 #: frontend/src/slide/components/ImageSection.vue:4
 #: frontend/src/slide/components/PlaybackSection.vue:4
-#: onedesk/public/js/onecloud_dialogs.js:621 onedesk/www/r.html:65
+#: onedesk/public/js/onecloud_dialogs.js:624 onedesk/www/r.html:65
 msgid "Replace"
 msgstr ""
 
@@ -43182,7 +43213,7 @@ msgstr ""
 msgid "Replaced"
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:620
+#: onedesk/public/js/onecloud_dialogs.js:623
 msgid "Replaced files are kept as earlier versions."
 msgstr ""
 
@@ -43220,7 +43251,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
 #: frontend/src/mail/MailConversation.vue:83
 #: frontend/src/mail/MailConversation.vue:124
-#: frontend/src/sheet/components/SheetEditor/index.vue:1113
+#: frontend/src/sheet/components/SheetEditor/index.vue:1124
 #: frontend/src/writer/components/FloatingComments.vue:157
 #: onedesk/one_ai/chat.py:316
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
@@ -43259,7 +43290,7 @@ msgstr ""
 msgid "Replying to:"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1109
+#: frontend/src/sheet/components/SheetEditor/index.vue:1120
 msgid "Reply…"
 msgstr ""
 
@@ -43688,7 +43719,7 @@ msgstr ""
 msgid "Resolve Non Conformances"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1085
+#: frontend/src/sheet/components/SheetEditor/index.vue:1096
 #: frontend/src/writer/components/CoreEditor.vue:187
 msgid "Resolved"
 msgstr ""
@@ -44216,7 +44247,7 @@ msgstr ""
 msgid "Rewrite This Slide"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:217
+#: onedesk/one_doc/ai.py:218
 #, python-brace-format
 msgid "Rewrite in {0}"
 msgstr ""
@@ -44550,7 +44581,7 @@ msgstr ""
 msgid "Rule added"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1158
+#: frontend/src/sheet/components/SheetEditor/index.vue:1169
 msgid "Rule type"
 msgstr ""
 
@@ -44563,7 +44594,7 @@ msgstr ""
 msgid "Rules"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1147
+#: frontend/src/sheet/components/SheetEditor/index.vue:1158
 msgid "Rules on this sheet"
 msgstr ""
 
@@ -45019,6 +45050,11 @@ msgstr ""
 msgid "Save Layout"
 msgstr ""
 
+#: frontend/src/sheet/components/SheetEditor/index.vue:165
+#: frontend/src/writer/DocumentPage.vue:29
+msgid "Save Over Original"
+msgstr ""
+
 #: frontend/src/sheet/shim/PrintDialog.vue:18
 #: frontend/src/writer/shim/PrintDialog.vue:17
 msgid "Save PDF to OneCloud"
@@ -45037,15 +45073,17 @@ msgid "Save a workbook as a template everybody in the workspace can start from."
 msgstr ""
 
 #: frontend/src/cloud/CloudViewer.vue:19
+#: frontend/src/sheet/components/SheetEditor/index.vue:166
+#: frontend/src/writer/DocumentPage.vue:30
 msgid "Save as Copy"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1949
+#: frontend/src/sheet/components/SheetEditor/index.vue:1961
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
 #: frontend/src/sheet/shim/TemplateDialog.vue:15
 #: frontend/src/slide/shim/EditorNavbar.vue:156
 #: frontend/src/slide/shim/EditorNavbar.vue:315
-#: frontend/src/writer/DocumentPage.vue:294
+#: frontend/src/writer/DocumentPage.vue:306
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:3
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:15
 #: onedesk/public/js/project.js:55 onedesk/public/js/project_actions.js:59
@@ -45089,7 +45127,7 @@ msgstr ""
 #: frontend/portal/src/parts/WebForm.vue:118
 #: frontend/src/sheet/components/SheetEditor/index.vue:65
 #: frontend/src/slide/shim/EditorNavbar.vue:90
-#: frontend/src/writer/DocumentPage.vue:189
+#: frontend/src/writer/DocumentPage.vue:201
 #: onedesk/public/js/module_settings.js:219
 #: onedesk/public/js/one/one_control.js:251
 #: onedesk/public/js/one/role_matrix.js:44
@@ -45116,7 +45154,7 @@ msgstr ""
 msgid "Saved as a Project Update."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2086
+#: frontend/src/sheet/components/SheetEditor/index.vue:2123
 #, python-brace-format
 msgid "Saved as a template: {0}"
 msgstr ""
@@ -45126,6 +45164,8 @@ msgid "Saved as drafts in Ready to Submit, and a bill asking to be paid to a new
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:1045
+#: frontend/src/sheet/components/SheetEditor/index.vue:2088
+#: frontend/src/writer/DocumentPage.vue:401
 #, python-brace-format
 msgid "Saved as {0}."
 msgstr ""
@@ -45134,9 +45174,10 @@ msgstr ""
 msgid "Saved document"
 msgstr ""
 
-#: frontend/src/slide/stores/presentation.js:331
+#: frontend/src/sheet/components/SheetEditor/index.vue:2090
+#: frontend/src/writer/DocumentPage.vue:403
 #, python-brace-format
-msgid "Saved from the drive: slides {0} had parts that could not be brought in."
+msgid "Saved over {0}."
 msgstr ""
 
 #: onedesk/one_studio/ai_setup.py:243
@@ -45177,7 +45218,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:61
 #: frontend/src/slide/shim/EditorNavbar.vue:89
-#: frontend/src/writer/DocumentPage.vue:188 onedesk/public/js/hiring.js:215
+#: frontend/src/writer/DocumentPage.vue:200 onedesk/public/js/hiring.js:215
 msgid "Saving…"
 msgstr ""
 
@@ -45590,7 +45631,7 @@ msgstr ""
 msgid "Search {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:569
+#: frontend/src/sheet/components/SheetEditor/index.vue:580
 msgid "Search…"
 msgstr ""
 
@@ -45738,7 +45779,7 @@ msgstr ""
 msgid "Select User"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:417
+#: frontend/src/sheet/components/SheetEditor/index.vue:428
 msgid "Select a cell and press"
 msgstr ""
 
@@ -45762,8 +45803,8 @@ msgstr ""
 #: frontend/src/cloud/CloudItems.vue:19 frontend/src/mail/MailList.vue:9
 #: frontend/src/mail/MailList.vue:10
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:451
-#: frontend/src/sheet/components/SheetEditor/index.vue:561
-#: frontend/src/sheet/components/SheetEditor/index.vue:1067
+#: frontend/src/sheet/components/SheetEditor/index.vue:572
+#: frontend/src/sheet/components/SheetEditor/index.vue:1078
 #: frontend/src/slide/components/ElementContextMenu.vue:93
 msgid "Select all"
 msgstr ""
@@ -45792,7 +45833,7 @@ msgstr ""
 msgid "Select row"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:561
+#: frontend/src/sheet/components/SheetEditor/index.vue:572
 msgid "Select shown"
 msgstr ""
 
@@ -46294,7 +46335,7 @@ msgstr ""
 msgid "Series {0} already used in {1}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1822
+#: frontend/src/sheet/components/SheetEditor/index.vue:1834
 #: frontend/src/slide/shim/fonts.js:16
 msgid "Serif"
 msgstr ""
@@ -47062,16 +47103,16 @@ msgstr ""
 #. Label of the sub_sheet (Data) field in DocType 'Workbook Change'
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:19
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:51
-#: onedesk/one_sheet/doctype/workbook/workbook.json:82
+#: onedesk/one_sheet/doctype/workbook/workbook.json:85
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:41
 msgid "Sheet"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:743
+#: frontend/src/sheet/components/SheetEditor/index.vue:754
 msgid "Sheet name"
 msgstr ""
 
-#: frontend/src/sheet/shim/PrintDialog.vue:6 onedesk/one_sheet/ai.py:200
+#: frontend/src/sheet/shim/PrintDialog.vue:6 onedesk/one_sheet/ai.py:201
 msgid "Sheets"
 msgstr ""
 
@@ -47925,7 +47966,7 @@ msgstr ""
 msgid "Since"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4869
+#: frontend/src/sheet/components/SheetEditor/index.vue:4906
 msgid "Single colour rule"
 msgstr ""
 
@@ -48106,7 +48147,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_display/widgets.py:96
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:67
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:70
 #: onedesk/one_factory/custom/bom_item.json:79
 #: onedesk/one_factory/custom/bom_secondary_item.json:79
 #: onedesk/one_factory/custom/subcontracting_inward_order_item.json:79
@@ -48160,9 +48201,9 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_sheet/doctype/workbook/workbook.json:49
+#: onedesk/one_sheet/doctype/workbook/workbook.json:52
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:63
-#: onedesk/one_slide/doctype/presentation/presentation.json:130
+#: onedesk/one_slide/doctype/presentation/presentation.json:122
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:46
 #: onedesk/public/js/table_workbook.js:39
 msgid "Size"
@@ -48305,7 +48346,7 @@ msgstr ""
 msgid "Slide copied to clipboard"
 msgstr ""
 
-#: onedesk/one_slide/api.py:333
+#: onedesk/one_slide/api.py:332
 #, python-brace-format
 msgid "Slide fields not accepted: {0}"
 msgstr ""
@@ -48340,7 +48381,7 @@ msgstr ""
 #. Label of the slides (JSON) field in DocType 'Presentation Version'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:29
-#: onedesk/one_slide/doctype/presentation/presentation.json:135
+#: onedesk/one_slide/doctype/presentation/presentation.json:127
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:66
 msgid "Slides"
 msgstr ""
@@ -48392,7 +48433,7 @@ msgstr ""
 #. Label of the slug (Data) field in DocType 'Tenant'
 #. Label of the slug (Data) field in DocType 'Presentation'
 #: onedesk/one_admin/doctype/tenant/tenant.json:85
-#: onedesk/one_slide/doctype/presentation/presentation.json:114
+#: onedesk/one_slide/doctype/presentation/presentation.json:106
 msgid "Slug"
 msgstr ""
 
@@ -48418,7 +48459,7 @@ msgstr ""
 msgid "Smart Fill ({0})"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1511
+#: frontend/src/sheet/components/SheetEditor/index.vue:1523
 msgid "Smart Fill could not run."
 msgstr ""
 
@@ -48426,11 +48467,11 @@ msgstr ""
 msgid "Smart Fill from examples"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1507
+#: frontend/src/sheet/components/SheetEditor/index.vue:1519
 msgid "Smart Fill needs adjacent columns with source data."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1504
+#: frontend/src/sheet/components/SheetEditor/index.vue:1516
 msgid "Smart Fill works on a single column at a time."
 msgstr ""
 
@@ -48683,7 +48724,7 @@ msgstr ""
 msgid "Somebody who got in touch, or somebody you want to reach."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1099
+#: frontend/src/sheet/components/SheetEditor/index.vue:1110
 msgid "Someone"
 msgstr ""
 
@@ -48770,7 +48811,7 @@ msgstr ""
 msgid "Sort What Arrives"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:528
+#: frontend/src/sheet/components/SheetEditor/index.vue:539
 msgid "Sort ascending"
 msgstr ""
 
@@ -48795,7 +48836,7 @@ msgstr ""
 msgid "Sort by type"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:529
+#: frontend/src/sheet/components/SheetEditor/index.vue:540
 msgid "Sort descending"
 msgstr ""
 
@@ -48885,7 +48926,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #. Label of the sources (Long Text) field in DocType 'Presentation'
 #: onedesk/one/sidebar/one/one.json:124
-#: onedesk/one_slide/doctype/presentation/presentation.json:98
+#: onedesk/one_slide/doctype/presentation/presentation.json:90
 #: onedesk/public/js/one_interface/chrome.js:318
 msgid "Sources"
 msgstr ""
@@ -48991,7 +49032,7 @@ msgstr ""
 msgid "Split cell"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:817
+#: frontend/src/sheet/components/SheetEditor/index.vue:828
 msgid "Split text to columns"
 msgstr ""
 
@@ -50162,7 +50203,7 @@ msgstr ""
 msgid "Strikethrough"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:206
+#: frontend/src/sheet/components/SheetEditor/index.vue:217
 msgid "Strikethrough (Ctrl+Shift+X)"
 msgstr ""
 
@@ -50548,7 +50589,7 @@ msgstr ""
 msgid "Sum"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:706
+#: frontend/src/sheet/components/SheetEditor/index.vue:717
 #, python-brace-format
 msgid "Sum: {0}"
 msgstr ""
@@ -50921,7 +50962,7 @@ msgid "Synced through iCloud Keychain or Google Password Manager and available o
 msgstr ""
 
 #: frontend/src/admin/ServerMetrics.vue:96 frontend/src/mail/mail.js:59
-#: frontend/src/sheet/components/SheetEditor/index.vue:1824
+#: frontend/src/sheet/components/SheetEditor/index.vue:1836
 #: onedesk/public/js/one_mail/onemail_settings.js:33
 #: onedesk/public/js/theme.js:49
 msgid "System"
@@ -50959,10 +51000,10 @@ msgstr ""
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json:75
 #: onedesk/one_display/doctype/voice_pack/voice_pack.json:18
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:75
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:119
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:142
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json:59
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:142
-#: onedesk/one_sheet/doctype/workbook/workbook.json:119
+#: onedesk/one_sheet/doctype/workbook/workbook.json:142
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:95
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:90
 #: onedesk/one_slide/doctype/presentation/presentation.json:29
@@ -50993,7 +51034,7 @@ msgstr ""
 msgid "Tab"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:717
+#: frontend/src/sheet/components/SheetEditor/index.vue:728
 msgid "Tab colour"
 msgstr ""
 
@@ -51005,7 +51046,7 @@ msgstr ""
 #: frontend/src/slide/components/PropertiesPanel.vue:176
 #: frontend/src/slide/components/TableSection.vue:3
 #: frontend/src/slide/shim/LayersPanel.vue:114
-#: onedesk/one_sheet/doctype/workbook/workbook.json:76
+#: onedesk/one_sheet/doctype/workbook/workbook.json:79
 #: onedesk/public/js/one_mail/mail_templates.js:130
 msgid "Table"
 msgstr ""
@@ -51680,7 +51721,7 @@ msgid "Tell {0}"
 msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/sheet/components/SheetEditor/index.vue:1948
+#: frontend/src/sheet/components/SheetEditor/index.vue:1960
 #: onedesk/one_project/ai.py:958 onedesk/one_task/custom/task.json:87
 #: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/project_actions.js:68 onedesk/public/js/project_new.js:73
@@ -51958,10 +51999,10 @@ msgstr ""
 msgid "Text agreed to"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:218
-#: frontend/src/sheet/components/SheetEditor/index.vue:220
-#: frontend/src/sheet/components/SheetEditor/index.vue:1169
-#: frontend/src/sheet/components/SheetEditor/index.vue:1171
+#: frontend/src/sheet/components/SheetEditor/index.vue:229
+#: frontend/src/sheet/components/SheetEditor/index.vue:231
+#: frontend/src/sheet/components/SheetEditor/index.vue:1180
+#: frontend/src/sheet/components/SheetEditor/index.vue:1182
 msgid "Text colour"
 msgstr ""
 
@@ -51969,11 +52010,11 @@ msgstr ""
 msgid "Text document"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:910
+#: frontend/src/sheet/components/SheetEditor/index.vue:921
 msgid "Text length"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:257
+#: frontend/src/sheet/components/SheetEditor/index.vue:268
 msgid "Text wrapping"
 msgstr ""
 
@@ -52146,7 +52187,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_slide/api.py:386
+#: onedesk/one_slide/api.py:385
 msgid "That theme does not exist."
 msgstr ""
 
@@ -52274,8 +52315,8 @@ msgstr ""
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr ""
 
-#. Description of the 'OneOS Session' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:115
+#. Description of the 'Lease Session' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:129
 msgid "The OneOS session this file is open in."
 msgstr ""
 
@@ -52609,7 +52650,7 @@ msgid "The colour of the rail and the bars around every screen. Empty is One's o
 msgstr ""
 
 #. Description of the 'Comments' (Long Text) field in DocType 'Writer Document'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:62
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:65
 msgid "The comments' Yjs state in base64."
 msgstr ""
 
@@ -52875,7 +52916,7 @@ msgid "The document's key. Example: terms or privacy."
 msgstr ""
 
 #. Description of the 'Content' (Long Text) field in DocType 'Writer Document'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:45
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:48
 msgid "The editor's Yjs state in base64, which the editor opens from."
 msgstr ""
 
@@ -52934,7 +52975,7 @@ msgstr ""
 msgid "The figures a supplier's score is worked out from."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2019
+#: frontend/src/sheet/components/SheetEditor/index.vue:2032
 #, python-brace-format
 msgid "The file couldn’t be read: {0}"
 msgstr ""
@@ -53196,11 +53237,6 @@ msgstr ""
 msgid "The lead's or opportunity's owner"
 msgstr ""
 
-#. Description of the 'OneOS Lease' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:101
-msgid "The lease that lets one OneOS session save this file."
-msgstr ""
-
 #: onedesk/one_hr/home.py:376
 msgid "The leave each person has left, kind by kind."
 msgstr ""
@@ -53214,7 +53250,7 @@ msgid "The letter heads and print formats documents are printed and sent on."
 msgstr ""
 
 #. Description of the 'Guides' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:92
+#: onedesk/one_slide/doctype/presentation/presentation.json:84
 msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
 msgstr ""
 
@@ -53243,6 +53279,11 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:163
 msgid "The lists prices are kept in, for buying and selling."
+msgstr ""
+
+#. Description of the 'Lease Lock' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:115
+msgid "The lock that lets the holder save this file."
 msgstr ""
 
 #: onedesk/public/js/one/one_control.js:285
@@ -53672,7 +53713,7 @@ msgid "The presentation could not be saved. Try again."
 msgstr ""
 
 #. Description of the 'Master Of' (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:109
+#: onedesk/one_slide/doctype/presentation/presentation.json:101
 msgid "The presentation this one is the master of. A master has no File of its own."
 msgstr ""
 
@@ -53844,7 +53885,7 @@ msgid "The record's own link to the one whose fields are shown."
 msgstr ""
 
 #. Description of the 'Sources' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:99
+#: onedesk/one_slide/doctype/presentation/presentation.json:91
 msgid "The records whose words this presentation shows, filled each time it is drawn."
 msgstr ""
 
@@ -53893,7 +53934,7 @@ msgid "The rows and formulas of a custom financial statement."
 msgstr ""
 
 #. Description of the 'HTML' (Long Text) field in DocType 'Writer Document'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:51
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:54
 msgid "The same document as HTML, written on every save. Printing, search, exports and mail read it."
 msgstr ""
 
@@ -53975,18 +54016,13 @@ msgstr ""
 msgid "The slide is in the library."
 msgstr ""
 
-#. Description of the 'Not Brought In' (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:65
-msgid "The slides whose last save from the drive had parts that could not be brought in."
-msgstr ""
-
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:86
+#: onedesk/one_slide/doctype/presentation/presentation.json:78
 msgid "The slides' height in pixels."
 msgstr ""
 
 #. Description of the 'Width' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:79
+#: onedesk/one_slide/doctype/presentation/presentation.json:71
 msgid "The slides' width in pixels."
 msgstr ""
 
@@ -54189,7 +54225,7 @@ msgstr ""
 msgid "The work this invoice bills, before its retention."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:162
+#: onedesk/one_sheet/api.py:178
 msgid "The workbook data is invalid."
 msgstr ""
 
@@ -54421,7 +54457,7 @@ msgstr ""
 
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
-#: onedesk/one_slide/doctype/presentation/presentation.json:72
+#: onedesk/one_slide/doctype/presentation/presentation.json:64
 #: onedesk/public/js/outside.js:106 onedesk/public/js/theme.js:132
 msgid "Theme"
 msgstr ""
@@ -54738,11 +54774,11 @@ msgstr ""
 msgid "They took care of everything."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1888
+#: frontend/src/sheet/components/SheetEditor/index.vue:1900
 msgid "Thick"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1886
+#: frontend/src/sheet/components/SheetEditor/index.vue:1898
 msgid "Thin"
 msgstr ""
 
@@ -54853,12 +54889,12 @@ msgstr ""
 msgid "This copy is gone"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:279
+#: frontend/src/writer/DocumentPage.vue:291
 #: frontend/src/writer/components/WriterSettings.vue:182
 msgid "This document"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:213
+#: frontend/src/writer/DocumentPage.vue:225
 msgid "This document could not be opened."
 msgstr ""
 
@@ -54874,7 +54910,7 @@ msgstr ""
 msgid "This document is not in a folder."
 msgstr ""
 
-#: onedesk/one_doc/word.py:286
+#: onedesk/one_doc/word.py:309
 msgid "This document is not linked to a Word file."
 msgstr ""
 
@@ -54882,7 +54918,7 @@ msgstr ""
 msgid "This document is not on a record."
 msgstr ""
 
-#: onedesk/one_doc/api.py:159 onedesk/one_doc/api.py:182
+#: onedesk/one_doc/api.py:162 onedesk/one_doc/api.py:195
 msgid "This document is too large to save."
 msgstr ""
 
@@ -54910,9 +54946,9 @@ msgstr ""
 msgid "This file can't be shown here."
 msgstr ""
 
-#: onedesk/one_doc/word.py:225 onedesk/one_doc/word.py:261
-#: onedesk/one_sheet/api.py:224 onedesk/one_sheet/excel.py:278
-#: onedesk/one_slide/from_powerpoint.py:304
+#: onedesk/one_doc/word.py:226 onedesk/one_doc/word.py:278
+#: onedesk/one_sheet/api.py:240 onedesk/one_sheet/excel.py:278
+#: onedesk/one_slide/from_powerpoint.py:300
 msgid "This file cannot be opened."
 msgstr ""
 
@@ -54920,15 +54956,11 @@ msgstr ""
 msgid "This file could not be converted."
 msgstr ""
 
-#: onedesk/one_slide/drive.py:69
-msgid "This file is not a presentation."
-msgstr ""
-
-#: onedesk/one_doc/api.py:264
+#: onedesk/one_doc/api.py:277
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_slide/api.py:525
+#: onedesk/one_slide/api.py:524
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -54985,8 +55017,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_slide/api.py:558 onedesk/one_slide/api.py:562
-#: onedesk/one_slide/api.py:575 onedesk/one_slide/paper.py:32
+#: onedesk/one_slide/api.py:557 onedesk/one_slide/api.py:561
+#: onedesk/one_slide/api.py:574 onedesk/one_slide/paper.py:32
 msgid "This is not a picture."
 msgstr ""
 
@@ -55032,10 +55064,10 @@ msgstr ""
 #: onedesk/one_storage/api.py:19 onedesk/one_storage/api.py:83
 #: onedesk/one_storage/dav.py:273
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
-#: onedesk/one_storage/file_requests.py:137 onedesk/one_storage/history.py:60
-#: onedesk/one_storage/history.py:222 onedesk/one_storage/library.py:62
-#: onedesk/one_storage/mounts.py:54 onedesk/one_storage/mounts.py:74
-#: onedesk/one_storage/share.py:31
+#: onedesk/one_storage/file_requests.py:137 onedesk/one_storage/history.py:102
+#: onedesk/one_storage/history.py:270 onedesk/one_storage/lease.py:207
+#: onedesk/one_storage/library.py:62 onedesk/one_storage/mounts.py:54
+#: onedesk/one_storage/mounts.py:74 onedesk/one_storage/share.py:31
 msgid "This item no longer exists."
 msgstr ""
 
@@ -55115,7 +55147,7 @@ msgstr ""
 msgid "This picture could not be opened."
 msgstr ""
 
-#: onedesk/one_slide/api.py:564 onedesk/one_slide/api.py:578
+#: onedesk/one_slide/api.py:563 onedesk/one_slide/api.py:577
 #: onedesk/one_slide/paper.py:35
 msgid "This picture is too large."
 msgstr ""
@@ -55145,7 +55177,7 @@ msgstr ""
 msgid "This quotation can no longer be answered."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3767
+#: frontend/src/sheet/components/SheetEditor/index.vue:3804
 msgid "This range is protected and can’t be edited"
 msgstr ""
 
@@ -55240,7 +55272,7 @@ msgstr ""
 msgid "This sheet is empty."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3766
+#: frontend/src/sheet/components/SheetEditor/index.vue:3803
 msgid "This sheet is protected"
 msgstr ""
 
@@ -55307,11 +55339,11 @@ msgstr ""
 msgid "This user's role already allows everything here."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:977
+#: frontend/src/sheet/components/SheetEditor/index.vue:988
 msgid "This value is not allowed"
 msgstr ""
 
-#: onedesk/one_storage/history.py:87
+#: onedesk/one_storage/history.py:131
 #, python-brace-format
 msgid "This version doesn't belong to {0}."
 msgstr ""
@@ -55357,7 +55389,7 @@ msgstr ""
 msgid "This workbook is not linked to a record."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:248
+#: onedesk/one_sheet/api.py:265
 msgid "This workbook is not linked to an Excel or CSV file."
 msgstr ""
 
@@ -55452,7 +55484,7 @@ msgstr ""
 msgid "Those addresses aren't on this workspace."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:181
+#: frontend/src/sheet/components/SheetEditor/index.vue:192
 msgid "Thousands separator"
 msgstr ""
 
@@ -55484,7 +55516,7 @@ msgstr ""
 
 #. Label of the thumbnail (Data) field in DocType 'Presentation'
 #. Label of the thumbnail (Long Text) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation/presentation.json:119
+#: onedesk/one_slide/doctype/presentation/presentation.json:111
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:41
 msgid "Thumbnail"
 msgstr ""
@@ -55619,8 +55651,8 @@ msgstr ""
 #. Label in the One Project Update print format
 #. Label in the One Timesheet print format
 #: frontend/portal/src/pages/Project.vue:96 frontend/src/hr/HrStory.vue:20
-#: frontend/src/sheet/components/SheetEditor/index.vue:1862
-#: frontend/src/sheet/components/SheetEditor/index.vue:2402
+#: frontend/src/sheet/components/SheetEditor/index.vue:1874
+#: frontend/src/sheet/components/SheetEditor/index.vue:2439
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:98
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
@@ -55730,7 +55762,7 @@ msgstr ""
 msgid "Time to Answer"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2402
+#: frontend/src/sheet/components/SheetEditor/index.vue:2439
 #, python-brace-format
 msgid "Time · {0}"
 msgstr ""
@@ -55859,10 +55891,10 @@ msgstr ""
 #: onedesk/one_display/doctype/display_track/display_track.json:23
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:47
 #: onedesk/one_display/layout.py:17
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:29
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:32
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json:30
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:31
-#: onedesk/one_sheet/doctype/workbook/workbook.json:29
+#: onedesk/one_sheet/doctype/workbook/workbook.json:32
 #: onedesk/one_slide/decks.py:22
 #: onedesk/one_slide/doctype/presentation/presentation.json:41
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:50
@@ -56198,7 +56230,7 @@ msgstr ""
 msgid "Today's special"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:253
+#: frontend/src/sheet/components/SheetEditor/index.vue:264
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:73
 msgid "Toggle filter"
 msgstr ""
@@ -56623,7 +56655,7 @@ msgstr ""
 msgid "Traffic"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4882
+#: frontend/src/sheet/components/SheetEditor/index.vue:4919
 msgid "Traffic lights"
 msgstr ""
 
@@ -57206,7 +57238,7 @@ msgstr ""
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
 #: frontend/src/cloud/CloudItems.vue:181 frontend/src/cloud/CloudPreview.vue:91
 #: frontend/src/cloud/OneCloud.vue:248
-#: frontend/src/sheet/components/SheetEditor/index.vue:905
+#: frontend/src/sheet/components/SheetEditor/index.vue:916
 #: onedesk/one/doctype/news_source/news_source.json:56 onedesk/one/portal.py:58
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:33
 #: onedesk/one_admin/report/price_check/price_check.py:101
@@ -57408,7 +57440,7 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:204
+#: frontend/src/sheet/components/SheetEditor/index.vue:215
 msgid "Underline (Ctrl+U)"
 msgstr ""
 
@@ -57433,7 +57465,7 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:243
+#: frontend/src/sheet/components/SheetEditor/index.vue:254
 msgid "Undo (Ctrl+Z)"
 msgstr ""
 
@@ -57469,24 +57501,24 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:810
+#: frontend/src/sheet/components/SheetEditor/index.vue:821
 msgid "Unfreeze cols"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:775
+#: frontend/src/sheet/components/SheetEditor/index.vue:786
 msgid "Unfreeze columns"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:790
-#: frontend/src/sheet/components/SheetEditor/index.vue:808
+#: frontend/src/sheet/components/SheetEditor/index.vue:801
+#: frontend/src/sheet/components/SheetEditor/index.vue:819
 msgid "Unfreeze rows"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:772
+#: frontend/src/sheet/components/SheetEditor/index.vue:783
 msgid "Unhide all columns"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:787
+#: frontend/src/sheet/components/SheetEditor/index.vue:798
 msgid "Unhide all rows"
 msgstr ""
 
@@ -57654,7 +57686,7 @@ msgstr ""
 #: frontend/src/slide/components/PropertiesPanel.vue:17
 #: frontend/src/slide/shim/LayersPanel.vue:56
 #: frontend/src/writer/DocumentPage.vue:19
-#: frontend/src/writer/DocumentPage.vue:289
+#: frontend/src/writer/DocumentPage.vue:301
 #: onedesk/one_book/report/tax_return/tax_return.js:65
 msgid "Unlock"
 msgstr ""
@@ -57700,7 +57732,7 @@ msgstr ""
 msgid "Unpaid Leave"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:729
+#: frontend/src/sheet/components/SheetEditor/index.vue:740
 msgid "Unprotect sheet"
 msgstr ""
 
@@ -57784,7 +57816,7 @@ msgstr ""
 msgid "Untitled"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:250
+#: frontend/src/writer/DocumentPage.vue:262
 #: frontend/src/writer/components/CoreEditor.vue:369 onedesk/one_doc/api.py:81
 #: onedesk/public/js/workbooks.js:17
 msgid "Untitled Document"
@@ -57798,10 +57830,10 @@ msgstr ""
 msgid "Untitled Presentation"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1377
-#: frontend/src/sheet/components/SheetEditor/index.vue:1712
-#: frontend/src/sheet/components/SheetEditor/index.vue:3558
-#: frontend/src/sheet/components/SheetEditor/usePersistence.js:92
+#: frontend/src/sheet/components/SheetEditor/index.vue:1389
+#: frontend/src/sheet/components/SheetEditor/index.vue:1724
+#: frontend/src/sheet/components/SheetEditor/index.vue:3595
+#: frontend/src/sheet/components/SheetEditor/usePersistence.js:94
 msgid "Untitled Sheet"
 msgstr ""
 
@@ -58417,9 +58449,9 @@ msgstr ""
 #. Label in the One Asset Capitalization print format
 #. Label in the One Shipment print format
 #: frontend/src/display/Boards.vue:58
-#: frontend/src/sheet/components/SheetEditor/index.vue:606
-#: frontend/src/sheet/components/SheetEditor/index.vue:963
-#: frontend/src/sheet/components/SheetEditor/index.vue:1164
+#: frontend/src/sheet/components/SheetEditor/index.vue:617
+#: frontend/src/sheet/components/SheetEditor/index.vue:974
+#: frontend/src/sheet/components/SheetEditor/index.vue:1175
 #: onedesk/one/doctype/record_head_band/record_head_band.json:31
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:74
 #: onedesk/one_ai/doctype/identifier/identifier.json:32
@@ -58460,17 +58492,17 @@ msgstr ""
 msgid "Value by Asset Category"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3314
+#: frontend/src/sheet/components/SheetEditor/index.vue:3351
 msgid "Value flagged by data validation rule"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:3302
+#: frontend/src/sheet/components/SheetEditor/index.vue:3339
 msgid "Value rejected by data validation rule"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:78
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:84
-#: frontend/src/sheet/components/SheetEditor/index.vue:542
+#: frontend/src/sheet/components/SheetEditor/index.vue:553
 msgid "Values"
 msgstr ""
 
@@ -58478,7 +58510,7 @@ msgstr ""
 msgid "Values and Formulas"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1233
+#: frontend/src/sheet/components/SheetEditor/index.vue:1244
 msgid "Values are split into three equal buckets across the range."
 msgstr ""
 
@@ -58492,7 +58524,7 @@ msgstr ""
 msgid "Variable"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1191
+#: frontend/src/sheet/components/SheetEditor/index.vue:1202
 msgid "Variant"
 msgstr ""
 
@@ -58576,7 +58608,7 @@ msgstr ""
 #: frontend/src/slide/shim/EditorNavbar.vue:141
 #: frontend/src/slide/shim/EditorNavbar.vue:154
 #: frontend/src/slide/shim/VersionsDialog.vue:3
-#: frontend/src/writer/DocumentPage.vue:293
+#: frontend/src/writer/DocumentPage.vue:305
 msgid "Version History"
 msgstr ""
 
@@ -58659,7 +58691,7 @@ msgstr ""
 msgid "View Items"
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:605
+#: onedesk/public/js/onecloud_dialogs.js:608
 msgid "View Read-Only"
 msgstr ""
 
@@ -60157,6 +60189,15 @@ msgstr ""
 #. Description of the 'Name' (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:34
 msgid "What the folder is called in OneCloud."
+msgstr ""
+
+#. Description of the 'Left Out of Drive Save' (JSON) field in DocType 'Writer
+#. Document'
+#. Description of the 'Left Out of Drive Save' (JSON) field in DocType
+#. 'Workbook'
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:126
+#: onedesk/one_sheet/doctype/workbook/workbook.json:126
+msgid "What the last save from the drive had that was not kept, shown when it is next opened."
 msgstr ""
 
 #. Description of the 'Size Unit' (Link) field in DocType 'BOM Item'
@@ -61925,9 +61966,9 @@ msgstr ""
 msgid "When the last task a task waits on is done."
 msgstr ""
 
-#. Description of the 'OneOS Lease Until' (Datetime) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:145
-msgid "When the lease lapses unless OneOS says the session still runs."
+#. Description of the 'Lease Until' (Datetime) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:159
+msgid "When the lease lapses unless its holder renews it."
 msgstr ""
 
 #. When a notification is sent
@@ -61976,7 +62017,7 @@ msgstr ""
 msgid "When the time or the place of an event you are on changes."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:982
+#: frontend/src/sheet/components/SheetEditor/index.vue:993
 msgid "When the value is invalid"
 msgstr ""
 
@@ -62716,9 +62757,9 @@ msgstr ""
 msgid "Who has not signed in lately?"
 msgstr ""
 
-#. Description of the 'Open in OneOS By' (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:129
-msgid "Who has this file open in OneOS."
+#. Description of the 'Leased By' (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:145
+msgid "Who has this file alone."
 msgstr ""
 
 #: onedesk/one_admin/ai.py:110
@@ -63356,7 +63397,7 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:43
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:43
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:77
+#: onedesk/one_slide/doctype/presentation/presentation.json:69
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:56
 #: onedesk/public/js/table_workbook.js:48
 msgid "Width"
@@ -63715,8 +63756,8 @@ msgstr ""
 #. Label of the sheets_data (Long Text) field in DocType 'Workbook Version'
 #: frontend/src/cloud/OneCloud.vue:715 frontend/src/cloud/cloud.js:110
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:90
-#: onedesk/one_sheet/doctype/workbook/workbook.json:44
-#: onedesk/one_sheet/doctype/workbook/workbook.json:111
+#: onedesk/one_sheet/doctype/workbook/workbook.json:47
+#: onedesk/one_sheet/doctype/workbook/workbook.json:134
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:27
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:26
 #: onedesk/one_sheet/paper.py:361
@@ -64205,7 +64246,7 @@ msgstr ""
 msgid "Worth weighing"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:2485
+#: frontend/src/sheet/components/SheetEditor/index.vue:2522
 msgid "Wrap"
 msgstr ""
 
@@ -64429,7 +64470,7 @@ msgid "Write {0} slides in {1}"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:111
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:134
 msgid "Writer Document"
 msgstr ""
 
@@ -64438,7 +64479,7 @@ msgstr ""
 msgid "Writer Document Version"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:228
+#: onedesk/one_doc/ai.py:229
 msgid "Writes"
 msgstr ""
 
@@ -64615,6 +64656,19 @@ msgstr ""
 
 #: frontend/src/cloud/CloudItems.vue:119
 msgid "You are editing in OneOS"
+msgstr ""
+
+#: onedesk/one_storage/lease.py:173
+msgid "You are editing this in OneOS."
+msgstr ""
+
+#: onedesk/one_storage/lease.py:174
+msgid "You are editing this on the drive."
+msgstr ""
+
+#: onedesk/public/js/onecloud_dialogs.js:598
+#, python-brace-format
+msgid "You are editing {0} in {1}. Make a copy to edit it in OneOS, or view it read-only."
 msgstr ""
 
 #: onedesk/one_hr/rules.py:22
@@ -65192,6 +65246,11 @@ msgstr ""
 msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your One account."
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:170
+#, python-brace-format
+msgid "Your changes are saved here. Saving them over {0} would drop its {1}."
+msgstr ""
+
 #: onedesk/one_book/home.py:406
 msgid "Your chart of accounts read in from a spreadsheet."
 msgstr ""
@@ -65498,7 +65557,7 @@ msgstr ""
 msgid "Your role doesn't allow changing this."
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:595
+#: onedesk/public/js/onecloud_dialogs.js:596
 #, python-brace-format
 msgid "Your role doesn't allow changing {0}. Make a copy to edit it in OneOS, or view it read-only."
 msgstr ""
@@ -65867,7 +65926,7 @@ msgid "and"
 msgstr ""
 
 #: onedesk/one_hr/control.py:159 onedesk/public/js/one_ai/panel/Panel.vue:114
-#: onedesk/public/js/onecloud_dialogs.js:617
+#: onedesk/public/js/onecloud_dialogs.js:620
 #, python-brace-format
 msgid "and {0} more"
 msgstr ""
@@ -65897,7 +65956,7 @@ msgstr ""
 msgid "belongs to your browser, so it can't be a shortcut."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:5016
+#: frontend/src/sheet/components/SheetEditor/index.vue:5053
 #, python-brace-format
 msgid "between {0} and {1}"
 msgstr ""
@@ -65961,8 +66020,20 @@ msgstr ""
 msgid "changed"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:142
+msgid "charts"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:138
+msgid "comments"
+msgstr ""
+
 #: onedesk/one_project/activity.py:352
 msgid "completed"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:147
+msgid "conditional formatting"
 msgstr ""
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
@@ -65992,7 +66063,7 @@ msgstr ""
 msgid "created a public link"
 msgstr ""
 
-#: onedesk/one_storage/history.py:237
+#: onedesk/one_storage/history.py:285
 msgid "created it"
 msgstr ""
 
@@ -66018,6 +66089,10 @@ msgstr ""
 msgid "dash"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:146
+msgid "data validation"
+msgstr ""
+
 #: onedesk/one_admin/offerings.py:165
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:23
 msgid "database"
@@ -66027,7 +66102,7 @@ msgstr ""
 msgid "days, hours and minutes to go"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1034
+#: frontend/src/sheet/components/SheetEditor/index.vue:1045
 msgid "decimal"
 msgstr ""
 
@@ -66053,7 +66128,7 @@ msgid "documents"
 msgstr ""
 
 #. Description of the 'Opened From' (Data) field in DocType 'Writer Document'
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:103
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:106
 msgid "docx when this edits that File in place, its content written back to it."
 msgstr ""
 
@@ -66061,7 +66136,7 @@ msgstr ""
 msgid "doesn't contain"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1035
+#: frontend/src/sheet/components/SheetEditor/index.vue:1046
 msgid "e.g."
 msgstr ""
 
@@ -66081,8 +66156,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:29
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:28
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:34
-#: frontend/src/sheet/components/SheetEditor/index.vue:1164
-#: frontend/src/sheet/components/SheetEditor/index.vue:1166
+#: frontend/src/sheet/components/SheetEditor/index.vue:1175
+#: frontend/src/sheet/components/SheetEditor/index.vue:1177
 #, python-brace-format
 msgid "e.g. {0}"
 msgstr ""
@@ -66113,6 +66188,10 @@ msgstr ""
 msgid "email"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:153
+msgid "embedded files"
+msgstr ""
+
 #: onedesk/one_account/center.py:144 onedesk/one_account/center.py:145
 #: onedesk/one_account/center.py:146
 msgid "emergency contact"
@@ -66131,6 +66210,10 @@ msgstr ""
 #: onedesk/one_mail/flow.py:295
 #, python-brace-format
 msgid "ends with {0}"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:152
+msgid "equations"
 msgstr ""
 
 #: frontend/src/writer/components/TemplateDialog.vue:84
@@ -66156,6 +66239,22 @@ msgstr ""
 
 #: onedesk/one_hr/heads.py:344
 msgid "feedback"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:155
+msgid "fields such as a table of contents"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:149
+msgid "fonts, colours and borders"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:150
+msgid "fonts, sizes and colours"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:141
+msgid "footnotes"
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:13 onedesk/one_crm/heads.py:69
@@ -66187,7 +66286,7 @@ msgstr ""
 msgid "from {0}, with no end date"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:303
+#: frontend/src/sheet/components/SheetEditor/index.vue:314
 msgid "fx"
 msgstr ""
 
@@ -66221,6 +66320,10 @@ msgstr ""
 #: onedesk/one_mail/flow.py:291
 #, python-brace-format
 msgid "hasn't {0}"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:140
+msgid "headers and footers"
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:616
@@ -66370,6 +66473,11 @@ msgstr ""
 msgid "just you"
 msgstr ""
 
+#: onedesk/one_storage/saving.py:152
+#, python-brace-format
+msgid "kept the changes not saved to {0}"
+msgstr ""
+
 #: onedesk/one/ai.py:1173 onedesk/one/ai.py:1175
 #: onedesk/one/shortcut_center.py:97
 #: onedesk/one_display/doctype/widget_collection/widget_collection.py:21
@@ -66407,7 +66515,15 @@ msgstr ""
 msgid "left to {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1034
+#: onedesk/one_storage/fidelity.py:154
+msgid "links"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:148
+msgid "links to other workbooks"
+msgstr ""
+
+#: frontend/src/sheet/components/SheetEditor/index.vue:1045
 msgid "literal."
 msgstr ""
 
@@ -66427,6 +66543,10 @@ msgstr ""
 
 #: onedesk/public/js/onecloud_dialogs.js:521
 msgid "macOS"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:137
+msgid "macros"
 msgstr ""
 
 #: onedesk/one_portal/share.py:287
@@ -66469,7 +66589,7 @@ msgstr ""
 msgid "missing permissions: {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:623
+#: frontend/src/sheet/components/SheetEditor/index.vue:634
 msgid "more rows at the bottom"
 msgstr ""
 
@@ -66680,6 +66800,11 @@ msgstr ""
 msgid "oneai"
 msgstr ""
 
+#. Description of the 'Lease Type' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:101
+msgid "oneos while a OneOS session has this file alone, dav while a desktop app on the drive does."
+msgstr ""
+
 #: onedesk/one_studio/ai_setup.py:695
 #, python-brace-format
 msgid "only on {0}"
@@ -66699,7 +66824,7 @@ msgstr ""
 msgid "open"
 msgstr ""
 
-#: onedesk/one_storage/oneos.py:120
+#: onedesk/one_storage/oneos.py:114
 msgid "opened it in OneOS"
 msgstr ""
 
@@ -66712,7 +66837,7 @@ msgstr ""
 msgid "optional"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1033
+#: frontend/src/sheet/components/SheetEditor/index.vue:1044
 msgid "optional digit"
 msgstr ""
 
@@ -66744,7 +66869,7 @@ msgstr ""
 msgid "outside every location"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1033
+#: frontend/src/sheet/components/SheetEditor/index.vue:1044
 msgid "padded digit"
 msgstr ""
 
@@ -66766,7 +66891,7 @@ msgstr ""
 msgid "past work"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1034
+#: frontend/src/sheet/components/SheetEditor/index.vue:1045
 msgid "percent"
 msgstr ""
 
@@ -66778,9 +66903,17 @@ msgstr ""
 msgid "phone"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:144
+msgid "pictures"
+msgstr ""
+
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
 #: onedesk/one_storage/custom/file.json:81
 msgid "pink"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:143
+msgid "pivot tables"
 msgstr ""
 
 #: onedesk/one_hr/hiring.py:339
@@ -66854,7 +66987,7 @@ msgstr ""
 msgid "restored it from the Recycle Bin"
 msgstr ""
 
-#: onedesk/one_storage/history.py:104
+#: onedesk/one_storage/history.py:152
 #, python-brace-format
 msgid "restored version {0}"
 msgstr ""
@@ -66903,7 +67036,7 @@ msgstr ""
 msgid "shared it with {0}"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:330
+#: frontend/src/sheet/components/SheetEditor/index.vue:341
 msgid "sheet"
 msgstr ""
 
@@ -66966,8 +67099,16 @@ msgstr ""
 msgid "storage"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:156
+msgid "styles"
+msgstr ""
+
 #: onedesk/one_project/activity.py:338
 msgid "submitted"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:145
+msgid "tables"
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:60
@@ -66979,9 +67120,13 @@ msgid "tax number"
 msgstr ""
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
-#: frontend/src/sheet/components/SheetEditor/index.vue:1034
+#: frontend/src/sheet/components/SheetEditor/index.vue:1045
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "text"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:151
+msgid "text boxes and shapes"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:362
@@ -67016,6 +67161,10 @@ msgstr ""
 #: onedesk/one_hr/control.py:147
 #, python-brace-format
 msgid "the days off each week are now {0}"
+msgstr ""
+
+#: onedesk/one_storage/lease.py:134
+msgid "the drive"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:687
@@ -67096,7 +67245,7 @@ msgstr ""
 msgid "thousand"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:1033
+#: frontend/src/sheet/components/SheetEditor/index.vue:1044
 msgid "thousands"
 msgstr ""
 
@@ -67137,6 +67286,10 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:139
+msgid "tracked changes"
+msgstr ""
+
 #: onedesk/one_admin/setup.py:943
 msgid "unchanged"
 msgstr ""
@@ -67175,7 +67328,7 @@ msgstr ""
 msgid "until {0}"
 msgstr ""
 
-#: onedesk/one_storage/history.py:51
+#: onedesk/one_storage/history.py:84
 msgid "uploaded a new version"
 msgstr ""
 
@@ -67246,7 +67399,7 @@ msgid "wrangler took too long: {0}"
 msgstr ""
 
 #. Description of the 'Opened From' (Data) field in DocType 'Workbook'
-#: onedesk/one_sheet/doctype/workbook/workbook.json:103
+#: onedesk/one_sheet/doctype/workbook/workbook.json:106
 msgid "xlsx or csv when this edits that File in place, its content written back to it."
 msgstr ""
 
@@ -67346,6 +67499,11 @@ msgstr ""
 #: onedesk/one/ai.py:2294 onedesk/one/ai.py:2502
 #, python-brace-format
 msgid "{0} (was {1})"
+msgstr ""
+
+#: onedesk/one_storage/saving.py:148
+#, python-brace-format
+msgid "{0} ({1}'s copy)"
 msgstr ""
 
 #: onedesk/one/tell.py:532 onedesk/one/tell.py:673
@@ -67864,7 +68022,7 @@ msgstr ""
 msgid "{0} can't be edited."
 msgstr ""
 
-#: onedesk/one_storage/oneos.py:80
+#: onedesk/one_storage/oneos.py:74
 #, python-brace-format
 msgid "{0} can't be opened in OneOS."
 msgstr ""
@@ -67956,7 +68114,7 @@ msgstr ""
 msgid "{0} categories, each with its ledger and how it depreciates."
 msgstr ""
 
-#: onedesk/one_sheet/ai.py:248
+#: onedesk/one_sheet/ai.py:249
 #, python-brace-format
 msgid "{0} cells"
 msgstr ""
@@ -68332,7 +68490,7 @@ msgstr ""
 msgid "{0} files open"
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:619
+#: onedesk/public/js/onecloud_dialogs.js:622
 #, python-brace-format
 msgid "{0} files with these names are already here"
 msgstr ""
@@ -68466,6 +68624,11 @@ msgstr ""
 #: onedesk/one_book/ready.py:248
 #, python-brace-format
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:131
+#, python-brace-format
+msgid "{0} has macros, so it opens read-only here. Open it in OneOS to edit it."
 msgstr ""
 
 #: onedesk/one_ai/brief.py:54
@@ -68921,9 +69084,19 @@ msgstr ""
 msgid "{0} is editing in OneOS"
 msgstr ""
 
-#: onedesk/public/js/onecloud_dialogs.js:596
+#: onedesk/one_storage/lease.py:173
 #, python-brace-format
-msgid "{0} is editing {1} in OneOS. Make a copy to edit it, or view it read-only."
+msgid "{0} is editing this in OneOS."
+msgstr ""
+
+#: onedesk/one_storage/lease.py:174
+#, python-brace-format
+msgid "{0} is editing this on the drive."
+msgstr ""
+
+#: onedesk/public/js/onecloud_dialogs.js:599
+#, python-brace-format
+msgid "{0} is editing {1} in {2}. Make a copy to edit it in OneOS, or view it read-only."
 msgstr ""
 
 #: onedesk/one/unsubscribe.py:133
@@ -68944,6 +69117,11 @@ msgstr ""
 #: frontend/src/slide/shim/EditorNavbar.vue:313
 #, python-brace-format
 msgid "{0} is in Presentation Templates."
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:132
+#, python-brace-format
+msgid "{0} is in an older Excel format, so it opens read-only here. Open it in OneOS to edit it."
 msgstr ""
 
 #: onedesk/one_storage/api.py:313
@@ -69392,7 +69570,7 @@ msgstr ""
 msgid "{0} is on leave until {1}."
 msgstr ""
 
-#: onedesk/one_storage/oneos.py:176
+#: onedesk/one_storage/oneos.py:142
 #, python-brace-format
 msgid "{0} is open in OneOS by {1}."
 msgstr ""
@@ -69402,7 +69580,7 @@ msgstr ""
 msgid "{0} is over budget"
 msgstr ""
 
-#: onedesk/one_storage/oneos.py:227
+#: onedesk/one_storage/oneos.py:192
 #, python-brace-format
 msgid "{0} is over {1} MB."
 msgstr ""
@@ -69667,12 +69845,12 @@ msgstr ""
 #: frontend/src/factory/home/FactoryHome.vue:143 frontend/src/hr/HrHome.vue:219
 #: frontend/src/inventory/home/InventoryHome.vue:204
 #: frontend/src/quality/QualityHome.vue:135
-#: frontend/src/sheet/components/SheetEditor/index.vue:698
+#: frontend/src/sheet/components/SheetEditor/index.vue:709
 #, python-brace-format
 msgid "{0} more"
 msgstr ""
 
-#: onedesk/one_sheet/ai.py:247
+#: onedesk/one_sheet/ai.py:248
 #, python-brace-format
 msgid "{0} more cells"
 msgstr ""
@@ -70321,6 +70499,11 @@ msgstr ""
 #: onedesk/public/js/one_interface/look.js:536
 #, python-brace-format
 msgid "{0} rows removed"
+msgstr ""
+
+#: onedesk/one_storage/saving.py:54
+#, python-brace-format
+msgid "{0} saved this from the drive on {1}. Its {2} could not be kept. What it held before is in Version History."
 msgstr ""
 
 #: frontend/src/writer/shim/PrintDialog.vue:109
@@ -71246,12 +71429,12 @@ msgstr ""
 msgid "{0}; nothing more will be made on it."
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4595
+#: frontend/src/sheet/components/SheetEditor/index.vue:4632
 #, python-brace-format
 msgid "{0}h ago"
 msgstr ""
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4594
+#: frontend/src/sheet/components/SheetEditor/index.vue:4631
 #, python-brace-format
 msgid "{0}m ago"
 msgstr ""
