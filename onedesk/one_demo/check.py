@@ -1411,6 +1411,51 @@ def onecloud_a_letter_is_edited_in_oneos():
 
 
 @check
+def onecloud_office_files_wait_to_open_in_oneos():
+	"""Every office file the demo wrote is where its owner left it, opens in
+	OneOS for them and reads back as what it says it is: the Word files as
+	paragraphs, the workbooks with their formulas, the deck with its slides and
+	the export with its rows. Whoever it was shared with may read it, and only
+	those given edit may change it."""
+	import csv
+
+	from docx import Document
+	from openpyxl import load_workbook
+	from pptx import Presentation
+
+	from onedesk.one_demo import office as demo
+	from onedesk.one_storage import api, oneos
+	from onedesk.one_storage import namespace as ns
+
+	for one in demo.files():
+		node = demo.found(one)
+		assert node, f"{one['name']} is not in {one['owner']}'s files"
+		item = ns.row(node)
+		assert oneos.opens(item.file_name), item.file_name
+		folder = ns.row(item.folder)
+		assert folder and folder.file_name == one["folder"], f"{one['name']} is in {folder and folder.file_name}"
+		with as_user(one["owner"]):
+			oneos._openable(node)
+			content = api._content(item)
+		kind = item.file_name.rsplit(".", 1)[-1]
+		if kind == "docx":
+			assert len([para for para in Document(io.BytesIO(content)).paragraphs if para.text.strip()]) >= 5, item.file_name
+		elif kind == "xlsx":
+			book = load_workbook(io.BytesIO(content))
+			assert any(isinstance(cell.value, str) and cell.value.startswith("=") for sheet in book for row in sheet.iter_rows() for cell in row), item.file_name
+		elif kind == "pptx":
+			assert len(Presentation(io.BytesIO(content)).slides) >= 4, item.file_name
+		else:
+			rows = list(csv.reader(io.StringIO(content.decode())))
+			assert rows[0][0] == "Item code" and len(rows) > 1, item.file_name
+		for user, edit in one["shared"].items():
+			assert ns.may(item, "read", user=user), f"{user} cannot read {one['name']}"
+			assert ns.may(item, "write", user=user) == bool(edit), f"{user} {'cannot' if edit else 'can'} change {one['name']}"
+	budget = next(one for one in demo.files() if one["name"] == demo.budget_name())
+	assert not ns.may(ns.row(demo.found(budget)), "read", user="nadia@one.test"), "Huda's budget is not open to everybody"
+
+
+@check
 def onecloud_the_site_team_works_in_its_library():
 	"""Samir's Projects library as the crew uses it: listed, searched and
 	found by its path, a folder made, renamed and moved about, a file copied,
