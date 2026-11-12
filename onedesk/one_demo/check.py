@@ -1346,8 +1346,6 @@ def onecloud_a_letter_is_edited_in_oneos():
 	from urllib.parse import parse_qs, urlparse
 
 	from werkzeug.exceptions import Forbidden
-	from werkzeug.test import EnvironBuilder
-	from werkzeug.wrappers import Request
 
 	from onedesk.one_demo import storage as demo
 	from onedesk.one_storage import api, history, oneos, upload
@@ -1385,11 +1383,10 @@ def onecloud_a_letter_is_edited_in_oneos():
 		oneos.file(**down)
 		for key in ("type", "filecontent", "filename", "display_content_as"):
 			frappe.local.response.pop(key, None)
-		was = frappe.local.request if hasattr(frappe.local, "request") else None
 		try:
-			frappe.local.request = Request(EnvironBuilder(method="POST", data=b"handover v2").get_environ())
+			_asked(data=b"handover v2")
 			assert oneos.save(**up) == {"saved": True}
-			frappe.local.request = Request(EnvironBuilder(method="POST", data=b"handover v2").get_environ())
+			_asked(data=b"handover v2")
 			assert oneos.save(**up) == {"saved": False}, "the same content is not a version"
 			for wrong in ({**down}, {**up, "f": copy["node"]}, {**up, "e": str(int(up["e"]) + 1)}):
 				try:
@@ -1398,7 +1395,7 @@ def onecloud_a_letter_is_edited_in_oneos():
 				except Forbidden:
 					pass
 		finally:
-			frappe.local.request = was
+			_unasked()
 		assert len(history.versions(letter)) == 1 and frappe.db.get_value("File", letter, "modified_by") == demo.PM
 		answers["oneos_state"] = {"state": "Stopped", "stop_reason": "Idle"}
 		with mock.patch("onedesk.one_storage.tell.oneos_closed") as closed:
@@ -1420,8 +1417,6 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 	from urllib.parse import parse_qs, urlparse
 
 	from docx import Document
-	from werkzeug.test import EnvironBuilder
-	from werkzeug.wrappers import Request
 
 	from onedesk.one_demo import storage as demo
 	from onedesk.one_doc import api as writing
@@ -1474,13 +1469,12 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 						frappe.clear_last_message()
 				assert lease.of(file)["alone"] == {"by": samir, "kind": lease.ONEOS, "mine": False}
 			up = {key: one[0] for key, one in parse_qs(urlparse(start["save_url"]).query).items()}
-			was = getattr(frappe.local, "request", None)
 			try:
 				for text in ("Keys on Wednesday.", "Keys on Thursday."):
-					frappe.local.request = Request(EnvironBuilder(method="POST", data=letter(text)).get_environ())
+					_asked(data=letter(text))
 					assert oneos.save(**up) == {"saved": True}
 			finally:
-				frappe.local.request = was
+				_unasked()
 			assert len(history.versions(file)) == 2, "two saves in one session are one version, beside the one before it"
 			with as_user(demo.PM):
 				oneos.close(file)

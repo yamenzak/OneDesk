@@ -537,7 +537,7 @@ class Document(_DAVNonCollection):
 
 	def get_etag(self):
 		if self.item.get("presentation"):
-			return f"{self.item.get('id')}-{int(self._deck_stamp() or 0)}"
+			return f"{self.item.get('id')}-{round((self._deck_stamp() or 0) * 1_000_000)}"
 		return f"{self.item.get('id')}-{int(_stamp(self.item.get('modified')) or 0)}-{self.item.get('size') or 0}"
 
 	def support_ranges(self):
