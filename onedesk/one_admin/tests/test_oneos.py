@@ -103,3 +103,11 @@ def test_a_container_that_stopped_by_itself_ends_the_session():
 def test_the_browser_token_is_the_workers():
 	signed = hmac.new(b"secret", b"abc12345.1700000000", hashlib.sha256).hexdigest()
 	assert oneos.token("secret", "abc12345", 1700000000) == f"1700000000.{signed}"
+
+
+def test_oneos_is_not_offered_during_a_trial():
+	assert oneos.on_trial("Live", 14, "2026-11-01", "2026-11-12")
+	assert oneos.on_trial("Live", 14, "2026-11-01", "2026-11-15")
+	assert not oneos.on_trial("Live", 14, "2026-11-01", "2026-11-16")
+	assert not oneos.on_trial("Live", 0, "2026-11-01", "2026-11-02")
+	assert not oneos.on_trial("Overdue", 14, "2026-11-01", "2026-11-02")

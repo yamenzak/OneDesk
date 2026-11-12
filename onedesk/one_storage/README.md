@@ -352,21 +352,54 @@ isn't room for it.
 
 ## Opening a file
 
-Clicking a file anywhere in One opens it from cloud storage in a new tab.
-Downloading saves it under its own name.
+Clicking a file anywhere in One opens it in One: a picture, a PDF, a video
+or a text file shows as it is. Downloading saves it under its own name.
 
-A workbook opens in OneWorkbook instead, in the same tab. **New › Workbook**
-makes one in the folder you are in (OneWorkbook's guide). So does an Excel
-or CSV file, and what is changed in it is saved back into the same file,
-what it held before kept as a version. A workbook's menu has **Download as
-Excel** and **Download as CSV**. A Word file opens in OneWriter the same way.
+A workbook opens in OneWorkbook, in the same tab. **New › Workbook** makes
+one in the folder you are in (OneWorkbook's guide). A workbook's menu has
+**Download as Excel** and **Download as CSV**.
+
+### Office files
+
+An Excel or CSV file opens in OneWorkbook, and a Word file in OneWriter,
+when they keep everything in it. What is changed is saved back into the
+same file, and what it held before is kept as a version. A file with
+something they don't keep, such as comments or charts, opens as an exact
+preview instead, so looking at it never changes it.
+
+| File | Clicking it | **Edit** offers |
+| --- | --- | --- |
+| Excel (.xlsx), CSV, Word (.docx) | OneWorkbook or OneWriter, or the preview if they would drop something | **Edit in OneWorkbook** or **Edit in OneWriter**, **Edit in OneOS**, **Download** |
+| PowerPoint (.pptx) | The preview | **Make a Presentation**, **Edit in OneOS**, **Download** |
+| With macros (.xlsm, .docm), older Excel (.xls) | The preview | **Edit in OneOS**, **Download**, **Make a One Copy** |
+| OpenDocument, older Word and PowerPoint (.doc, .ppt) | The preview | **Edit in OneOS**, **Download** |
+
+**Edit** is at the top of the preview, and in the file's right-click menu.
+
+- **Make a Presentation** makes a new OneSlide presentation from the slides.
+  The PowerPoint file stays as it is.
+- **Make a One Copy** makes a workbook or document of One's own from the
+  file, beside it. The file stays as it is.
+- **Edit in OneOS** says what an hour of it costs.
+
+A file somebody is editing says so under its name, such as **Huda is
+editing in OneWorkbook**.
 
 ### When the file has more than the editor keeps
 
 OneWorkbook and OneWriter don't keep everything an Excel or Word file can
 hold: comments, tracked changes, charts, pivot tables, headers and footers
-and the like. When a file has some, a bar over the editor names them, and
-your changes stay in the editor until you choose:
+and the like. Choosing **Edit in OneWorkbook** or **Edit in OneWriter** on
+such a file first names them, such as *This file has comments and charts
+OneWorkbook can't keep.*
+
+| Button | What it does |
+| --- | --- |
+| **Edit in OneOS** | Opens the file in a full office app, which keeps everything. |
+| **Edit Here Anyway** | Opens it in OneWorkbook or OneWriter. Nothing is dropped until you choose Save Over Original. |
+
+In the editor, a bar over it names what would go, and your changes stay
+there until you choose:
 
 | Button | What it does |
 | --- | --- |
@@ -375,9 +408,6 @@ your changes stay in the editor until you choose:
 
 If a new version of the file arrives before you choose, your changes are
 kept as a copy beside it, named for you, such as *Budget (Huda's copy)*.
-
-A file with macros (.xlsm, .docm) or an older Excel file (.xls) opens
-read-only. Open it in OneOS to edit it.
 
 A workbook or document made in One and saved from Excel or Word on the
 drive keeps what it was as a version first. If the file had something One
@@ -392,7 +422,8 @@ as a logo on a web page or an image in an email, open for anyone.
 OneOS is a desktop in the browser. It opens a Word, Excel, PowerPoint,
 OpenDocument or CSV file in a full office app, without installing anything.
 
-1. Right-click the file and choose **Open in OneOS**.
+1. Open the file and choose **Edit › Edit in OneOS**, or right-click it
+   and choose **Edit in OneOS**.
 2. OneOS opens in a new tab. It takes a minute or two the first time.
 3. Edit, then save as you would on a computer. Each save is kept in OneCloud
    as a new version of the file.
@@ -401,7 +432,7 @@ OpenDocument or CSV file in a full office app, without installing anything.
 
 | What you see | What it means |
 | --- | --- |
-| **You are editing in OneOS** under the file's name | You have it open. Open it in OneOS again to go back to it. |
+| **You are editing in OneOS** under the file's name | You have it open. Choose Edit in OneOS again to go back to it. |
 | **Huda is editing in OneOS** | Someone else has it open. You can **Make a Copy** and edit that, or **View Read-Only**. |
 | **Huda is editing it in OneWorkbook** when you open it in OneOS | Someone has it open to change it there. Make a copy, or wait until they leave it. |
 | **Samir is editing this in OneOS** over the editor | It opens read-only in OneWorkbook or OneWriter until he closes it. |
@@ -414,8 +445,9 @@ open in OneOS, saving it from the drive is refused too.
 
 A session closes by itself after 15 minutes without use, after 8 hours, or
 when the workspace runs out of OneCredits. You are told when it does, and
-what you saved is kept. Each minute OneOS is open uses OneCredits; OneAdmin's
-price list says how many.
+what you saved is kept. Each minute OneOS is open uses OneCredits, and
+**Edit in OneOS** says how many an hour takes. OneOS isn't offered during a
+trial.
 
 ## Asking OneAI
 
@@ -573,6 +605,36 @@ copy)", rather than reading the file in over the changes. A save from the
 drive into One's own record (`word.write`, `excel.write`) keeps a named
 version first ("Before a Word save", "Before an Excel save") and notes what
 the file had that was not kept (`outside_dropped`, shown until dismissed).
+
+### Opening an office file (opening.py)
+
+`opening.way(file_name)`, pure, is what Edit offers by extension: `edit` in
+OneWorkbook (xlsx, csv) or OneWriter (docx), `make` a OneSlide deck (pptx,
+ppsx), `copy` into a workbook or document of One's own (xlsm, xltm, xls,
+docm, dotm). `namespace.node` puts it on the row as `office`, with `loses`
+once this version has been read. `opening.weigh` reads it the first time
+(`fidelity.workbook`, `fidelity.document` without mammoth's messages, so a
+style it does not know is only found when OneWriter reads the file in) and
+keeps the list on the File (`one_fidelity`) with the version it was read
+from (`one_fidelity_of`, the `content_hash`, else the URL), so a listing
+never opens a file. The island (`OneCloud.vue` openItems, editChoices)
+opens a file with nothing to lose in its editor and anything else in
+CloudViewer's PDF preview; Edit in OneWorkbook on a file with losses asks
+first (`onecloud_dialogs.js` edit_anyway), and step 1's bar does the rest.
+`opening.one_copy` makes One's own workbook (`excel.read`, an .xls through
+xlrd as values) or document (`word.read`) beside the file. `opening.editing`
+reads every row's live hash in one Redis pipeline and puts who writes on it
+(`editing`); `one_sheet/live.admit` and `leave` redraw the folders it shows
+in (`opening.redraw`). Edit in OneOS is not offered inside the editors:
+whoever is in an editor to write is live, and alone is refused while
+anybody is.
+
+**OneOS offered** (`oneos.offered`). OneAdmin's hello says `oneos`: on
+while OneOS is set up there and the workspace is not in its trial
+(`one_admin/oneos.on_trial`), and an hour's credits at the size it opens.
+The account keeps it (`oneos_on`, `oneos_credits_an_hour`); the listing
+sends it, the island shows Edit in OneOS only with it, and `oneos.start`
+refuses without it. OneAdmin's own start refuses a trial too.
 
 ### The bars at the foot of the rail (api.capacity)
 

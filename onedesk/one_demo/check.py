@@ -1363,7 +1363,7 @@ def onecloud_a_letter_is_edited_in_oneos():
 	def sealed(url):
 		return {key: one[0] for key, one in parse_qs(urlparse(url).query).items()}
 
-	with mock.patch("onedesk.one.account.ask", side_effect=admin), mock.patch("onedesk.one.account.configured", return_value=True), mock.patch("frappe.publish_realtime") as told:
+	with mock.patch("onedesk.one.account.ask", side_effect=admin), mock.patch("onedesk.one.account.configured", return_value=True), mock.patch("onedesk.one_storage.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime") as told:
 		with as_user(demo.PM):
 			letter = upload._place(root, None, {"file_name": "Villa handover.odt", "content": b"handover v1"})["id"]
 			opened = oneos.start(letter)
@@ -1439,7 +1439,7 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 	samir, rania = frappe.utils.get_fullname(demo.PM), "rania@one.test"
 	frappe.db.savepoint("lease_check")
 	try:
-		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("frappe.publish_realtime"):
+		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("onedesk.one_storage.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime"):
 			with as_user(demo.PM):
 				file = upload._place(root, None, {"file_name": "Handover check.docx", "content": letter("Keys on Monday.")})["id"]
 				first = upload._place(root, None, {"file_name": "Handover check.docx", "content": letter("Keys on Tuesday.")}, replace=1)
@@ -1619,6 +1619,58 @@ def onecloud_the_drives_locks_join_the_lease():
 		for token in taken:
 			locks.delete(token)
 		frappe.db.rollback(save_point="drive_lock_check")
+
+
+@check
+def onecloud_an_office_file_opens_where_nothing_is_lost():
+	"""Samir's plain workbook opens in OneWorkbook, but one with comments
+	asks first, naming them, and is read once for that version: the listing
+	says so after. A macro workbook is copied into One as a workbook of its
+	own, the file left as it was. While OneOS is off, Edit in OneOS is
+	refused. All undone afterwards."""
+	from openpyxl import Workbook
+
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_sheet import api as sheets
+	from onedesk.one_storage import api, opening, oneos, upload
+
+	def book(comment: bool = False) -> bytes:
+		from openpyxl.comments import Comment
+
+		made = Workbook()
+		made.active["A1"] = "Rent"
+		made.active["B1"] = 1200
+		if comment:
+			made.active["A1"].comment = Comment("Due on the first.", "Samir")
+		out = io.BytesIO()
+		made.save(out)
+		return out.getvalue()
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	frappe.db.savepoint("opening_check")
+	try:
+		with mock.patch("frappe.publish_realtime"), as_user(demo.PM):
+			plain = upload._place(root, None, {"file_name": "Rent check.xlsx", "content": book()})["id"]
+			noted = upload._place(root, None, {"file_name": "Rent notes check.xlsx", "content": book(comment=True)})["id"]
+			assert opening.weigh(plain) == {"loses": []}
+			said = opening.weigh(noted)
+			assert said["loses"] == ["comments"] and said["said"] == "This file has comments OneWorkbook can't keep.", said
+			row = next(one for one in api.listing(root)["items"] if one["id"] == noted)
+			assert row["office"] == {"edit": "workbook", "make": None, "copy": None, "loses": ["comments"]}, row["office"]
+			macros = upload._place(root, None, {"file_name": "Rent model check.xlsm", "content": book()})["id"]
+			before = api._content(api._item(macros))
+			made = opening.one_copy(macros)
+			assert made["name"] == "Rent model check" and not frappe.db.get_value(sheets.WORKBOOK, made["workbook"], "source_kind")
+			assert "Rent" in json.dumps(sheets.get_sheet(made["workbook"])["sheets_data"]), "the copy has the file's cells"
+			assert api._content(api._item(macros)) == before, "the file stays as it was"
+			with mock.patch("onedesk.one_storage.oneos.offered", return_value=None):
+				try:
+					oneos.start(plain)
+					raise AssertionError("OneOS started while it is off")
+				except frappe.ValidationError:
+					frappe.clear_last_message()
+	finally:
+		frappe.db.rollback(save_point="opening_check")
 
 
 @check

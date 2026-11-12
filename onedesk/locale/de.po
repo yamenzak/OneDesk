@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 10:01+0000\n"
+"POT-Creation-Date: 2026-11-12 09:23+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -794,6 +794,10 @@ msgstr "Ein Dokument für {0} ist eingegangen"
 msgid "A document is opened in Documents."
 msgstr "Ein Dokument wird in Dokumente geöffnet."
 
+#: frontend/src/cloud/OneCloud.vue:1085
+msgid "A document of One's own from this file."
+msgstr "Ein eigenes Dokument in One aus dieser Datei."
+
 #: onedesk/one_doc/word.py:255
 msgid "A document with a record's fields in it can only be edited in OneWriter."
 msgstr "Ein Dokument mit Feldern eines Datensatzes kann nur in OneWriter bearbeitet werden."
@@ -886,7 +890,7 @@ msgstr "Ein Entwurf. Reichen Sie ihn ein, um Arbeit an {0} zu vergeben."
 msgid "A draft. Submit it to take these out of stock for {0}."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um diese für {0} auszulagern."
 
-#: onedesk/one_storage/dav.py:258
+#: onedesk/one_storage/dav.py:250
 msgid "A drive"
 msgstr "Ein Laufwerk"
 
@@ -1235,6 +1239,10 @@ msgstr "Ein Vielfaches des einfachen Abstands, etwa 1,15 oder 1,5."
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:20
 msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr "Ein Netzwerk gehört zu einem Standort der Schicht oder zu einem einzelnen Mitarbeiter, nicht zu beiden."
+
+#: frontend/src/cloud/OneCloud.vue:1066
+msgid "A new OneSlide presentation. The file stays as it is."
+msgstr "Eine neue Präsentation in OneSlide. Die Datei bleibt, wie sie ist."
 
 #. What a project template is for
 #: onedesk/one_project/library/client_onboarding.json
@@ -1867,6 +1875,10 @@ msgstr "Ein Webhook wird über https gesendet."
 #: onedesk/one_display/starters.py:1192
 msgid "A welcome for visitors, in large letters."
 msgstr "Eine Begrüßung für Gäste, in großen Buchstaben."
+
+#: frontend/src/cloud/OneCloud.vue:1085
+msgid "A workbook of One's own from this file."
+msgstr "Eine eigene Arbeitsmappe in One aus dieser Datei."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:921
 msgid "A workspace address such as sales@, whose users you add once it's connected."
@@ -11394,6 +11406,11 @@ msgstr "Kopiert"
 msgid "Copied 1 item"
 msgstr "1 Element kopiert"
 
+#: frontend/src/cloud/OneCloud.vue:1051
+#, python-brace-format
+msgid "Copied into One as {0}."
+msgstr "Als {0} in One kopiert."
+
 #: frontend/src/slide/stores/copyPaste.js:101
 msgid "Copied to clipboard"
 msgstr ""
@@ -11497,6 +11514,11 @@ msgstr ""
 #: onedesk/one_project/library/website.json
 msgid "Copy written"
 msgstr "Texte geschrieben"
+
+#: frontend/src/cloud/OneCloud.vue:1049
+#, python-brace-format
+msgid "Copying {0} into One…"
+msgstr "{0} wird in One kopiert…"
 
 #: onedesk/one_display/starters.py:1205 onedesk/one_studio/letter_heads.py:36
 msgid "Corner"
@@ -13965,11 +13987,6 @@ msgstr "Gelöscht von"
 msgid "Deleted On"
 msgstr "Gelöscht am"
 
-#. Name of a notification
-#: onedesk/notifications/one_storage/deleted_while_open.md
-msgid "Deleted While Open"
-msgstr "Gelöscht, während geöffnet"
-
 #: onedesk/public/js/privacy_request.js:8
 msgid "Deleted. The account is disabled and its personal data erased."
 msgstr "Gelöscht. Das Konto ist deaktiviert und seine personenbezogenen Daten gelöscht."
@@ -16348,6 +16365,11 @@ msgstr "Gerät bearbeiten"
 msgid "Edit Full Form"
 msgstr ""
 
+#: onedesk/public/js/onecloud_dialogs.js:624
+#: onedesk/public/js/onecloud_dialogs.js:631
+msgid "Edit Here Anyway"
+msgstr "Trotzdem hier bearbeiten"
+
 #: onedesk/one_display/doctype/display_channel/display_channel.js:11
 #: onedesk/one_display/doctype/widget_collection/widget_collection.js:7
 #: onedesk/one_display/doctype/widget_collection/widget_collection.js:8
@@ -16404,6 +16426,20 @@ msgstr "Bearbeitungsverlauf für {0}"
 #: onedesk/public/js/one_studio/studio_control.js:358
 msgid "Edit in Builder"
 msgstr "Im Builder bearbeiten"
+
+#: frontend/src/cloud/OneCloud.vue:1072 frontend/src/cloud/OneCloud.vue:1073
+#: onedesk/public/js/onecloud_dialogs.js:624
+msgid "Edit in OneOS"
+msgstr "In OneOS bearbeiten"
+
+#: onedesk/public/js/onecloud_dialogs.js:619
+msgid "Edit in OneOS keeps everything. If you edit here, nothing is dropped unless you choose Save Over Original."
+msgstr "In OneOS bearbeiten behält alles. Wenn Sie hier bearbeiten, geht nichts verloren, außer Sie wählen Über Original speichern."
+
+#: frontend/src/cloud/OneCloud.vue:1060
+#, python-brace-format
+msgid "Edit in {0}"
+msgstr "In {0} bearbeiten"
 
 #: frontend/src/sheet/components/SheetEditor/LinkPreviewCard.vue:52
 msgid "Edit link"
@@ -16482,6 +16518,16 @@ msgstr "Wird in einem anderen Tab bearbeitet"
 #: frontend/src/writer/components/VersionsSidebar.vue:17
 msgid "Editing is disabled until you exit."
 msgstr "Bearbeiten ist deaktiviert, bis Sie den Verlauf verlassen."
+
+#. Label of the one_fidelity (Small Text) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:165
+msgid "Editor Would Drop"
+msgstr "Vom Editor verworfen"
+
+#. Label of the one_fidelity_of (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:179
+msgid "Editor Would Drop For"
+msgstr "Vom Editor verworfen für"
 
 #. Label of the op_count (Int) field in DocType 'Workbook Version'
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:58
@@ -25060,11 +25106,6 @@ msgstr "Dies würde ein Arbeitsverhältnis beenden."
 msgid "It would overwrite {0}."
 msgstr "Dies würde {0} überschreiben."
 
-#. Message of a notification
-#: onedesk/notifications/one_storage/deleted_while_open.md
-msgid "It's in the Recycle Bin. Restore it from there to keep working on it, or save your changes as a new file."
-msgstr "Sie ist im Papierkorb. Stellen Sie sie dort wieder her, um weiter daran zu arbeiten, oder speichern Sie Ihre Änderungen als neue Datei."
-
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:118
 #: frontend/src/slide/components/FontSection.vue:88
 #: frontend/src/slide/composables/useShortcuts.js:456
@@ -28564,6 +28605,10 @@ msgstr "Zum Firmengerät machen"
 msgid "Make a Copy"
 msgstr "Kopie erstellen"
 
+#: frontend/src/cloud/OneCloud.vue:1082 frontend/src/cloud/OneCloud.vue:1083
+msgid "Make a One Copy"
+msgstr "Kopie in One erstellen"
+
 #: frontend/src/cloud/OneCloud.vue:582
 #: frontend/src/slide/shim/EditorNavbar.vue:329
 #: frontend/src/slide/shim/EditorNavbar.vue:403
@@ -28578,6 +28623,10 @@ msgstr "Bild für eine Folie erstellen"
 #: frontend/src/writer/components/core-editor/menu-buttons.js:153
 msgid "Make a Picture with OneAI"
 msgstr "Bild mit OneAI erstellen"
+
+#: frontend/src/cloud/OneCloud.vue:1063 frontend/src/cloud/OneCloud.vue:1064
+msgid "Make a Presentation"
+msgstr "Präsentation erstellen"
 
 #: frontend/src/cloud/OneCloud.vue:584
 #: frontend/src/slide/shim/EditorNavbar.vue:330
@@ -33210,6 +33259,10 @@ msgstr "Hier ist noch nichts"
 msgid "Nothing is being announced."
 msgstr "Derzeit wird nichts angekündigt."
 
+#: onedesk/public/js/onecloud_dialogs.js:620
+msgid "Nothing is dropped unless you choose Save Over Original."
+msgstr "Nichts geht verloren, außer Sie wählen Über Original speichern."
+
 #: onedesk/one_hr/heads.py:588
 msgid "Nothing is spent and no attendance is marked."
 msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
@@ -35055,9 +35108,20 @@ msgstr "OneMail"
 msgid "OneOS"
 msgstr "OneOS"
 
+#. Label of the oneos_credits_an_hour (Float) field in DocType 'Workspace
+#. Account'
+#: onedesk/one_account/doctype/workspace_account/workspace_account.json:275
+msgid "OneOS Hourly Credits"
+msgstr "OneOS-Guthaben pro Stunde"
+
 #: onedesk/one_storage/oneos.py:108
 msgid "OneOS Not Started"
 msgstr "OneOS nicht gestartet"
+
+#. Label of the oneos_on (Check) field in DocType 'Workspace Account'
+#: onedesk/one_account/doctype/workspace_account/workspace_account.json:267
+msgid "OneOS Offered"
+msgstr "OneOS angeboten"
 
 #. Label of the oneos_secret (Password) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:223
@@ -35076,6 +35140,14 @@ msgstr "OneOS konnte nicht gestartet werden. Versuchen Sie es in einigen Minuten
 #: onedesk/one_admin/oneos.py:375
 msgid "OneOS isn't available yet."
 msgstr "OneOS ist noch nicht verfügbar."
+
+#: onedesk/one_storage/oneos.py:95
+msgid "OneOS isn't offered to this workspace."
+msgstr "OneOS wird für diesen Arbeitsbereich nicht angeboten."
+
+#: onedesk/one_admin/oneos.py:402
+msgid "OneOS opens once the trial is over."
+msgstr "OneOS öffnet, sobald die Testphase vorbei ist."
 
 #: frontend/src/cloud/OneCloud.vue:1164
 #, python-brace-format
@@ -35399,7 +35471,7 @@ msgstr "Nur Eigentümer von {0} können die Mitglieder verwalten."
 msgid "Only people on the team can be added. Create a link for {0} instead."
 msgstr "Nur Personen im Team können hinzugefügt werden. Erstellen Sie stattdessen einen Link für {0}."
 
-#: onedesk/one_storage/dav.py:252
+#: onedesk/one_storage/dav.py:244
 msgid "Only people on the team can connect a drive."
 msgstr "Nur Personen im Team können ein Laufwerk verbinden."
 
@@ -35549,7 +35621,6 @@ msgstr "Deckkraft"
 #: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:132
 #: frontend/src/mail/OneMail.vue:213
 #: onedesk/notifications/one_storage/closed_in_oneos.md
-#: onedesk/notifications/one_storage/deleted_while_open.md
 #: onedesk/notifications/one_storage/file_ready.md
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:69
@@ -39601,6 +39672,11 @@ msgstr "Präsentationsversion"
 #: onedesk/one_slide/doctype/presentation_view/presentation_view.json:20
 msgid "Presentation View"
 msgstr "Präsentationsaufruf"
+
+#: frontend/src/cloud/OneCloud.vue:1000
+#, python-brace-format
+msgid "Presentation made from {0}. The file stays as it was."
+msgstr "Präsentation aus {0} erstellt. Die Datei bleibt, wie sie war."
 
 #: frontend/src/slide/components/PresentButton.vue:15
 msgid "Presentation options"
@@ -54200,6 +54276,11 @@ msgstr "Das Hochladen ist fehlgeschlagen. Versuchen Sie es erneut."
 msgid "The values {0}'s records pick from. Each opens as its own list."
 msgstr "Die Werte, aus denen die Datensätze von {0} wählen. Jede öffnet sich als eigene Liste."
 
+#. Description of the 'Editor Would Drop For' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:187
+msgid "The version of the file it was read from."
+msgstr "Die Version der Datei, aus der es gelesen wurde."
+
 #: onedesk/one_crm/home.py:123
 msgid "The visits promised to keep what a customer bought working."
 msgstr "Die zugesagten Besuche, damit das Gekaufte eines Kunden funktioniert."
@@ -54949,6 +55030,11 @@ msgstr "Diese Datei kann nicht geöffnet werden."
 msgid "This file could not be converted."
 msgstr "Diese Datei konnte nicht umgewandelt werden."
 
+#: onedesk/one_storage/opening.py:84
+#, python-brace-format
+msgid "This file has {0} {1} can't keep."
+msgstr "Diese Datei enthält {0}, die {1} nicht behalten kann."
+
 #: onedesk/one_slide/drive.py:69
 msgid "This file is not a presentation."
 msgstr "Diese Datei ist keine Präsentation."
@@ -55059,10 +55145,10 @@ msgid "This is your own mailbox. If OneAI reads it, it files and acts on this ma
 msgstr "Das ist dein eigenes Postfach. Wenn OneAI es liest, legt es diese E-Mails im Arbeitsbereich ab und handelt danach, mit deinen Berechtigungen."
 
 #: onedesk/one_storage/api.py:19 onedesk/one_storage/api.py:83
-#: onedesk/one_storage/dav.py:281
+#: onedesk/one_storage/dav.py:273
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
 #: onedesk/one_storage/file_requests.py:137 onedesk/one_storage/history.py:102
-#: onedesk/one_storage/history.py:270 onedesk/one_storage/lease.py:225
+#: onedesk/one_storage/history.py:270 onedesk/one_storage/lease.py:207
 #: onedesk/one_storage/library.py:62 onedesk/one_storage/mounts.py:54
 #: onedesk/one_storage/mounts.py:74 onedesk/one_storage/share.py:31
 msgid "This item no longer exists."
@@ -59148,6 +59234,10 @@ msgstr "Wasserprüfung"
 msgid "Waybill No"
 msgstr "Frachtbrief-Nr."
 
+#: frontend/src/cloud/CloudViewer.vue:31
+msgid "Ways to Edit"
+msgstr "Bearbeitungsarten"
+
 #: onedesk/one_studio/print_blocks.py:819
 msgid "We Owe"
 msgstr "Wir schulden"
@@ -59582,6 +59672,11 @@ msgstr "Was die OneAI-Schaltflächen in {0} tun, jede verbraucht Credits."
 #: onedesk/public/js/one_mail/rule_builder.js:237
 msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day."
 msgstr "Was die Antwort von OneAI tun soll, etwa aus ihren Aufträgen antworten und eine Antwort innerhalb eines Tages zusagen."
+
+#. Description of the 'Editor Would Drop' (Small Text) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:173
+msgid "What OneWorkbook or OneWriter would drop from this version of the file."
+msgstr "Was OneWorkbook oder OneWriter aus dieser Version der Datei verwerfen würde."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:297
 msgid "What They Get"
@@ -61841,11 +61936,6 @@ msgid "When someone mentions you in a comment."
 msgstr "Wenn jemand Sie in einem Kommentar erwähnt."
 
 #. When a notification is sent
-#: onedesk/notifications/one_storage/deleted_while_open.md
-msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook or OneWriter."
-msgstr "Wenn jemand eine Datei in den Papierkorb verschiebt, die Sie in OneOS, auf Ihrem Laufwerk oder in OneWorkbook oder OneWriter geöffnet haben."
-
-#. When a notification is sent
 #: onedesk/one_admin/notifications.py
 msgid "When someone pays for a new workspace."
 msgstr "Wenn jemand einen neuen Arbeitsbereich bezahlt."
@@ -62974,7 +63064,6 @@ msgstr "Wer die Aufgabe zugewiesen und wer sie erstellt hat, außer wer sie mark
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_storage/closed_in_oneos.md
-#: onedesk/notifications/one_storage/deleted_while_open.md
 msgid "Whoever had it open"
 msgstr "Wer sie geöffnet hatte"
 
@@ -64645,11 +64734,16 @@ msgstr "Sie haben bereits einen Passkey. Entfernen Sie ihn, bevor Sie einen weit
 msgid "You are editing in OneOS"
 msgstr "Sie bearbeiten die Datei in OneOS"
 
-#: onedesk/one_storage/lease.py:191
+#: frontend/src/cloud/CloudItems.vue:178
+#, python-brace-format
+msgid "You are editing in {0}"
+msgstr "Sie bearbeiten die Datei in {0}"
+
+#: onedesk/one_storage/lease.py:173
 msgid "You are editing this in OneOS."
 msgstr "Sie bearbeiten dies in OneOS."
 
-#: onedesk/one_storage/lease.py:192
+#: onedesk/one_storage/lease.py:174
 msgid "You are editing this on the drive."
 msgstr "Sie bearbeiten dies im Laufwerk."
 
@@ -66970,7 +67064,7 @@ msgstr "Anfragen pro Arbeitsbereich"
 msgid "required"
 msgstr "erforderlich"
 
-#: onedesk/one_storage/api.py:551
+#: onedesk/one_storage/api.py:539
 msgid "restored it from the Recycle Bin"
 msgstr "hat es aus dem Papierkorb wiederhergestellt"
 
@@ -66993,11 +67087,6 @@ msgstr "hat den Portal-Link für {0} gesperrt"
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "rule"
 msgstr "Regel"
-
-#: onedesk/one_storage/dav_saves.py:182
-#, python-brace-format
-msgid "saved a copy, since {0} had changed after it was opened"
-msgstr "hat eine Kopie gespeichert, da sich {0} nach dem Öffnen geändert hatte"
 
 #: onedesk/one_admin/offerings.py:163
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:21
@@ -67155,7 +67244,7 @@ msgstr "der Tag im Jahr"
 msgid "the days off each week are now {0}"
 msgstr "die freien Tage jede Woche sind jetzt {0}"
 
-#: onedesk/one_storage/lease.py:142
+#: onedesk/one_storage/lease.py:134
 msgid "the drive"
 msgstr "dem Laufwerk"
 
@@ -67493,7 +67582,7 @@ msgstr "{0} (Lieferant)"
 msgid "{0} (was {1})"
 msgstr "{0} (war {1})"
 
-#: onedesk/one_storage/dav_saves.py:179 onedesk/one_storage/saving.py:149
+#: onedesk/one_storage/saving.py:149
 #, python-brace-format
 msgid "{0} ({1}'s copy)"
 msgstr "{0} (Kopie von {1})"
@@ -67647,6 +67736,11 @@ msgstr "{0} OneCredits"
 #, python-brace-format
 msgid "{0} OneCredits a month"
 msgstr "{0} OneCredits pro Monat"
+
+#: frontend/src/cloud/OneCloud.vue:1075
+#, python-brace-format
+msgid "{0} OneCredits an hour"
+msgstr "{0} OneCredits pro Stunde"
 
 #: frontend/src/crm/CrmHome.vue:147
 #, python-brace-format
@@ -67878,6 +67972,11 @@ msgstr "{0} und {1} weitere"
 msgid "{0} appears in the app's sidebar under {1}."
 msgstr "{0} erscheint in der Seitenleiste der App unter {1}."
 
+#: frontend/src/cloud/CloudItems.vue:180
+#, python-brace-format
+msgid "{0} are editing in {1}"
+msgstr "{0} bearbeiten die Datei in {1}"
+
 #: onedesk/one/linked.py:277
 #, python-brace-format
 msgid "{0} are not in this section."
@@ -68008,6 +68107,11 @@ msgstr "{0} kann in einem Arbeitsbereich nicht geändert werden."
 #, python-brace-format
 msgid "{0} can't be converted to PDF."
 msgstr "{0} kann nicht in PDF umgewandelt werden."
+
+#: onedesk/one_storage/opening.py:155
+#, python-brace-format
+msgid "{0} can't be copied into One."
+msgstr "{0} kann nicht in One kopiert werden."
 
 #: onedesk/one/linked.py:54
 #, python-brace-format
@@ -69076,12 +69180,17 @@ msgstr "{0} ist erledigt"
 msgid "{0} is editing in OneOS"
 msgstr "{0} bearbeitet die Datei in OneOS"
 
-#: onedesk/one_storage/lease.py:191
+#: frontend/src/cloud/CloudItems.vue:180
+#, python-brace-format
+msgid "{0} is editing in {1}"
+msgstr "{0} bearbeitet die Datei in {1}"
+
+#: onedesk/one_storage/lease.py:173
 #, python-brace-format
 msgid "{0} is editing this in OneOS."
 msgstr "{0} bearbeitet dies in OneOS."
 
-#: onedesk/one_storage/lease.py:192
+#: onedesk/one_storage/lease.py:174
 #, python-brace-format
 msgid "{0} is editing this on the drive."
 msgstr "{0} bearbeitet dies im Laufwerk."
@@ -72466,12 +72575,6 @@ msgstr "{who} hat sie abgelehnt, daher wurde sie entfernt. Fragen Sie nach, wenn
 #, python-brace-format
 msgid "{who} deleted {collection}"
 msgstr "{who} hat {collection} gelöscht"
-
-#. Subject of a notification
-#: onedesk/notifications/one_storage/deleted_while_open.md
-#, python-brace-format
-msgid "{who} deleted {file} while you had it open"
-msgstr "{who} hat {file} gelöscht, während Sie die Datei geöffnet hatten"
 
 #. Subject of a notification
 #: onedesk/notifications/one_studio/extension_deleted.md
