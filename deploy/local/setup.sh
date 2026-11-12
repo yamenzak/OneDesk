@@ -260,6 +260,7 @@ for port in 13000 11000; do
 		started+=("$port")
 	fi
 done
+bench set-config -g -p server_script_enabled 1
 make_site() {
 	local site="$1" admin="$2"
 	[ -d "sites/$site" ] && return

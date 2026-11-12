@@ -54474,8 +54474,8 @@ msgid "The workspace doesn't have enough OneCredits to open this in OneOS."
 msgstr "Der Arbeitsbereich hat nicht genug OneCredits, um dies in OneOS zu öffnen."
 
 #: onedesk/one_ai/reading/tell.py:102
-msgid "The workspace has run out of OneCredits. It is read as soon as more are added."
-msgstr "Der Arbeitsbereich hat keine OneCredits mehr. Gelesen wird, sobald neue hinzugefügt werden."
+msgid "The workspace has run out of credits. It is read as soon as more are added."
+msgstr "Das Guthaben des Arbeitsbereichs ist aufgebraucht. Gelesen wird, sobald neues hinzugefügt wird."
 
 #. Message of a notification
 #: onedesk/one_account/notifications.py

@@ -116,6 +116,8 @@ class FakeCloudflare:
 				("SSL and Certificates Write", "com.cloudflare.api.account.zone"),
 				("Zone Settings Write", "com.cloudflare.api.account.zone"),
 				("Email Routing Rules Write", "com.cloudflare.api.account.zone"),
+				("Analytics Read", "com.cloudflare.api.account.zone"),
+				("Account Analytics Read", "com.cloudflare.api.account"),
 				("Workers R2 Storage Bucket Item Write", "com.cloudflare.edge.r2.bucket"),
 			]
 		)
@@ -253,7 +255,7 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 		assert frappe.db.get_single_value("One Admin Settings", "r2_key_id") == storage["id"]
 		steps = {one["step"]: one for one in second}
 		assert steps["certificate"]["state"] == setup.WAITING and "Advanced Certificate Manager" in steps["certificate"]["detail"]
-		assert "token OneAdmin" in steps and steps["token OneAdmin"]["state"] in (setup.OURS, setup.MADE)
+		assert steps.get("token OneAdmin", {}).get("state") in (setup.OURS, setup.MADE), [(key, one["state"]) for key, one in steps.items()]
 
 		made = len(fake.tokens)
 		setup.run()

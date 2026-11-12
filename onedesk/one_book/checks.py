@@ -384,7 +384,7 @@ def onebook_a_uae_invoice_prints_as_a_tax_invoice():
 	a Tax Credit Note, each with the company's TRN, and the VAT line says its
 	rate once."""
 	trn = frappe.get_cached_value("Company", COMPANY, "tax_id")
-	invoice = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 0}, pluck="name", limit=1)[0]
+	invoice = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 0, "company": COMPANY}, pluck="name", limit=1)[0]
 	printed = frappe.get_print("Sales Invoice", invoice, print_format="One Sales Invoice")
 	assert "Tax Invoice" in printed and trn in printed
 	note = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "is_return": 1}, pluck="name", limit=1)

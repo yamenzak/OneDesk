@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 22:17+0000\n"
-"PO-Revision-Date: 2026-11-12 22:17+0000\n"
+"POT-Creation-Date: 2026-11-12 22:45+0000\n"
+"PO-Revision-Date: 2026-11-12 22:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1901,7 +1901,7 @@ msgstr ""
 msgid "A workspace needs a slug and a domain."
 msgstr ""
 
-#: onedesk/one/people.py:171
+#: onedesk/one/people.py:174
 msgid "A workspace needs at least one administrator."
 msgstr ""
 
@@ -4005,7 +4005,7 @@ msgstr ""
 msgid "All {0} done"
 msgstr ""
 
-#: onedesk/one/people.py:222
+#: onedesk/one/people.py:225
 #, python-brace-format
 msgid "All {0} seats are in use. Disable someone or add seats to the plan."
 msgstr ""
@@ -14604,7 +14604,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_studio/ai.py:453 onedesk/one_studio/automations.py:126
+#: onedesk/one_studio/ai.py:455 onedesk/one_studio/automations.py:126
 #: onedesk/one_studio/doctype/record_type/record_type.json:45
 #: onedesk/public/js/item_new.js:80
 #: onedesk/public/js/one/notification_center.js:314
@@ -18607,7 +18607,7 @@ msgstr ""
 #. Label of the explanation (Small Text) field in DocType 'Extension'
 #: onedesk/one_book/report/books_check/books_check.py:17
 #: onedesk/one_hr/print_format/one_attendance_request/one_attendance_request.json
-#: onedesk/one_studio/ai.py:374
+#: onedesk/one_studio/ai.py:376
 #: onedesk/one_studio/doctype/extension/extension.json:109
 msgid "Explanation"
 msgstr ""
@@ -19051,7 +19051,7 @@ msgstr ""
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:33
-#: onedesk/one_studio/ai.py:454
+#: onedesk/one_studio/ai.py:456
 msgid "Fields"
 msgstr ""
 
@@ -42280,7 +42280,7 @@ msgstr ""
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:38
 #: onedesk/one_sheet/doctype/workbook/workbook.json:72
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:81
-#: onedesk/one_studio/ai.py:373
+#: onedesk/one_studio/ai.py:375
 #: onedesk/one_studio/doctype/extension/extension.json:66
 #: onedesk/public/js/extension_errors.js:16 onedesk/public/js/hiring.js:8
 #: onedesk/public/js/one_account/account_center.js:604
@@ -44316,7 +44316,7 @@ msgstr ""
 #: onedesk/one_project/library/client_onboarding.json
 #: onedesk/one_quality/home.py:31
 #: onedesk/one_quality/sidebar/onequality/onequality.json:126
-#: onedesk/one_studio/ai.py:375
+#: onedesk/one_studio/ai.py:377
 #: onedesk/one_studio/doctype/extension/extension.js:142
 #: onedesk/one_studio/doctype/extension/extension.json:143
 msgid "Review"
@@ -44869,7 +44869,7 @@ msgid "Running low asks for more"
 msgstr ""
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_project/ai.py:864 onedesk/one_studio/ai.py:372
+#: onedesk/one_project/ai.py:864 onedesk/one_studio/ai.py:374
 #: onedesk/one_studio/doctype/extension/extension.json:56
 msgid "Runs"
 msgstr ""
@@ -52312,7 +52312,7 @@ msgstr ""
 #: onedesk/one/access.py:748 onedesk/one/access.py:807
 #: onedesk/one/notification_center.py:90 onedesk/one/notification_center.py:102
 #: onedesk/one/notification_center.py:154 onedesk/one/people.py:134
-#: onedesk/one/people.py:144 onedesk/one/rights.py:87 onedesk/one/rights.py:178
+#: onedesk/one/people.py:147 onedesk/one/rights.py:87 onedesk/one/rights.py:178
 #: onedesk/one/setup_steps.py:139 onedesk/one_mail/ai.py:1255
 #: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:823
 #: onedesk/one_studio/ai_setup.py:825 onedesk/one_studio/reports.py:210
@@ -54517,7 +54517,7 @@ msgid "The workspace doesn't have enough OneCredits to open this in OneOS."
 msgstr ""
 
 #: onedesk/one_ai/reading/tell.py:102
-msgid "The workspace has run out of OneCredits. It is read as soon as more are added."
+msgid "The workspace has run out of credits. It is read as soon as more are added."
 msgstr ""
 
 #. Message of a notification
@@ -62450,7 +62450,7 @@ msgstr ""
 #: onedesk/one_hr/heads.py:737
 #: onedesk/one_hr/print_format/one_shift_assignment/one_shift_assignment.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_studio/ai.py:452 onedesk/public/js/one_legal/trust_center.js:345
+#: onedesk/one_studio/ai.py:454 onedesk/public/js/one_legal/trust_center.js:345
 msgid "Where"
 msgstr ""
 
@@ -66178,7 +66178,7 @@ msgstr ""
 msgid "address"
 msgstr ""
 
-#: onedesk/one/people.py:186
+#: onedesk/one/people.py:189
 msgid "administrator of the workspace"
 msgstr ""
 
@@ -66947,7 +66947,7 @@ msgstr ""
 msgid "no limit"
 msgstr ""
 
-#: onedesk/one/people.py:186
+#: onedesk/one/people.py:189
 msgid "no longer an administrator"
 msgstr ""
 
@@ -66956,7 +66956,7 @@ msgstr ""
 msgid "no longer only the records of {0} {1}"
 msgstr ""
 
-#: onedesk/one/people.py:183
+#: onedesk/one/people.py:186
 #, python-brace-format
 msgid "no longer {0}"
 msgstr ""
@@ -68223,17 +68223,17 @@ msgstr ""
 msgid "{0} are not in this section."
 msgstr ""
 
-#: onedesk/one/people.py:183 onedesk/one/people.py:196
+#: onedesk/one/people.py:186 onedesk/one/people.py:199
 #, python-brace-format
 msgid "{0} as a manager"
 msgstr ""
 
-#: onedesk/one/people.py:183 onedesk/one/people.py:196
+#: onedesk/one/people.py:186 onedesk/one/people.py:199
 #, python-brace-format
 msgid "{0} as a user"
 msgstr ""
 
-#: onedesk/one/people.py:184 onedesk/one/people.py:198
+#: onedesk/one/people.py:187 onedesk/one/people.py:201
 #, python-brace-format
 msgid "{0} as {1}"
 msgstr ""
@@ -68958,7 +68958,7 @@ msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
 
 #: onedesk/one_ai/proposals.py:133 onedesk/one_ai/proposals.py:231
-#: onedesk/one_studio/ai.py:392 onedesk/one_studio/ai_setup.py:793
+#: onedesk/one_studio/ai.py:394 onedesk/one_studio/ai_setup.py:793
 #, python-brace-format
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr ""
@@ -71590,7 +71590,7 @@ msgstr ""
 msgid "{0}, when {1}"
 msgstr ""
 
-#: onedesk/one_project/retainer.py:229 onedesk/one_studio/ai.py:359
+#: onedesk/one_project/retainer.py:229 onedesk/one_studio/ai.py:361
 #: onedesk/one_studio/ai_setup.py:326 onedesk/one_studio/extensions.py:437
 #, python-brace-format
 msgid "{0}, {1}"

@@ -161,7 +161,9 @@ def as_template() -> None:
 	frappe.db.sql("delete from `__Auth` where encrypted = 1 or (doctype = 'User' and fieldname = 'password')")
 	frappe.db.sql("delete from `tabSessions`")
 	frappe.db.sql("update `tabUser` set api_key = null")
+	from frappe.utils.logging import connection_for, is_log_doctype
+
 	for doctype in LOGS:
-		if frappe.db.table_exists(doctype):
-			frappe.db.delete(doctype)
+		if is_log_doctype(doctype) or frappe.db.table_exists(doctype):
+			connection_for(doctype).delete(doctype)
 	frappe.db.commit()

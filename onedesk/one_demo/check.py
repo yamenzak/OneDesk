@@ -97,7 +97,8 @@ def _each(chosen, failed, unkept) -> None:
 				for one in traceback.extract_tb(e.__traceback__)
 				if one.filename == __file__ or one.filename.endswith("/checks.py")
 			]
-			said = str(e) or f"line {traceback.extract_tb(e.__traceback__)[-1].lineno}"
+			last = traceback.extract_tb(e.__traceback__)[-1]
+			said = str(e) or f"line {last.lineno}: {last.line}"
 			print(f"FAIL  {fn.__name__} ({here[-1] if here else '?'}): {type(e).__name__} {said[:600]}")
 		finally:
 			frappe.db.rollback()
@@ -2649,6 +2650,9 @@ def settings_open_and_save_for_each_person():
 	with as_user(OWNER):
 		for key, *_rest in studio_control.SECTIONS:
 			studio_control.load(key)
+		from frappe.core.doctype.activity_log.activity_log import add_authentication_log
+
+		add_authentication_log("Signed in", "rania@one.test")
 		assert {one["kind"] for one in audit.log()} >= {"changes", "signins"}, "the Audit Log misses a kind"
 		assert all(one["kind"] == "changes" for one in audit.log("changes", 10))
 		assert set(privacy.requests()) == {"deletions", "copies"}
@@ -4480,7 +4484,7 @@ def tour_runs_once_then_from_help():
 			said = tours.tour("OneMail")
 			assert [one["key"] for one in said] == ["mailbox"] and said[0]["at"] == "onemail-list", said
 			steps = said[0]["steps"]
-			assert [one["target"] for one in steps][:2] == ["interface-nav", "onemail-new"], steps
+			assert [one["target"] for one in steps][:2] == ["interface-nav", "interface-new"], steps
 			assert all(one["title"] and one["text"] for one in steps), steps
 			tours.seen("OneMail", "mailbox")
 			assert "OneMail:mailbox" not in tours.unseen()

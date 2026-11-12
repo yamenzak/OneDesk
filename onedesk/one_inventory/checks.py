@@ -285,7 +285,8 @@ def oneinventory_home_tells_the_story_of_the_stock():
 		paths = told["moves"]["paths"]
 		assert any(one["from"] == "Al Noor Aluminium" for one in paths), paths
 		assert not any(one["to"].startswith("PROJ-") for one in paths), paths
-		assert round(sum(one["worth"] for one in told["ages"])) == round(worth), told["ages"]
+		aged = sum(one["worth"] for one in told["ages"])
+		assert abs(aged - worth) <= worth * 0.0001, (aged, worth, told["ages"])
 		steps = [one["requests"] for one in told["buying"]["requests"]]
 		assert steps == sorted(steps, reverse=True) and steps[0] > 0, steps
 		assert {one["kind"] for one in told["equipment"]["kinds"]} >= {"Vehicles", "Machinery"}

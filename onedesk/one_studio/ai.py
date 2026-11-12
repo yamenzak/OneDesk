@@ -88,7 +88,9 @@ SUGGESTIONS = {
 
 
 def _recent_mistakes(name: str) -> int:
-	return frappe.db.count(
+	from frappe.utils.logging import connection_for
+
+	return connection_for("Error Log").count(
 		"Error Log",
 		{"method": f"{guard.TITLE}{name}", "creation": [">=", extensions.since(name, 7)]},
 	)

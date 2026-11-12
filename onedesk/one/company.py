@@ -40,7 +40,7 @@ def hide(*_args) -> None:
 			)
 		wanted = () if parent in shown and field.get("istable") else ON if parent in shown else OFF
 		for prop, value in wanted:
-			if field.get(prop) == int(value) or _written(parent, prop):
+			if field.get(prop) == int(value) or _written(parent, prop) or _holds(parent, prop, value):
 				continue
 			make_property_setter(parent, FIELD, prop, value, "Check", validate_fields_for_doctype=False)
 	_defaults(make_property_setter, [field for field in fields if field["parent"] not in shown])
@@ -106,6 +106,17 @@ def _fields() -> list[dict]:
 	)
 	tables = set(frappe.get_all("DocType", filters={"istable": 1}, pluck="name"))
 	return [dict(field, istable=field["parent"] in tables) for field in standard + custom]
+
+
+def _holds(doctype: str, prop: str, value: str) -> bool:
+	"""Whether our own setter already says this, so it is not made again: a new
+	Property Setter deletes the one it replaces, and every delete queues a job."""
+	return bool(
+		frappe.db.exists(
+			"Property Setter",
+			{"doc_type": doctype, "field_name": FIELD, "property": prop, "value": value},
+		)
+	)
 
 
 def _written(doctype: str, prop: str) -> bool:
