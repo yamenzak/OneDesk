@@ -2125,6 +2125,14 @@ Administrator password of its own; the workspace's own keys are pushed when
 it is claimed (`steps.push_config`). A spare the agent has not reported in
 half an hour is dropped.
 
+The release build makes the template by migrating the last release's,
+restored the same way, in two or three minutes, and installs one afresh
+(eleven) only when migrating would not give what installing does: other
+upstream commits, a change to what runs only at install or the code it
+reaches, a record, fixture or customization taken out that migrate leaves
+behind, or a value frappe keeps from the site. `deploy/release/template.py`
+is the rule, and the build's log says which it did and why.
+
 ### Connecting a server
 
 A machine not on AWS (the Oracle box first) joins with **Connect Server**, in
