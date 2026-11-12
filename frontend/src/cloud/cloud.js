@@ -34,7 +34,6 @@ const KINDS = [
 	[["js", "ts", "py", "json", "html", "css", "xml", "sh", "yml", "yaml", "sql"], "lucide-file-code", () => __("Code")],
 ];
 
-export const SHEETS = ["xlsx", "xlsm", "xls", "csv"];
 export const PDF_PARTS = ["pdf", "png", "jpg", "jpeg", "webp", "gif", "bmp", "tif", "tiff"];
 export const PREVIEW = {
 	image: ["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "avif", "ico"],

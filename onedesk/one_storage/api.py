@@ -92,11 +92,16 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 		can_add = bool(frappe.has_permission("Project", "write", kind[1]))
 	elif kind[0] == "mount":
 		can_add = True
+	from onedesk.one_storage import opening, oneos
+
+	items = _searched(node, search, int(everywhere or 0)) if search else ns.children(node)
+	opening.editing(items)
 	return {
 		"node": node,
 		"trail": ns.trail(node),
 		"watch": live.watch(node, bool(search)),
-		"items": _searched(node, search, int(everywhere or 0)) if search else ns.children(node),
+		"items": items,
+		"oneos": oneos.offered(),
 		"can_add": can_add,
 		"can_make_folder": can_add and kind[0] not in (ns.RECORDS, "featured", "own"),
 		"can_make_library": kind[0] == ns.LIBRARIES and ns._staff(frappe.session.user),

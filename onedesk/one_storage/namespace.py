@@ -34,6 +34,7 @@ FIELDS = [
 	"modified", "creation", "attached_to_doctype", "attached_to_name", "one_home_of", "one_deleted",
 	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type", "one_library", "_liked_by",
 	"one_intake", "one_featured", "one_color", "one_lease_kind", "one_lease_user", "one_lease_until",
+	"content_hash", "one_fidelity", "one_fidelity_of",
 ]  # fmt: skip
 
 
@@ -353,7 +354,14 @@ def node(item: dict) -> dict:
 		**({"document": doc} if (doc := _document(item)) else {}),
 		**({"presentation": deck} if (deck := _presentation(item)) else {}),
 		**({"oneos": held} if (held := _in_oneos(item)) else {}),
+		**({"office": way} if not (book or doc or deck) and (way := _office(item)) else {}),
 	}
+
+
+def _office(item: dict) -> dict | None:
+	from onedesk.one_storage import opening
+
+	return None if item.get("one_library") else opening.row(item)
 
 
 def _in_oneos(item: dict) -> dict | None:

@@ -34,6 +34,8 @@
   "credits_expires_on",
   "credits_limit",
   "credits_spent",
+  "oneos_on",
+  "oneos_credits_an_hour",
   "update_at",
   "update_weekday",
   "update_hour",
@@ -259,6 +261,22 @@
    "read_only": 1
   },
   {
+   "default": "0",
+   "fieldname": "oneos_on",
+   "fieldtype": "Check",
+   "label": "OneOS Offered",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "oneos_credits_an_hour",
+   "fieldtype": "Float",
+   "label": "OneOS Hourly Credits",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
    "fieldname": "update_at",
    "fieldtype": "Datetime",
    "label": "Next Update",
@@ -378,7 +396,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-08 14:58:19.231820",
+ "modified": "2026-11-12 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Account",
  "name": "Workspace Account",

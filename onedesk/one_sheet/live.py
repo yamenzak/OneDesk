@@ -36,7 +36,7 @@ def admit(kind: str, name: str, sid: str = "") -> dict:
 	"""The room's name, who the person is, and whether they may change cells
 	or text: never while somebody has the file alone in OneOS or on the
 	drive, or while it opens read-only (one_storage/saving.py)."""
-	from onedesk.one_storage import lease, saving
+	from onedesk.one_storage import lease, opening, saving
 	from onedesk.one_storage import namespace as ns
 
 	item = _item(kind, name)
@@ -44,6 +44,8 @@ def admit(kind: str, name: str, sid: str = "") -> dict:
 		return {"ok": False}
 	write = saving.state(_held(kind)[1], name, item, ns.may(item, "write"))["can_write"]
 	lease.arrive(item["name"], sid, write, kind)
+	if write:
+		opening.redraw(item["name"])
 	user = frappe.session.user
 	return {
 		"ok": True,
@@ -72,11 +74,12 @@ def here(rooms: str, sid: str = "") -> None:
 @frappe.whitelist()
 def leave(kind: str, name: str, sid: str = "") -> None:
 	"""The person's editor left the room."""
-	from onedesk.one_storage import lease
+	from onedesk.one_storage import lease, opening
 
 	item = _item(kind, name)
 	if item:
 		lease.leave(item["name"], sid)
+		opening.redraw(item["name"])
 
 
 def boot(bootinfo) -> None:

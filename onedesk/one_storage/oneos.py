@@ -60,6 +60,15 @@ def _address(what: str, file: str, lease: str, expires: int) -> str:
 	return get_url(f"/api/method/onedesk.one_storage.oneos.{what}?{query}")
 
 
+def offered() -> dict | None:
+	"""What an hour of OneOS costs this workspace in OneCredits, as OneAdmin
+	last said, or None while it is not offered: not set up, or a trial."""
+	held = frappe.db.get_value("Workspace Account", None, ["oneos_on", "oneos_credits_an_hour"], as_dict=True)
+	if not held or not frappe.utils.cint(held.oneos_on):
+		return None
+	return {"credits_an_hour": frappe.utils.flt(held.oneos_credits_an_hour, 2)}
+
+
 def holder(item: dict, now=None) -> dict | None:
 	"""Who has a file open in OneOS, for its row: their name, and whether it
 	is the reader."""
@@ -82,6 +91,8 @@ def start(node: str, copy: int = 0) -> dict:
 	somebody in it in OneWorkbook or OneWriter, or a file the reader may not
 	change, answers with `held` instead, and `copy` opens a copy of it."""
 	item = _openable(node)
+	if not offered():
+		frappe.throw(_("OneOS isn't offered to this workspace."), title=_("OneOS Not Started"))
 	if int(copy or 0):
 		item = _copied(item)
 	if not ns.may(item, "write"):

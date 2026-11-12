@@ -120,6 +120,8 @@ def refresh() -> dict:
 			"credits_expires_on": credits.get("expires_on"),
 			"credits_limit": credits.get("limit") or 0,
 			"credits_spent": credits.get("spent") or 0,
+			"oneos_on": 1 if (said.get("oneos") or {}).get("on") else 0,
+			"oneos_credits_an_hour": (said.get("oneos") or {}).get("credits_an_hour") or 0,
 			"owing": 1 if standing.get("owing") else 0,
 			"days_left": standing.get("days_left"),
 			"next_status": standing.get("next"),

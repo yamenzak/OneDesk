@@ -218,7 +218,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Device | 13 | document |
-| Workspace Account | 50 | single |
+| Workspace Account | 52 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
@@ -1135,6 +1135,8 @@ No doctypes yet.
 * `onedesk.one_storage.oneos.save`
 * `onedesk.one_storage.oneos.start`
 * `onedesk.one_storage.oneos.stopped`
+* `onedesk.one_storage.opening.one_copy`
+* `onedesk.one_storage.opening.weigh`
 * `onedesk.one_storage.pdf.combine`
 * `onedesk.one_storage.share.people`
 * `onedesk.one_storage.share.set_edit`

@@ -157,6 +157,34 @@
    "insert_after": "one_lease_user",
    "name": "File-one_lease_until",
    "description": "When the lease lapses unless its holder renews it."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_fidelity",
+   "label": "Editor Would Drop",
+   "fieldtype": "Small Text",
+   "insert_after": "one_lease_until",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_fidelity",
+   "description": "What OneWorkbook or OneWriter would drop from this version of the file."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_fidelity_of",
+   "label": "Editor Would Drop For",
+   "fieldtype": "Data",
+   "insert_after": "one_fidelity",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_fidelity_of",
+   "description": "The version of the file it was read from."
   }
  ],
  "doctype": "File",

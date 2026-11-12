@@ -614,6 +614,31 @@ onedesk.cloud.oneos_held = (item, held, { copy, view }) => {
 	dialog.show();
 };
 
+onedesk.cloud.edit_anyway = (said, { oneos, here }) => {
+	const after = oneos
+		? __("Edit in OneOS keeps everything. If you edit here, nothing is dropped unless you choose Save Over Original.")
+		: __("Nothing is dropped unless you choose Save Over Original.");
+	const dialog = new frappe.ui.Dialog({
+		title: said,
+		fields: [{ fieldtype: "HTML", options: `<p class="text-muted">${after}</p>` }],
+		primary_action_label: oneos ? __("Edit in OneOS") : __("Edit Here Anyway"),
+		primary_action: () => {
+			dialog.hide();
+			(oneos || here)();
+		},
+		...(oneos
+			? {
+					secondary_action_label: __("Edit Here Anyway"),
+					secondary_action: () => {
+						dialog.hide();
+						here();
+					},
+				}
+			: {}),
+	});
+	dialog.show();
+};
+
 onedesk.cloud.ask_replace = (clash) => {
 	return new Promise((answer) => {
 		const names = clash.slice(0, 5).map((one) => frappe.utils.escape_html(one.file.name)).join("<br>");
