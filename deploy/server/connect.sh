@@ -7,7 +7,36 @@ HOME_OF="/home/$NAME"
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-apt-get install -y -qq podman uidmap slirp4netns passt fuse-overlayfs
+apt-get install -y -qq podman uidmap slirp4netns passt fuse-overlayfs openssl
+
+ask() {
+	curl -fsS --noproxy '*' --connect-timeout 1 -m 3 "$@" 2>/dev/null || true
+}
+found=""
+heard() {
+	if [ -n "$2" ]; then
+		found="$found${found:+,}\"$1\":\"$(printf '%s' "$2" | head -c 49152 | base64 -w0)\""
+	fi
+}
+heard oracle "$(ask -H 'Authorization: Bearer Oracle' http://169.254.169.254/opc/v2/instance/canonicalRegionName)"
+token=$(ask -X PUT -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' http://169.254.169.254/latest/api/token)
+if [ -n "$token" ]; then
+	heard aws "$(ask -H "X-aws-ec2-metadata-token: $token" http://169.254.169.254/latest/dynamic/instance-identity/document)"
+fi
+heard google "$(ask -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/zone)"
+heard azure "$(ask -H 'Metadata: true' 'http://169.254.169.254/metadata/instance/compute?api-version=2021-02-01')"
+heard digitalocean "$(ask http://169.254.169.254/metadata/v1/region)"
+heard hetzner "$(ask http://169.254.169.254/hetzner/v1/metadata/availability-zone)"
+heard vultr "$(ask http://169.254.169.254/v1.json)"
+token=$(ask -X PUT -H 'Metadata-Token-Expiry-Seconds: 60' http://169.254.169.254/v1/token)
+if [ -n "$token" ]; then
+	heard akamai "$(ask -H "Metadata-Token: $token" -H 'Accept: application/json' http://169.254.169.254/v1/instance)"
+fi
+heard scaleway "$(ask 'http://169.254.42.42/conf?format=json')"
+said="{\"server\":\"$ONE_SERVER\",\"found\":{$found}}"
+signature=$(printf '%s' "$said" | openssl dgst -sha256 -hmac "$ONE_AGENT" -r | cut -d' ' -f1)
+curl -fsS -m 30 -X POST -H 'Content-Type: application/json' -H 'User-Agent: OneAgent/1.0' -H "X-One-Agent: $signature" --data-binary "$said" "$ONE_ADMIN/api/method/onedesk.one_admin.servers.located" >/dev/null \
+	|| echo "OneAdmin wasn't told which cloud this machine is on, so it shows Other." >&2
 
 id "$NAME" >/dev/null 2>&1 || useradd -m -s /bin/bash -c "One copies" "$NAME"
 chmod 750 "$HOME_OF"

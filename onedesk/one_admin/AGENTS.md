@@ -2226,8 +2226,9 @@ is the rule, and the build's log says which it did and why.
 ### Connecting a server
 
 A machine not on AWS (the Oracle box first) joins with **Connect Server**, in
-the ··· menu on Servers. It gives one line to run once, as root, within the
-hour: it fetches `deploy/server/connect.sh`, which installs podman and starts a
+the ··· menu on Servers. It asks nothing and gives one line to run once, as
+root, within the hour: it fetches `deploy/server/connect.sh`, which first asks
+the cloud's own metadata service where it is and then installs podman and starts a
 container, `one-box`, under a Linux user of its own, `one-copies`, with a
 memory limit. Inside it, the usual first boot and agent run, so OneAdmin talks
 to it exactly as to a Lightsail box: Pilot through its tunnel and lock, the
@@ -2239,6 +2240,46 @@ the container. A connected server has `open` unset, so workspaces and spares
 never land on it, and costs nothing here (`monthly_cost` 0). Until it first
 answers it reads **Connecting**; `watch` then settles its memory (a smaller
 share, for the container's limit) and starts its watching.
+
+The machine says which cloud it is on. `connect.sh` asks each metadata
+service with a one-second connect and three-second limit, and sends whatever
+answered, each in base64, to `servers.located`, signed with the box's agent
+secret and believed only while it is Connecting; `providers.where` reads it
+(pure, tested on a sample of each) and the server takes its provider and
+region. Nothing answering, or the post failing, leaves it **Other** with no
+region and the script carries on. What is asked, in this order:
+
+- Oracle: `169.254.169.254/opc/v2/instance/canonicalRegionName` with
+  `Authorization: Bearer Oracle`.
+- AWS (EC2 and Lightsail): an IMDSv2 token (`PUT /latest/api/token`), then
+  `/latest/dynamic/instance-identity/document`, its `region`.
+- Google Cloud: `metadata.google.internal/computeMetadata/v1/instance/zone`
+  with `Metadata-Flavor: Google`; the region is the zone less its letter.
+- Azure: `169.254.169.254/metadata/instance/compute?api-version=2021-02-01`
+  with `Metadata: true`, its `location`.
+- DigitalOcean: `169.254.169.254/metadata/v1/region`.
+- Hetzner: `169.254.169.254/hetzner/v1/metadata/availability-zone`, less its
+  `-dcNN` (`fsn1`).
+- Vultr: `169.254.169.254/v1.json`, its `region.regioncode`.
+- Akamai (Linode): a token (`PUT /v1/token`), then `/v1/instance` as JSON, its
+  `region`.
+- Scaleway: `169.254.42.42/conf?format=json`, its `zone` (or
+  `location.zone_id`).
+
+A plain-text answer is asked for where a cloud offers one, so little more
+than the region is sent, and nothing read is kept but the provider and
+region. A region is believed only as lower-case letters, digits
+and dashes; a captive page or an empty `{}` reads as nothing.
+
+The name stays what Connect Server gave it, `machine-N`, before the machine was
+known: the tunnel and Access app are `one-<name>`, its addresses are
+`<name>.…` and `origin-<name>.…`, Pilot's keys and every R2 instruction are
+kept under it, and the agent inside the box was started with it. Renaming
+would mean remaking all of that, so the provider shows beside the name
+instead, with its mark, on the card and in the list. `oracle-1`, named before
+this, keeps its name and its provider. A provider's mark is the Custom Icon
+named for it in lower case with spaces as dashes (`brand/others/README.md`);
+`test_providers.py` fails a provider without one.
 
 A box short of disk (85%) or memory (92%) for five minutes warns the operators:
 Pilot's own webhook, signed with the box's secret, to `servers.pressure`. A box
