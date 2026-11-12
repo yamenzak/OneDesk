@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 14:20+0000\n"
-"PO-Revision-Date: 2026-11-12 14:20+0000\n"
+"POT-Creation-Date: 2026-11-12 16:33+0000\n"
+"PO-Revision-Date: 2026-11-12 16:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5676,7 +5676,7 @@ msgstr ""
 msgid "Asked {0} for prices"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:321
+#: onedesk/public/js/one_admin/admin_control.js:329
 msgid "Asking…"
 msgstr ""
 
@@ -9120,7 +9120,7 @@ msgstr ""
 msgid "Check Again"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:266
+#: onedesk/public/js/one_admin/admin_control.js:267
 msgid "Check Connection"
 msgstr ""
 
@@ -10125,7 +10125,7 @@ msgstr ""
 msgid "Cloudflare did not answer for {0}."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:253
+#: onedesk/one_admin/setup.py:260
 #, python-brace-format
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
@@ -10887,12 +10887,16 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:269
+#: onedesk/public/js/one_admin/admin_control.js:270
 msgid "Connect GitHub"
 msgstr ""
 
-#: onedesk/one_admin/github_app.py:205
+#: onedesk/one_admin/github_app.py:259 onedesk/one_admin/github_app.py:303
 msgid "Connect GitHub first."
+msgstr ""
+
+#: onedesk/one_admin/setup.py:798
+msgid "Connect GitHub, then set up again."
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:299
@@ -10948,7 +10952,7 @@ msgid "Connect {0} as a drive"
 msgstr ""
 
 #: frontend/src/admin/ServerMetrics.vue:119
-#: onedesk/public/js/one_admin/admin_control.js:236
+#: onedesk/public/js/one_admin/admin_control.js:237
 #: onedesk/public/js/one_mail/onemail_settings.js:692 onedesk/www/tv.py:50
 msgid "Connected"
 msgstr ""
@@ -12199,7 +12203,7 @@ msgstr ""
 msgid "Create {0}"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:280
+#: onedesk/public/js/one_admin/admin_control.js:288
 msgid "Created"
 msgstr ""
 
@@ -17390,7 +17394,7 @@ msgstr ""
 msgid "Enter the AWS Template URL first. It must be the template's address on Amazon S3."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:1103
+#: onedesk/one_admin/setup.py:1132
 msgid "Enter the Cloudflare master token first."
 msgstr ""
 
@@ -17402,7 +17406,7 @@ msgstr ""
 msgid "Enter the OAuth Scopes first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:709
+#: onedesk/one_admin/setup.py:716
 #, python-brace-format
 msgid "Enter the Sender Email for {0}."
 msgstr ""
@@ -17427,7 +17431,7 @@ msgstr ""
 msgid "Enter the street address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:415
+#: onedesk/one_admin/setup.py:422
 #, python-brace-format
 msgid "Enter the workspace and mail domains for {0}."
 msgstr ""
@@ -18296,7 +18300,7 @@ msgstr ""
 msgid "Existing records keep their names. Only required fields are listed."
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:280
+#: onedesk/public/js/one_admin/admin_control.js:288
 msgid "Exists"
 msgstr ""
 
@@ -18784,7 +18788,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:37
 #: onedesk/public/js/one_account/account_center.js:390
 #: onedesk/public/js/one_admin/admin_control.js:189
-#: onedesk/public/js/one_admin/admin_control.js:280
+#: onedesk/public/js/one_admin/admin_control.js:288
 msgid "Failed"
 msgstr ""
 
@@ -21024,12 +21028,13 @@ msgid "Getting Started"
 msgstr ""
 
 #: onedesk/public/js/one_admin/admin_control.js:55
+#: onedesk/public/js/one_admin/admin_control.js:197
 msgid "GitHub"
 msgstr ""
 
 #. Label of the github_app_name (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:285
-#: onedesk/public/js/one_admin/admin_control.js:249
+#: onedesk/public/js/one_admin/admin_control.js:250
 msgid "GitHub App"
 msgstr ""
 
@@ -21054,16 +21059,21 @@ msgstr ""
 msgid "GitHub Token"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:262
+#: onedesk/public/js/one_admin/admin_control.js:263
 msgid "GitHub connected."
 msgstr ""
 
-#: onedesk/one_admin/github_app.py:216
+#: onedesk/one_admin/github_app.py:270
 #, python-brace-format
 msgid "GitHub did not answer: {0}"
 msgstr ""
 
-#: onedesk/one_admin/github_app.py:172
+#: onedesk/one_admin/setup.py:806
+#, python-brace-format
+msgid "GitHub did not answer: {0}. Set up again."
+msgstr ""
+
+#: onedesk/one_admin/github_app.py:221
 #, python-brace-format
 msgid "GitHub refused to make the app: {0}"
 msgstr ""
@@ -24132,7 +24142,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
-#: onedesk/public/js/one_admin/admin_control.js:268
+#: onedesk/public/js/one_admin/admin_control.js:269
 msgid "Install App"
 msgstr ""
 
@@ -24172,7 +24182,7 @@ msgstr ""
 msgid "Installed On"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:241
+#: onedesk/public/js/one_admin/admin_control.js:242
 #, python-brace-format
 msgid "Installed on {0}"
 msgstr ""
@@ -30551,7 +30561,7 @@ msgid "Needs"
 msgstr ""
 
 #: onedesk/public/js/one_admin/admin_control.js:190
-#: onedesk/public/js/one_admin/admin_control.js:280
+#: onedesk/public/js/one_admin/admin_control.js:288
 msgid "Needs Attention"
 msgstr ""
 
@@ -30571,16 +30581,16 @@ msgstr ""
 msgid "Needs a quality check before it closes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:825
+#: onedesk/one_admin/setup.py:854
 msgid "Needs an operator to tell."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:472 onedesk/one_admin/setup.py:548
-#: onedesk/one_admin/setup.py:822
+#: onedesk/one_admin/setup.py:479 onedesk/one_admin/setup.py:555
+#: onedesk/one_admin/setup.py:851
 msgid "Needs the KV namespace first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:788
+#: onedesk/one_admin/setup.py:817
 msgid "Needs the buckets and the storage token first."
 msgstr ""
 
@@ -32342,6 +32352,10 @@ msgstr ""
 msgid "No screen is showing code {0}. Check the code and try again."
 msgstr ""
 
+#: onedesk/public/js/one_admin/admin_control.js:277
+msgid "No secrets written yet. Press Set Up Again on the Cloudflare tab."
+msgstr ""
+
 #: frontend/src/inventory/item/ItemSelling.vue:15
 msgid "No selling price"
 msgstr ""
@@ -32593,7 +32607,7 @@ msgstr ""
 msgid "Nobody yet."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:901
+#: onedesk/one_admin/setup.py:930
 #, python-brace-format
 msgid "Node is not on this server: {0}"
 msgstr ""
@@ -32725,7 +32739,7 @@ msgstr ""
 msgid "Not Checked In"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:239
+#: onedesk/public/js/one_admin/admin_control.js:240
 msgid "Not Connected"
 msgstr ""
 
@@ -32748,7 +32762,7 @@ msgstr ""
 msgid "Not Found"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:238
+#: onedesk/public/js/one_admin/admin_control.js:239
 msgid "Not Installed"
 msgstr ""
 
@@ -32989,7 +33003,7 @@ msgstr ""
 msgid "Not in use; new work orders cannot pick it."
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:243
+#: onedesk/public/js/one_admin/admin_control.js:244
 #, python-brace-format
 msgid "Not installed on {0}"
 msgstr ""
@@ -33107,7 +33121,7 @@ msgid "Not set for a new record."
 msgstr ""
 
 #: onedesk/public/js/one_admin/admin_control.js:179
-#: onedesk/public/js/one_admin/admin_control.js:209
+#: onedesk/public/js/one_admin/admin_control.js:210
 msgid "Not set up yet"
 msgstr ""
 
@@ -40560,7 +40574,7 @@ msgstr ""
 msgid "Promotional Scheme"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:312
+#: onedesk/public/js/one_admin/admin_control.js:320
 msgid "Prompt"
 msgstr ""
 
@@ -45360,7 +45374,7 @@ msgstr ""
 msgid "Say a little about yourself and your work."
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:314
+#: onedesk/public/js/one_admin/admin_control.js:322
 msgid "Say hello in one short sentence."
 msgstr ""
 
@@ -45814,6 +45828,11 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
+#: onedesk/public/js/one_admin/admin_control.js:276
+#, python-brace-format
+msgid "Secrets written: {0}"
+msgstr ""
+
 #: onedesk/one_slide/decks.py:24
 msgid "Section"
 msgstr ""
@@ -46068,7 +46087,7 @@ msgstr ""
 msgid "Send Password Reset"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:318
+#: onedesk/public/js/one_admin/admin_control.js:326
 msgid "Send Prompt"
 msgstr ""
 
@@ -46565,7 +46584,7 @@ msgstr ""
 msgid "Servers"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:246
+#: onedesk/public/js/one_admin/admin_control.js:247
 msgid "Servers can't read the code"
 msgstr ""
 
@@ -46627,7 +46646,7 @@ msgstr ""
 #: frontend/src/admin/AdminStatus.vue:10 onedesk/one/ready.py:260
 #: onedesk/one_display/doctype/queue/queue.json:47
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
-#: onedesk/public/js/one_admin/admin_control.js:197
+#: onedesk/public/js/one_admin/admin_control.js:198
 msgid "Services"
 msgstr ""
 
@@ -46752,7 +46771,7 @@ msgstr ""
 msgid "Set Up"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:216
+#: onedesk/public/js/one_admin/admin_control.js:217
 msgid "Set Up Again"
 msgstr ""
 
@@ -46931,7 +46950,7 @@ msgstr ""
 
 #: onedesk/public/js/one_admin/admin_control.js:178
 #: onedesk/public/js/one_admin/admin_control.js:179
-#: onedesk/public/js/one_admin/admin_control.js:216
+#: onedesk/public/js/one_admin/admin_control.js:217
 msgid "Setting Up…"
 msgstr ""
 
@@ -47811,7 +47830,7 @@ msgstr ""
 #. Label of the sign_in_to_cloudflare (Button) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:176
-#: onedesk/public/js/one_admin/admin_control.js:216
+#: onedesk/public/js/one_admin/admin_control.js:217
 msgid "Sign In to Cloudflare"
 msgstr ""
 
@@ -48021,7 +48040,7 @@ msgstr ""
 msgid "Signed in as {0}. The workspace joins your account."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:361
+#: onedesk/one_admin/setup.py:368
 msgid "Signed in to Cloudflare for this run."
 msgstr ""
 
@@ -52071,7 +52090,7 @@ msgid "Test"
 msgstr ""
 
 #: onedesk/public/js/one_admin/admin_control.js:74
-#: onedesk/public/js/one_admin/admin_control.js:307
+#: onedesk/public/js/one_admin/admin_control.js:315
 #: onedesk/public/js/one_admin/admin_settings.js:3
 msgid "Test Gateway"
 msgstr ""
@@ -52404,9 +52423,13 @@ msgstr ""
 msgid "The Floor at a Glance"
 msgstr ""
 
-#: onedesk/one_admin/github_app.py:214
+#: onedesk/one_admin/github_app.py:268
 #, python-brace-format
 msgid "The GitHub App is not installed on {0}."
+msgstr ""
+
+#: onedesk/one_admin/github_app.py:299
+msgid "The GitHub App may not write secrets yet. On GitHub, give the app Secrets: Read and write, accept the change on the installation, then set up again."
 msgstr ""
 
 #: onedesk/one_ai/reading/planning.py:520
@@ -53771,7 +53794,7 @@ msgstr ""
 msgid "The person whose password it is"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:272
+#: onedesk/public/js/one_admin/admin_control.js:278
 msgid "The personal token is no longer used and can be cleared."
 msgstr ""
 
@@ -54035,7 +54058,11 @@ msgstr ""
 msgid "The repository the GitHub App may read."
 msgstr ""
 
-#: onedesk/one_admin/github_app.py:168
+#: onedesk/public/js/one_admin/admin_control.js:274
+msgid "The repository's secrets are left to production."
+msgstr ""
+
+#: onedesk/one_admin/github_app.py:217
 msgid "The request has expired. Press Connect GitHub again."
 msgstr ""
 
@@ -54108,7 +54135,7 @@ msgstr ""
 msgid "The server's name or address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:373
+#: onedesk/one_admin/setup.py:380
 msgid "The setup token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -54314,12 +54341,12 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:398
+#: onedesk/one_admin/setup.py:405
 #, python-brace-format
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:420
+#: onedesk/one_admin/setup.py:427
 #, python-brace-format
 msgid "The token has no zone for {0}."
 msgstr ""
@@ -54746,7 +54773,7 @@ msgstr ""
 
 #: onedesk/one/access_center.py:156 onedesk/one/control.py:77
 #: onedesk/one/notification_words.py:33 onedesk/one_account/center.py:94
-#: onedesk/one_admin/control.py:122 onedesk/one_ai/yours.py:24
+#: onedesk/one_admin/control.py:123 onedesk/one_ai/yours.py:24
 #: onedesk/one_calendar/control.py:17 onedesk/one_hr/control.py:25
 #: onedesk/one_studio/control.py:27
 msgid "There is no such section."
@@ -54805,7 +54832,7 @@ msgstr ""
 #: onedesk/one/access_center.py:169 onedesk/one/access_center.py:344
 #: onedesk/one/control.py:90 onedesk/one/notification_words.py:46
 #: onedesk/one/notification_words.py:161 onedesk/one_account/center.py:111
-#: onedesk/one_admin/control.py:135 onedesk/one_hr/control.py:38
+#: onedesk/one_admin/control.py:136 onedesk/one_hr/control.py:38
 msgid "There is nothing to save here."
 msgstr ""
 
@@ -57235,7 +57262,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:494
+#: onedesk/one_admin/setup.py:501
 #, python-brace-format
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
@@ -57572,7 +57599,7 @@ msgstr ""
 msgid "Unassigned."
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:280
+#: onedesk/public/js/one_admin/admin_control.js:288
 msgid "Unchanged"
 msgstr ""
 
@@ -58524,7 +58551,7 @@ msgstr ""
 msgid "Uses 1 credit."
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:245
+#: onedesk/public/js/one_admin/admin_control.js:246
 msgid "Using the personal token"
 msgstr ""
 
@@ -66294,8 +66321,8 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:814 onedesk/one_admin/setup.py:843
-#: onedesk/one_admin/setup.py:932
+#: onedesk/one_admin/setup.py:843 onedesk/one_admin/setup.py:872
+#: onedesk/one_admin/setup.py:961
 msgid "deployed"
 msgstr ""
 
@@ -66694,7 +66721,11 @@ msgstr ""
 msgid "left early"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:638
+#: onedesk/one_admin/setup.py:796
+msgid "left to production"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:645
 #, python-brace-format
 msgid "left to {0}"
 msgstr ""
@@ -66768,7 +66799,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:325 onedesk/one_admin/setup.py:772
+#: onedesk/one_admin/setup.py:332 onedesk/one_admin/setup.py:779
 #, python-brace-format
 msgid "missing permissions: {0}"
 msgstr ""
@@ -67487,7 +67518,7 @@ msgstr ""
 msgid "tracked changes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:943
+#: onedesk/one_admin/setup.py:972
 msgid "unchanged"
 msgstr ""
 
@@ -67585,12 +67616,12 @@ msgstr ""
 msgid "words, with commas"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:881
+#: onedesk/one_admin/setup.py:910
 #, python-brace-format
 msgid "wrangler did not say where {0} is"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:903
+#: onedesk/one_admin/setup.py:932
 #, python-brace-format
 msgid "wrangler took too long: {0}"
 msgstr ""
@@ -68520,7 +68551,7 @@ msgstr ""
 #: frontend/src/hr/HrStory.vue:72
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/stages.py:33
-#: onedesk/one_admin/setup.py:758 onedesk/one_ai/reading/understand.py:520
+#: onedesk/one_admin/setup.py:765 onedesk/one_ai/reading/understand.py:520
 #: onedesk/one_crm/heads.py:34 onedesk/one_crm/heads.py:42
 #: onedesk/one_hr/heads.py:28 onedesk/one_hr/heads.py:680
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/ai.py:865
@@ -69656,7 +69687,7 @@ msgstr ""
 msgid "{0} is not in a folder."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:667
+#: onedesk/one_admin/setup.py:674
 #, python-brace-format
 msgid "{0} is not in the zone {1}."
 msgstr ""
@@ -70851,7 +70882,7 @@ msgstr ""
 msgid "{0} starts on {1}"
 msgstr ""
 
-#: onedesk/public/js/one_admin/admin_control.js:205
+#: onedesk/public/js/one_admin/admin_control.js:206
 #, python-brace-format
 msgid "{0} steps"
 msgstr ""
@@ -71405,7 +71436,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:664
+#: onedesk/one_admin/setup.py:671
 #, python-brace-format
 msgid "{0}, on the mail domain"
 msgstr ""
@@ -71415,7 +71446,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:644
+#: onedesk/one_admin/setup.py:651
 #, python-brace-format
 msgid "{0}, replacing the previous rule"
 msgstr ""
@@ -71456,17 +71487,17 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:510
+#: onedesk/one_admin/setup.py:517
 #, python-brace-format
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:531
+#: onedesk/one_admin/setup.py:538
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:617
+#: onedesk/one_admin/setup.py:624
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""

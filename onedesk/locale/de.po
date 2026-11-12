@@ -10899,6 +10899,10 @@ msgstr "GitHub verbinden"
 msgid "Connect GitHub first."
 msgstr "Verbinden Sie zuerst GitHub."
 
+#: onedesk/one_admin/setup.py:798
+msgid "Connect GitHub, then set up again."
+msgstr "Verbinden Sie GitHub und richten Sie es dann erneut ein."
+
 #: frontend/src/mail/OneMail.vue:299
 #: onedesk/public/js/one_mail/onemail_settings.js:54
 #: onedesk/public/js/one_mail/onemail_settings.js:920
@@ -21065,6 +21069,11 @@ msgstr "GitHub verbunden."
 #, python-brace-format
 msgid "GitHub did not answer: {0}"
 msgstr "GitHub hat nicht geantwortet: {0}"
+
+#: onedesk/one_admin/setup.py:806
+#, python-brace-format
+msgid "GitHub did not answer: {0}. Set up again."
+msgstr "GitHub hat nicht geantwortet: {0}. Richten Sie es erneut ein."
 
 #: onedesk/one_admin/github_app.py:172
 #, python-brace-format
@@ -32332,6 +32341,10 @@ msgstr "Kein Plan"
 #, python-brace-format
 msgid "No screen is showing code {0}. Check the code and try again."
 msgstr "Kein Bildschirm zeigt den Code {0}. Code prüfen und erneut versuchen."
+
+#: onedesk/public/js/one_admin/admin_control.js:277
+msgid "No secrets written yet. Press Set Up Again on the Cloudflare tab."
+msgstr "Noch keine Geheimnisse geschrieben. Klicken Sie auf der Registerkarte Cloudflare auf „Erneut einrichten“."
 
 #: frontend/src/inventory/item/ItemSelling.vue:15
 msgid "No selling price"
@@ -45800,6 +45813,11 @@ msgstr "Geheimnis"
 msgid "Secret Key"
 msgstr "Geheimer Schlüssel"
 
+#: onedesk/public/js/one_admin/admin_control.js:276
+#, python-brace-format
+msgid "Secrets written: {0}"
+msgstr "Geschriebene Geheimnisse: {0}"
+
 #: onedesk/one_slide/decks.py:24
 msgid "Section"
 msgstr ""
@@ -52375,6 +52393,10 @@ msgstr "Die Fertigung auf einen Blick"
 msgid "The GitHub App is not installed on {0}."
 msgstr "Die GitHub-App ist nicht in {0} installiert."
 
+#: onedesk/one_admin/github_app.py:299
+msgid "The GitHub App may not write secrets yet. On GitHub, give the app Secrets: Read and write, accept the change on the installation, then set up again."
+msgstr "Die GitHub App darf noch keine Geheimnisse schreiben. Geben Sie der App auf GitHub „Secrets: Read and write“, bestätigen Sie die Änderung an der Installation und richten Sie es dann erneut ein."
+
 #: onedesk/one_ai/reading/planning.py:520
 #, python-brace-format
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
@@ -53993,6 +54015,10 @@ msgstr "Die Wiederholung von {document} wurde gestoppt"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:312
 msgid "The repository the GitHub App may read."
 msgstr "Das Repository, das die GitHub-App lesen darf."
+
+#: onedesk/public/js/one_admin/admin_control.js:274
+msgid "The repository's secrets are left to production."
+msgstr "Die Geheimnisse des Repositorys bleiben der Produktion überlassen."
 
 #: onedesk/one_admin/github_app.py:168
 msgid "The request has expired. Press Connect GitHub again."
@@ -66636,6 +66662,10 @@ msgstr "übrig"
 #: onedesk/public/js/band.js:215
 msgid "left early"
 msgstr "früher gegangen"
+
+#: onedesk/one_admin/setup.py:796
+msgid "left to production"
+msgstr "der Produktion überlassen"
 
 #: onedesk/one_admin/setup.py:638
 #, python-brace-format

@@ -42,3 +42,10 @@ Each server is then given a token that reads that one repository for an hour,
 when it needs the code. Until the app is installed, servers use the
 **GitHub Token** under **Personal Token**. Once it is connected, clear that
 field.
+
+You never add a secret to the repository on GitHub. Once the app is
+installed, production's OneAdmin writes the secrets the release and OneOS
+image workflows use, and **Set Up Again** on the **Cloudflare** tab writes
+them again. The tile lists what was written. An app made before this asks
+for **Secrets: Read and write**: give it that on GitHub, accept the change
+on the installation, then press **Set Up Again**.

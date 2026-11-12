@@ -10,9 +10,11 @@ def test_each_step_lands_in_its_area_and_the_worst_state_shows():
 		{"step": "sender account", "state": "failed", "detail": "noreply@4dl.app"},
 		{"step": "bucket backups", "state": "ours", "detail": "one-backups"},
 		{"step": "worker one-keeper", "state": "created", "detail": "deployed"},
+		{"step": "github", "state": "theirs", "detail": "left to production"},
 	]
 	tiles = {one["key"]: one for one in control.areas_of(said)}
-	assert [one["key"] for one in control.areas_of(said)] == ["account", "mail", "storage", "services"]
+	assert [one["key"] for one in control.areas_of(said)] == ["account", "mail", "storage", "github", "services"]
+	assert tiles["github"]["state"] == "ready" and tiles["github"]["found"] == ["left to production"]
 	assert tiles["account"]["state"] == "ready"
 	assert tiles["account"]["found"] == ["Signed in", "FOURDEGREE LABS"]
 	assert tiles["mail"]["state"] == "failed"

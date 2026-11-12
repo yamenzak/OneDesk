@@ -296,7 +296,7 @@ def put_secret(name: str, value: str, repository: str = boxes.REPOSITORY) -> Non
 	except faults.Refused as refused:
 		if refused.status == 422:
 			raise faults.Refused(
-				_("The GitHub App may not write secrets yet. On GitHub, give it Secrets: Read and write, accept the change on its installation, then set up again.")
+				_("The GitHub App may not write secrets yet. On GitHub, give the app Secrets: Read and write, accept the change on the installation, then set up again.")
 			) from refused
 		raise
 	if not minted:
@@ -305,7 +305,11 @@ def put_secret(name: str, value: str, repository: str = boxes.REPOSITORY) -> Non
 	key = requests.get(public_key_url(repository), headers=asked, timeout=TIMEOUT)
 	if not key.ok:
 		raise faults.Refused(f"GitHub gave no key for {repository}'s secrets: {key.text[:300]}")
-	put = requests.put(secret_url(repository, name), json=secret_body(key.json(), value), headers=asked, timeout=TIMEOUT)
+	try:
+		body = secret_body(key.json(), value)
+	except ValueError as wrong:
+		raise faults.Refused(str(wrong)) from wrong
+	put = requests.put(secret_url(repository, name), json=body, headers=asked, timeout=TIMEOUT)
 	if not put.ok:
 		raise faults.Refused(f"GitHub did not take {name}: {put.text[:300]}")
 	frappe.db.set_default(WRITTEN, json.dumps({**written(), name: frappe.utils.now()}))
@@ -317,8 +321,10 @@ def write_release() -> list[str]:
 	it signs `releases.released` with, made here when there is none."""
 	from onedesk.one_admin.releases import RELEASE_SECRET
 
-	secret = frappe.conf.get(RELEASE_SECRET) or secrets.token_urlsafe(32)
-	vault.keep(RELEASE_SECRET, secret)
+	secret = frappe.conf.get(RELEASE_SECRET)
+	if not secret:
+		secret = secrets.token_urlsafe(32)
+		vault.keep(RELEASE_SECRET, secret)
 	put_secret("ONE_RELEASE_SECRET", secret)
 	put_secret("ONE_ADMIN_URL", frappe.utils.get_url().rstrip("/"))
 	return ["ONE_RELEASE_SECRET", "ONE_ADMIN_URL"]

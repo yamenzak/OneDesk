@@ -10899,6 +10899,10 @@ msgstr "ربط GitHub"
 msgid "Connect GitHub first."
 msgstr "اربط GitHub أولاً."
 
+#: onedesk/one_admin/setup.py:798
+msgid "Connect GitHub, then set up again."
+msgstr "اربط GitHub، ثم أعد الإعداد."
+
 #: frontend/src/mail/OneMail.vue:299
 #: onedesk/public/js/one_mail/onemail_settings.js:54
 #: onedesk/public/js/one_mail/onemail_settings.js:920
@@ -21065,6 +21069,11 @@ msgstr "تم ربط GitHub."
 #, python-brace-format
 msgid "GitHub did not answer: {0}"
 msgstr "لم يستجب GitHub: {0}"
+
+#: onedesk/one_admin/setup.py:806
+#, python-brace-format
+msgid "GitHub did not answer: {0}. Set up again."
+msgstr "لم يُجب GitHub: {0}. أعد الإعداد."
 
 #: onedesk/one_admin/github_app.py:172
 #, python-brace-format
@@ -32332,6 +32341,10 @@ msgstr "لا يوجد جدول"
 #, python-brace-format
 msgid "No screen is showing code {0}. Check the code and try again."
 msgstr "لا توجد شاشة تعرض الرمز {0}. تحقق من الرمز وحاول مرة أخرى."
+
+#: onedesk/public/js/one_admin/admin_control.js:277
+msgid "No secrets written yet. Press Set Up Again on the Cloudflare tab."
+msgstr "لم تُكتب أي أسرار بعد. اضغط «إعادة الإعداد» في تبويب Cloudflare."
 
 #: frontend/src/inventory/item/ItemSelling.vue:15
 msgid "No selling price"
@@ -45800,6 +45813,11 @@ msgstr "السر"
 msgid "Secret Key"
 msgstr "المفتاح السري"
 
+#: onedesk/public/js/one_admin/admin_control.js:276
+#, python-brace-format
+msgid "Secrets written: {0}"
+msgstr "الأسرار المكتوبة: {0}"
+
 #: onedesk/one_slide/decks.py:24
 msgid "Section"
 msgstr ""
@@ -52375,6 +52393,10 @@ msgstr "أرض المصنع في لمحة"
 msgid "The GitHub App is not installed on {0}."
 msgstr "تطبيق GitHub غير مثبّت على {0}."
 
+#: onedesk/one_admin/github_app.py:299
+msgid "The GitHub App may not write secrets yet. On GitHub, give the app Secrets: Read and write, accept the change on the installation, then set up again."
+msgstr "لا يحق لتطبيق GitHub كتابة الأسرار بعد. في GitHub، امنح التطبيق صلاحية Secrets: Read and write، واقبل التغيير على التثبيت، ثم أعد الإعداد."
+
 #: onedesk/one_ai/reading/planning.py:520
 #, python-brace-format
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
@@ -53993,6 +54015,10 @@ msgstr "توقّف تكرار {document}"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:312
 msgid "The repository the GitHub App may read."
 msgstr "المستودع الذي يمكن لتطبيق GitHub قراءته."
+
+#: onedesk/public/js/one_admin/admin_control.js:274
+msgid "The repository's secrets are left to production."
+msgstr "أسرار المستودع متروكة لبيئة الإنتاج."
 
 #: onedesk/one_admin/github_app.py:168
 msgid "The request has expired. Press Connect GitHub again."
@@ -66636,6 +66662,10 @@ msgstr "متبقٍ"
 #: onedesk/public/js/band.js:215
 msgid "left early"
 msgstr "انصرف مبكراً"
+
+#: onedesk/one_admin/setup.py:796
+msgid "left to production"
+msgstr "متروك لبيئة الإنتاج"
 
 #: onedesk/one_admin/setup.py:638
 #, python-brace-format

@@ -38,6 +38,10 @@ dependencies = [
     # XML read safely, for a news feed on a screen (one_display/sources.py).
     # PSF; entity expansion is a solved problem we would only be re-solving.
     "defusedxml>=0.7,<1",
+    # libsodium's sealed box, for an Actions secret written to the
+    # repository (one_admin/github_app.py). Apache-2.0, and already here
+    # through paramiko; GitHub takes a secret sealed no other way.
+    "pynacl>=1.5,<2",
 ]
 
 [build-system]

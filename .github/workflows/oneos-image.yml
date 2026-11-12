@@ -28,7 +28,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo "::error::Add the repository secrets CLOUDFLARE_CONTAINERS_TOKEN and CLOUDFLARE_ACCOUNT_ID (deploy/oneos/README.md, The image)."
+            echo "::error::CLOUDFLARE_CONTAINERS_TOKEN and CLOUDFLARE_ACCOUNT_ID are not set. Connect GitHub in production's OneAdmin, then press Set Up Again on its Cloudflare tab (deploy/oneos/README.md, The image)."
             exit 1
           fi
 

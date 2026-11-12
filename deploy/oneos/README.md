@@ -75,15 +75,18 @@ that `xprintidle` and `xdotool` work.
 `main` (or when run by hand) and pushes it to Cloudflare's own registry
 with `wrangler containers push`, tagged with the folder's tree id
 (`git rev-parse HEAD:deploy/oneos/image`). Cloudflare's registry is the one
-it pulls from fastest, and GitHub's is not among those it can pull from. The
-repository needs two secrets, which only its owner adds:
+it pulls from fastest, and GitHub's is not among those it can pull from. It
+pushes with two repository secrets, which production's Set Up Cloudflare
+writes through OneAdmin's GitHub App (`Setup.github`), so nobody pastes them:
 
 - `CLOUDFLARE_ACCOUNT_ID`: the account Set Up Cloudflare uses.
-- `CLOUDFLARE_CONTAINERS_TOKEN`: an account API token for that account with
-  **Workers Containers Edit** (and **Account Settings Read**).
+- `CLOUDFLARE_CONTAINERS_TOKEN`: the `[one-prod] OneOS Images` token, allowed
+  **Account Settings Read** and **Workers Containers Write** on that account
+  only, rolled on every run.
 
-Push a change to `image/` before pressing Set Up Again: until its image is in
-the registry, the deploy fails.
+Until its image is in the registry, the deploy fails. On a first setup, press
+Set Up Again once GitHub is connected, run the OneOS image workflow from
+GitHub's Actions tab, then Set Up Again.
 
 ## Deploying
 

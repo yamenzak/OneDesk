@@ -126,6 +126,7 @@ def test_put_secret_mints_a_secrets_token_reads_the_key_and_puts_the_sealed_valu
 	monkeypatch.setattr(github_app.requests, "put", lambda url, **kw: calls.append(("PUT", url, kw)) or _Answer(201))
 	db = _Db()
 	monkeypatch.setattr(github_app.frappe, "db", db, raising=False)
+	monkeypatch.setattr(github_app.frappe.utils, "now", lambda: "2026-11-12 10:00:00")
 	github_app.put_secret("CLOUDFLARE_ACCOUNT_ID", "acc", repository="o/r")
 	assert asked == [("o/r", {"secrets": "write"})]
 	(get, url_get, kw_get), (put, url_put, kw_put) = calls
@@ -173,6 +174,60 @@ def test_only_production_writes_the_repositorys_secrets(monkeypatch):
 	monkeypatch.setattr(github_app, "put_secret", lambda *a, **kw: pytest.fail("dev wrote a secret"))
 	run.github()
 	assert said == [("github", setup.THEIRS, "left to production")]
+
+
+def _production_run(monkeypatch, connected=True):
+	said, put = [], []
+	run = setup.Setup.__new__(setup.Setup)
+	run.env, run.account = None, "acc"
+	run.note = lambda step, state, detail="": said.append((step, state, detail))
+	run.rolled_token = lambda name, needs: f"rolled {name}"
+	monkeypatch.setattr(setup, "_", lambda text: text)
+	monkeypatch.setattr(github_app, "connected", lambda: connected)
+	monkeypatch.setattr(github_app, "put_secret", lambda name, value, repository=None: put.append((name, value)))
+	monkeypatch.setattr(github_app, "write_release", lambda: ["ONE_RELEASE_SECRET", "ONE_ADMIN_URL"])
+	return run, said, put
+
+
+def test_production_writes_the_account_and_the_images_token_once_github_is_connected(monkeypatch):
+	run, said, put = _production_run(monkeypatch)
+	run.github()
+	assert put == [("CLOUDFLARE_ACCOUNT_ID", "acc"), ("CLOUDFLARE_CONTAINERS_TOKEN", f"rolled {setup.IMAGES}")]
+	assert said == [("github", setup.OURS, "CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_CONTAINERS_TOKEN, ONE_RELEASE_SECRET, ONE_ADMIN_URL")]
+	run, said, put = _production_run(monkeypatch, connected=False)
+	run.github()
+	assert put == [] and said == [("github", setup.WAITING, "Connect GitHub, then set up again.")]
+
+
+def test_a_refused_secret_fails_the_github_step_only(monkeypatch):
+	run, said, put = _production_run(monkeypatch)
+
+	def refused(name, value, repository=None):
+		raise faults.Refused("GitHub did not take it")
+
+	monkeypatch.setattr(github_app, "put_secret", refused)
+	with pytest.raises(setup.Refused, match="did not take it"):
+		run.github()
+
+
+class _Conf(dict):
+	pass
+
+
+def test_the_release_secret_is_made_once_and_written_with_this_sites_address(monkeypatch):
+	put, kept = [], []
+	conf = _Conf()
+	monkeypatch.setattr(github_app.frappe, "conf", conf, raising=False)
+	monkeypatch.setattr(github_app.frappe.utils, "get_url", lambda: "https://admin.example.com/", raising=False)
+	monkeypatch.setattr(github_app.vault, "keep", lambda key, value: kept.append(key) or conf.__setitem__(key, value))
+	monkeypatch.setattr(github_app, "put_secret", lambda name, value, repository=None: put.append((name, value)))
+	assert github_app.write_release() == ["ONE_RELEASE_SECRET", "ONE_ADMIN_URL"]
+	made = conf["one_release_secret"]
+	assert len(made) >= 32 and kept == ["one_release_secret"]
+	assert put == [("ONE_RELEASE_SECRET", made), ("ONE_ADMIN_URL", "https://admin.example.com")]
+	put.clear()
+	github_app.write_release()
+	assert kept == ["one_release_secret"] and put[0] == ("ONE_RELEASE_SECRET", made)
 
 
 def test_a_box_is_believed_only_within_five_minutes():

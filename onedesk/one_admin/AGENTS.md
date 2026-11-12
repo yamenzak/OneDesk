@@ -572,6 +572,12 @@ next to its changes, and a job lists the rows it wrote.
   reads One's code and installs it on the repository. Servers are then given
   a token that lasts an hour instead of the personal **GitHub Token**, which
   is used only until the app is installed (Under the hood, GitHub).
+- **Nobody pastes a GitHub secret.** On production, installing the app writes
+  the release workflow's `ONE_RELEASE_SECRET` and `ONE_ADMIN_URL`, and each
+  **Set Up Again** writes `CLOUDFLARE_ACCOUNT_ID` and
+  `CLOUDFLARE_CONTAINERS_TOKEN` for the OneOS image workflow. The GitHub tab
+  lists what was written; the Cloudflare tab's GitHub tile shows the step.
+  Dev shares the repository, so it writes none and says "left to production".
 - **Create AWS User** opens AWS with the IAM user OneAdmin needs, allowed
   Lightsail in `eu-north-1` only. AWS reads the template only from S3, so
   upload `deploy/aws/lightsail-user.yaml` there once and put its address in
@@ -621,8 +627,10 @@ next to its changes, and a job lists the rows it wrote.
   address here and its secret in the vault. Its image is not built here: the
   OneOS image workflow pushes it to the account's Cloudflare registry when
   `deploy/oneos/image` changes, tagged with that folder's tree id, and the
-  step names that tag. The repository needs `CLOUDFLARE_ACCOUNT_ID` and
-  `CLOUDFLARE_CONTAINERS_TOKEN` as Actions secrets for it
+  step names that tag. The workflow pushes with `CLOUDFLARE_ACCOUNT_ID` and
+  `CLOUDFLARE_CONTAINERS_TOKEN`, which production's setup writes to the
+  repository itself. On a first setup, run the OneOS image workflow once
+  from GitHub's Actions tab after the secrets are written, then Set Up Again
   (`deploy/oneos/README.md`).
 - **Sender Email** (noreply@4dl.app): where One's own emails come from, such
   as sign-in links, signups and customer notices. Set Up Cloudflare turns on
@@ -1951,8 +1959,8 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   Manifest flow. `start` returns the manifest and
   `https://github.com/settings/apps/new?state=…`, and the page posts it as a
   form, so the app is made on the account of whoever is signed in to GitHub.
-  The manifest asks for Contents and Metadata read, no events and an
-  inactive webhook, with the admin site as its address. Its name is
+  The manifest asks for Contents and Metadata read and Secrets write, no
+  events and an inactive webhook, with the admin site as its address. Its name is
   `One <admin host>`, cut to GitHub's 34 characters, so dev and production
   make apps that don't clash.
 - GitHub sends the browser to `back` with a code, checked against the state
@@ -1990,6 +1998,28 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   screen says the field can be cleared. `scripts/server.py`, which builds
   the first OneAdmin before there is one, still takes a token from its keys
   file.
+- **The repository's Actions secrets are written here** (`put_secret`), so
+  the owner never pastes one. A token is minted for `secrets: write` alone,
+  `GET /repos/{repository}/actions/secrets/public-key` gives the key, the
+  value is sealed to it with libsodium's sealed box (PyNaCl, `sealed`), and
+  `PUT /repos/{repository}/actions/secrets/{name}` writes it. When each was
+  written is kept in the default `one_github_secrets`, and the GitHub tab
+  lists them. An app made before Secrets was in the manifest is refused that
+  token (422): the error says to grant Secrets: Read and write on GitHub and
+  accept it on the installation.
+- **Only production writes them** (`production()`: Environment empty), since
+  dev's OneAdmin shares the repository. `installed` writes the release
+  workflow's two (`write_release`): `ONE_ADMIN_URL`, this site's address, and
+  `ONE_RELEASE_SECRET`, the site config's `one_release_secret`, made there
+  first when there is none. Set Up Cloudflare's `github` step writes those
+  again with `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_CONTAINERS_TOKEN`: the
+  `[one-prod] OneOS Images` token, allowed Account Settings Read and Workers
+  Containers Write (and Cloudchamber Write where the account lists it) on the
+  account alone, which is what `wrangler containers push` needs. Like the
+  Keeper token it is rolled for a new secret on every run and never kept
+  here. Before the app is connected the step says so and waits; on dev it
+  says "left to production". The R2 assets secrets of the release workflow
+  are still added by hand.
 - GitHub is not a subprocessor: it gets no customer data, and the legal
   guard passes every `github.com` host.
 
@@ -2212,7 +2242,8 @@ config), then `setup production`: about a minute, against 6 to 7 of
 building. A release without one, or a bench that does not import its apps,
 is built from its commits as before. The workflow then calls
 `releases.released`, signed with `one_release_secret` (this site's config,
-and the workflow's `ONE_RELEASE_SECRET`, with `ONE_ADMIN_URL`), and the check
+and the workflow's `ONE_RELEASE_SECRET`, with `ONE_ADMIN_URL`, both written
+by `github_app.write_release`), and the check
 runs within minutes; without the two, the hourly check finds it.
 
 A box's agent (`deploy/server/agent.py`) reads signed instructions from R2
