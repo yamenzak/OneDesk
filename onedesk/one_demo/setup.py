@@ -10,11 +10,14 @@ BUILDER = "faisal@one.test"
 
 
 def run(password=None):
+	from onedesk.one import roles
+
+	roles.ensure()
 	if not frappe.is_setup_complete():
 		from frappe.desk.page.setup_wizard.setup_wizard import setup_complete
 
 		year = today().year
-		for field, value in (("country", "United Arab Emirates"), ("currency", CURRENCY), ("time_zone", "Asia/Dubai")):
+		for field, value in (("country", "United Arab Emirates"), ("currency", CURRENCY), ("time_zone", "Asia/Dubai"), ("language", "en")):
 			if not frappe.db.get_single_value("System Settings", field):
 				frappe.db.set_single_value("System Settings", field, value)
 		said = setup_complete(
@@ -40,8 +43,41 @@ def run(password=None):
 		if (said or {}).get("status") != "ok":
 			frappe.throw(f"The setup wizard did not finish: {said}")
 		frappe.db.commit()
+	if not frappe.db.get_single_value("System Settings", "language"):
+		frappe.db.set_single_value("System Settings", "language", "en")
+	_builder(password)
 	_kept()
 	settle()
+
+
+def _builder(password=None):
+	"""The demo's builder, an administrator of the workspace: frappe's setup
+	wizard no longer makes a user from its name and email."""
+	from onedesk.one import roles
+
+	if frappe.db.exists("User", BUILDER):
+		user = frappe.get_doc("User", BUILDER)
+		if roles.ADMINISTRATOR not in {one.role for one in user.roles}:
+			user.append("roles", {"role": roles.ADMINISTRATOR})
+			user.save(ignore_permissions=True)
+		return
+	user = frappe.get_doc(
+		{
+			"doctype": "User",
+			"email": BUILDER,
+			"first_name": "Faisal",
+			"last_name": "Al Mansoori",
+			"user_type": "System User",
+			"send_welcome_email": 0,
+			"roles": [{"role": "Desk User"}, {"role": roles.ADMINISTRATOR}],
+		}
+	)
+	user.insert(ignore_permissions=True)
+	if password:
+		from frappe.utils.password import update_password
+
+		update_password(BUILDER, password)
+	frappe.db.commit()
 
 
 def settle():

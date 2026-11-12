@@ -21,10 +21,15 @@ QUALITY = (
 )
 
 GIVEN = {doctype: {USER: roles.WORK, MANAGER: roles.MANAGE} for doctype in QUALITY} | {
-	"Quality Feedback Template": {USER: roles.USE, MANAGER: roles.MANAGE},
+	"Quality Feedback Template": {USER: roles.USE},
 }
+
+RAISED = {"Quality Feedback Template": {MANAGER: roles.MANAGE}}
+"""ERPNext lets its Quality Manager read feedback templates and nothing
+more, so `give` would leave it there and nobody could make one."""
 
 
 def settle() -> None:
 	roles.give(GIVEN)
+	roles.raise_once(RAISED)
 	roles.open_report("Review", USER, MANAGER)

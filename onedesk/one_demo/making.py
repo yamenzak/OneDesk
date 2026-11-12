@@ -10,6 +10,7 @@ from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, make, on,
 
 SUPERVISOR = "tariq@one.test"
 BUYER = "karim@one.test"
+BOOKS = "huda@one.test"
 VILLA = "Mansour Villa Windows and Doors"
 TOWER = "Bayview Tower Curtain Wall"
 COATER = "Gulf Powder Coating"
@@ -64,7 +65,7 @@ def run(password=None):
 				_bom(product, materials, steps)
 		if not frappe.db.exists("BOM", {"item": "ALU-6063-PC", "is_default": 1}):
 			_bom("ALU-6063-PC", (("ALU-6063", 1),), ())
-	with as_user(BUYER):
+	with as_user(BOOKS):
 		control.save_workshop(**control.suggested(COMPANY))
 	if not frappe.db.exists("Work Order", {"docstatus": 1}):
 		with as_user(SUPERVISOR):
@@ -90,7 +91,7 @@ def _workshop():
 			{"workstation_name": workstation, "workstation_costs": [{"operating_component": "Wages", "operating_cost": rate}]},
 		)
 		once("Operation", {"name": step}, {"name": step, "workstation": workstation})
-	with as_user(BUYER):
+	with as_user(SUPERVISOR):
 		once("Plant Floor", {"name": FLOOR}, {"floor_name": FLOOR, "company": COMPANY, "warehouse": wh("Work In Progress")})
 	for workstation, status in STANDING.items():
 		if not frappe.db.get_value("Workstation", workstation, "plant_floor"):

@@ -337,6 +337,7 @@ doc_events = {
 			"onedesk.one_studio.letter_heads.redraw",
 			"onedesk.one_mail.faces.dress_later",
 			"onedesk.one_hr.papers.company_saved",
+			"onedesk.one_hr.accounts.ready",
 			"onedesk.one_studio.print_blocks.offered",
 		],
 	},

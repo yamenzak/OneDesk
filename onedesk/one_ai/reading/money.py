@@ -245,7 +245,8 @@ def _each(line: dict) -> float:
 
 
 def quotation(reading: dict, ctx: dict) -> list[Action]:
-	"""A supplier's offer, as a Supplier Quotation when every line is an item."""
+	"""A supplier's offer, as a Supplier Quotation when every line is an item,
+	dated the day the supplier gave it, so one read after it ran out is kept too."""
 	if not _real(reading, ctx) or reading.get("kind") != "Offer" or not ctx.get("supplier"):
 		return []
 	items = ctx.get("items") or {}
@@ -254,7 +255,7 @@ def quotation(reading: dict, ctx: dict) -> list[Action]:
 		return []
 	rows = [{"item_code": items[index], "qty": float(one.get("qty") or 1), "rate": _each(one)} for index, one in enumerate(source)]
 	valid = next((str(one["date"]) for one in reading.get("dates") or [] if one.get("what") == "Valid Until" and one.get("date")), None)
-	values = {"supplier": ctx["supplier"], "transaction_date": ctx["today"], "valid_till": valid, "items": rows}
+	values = {"supplier": ctx["supplier"], "transaction_date": reading.get("issued_on") or ctx["today"], "valid_till": valid, "items": rows}
 	return [Action("Create", "Supplier Quotation", values={k: v for k, v in values.items() if v}, key="books|quotation", propose_on_error=True)]
 
 

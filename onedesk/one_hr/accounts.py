@@ -9,7 +9,8 @@ WANTED = (
 
 
 def ready(*_args) -> None:
-	"""Give every company's nominated account the type its screen needs."""
+	"""Give every company's nominated account the type its screen needs, on
+	migrate and whenever a company is saved, so a second company can pay too."""
 	for field, wanted, replaces in WANTED:
 		for company, account in frappe.get_all(
 			"Company",
