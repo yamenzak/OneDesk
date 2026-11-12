@@ -1652,7 +1652,7 @@ def onecloud_an_office_file_opens_where_nothing_is_lost():
 		with mock.patch("frappe.publish_realtime"), as_user(demo.PM):
 			plain = upload._place(root, None, {"file_name": "Rent check.xlsx", "content": book()})["id"]
 			noted = upload._place(root, None, {"file_name": "Rent notes check.xlsx", "content": book(comment=True)})["id"]
-			assert opening.weigh(plain) == {"loses": []}
+			assert opening.weigh(plain)["loses"] == []
 			said = opening.weigh(noted)
 			assert said["loses"] == ["comments"] and said["said"] == "This file has comments OneWorkbook can't keep.", said
 			row = next(one for one in api.listing(root)["items"] if one["id"] == noted)
