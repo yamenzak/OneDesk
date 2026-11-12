@@ -159,3 +159,18 @@ def oneos_closed(user: str, name: str, file: str) -> None:
 		sender="Administrator",
 		file=file,
 	)
+
+
+def deleted_while_open(users: list[str], item) -> None:
+	"""A file somebody had open, in OneOS, on the drive or in an editor,
+	went to the Recycle Bin. The link opens the Recycle Bin on it."""
+	from onedesk.one_storage import namespace as ns
+
+	notify.notify(
+		"Deleted While Open",
+		users,
+		record=("File", item.name),
+		link=f"/desk/onecloud?node={quote(ns.BIN, safe='')}&file={quote(item.name, safe='')}",
+		who=get_fullname(frappe.session.user),
+		file=item.file_name,
+	)

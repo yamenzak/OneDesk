@@ -512,8 +512,20 @@ def delete(nodes: str | list) -> dict:
 			{"one_deleted": 1, "one_deleted_on": now_datetime(), "one_deleted_by": frappe.session.user},
 		)
 		live.announce(item)
+		_tell_holders(item)
 		binned += 1
 	return {"binned": binned, "removed": removed}
+
+
+def _tell_holders(item) -> None:
+	"""Whoever has a file open when it goes to the Recycle Bin hears so."""
+	if item.is_folder:
+		return
+	from onedesk.one_storage import lease, tell
+
+	others = [user for user in lease.in_it(item.name) if user != frappe.session.user]
+	if others:
+		tell.deleted_while_open(others, item)
 
 
 @frappe.whitelist(methods=["POST"])

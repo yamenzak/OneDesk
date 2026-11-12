@@ -14,7 +14,7 @@ from frappe import _
 from frappe.utils import get_datetime
 from werkzeug.wrappers import Response
 
-from onedesk.one_storage import api, store
+from onedesk.one_storage import api, dav_locks, dav_saves, store
 from onedesk.one_storage import namespace as ns
 
 MOUNT = "/api/method/onedesk.one_storage.dav.serve"
@@ -58,6 +58,8 @@ def serve():
 	environ["wsgidav.auth.realm"] = "OneCloud"
 	environ["wsgidav.auth.roles"] = []
 	environ["wsgidav.auth.permissions"] = []
+	if request.method == "PUT":
+		_judge_if_match(environ)
 
 	answer = {}
 
@@ -79,6 +81,27 @@ def serve():
 				body.close()
 
 	return Response(rest(), status=answer.get("status", "500"), headers=answer.get("headers", []), direct_passthrough=True)
+
+
+def _judge_if_match(environ: dict) -> None:
+	"""A PUT whose If-Match names a version the file no longer holds is not
+	refused, as wsgidav would: it is kept as the person's copy (dav_saves)."""
+	header = environ.get("HTTP_IF_MATCH")
+	item = walk(environ["PATH_INFO"]) if header else None
+	if not item or not _plain(item):
+		return
+	if not dav_saves.matches(header, dav_saves.tag(item)):
+		environ.pop("HTTP_IF_MATCH")
+		environ["onecloud.stale"] = True
+
+
+def _plain(item: dict) -> bool:
+	"""A file whose bytes are the original, not one of One's own."""
+	return bool(item.get("id")) and not item.get("folder") and not item.get("virtual") and not _own(item)
+
+
+def _own(item: dict) -> bool:
+	return bool(item.get("workbook") or item.get("document") or item.get("presentation"))
 
 
 def headers(response, request) -> None:
@@ -119,7 +142,7 @@ def _app():
 					"accept_digest": False,
 					"default_to_digest": False,
 				},
-				"lock_storage": _locks(site),
+				"lock_storage": dav_locks.storage(site),
 				"property_manager": True,
 				"hotfixes": {"emulate_win32_lastmod": True, "re_encode_path_info": True, "unquote_path_info": False},
 				"dir_browser": {"enable": False},
@@ -132,25 +155,6 @@ def _app():
 	return _apps[site]
 
 
-def _locks(site: str):
-	"""Locks in Frappe's own cache, under this site's name, so every worker
-	sees a lock another took."""
-	import redis
-	from wsgidav.lock_man.lock_storage_redis import LockStorageRedis
-
-	class SiteLocks(LockStorageRedis):
-		def __init__(self):
-			super().__init__()
-			self._redis_prefix = "wsgidav-" + site + "-{}"
-			self._redis_lock_prefix = self._redis_prefix.format("lock:{}")
-			self._redis_url2token_prefix = self._redis_prefix.format("URL2TOKEN:{}")
-
-		def open(self):
-			self._redis = redis.Redis.from_url(frappe.conf.redis_cache or "redis://127.0.0.1:13000")
-
-	return SiteLocks()
-
-
 def _signin_base():
 	from wsgidav.dc.base_dc import BaseDomainController
 
@@ -159,7 +163,9 @@ def _signin_base():
 
 class FrappeSignIn(_signin_base()):
 	"""Frappe has signed the person in before wsgidav sees the request; this
-	only tells wsgidav so."""
+	only tells wsgidav so. wsgidav empties the user name just before it asks
+	whether to sign in, so the name is given there: a lock is then its
+	person's, and only they may unlock it."""
 
 	def __init__(self, wsgidav_app, config):
 		super().__init__(wsgidav_app, config)
@@ -171,6 +177,8 @@ class FrappeSignIn(_signin_base()):
 		return "OneCloud"
 
 	def require_authentication(self, realm, environ):
+		if environ is not None:
+			environ["wsgidav.auth.user_name"] = frappe.session.user
 		return False
 
 	def basic_auth_user(self, realm, user_name, password, environ):
@@ -299,7 +307,7 @@ class Provider(_DAVProvider):
 	def get_resource_inst(self, path, environ):
 		item = walk(path)
 		if item is None:
-			return None
+			return Ghost(path, environ) if dav_saves.is_ghost(_key(path)) else None
 		if item.get("folder"):
 			return Folder(path, environ, item)
 		return Document(path, environ, item)
@@ -350,6 +358,10 @@ def _as_file(node: dict) -> dict:
 	return {**node, "name": name}
 
 
+def _key(path: str) -> str:
+	return "/" + "/".join(split(path))
+
+
 def _request_cache() -> dict:
 	held = getattr(frappe.local, "onecloud_dav", None)
 	if held is None:
@@ -381,22 +393,35 @@ def _place_for(dest_path: str) -> tuple[dict, str]:
 	return parent, name
 
 
-def _move_or_copy(item: dict, dest_path: str, is_move: bool) -> None:
-	from onedesk.one_sheet import excel
-
+def _stored(item: dict, name: str) -> str:
+	"""The name a drive name is kept under: One's own without its suffix."""
 	from onedesk.one_doc import word
+	from onedesk.one_sheet import excel
 	from onedesk.one_slide import drive
 
+	for key, suffix in (("workbook", excel.SUFFIX), ("document", word.SUFFIX), ("presentation", drive.SUFFIX)):
+		if item.get(key) and name.lower().endswith(suffix):
+			return name[: -len(suffix)]
+	return name
+
+
+def _move_or_copy(item: dict, dest_path: str, is_move: bool, environ: dict) -> None:
+	"""A MOVE or COPY. Onto a file there, or into a name its file left a
+	moment ago, it is a save of that file (dav_saves)."""
 	parent, name = _place_for(dest_path)
-	if item.get("workbook") and name.lower().endswith(excel.SUFFIX):
-		name = name[: -len(excel.SUFFIX)]
-	if item.get("document") and name.lower().endswith(word.SUFFIX):
-		name = name[: -len(word.SUFFIX)]
-	if item.get("presentation") and name.lower().endswith(drive.SUFFIX):
-		name = name[: -len(drive.SUFFIX)]
+	name = _stored(item, name)
+	over = environ.pop("onecloud.over", None)
+	back = dav_saves.taken_back(_key(dest_path)) if _plain(item) and not over else None
 	here = frappe.db.get_value("File", item["id"], "folder") if not item.get("virtual") else None
 	try:
-		if is_move and here == ns.folder_of(parent["id"]):
+		if over and not _plain(item):
+			api.delete([over["id"]])
+			over = None
+		if over or back:
+			made = item["id"] if is_move else api.copy([item["id"]], parent["id"])[0]
+			target = over or dav_saves.bring_back(back)
+			dav_saves.save_into(target, environ, parent, src=made)
+		elif is_move and here == ns.folder_of(parent["id"]):
 			api.rename(item["id"], name)
 		elif is_move:
 			moved = api.move([item["id"]], parent["id"])
@@ -406,6 +431,8 @@ def _move_or_copy(item: dict, dest_path: str, is_move: bool) -> None:
 			made = api.copy([item["id"]], parent["id"])
 			if made and name != item["name"]:
 				api.rename(made[0], name)
+		if is_move and not over and not back and _plain(item) and dav_saves.temporary(_key(dest_path)):
+			dav_saves.left(_key(environ["PATH_INFO"]), item["id"], item["name"], aside=_key(dest_path))
 	except frappe.PermissionError:
 		raise _error(403) from None
 	except frappe.ValidationError:
@@ -476,10 +503,10 @@ class Folder(_DAVCollection):
 		return True
 
 	def move_recursive(self, dest_path):
-		_move_or_copy(self.item, dest_path, True)
+		_move_or_copy(self.item, dest_path, True, self.environ)
 
 	def copy_move_single(self, dest_path, *, is_move):
-		_move_or_copy(self.item, dest_path, is_move)
+		_move_or_copy(self.item, dest_path, is_move, self.environ)
 
 
 class Document(_DAVNonCollection):
@@ -538,7 +565,7 @@ class Document(_DAVNonCollection):
 	def get_etag(self):
 		if self.item.get("presentation"):
 			return f"{self.item.get('id')}-{int(self._deck_stamp() or 0)}"
-		return f"{self.item.get('id')}-{int(_stamp(self.item.get('modified')) or 0)}-{self.item.get('size') or 0}"
+		return dav_saves.tag(self.item)
 
 	def support_ranges(self):
 		return False
@@ -548,6 +575,7 @@ class Document(_DAVNonCollection):
 			return io.BytesIO(self._workbook())
 		if self.item.get("presentation"):
 			return io.BytesIO(self._deck())
+		dav_saves.read(self.item)
 		url = self.item.get("url") or ""
 		if store.is_stored(url):
 			import requests
@@ -564,13 +592,19 @@ class Document(_DAVNonCollection):
 		handle, self._spool = tempfile.mkstemp(prefix="onecloud-dav-")
 		return os.fdopen(handle, "wb")
 
-	def end_write(self, *, with_errors):
-		"""A written file: a new one, or a new version of the one there. An
-		empty file first and its content after is how Finder and Explorer
-		write, and the empty one is not kept as a version. A file somebody
-		has alone in OneOS is locked."""
-		from onedesk.one_storage import lease, upload
+	def get_property_value(self, name):
+		found = super().get_property_value(name)
+		if name == "{DAV:}lockdiscovery" and not len(found) and self.item.get("id") and _key(self.path) == _key(self.environ.get("PATH_INFO")):
+			lock = dav_locks.held_lock(self.item["id"], frappe.session.user)
+			if lock:
+				dav_locks.discovered(found, lock, self.get_href())
+		return found
 
+	def end_write(self, *, with_errors):
+		"""A written file: a new one, or a save of the one there
+		(dav_saves.save_into). An empty file first and its content after is
+		how Finder and Explorer write, and the empty one is not kept as a
+		version. A name a file left a moment ago takes that file back."""
 		spool, self._spool = self._spool, None
 		if spool is None:
 			return
@@ -581,61 +615,107 @@ class Document(_DAVNonCollection):
 				content = written.read()
 		finally:
 			os.unlink(spool)
-		if self.item.get("workbook") or self.item.get("document") or self.item.get("presentation"):
-			from onedesk.one_doc import word
-			from onedesk.one_sheet import excel
-			from onedesk.one_slide import drive
-
-			if not content:
-				return
-			try:
-				if self.item.get("presentation"):
-					drive.write(self.item["presentation"], content)
-				elif self.item.get("document"):
-					word.write(self.item["document"], content)
-				else:
-					excel.write(self.item["workbook"], content)
-			except frappe.PermissionError:
-				raise _error(403) from None
-			except frappe.ValidationError:
-				raise _error(415) from None
-			_forget()
-			return
-		same = self.item.get("id")
-		held = lease.blocking(same) if same else None
-		if held and not (held["mine"] and held["kind"] == lease.DAV):
-			raise _error(423)
 		parent = self.item.get("parent") or walk(_parent_and_name(self.path)[0])
 		try:
-			upload._place(
-				parent["id"],
-				None,
-				{"file_name": self.item["name"], "content": content},
-				replace=1,
-				version_of=same,
-				sitting=lease.sitting(same, "drive") if same else None,
-			)
+			if self.item.get("id"):
+				dav_saves.save_into(self.item, self.environ, parent, content=content)
+			elif back := dav_saves.taken_back(_key(self.path)):
+				dav_saves.save_into(dav_saves.bring_back(back), self.environ, parent, content=content)
+			else:
+				from onedesk.one_storage import upload
+
+				made = upload._place(parent["id"], None, {"file_name": self.item["name"], "content": content}, replace=1)
+				dav_locks.adopt(made["id"], self)
+				dav_saves.read(made)
 		except frappe.PermissionError:
 			raise _error(403) from None
+		except frappe.ValidationError:
+			raise _error(415) from None
 		_forget()
 
 	def delete(self):
 		if not self.item.get("id"):
 			raise _error(404)
+		if self.environ.get("REQUEST_METHOD") in ("MOVE", "COPY") and _key(self.path) != _key(self.environ.get("PATH_INFO")):
+			self.environ["onecloud.over"] = self.item
+			return
 		try:
 			api.delete([self.item["id"]])
 		except frappe.PermissionError:
 			raise _error(403) from None
+		if _plain(self.item):
+			dav_saves.left(_key(self.path), self.item["id"], self.item["name"])
 		_forget()
 
 	def support_recursive_move(self, dest_path):
 		return True
 
 	def move_recursive(self, dest_path):
-		_move_or_copy(self.item, dest_path, True)
+		_move_or_copy(self.item, dest_path, True, self.environ)
 
 	def copy_move_single(self, dest_path, *, is_move):
-		_move_or_copy(self.item, dest_path, is_move)
+		_move_or_copy(self.item, dest_path, is_move, self.environ)
+
+
+def write_own(item: dict, content: bytes) -> None:
+	"""A save from the drive into One's own record: a workbook, document or
+	presentation read back from the file the app wrote."""
+	from onedesk.one_doc import word
+	from onedesk.one_sheet import excel
+	from onedesk.one_slide import drive
+
+	if not content:
+		return
+	if item.get("presentation"):
+		drive.write(item["presentation"], content)
+	elif item.get("document"):
+		word.write(item["document"], content)
+	else:
+		excel.write(item["workbook"], content)
+
+
+def read_bytes(item: dict) -> bytes:
+	"""What a File holds, wherever it is kept."""
+	url = item.get("url") or ""
+	if store.is_stored(url):
+		import requests
+
+		answer = requests.get(store.signed(store.key_of(url)), timeout=store.PATIENCE)
+		answer.raise_for_status()
+		return answer.content
+	content = frappe.get_doc("File", item["id"]).get_content()
+	return content if isinstance(content, bytes) else content.encode()
+
+
+class Ghost(_DAVNonCollection):
+	"""The name a file was moved aside to by a safe save, once the file is
+	back in its own name: deleting it, the save's last step, succeeds."""
+
+	def __init__(self, path, environ):
+		super().__init__(path, environ)
+		self.item = {"id": None, "name": split(path)[-1] if split(path) else ""}
+
+	def get_content_length(self):
+		return 0
+
+	def get_content_type(self):
+		return "application/octet-stream"
+
+	def get_content(self):
+		return io.BytesIO(b"")
+
+	def get_display_name(self):
+		return self.item["name"]
+
+	def get_etag(self):
+		return None
+
+	def support_etag(self):
+		return False
+
+	def handle_delete(self):
+		dav_saves.unghost(_key(self.path))
+		return True
 
 
 def href(path: str) -> str:

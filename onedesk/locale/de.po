@@ -13965,6 +13965,11 @@ msgstr "Gelöscht von"
 msgid "Deleted On"
 msgstr "Gelöscht am"
 
+#. Name of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "Deleted While Open"
+msgstr "Gelöscht, während geöffnet"
+
 #: onedesk/public/js/privacy_request.js:8
 msgid "Deleted. The account is disabled and its personal data erased."
 msgstr "Gelöscht. Das Konto ist deaktiviert und seine personenbezogenen Daten gelöscht."
@@ -25054,6 +25059,11 @@ msgstr "Dies würde ein Arbeitsverhältnis beenden."
 #, python-brace-format
 msgid "It would overwrite {0}."
 msgstr "Dies würde {0} überschreiben."
+
+#. Message of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "It's in the Recycle Bin. Restore it from there to keep working on it, or save your changes as a new file."
+msgstr "Sie ist im Papierkorb. Stellen Sie sie dort wieder her, um weiter daran zu arbeiten, oder speichern Sie Ihre Änderungen als neue Datei."
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:118
 #: frontend/src/slide/components/FontSection.vue:88
@@ -61830,6 +61840,11 @@ msgid "When someone mentions you in a comment."
 msgstr "Wenn jemand Sie in einem Kommentar erwähnt."
 
 #. When a notification is sent
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook or OneWriter."
+msgstr "Wenn jemand eine Datei in den Papierkorb verschiebt, die Sie in OneOS, auf Ihrem Laufwerk oder in OneWorkbook oder OneWriter geöffnet haben."
+
+#. When a notification is sent
 #: onedesk/one_admin/notifications.py
 msgid "When someone pays for a new workspace."
 msgstr "Wenn jemand einen neuen Arbeitsbereich bezahlt."
@@ -66976,6 +66991,11 @@ msgstr "hat den Portal-Link für {0} gesperrt"
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "rule"
 msgstr "Regel"
+
+#: onedesk/one_storage/dav_saves.py:182
+#, python-brace-format
+msgid "saved a copy, since {0} had changed after it was opened"
+msgstr "hat eine Kopie gespeichert, da sich {0} nach dem Öffnen geändert hatte"
 
 #: onedesk/one_admin/offerings.py:163
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:21
@@ -72444,6 +72464,12 @@ msgstr "{who} hat sie abgelehnt, daher wurde sie entfernt. Fragen Sie nach, wenn
 #, python-brace-format
 msgid "{who} deleted {collection}"
 msgstr "{who} hat {collection} gelöscht"
+
+#. Subject of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+#, python-brace-format
+msgid "{who} deleted {file} while you had it open"
+msgstr "{who} hat {file} gelöscht, während Sie die Datei geöffnet hatten"
 
 #. Subject of a notification
 #: onedesk/notifications/one_studio/extension_deleted.md

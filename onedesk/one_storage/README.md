@@ -239,6 +239,18 @@ file keeps the old one as a version, and deleting moves it to the Recycle
 Bin. A document, workbook or presentation made in One shows as a Word,
 Excel or PowerPoint file, and saving it there saves it back into One.
 
+While you have a file open from the drive in Word, Excel or LibreOffice,
+nobody else can change it: their app opens it read-only and says it's
+yours, and OneOS and the editors in OneCloud do the same. If somebody is
+editing it in OneWorkbook, OneWriter or OneOS, your app opens it
+read-only and says who. Your saves while it's open are one version.
+
+An app that doesn't hold the file open, such as one on a phone, never
+saves over a newer version. If the file changed after you opened it, your
+save is kept beside it, named for you, such as *Budget (Huda's copy).xlsx*,
+and your next saves go into that copy. If somebody moves a file you have
+open to the Recycle Bin, you're told.
+
 ## Servers as folders
 
 **Network › New › Server connection** connects an SFTP or WebDAV server, such
@@ -505,8 +517,8 @@ mode yet.
 ### One lease per file (lease.py)
 
 Every File has one lease, and a workbook or document leases the File it
-sits behind. **Alone** is one holder, a OneOS session (`oneos`) or, once
-the drive's locks join it, a desktop app's WebDAV lock (`dav`), kept on the
+sits behind. **Alone** is one holder, a OneOS session (`oneos`) or a
+desktop app's WebDAV lock (`dav`, dav_locks.py below), kept on the
 File (`one_lease_kind`, `_lock`, `_session`, `_user`, `_until`,
 custom/file.json; patches/one_lease_on_file moved OneOS's own fields onto
 it), so it outlives the cache and a restart. **Live** is anybody in
@@ -881,6 +893,46 @@ not a second R2 integration.
   file whose name is there replaces it and keeps a version, and deleting
   sends it to the Recycle Bin. A folder is its own drive at the same URL
   with the folder's path after it, since clients mount any collection.
+
+- `dav_locks.py` — a drive lock is the File's lease. wsgidav's lock
+  storage (redis, under the site's name) is subclassed: a LOCK on a file
+  takes the `dav` lease for its person with the lock's token as the
+  lease's lock (so it is the sitting for merged versions) and its timeout,
+  clamped to a minute to an hour (`seconds`); a refresh extends it, or takes
+  it again once lapsed; UNLOCK, and wsgidav purging an expired lock, let it
+  go; a lock that simply runs out ends with the lease's own `until`. A LOCK
+  `lease.refused` for the DAV kind (somebody else alone, the asker in
+  OneOS, anybody writing live) is deleted again and answered 423. A
+  PROPFIND of the file's lockdiscovery, asked of the file itself, lists a
+  made-up exclusive lock owned by "Samir Haddad (OneOS)" when it is held
+  another way, which is what Word and Excel read to say who has it. A file
+  first made under a lock (Finder locks a name, then writes it) adopts
+  that lock as its lease (`adopt`). `FrappeSignIn.require_authentication`
+  gives wsgidav the person's name, which it empties just before asking, so
+  each lock has its principal and only they may UNLOCK it.
+
+- `dav_saves.py` — saves from the drive (`save_into`). Refused 423 while
+  somebody else holds the file alone. Without the saver's lock, a save from
+  a version the file no longer holds goes beside it as "Name (Huda's
+  copy).ext" (`copy_name`), and that person's saves on the file go into the
+  copy for ten minutes. A version is its ETag, `tag`: id, a hash of the
+  content's URL and size, so a rename does not change it. Where a save
+  started is its If-Match, judged in `serve` before wsgidav would answer
+  412, else the tag the same person last downloaded (twelve hours in the
+  cache); neither means as before, over the file. The empty first write of
+  a save from an older version writes nothing. Safe saves stay saves of
+  the same File: a MOVE or COPY onto a file defers wsgidav's delete of it
+  (`Document.delete` during MOVE or COPY at the destination) and makes the
+  source the file's new version (Mac Office, Pages, TextEdit's `.sb-`
+  files); a file moved aside to a temporary name (`temporary`: Word's
+  ~WRL0001.tmp, Mac Office's Work File, `.sb-`, "(A Document Being Saved
+  By …)") or deleted leaves its name for two minutes (`left`), and the same
+  person's MOVE or PUT into that name brings it back (out of the Recycle
+  Bin, or renamed back) and saves into it, the name it was put aside to
+  answering DELETE as a `Ghost` (Word on Windows). The lease and the lock
+  follow the File's id through all of it. A file deleted in OneCloud while
+  somebody has it open (`lease.in_it`: the alone holder and everybody
+  live) goes to the Recycle Bin and they get Deleted While Open.
 
 - `mounts.py` and `doctype/cloud_mount` — servers as folders. A `Cloud
   Mount` keeps where a server is and the sign-in (password and key in

@@ -13965,6 +13965,11 @@ msgstr "حذفه"
 msgid "Deleted On"
 msgstr "تاريخ الحذف"
 
+#. Name of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "Deleted While Open"
+msgstr "حُذف وهو مفتوح"
+
 #: onedesk/public/js/privacy_request.js:8
 msgid "Deleted. The account is disabled and its personal data erased."
 msgstr "تم الحذف. الحساب معطّل وبياناته الشخصية ممحوة."
@@ -25054,6 +25059,11 @@ msgstr "سيؤدي ذلك إلى إنهاء توظيف شخص ما."
 #, python-brace-format
 msgid "It would overwrite {0}."
 msgstr "سيؤدي ذلك إلى استبدال {0}."
+
+#. Message of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "It's in the Recycle Bin. Restore it from there to keep working on it, or save your changes as a new file."
+msgstr "إنه في سلة المحذوفات. استعده من هناك لتواصل العمل عليه، أو احفظ تغييراتك في ملف جديد."
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:118
 #: frontend/src/slide/components/FontSection.vue:88
@@ -61830,6 +61840,11 @@ msgid "When someone mentions you in a comment."
 msgstr "عندما يذكرك شخص في تعليق."
 
 #. When a notification is sent
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook or OneWriter."
+msgstr "عندما ينقل أحدهم إلى سلة المحذوفات ملفًا مفتوحًا لديك في OneOS أو على محرك الأقراص أو في OneWorkbook أو OneWriter."
+
+#. When a notification is sent
 #: onedesk/one_admin/notifications.py
 msgid "When someone pays for a new workspace."
 msgstr "عند دفع شخص ثمن مساحة عمل جديدة."
@@ -66976,6 +66991,11 @@ msgstr "ألغى رابط البوابة لـ {0}"
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "rule"
 msgstr "قاعدة"
+
+#: onedesk/one_storage/dav_saves.py:182
+#, python-brace-format
+msgid "saved a copy, since {0} had changed after it was opened"
+msgstr "حفظ نسخة، لأن {0} تغيّر بعد فتحه"
 
 #: onedesk/one_admin/offerings.py:163
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:21
@@ -72444,6 +72464,12 @@ msgstr "رفضها {who}، فأُزيلت. اسألهم إن أردت معرفة
 #, python-brace-format
 msgid "{who} deleted {collection}"
 msgstr "حذف {who} المجموعة {collection}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+#, python-brace-format
+msgid "{who} deleted {file} while you had it open"
+msgstr "حذف {who} الملف {file} وهو مفتوح لديك"
 
 #. Subject of a notification
 #: onedesk/notifications/one_studio/extension_deleted.md

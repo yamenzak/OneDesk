@@ -19,6 +19,7 @@ from frappe.utils import (
 	add_days,
 	add_to_date,
 	flt,
+	get_datetime,
 	getdate,
 	now_datetime,
 	today,
@@ -1388,6 +1389,7 @@ def onecloud_a_letter_is_edited_in_oneos():
 		was = frappe.local.request if hasattr(frappe.local, "request") else None
 		try:
 			frappe.local.request = Request(EnvironBuilder(method="POST", data=b"handover v2").get_environ())
+			frappe.local.request_ip = "127.0.0.1"
 			assert oneos.save(**up) == {"saved": True}
 			frappe.local.request = Request(EnvironBuilder(method="POST", data=b"handover v2").get_environ())
 			assert oneos.save(**up) == {"saved": False}, "the same content is not a version"
@@ -1478,6 +1480,7 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 			try:
 				for text in ("Keys on Wednesday.", "Keys on Thursday."):
 					frappe.local.request = Request(EnvironBuilder(method="POST", data=letter(text)).get_environ())
+					frappe.local.request_ip = "127.0.0.1"
 					assert oneos.save(**up) == {"saved": True}
 			finally:
 				frappe.local.request = was
@@ -1487,6 +1490,143 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 			assert not lease.blocking(file)
 	finally:
 		frappe.db.rollback(save_point="lease_check")
+
+
+LOCKINFO = (
+	b'<?xml version="1.0" encoding="utf-8"?><D:lockinfo xmlns:D="DAV:"><D:lockscope><D:exclusive/></D:lockscope>'
+	b"<D:locktype><D:write/></D:locktype><D:owner><D:href>RANIA-PC/rania</D:href></D:owner></D:lockinfo>"
+)
+DISCOVERY = b'<?xml version="1.0"?><D:propfind xmlns:D="DAV:"><D:prop><D:lockdiscovery/></D:prop></D:propfind>'
+
+
+@check
+def onecloud_the_drives_locks_join_the_lease():
+	"""Rania's Word lock is the file's lease: Samir's Word and drive save are
+	refused naming her, her saves are one version, Word's and the Mac's safe
+	saves keep the same File and lease. Unlocked, Samir saving from an older
+	version, or with an old If-Match, gets "(Samir's copy)" beside it. While
+	Samir is live in OneWriter her Word is refused naming him; deleting it
+	in OneCloud while she has it tells her. All undone afterwards."""
+	from urllib.parse import quote
+
+	from docx import Document
+
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_doc import word
+	from onedesk.one_sheet import live
+	from onedesk.one_storage import api, dav, history, lease, upload
+
+	def letter(text: str) -> bytes:
+		made = Document()
+		made.add_paragraph(text)
+		out = io.BytesIO()
+		made.save(out)
+		return out.getvalue()
+
+	def said(content: bytes) -> str:
+		return Document(io.BytesIO(content)).paragraphs[0].text
+
+	def drive(method: str, path: str, body: bytes = b"", **headers) -> tuple[int, dict, bytes]:
+		_asked(path=dav.MOUNT + quote(path), method=method, data=body, headers={key.replace("_", "-"): value for key, value in headers.items()})
+		answer = dav.serve()
+		out = b"".join(answer.response)
+		dav._forget()
+		return answer.status_code, answer.headers, out
+
+	def holds(path: str, token: str) -> str:
+		return f"<{quote(path)}> (<{token}>)"
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	rania, taken = "rania@one.test", []
+	frappe.db.savepoint("drive_lock_check")
+	try:
+		with mock.patch("frappe.publish_realtime"), mock.patch("onedesk.one_storage.tell.deleted_while_open") as told:
+			with as_user(demo.PM):
+				file = upload._place(root, None, {"file_name": "Drive check.docx", "content": letter("Keys on Monday.")})["id"]
+				path = dav.path_of(file)
+				folder = path.rsplit("/", 1)[0]
+			with as_user(rania):
+				status, headers, _out = drive("LOCK", path, LOCKINFO, Timeout="Second-600", Depth="0", Content_Type="text/xml")
+				assert status == 200, status
+				token = headers["Lock-Token"].strip("<>")
+				taken.append(token)
+				alone = lease.alone_of(file)
+				assert (alone.one_lease_user, alone.one_lease_kind, alone.one_lease_lock) == (rania, lease.DAV, token), alone
+				left = (get_datetime(alone.one_lease_until) - now_datetime()).total_seconds()
+				assert 590 < left <= 600, left
+			with as_user(demo.PM):
+				assert drive("LOCK", path, LOCKINFO, Timeout="Second-600", Depth="0")[0] == 423, "a second Word opens it read-only"
+				assert b"RANIA-PC" in drive("PROPFIND", path, DISCOVERY, Depth="0")[2], "and is told whose it is"
+				assert drive("PUT", path, letter("Samir's keys."))[0] == 423
+				assert lease.of(file)["alone"] == {"by": frappe.utils.get_fullname(rania), "kind": lease.DAV, "mine": False}
+			with as_user(rania):
+				before = len(history.versions(file))
+				for text in ("Keys on Tuesday.", "Keys on Wednesday."):
+					assert drive("PUT", path, letter(text), If=holds(path, token))[0] == 204
+				assert len(history.versions(file)) == before + 1, "saves under one lock are one version"
+				assert drive("LOCK", path, Timeout="Second-3600", If=holds(path, token))[0] == 200
+				assert get_datetime(lease.alone_of(file).one_lease_until) > add_to_date(now_datetime(), minutes=59), "a refresh renews the lease"
+
+				aside, temp = f"{folder}/~WRL0001.tmp", f"{folder}/~WRD0000.tmp"
+				assert drive("PUT", temp, letter("Keys on Thursday."))[0] == 201
+				assert drive("MOVE", path, Destination=dav.MOUNT + quote(aside), Overwrite="F", If=holds(path, token))[0] in (201, 204)
+				assert drive("MOVE", temp, Destination=dav.MOUNT + quote(path), Overwrite="F")[0] in (201, 204)
+				assert drive("DELETE", aside)[0] == 204
+				assert frappe.db.get_value("File", file, ["file_name", "one_deleted"]) == ("Drive check.docx", 0)
+				assert said(drive("GET", path)[2]) == "Keys on Thursday.", "Word's safe save is a save of the same file"
+				assert not frappe.get_all("File", filters={"file_name": ["like", "~WR%"]}, limit=1), "and leaves nothing behind"
+				assert lease.alone_of(file).one_lease_lock == token, "the lease followed the file"
+
+				side = path + ".sb-2f1c-Qx"
+				assert drive("PUT", side, letter("Keys on Friday."))[0] == 201
+				assert drive("MOVE", side, Destination=dav.MOUNT + quote(path), Overwrite="T", If=holds(path, token))[0] in (201, 204)
+				assert said(drive("GET", path)[2]) == "Keys on Friday." and not frappe.get_all("File", filters={"file_name": ["like", "%.sb-%"]}, limit=1)
+				assert drive("UNLOCK", path, Lock_Token=f"<{token}>")[0] == 204
+				assert not lease.blocking(file), "UNLOCK lets the lease go"
+
+			with as_user(demo.PM):
+				drive("GET", path)
+			with as_user(rania):
+				assert drive("PUT", path, letter("Keys on Saturday."))[0] == 204
+			with as_user(demo.PM):
+				assert drive("PUT", path, letter("Keys on Sunday."))[0] == 204
+				assert drive("PUT", path, letter("Keys on Sunday evening."))[0] == 204
+				assert said(drive("GET", path)[2]) == "Keys on Saturday.", "an older copy never lands over hers"
+				copy = frappe.db.get_value("File", {"folder": root, "file_name": "Drive check (Samir's copy).docx"})
+				assert copy and len(history.versions(copy)) == 1, "his copy beside it, his next save into it"
+				etag = drive("HEAD", path)[1]["ETag"]
+			with as_user(rania):
+				upload._place(root, None, {"file_name": "Drive check.docx", "content": letter("Keys on Monday again.")}, replace=1)
+			with as_user(demo.PM):
+				assert drive("PUT", path, letter("Keys from an old phone."), If_Match=etag)[0] == 204
+				assert said(drive("GET", path)[2]) == "Keys on Monday again."
+				assert frappe.db.count("File", {"folder": root, "file_name": ["like", "Drive check (Samir's copy)%"]}) == 1, "into the same copy"
+
+			with as_user(demo.PM):
+				document = word.open_file(file)["document"]
+				assert live.admit("document", document, sid="drive-check")["write"]
+			with as_user(rania):
+				assert drive("LOCK", path, LOCKINFO, Timeout="Second-600", Depth="0")[0] == 423
+				named = drive("PROPFIND", path, DISCOVERY, Depth="0")[2].decode()
+				assert frappe.utils.get_fullname(demo.PM) in named and "OneWriter" in named, named
+			with as_user(demo.PM):
+				live.leave("document", document, sid="drive-check")
+
+			with as_user(rania):
+				status, headers, _out = drive("LOCK", path, LOCKINFO, Timeout="Second-600", Depth="0")
+				assert status == 200
+				taken.append(headers["Lock-Token"].strip("<>"))
+			with as_user(demo.PM):
+				assert drive("DELETE", path)[0] == 423, "not from his drive while her Word has it"
+				api.delete([file])
+				assert frappe.db.get_value("File", file, "one_deleted") == 1, "from OneCloud, to the Recycle Bin"
+				assert told.call_args.args[0] == [rania], told.call_args
+	finally:
+		_unasked()
+		locks = dav._app().lock_manager.storage
+		for token in taken:
+			locks.delete(token)
+		frappe.db.rollback(save_point="drive_lock_check")
 
 
 @check
