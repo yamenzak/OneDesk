@@ -25,3 +25,19 @@ detail.
   while working, the whole suite at gates; OneOS keeps its name (P9.4).
 - P0.2 wake-ups scheduled; P0.3 29 worktrees removed, two left (D1).
 - Next: P0.4 the run site, then P0.5 the twelve failing demo checks.
+
+## 13 Nov 2026, early hours
+
+- P0.4 run.localhost made; its first from-scratch build found the
+  company-field setters queueing 600+ jobs a run (e5ffc9f2). 310 of 314
+  checks on its first run, then the role fix (24df976b).
+- P0.5 fixed so far: company setters, everybody's own User roles, OneCRM's
+  Support Team, frappe's SQLite logs (OneStudio, spares, the atlas),
+  server scripts on dev, the stale checks; the atlas read from
+  run.localhost (c19b4508). P0.6 dead files (P0.6 commit).
+- P1.1-P1.3 done (a24ad38c): the registry, 24 manifests, ready.MODULES
+  read from them.
+- Running: ~/arcs-tools/gate.sh (drops and rebuilds run.localhost, demo
+  from nothing, atlas, every check) into /tmp/gate.log. P0 closes when it is
+  green. Meanwhile P1.4 is built in the worktree ~/arcs-work (branch
+  arcs-p1) so the build never imports half-made code.
