@@ -77,6 +77,6 @@ done
 chown "$NAME:$NAME" "$HOME_OF/box/first-boot"
 as_copies podman cp "$HOME_OF/box/first-boot" one-box:/root/first-boot
 rm -f "$HOME_OF/box/first-boot"
-as_copies bash -c 'nohup podman exec one-box bash /root/first-boot > ~/first-boot.log 2>&1 &'
+as_copies podman exec -d one-box bash -c 'bash /root/first-boot > /root/first-boot.log 2>&1'
 
 echo "Connected. The server is building itself, which takes about 30 minutes; OneAdmin shows it as Up when it is ready."
