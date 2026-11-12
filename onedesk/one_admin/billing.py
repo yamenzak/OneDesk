@@ -9,7 +9,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
-from onedesk.one_admin import offerings, plans, quota, site, stripe
+from onedesk.one_admin import offerings, plans, quota, site, stripe, testbed
 from onedesk.one_admin.faults import Refused
 
 GB = quota.GB
@@ -61,6 +61,7 @@ def quote(tenant: str, needs: dict, seats_used: int = 0) -> dict:
 def take(tenant: str, plan: str, extras: dict, seats_used: int = 0) -> dict:
 	"""Make the subscription this plan with exactly these add-ons."""
 	site.require_admin()
+	testbed.refuse(tenant, "billed")
 	held = frappe.get_doc("Tenant", tenant)
 	extras = {key: cint(count) for key, count in (extras or {}).items() if cint(count) > 0}
 	_check_sold(plan, extras)
@@ -220,6 +221,7 @@ def portal(tenant: str, back: str) -> str:
 	"""Stripe's billing portal for the workspace: its card, its billing
 	address, its receipts. Stripe draws it; we only open it."""
 	site.require_admin()
+	testbed.refuse(tenant, "billed")
 	customer = frappe.db.get_value("Tenant", tenant, "stripe_customer")
 	if not customer:
 		raise Refused(_("This workspace has no billing account yet."))
@@ -230,6 +232,7 @@ def card(tenant: str) -> dict:
 	"""A checkout that takes a new card for the workspace, drawn in its own
 	page (stripe.checkout_for_card)."""
 	site.require_admin()
+	testbed.refuse(tenant, "billed")
 	return stripe.checkout_for_card(tenant)
 
 

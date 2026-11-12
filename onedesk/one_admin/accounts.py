@@ -283,8 +283,8 @@ def move(tenant: str, email: str, by: str | None = None) -> str:
 	from onedesk.one_admin import log, tell
 
 	email = (validate_email_address((email or "").strip().lower(), throw=True) or "").strip().lower()
-	held = frappe.db.get_value("Tenant", tenant, ["account", "workspace_name", "is_house"], as_dict=True)
-	if not held or held.is_house:
+	held = frappe.db.get_value("Tenant", tenant, ["account", "workspace_name", "is_house", "is_test"], as_dict=True)
+	if not held or held.is_house or held.is_test:
 		frappe.throw(frappe._("This workspace cannot be moved."))
 	was = held.account
 	now = ensure(email)

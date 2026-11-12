@@ -1,20 +1,21 @@
-"""The keys a new dev machine needs, in one file only a passphrase opens, and
-the dev sites' nightly backups. deploy/local/README.md.
+"""The keys a new dev machine needs, in one file only a passphrase opens.
+deploy/local/README.md.
 
-`pack` writes the kit and sends it to the locked backup bucket through the
-keeper, under `rescue/`. `unpack` puts the keys back. `key` makes the public
-key OneAdmin seals its config copy with. `open` opens a sealed copy. `nightly`
-backs every dev site up to the keeper. `restore` puts the newest back.
-`fetch` brings OneAdmin's newest sealed config and backup down from the
-locked bucket with nothing but a sign-in to Cloudflare, for when OneAdmin
-and its keeper secret are gone (one_admin/AGENTS.md, Rebuilding OneAdmin).
+`pack` writes the kit and sends it to production's OneAdmin with an
+operator's API key (`ONE_OPERATOR_KEY` in ~/.one-local), which adds it to the
+locked backup bucket under `rescue/` through its keeper; this machine never
+holds the keeper's secret. `unpack` puts the keys back. `key` makes the public
+key OneAdmin seals its config copy with. `open` opens a sealed copy.
+`restore` puts a test workspace back from the newest backup it sent itself,
+and `fetch` brings OneAdmin's newest sealed config and backup down, both from
+the locked bucket with nothing but a sign-in to Cloudflare (one_admin/AGENTS.md,
+Rebuilding OneAdmin and Test workspaces).
 
     python scripts/rescue.py pack [--out FILE] [--no-send]
     python scripts/rescue.py unpack FILE [--into DIR]
     python scripts/rescue.py key
     python scripts/rescue.py open FILE [--out FILE]
-    python scripts/rescue.py nightly
-    python scripts/rescue.py restore SITE [SITE ...]
+    python scripts/rescue.py restore SITE [--keys FILE]
     python scripts/rescue.py fetch [--keys FILE] [--into DIR]
 """
 
@@ -30,6 +31,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -45,20 +47,18 @@ HOME = Path.home()
 BENCH = HOME / "one-bench"
 SITES = BENCH / "sites"
 SITE_COPIES = ".one-site-configs"
-PUBLIC_KEY = HOME / ".one-config-key"
-DEV_KEEPER = "https://one-keeper-dev.4dl.workers.dev"
-KEPT = (".one-local", ".one-dev.json", ".one-keys-dev.json", ".one-keys-prod.json", ".one-config-key", ".ssh/one_servers", ".ssh/one_servers.pub", ".config/gh/hosts.yml")
+ADMIN = "https://admin.4dl.app"
+KEEP_KIT = "onedesk.one_admin.backups.keep_rescue_kit"
+KEPT = (".one-local", ".one-keys-prod.json", ".ssh/one_servers", ".ssh/one_servers.pub", ".config/gh/hosts.yml")
 KEPT_FOLDERS = (".one-servers", ".cloudflared")
 SHORTEST = 12
 FETCH_SALT = b"one-rescue-fetch"
-PATIENCE = 900
 API = "https://api.cloudflare.com/client/v4"
 LOCKED = "one-backups"
 OURS = "oneadmin"
 READS = "Workers R2 Storage Bucket Item Read"
 FETCH_FOR = 3600
 SCOPES = "user-api-tokens.write account-api-tokens.write"
-PARTS = {"database": "-database.sql.gz", "private": "-private-files.tar", "public": "-files.tar"}
 
 
 def key_from(passphrase: str, salt: bytes) -> bytes:
@@ -99,20 +99,15 @@ def dev_sites() -> list[str]:
 	return sorted(path.parent.name for path in SITES.glob("*/site_config.json") if json.loads(path.read_text()).get("one_dev"))
 
 
-def admin_config() -> dict:
-	"""The dev OneAdmin's config: the bench's, or the kit's while the bench
-	has none."""
-	for path in [*SITES.glob("*/site_config.json"), *(HOME / SITE_COPIES).glob("admin.*.json")]:
-		config = json.loads(path.read_text())
-		if config.get("one_admin") and config.get("keeper_secret"):
-			return config
-	raise SystemExit("No dev OneAdmin here with a keeper secret; unpack the rescue kit first.")
-
-
-def keeper() -> tuple[str, dict]:
-	config = admin_config()
-	url = os.environ.get("ONE_KEEPER_URL") or config.get("keeper_url") or DEV_KEEPER
-	return url.rstrip("/"), {"x-one-secret": config["keeper_secret"]}
+def operator_key() -> str:
+	"""An operator's `key:secret` on production's OneAdmin: the environment's,
+	or ~/.one-local's."""
+	given = os.environ.get("ONE_OPERATOR_KEY")
+	if not given and (HOME / ".one-local").exists():
+		given = next((line.split("=", 1)[1] for line in (HOME / ".one-local").read_text().splitlines() if line.startswith("ONE_OPERATOR_KEY=")), "")
+	if not given or ":" not in given:
+		raise SystemExit("No ONE_OPERATOR_KEY=key:secret in ~/.one-local: make an API key for an operator on admin.4dl.app and add it there.")
+	return given.strip()
 
 
 def passphrase_asked(twice: bool) -> str:
@@ -124,14 +119,18 @@ def passphrase_asked(twice: bool) -> str:
 	return given
 
 
+def kit_body(held: bytes, passphrase: str) -> dict:
+	"""What OneAdmin is sent: the sealed kit and the hash of what a new
+	machine shows the keeper to fetch it. Neither opens it. Pure."""
+	return {"kit": base64.b64encode(held).decode(), "fetch_hash": hashlib.sha256(fetch_secret(passphrase).encode()).hexdigest()}
+
+
 def send(held: bytes, passphrase: str) -> str:
-	url, headers = keeper()
-	key = f"rescue/{datetime.now(UTC).strftime('%Y-%m-%d-%H%M')}.one"
-	requests.put(f"{url}/backup/{key}", data=held, headers=headers, timeout=120).raise_for_status()
-	answered = requests.post(f"{url}/rescue-key", json={"hash": hashlib.sha256(fetch_secret(passphrase).encode()).hexdigest()}, headers=headers, timeout=30)
+	admin = (os.environ.get("ONE_ADMIN_URL") or ADMIN).rstrip("/")
+	answered = requests.post(f"{admin}/api/method/{KEEP_KIT}", json=kit_body(held, passphrase), headers={"Authorization": f"token {operator_key()}"}, timeout=120)
 	if not answered.ok:
-		print("The keeper does not take a rescue key yet: run Set Up Cloudflare, then pack again.")
-	return key
+		raise SystemExit(f"{admin} did not keep the kit: {answered.status_code} {answered.text[:300]}")
+	return answered.json()["message"]["kept"]
 
 
 def pack(args) -> None:
@@ -158,11 +157,8 @@ def unpack(args) -> None:
 
 
 def key(_args) -> None:
-	"""Print the public key OneAdmin seals its config copy with, and keep it
-	for this machine's own nightly backups."""
-	public = seal.public_text(passphrase_asked(True))
-	_written(PUBLIC_KEY, public.encode())
-	print(public)
+	"""Print the public key OneAdmin seals its config copy with."""
+	print(seal.public_text(passphrase_asked(True)))
 
 
 def open_copy(args) -> None:
@@ -174,69 +170,8 @@ def open_copy(args) -> None:
 		sys.stdout.buffer.write(body)
 
 
-def part_of(name: str) -> str | None:
-	"""Which part of a backup a file of `bench backup` is. Pure."""
-	return next((part for part, ending in PARTS.items() if name.endswith(ending)), None)
-
-
-def _put(url: str, headers: dict, key: str, body) -> None:
-	requests.put(f"{url}/backup/{key}", data=body, headers=headers, timeout=PATIENCE).raise_for_status()
-
-
 def _bench(*args: str) -> None:
 	subprocess.run([shutil.which("bench") or str(HOME / ".local/bin/bench"), *args], cwd=BENCH, check=True)
-
-
-def nightly(_args) -> None:
-	"""Every dev site backed up to the dev keeper under `daily/dev-<site>/`,
-	its config sealed. Scheduled by always-on.sh."""
-	if not PUBLIC_KEY.exists():
-		raise SystemExit("No ~/.one-config-key: run scripts/rescue.py key once.")
-	public = PUBLIC_KEY.read_text()
-	url, headers = keeper()
-	day = datetime.now(UTC).strftime("%Y-%m-%d")
-	for site in dev_sites():
-		with tempfile.TemporaryDirectory() as room:
-			_bench("--site", site, "backup", "--with-files", "--backup-path", room)
-			for path in Path(room).iterdir():
-				part = part_of(path.name)
-				if part:
-					with path.open("rb") as body:
-						_put(url, headers, f"daily/dev-{site}/{day}/{part}/{path.name}", body)
-		config = seal.sealed((SITES / site / "site_config.json").read_bytes(), public)
-		_put(url, headers, f"daily/dev-{site}/{day}/config/site_config.json.one", config)
-		print(f"{site} kept for {day}")
-
-
-def newest_backup(objects: list[dict], site: str) -> dict[str, str]:
-	"""The newest day's parts of a site's backup, the day having a database
-	and a sealed config. Pure."""
-	days: dict[str, dict[str, str]] = {}
-	for one in objects:
-		pieces = one["key"].split("/")
-		if len(pieces) == 5 and pieces[:2] == ["daily", f"dev-{site}"]:
-			days.setdefault(pieces[2], {})[pieces[3]] = one["key"]
-	whole = [day for day, parts in days.items() if {"database", "config"} <= set(parts)]
-	return days[max(whole)] if whole else {}
-
-
-def _listed(url: str, headers: dict, prefix: str) -> list[dict]:
-	found, cursor = [], ""
-	while True:
-		answered = requests.get(f"{url}/backups", params={"prefix": prefix, "cursor": cursor}, headers=headers, timeout=60)
-		answered.raise_for_status()
-		said = answered.json()
-		found += said.get("objects") or []
-		cursor = said.get("cursor")
-		if not cursor:
-			return found
-
-
-def _fetched(url: str, headers: dict, key: str, path: Path) -> None:
-	with requests.get(f"{url}/backup/{key}", headers=headers, stream=True, timeout=PATIENCE) as held:
-		held.raise_for_status()
-		with path.open("wb") as file:
-			shutil.copyfileobj(held.raw, file)
 
 
 def _db_root_password() -> str:
@@ -253,25 +188,46 @@ def restore_args(site: str, files: dict[str, Path], root_password: str) -> list[
 	return args
 
 
+def newest_whole(keys: list[str], prefix: str) -> dict[str, str]:
+	"""The parts of the newest night under `<prefix><day>/<part>/<name>` that
+	has a database. Pure."""
+	days: dict[str, dict[str, str]] = {}
+	for key in keys:
+		pieces = key[len(prefix):].split("/") if key.startswith(prefix) else []
+		if len(pieces) == 3:
+			days.setdefault(pieces[0], {})[pieces[1]] = key
+	whole = [day for day, parts in days.items() if "database" in parts]
+	return days[max(whole)] if whole else {}
+
+
+def site_config_of(site: str) -> Path:
+	"""The site's config as the kit kept it, else the bench's."""
+	kept = HOME / SITE_COPIES / f"{site}.json"
+	return kept if kept.exists() else SITES / site / "site_config.json"
+
+
 def restore(args) -> None:
-	"""A dev site put back from its newest kept backup, its config first, so
-	the database is made under the name and password the site had."""
-	passphrase = passphrase_asked(False)
-	url, headers = keeper()
-	for site in args.sites:
-		parts = newest_backup(_listed(url, headers, f"daily/dev-{site}/"), site)
+	"""A test workspace put back from the newest night it sent the keeper,
+	its config first, from the kit, so the database is made under the name and
+	password the site had and it is linked as it was."""
+	config = site_config_of(args.site)
+	slug = json.loads(config.read_text()).get("one_tenant") if config.exists() else None
+	if not slug:
+		raise SystemExit(f"{args.site} is not linked to a OneAdmin; nothing to restore it from.")
+	with _locked_bucket(args.keys) as client:
+		listed = _keys_under(client, f"daily/{slug}/")
+		parts = {part: key for part, key in newest_whole(listed, f"daily/{slug}/").items() if part in ("database", "public", "private")}
 		if not parts:
-			print(f"{site}: no backup kept yet, left as it is")
-			continue
+			print(f"{args.site}: no backup kept yet, left as it is")
+			return
 		with tempfile.TemporaryDirectory() as room:
-			files: dict[str, Path] = {}
-			for part, stored in parts.items():
-				files[part] = Path(room) / stored.rsplit("/", 1)[1]
-				_fetched(url, headers, stored, files[part])
-			_written(SITES / site / "site_config.json", seal.opened(files.pop("config").read_bytes(), passphrase))
-			_bench(*restore_args(site, files, _db_root_password()))
-		_bench("--site", site, "migrate")
-		print(f"{site} restored")
+			files = {part: Path(room) / key.rsplit("/", 1)[1] for part, key in parts.items()}
+			for part, key in parts.items():
+				client.download_file(LOCKED, key, str(files[part]))
+			_written(SITES / args.site / "site_config.json", config.read_bytes())
+			_bench(*restore_args(args.site, files, _db_root_password()))
+	_bench("--site", args.site, "migrate")
+	print(f"{args.site} restored")
 
 
 def read_policy(groups: list[dict], account: str, bucket: str) -> list[dict]:
@@ -293,10 +249,13 @@ def newest_under(keys: list[str], prefix: str) -> list[str]:
 	return [key for key in keys if days and key.startswith(f"{prefix}{days[-1]}/")]
 
 
-def fetch(args) -> None:
+@contextmanager
+def _locked_bucket(keys_file: str):
+	"""The locked bucket, read-only for an hour, through a sign-in to
+	Cloudflare in the browser; the token is deleted after."""
 	import boto3
 
-	keys = json.loads(Path(args.keys).expanduser().read_text())
+	keys = json.loads(Path(keys_file).expanduser().read_text())
 	account = keys["cloudflare_account"]
 	admin = keys.get("admin_url") or f"https://admin.{keys['origin_zone']}"
 	token, revoke = cloudflare_signin.signed_in_here(keys["cloudflare_oauth_client_id"], keys["cloudflare_oauth_client_secret"], admin, keys.get("cloudflare_oauth_scopes", SCOPES))
@@ -308,16 +267,27 @@ def fetch(args) -> None:
 		body = {"name": "One rescue fetch", "policies": read_policy(groups, account, LOCKED), "expires_on": until}
 		made = requests.post(f"{API}/user/tokens", headers=headers, json=body, timeout=30).json()["result"]
 		key_id, secret = s3_of(made)
-		client = boto3.client("s3", endpoint_url=f"https://{account}.r2.cloudflarestorage.com", aws_access_key_id=key_id, aws_secret_access_key=secret, region_name="auto")
-		listed = []
-		for prefix in (f"config/{OURS}/", f"daily/{OURS}/"):
-			for _try in range(10):
-				try:
-					pages = client.get_paginator("list_objects_v2").paginate(Bucket=LOCKED, Prefix=prefix)
-					listed += [one["Key"] for page in pages for one in page.get("Contents") or []]
-					break
-				except client.exceptions.ClientError:
-					time.sleep(3)
+		yield boto3.client("s3", endpoint_url=f"https://{account}.r2.cloudflarestorage.com", aws_access_key_id=key_id, aws_secret_access_key=secret, region_name="auto")
+	finally:
+		if made:
+			requests.delete(f"{API}/user/tokens/{made['id']}", headers=headers, timeout=30)
+		revoke()
+
+
+def _keys_under(client, prefix: str) -> list[str]:
+	"""Every key under a prefix. A new token takes a few seconds to work."""
+	for _try in range(10):
+		try:
+			pages = client.get_paginator("list_objects_v2").paginate(Bucket=LOCKED, Prefix=prefix)
+			return [one["Key"] for page in pages for one in page.get("Contents") or []]
+		except client.exceptions.ClientError:
+			time.sleep(3)
+	return []
+
+
+def fetch(args) -> None:
+	with _locked_bucket(args.keys) as client:
+		listed = _keys_under(client, f"config/{OURS}/") + _keys_under(client, f"daily/{OURS}/")
 		copies = sorted(key for key in listed if key.startswith(f"config/{OURS}/"))
 		wanted = copies[-1:] + newest_under(listed, f"daily/{OURS}/")
 		into = Path(args.into).expanduser()
@@ -327,10 +297,6 @@ def fetch(args) -> None:
 			print(f"fetched {key}")
 		if not wanted:
 			print("nothing kept yet")
-	finally:
-		if made:
-			requests.delete(f"{API}/user/tokens/{made['id']}", headers=headers, timeout=30)
-		revoke()
 
 
 def main() -> None:
@@ -349,9 +315,9 @@ def main() -> None:
 	three.add_argument("file")
 	three.add_argument("--out")
 	three.set_defaults(run=open_copy)
-	commands.add_parser("nightly").set_defaults(run=nightly)
 	four = commands.add_parser("restore")
-	four.add_argument("sites", nargs="+")
+	four.add_argument("site")
+	four.add_argument("--keys", default=str(HOME / ".one-keys-prod.json"))
 	four.set_defaults(run=restore)
 	five = commands.add_parser("fetch")
 	five.add_argument("--keys", default=str(HOME / ".one-keys-prod.json"))

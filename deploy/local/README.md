@@ -47,37 +47,35 @@ With a domain in your Cloudflare account, give it to `setup.sh`:
 
     bash setup.sh 4dl.dev
 
-and it makes `one.4dl.dev` (a workspace) and `admin.4dl.dev` (OneAdmin)
-instead of the `.localhost` pair, by running `public.sh` at the end, served
-through a Cloudflare Tunnel: HTTPS, realtime included, and no port opened on
-the server. Once a bench is on a domain, `bash setup.sh` with none keeps to it
-and never adds the `.localhost` pair. On a bench that already has the
-`.localhost` pair, `public.sh 4dl.dev` adds the domain pair beside them. The tunnel is a line of the Procfile, so they are
-online exactly while `bench start` runs. Their Administrator password is
+and it makes `one.4dl.dev`, a workspace, instead of the `.localhost` pair, by
+running `public.sh` at the end, served through a Cloudflare Tunnel: HTTPS,
+realtime included, and no port opened on the server. Once a bench is on a
+domain, `bash setup.sh` with none keeps to it and never adds the `.localhost`
+pair. The tunnel is a line of the Procfile, so the site is online exactly
+while `bench start` runs. Its Administrator password is
 `PUBLIC_ADMIN_PASSWORD` in `~/.one-local`.
 
-## Set up in one go
+## The demo, linked to production
 
-`dev-config.sh` takes `public.sh`'s two empty sites to a working pair: the
-setup wizard on each, OneAdmin Settings filled with the dev values, the
-workspace linked to the dev OneAdmin as its own workspace (OneAI, weather and
-news unbilled), and, given a Cloudflare master token in the file, Set Up
-Cloudflare run as the `dev` environment.
+The dev server has no OneAdmin of its own. Its workspace is a **test
+workspace** of production's, `admin.4dl.app` (one_admin/AGENTS.md, Test
+workspaces): never billed, never updated or moved by OneAdmin, backing itself
+up to production's keeper, its OneAI, mail, weather and news going through
+production, and its credits given by hand.
 
-    cp ~/one-bench/apps/onedesk/deploy/local/dev.example.json ~/.one-dev.json
-    chmod 600 ~/.one-dev.json     # then fill it in
-    bash ~/one-bench/apps/onedesk/deploy/local/dev-config.sh 4dl.dev
+1. On `admin.4dl.app`, **Workspaces**, the menu's **New Test Workspace**:
+   address `one.4dl.dev` and a name. It shows the site config once.
+2. On the server:
 
-The dev OneAdmin is the `dev` environment of the same Cloudflare and Frappe
-Cloud accounts: its Workers, store, buckets, gateway and tokens carry `-dev`,
-its workspaces are `slug.d.4dl.app` and its mail `m.4dl.dev`, and a signup on
-it builds a real site on its own bench group (`one-dev`), to be archived after
-the test. It refuses production's domains and a Stripe live key, and touches
-only sites `public.sh` marked `one_dev`. Run it again after changing the file.
+       bash ~/one-bench/apps/onedesk/deploy/local/dev-config.sh 4dl.dev
 
-Left by hand, in each environment: the OpenWeather key and Stripe's keys.
-Saving Stripe's secret key makes the webhook through Stripe's API and keeps its
-signing secret, so nobody adds it.
+   builds the demo company on the site if it is new, then runs `link.sh`,
+   which asks for the site config: paste it and press Ctrl+D. It is not shown
+   while pasted. `link.sh SITE` alone links any site of the bench the same way.
+
+New Test Workspace again with the same address makes new keys for the same
+workspace, and the old ones stop working: run `RELINK=1 dev-config.sh` after
+it.
 
 ## Always on
 
@@ -117,20 +115,25 @@ passwordless sudo, and run:
 
     ONE_RESCUE_PASSPHRASE=... bash setup.sh
 
-With no further question it fetches the newest rescue kit from the keeper, puts
-every key back (GitHub and the tunnel included), builds the bench and the
-domain's sites, restores each from its newest nightly backup, and turns on the
-service and the nightly backups. Claude Code's own sign-in is not in the kit.
+It fetches the newest rescue kit from production's keeper, puts every key back
+(GitHub and the tunnel included), builds the bench and the domain's workspace,
+puts it back from the newest backup it sent the keeper, and turns on the
+service. The backup is read from the locked bucket with a sign-in to
+Cloudflare, the one question it asks: open the link it prints and paste the
+address the browser ends on. Claude Code's own sign-in is not in the kit.
 
-The kit is in `one-backups-dev`, under `rescue/`; if the keeper is down, fetch
-the newest file from Cloudflare's dashboard and set `ONE_RESCUE_KIT` to it. The
+The kit is in `one-backups`, under `rescue/`; if the keeper is down, fetch the
+newest file from Cloudflare's dashboard and set `ONE_RESCUE_KIT` to it. The
 passphrase is in Yamen's Google Password Manager under `one-rescue-kit`.
 
-`python scripts/rescue.py pack` makes a new kit, which holds the domain sites'
-configs and `~/.cloudflared`, and tells the keeper the secret a new machine
-fetches it with. Pack again after a new key or a new tunnel.
+`python scripts/rescue.py pack` makes a new kit, which holds the site's config
+and `~/.cloudflared`, and sends it to `admin.4dl.app` with an operator's API
+key, `ONE_OPERATOR_KEY=key:secret` in `~/.one-local` (an operator's user on
+admin.4dl.app, API Access, Generate Keys). OneAdmin adds it under `rescue/`
+through its keeper and tells the keeper the secret a new machine fetches it
+with; this machine never holds the keeper's own secret. Pack again after a
+new key, a new tunnel or linking the site again.
 
-**Nightly backups.** `always-on.sh` schedules `scripts/rescue.py nightly` at
-02:10 UTC: every `one_dev` site's database and files go to the dev keeper under
-`daily/dev-<site>/`, and its site config is sealed first, since it holds keys.
-`python scripts/rescue.py key` makes the sealing key from the passphrase, once.
+**Backups.** The workspace sends its own to production's keeper, every night
+and its database every four hours, as every workspace does; nothing on the
+server is scheduled for them.

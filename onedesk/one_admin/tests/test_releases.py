@@ -4,7 +4,7 @@ passed (one_admin/releases.py)."""
 from datetime import datetime, timedelta
 from unittest import mock
 
-from onedesk.one_admin import releases, servers
+from onedesk.one_admin import releases, servers, testbed
 
 
 def test_the_window_is_the_first_saturday_at_least_three_days_away():
@@ -31,7 +31,7 @@ def test_new_workspaces_go_on_the_newest_ready_bench():
 
 
 def test_update_now_tells_the_box_at_once():
-	tenant = mock.MagicMock(server="eu-1", bench="main", site="a.one", status="Live", terms_pending=0, update_moving=0, update_at=datetime(2026, 11, 10, 9, 0))
+	tenant = mock.MagicMock(server="eu-1", bench="main", site="a.one", status="Live", terms_pending=0, update_moving=0, update_at=datetime(2026, 11, 10, 9, 0), is_test=0)
 	row = mock.MagicMock(benches='[{"bench": "main", "state": "ready"}, {"bench": "r2", "state": "ready"}]')
 	with (
 		mock.patch.object(servers, "row_of", return_value=row),
@@ -40,3 +40,18 @@ def test_update_now_tells_the_box_at_once():
 	):
 		assert releases.update_now(tenant) == {"waiting": True}
 	instruct.assert_called_once_with("eu-1", "move", site="a.one", **{"from": "main", "to": "r2"}, quiet=False)
+
+
+def test_a_test_workspace_is_never_updated_from_here():
+	tenant = mock.MagicMock(name="one-4dl-dev", server=None, bench=None, is_test=1)
+	with (
+		mock.patch.object(servers, "instruct") as instruct,
+		mock.patch.dict(testbed.SAID, {"updated": "{0} is a test workspace."}),
+		mock.patch.object(releases.frappe, "throw", side_effect=ValueError) as thrown,
+	):
+		try:
+			releases.update_now(tenant)
+		except ValueError:
+			pass
+	thrown.assert_called_once()
+	instruct.assert_not_called()

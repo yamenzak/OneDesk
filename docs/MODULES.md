@@ -63,7 +63,7 @@ No doctypes yet.
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 64 | document |
+| Tenant | 65 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
@@ -441,6 +441,7 @@ No doctypes yet.
 * `onedesk.one_admin.accounts.save_name`
 * `onedesk.one_admin.accounts.send_login_link`
 * `onedesk.one_admin.aws.link`
+* `onedesk.one_admin.backups.keep_rescue_kit`
 * `onedesk.one_admin.cloudflare_signin.back`
 * `onedesk.one_admin.cloudflare_signin.start`
 * `onedesk.one_admin.console.overview`
@@ -556,6 +557,7 @@ No doctypes yet.
 * `onedesk.one_admin.site.make_operator`
 * `onedesk.one_admin.site.operators`
 * `onedesk.one_admin.stripe.webhook`
+* `onedesk.one_admin.testbed.new`
 * `onedesk.one_admin.testmail.read`
 * `onedesk.one_ai.actions.switch`
 * `onedesk.one_ai.brief.switch`

@@ -5,7 +5,11 @@ one/backup.py on its side); OneAdmin backs itself up and copies every
 workspace's files; archiving keeps the newest backup again; and a kept
 backup is sent back to Frappe Cloud for a restore (AGENTS.md, Backups)."""
 
+import base64
+import binascii
+import json
 import os
+import re
 import secrets
 
 import frappe
@@ -22,6 +26,7 @@ FILE_PARTS = ("public", "private")
 ROUNDS = 100
 PATIENCE = 900
 PIECE = 64 * 1024 * 1024
+KIT_MOST = 20 * 1024 * 1024
 
 
 def _keeper() -> tuple[str, dict]:
@@ -132,6 +137,39 @@ def config_copy() -> dict:
 	if not answered.ok:
 		raise faults.raised("keeper", answered.status_code, answered.text[: faults.KEPT])
 	return {"kept": answered.json().get("kept")}
+
+
+def kit_key(now) -> str:
+	"""Where a rescue kit is kept: `rescue/2026-11-12-0310.one`, which the
+	keeper's newest-first list reads by name. Pure."""
+	return f"rescue/{now:%Y-%m-%d-%H%M%S}.one"
+
+
+@frappe.whitelist(methods=["POST"])
+def keep_rescue_kit(kit: str, fetch_hash: str) -> dict:
+	"""The dev bench's rescue kit (scripts/rescue.py pack), sealed to a
+	passphrase nobody here holds, added under `rescue/` and never over another
+	one, and the hash a new machine fetches it with. Operators only."""
+	from onedesk.one_admin import site
+
+	site.require_admin()
+	frappe.only_for(site.OPERATOR)
+	if not re.fullmatch(r"[0-9a-f]{64}", fetch_hash or ""):
+		frappe.throw(frappe._("That is not a rescue key."))
+	try:
+		body = base64.b64decode(kit or "", validate=True)
+		sealed = json.loads(body)
+	except (binascii.Error, ValueError):
+		sealed = None
+	if not isinstance(sealed, dict) or not {"salt", "token"} <= set(sealed) or len(body) > KIT_MOST:
+		frappe.throw(frappe._("That is not a rescue kit."))
+	url, headers = _keeper()
+	key = kit_key(now_datetime())
+	answered = requests.put(f"{url}/backup/{key}", data=body, headers=headers, timeout=120)
+	if not answered.ok:
+		raise faults.raised("keeper", answered.status_code, answered.text[: faults.KEPT])
+	_post("/rescue-key", {"hash": fetch_hash})
+	return {"kept": key}
 
 
 def nightly() -> None:

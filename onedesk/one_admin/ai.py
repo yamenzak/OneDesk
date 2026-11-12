@@ -24,6 +24,8 @@ NOT_FOR_AI = {
 	"operator.update_now": "Moving a workspace to a new version is pressed by an operator on its record.",
 	"operator.run_now": "Running a job's next step early is an operator's call on a job they are looking at.",
 	"private.new_code": "A code is shown once, to the operator who asked for it.",
+	"testbed.new": "A test workspace's keys are shown once, to the operator who asked for them.",
+	"backups.keep_rescue_kit": "The dev server's rescue kit is sent by scripts/rescue.py with an operator's key.",
 	"setup.set_up": "Set Up Cloudflare uses the master key and changes the account, so an operator presses it.",
 	"site.make_operator": "Who may run OneAdmin is decided by an operator by hand.",
 	"accounts.send_login_link": "A sign-in link is asked for on the sign-in page, by somebody not signed in yet.",

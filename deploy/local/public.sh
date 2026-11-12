@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# The dev bench on the internet, through a Cloudflare Tunnel: two more sites,
+# The dev bench on the internet, through a Cloudflare Tunnel: a workspace
 # named after a domain you have in Cloudflare, reachable over HTTPS with no
-# port opened on the server.
+# port opened on the server. It is linked to production's OneAdmin as a test
+# workspace afterwards (dev-config.sh); the bench holds no OneAdmin of its own.
 #
 #   bash public.sh 4dl.dev      ->  https://one.4dl.dev    a workspace
-#                                   https://admin.4dl.dev  OneAdmin
 #
 # Run it after setup.sh, as the same user. It asks once for the Cloudflare
 # sign-in (open the link it prints, pick the domain) and is safe to run again.
 # The tunnel runs as a line of the Procfile, so the sites are online exactly
 # while bench start is.
 #
-# The Administrator password of these two sites is made here and kept in
-# ~/.one-local as PUBLIC_ADMIN_PASSWORD; they are on the internet, so it is
+# The Administrator password of the site is made here and kept in
+# ~/.one-local as PUBLIC_ADMIN_PASSWORD; it is on the internet, so it is
 # never "admin".
 
 set -euo pipefail
@@ -27,7 +27,6 @@ fail() { printf '\n\033[1;31m%s\033[0m\n' "$*" >&2; exit 1; }
 [ -n "$DOMAIN" ] || fail "Usage: bash public.sh 4dl.dev"
 [ -d "$BENCH/apps/onedesk" ] || fail "No bench at $BENCH yet; run setup.sh first."
 WORKSPACE="one.$DOMAIN"
-ADMIN="admin.$DOMAIN"
 
 export PATH="$HOME/.local/bin:$PATH"
 # shellcheck disable=SC1091
@@ -66,9 +65,7 @@ if [ -z "$ID" ]; then
 fi
 [ -n "$ID" ] || fail "The tunnel $TUNNEL could not be made."
 
-for host in "$WORKSPACE" "$ADMIN"; do
-	cloudflared tunnel route dns --overwrite-dns "$TUNNEL" "$host" >/dev/null
-done
+cloudflared tunnel route dns --overwrite-dns "$TUNNEL" "$WORKSPACE" >/dev/null
 
 # Pages to the web server on 8000; /socket.io to a local nginx on 9001 in
 # front of socketio on 9000. The Host header is set to the public name on
@@ -98,7 +95,7 @@ CONFIG="$HOME/.cloudflared/config.yml"
 	echo "tunnel: $ID"
 	echo "credentials-file: $HOME/.cloudflared/$ID.json"
 	echo "ingress:"
-	for host in "$WORKSPACE" "$ADMIN"; do
+	for host in "$WORKSPACE"; do
 		echo "  - hostname: $host"
 		echo "    path: ^/socket\\.io"
 		echo "    service: http://127.0.0.1:9001"
@@ -113,7 +110,7 @@ CONFIG="$HOME/.cloudflared/config.yml"
 } >"$CONFIG"
 cloudflared tunnel --config "$CONFIG" ingress validate >/dev/null
 
-# --- The two sites --------------------------------------------------------------------
+# --- The site --------------------------------------------------------------------
 started=()
 for port in 13000 11000; do
 	if ! redis-cli -p "$port" ping >/dev/null 2>&1; then
@@ -125,7 +122,7 @@ for port in 13000 11000; do
 done
 
 make_site() {
-	local site="$1" admin="$2"
+	local site="$1"
 	[ -d "sites/$site" ] && return
 	say "Site $site"
 	bench new-site "$site" --db-root-username root --db-root-password "$DB_ROOT_PASSWORD" --admin-password "$PUBLIC_ADMIN_PASSWORD"
@@ -135,16 +132,13 @@ make_site() {
 	# its own address; through the tunnel that is 443, which carries
 	# /socket.io to 9000.
 	bench --site "$site" set-config -p socketio_port 443
-	[ "$admin" = 1 ] && bench --site "$site" set-config -p one_admin 1
 	bench --site "$site" install-app erpnext hrms onedesk
 	bench --site "$site" migrate
 }
-make_site "$WORKSPACE" 0
-make_site "$ADMIN" 1
-# The mark dev-config.sh asks for before it writes anything to a site.
-for site in "$WORKSPACE" "$ADMIN"; do
-	bench --site "$site" set-config -p one_dev 1 >/dev/null
-done
+make_site "$WORKSPACE"
+# The mark dev-config.sh asks for before it writes anything to the site, and
+# what lets it hold the demo company.
+bench --site "$WORKSPACE" set-config -p one_dev 1 >/dev/null
 
 for port in "${started[@]}"; do
 	redis-cli -p "$port" shutdown nosave >/dev/null 2>&1 || true
@@ -158,8 +152,8 @@ Restart bench start (Ctrl+C, then bench start) so it runs the tunnel too, then
 open:
 
   https://$WORKSPACE    a workspace
-  https://$ADMIN  OneAdmin
 
-Sign in as Administrator with PUBLIC_ADMIN_PASSWORD from ~/.one-local and go
-through the setup wizard once on each. They are online while bench start runs.
+Then build the demo on it and link it to production's OneAdmin:
+  bash apps/onedesk/deploy/local/dev-config.sh $DOMAIN
+It is online while bench start runs.
 DONE

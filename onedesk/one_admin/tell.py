@@ -305,7 +305,7 @@ def trials_ending() -> None:
 
 	for tenant in frappe.get_all(
 		"Tenant",
-		filters={"status": "Live", "offering": ["is", "set"]},
+		filters={"status": "Live", "offering": ["is", "set"], "is_test": 0},
 		fields=["name", "workspace_name", "offering", "live_on", "creation", "account", "owner_email"],
 	):
 		plan = frappe.db.get_value(

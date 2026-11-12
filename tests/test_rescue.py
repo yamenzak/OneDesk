@@ -1,5 +1,6 @@
-"""The rescue kit: setup.sh opens what rescue.py packs, and the dev sites'
-backups come back whole."""
+"""The rescue kit: setup.sh opens what rescue.py packs, it reaches the locked
+bucket only through production's OneAdmin, and the test workspace's own
+backup comes back whole."""
 
 import json
 import os
@@ -32,26 +33,32 @@ def test_setup_opens_the_kit_rescue_packs(tmp_path):
 	assert (tmp_path / "home" / ".one-local").stat().st_mode & 0o777 == 0o600
 
 
-def test_setup_and_rescue_ask_the_keeper_the_same_way():
+def test_setup_asks_productions_keeper_the_way_rescue_packs():
 	assert rescue.FETCH_SALT.decode() in SETUP
-	assert rescue.DEV_KEEPER in SETUP
+	keeper = re.search(r'^KEEPER = "(.+)"$', (tree.APP / "one_admin" / "setup.py").read_text(), re.M).group(1)
+	assert f"https://{keeper}.4dl.workers.dev" in SETUP and "-dev" not in keeper
+	assert 'rescue.py restore "one.$DOMAIN"' in SETUP and "admin.$DOMAIN" not in SETUP
 
 
-def test_the_newest_whole_backup_is_chosen():
-	key = "daily/dev-one.4dl.dev/{}/{}/{}"
-	objects = [{"key": key.format("2026-11-08", part, name)} for part, name in (("database", "a.sql.gz"), ("config", "c.one"), ("public", "f.tar"))]
-	objects += [{"key": key.format("2026-11-09", "database", "b.sql.gz")}]
-	objects += [{"key": "daily/dev-admin.4dl.dev/2026-11-10/database/z.sql.gz"}]
-	found = rescue.newest_backup(objects, "one.4dl.dev")
+def test_the_kit_goes_through_oneadmin_and_never_holds_the_keepers_secret():
+	body = rescue.kit_body(b'{"salt": "s", "token": "t"}', "a long rescue passphrase")
+	assert set(body) == {"kit", "fetch_hash"} and len(body["fetch_hash"]) == 64
+	source = (tree.ROOT / "scripts" / "rescue.py").read_text()
+	assert "keeper_secret" not in source and "x-one-secret" not in source
+	backups = (tree.APP / "one_admin" / "backups.py").read_text()
+	keep = backups.split("def keep_rescue_kit(", 1)[1].split("\ndef ", 1)[0]
+	assert "frappe.only_for(site.OPERATOR)" in keep and '"/rescue-key"' in keep
+	assert rescue.KEEP_KIT == "onedesk.one_admin.backups.keep_rescue_kit"
+
+
+def test_the_newest_night_with_a_database_is_chosen():
+	key = "daily/one-4dl-dev/{}/{}/{}"
+	keys = [key.format("2026-11-08", part, name) for part, name in (("database", "a.sql.gz"), ("config", "c.json"), ("public", "f.tar"))]
+	keys += [key.format("2026-11-09", "public", "g.tar"), "daily/other/2026-11-10/database/z.sql.gz"]
+	found = rescue.newest_whole(keys, "daily/one-4dl-dev/")
 	assert set(found) == {"database", "config", "public"}
 	assert found["database"].endswith("2026-11-08/database/a.sql.gz")
-
-
-def test_a_files_part_is_told_from_the_private_files():
-	assert rescue.part_of("x-private-files.tar") == "private"
-	assert rescue.part_of("x-files.tar") == "public"
-	assert rescue.part_of("x-database.sql.gz") == "database"
-	assert rescue.part_of("x-site_config_backup.json") is None
+	assert rescue.newest_whole([], "daily/one-4dl-dev/") == {}
 
 
 def test_restore_is_forced_and_names_what_came():
@@ -60,7 +67,7 @@ def test_restore_is_forced_and_names_what_came():
 	assert "--with-private-files" in args and "--with-public-files" not in args
 
 
-def test_a_kit_holds_the_dev_sites_configs(tmp_path, monkeypatch):
+def test_a_kit_holds_the_dev_site_config(tmp_path, monkeypatch):
 	sites = tmp_path / "one-bench" / "sites"
 	for site, config in (("one.4dl.dev", {"one_dev": 1}), ("other", {})):
 		(sites / site).mkdir(parents=True)

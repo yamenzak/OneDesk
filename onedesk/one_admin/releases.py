@@ -214,7 +214,11 @@ def _due(tenant, now: datetime) -> None:
 
 
 def update_now(tenant) -> dict:
-	"""The workspace's box is told to move it now, if a newer bench is ready."""
+	"""The workspace's box is told to move it now, if a newer bench is ready.
+	A test workspace is refused: it is updated on its own machine."""
+	from onedesk.one_admin import testbed
+
+	testbed.refuse(tenant, "updated")
 	row = servers.row_of(tenant.server)
 	if tenant.bench == servers.current(row):
 		return {"waiting": False}

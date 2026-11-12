@@ -8,7 +8,7 @@ roll over.
 import frappe
 from frappe.utils import add_days, get_first_day, get_last_day, getdate, today
 
-from onedesk.one_admin import ledger, price_list, site, stripe
+from onedesk.one_admin import ledger, price_list, site, stripe, testbed
 from onedesk.one_admin.faults import Again, Refused
 
 GRANTED_ON = ("Live", "Overdue")
@@ -28,6 +28,7 @@ def packs() -> list[dict]:
 def buy(tenant: str, pack: str) -> dict:
 	"""A checkout for this workspace to pay for this pack in its own page."""
 	site.require_admin()
+	testbed.refuse(tenant, "billed")
 	sold = frappe.db.get_value(
 		"Offering", pack, ["name", "kind", "enabled", "credits"], as_dict=True
 	)
@@ -81,7 +82,7 @@ def charge(tenant: str) -> str | None:
 	pay turns auto top-up off and tells the owner."""
 	doc = frappe.get_doc("Tenant", tenant)
 	bought = ledger.packs_charged_this_month(tenant)
-	if not wants_a_pack(doc.auto_topup, doc.status, ledger.balance(tenant), doc.auto_topup_below, bought, doc.auto_topup_cap):
+	if doc.is_test or not wants_a_pack(doc.auto_topup, doc.status, ledger.balance(tenant), doc.auto_topup_below, bought, doc.auto_topup_cap):
 		return None
 	month = today()[:7]
 	try:
@@ -109,6 +110,7 @@ def settings(tenant) -> dict:
 def keep_settings(tenant, enabled: int, pack: str, below: int, cap: int) -> dict:
 	"""An administrator's choice, checked."""
 	if enabled:
+		testbed.refuse(tenant, "billed")
 		if not frappe.db.exists("Offering", {"name": pack, "kind": "Credit Pack", "enabled": 1}):
 			raise Refused(f"{pack} is not a credit pack on sale")
 		if not tenant.stripe_customer:
@@ -125,9 +127,10 @@ def monthly() -> None:
 	Run nightly rather than on the first of the month, so a workspace built on
 	the twelfth has its credit that night instead of waiting nineteen days. The
 	key carries the month, which is what makes running it every night harmless.
+	A test workspace's credits are given by hand.
 	"""
 	for row in frappe.get_all(
-		"Tenant", filters={"status": ["in", GRANTED_ON]}, fields=["name", "offering"]
+		"Tenant", filters={"status": ["in", GRANTED_ON], "is_test": 0}, fields=["name", "offering"]
 	):
 		if not row.offering:
 			continue

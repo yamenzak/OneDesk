@@ -8,8 +8,9 @@
 #   bash always-on.sh          turn it on
 #   bash always-on.sh off      back to bench start by hand
 #
-# It also backs every dev site up to the dev keeper each night
-# (one-dev-backup, scripts/rescue.py nightly).
+# The workspace backs itself up to production's keeper (one/backup.py), so
+# nothing here is scheduled for it; the one-dev-backup timer an older run
+# made is taken away.
 #
 # Then: sudo systemctl restart one-bench   after a change to hooks.py
 #       journalctl -u one-bench -f         to watch what bench start prints
@@ -19,12 +20,14 @@ set -euo pipefail
 BENCH="${BENCH:-$HOME/one-bench}"
 UNIT=/etc/systemd/system/one-bench.service
 CLAUDE_UNIT=/etc/systemd/system/one-claude.service
-BACKUP_UNIT=/etc/systemd/system/one-dev-backup.service
-BACKUP_TIMER=/etc/systemd/system/one-dev-backup.timer
+OLD_BACKUP=(/etc/systemd/system/one-dev-backup.service /etc/systemd/system/one-dev-backup.timer)
+
+sudo systemctl disable --now one-dev-backup.timer >/dev/null 2>&1 || true
+sudo rm -f "${OLD_BACKUP[@]}"
 
 if [ "${1:-}" = off ]; then
-	sudo systemctl disable --now one-bench one-claude one-dev-backup.timer >/dev/null 2>&1 || true
-	sudo rm -f "$UNIT" "$CLAUDE_UNIT" "$BACKUP_UNIT" "$BACKUP_TIMER"
+	sudo systemctl disable --now one-bench one-claude >/dev/null 2>&1 || true
+	sudo rm -f "$UNIT" "$CLAUDE_UNIT"
 	sudo systemctl daemon-reload
 	echo "Off. Run bench start yourself again."
 	exit 0
@@ -81,33 +84,7 @@ WantedBy=multi-user.target
 UNIT
 fi
 
-sudo tee "$BACKUP_UNIT" >/dev/null <<UNIT
-[Unit]
-Description=One dev sites to the dev keeper
-After=mariadb.service
-
-[Service]
-Type=oneshot
-User=$(id -un)
-WorkingDirectory=$BENCH
-Environment=PATH=$HOME/.local/bin:$NODE_BIN:/usr/local/bin:/usr/bin:/bin
-ExecStart=$BENCH/env/bin/python $BENCH/apps/onedesk/scripts/rescue.py nightly
-UNIT
-
-sudo tee "$BACKUP_TIMER" >/dev/null <<UNIT
-[Unit]
-Description=One dev sites to the dev keeper, nightly
-
-[Timer]
-OnCalendar=*-*-* 02:10:00 UTC
-Persistent=true
-
-[Install]
-WantedBy=timers.target
-UNIT
-
 sudo systemctl daemon-reload
-sudo systemctl enable --now one-dev-backup.timer >/dev/null
 sudo systemctl enable --now one-bench >/dev/null
 [ -f "$CLAUDE_UNIT" ] && sudo systemctl enable --now one-claude >/dev/null
 sleep 3

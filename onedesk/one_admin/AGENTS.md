@@ -39,6 +39,33 @@ migrate, whenever the admin site isn't linked yet. A new admin site is only
 flagged as one after its first migrate, so a patch that ran once at install
 would have found nothing to do.
 
+## Test workspaces
+
+A **test workspace** is a site of ours that runs outside our servers, such
+as the dev server's `one.4dl.dev`, linked to this OneAdmin to try One against
+production. It's marked **Test** on the Workspaces list and **Test
+Workspace** on its record.
+
+- It isn't billed. It has no Stripe customer, gets no trial mails, never
+  becomes overdue, and buying credits, changing plan or closing it from the
+  workspace is refused.
+- OneAdmin never moves it. **Update Now** and every job
+  (suspend, archive, restore, roll back, move, install an app) refuse it: it
+  is updated on its own machine.
+- It sends its own backups to the keeper, as every workspace does, and
+  Status checks them and its address like any other.
+- It gets no monthly credits. Give them with **Give Credits**.
+- It isn't counted as a live customer or as revenue on Home.
+
+**New Test Workspace**, in the Workspaces list's menu, asks for the site's
+address and a name. It makes the workspace on the top plan, Global, with no
+server, writes its mail route on the mail domain and its backup secret, and
+shows the site config once. On the machine that serves the site,
+`deploy/local/link.sh SITE` takes it pasted, writes it with `bench set-config`
+and has the site ask OneAdmin who it is. Running it again for the same
+address makes new keys, and the old ones stop working. A test workspace
+can't be archived from here.
+
 ## Home
 
 **OneAdmin** in the dock opens **Home**.
@@ -2028,6 +2055,33 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   are still added by hand.
 - GitHub is not a subprocessor: it gets no customer data, and the legal
   guard passes every `github.com` host.
+
+### testbed.py: Test workspaces
+
+`is_test` on the Tenant. `testbed.refuse(tenant, why)` is the one check, in
+`runner.start` (every job needs a Pilot box a test workspace hasn't got),
+`lifecycle.fall`, `releases.update_now`, and billing's `take`, `portal`,
+`card`, `topup.buy` and turning auto top-up on; `topup.charge` and
+`lifecycle.paid` return early, `closing.ask` and `accounts.move` refuse as
+for the house. The scheduled jobs that act on a Live workspace filter it out
+where they would bill or grant (`tell.trials_ending`, `topup.monthly`), and
+Home, earnings, the console, rollout and the servers' metrics leave it out
+of their counts. Health, backups and storage measure it as any other.
+
+`new` is the operator action: the slug is the address with its dots as
+hyphens (`one-4dl-dev`, at most 40 characters, the keeper's limit), the
+Tenant is made Live with `site` and `domain` the address, and the token, mail
+secret and backup secret are new on every call, so the block it returns is
+the only copy. The block is `push_config`'s keys without `hostname` and
+`pause_scheduler`, which the bench's own site sets.
+
+`backups.keep_rescue_kit` is how the dev bench's rescue kit reaches the
+locked bucket without the bench holding the keeper's secret:
+`scripts/rescue.py pack` posts the kit, sealed to its passphrase, with an
+operator's API key; OneAdmin PUTs it under `rescue/<stamp>.one` (the keeper
+never overwrites a key) and sets `rescue:hash`, which `/rescue/latest`
+checks. A rebuilt dev server restores its workspace from `daily/<slug>/`
+through `rescue.py restore`, with the same Cloudflare sign-in as `fetch`.
 
 ### backups.py: Backups
 

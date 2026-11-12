@@ -36,8 +36,8 @@ def ask(slug: str, by: str) -> dict:
 	tenant = frappe.get_doc("Tenant", slug)
 	if tenant.status not in OPEN:
 		raise faults.Refused(f"{slug} is {tenant.status} and cannot be closed from here")
-	if tenant.is_house:
-		raise faults.Refused("The house workspace is not closed from inside it")
+	if tenant.is_house or tenant.is_test:
+		raise faults.Refused("The house workspace and a test workspace are not closed from inside them")
 	if tenant.closing_on:
 		return when(tenant)
 	on = add_days(today(), NOTICE_DAYS)

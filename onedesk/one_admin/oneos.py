@@ -98,6 +98,8 @@ def on_trial(status: str, trial_days: int, since, today) -> bool:
 def _trying(tenant) -> bool:
 	from frappe.utils import today
 
+	if tenant.get("is_test"):
+		return False
 	days = frappe.db.get_value("Offering", tenant.offering, "trial_days") if tenant.get("offering") else 0
 	return on_trial(tenant.status, days, tenant.get("live_on") or tenant.get("creation"), today())
 

@@ -11476,6 +11476,10 @@ msgstr ""
 msgid "Copy Of"
 msgstr "نسخة من"
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:46
+msgid "Copy Site Config"
+msgstr "نسخ إعدادات الموقع"
+
 #: onedesk/public/js/project_template_list.js:13
 msgid "Copy Template"
 msgstr "نسخ القالب"
@@ -23342,6 +23346,11 @@ msgstr "عند التفعيل، تُقرأ أيضاً المسوحات والص�
 msgid "If enabled, the slide fills the screen and is cropped to fit."
 msgstr "عند التفعيل، تملأ الشريحة الشاشة وتُقص لتناسبها."
 
+#. Description of the 'Test Workspace' (Check) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json:137
+msgid "If enabled, the workspace is never billed, moved or updated, and sends its own backups. Credits are given by hand."
+msgstr "عند التفعيل، لا تُفوتَر مساحة العمل ولا تُنقل ولا تُحدَّث، وترسل نسخها الاحتياطية بنفسها. يُمنح الرصيد يدويًا."
+
 #. Description of the 'Backs Itself Up' (Check) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:302
 msgid "If enabled, the workspace sends its own backup every night."
@@ -27517,6 +27526,11 @@ msgstr "ربط بسجل"
 msgid "Link to Their Record"
 msgstr "ربط بسجلهم"
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:35
+#, python-brace-format
+msgid "Link {0}"
+msgstr "ربط {0}"
+
 #: frontend/portal/src/pages/Record.vue:75
 #: frontend/src/slide/shim/DataDialog.vue:40
 msgid "Linked"
@@ -31032,6 +31046,11 @@ msgstr "مهمة جديدة"
 #: onedesk/public/js/doctype_settings.js:119
 msgid "New Template"
 msgstr "قالب جديد"
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:24
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:54
+msgid "New Test Workspace"
+msgstr "مساحة عمل تجريبية جديدة"
 
 #. Label of the draft (JSON) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.js:157
@@ -47770,6 +47789,10 @@ msgstr "يُعرض على جميع الشاشات حتى ينتهي التنبي
 msgid "Shown on the screen at {0}, or on a radio at {1}."
 msgstr "يظهر على الشاشة في {0}، أو على الراديو في {1}."
 
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:43
+msgid "Shown only once, for deploy/local/link.sh on the machine that serves the site."
+msgstr "تُعرض مرة واحدة فقط، لاستخدامها في deploy/local/link.sh على الجهاز الذي يخدم الموقع."
+
 #. Description of the 'Background' (Data) field in DocType 'Widget Collection'
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:48
 msgid "Shown when no slide is playing. Defaults to the brand colour."
@@ -48132,6 +48155,14 @@ msgstr "جانب واحد"
 #: onedesk/public/js/project_new.js:163
 msgid "Site"
 msgstr "الموقع"
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:27
+msgid "Site Address"
+msgstr "عنوان الموقع"
+
+#: onedesk/one_admin/doctype/tenant/tenant_list.js:40
+msgid "Site Config"
+msgstr "إعدادات الموقع"
 
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
@@ -52068,6 +52099,11 @@ msgstr "الاختبار"
 msgid "Test Gateway"
 msgstr "اختبار البوابة"
 
+#. Label of the is_test (Check) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json:134
+msgid "Test Workspace"
+msgstr "مساحة عمل تجريبية"
+
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Test scripts written"
@@ -52259,6 +52295,14 @@ msgstr "هذا ليس يومًا وساعة صحيحين."
 #: onedesk/one_hr/hiring.py:577
 msgid "That is not a recording."
 msgstr "هذا ليس تسجيلًا."
+
+#: onedesk/one_admin/backups.py:158
+msgid "That is not a rescue key."
+msgstr "هذا ليس مفتاح استرداد."
+
+#: onedesk/one_admin/backups.py:165
+msgid "That is not a rescue kit."
+msgstr "هذه ليست حزمة استرداد."
 
 #: onedesk/one_account/center.py:624
 msgid "That is not an email address."
@@ -54710,6 +54754,10 @@ msgstr "لا توجد نسخة جديدة من {0}."
 #, python-brace-format
 msgid "There is no notification type {0}."
 msgstr "لا يوجد نوع إشعار {0}."
+
+#: onedesk/one_admin/testbed.py:78
+msgid "There is no plan on sale. Add one to the Price List first."
+msgstr "لا توجد خطة معروضة للبيع. أضف خطة إلى قائمة الأسعار أولًا."
 
 #: onedesk/one/notification_words.py:212 onedesk/one/notification_words.py:329
 #: onedesk/one/notification_words.py:360
@@ -69137,6 +69185,21 @@ msgstr "{0} جدول: حدّد أعمدته"
 msgid "{0} is a template."
 msgstr "أصبح {0} قالبًا."
 
+#: onedesk/one_admin/testbed.py:23
+#, python-brace-format
+msgid "{0} is a test workspace and isn't billed."
+msgstr "{0} مساحة عمل تجريبية ولا تُفوتَر."
+
+#: onedesk/one_admin/testbed.py:21
+#, python-brace-format
+msgid "{0} is a test workspace. It is updated on its own machine, not from OneAdmin."
+msgstr "{0} مساحة عمل تجريبية. تُحدَّث على جهازها، لا من OneAdmin."
+
+#: onedesk/one_admin/testbed.py:22
+#, python-brace-format
+msgid "{0} is a test workspace. It isn't on our servers, so OneAdmin doesn't run jobs on it."
+msgstr "{0} مساحة عمل تجريبية. ليست على خوادمنا، لذا لا ينفّذ OneAdmin مهام عليها."
+
 #: onedesk/one_book/ready.py:122
 #, python-brace-format
 msgid "{0} is added in a form, but not to one made by One, OneAI or an import."
@@ -69156,6 +69219,11 @@ msgstr "{0} عميل محتمل بالفعل."
 #, python-brace-format
 msgid "{0} is already a lead: {1}"
 msgstr "{0} عميل محتمل بالفعل: {1}"
+
+#: onedesk/one_admin/testbed.py:106 onedesk/one_admin/testbed.py:108
+#, python-brace-format
+msgid "{0} is already a workspace."
+msgstr "{0} مساحة عمل موجودة بالفعل."
 
 #: onedesk/one_ai/reading/mark.py:124
 #, python-brace-format
@@ -69773,6 +69841,11 @@ msgstr "{0} على شبكة خاصة. لا يمكن لـ OneCloud الاتصال
 msgid "{0} is on leave until {1}."
 msgstr "{0} في إجازة حتى {1}."
 
+#: onedesk/one_admin/testbed.py:103
+#, python-brace-format
+msgid "{0} is one of One's own addresses."
+msgstr "{0} من عناوين One نفسها."
+
 #: onedesk/one_storage/oneos.py:162
 #, python-brace-format
 msgid "{0} is open in OneOS by {1}."
@@ -69853,6 +69926,11 @@ msgstr "{0} موجود مرتين، أو هو اسم يحتفظ به frappe لن
 #, python-brace-format
 msgid "{0} is too large to show on a screen."
 msgstr "{0} أكبر من أن يُعرض على شاشة."
+
+#: onedesk/one_admin/testbed.py:100
+#, python-brace-format
+msgid "{0} is too long for a workspace address."
+msgstr "{0} أطول من أن يكون عنوان مساحة عمل."
 
 #: onedesk/one_mail/mail_templates.py:110
 #, python-brace-format

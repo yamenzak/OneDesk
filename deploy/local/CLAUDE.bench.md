@@ -3,8 +3,10 @@
 
 You are on the dev server, not production. Production runs on AWS Lightsail
 boxes that OneAdmin runs. It changes only through a release: push `main`, GitHub
-builds it, and each workspace moves in its own window. Nothing on this machine
-reaches it, except `scripts/server.py` when building the first OneAdmin.
+builds it, and each workspace moves in its own window. This machine reaches it
+in two ways only: its workspace is a test workspace of production's OneAdmin
+(`admin.4dl.app`), and the server itself is joined to it with Connect Server
+for training copies. `scripts/server.py` builds the first OneAdmin.
 
 The repository is `apps/onedesk`; its own `CLAUDE.md` is the product and the
 rules. This file is only about how this machine runs it.
@@ -41,33 +43,41 @@ rules. This file is only about how this machine runs it.
   at once. Never stop or restart `one-claude` yourself; that ends the session
   you are in.
 
-## The sites
+## The site
 
-`ls sites` lists them. The pair on the domain (`one.DOMAIN`, a workspace, and
-`admin.DOMAIN`, OneAdmin) are served over HTTPS through the tunnel, realtime
-included: `/socket.io` goes to a local nginx on 9001, which adds the Origin
-header socketio insists on and passes it to 9000, and the sites set
-`socketio_port` 443 for it. They are marked `one_dev` in their site config. The workspace is linked to
-the dev OneAdmin as its house workspace, so its OneAI is unbilled.
+`ls sites` lists them. The one on the domain, `one.DOMAIN`, is a workspace
+with the demo company, served over HTTPS through the tunnel (`one-dev`),
+realtime included: `/socket.io` goes to a local nginx on 9001, which adds the
+Origin header socketio insists on and passes it to 9000, and the site sets
+`socketio_port` 443 for it. It is marked `one_dev` in its site config.
 
-Passwords are in `~/.one-local` (`PUBLIC_ADMIN_PASSWORD` for the domain pair).
-Dev's OneAdmin values are in `~/.one-dev.json`; `deploy/local/dev-config.sh
-DOMAIN` writes them again. Never print either file.
+There is no OneAdmin on this machine. The workspace is linked to production's
+OneAdmin, `admin.4dl.app`, as a test workspace (Workspaces › New Test
+Workspace, then `deploy/local/link.sh`): its OneAI, mail (`m.4dl.app`),
+weather and news go through production, nothing is billed, OneAdmin never
+updates or moves it, and it sends its own backups to production's keeper.
+Its credits are given by hand on its Tenant. `deploy/local/dev-config.sh
+DOMAIN` builds the demo and links it.
+
+Passwords are in `~/.one-local` (`PUBLIC_ADMIN_PASSWORD` for the site,
+`ONE_OPERATOR_KEY` for `rescue.py pack`). Never print it, or the site's
+`one_token`, `one_mail_secret` or `one_backup_secret`.
 
 ## What never to do here
 
-- Never clear Environment in the dev OneAdmin, and never give it production's
-  domains (`t.4dl.app`, `m.4dl.app`, `noreply@4dl.app`). Environment `dev` is
-  what keeps Set Up Cloudflare on its own Workers, store, tokens and catch-all;
-  dev-config.sh writes it every run.
-- Never put a Stripe live key here; dev takes test keys.
+- The workspace speaks to production. What its people do with OneAI spends
+  real credits and real money at the model providers, and mail it sends goes
+  out from `m.4dl.app`. Test with that in mind.
+- Never put a Stripe key here, test or live: the workspace bills nothing.
+- Never make an admin site here (`one_admin` in a site config) or point the
+  workspace at one: dev's own OneAdmin was retired on 12 November 2026.
 - Never commit in `apps/frappe`, `apps/erpnext` or `apps/hrms`. Their changed
   files are build output.
-- Never drop or reinstall the domain sites without being asked: they hold the
-  setup the person using them did by hand.
-- A signup on the dev OneAdmin builds a real site on a Lightsail box, and a box
-  costs money while it lives: delete what you made for a test when the test is
-  done (`scripts/server.py drop`).
+- Never drop or reinstall the domain site without being asked: it holds the
+  setup the person using it did by hand. Linking it again (`RELINK=1
+  dev-config.sh`) makes new keys and the old ones stop working.
+- Never run a job on admin.4dl.app against a customer's workspace to test
+  something. Test on this workspace, or on a training copy.
 
 ## The gates
 

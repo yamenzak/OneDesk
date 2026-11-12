@@ -62,7 +62,9 @@ def standing(tenant: str) -> dict:
 	where["next"] = below if below in BY_HAND else None
 	where["warning"] = BY_HAND.get(below or "", "")
 	where["verb"] = frappe._(CALLED[below]) if below in CALLED else None
-	where["may_restore"] = held.status in ("Overdue", "Suspended")
+	where["may_restore"] = held.status in ("Overdue", "Suspended") and not held.is_test
+	if held.is_test:
+		where.update({"next": None, "warning": "", "verb": None})
 	return where
 
 
