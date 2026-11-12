@@ -11,8 +11,16 @@ frappe's SVG sanitiser, which drops `gradientTransform`, `style` and `<image>`:
   attributes; the five rotated highlights became circles of the same area,
   which is not visible at a button's size.
 
-The providers OneAdmin's servers and setup name, from Simple Icons, each path
-filled with its company's colour (AWS's orange, so it reads in the dark theme):
-`aws.svg`, `oracle.svg`, `cloudflare.svg` and `stripe.svg`.
+The providers OneAdmin's servers and setup name, from Simple Icons (CC0;
+16.37.0 for the server providers added on 12 November 2026), each path filled
+with its company's colour from Simple Icons (AWS's orange, so it reads in the
+dark theme): `aws.svg`, `oracle.svg`, `cloudflare.svg`, `stripe.svg`,
+`google-cloud.svg`, `digitalocean.svg`, `hetzner.svg`, `vultr.svg`,
+`akamai.svg` and `scaleway.svg`. Simple Icons dropped Azure at Microsoft's
+request, so `azure.svg` is Gil Barbara's SVG Logos (CC0, `logos:microsoft-azure`
+in Iconify 1.2.20), as is. Each is named for the provider in lower case with
+spaces as dashes, which is how a server's card and the Servers list find it.
+`other.svg`, for a machine on no cloud we know, is Lucide's `server` (ISC),
+drawn in the text colour.
 
 `scripts/icons.py` registers them as Custom Icons beside the One marks.

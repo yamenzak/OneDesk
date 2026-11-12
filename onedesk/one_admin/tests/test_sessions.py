@@ -32,9 +32,9 @@ def test_a_copy_needs_a_workspace_that_has_said_so_lately():
 	assert not sessions.agreed(now - timedelta(hours=49), now, within_hours=sessions.LAPSED_AFTER_HOURS)
 
 
-def test_a_connected_server_is_called_for_its_provider():
-	assert servers.next_name([], "oracle") == "oracle-1"
-	assert servers.next_name(["oracle-1"], "oracle") == "oracle-2"
+def test_a_connected_server_is_named_before_its_cloud_is_known_and_keeps_it():
+	assert servers.next_name(["oracle-1"], servers.CONNECTED_NAME) == "machine-1"
+	assert servers.next_name(["oracle-1", "machine-1"], servers.CONNECTED_NAME) == "machine-2"
 
 
 TRACE = '''Traceback (most recent call last):
@@ -108,3 +108,5 @@ def test_the_connect_script_carries_the_first_boot_and_the_memory_limit():
 	assert "one-copies" in script and "podman create" in script
 	box = base64.b64decode(script.split("ONE_BOX=")[1].split("\n")[0].strip("'")).decode()
 	assert "ONE_IN_CONTAINER=1" in box and "ONE_TUNNEL_TOKEN=token" in box and "ONE_PILOT_PASSWORD=p" in box
+	assert "ONE_SERVER=oracle-1\n" in script and "ONE_AGENT=a\n" in script and "ONE_ADMIN=https://admin.x\n" in script
+	assert "servers.located" in script and "X-One-Agent" in script

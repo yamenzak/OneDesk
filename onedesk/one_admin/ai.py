@@ -44,6 +44,7 @@ NOT_FOR_AI = {
 	"releases.released": "The release workflow calls this when a release is built, and no person is there.",
 	"servers.pressure": "A server reports this about itself, and no person is there.",
 	"servers.reported": "A server reports this about itself, and no person is there.",
+	"servers.located": "A machine says which cloud it is on while it joins, and no person is there.",
 	"signup.pay": "Paying is done by whoever is signing up, on the signup page.",
 	"signup.start": "A signup is started by whoever is signing up, on the signup page.",
 	"stripe.webhook": "Stripe calls this, and no person is there.",

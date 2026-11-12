@@ -18,7 +18,7 @@ import frappe
 from frappe.rate_limiter import rate_limit
 from werkzeug.wrappers import Response
 
-from onedesk.one_admin import boxes, faults, fleet, pilot, quota, site, tell, vault
+from onedesk.one_admin import boxes, faults, fleet, pilot, providers, quota, site, tell, vault
 
 KEYS = "one_server_keys"
 CAPACITY = 5
@@ -30,7 +30,7 @@ DISK_LIMIT = 85
 MEMORY_LIMIT = 92
 REPOSITORY = boxes.REPOSITORY
 SITE_EVENTS = ("site_down", "site_up")
-CONNECTED_PROVIDER = "Oracle"
+CONNECTED_NAME = "machine"
 CONNECTING = "Connecting"
 COPIES_AT_ONCE = 4
 TICKET_LASTS = 3600
@@ -299,11 +299,13 @@ def begin(tenant: str | None = None) -> None:
 	frappe.enqueue("onedesk.one_admin.servers.build", queue="long", timeout=3 * 3600, job_id=f"one_admin_order_server_{tenant or 'shared'}", deduplicate=True, tenant=tenant)
 
 
-def connect(region: str) -> dict:
+def connect() -> dict:
 	"""A machine that is not on AWS listed under Servers, and the one line
-	that joins it. Its tunnel, address and lock are made now; the machine
-	asks for its first boot with the ticket in the line. A machine already
-	waiting to join is given a new line."""
+	that joins it. Its tunnel, address and lock are made now, under a name
+	that stays (`machine-N`: Cloudflare and Pilot's keys hold it); the
+	machine asks for its first boot with the ticket in the line and says
+	which cloud it is on in `located`. A machine already waiting to join is
+	given a new line."""
 	site.require_admin()
 	waiting = next((one.server for one in fleet.rows() if one.status == CONNECTING), None)
 	if waiting:
@@ -312,7 +314,7 @@ def connect(region: str) -> dict:
 		frappe.throw(frappe._("Server keys are not set."))
 	keys = _keys()
 	settings = frappe.get_single("One Admin Settings")
-	name = next_name([one.server for one in fleet.rows()], "oracle")
+	name = next_name([one.server for one in fleet.rows()], CONNECTED_NAME)
 	zone = keys["origin_zone"]
 	release = boxes.latest_release(keys)
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
@@ -326,13 +328,12 @@ def connect(region: str) -> dict:
 			"doctype": "Workspace Server",
 			"server": name,
 			"status": CONNECTING,
-			"region": region,
 			"open": 0,
 			"capacity": COPIES_AT_ONCE,
 			"pilot_host": made["host"],
 			"origin_host": made["origin"],
 			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready"}]),
-			"provider": CONNECTED_PROVIDER,
+			"provider": providers.OTHER,
 			"monthly_cost": 0,
 		}
 	)
@@ -369,6 +370,27 @@ def connect_script(ticket: str) -> Response:
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
 	script = boxes.connect_script(keys, cloudflare, server, made, boxes.latest_release(keys), frappe.utils.get_url())
 	return Response(script, mimetype="text/plain")
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=20, seconds=3600)
+def located() -> dict:
+	"""A joining machine says what its cloud's metadata service told it, and
+	the server takes that provider and region. Believed only when signed with
+	that box's own secret, and only while it is Connecting."""
+	site.require_admin()
+	body = frappe.request.get_data(as_text=True)
+	said = json.loads(body or "{}")
+	row = fleet.row_of(said.get("server") or "")
+	try:
+		secret = (pilot.held(row.server).get("agent") or "") if row and row.status == CONNECTING else ""
+	except faults.Refused:
+		secret = ""
+	if not secret or not hmac.compare_digest(signed(secret, body), frappe.get_request_header("X-One-Agent") or ""):
+		raise frappe.PermissionError
+	provider, region = providers.where(providers.decoded(said.get("found")))
+	frappe.db.set_value("Workspace Server", row.name, {"provider": provider, "region": region}, update_modified=False)
+	return {"ok": True}
 
 
 def costs_of(tenant: str | None) -> int:

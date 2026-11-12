@@ -10,28 +10,34 @@ frappe.listview_settings["Workspace Server"] = {
 	onload(listview) {
 		listview.set_primary_action = () => listview.page.set_primary_action(__("Order Server"), () => listview.settings.primary_action(), "plus");
 		listview.set_primary_action();
-		listview.page.add_menu_item(__("Connect Server"), () => {
-			frappe.prompt(
-				[{ fieldname: "region", fieldtype: "Data", label: __("Region"), reqd: 1, default: "eu-frankfurt-1", description: __("Copies of a workspace are made in this region.") }],
-				async ({ region }) => {
-					const said = await frappe.xcall("onedesk.one_admin.operator.connect_server", { region });
-					const shown = new frappe.ui.Dialog({
-						title: __("Connect {0}", [said.server]),
-						fields: [
-							{ fieldname: "command", fieldtype: "Code", label: __("Command"), read_only: 1, default: said.command, description: __("Run once on the machine as root within an hour.") },
-						],
-						primary_action_label: __("Copy Command"),
-						primary_action() {
-							frappe.utils.copy_to_clipboard(said.command);
-							shown.hide();
-						},
-					});
-					shown.show();
+		listview.page.add_menu_item(__("Connect Server"), async () => {
+			const said = await frappe.xcall("onedesk.one_admin.operator.connect_server");
+			const shown = new frappe.ui.Dialog({
+				title: __("Connect {0}", [said.server]),
+				fields: [
+					{
+						fieldname: "command",
+						fieldtype: "Code",
+						label: __("Command"),
+						read_only: 1,
+						default: said.command,
+						description: __("Run once on the machine as root within an hour."),
+					},
+				],
+				primary_action_label: __("Copy Command"),
+				primary_action() {
+					frappe.utils.copy_to_clipboard(said.command);
+					shown.hide();
 				},
-				__("Connect Server"),
-				__("Get Command"),
-			);
+			});
+			shown.show();
 		});
+	},
+
+	formatters: {
+		provider(value) {
+			return value ? `<span style="display:inline-flex;gap:8px;align-items:center">${frappe.utils.icon(value.toLowerCase().replaceAll(" ", "-"), "sm")}${__(value)}</span>` : "";
+		},
 	},
 
 	async primary_action() {

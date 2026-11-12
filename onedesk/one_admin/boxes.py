@@ -373,10 +373,19 @@ def connect(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_d
 
 def connect_script(keys: dict, cloudflare: Cloudflare, name: str, made: dict, release: str, admin_url: str, branch: str = "main", repository: str = REPOSITORY) -> str:
 	"""What runs on a connected machine, as root: deploy/server/connect.sh, with
-	the first boot it runs inside a container and that container's memory."""
+	the first boot it runs inside a container and that container's memory, and
+	what it signs its answer to `servers.located` with."""
 	values = _boot_values(keys, name, made, cloudflare.tunnel_token(made["tunnel"]), release, branch, repository, admin_url)
 	box = user_data({**values, "IN_CONTAINER": "1"})
-	head = "".join(f"{key}={shlex.quote(value)}\n" for key, value in (("ONE_BOX", base64.b64encode(box.encode()).decode()), ("ONE_MEMORY", CONTAINER_MEMORY), ("ONE_MEMORY_SWAP", CONTAINER_MEMORY_WITH_SWAP)))
+	told = (
+		("ONE_BOX", base64.b64encode(box.encode()).decode()),
+		("ONE_MEMORY", CONTAINER_MEMORY),
+		("ONE_MEMORY_SWAP", CONTAINER_MEMORY_WITH_SWAP),
+		("ONE_SERVER", name),
+		("ONE_AGENT", made["agent"]),
+		("ONE_ADMIN", admin_url.rstrip("/")),
+	)
+	head = "".join(f"{key}={shlex.quote(value)}\n" for key, value in told)
 	return f"{head}{CONNECT.read_text()}"
 
 

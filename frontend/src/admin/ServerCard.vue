@@ -2,7 +2,7 @@
   <article class="flex cursor-pointer flex-col gap-3 rounded-4 border border-outline-gray-1 bg-surface-elevation-1 p-4 hover:border-outline-gray-3" role="link" tabindex="0" @click="open" @keydown.enter="open">
     <div class="flex items-start justify-between gap-2">
       <div class="flex min-w-0 items-center gap-2">
-        <Mark v-if="server.provider" :name="server.provider.toLowerCase()" class="size-5" />
+        <Mark v-if="server.provider" :name="server.provider.toLowerCase().replaceAll(' ', '-')" class="size-5" />
         <div class="min-w-0">
           <h3 class="truncate text-lg font-semibold text-ink-gray-9">{{ server.server }}</h3>
           <p class="truncate text-sm text-ink-gray-5">{{ where }}</p>

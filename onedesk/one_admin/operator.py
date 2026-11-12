@@ -40,12 +40,12 @@ def order_server(tenant: str | None = None) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def connect_server(region: str) -> dict:
+def connect_server() -> dict:
 	"""A machine that is not on AWS joins as a server: the line to run on it."""
 	_may()
 	from onedesk.one_admin import servers
 
-	return servers.connect(region)
+	return servers.connect()
 
 
 @frappe.whitelist()
