@@ -19,3 +19,7 @@ What is known to be wrong and what is planned, kept short.
   `link.sh` for its site, so a new dev bench is one command like a copies
   server. Kept apart as today: the bench under its own user, copies under
   `one-copies`.
+- **Reaching production.** Port 22 on the admin box is open to the dev
+  server's address, with the servers' key on the dev server, by the owner's
+  choice for now (12 Nov 2026). Later: SSH through Cloudflare Access with the
+  owner's sign-in, granted when needed, and no open port.
