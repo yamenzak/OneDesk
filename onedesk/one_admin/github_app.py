@@ -51,12 +51,12 @@ def manifest(name: str, admin_url: str) -> dict:
 	return {
 		"name": name,
 		"url": base,
-		"description": "Reads One's code for the servers OneAdmin builds, and writes the secrets its workflows use.",
+		"description": "Reads One's code for the servers OneAdmin builds, writes the secrets its workflows use and starts them.",
 		"redirect_url": f"{base}/api/method/{RETURN_TO}",
 		"setup_url": f"{base}/api/method/{INSTALLED}",
 		"setup_on_update": True,
 		"public": False,
-		"default_permissions": {"contents": "read", "metadata": "read", "secrets": "write"},
+		"default_permissions": {"actions": "write", "contents": "read", "metadata": "read", "secrets": "write"},
 		"default_events": [],
 		"hook_attributes": {"url": base, "active": False},
 	}
@@ -314,6 +314,22 @@ def put_secret(name: str, value: str, repository: str = boxes.REPOSITORY) -> Non
 		raise faults.Refused(f"GitHub did not take {name}: {put.text[:300]}")
 	frappe.db.set_default(WRITTEN, json.dumps({**written(), name: frappe.utils.now()}))
 	frappe.db.commit()
+
+
+def dispatch_url(repository: str, workflow: str) -> str:
+	"""Where a workflow of the repository is started. Pure."""
+	return f"{API}/repos/{repository}/actions/workflows/{workflow}/dispatches"
+
+
+def run_workflow(workflow: str, ref: str = "main", repository: str = boxes.REPOSITORY) -> None:
+	"""A workflow started on `ref`, with a token that may run the
+	repository's workflows and nothing else."""
+	minted = repository_token(repository, {"actions": "write"})
+	if not minted:
+		raise faults.Refused("Connect GitHub first.")
+	answered = requests.post(dispatch_url(repository, workflow), json={"ref": ref}, headers=headers(minted["token"]), timeout=TIMEOUT)
+	if not answered.ok:
+		raise faults.Refused(f"GitHub did not start {workflow}: {answered.text[:300]}. Give the GitHub App Actions: Read and write, then set up again.", status=answered.status_code)
 
 
 def write_release() -> list[str]:

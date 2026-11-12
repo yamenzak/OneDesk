@@ -43,6 +43,7 @@ OFFICE_TYPE = "standard-1"
 OFFICE_MOST = 2
 OFFICE_FILES = ("worker.js", "package.json")
 ONEOS = "one-os"
+ONEOS_WORKFLOW = "oneos-image.yml"
 ONEOS_IMAGE = "registry.cloudflare.com/{account}/one-os:{tag}"
 ONEOS_TYPE = "standard-1"
 ONEOS_MOST = 10
@@ -138,6 +139,12 @@ GUARDRAILS = {
 }
 
 OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "needs attention"
+
+
+def image_missing(said: str) -> bool:
+	"""Whether wrangler failed because the registry has no such image. Pure."""
+	said = said.lower()
+	return any(one in said for one in ("manifest unknown", "image not found", "not found in registry", "does not exist", "no such image", "name unknown"))
 
 
 def routing_missing(held) -> bool:
@@ -890,7 +897,28 @@ class Setup:
 		source = DEPLOY / "oneos"
 		image = ONEOS_IMAGE.format(account=self.account, tag=tree_hash(source / "image"))
 		config = wrangler_config(name, "Session", "OS", image, ONEOS_TYPE, ONEOS_MOST)
-		self.contained("oneos", name, source, ONEOS_FILES, config, f"{image}{ONEOS_TYPE}{ONEOS_MOST}")
+		try:
+			self.contained("oneos", name, source, ONEOS_FILES, config, f"{image}{ONEOS_TYPE}{ONEOS_MOST}")
+		except Refused as refused:
+			if not image_missing(str(refused)) or self.env:
+				raise
+			self.build_image(name)
+
+	def build_image(self, name: str) -> None:
+		"""The image this code needs is not in the registry yet: production
+		starts the OneOS image workflow through the GitHub App, and the next
+		setup deploys once it has pushed."""
+		from onedesk.one_admin import faults, github_app
+
+		if not github_app.connected():
+			return self.note(f"oneos {name}", WAITING, _("OneOS's desktop isn't built yet. Connect GitHub, then set up again."))
+		try:
+			github_app.run_workflow(ONEOS_WORKFLOW)
+		except faults.Refused as refused:
+			raise Refused(str(refused)) from refused
+		except requests.RequestException as reason:
+			raise Refused(_("GitHub did not answer: {0}. Set up again.").format(reason)) from reason
+		self.note(f"oneos {name}", WAITING, _("OneOS's desktop is being built. Set up again in about 15 minutes."))
 
 	def contained(self, field: str, name: str, source: Path, files: tuple, config: dict, image: str) -> None:
 		"""A Worker with containers, deployed with wrangler, which hands

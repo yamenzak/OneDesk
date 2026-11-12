@@ -2007,6 +2007,12 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   lists them. An app made before Secrets was in the manifest is refused that
   token (422): the error says to grant Secrets: Read and write on GitHub and
   accept it on the installation.
+- **Workflows are started here too.** The manifest asks `actions: write`, and
+  `run_workflow` starts one with a token minted for that alone. Set Up
+  Cloudflare's `oneos` step does it when wrangler says the image isn't in
+  the registry (`setup.image_missing`): production starts `oneos-image.yml`
+  and the step waits; the next setup deploys. Releases build on every push to
+  main (release-assets.yml), so the release secret is all they need.
 - **Only production writes them** (`production()`: Environment empty), since
   dev's OneAdmin shares the repository. `installed` writes the release
   workflow's two (`write_release`): `ONE_ADMIN_URL`, this site's address, and

@@ -28,9 +28,9 @@ def _agent():
 	return agent
 
 
-def test_the_manifest_asks_to_read_the_code_and_write_secrets_and_nothing_else():
+def test_the_manifest_asks_to_read_the_code_write_secrets_and_start_workflows_and_nothing_else():
 	made = github_app.manifest("One admin.example.com", "https://admin.example.com/")
-	assert made["default_permissions"] == {"contents": "read", "metadata": "read", "secrets": "write"}
+	assert made["default_permissions"] == {"actions": "write", "contents": "read", "metadata": "read", "secrets": "write"}
 	assert made["default_events"] == [] and made["hook_attributes"]["active"] is False and made["public"] is False
 	assert made["url"] == "https://admin.example.com"
 	assert made["redirect_url"] == f"https://admin.example.com/api/method/{github_app.RETURN_TO}"
@@ -251,3 +251,16 @@ def test_the_agent_falls_back_to_the_token_it_was_given():
 	agent = _agent()
 	assert agent.github_token({"server": "one-1", "secret": "", "admin_url": "", "github_token": "given"}) == "given"
 	assert json.loads(agent.git_info("t"))["token"] == "t"
+
+
+def test_a_workflow_is_started_where_github_starts_one():
+	assert github_app.dispatch_url("yamenzak/OneDesk", "oneos-image.yml") == "https://api.github.com/repos/yamenzak/OneDesk/actions/workflows/oneos-image.yml/dispatches"
+	assert github_app.manifest("One admin", "https://admin.example.com")["default_permissions"]["actions"] == "write"
+
+
+def test_setup_knows_an_image_the_registry_does_not_have():
+	from onedesk.one_admin import setup
+
+	assert setup.image_missing("Error: manifest unknown: registry.cloudflare.com/acc/one-os:abc")
+	assert setup.image_missing("The image registry.cloudflare.com/acc/one-os:abc does not exist")
+	assert not setup.image_missing("Authentication error [code: 10000]")

@@ -11,8 +11,8 @@ on:
         description: Start from the last build on the same upstream commits
         type: boolean
         default: true
-  schedule:
-    - cron: "10 20 * * 2"
+  push:
+    branches: [main]
 
 concurrency:
   group: release-assets

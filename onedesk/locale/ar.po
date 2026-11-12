@@ -35195,6 +35195,14 @@ msgstr "توقف OneOS عن الاستجابة، لذا أُغلق {0}. التغ
 msgid "OneOS uses OneCredits for each minute it is open."
 msgstr "يستخدم OneOS رصيد OneCredits عن كل دقيقة يكون فيها مفتوحًا."
 
+#: onedesk/one_admin/setup.py:921
+msgid "OneOS's desktop is being built. Set up again in about 15 minutes."
+msgstr "يجري بناء سطح مكتب OneOS. أعد الإعداد بعد نحو 15 دقيقة."
+
+#: onedesk/one_admin/setup.py:914
+msgid "OneOS's desktop isn't built yet. Connect GitHub, then set up again."
+msgstr "لم يُبنَ سطح مكتب OneOS بعد. اربط GitHub ثم أعد الإعداد."
+
 #: onedesk/one_admin/offerings.py:127
 #, python-brace-format
 msgid "OneOS, {0}"
