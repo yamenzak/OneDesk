@@ -82,7 +82,7 @@
              edit before they try. Neutral gray (not an error) because read
              access is expected, not a failure. Uses the Frappe UI Badge so it
              matches the save-error chip beside it and the Espresso tokens. -->
-        <Tooltip v-if="readOnly" :text="__('You have view access. Ask the owner for edit access to make changes.')">
+        <Tooltip v-if="readOnly" :text="fileSaid.notice || __('You have view access. Ask the owner for edit access to make changes.')">
           <Badge theme="gray" variant="subtle" size="lg" :label="__('View only')">
             <template #prefix><FeatherIcon name="eye" class="h-3.5 w-3.5" /></template>
           </Badge>
@@ -158,6 +158,17 @@
         />
       </div>
     </div>
+    <!-- One: why the file opens read-only, what saving over it would drop, and what a save from the drive left out (one_storage/saving.py) -->
+    <OneAlert v-if="fileSaid.notice" class="sn-file-said" colour="gray"><Branded :text="fileSaid.notice" /></OneAlert>
+    <OneAlert v-if="heldBack" class="sn-file-said" colour="yellow" :text="heldBack">
+      <template #verbs>
+        <Button variant="solid" size="sm" :label="__('Save Over Original')" @click="writeBack('over')" />
+        <Button size="sm" :label="__('Save as Copy')" @click="writeBack('copy')" />
+      </template>
+    </OneAlert>
+    <OneAlert v-if="fileSaid.dropped" class="sn-file-said" colour="yellow" :text="fileSaid.dropped">
+      <template #verbs><Button variant="ghost" size="sm" :label="__('Dismiss')" @click="dismissDropped" /></template>
+    </OneAlert>
 
     <!-- Bar 2 · Formatting toolbar -->
     <!-- Read-only viewers: dim the whole bar and swallow pointer events so no
@@ -1329,6 +1340,7 @@ import { field as fieldOf, onFields, forget as forgetFields } from '../../shim/f
 import AddSheetsDialog         from '../../shim/AddSheetsDialog.vue' // One: a template's sheets into this workbook
 import TemplateDialog          from '../../shim/TemplateDialog.vue' // One: templates
 import Branded                 from '../../../kit/Branded.vue' // One: product names as the desk draws them
+import OneAlert                from '../../../kit/OneAlert.vue' // One: what the file it edits says
 import PrintDialog             from '../../shim/PrintDialog.vue' // One: printed under the letter head
 import { printable }           from '../../shim/printing.js' // One
 import { useSmartFill }        from './useSmartFill.js'
@@ -2006,9 +2018,10 @@ function addTemplateSheets(sheets) {
 // when it is left, so the file in OneCloud is always the workbook as it is.
 // OneCloud's Download as Excel or CSV opens it with `exportAs`.
 const WRITE_BACK_EVERY = 60_000
-let _writeBackTimer = null, _unwritten = false
+let _writeBackTimer = null, _unwritten = false, _readingIn = false
 async function _openedFrom() {
   if (source.value?.fresh) {
+    _readingIn = true
     try {
       await readSource(source.value)
       isDirty.value = true
@@ -2017,16 +2030,19 @@ async function _openedFrom() {
       clearTimeout(_writeBackTimer)
     } catch (error) {
       saveError.value = __('The file couldn’t be read: {0}', [error?.message || ''])
+    } finally {
+      _readingIn = false
     }
   }
   if (props.exportAs === 'xlsx') await exportXLSX()
   else if (props.exportAs === 'csv') exportCSV()
 }
 function _saved() {
-  if (!source.value || readOnly.value) return
+  if (!source.value || readOnly.value || _readingIn) return
   _unwritten = true
   clearTimeout(_writeBackTimer)
-  _writeBackTimer = setTimeout(writeBack, WRITE_BACK_EVERY)
+  if (fileSaid.value.loses) writeBack()
+  else _writeBackTimer = setTimeout(writeBack, WRITE_BACK_EVERY)
 }
 // One: OneAI wrote in this workbook (one_sheet/ai.py, a card approved):
 // read it again when nothing here is waiting to be saved.
@@ -2050,16 +2066,39 @@ onBeforeUnmount(() => {
   window.frappe?.router?.off?.('change', _leave)
   document.removeEventListener('visibilitychange', _hidden)
 })
-async function writeBack() {
+// One: a file with parts OneWorkbook drops is saved over only when the
+// person chooses Save Over Original or Save as Copy (one_storage/saving.py).
+const heldBack = ref('')
+async function writeBack(choice = '') {
   clearTimeout(_writeBackTimer)
-  if (!_unwritten || !source.value) return
+  if (!source.value || (!_unwritten && !choice)) return
+  if (choice) await flushSave()
   _unwritten = false
   try {
-    await call('onedesk.one_sheet.api.write_back', { name: props.id, content: await fileContent(source.value.kind) })
+    const waits = fileSaid.value.loses && !choice
+    const said = await call('onedesk.one_sheet.api.write_back', { name: props.id, content: waits ? '' : await fileContent(source.value.kind), choice })
+    if (said?.held) {
+      _unwritten = true
+      heldBack.value = said.held
+      return
+    }
+    heldBack.value = ''
+    fileSaid.value = { ...fileSaid.value, loses: '' }
+    if (said?.copy) {
+      source.value = { ...source.value, name: said.copy.name }
+      currentTitle.value = said.copy.name
+      window.frappe?.show_alert?.({ message: __('Saved as {0}.', [said.copy.name]), indicator: 'green' })
+    } else if (choice) {
+      window.frappe?.show_alert?.({ message: __('Saved over {0}.', [source.value.name]), indicator: 'green' })
+    }
   } catch (error) {
     _unwritten = true
     saveError.value = __('Couldn’t write {0} back: {1}', [source.value.name, error?.message || ''])
   }
+}
+async function dismissDropped() {
+  fileSaid.value = { ...fileSaid.value, dropped: '' }
+  await call('onedesk.one_sheet.api.dismiss_dropped', { name: props.id })
 }
 
 // One: what is wrong with the selected cell, under it (shim/CellProblem.vue):
@@ -2492,7 +2531,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency: homeCurrency, source, canTemplate } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency: homeCurrency, source, canTemplate, fileSaid } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,

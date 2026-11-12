@@ -20,7 +20,10 @@
   "bound_name",
   "bound_field",
   "is_template",
-  "source_kind"
+  "source_kind",
+  "would_lose",
+  "held_back",
+  "outside_dropped"
  ],
  "fields": [
   {
@@ -101,11 +104,31 @@
    "label": "Opened From",
    "read_only": 1,
    "description": "docx when this edits that File in place, its content written back to it."
+  },
+  {
+   "fieldname": "would_lose",
+   "fieldtype": "JSON",
+   "label": "Not Kept From File",
+   "read_only": 1,
+   "description": "Parts of the file this editor does not keep."
+  },
+  {
+   "fieldname": "held_back",
+   "fieldtype": "Datetime",
+   "label": "Held Back Since",
+   "read_only": 1
+  },
+  {
+   "fieldname": "outside_dropped",
+   "fieldtype": "JSON",
+   "label": "Left Out of Drive Save",
+   "read_only": 1,
+   "description": "What the last save from the drive had that was not kept, shown when it is next opened."
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-21 15:00:00.000000",
+ "modified": "2026-11-12 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Doc",
  "name": "Writer Document",

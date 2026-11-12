@@ -1,12 +1,9 @@
-"""Open in OneOS on the workspace: what opens, the lease and the two sealed
+"""Open in OneOS on the workspace: what opens and the two sealed
 addresses (one_storage/oneos.py)."""
-
-from datetime import datetime, timedelta
 
 from onedesk.one_storage import oneos
 
 KEY = b"site-key"
-NOW = datetime(2026, 11, 12, 9, 0, 0)
 
 
 def test_office_files_and_csv_open_and_nothing_else():
@@ -14,12 +11,6 @@ def test_office_files_and_csv_open_and_nothing_else():
 		assert oneos.opens(name), name
 	for name in ("photo.jpg", "report.pdf", "README", "", None, "archive.zip"):
 		assert not oneos.opens(name), name
-
-
-def test_a_lease_holds_until_its_time():
-	assert oneos.live(NOW + timedelta(seconds=1), NOW)
-	assert not oneos.live(NOW, NOW)
-	assert not oneos.live(None, NOW)
 
 
 def test_an_address_opens_only_its_file_lease_and_use_in_time():

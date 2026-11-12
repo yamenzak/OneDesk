@@ -323,11 +323,19 @@ def _same(a, b) -> bool:
 
 
 def write(name: str, content: bytes) -> None:
-	"""Excel's save, through the editor's own save so a version is kept. A
-	record's workbook is not written from outside: its table is worked out
-	in the editor."""
+	"""Excel's save, through the editor's own save, with the workbook as it
+	was kept first as a version to go back to. A record's workbook is not
+	written from outside: its table is worked out in the editor. What the
+	Excel file had that the workbook does not keep is noted on it, shown
+	when it next opens."""
+	from onedesk.one_sheet import versions
+	from onedesk.one_storage import fidelity, saving
+
 	if frappe.db.get_value(api.WORKBOOK, name, "bound_doctype"):
 		frappe.throw(_("A record's workbook can only be edited in OneWorkbook."), frappe.PermissionError)
 	item = api._may(name, "write")
 	data = read(name, content)
+	if frappe.db.get_value(api.WORKBOOK, name, "sheets_data"):
+		versions.take(name, "named", _("Before an Excel save"))
 	api.save_sheet(item.get("file_name"), json.dumps(data, default=str), name, request_id=frappe.generate_hash(length=12))
+	saving.outside(api.WORKBOOK, name, fidelity.workbook(content, formatting=False))

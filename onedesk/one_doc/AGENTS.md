@@ -107,7 +107,11 @@ lose the fields.
 A Word file put into OneCloud opens in OneWriter, and what you write is saved
 back into the same file when you leave it, its old content kept in the file's
 versions. A new version of it put in from Word is read in the next time it
-opens.
+opens. When the Word file has what OneWriter doesn't keep (comments, tracked
+changes, headers and footers, and the rest `one_storage/fidelity.py` reads
+for), nothing is saved over it until the person chooses **Save Over
+Original** or **Save as Copy**; a .docm never opens here, and the file opens
+read-only while somebody has it in OneOS.
 
 ## Who can open it
 
@@ -285,6 +289,14 @@ the editor state is cleared so the next open builds from the HTML.
 A `.docx` File opened from OneCloud gets a Writer Document whose `file` is
 that File and `source_kind` is `docx` (`open_file`); its title keeps the
 `.docx`. The page calls `write_back` when it is left, which builds the file
-and puts it in through `one_storage/history.replace`, so the File keeps its
-versions; `file_replaced` empties the HTML when a version comes in from
-outside, and `get_document` reads the file again.
+and puts it in through `one_storage/saving.write_back` and `history.replace`,
+so the File keeps its versions, one per sitting; `file_replaced` empties the
+HTML when a version comes in from outside, and `get_document` reads the file
+again. `open_file` keeps `fidelity.document`'s list (from the file's parts and
+mammoth's `messages`, which `read` now hands back) in `would_lose`; while it
+is not empty `write_back` answers `held` until `choice` is `over` or `copy`,
+and a version arriving meanwhile sets the document aside as One's own copy
+(one_storage README, Nothing lost silently). `write` keeps the old HTML as
+**Before a Word save** and notes in `outside_dropped` what Word had that
+`read` left out; `get_document` shows it as `dropped` until
+`dismiss_dropped`.

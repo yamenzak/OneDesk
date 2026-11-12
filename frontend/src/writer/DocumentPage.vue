@@ -23,6 +23,16 @@
 			</div>
 		</div>
 		<div v-if="refused" class="shrink-0 border-b border-outline-gray-2 bg-surface-gray-2 px-4 py-2 text-base text-ink-amber-3">{{ refused }}</div>
+		<OneAlert v-if="state?.notice" class="mx-4 mt-2 shrink-0" colour="gray" :text="state.notice" />
+		<OneAlert v-if="heldBack" class="mx-4 mt-2 shrink-0" colour="yellow" :text="heldBack">
+			<template #verbs>
+				<Button variant="solid" :label="__('Save Over Original')" @click="writeBack('over')" />
+				<Button :label="__('Save as Copy')" @click="writeBack('copy')" />
+			</template>
+		</OneAlert>
+		<OneAlert v-if="state?.dropped" class="mx-4 mt-2 shrink-0" colour="yellow" :text="state.dropped">
+			<template #verbs><Button variant="ghost" :label="__('Dismiss')" @click="dismissDropped" /></template>
+		</OneAlert>
 		<div v-if="failed" class="flex flex-1 items-center justify-center text-base text-ink-gray-6">{{ failed }}</div>
 		<VersionsSidebar
 			v-if="state && showVersions"
@@ -59,7 +69,8 @@
 import { computed, onBeforeUnmount, onMounted, provide, reactive, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dialogs, Dropdown } from "frappe-ui";
 
-import { __, aiSees, call, goTo, goToUrl, listen, me, onLeave, userSettings } from "../kit/desk";
+import { __, aiSees, alert, call, goTo, goToUrl, listen, me, onLeave, userSettings } from "../kit/desk";
+import OneAlert from "../kit/OneAlert.vue";
 import InlineRenameInput from "../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../sheet/shim/mark.js";
 import "../sheet/shim/fit.css";
@@ -131,6 +142,8 @@ const settingsDoc = reactive({
 				.then((said) => {
 					refused.value = said?.refused || "";
 					unwritten = Boolean(state.value?.word);
+					if (savedOnce.value || Date.now() - loadedAt > PAINTED_MS) edited = true;
+					if (unwritten && edited && state.value.loses && !heldBack.value) writeBack();
 					settingsDoc.saveDoc.error = null;
 					savedOnce.value = true;
 					dirty.value = false;
@@ -205,6 +218,9 @@ async function load(name) {
 		file.doc = { name: said.name, file_name: said.title, write: said.can_write, breadcrumbs: [{ file_name: said.title }] };
 		settingsDoc.doc = { name: said.name, content: said.content, ycomments: said.comments, settings: said.settings || {}, owner: said.owner, collab: 1, versions: [] };
 		state.value = said;
+		loadedAt = Date.now();
+		edited = false;
+		heldBack.value = "";
 		title.value = said.title;
 		const held = await userSettings.get("Writer Document");
 		everywhere.doc[KEY] = held?.[KEY] || {};
@@ -364,20 +380,44 @@ const stopWritten = listen("one_document_written", (said) => {
 });
 
 // A Word file opened from OneCloud is written back into itself when it is
-// left, once the last save is in (one_doc/word.py, write_back).
+// left, once the last save is in (one_doc/word.py, write_back). One with
+// parts OneWriter drops waits for Save Over Original or Save as Copy
+// (one_storage/saving.py), and only a save after the editor's first paint
+// is somebody's change to keep.
+const PAINTED_MS = 8000;
 let unwritten = false;
-async function writeBack() {
-	if (!unwritten || !state.value?.word) return;
+let edited = false;
+let loadedAt = 0;
+const heldBack = ref("");
+async function writeBack(choice = "") {
+	if (!state.value?.word || (!unwritten && !choice)) return;
 	emitter.emit("manual-save");
 	await new Promise((done) => setTimeout(done, 50));
 	while (saving.value) await new Promise((done) => setTimeout(done, 200));
 	unwritten = false;
 	try {
-		await call("onedesk.one_doc.word.write_back", { name: state.value.name });
+		const said = await call("onedesk.one_doc.word.write_back", { name: state.value.name, choice, edited: edited ? 1 : 0 });
+		if (said?.held) {
+			unwritten = true;
+			heldBack.value = said.held;
+			return;
+		}
+		heldBack.value = "";
+		if (state.value) state.value.loses = "";
+		if (said?.copy) {
+			state.value.title = title.value = said.copy.name;
+			alert(__("Saved as {0}.", [said.copy.name]));
+		} else if (choice) {
+			alert(__("Saved over {0}.", [state.value.title]));
+		}
 	} catch (failed) {
 		unwritten = true;
 		refused.value = __("Could not write {0} back: {1}", [state.value.title, failed?.message || ""]);
 	}
+}
+async function dismissDropped() {
+	state.value.dropped = "";
+	await call("onedesk.one_doc.api.dismiss_dropped", { name: state.value.name });
 }
 const stopLeaving = onLeave(writeBack);
 

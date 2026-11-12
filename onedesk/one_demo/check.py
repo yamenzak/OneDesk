@@ -1378,9 +1378,9 @@ def onecloud_a_letter_is_edited_in_oneos():
 		with as_user("yousef@one.test"):
 			assert oneos.start(letter)["held"]["readonly"]
 			copy = oneos.start(letter, copy=1)
-			assert copy["node"] != letter and frappe.db.get_value("File", copy["node"], "one_os_user") == "yousef@one.test"
+			assert copy["node"] != letter and frappe.db.get_value("File", copy["node"], "one_lease_user") == "yousef@one.test"
 			oneos.close(copy["node"])
-			assert asked[-1][0] == "oneos_stop" and not frappe.db.get_value("File", copy["node"], "one_os_user")
+			assert asked[-1][0] == "oneos_stop" and not frappe.db.get_value("File", copy["node"], "one_lease_user")
 		down, up = sealed(start["file_url"]), sealed(start["save_url"])
 		oneos.file(**down)
 		for key in ("type", "filecontent", "filename", "display_content_as"):
@@ -1402,12 +1402,91 @@ def onecloud_a_letter_is_edited_in_oneos():
 		assert len(history.versions(letter)) == 1 and frappe.db.get_value("File", letter, "modified_by") == demo.PM
 		answers["oneos_state"] = {"state": "Stopped", "stop_reason": "Idle"}
 		with mock.patch("onedesk.one_storage.tell.oneos_closed") as closed:
-			oneos.stopped(frappe.db.get_value("File", letter, "one_os_session"))
-		assert not frappe.db.get_value("File", letter, "one_os_user")
+			oneos.stopped(frappe.db.get_value("File", letter, "one_lease_session"))
+		assert not frappe.db.get_value("File", letter, "one_lease_user")
 		assert any(call.args[0] == "onecloud_oneos" and call.args[1].get("why") == "Idle" for call in told.call_args_list)
 		assert closed.call_args.args[:2] == (demo.PM, letter)
 	for name in (letter, copy["node"]):
 		frappe.delete_doc("File", name, ignore_permissions=True, force=True)
+
+
+@check
+def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
+	"""Rania has a letter open in OneWriter, so Samir's Open in OneOS tells
+	him she is editing it there. Once her editor leaves, his session has it
+	alone: her OneWriter opens it read-only saying he is editing it in OneOS,
+	refuses her save, and no version of it is restored under him. Saves from
+	his session are one version. All undone afterwards."""
+	from urllib.parse import parse_qs, urlparse
+
+	from docx import Document
+	from werkzeug.test import EnvironBuilder
+	from werkzeug.wrappers import Request
+
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_doc import api as writing
+	from onedesk.one_doc import word
+	from onedesk.one_sheet import live
+	from onedesk.one_storage import history, lease, oneos, upload
+
+	def letter(text: str) -> bytes:
+		made = Document()
+		made.add_paragraph(text)
+		out = io.BytesIO()
+		made.save(out)
+		return out.getvalue()
+
+	def admin(endpoint, **said):
+		return {"session": "lease-check", "url": "https://os.example.com/s/lease-check?t=1.x", "state": "Running"} if endpoint.endswith("oneos_start") else {}
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	samir, rania = frappe.utils.get_fullname(demo.PM), "rania@one.test"
+	frappe.db.savepoint("lease_check")
+	try:
+		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("frappe.publish_realtime"):
+			with as_user(demo.PM):
+				file = upload._place(root, None, {"file_name": "Handover check.docx", "content": letter("Keys on Monday.")})["id"]
+				first = upload._place(root, None, {"file_name": "Handover check.docx", "content": letter("Keys on Tuesday.")}, replace=1)
+				assert first["id"] == file and len(history.versions(file)) == 1
+			with as_user(rania):
+				document = word.open_file(file)["document"]
+				assert live.admit("document", document, sid="lease-check")["write"]
+				live.here(json.dumps([["document", document]]), sid="lease-check")
+				assert lease.of(file)["mode"] == "live" and lease.of(file)["live"][0]["app"] == "OneWriter"
+			with as_user(demo.PM):
+				held = oneos.start(file)["held"]
+				assert held["by"] == frappe.utils.get_fullname(rania) and held["where"] == "OneWriter", held
+			with as_user(rania):
+				live.leave("document", document, sid="lease-check")
+			with as_user(demo.PM):
+				assert oneos.start(file)["url"], "alone once nobody is in it live"
+			start = next(call.kwargs for call in asked.call_args_list if call.args[0].endswith("oneos_start"))
+			with as_user(rania):
+				said = writing.get_document(document)
+				assert not said["can_write"] and said["notice"] == f"{samir} is editing this in OneOS.", said["notice"]
+				assert not live.admit("document", document, sid="lease-check")["write"]
+				live.leave("document", document, sid="lease-check")
+				for refused in (lambda: writing.save_document(document, "AAA=", "<p>Keys on Friday.</p>"), lambda: history.restore(file, history.versions(file)[0]["name"])):
+					try:
+						refused()
+						raise AssertionError("changed under the OneOS session")
+					except (frappe.ValidationError, frappe.PermissionError):
+						frappe.clear_last_message()
+				assert lease.of(file)["alone"] == {"by": samir, "kind": lease.ONEOS, "mine": False}
+			up = {key: one[0] for key, one in parse_qs(urlparse(start["save_url"]).query).items()}
+			was = getattr(frappe.local, "request", None)
+			try:
+				for text in ("Keys on Wednesday.", "Keys on Thursday."):
+					frappe.local.request = Request(EnvironBuilder(method="POST", data=letter(text)).get_environ())
+					assert oneos.save(**up) == {"saved": True}
+			finally:
+				frappe.local.request = was
+			assert len(history.versions(file)) == 2, "two saves in one session are one version, beside the one before it"
+			with as_user(demo.PM):
+				oneos.close(file)
+			assert not lease.blocking(file)
+	finally:
+		frappe.db.rollback(save_point="lease_check")
 
 
 @check

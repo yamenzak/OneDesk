@@ -1,6 +1,7 @@
 """A file opened in OneOS, the desktop in the browser that OneAdmin runs and
-bills (one_admin/oneos.py). The workspace keeps the lease: one person edits a
-file in OneOS at a time, and the lease lapses two minutes after OneAdmin last
+bills (one_admin/oneos.py). The workspace keeps the lease (lease.py): one
+person has a file alone in OneOS, never while somebody may write in it in
+OneWorkbook or OneWriter, and the lease lapses two minutes after OneAdmin last
 said the session runs. The container reaches the workspace only through two
 addresses sealed with the site's key, one to download this file and one to
 upload a new version of it, each good for the session's longest length."""
@@ -13,12 +14,12 @@ from urllib.parse import urlencode
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_to_date, get_datetime, get_fullname, get_url, now_datetime
+from frappe.utils import get_fullname, get_url, now_datetime
 from werkzeug.exceptions import Conflict, Forbidden, NotFound
 from werkzeug.utils import redirect
 
 from onedesk.one_admin import faults
-from onedesk.one_storage import api, office, store
+from onedesk.one_storage import api, lease, office, store
 from onedesk.one_storage import namespace as ns
 
 OPENS = office.OFFICE | {"csv"}
@@ -26,7 +27,6 @@ LEASE_SECONDS = 2 * 60
 LONGEST = 8 * 60 * 60
 MOST_BYTES = 200 * 1024 * 1024
 DOWNLOAD, UPLOAD = "file", "save"
-FIELDS = ("one_os_lease", "one_os_session", "one_os_user", "one_os_until")
 TOLD = ("Idle", "Time Limit", "No Credits", "Not Answering", "Stopped by Operator")
 
 
@@ -34,11 +34,6 @@ def opens(name: str) -> bool:
 	"""Whether a file is one OneOS opens: Word, Excel, PowerPoint,
 	OpenDocument and CSV. Pure."""
 	return "." in (name or "") and name.rsplit(".", 1)[-1].lower() in OPENS
-
-
-def live(until, now) -> bool:
-	"""Whether a lease still holds. Pure."""
-	return bool(until) and get_datetime(until) > now
 
 
 def seal(what: str, file: str, lease: str, expires: int, key: bytes) -> str:
@@ -68,9 +63,8 @@ def _address(what: str, file: str, lease: str, expires: int) -> str:
 def holder(item: dict, now=None) -> dict | None:
 	"""Who has a file open in OneOS, for its row: their name, and whether it
 	is the reader."""
-	if not item.get("one_os_user") or not live(item.get("one_os_until"), now or now_datetime()):
-		return None
-	return {"by": get_fullname(item["one_os_user"]), "mine": item["one_os_user"] == frappe.session.user}
+	held = lease.held_alone(item, now=now)
+	return {"by": held["by"], "mine": held["mine"]} if held and held["kind"] == lease.ONEOS else None
 
 
 def _openable(node: str) -> dict:
@@ -85,16 +79,16 @@ def _openable(node: str) -> dict:
 def start(node: str, copy: int = 0) -> dict:
 	"""Open a file in OneOS: the lease taken, the session started in
 	OneAdmin and the address to open in a new tab. Somebody else's lease, or
-	a file the reader may not change, answers with `held` instead, and
-	`copy` opens a copy of it."""
+	somebody in it in OneWorkbook or OneWriter, or a file the reader may not
+	change, answers with `held` instead, and `copy` opens a copy of it."""
 	item = _openable(node)
 	if int(copy or 0):
 		item = _copied(item)
 	if not ns.may(item, "write"):
-		return {"held": {"by": None, "readonly": True}}
-	lease = _take(item.name)
-	if lease.get("held"):
-		return lease
+		return {"held": {"by": None, "mine": False, "where": "OneOS", "readonly": True}}
+	taken = lease.take(item.name, lease.ONEOS, frappe.session.user, LEASE_SECONDS)
+	if taken.get("held"):
+		return taken
 	expires = int(time.time()) + LONGEST
 	from onedesk.one import account
 
@@ -104,19 +98,19 @@ def start(node: str, copy: int = 0) -> dict:
 			file=item.name,
 			file_name=item.file_name,
 			user=frappe.session.user,
-			file_url=_address(DOWNLOAD, item.name, lease["lease"], expires),
-			save_url=_address(UPLOAD, item.name, lease["lease"], expires),
-			again=lease.get("session"),
+			file_url=_address(DOWNLOAD, item.name, taken["lock"], expires),
+			save_url=_address(UPLOAD, item.name, taken["lock"], expires),
+			again=taken.get("session"),
 		)
 	except faults.Refused as refused:
-		_let_go(item.name, lease["lease"])
+		lease.release(item.name, taken["lock"])
 		frappe.db.commit()
 		frappe.throw(_plainly(refused), title=_("OneOS Not Started"))
-	frappe.db.set_value("File", item.name, "one_os_session", said["session"], update_modified=False)
+	lease.started(item.name, said["session"])
 	from onedesk.one_storage import history, live as changes
 
 	history.seen(item.name)
-	if not lease.get("session"):
+	if not taken.get("session"):
 		history.note(item.name, _("opened it in OneOS"))
 	changes.announce(item)
 	return {"url": said["url"], "node": item.name, "name": item.file_name}
@@ -136,52 +130,24 @@ def _copied(item: dict) -> dict:
 	return ns.row(made[0])
 
 
-def _take(name: str) -> dict:
-	"""The lease on a file for the reader: a new one, the reader's own still
-	running (with its session, to open again), or who else holds it."""
-	now = now_datetime()
-	held = frappe.db.get_value("File", name, list(FIELDS), as_dict=True, for_update=True)
-	if held.one_os_user and live(held.one_os_until, now):
-		if held.one_os_user != frappe.session.user:
-			return {"held": {"by": get_fullname(held.one_os_user), "readonly": False}}
-		if held.one_os_session:
-			frappe.db.set_value("File", name, "one_os_until", add_to_date(now, seconds=LEASE_SECONDS), update_modified=False)
-			return {"lease": held.one_os_lease, "session": held.one_os_session}
-	lease = frappe.generate_hash(length=20)
-	frappe.db.set_value(
-		"File",
-		name,
-		{"one_os_lease": lease, "one_os_session": None, "one_os_user": frappe.session.user, "one_os_until": add_to_date(now, seconds=LEASE_SECONDS)},
-		update_modified=False,
-	)
-	return {"lease": lease}
-
-
-def _let_go(name: str, lease: str | None = None) -> None:
-	"""The lease released, if it is still the one named."""
-	if lease and frappe.db.get_value("File", name, "one_os_lease") != lease:
-		return
-	frappe.db.set_value("File", name, dict.fromkeys(FIELDS), update_modified=False)
-
-
 @frappe.whitelist(methods=["POST"])
 def close(node: str) -> None:
 	"""The reader's own OneOS session on a file closed: the container saves
 	and stops, and the lease goes."""
 	item = api._item(node)
-	held = frappe.db.get_value("File", item.name, list(FIELDS), as_dict=True)
-	if not held.one_os_user:
+	held = lease.alone_of(item.name)
+	if not held.one_lease_user or held.one_lease_kind != lease.ONEOS:
 		return
-	if held.one_os_user != frappe.session.user and not ns.may(item, "write"):
-		frappe.throw(_("{0} is open in OneOS by {1}.").format(item.file_name, get_fullname(held.one_os_user)), frappe.PermissionError)
-	if held.one_os_session:
+	if held.one_lease_user != frappe.session.user and not ns.may(item, "write"):
+		frappe.throw(_("{0} is open in OneOS by {1}.").format(item.file_name, get_fullname(held.one_lease_user)), frappe.PermissionError)
+	if held.one_lease_session:
 		from onedesk.one import account
 
 		try:
-			account.ask("onedesk.one_admin.proxy.oneos_stop", session=held.one_os_session)
+			account.ask("onedesk.one_admin.proxy.oneos_stop", session=held.one_lease_session)
 		except faults.Refused:
 			frappe.log_error(title="Closing a OneOS session")
-	_let_go(item.name, held.one_os_lease)
+	lease.release(item.name, held.one_lease_lock)
 	from onedesk.one_storage import live as changes
 
 	changes.announce(item)
@@ -193,8 +159,7 @@ def _sealed(what: str, f: str, k: str, e: str, s: str) -> dict:
 	item = ns.row(f)
 	if not item or item.one_deleted:
 		raise NotFound
-	held = frappe.db.get_value("File", f, ["one_os_lease", "one_os_user"], as_dict=True)
-	if held.one_os_lease and held.one_os_lease != k:
+	if frappe.db.get_value("File", f, "one_lease_lock") not in (None, "", k):
 		raise Conflict
 	return item
 
@@ -228,16 +193,16 @@ def save(f: str, k: str, e: str, s: str) -> dict:
 	if hashlib.md5(content).hexdigest() == frappe.db.get_value("File", item.name, "content_hash"):
 		return {"saved": False}
 	was = frappe.session.user
-	frappe.set_user(frappe.db.get_value("File", item.name, "one_os_user") or item.owner)
+	frappe.set_user(frappe.db.get_value("File", item.name, "one_lease_user") or item.owner)
 	try:
 		api._need(item, "write")
-		_version(item, content)
+		_version(item, content, k)
 	finally:
 		frappe.set_user(was)
 	return {"saved": True}
 
 
-def _version(item: dict, content: bytes) -> None:
+def _version(item: dict, content: bytes, lock: str) -> None:
 	from onedesk.one_storage import history
 
 	doc = frappe.get_doc(
@@ -251,7 +216,7 @@ def _version(item: dict, content: bytes) -> None:
 	)
 	doc.flags.ignore_permissions = True
 	doc.insert()
-	history.replace(ns.row(item.name), doc.name)
+	history.replace(ns.row(item.name), doc.name, sitting=lock)
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
@@ -259,7 +224,7 @@ def _version(item: dict, content: bytes) -> None:
 def stopped(session: str) -> dict:
 	"""OneAdmin says a session stopped. Like account.wake it takes nothing on
 	trust: the workspace asks OneAdmin with its own token and acts on that."""
-	name = frappe.db.get_value("File", {"one_os_session": session}, "name") if session else None
+	name = frappe.db.get_value("File", {"one_lease_session": session}, "name") if session else None
 	if not name:
 		return {"ok": True}
 	was = frappe.session.user
@@ -279,42 +244,42 @@ def tick() -> None:
 	if not account.configured():
 		return
 	now = now_datetime()
-	for row in frappe.get_all("File", filters={"one_os_user": ["is", "set"]}, fields=["name", "one_os_until"]):
+	for row in frappe.get_all("File", filters={"one_lease_user": ["is", "set"], "one_lease_kind": lease.ONEOS}, pluck="name"):
 		try:
-			_look(row.name, now)
+			_look(row, now)
 			frappe.db.commit()
 		except Exception:
 			frappe.db.rollback()
-			frappe.log_error(title=f"OneOS lease on {row.name}")
+			frappe.log_error(title=f"OneOS lease on {row}")
 
 
 def _look(name: str, now=None) -> None:
 	from onedesk.one import account
 
 	now = now or now_datetime()
-	held = frappe.db.get_value("File", name, ["file_name", *FIELDS], as_dict=True)
-	if not held or not held.one_os_user:
+	held = frappe.db.get_value("File", name, ["file_name", *lease.FIELDS], as_dict=True)
+	if not held or not held.one_lease_user or held.one_lease_kind != lease.ONEOS:
 		return
-	if not held.one_os_session:
-		if not live(held.one_os_until, now):
-			_let_go(name, held.one_os_lease)
+	if not held.one_lease_session:
+		if lease.lapsed(held.one_lease_until, now):
+			lease.release(name, held.one_lease_lock)
 		return
 	try:
-		said = account.ask("onedesk.one_admin.proxy.oneos_state", session=held.one_os_session)
+		said = account.ask("onedesk.one_admin.proxy.oneos_state", session=held.one_lease_session)
 	except faults.Refused:
 		said = None
 	if said is None:
-		if not live(held.one_os_until, now):
+		if lease.lapsed(held.one_lease_until, now):
 			_ended(name, held, None)
 		return
 	if said.get("state") in ("Starting", "Running"):
-		frappe.db.set_value("File", name, "one_os_until", add_to_date(now, seconds=LEASE_SECONDS), update_modified=False)
-		warned = f"onecloud_oneos_warned:{held.one_os_session}"
+		lease.extend(name, held.one_lease_lock, LEASE_SECONDS)
+		warned = f"onecloud_oneos_warned:{held.one_lease_session}"
 		if not said.get("warn"):
 			frappe.cache.delete_value(warned)
 		elif not frappe.cache.get_value(warned):
 			frappe.cache.set_value(warned, 1, expires_in_sec=30 * 60)
-			frappe.publish_realtime("onecloud_oneos", {"file": name, "name": held.file_name, "warn": True}, user=held.one_os_user, after_commit=True)
+			frappe.publish_realtime("onecloud_oneos", {"file": name, "name": held.file_name, "warn": True}, user=held.one_lease_user, after_commit=True)
 		return
 	_ended(name, held, said.get("stop_reason"))
 
@@ -325,14 +290,14 @@ def _ended(name: str, held: dict, why: str | None) -> None:
 	from onedesk.one_storage import live as changes
 	from onedesk.one_storage import tell
 
-	_let_go(name, held.one_os_lease)
+	lease.release(name, held.one_lease_lock)
 	changes.announce(name)
 	why = why or "Not Answering"
 	frappe.publish_realtime(
 		"onecloud_oneos",
 		{"file": name, "name": held.file_name, "why": why},
-		user=held.one_os_user,
+		user=held.one_lease_user,
 		after_commit=True,
 	)
 	if why in TOLD:
-		tell.oneos_closed(held.one_os_user, name, held.file_name)
+		tell.oneos_closed(held.one_lease_user, name, held.file_name)

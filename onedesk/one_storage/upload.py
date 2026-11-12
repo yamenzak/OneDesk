@@ -95,10 +95,11 @@ def here(node: str, path: str | None = None, replace: int = 0, version_of: str |
 	return _place(node, path, {"file_name": api._clean(sent.filename) or "file", "content": content}, replace=int(replace), version_of=version_of)
 
 
-def _place(node: str, path: str | None, fields: dict, replace: int = 0, version_of: str | None = None) -> dict:
+def _place(node: str, path: str | None, fields: dict, replace: int = 0, version_of: str | None = None, sitting: str | None = None) -> dict:
 	"""The File row for something just put into `node`, making the folders
 	of a dropped folder on the way. With `replace`, a file of the same name
-	already there takes the new content and keeps the old as a version."""
+	already there takes the new content and keeps the old as a version, or
+	takes the place of the last one saved in the same `sitting`."""
 	from onedesk.one_storage import history
 
 	where = api._target(node)
@@ -139,7 +140,7 @@ def _place(node: str, path: str | None, fields: dict, replace: int = 0, version_
 	if "file_url" in fields:
 		doc.flags.copy_from_existing_file = True
 	doc.insert()
-	name = history.replace(ns.row(same), doc.name) if same else doc.name
+	name = history.replace(ns.row(same), doc.name, sitting=sitting) if same else doc.name
 	if (mimetypes.guess_type(doc.file_name)[0] or "").startswith("image/") and store.is_stored(doc.file_url):
 		frappe.enqueue(thumbnail, name=name, enqueue_after_commit=True)
 	history.seen(name)
