@@ -1,5 +1,7 @@
 # OneDesk
 
+**A run is in progress (from 12 Nov 2026): read `docs/run/RUN.md`, "Resuming", before anything else.** `python3 scripts/run.py` says where it stands.
+
 One, built **on** the Frappe desk rather than beside it. One app, one module per
 product, enabled per site.
 
