@@ -68,6 +68,7 @@
 ],
 "Accounts Settings": [
 "Accounts Manager",
+"Accounts User",
 "Purchase User",
 "Sales User"
 ],
@@ -161,6 +162,8 @@
 "System Manager"
 ],
 "Asset Capitalization": [
+"Accounts Manager",
+"Accounts User",
 "Manufacturing Manager",
 "Quality Manager",
 "Stock Manager",
@@ -201,7 +204,9 @@
 "System Manager"
 ],
 "Asset Repair": [
+"Accounts User",
 "Manufacturing Manager",
+"Manufacturing User",
 "Quality Manager",
 "Stock Manager",
 "Stock User"
@@ -250,7 +255,9 @@
 "Audit Trail": [
 "System Manager"
 ],
-"Authorization Control": [],
+"Authorization Control": [
+"System Manager"
+],
 "Authorization Rule": [
 "System Manager"
 ],
@@ -393,7 +400,6 @@
 "Brand": [
 "Accounts User",
 "Item Manager",
-"Manufacturing Manager",
 "Purchase Manager",
 "Purchase User",
 "Sales User",
@@ -548,8 +554,6 @@
 ],
 "Company Van": [
 "Item Manager",
-"Manufacturing Manager",
-"Manufacturing User",
 "Purchase Manager",
 "Purchase User",
 "Stock Manager",
@@ -1327,7 +1331,8 @@
 ],
 "Import Supplier Invoice": [
 "Accounts Manager",
-"Accounts User"
+"Accounts User",
+"System Manager"
 ],
 "Income Tax Slab": [
 "HR Manager",
@@ -1433,7 +1438,6 @@
 ],
 "Item Attribute": [
 "Item Manager",
-"Manufacturing Manager",
 "Purchase Manager",
 "Stock Manager",
 "Workspace Administrator"
@@ -1441,7 +1445,6 @@
 "Item Group": [
 "Accounts User",
 "Item Manager",
-"Manufacturing Manager",
 "Purchase Manager",
 "Purchase User",
 "Sales User",
@@ -1450,6 +1453,7 @@
 "Workspace Administrator"
 ],
 "Item Lead Time": [
+"Item Manager",
 "Manufacturing Manager",
 "Manufacturing User",
 "Purchase Manager",
@@ -1711,6 +1715,8 @@
 ],
 "Market Segment": [
 "Sales Manager",
+"Sales Master Manager",
+"Sales User",
 "Workspace Administrator"
 ],
 "Master Production Schedule": [
@@ -1789,8 +1795,6 @@
 "Employee",
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Note": [
@@ -1848,6 +1852,9 @@
 "Desk User"
 ],
 "One Admin Settings": [
+"One Operator"
+],
+"OneOS Session": [
 "One Operator"
 ],
 "Opening Invoice Creation Tool": [
@@ -2237,7 +2244,9 @@
 "HR User",
 "System Manager"
 ],
-"Push Device": [],
+"Push Device": [
+"System Manager"
+],
 "Push Notification Settings": [
 "System Manager"
 ],
@@ -2249,31 +2258,23 @@
 "Desk User",
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Quality Feedback": [
 "Desk User",
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Quality Feedback Template": [
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Quality Goal": [
 "Desk User",
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Quality Inspection": [
@@ -2303,24 +2304,18 @@
 "Desk User",
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Quality Procedure": [
 "Desk User",
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Quality Review": [
 "Desk User",
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager"
 ],
 "Queue": [
@@ -2373,7 +2368,9 @@
 "Reading Settings": [
 "Workspace Administrator"
 ],
-"Record Head": [],
+"Record Head": [
+"System Manager"
+],
 "Record Type": [
 "System Manager",
 "Workspace Administrator"
@@ -2754,6 +2751,8 @@
 "Manufacturing User",
 "Purchase Manager",
 "Purchase User",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Subcontracting Inward Order": [
@@ -2810,7 +2809,6 @@
 "Supplier Group": [
 "Accounts User",
 "Item Manager",
-"Manufacturing Manager",
 "Purchase Manager",
 "Purchase Master Manager",
 "Purchase User",
@@ -2901,6 +2899,7 @@
 "System Manager"
 ],
 "Telephony Call Type": [
+"Employee",
 "Sales Manager",
 "Sales User",
 "System Manager"
@@ -2986,12 +2985,10 @@
 "UAE VAT Settings": [
 "Accounts Manager",
 "Accounts User",
-"All",
 "System Manager"
 ],
 "UOM": [
 "Item Manager",
-"Manufacturing Manager",
 "Purchase Manager",
 "Sales Manager",
 "Sales User",
@@ -3001,7 +2998,6 @@
 ],
 "UOM Category": [
 "Item Manager",
-"Manufacturing Manager",
 "Purchase Manager",
 "Sales Manager",
 "Sales User",
@@ -3220,7 +3216,9 @@
 "System Manager",
 "Workspace Administrator"
 ],
-"Workspace Customization": [],
+"Workspace Customization": [
+"System Manager"
+],
 "Workspace Error": [
 "One Operator"
 ],
@@ -3258,7 +3256,6 @@
 },
 "kept": [
 "AI Chat",
-"AI Chunk",
 "AI Knowledge",
 "AI Proposal",
 "AI Touch",
@@ -3345,7 +3342,6 @@
 "Dashboard",
 "Dashboard Chart",
 "Dashboard Chart Source",
-"Dashboard Settings",
 "Deleted Document",
 "Delivery Note",
 "Delivery Trip",
@@ -3357,7 +3353,6 @@
 "Display Channel",
 "Display Screen",
 "Display Source",
-"Display Voice",
 "DocShare",
 "DocType",
 "DocType Layout",
@@ -3405,7 +3400,6 @@
 "Extension",
 "Face",
 "File",
-"File Link",
 "Financial Report Template",
 "Fiscal Year",
 "Flow Skill",
@@ -3427,7 +3421,6 @@
 "Industry Type",
 "Interview",
 "Interview Feedback",
-"Interview Recording",
 "Interview Type",
 "Issue",
 "Issue Priority",
@@ -3470,10 +3463,7 @@
 "Legal Document Version",
 "Letter Head",
 "List Filter",
-"List View Settings",
 "Location",
-"Mail Conversation",
-"Mail Draft",
 "Mail Folder",
 "Maintenance Schedule",
 "Maintenance Visit",
@@ -3527,7 +3517,6 @@
 "Plant Floor",
 "Portal Link",
 "Presentation",
-"Presentation Version",
 "Price List",
 "Pricing Rule",
 "Print Format",
@@ -3537,7 +3526,6 @@
 "Process Deferred Accounting",
 "Process Payment Reconciliation",
 "Process Statement Of Accounts",
-"Process Subscription",
 "Project",
 "Project Template",
 "Project Type",
@@ -3576,7 +3564,6 @@
 "Retention Bonus",
 "Role",
 "Role Profile",
-"Route History",
 "Salary Component",
 "Salary Slip",
 "Salary Structure",
@@ -3590,7 +3577,6 @@
 "Sales Stage",
 "Sales Taxes and Charges Template",
 "Salutation",
-"Scheduled Job Log",
 "Scheduled Job Type",
 "Serial No",
 "Serial and Batch Bundle",
@@ -3738,7 +3724,6 @@
 "oneadmin": [],
 "oneadmin-billing": [],
 "oneadmin-releases": [],
-"oneadmin-servers": [],
 "oneadmin-sessions": [],
 "oneadmin-status": [],
 "onecalendar": [
@@ -4718,8 +4703,6 @@
 "Review": [
 "Quality Manager",
 "Quality User",
-"Stock Manager",
-"Stock User",
 "System Manager",
 "Workspace Administrator"
 ],

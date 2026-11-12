@@ -132,8 +132,10 @@ def _counted(doctype: str) -> int:
 	"""How many a record type keeps, a virtual one's too (Activity Log and
 	Access Log are, since frappe moved its logs); one that cannot say counts
 	none."""
+	from frappe.utils.logging import connection_for
+
 	try:
-		return frappe.db.count(doctype, cache=False)
+		return connection_for(doctype).count(doctype)
 	except Exception:
 		return 0
 

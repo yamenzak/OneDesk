@@ -57,6 +57,7 @@ def run(password=None):
 			update_password(email, password)
 	for email, held in ABILITIES.items():
 		frappe.get_doc("User", email).add_roles(*held)
+	_signed_in_and_exported()
 
 	for name in {one[3] for one in PEOPLE}:
 		if not frappe.db.exists("Department", f"{name} - {_abbr()}") and not frappe.db.exists("Department", name):
@@ -170,4 +171,19 @@ def _agree():
 				for one in services.standing():
 					if not one["on"]:
 						services.switch(one["key"], 1)
+
+
+def _signed_in_and_exported() -> None:
+	"""What the people of a workspace in use leave behind: the owner has signed
+	in, and Huda exported the customers once, so the Audit Log has each kind.
+	Written at once: frappe defers an access log until the scheduler runs."""
+	from frappe.core.doctype.activity_log.activity_log import add_authentication_log
+	from frappe.utils.logging import connection_for
+
+	if not connection_for("Activity Log").count("Activity Log", {"user": OWNER}):
+		add_authentication_log("Signed in", OWNER)
+	if not connection_for("Access Log").count("Access Log", {"user": "huda@one.test"}):
+		frappe.get_doc(
+			{"doctype": "Access Log", "user": "huda@one.test", "export_from": "Customer", "file_type": "CSV", "method": "Export"}
+		).db_insert()
 
