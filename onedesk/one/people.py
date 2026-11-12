@@ -10,7 +10,7 @@ from onedesk.one import roles, tell
 from onedesk.one.access import all_levels, companion
 
 APPS = [
-	("OneCRM", "onecrm", ("Sales User", "Support Team"), ("Sales Manager", "Support Team")),
+	("OneCRM", "onecrm", ("Sales User", "Support Team"), ("Sales Manager",)),
 	("OneBook", "onebook", ("Accounts User",), ("Accounts Manager",)),
 	(
 		"OneInventory",
@@ -138,11 +138,11 @@ def one_of_the_people(user: str):
 def set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 	"""What a person may use, as frappe's roles, in one save. They are told
 	what changed, and every administrator is told of a new administrator. An
-	app everybody uses is never None."""
+	app everybody uses is never None, and everybody keeps each module's own
+	User role (one/rights.py `everyone`), whatever their level."""
 	from onedesk.one import rights
 
 	own = all_levels()
-	everybodys = set(ALWAYS) | rights.always()
 	if any(level not in LEVELS and level not in own.get(name, ()) for name, level in access.items()):
 		frappe.throw(_("That cannot be set."))
 	before = {one.role for one in doc.roles}
@@ -153,9 +153,10 @@ def set_access(doc, access: dict, admin: int, told: bool = True) -> None:
 		alone = (companion(name),)
 		ours |= set(used) | set(managed) | set(levels) | set(alone)
 		level = access.get(name) or level_of(before, used, managed, levels)
-		if name in everybodys and level == "None":
+		if name in ALWAYS and level == "None":
 			level = "User"
 		wanted |= roles_for(level, used, managed, levels, alone)
+	wanted |= {role for declared in rights.modules() if (role := getattr(declared, "EVERYONE", None))}
 	if admin:
 		wanted.add(roles.ADMINISTRATOR)
 	elif roles.ADMINISTRATOR in before:

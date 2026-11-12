@@ -217,7 +217,7 @@ Status: `[ ]` open, `[~]` in progress, `[x]` done (hash), `[!]` blocked
 - [x] P0.1 Plan, survey, log and run.py in docs/run; CLAUDE.md points here; memory points here. — `run.py` prints the ledger.
 - [x] P0.2 Wake-ups: a scheduled task that resumes this session every two hours and a daily push. — both listed; the first fires. (Scheduled tasks "Continue the arc run" trig_01DL2h4LWAuQwsMzDFAnnstx, :26 every two hours, and "Daily run update for Yamen" trig_018Xn5EaZuKLDJvx5apAD8rf, 18:17 UTC; delete both when the run ends.)
 - [x] P0.3 Prune `.claude/worktrees` whose branches are merged or empty; list the rest in LOG. — `git worktree list` shows only live ones. (29 removed 12 Nov; two left, see D1.)
-- [ ] P0.4 A run site `run.localhost` (not on the domain) for from-scratch demo builds at every gate, so one.4dl.dev keeps its data. — demo builds there from nothing and its checks run.
+- [x] P0.4 A run site `run.localhost` (not on the domain) for from-scratch demo builds at every gate, so one.4dl.dev keeps its data. — demo builds there from nothing and its checks run. (13 Nov: built from nothing, 310 of 314 on its first run.)
 - [ ] P0.5 The 12 demo checks failing on 12 Nov, each fixed where it is made or written down with a reason: intake samples, OneStudio record types and extensions, settings Audit Log kinds, atlas --site, the workspace's promises, OneMail's tour, OneInventory's stock bands, OneFactory making, the UAE tax invoice print, OneCRM late first answer, deleted records, Cloudflare from a master token. — `check.run` all green on run.localhost.
 - [ ] P0.6 Dead code from SURVEY §3: one/_tmp_q.py, the four writer components, TaskWaits.vue, one/privacy_copy.py if nothing imports it. — files gone, gates green.
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 23:19+0000\n"
-"PO-Revision-Date: 2026-11-12 23:19+0000\n"
+"POT-Creation-Date: 2026-11-12 23:25+0000\n"
+"PO-Revision-Date: 2026-11-12 23:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1901,7 +1901,7 @@ msgstr ""
 msgid "A workspace needs a slug and a domain."
 msgstr ""
 
-#: onedesk/one/people.py:174
+#: onedesk/one/people.py:175
 msgid "A workspace needs at least one administrator."
 msgstr ""
 
@@ -4005,7 +4005,7 @@ msgstr ""
 msgid "All {0} done"
 msgstr ""
 
-#: onedesk/one/people.py:225
+#: onedesk/one/people.py:226
 #, python-brace-format
 msgid "All {0} seats are in use. Disable someone or add seats to the plan."
 msgstr ""
@@ -66171,7 +66171,7 @@ msgstr ""
 msgid "address"
 msgstr ""
 
-#: onedesk/one/people.py:189
+#: onedesk/one/people.py:190
 msgid "administrator of the workspace"
 msgstr ""
 
@@ -66940,7 +66940,7 @@ msgstr ""
 msgid "no limit"
 msgstr ""
 
-#: onedesk/one/people.py:189
+#: onedesk/one/people.py:190
 msgid "no longer an administrator"
 msgstr ""
 
@@ -66949,7 +66949,7 @@ msgstr ""
 msgid "no longer only the records of {0} {1}"
 msgstr ""
 
-#: onedesk/one/people.py:186
+#: onedesk/one/people.py:187
 #, python-brace-format
 msgid "no longer {0}"
 msgstr ""
@@ -68216,17 +68216,17 @@ msgstr ""
 msgid "{0} are not in this section."
 msgstr ""
 
-#: onedesk/one/people.py:186 onedesk/one/people.py:199
+#: onedesk/one/people.py:187 onedesk/one/people.py:200
 #, python-brace-format
 msgid "{0} as a manager"
 msgstr ""
 
-#: onedesk/one/people.py:186 onedesk/one/people.py:199
+#: onedesk/one/people.py:187 onedesk/one/people.py:200
 #, python-brace-format
 msgid "{0} as a user"
 msgstr ""
 
-#: onedesk/one/people.py:187 onedesk/one/people.py:201
+#: onedesk/one/people.py:188 onedesk/one/people.py:202
 #, python-brace-format
 msgid "{0} as {1}"
 msgstr ""

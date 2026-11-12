@@ -12,7 +12,7 @@ APP = App(
 	owns=("CRM", "Selling", "Support", "Maintenance", "Telephony", "Communication"),
 	rail=80,
 	sidebar="OneCRM",
-	roles=Roles(user=("Sales User", "Support Team"), manager=("Sales Manager", "Support Team")),
+	roles=Roles(user=("Sales User", "Support Team"), manager=("Sales Manager",)),
 	screens="crm",
 	names=("one_crm", "onecrm"),
 	help=(
