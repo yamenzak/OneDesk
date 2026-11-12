@@ -1634,14 +1634,16 @@ def onecloud_an_office_file_opens_where_nothing_is_lost():
 	from onedesk.one_sheet import api as sheets
 	from onedesk.one_storage import api, opening, oneos, upload
 
-	def book(comment: bool = False) -> bytes:
-		from openpyxl.comments import Comment
+	def book(chart: bool = False) -> bytes:
+		from openpyxl.chart import BarChart, Reference
 
 		made = Workbook()
 		made.active["A1"] = "Rent"
 		made.active["B1"] = 1200
-		if comment:
-			made.active["A1"].comment = Comment("Due on the first.", "Samir")
+		if chart:
+			drawn = BarChart()
+			drawn.add_data(Reference(made.active, min_col=2, min_row=1, max_row=1))
+			made.active.add_chart(drawn, "D2")
 		out = io.BytesIO()
 		made.save(out)
 		return out.getvalue()
@@ -1651,12 +1653,12 @@ def onecloud_an_office_file_opens_where_nothing_is_lost():
 	try:
 		with mock.patch("frappe.publish_realtime"), as_user(demo.PM):
 			plain = upload._place(root, None, {"file_name": "Rent check.xlsx", "content": book()})["id"]
-			noted = upload._place(root, None, {"file_name": "Rent notes check.xlsx", "content": book(comment=True)})["id"]
+			noted = upload._place(root, None, {"file_name": "Rent notes check.xlsx", "content": book(chart=True)})["id"]
 			assert opening.weigh(plain)["loses"] == []
 			said = opening.weigh(noted)
-			assert said["loses"] == ["comments"] and said["said"] == "This file has comments OneWorkbook can't keep.", said
+			assert said["loses"] == ["charts"] and said["said"] == "This file has charts OneWorkbook can't keep.", said
 			row = next(one for one in api.listing(root)["items"] if one["id"] == noted)
-			assert row["office"] == {"edit": "workbook", "make": None, "copy": None, "loses": ["comments"]}, row["office"]
+			assert row["office"] == {"edit": "workbook", "make": None, "copy": None, "loses": ["charts"]}, row["office"]
 			macros = upload._place(root, None, {"file_name": "Rent model check.xlsm", "content": book()})["id"]
 			before = api._content(api._item(macros))
 			made = opening.one_copy(macros)
