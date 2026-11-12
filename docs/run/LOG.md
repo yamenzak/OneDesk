@@ -15,3 +15,13 @@ detail.
 - one.4dl.dev holds the demo, built from scratch today; 302 of 314 checks
   (P0.5 has the 12).
 - Branch `arcs` made from main at 203a7458.
+
+## 12 Nov 2026, 22:40
+
+- Yamen's nine points became rules in RUN.md: decide, don't wait; Deferred
+  tracked by run.py; names are code (P2.11); the app folder named for its
+  centres (P2.10); the three ways a screen is made (P2.12); OneAdmin's setup
+  sessions, analytics, agent and agent pricing (P4.10, P4.11); scoped checks
+  while working, the whole suite at gates; OneOS keeps its name (P9.4).
+- P0.2 wake-ups scheduled; P0.3 29 worktrees removed, two left (D1).
+- Next: P0.4 the run site, then P0.5 the twelve failing demo checks.

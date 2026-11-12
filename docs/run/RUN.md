@@ -43,8 +43,10 @@ reads the ledger and says where the run stands and what is next.
 - **One item, one commit (or a few), its id first:** `R2.3: …`. The ledger
   line is ticked in the same commit with the short hash of the work in the
   next one, or in a LOG commit. The commit message carries the detail.
-- **The gates for every commit:** `../../env/bin/python scripts/quick.py
-  --all` green as its own step, read before committing; `python3
+- **The gates for every commit:** the scoped checks only,
+  `../../env/bin/python scripts/quick.py` (OneLint's changed-files mode once
+  P3.1 lands), read before committing. The whole suite (`--all`) runs at a
+  phase gate and before any merge to main, not every few changes; `python3
   scripts/docs.py`, `scripts/close.py`; a module that changed gets its
   version (`scripts/version.py`, the changelog skill); a string changed is
   translated in the same commit (the wording skill).
@@ -65,8 +67,30 @@ reads the ledger and says where the run stands and what is next.
   `docs` skill; before a version `changelog`; before anything that sends
   data `legal`; a phase's closing walk is a `passthrough`.
 - **Honesty.** A gate that fails is written in the LOG as failed. A thing
-  skipped says so. A decision that is Yamen's goes in "Waiting for Yamen"
-  below with a recommendation, and the run carries on around it.
+  skipped says so.
+- **Decide, don't wait (Yamen, 12 Nov).** The run never stops for a
+  decision. It takes the most scalable, modular, future-proof choice, one
+  that holds for any number of companies and any region, writes it under
+  Decisions with its reason, and goes on. Modularity is what makes a wrong
+  call cheap to change later. A rewrite is never skipped because it is big.
+  Only what needs Yamen's own hands (real-use gates, a production key) waits.
+- **Deferred.** Putting something off is allowed only as a line under
+  "Deferred" below, `- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py
+  lists the ones due when their item comes up, and that item is not ticked
+  until they are done or moved on with a reason.
+- **Names are code (Yamen, 12 Nov).** No product, app or centre name is
+  typed as a raw string anywhere: code reads `registry.name("one_cloud")`,
+  JS `onedesk.names.of("one_cloud")`, Vue `name("one_cloud")`, words take it
+  as `{0}`. A OneLint rule fails a literal outside manifests and generated
+  files, so any name can be changed in one place.
+- **The three ways a screen is made (Yamen, standing rule).** An app on
+  ERPNext or HRMS stays as native as it can: frappe's own lists and forms,
+  customised only in regions its manifest declares (`ui="native"`,
+  `regions=…`; most were settled by the passover, check them before
+  changing any). An app that depends on nothing upstream gets bespoke
+  screens (`ui="bespoke"`), built from frappe desk and frappe-ui parts for
+  consistency. Some are mixed (`ui="mixed"`) and say which screens are
+  which. OneLint holds each to its declaration.
 - **Scope.** Something noticed outside the item goes in the module's
   SCRATCHPAD or "Noticed" below, one line. The run does not grow items
   silently: a new item is added to the ledger with its reason.
@@ -148,6 +172,21 @@ APP = App(
 
 ### Folders
 
+**An app is one self-contained folder** (decided 12 Nov, Yamen asked for a
+choice). Each part a centre reads is named for that centre, so the folder
+reads like One itself: `help/` (HelpCenter's pages, today `docs/`),
+`updates/` (UpdateCenter's versions, today `docs/changelog/`),
+`notifications.py` (NotificationCenter), `access.py` (AccessCenter, today
+abilities.py and access.py together), `trust.py` (TrustCenter, today
+legal.py), `agent.py` (AICenter and the app's agent, today ai.py),
+`shortcuts.py`, `setup.py` (SetupCenter), `control.py` (ControlCenter),
+`tour.py`, `checks.py`, `market/` (OneMarketplace's page, pictures, clips).
+The other way round (a centre folder holding a directory per app) was
+rejected: an app, a private one most of all, must be addable and removable
+as one unit, and Frappe puts an app's doctypes in its own folder anyway.
+Centres are engines that read their parts from the registry and own no
+app's content.
+
 Frappe puts a module's folder at `onedesk/<scrub(module name)>`, so folders
 stay flat. Apps are `one_<name>`; a centre that is its own module is
 `<name>_center`; engines keep their names (`one`, `one_interface`,
@@ -177,7 +216,7 @@ Status: `[ ]` open, `[~]` in progress, `[x]` done (hash), `[!]` blocked
 
 - [x] P0.1 Plan, survey, log and run.py in docs/run; CLAUDE.md points here; memory points here. — `run.py` prints the ledger.
 - [x] P0.2 Wake-ups: a scheduled task that resumes this session every two hours and a daily push. — both listed; the first fires. (Scheduled tasks "Continue the arc run" trig_01DL2h4LWAuQwsMzDFAnnstx, :26 every two hours, and "Daily run update for Yamen" trig_018Xn5EaZuKLDJvx5apAD8rf, 18:17 UTC; delete both when the run ends.)
-- [ ] P0.3 Prune `.claude/worktrees` whose branches are merged or empty; list the rest in LOG. — `git worktree list` shows only live ones.
+- [x] P0.3 Prune `.claude/worktrees` whose branches are merged or empty; list the rest in LOG. — `git worktree list` shows only live ones. (29 removed 12 Nov; two left, see D1.)
 - [ ] P0.4 A run site `run.localhost` (not on the domain) for from-scratch demo builds at every gate, so one.4dl.dev keeps its data. — demo builds there from nothing and its checks run.
 - [ ] P0.5 The 12 demo checks failing on 12 Nov, each fixed where it is made or written down with a reason: intake samples, OneStudio record types and extensions, settings Audit Log kinds, atlas --site, the workspace's promises, OneMail's tour, OneInventory's stock bands, OneFactory making, the UAE tax invoice print, OneCRM late first answer, deleted records, Cloudflare from a master token. — `check.run` all green on run.localhost.
 - [ ] P0.6 Dead code from SURVEY §3: one/_tmp_q.py, the four writer components, TaskWaits.vue, one/privacy_copy.py if nothing imports it. — files gone, gates green.
@@ -212,6 +251,9 @@ release through a thin module, removed in P2.9.
 - [ ] P2.6 one_account → account_center, Module "Account Center", including the plain "one_account" strings in hooks. — AccountCenter opens; sign-in, devices, private apps pass.
 - [ ] P2.7 Module JS and CSS into their folders (SURVEY §3, the 133 top-level files that belong to one module). — public/js top level holds only what is shared.
 - [ ] P2.8 "Intake"/"OneIntake" leave what people see (screens, Help, notifications) in favour of OneAI's reading; code names wait for P8.3, which retires it. — no user-facing Intake string.
+- [ ] P2.10 The app folder's parts named for their centres (Folders, above): docs/ → help/, docs/changelog/ → updates/, legal.py → trust.py, ai.py → agent.py, abilities.py + access.py → access.py; the readers and guards follow. — every app reads the same.
+- [ ] P2.11 Names as code: `registry.name()`, `onedesk.names.of()`, Vue `name()`; every product, app and centre name in code, JSON labels, Help and notifications reads it ({0} in words); the OneLint rule that fails a literal. — renaming an app in its manifest renames it everywhere, proven on a throwaway name on run.localhost.
+- [ ] P2.12 The three ways a screen is made, declared: each manifest says `ui` and, for native and mixed apps, its regions (from tiers.SCREENS, ready.MODULES interface and the passover's decisions); the rule that holds a native app's screens to them. — every screen is in exactly one declaration.
 - [ ] P2.9 The one-release shims removed after P2's merge has shipped. — no shim module left.
 - **Gate P2:** a guard holds the old names out of code; the release built and admin.4dl.app moved on it cleanly (its migrate log read).
 
@@ -238,6 +280,8 @@ release through a thin module, removed in P2.9.
 - [ ] P4.6 Companies in AccountCenter: make another company the way the wizard does (name, country, currency, chart, letter head). — a second company made from the screen pays payroll and invoices.
 - [ ] P4.7 SetupCenter: each app's steps done and waiting, from the registry; Getting Started tabs move here; Install lands here. — every app's steps reached from it.
 - [ ] P4.8 OneCredit: the currency is OneCredit and its amounts plain credits, everywhere (~200 strings, Help, notifications, doctype labels; "OneCredits" gone), translations with it. — no "OneCredits"; the words read right in ar/de.
+- [ ] P4.10 OneAdmin again: its setup sessions (each signup's wizard as a record operators can follow, resume and help), the funnel analytics, and its own agent (OneAdmin's operator assistant, on the P8 foundation, with the same levels). — an operator sees each signup's place in the wizard and can ask the agent about the fleet.
+- [ ] P4.11 The price calculator counts what agents cost: Durable Object requests, duration and storage, Workers, the Agents SDK's database, per agent per workspace; OneCredit's price reconsidered against it, with the margin kept (price_list.ONECREDIT, margins.py). — Plan Calculator and Price Check show agent cost; the decision on OneCredit's price is in Decisions.
 - [ ] P4.9 Private apps declared by their manifest (title, line, mark, needs, kept) instead of upload.py reading hooks with ast. — Rua's manifest drives its card.
 - **Gate P4:** a signup on the dev OneAdmin lands configured on a box that is then dropped; the demo builds from scratch through the setup job; Release Server drilled.
 
@@ -287,12 +331,13 @@ P8.3 with P6, P8.4 and P8.5 after P7.
 - [ ] P9.1 Mail scored, risky mail held with a reason, lookalike domains warned (from today's Spam/Phishing verdicts). — samples caught.
 - [ ] P9.2 Links opened in a throwaway browser and shown before anyone clicks; attachments opened, unpacked and checked in a sandbox, macros stripped (OneOS containers). — a sample link and file shown safely.
 - [ ] P9.3 Risky actions ask a second person (unusual payment, changed bank details, mass export). — each asks.
-- [ ] P9.4 Decide the containers' name: OneSandbox if it reads naturally by then. — written in Decisions.
+- [x] P9.4 Decide the containers' name. — Decided 12 Nov: OneOS keeps opening and presenting files ("Open in OneOS"); OneGuard is only the protection and uses OneOS's containers behind the scenes; nobody opens a file "in OneGuard". Names are code (P2.11), so this can change in one place.
 
 ### P10. Brand
 
-Runs beside P5 onwards. Drafts are proposals for Yamen; each lands as a
-SVG in brand/ only after his look, unless it replaces nothing.
+Runs beside P5 onwards. Marks are made and shipped like any other
+decision; Yamen can redraw any later, since marks are read from the
+registry.
 
 - [ ] P10.1 The One circle family: OneHub, OneCredit (gold rim, the 1 struck like the euro), SetupCenter and every centre, AICenter from OneAI's mark refined. — drafts in a page for review.
 - [ ] P10.2 Apps: OneChat, OneMarketplace, OneGuard, OneDoc, OneSheet, OneDeck; redo OneFactory, OnePortal, OneQuality. — drafts for review.
@@ -316,11 +361,27 @@ SVG in brand/ only after his look, unless it replaces nothing.
   folders; apps keep `one_<name>`; Presentation and Workbook doctypes keep
   their names; a demo rebuild for a gate happens on run.localhost, not on
   one.4dl.dev.
+- 12 Nov, Yamen (second message): start without waiting; decide every
+  open question for scale and modularity and record it; track deferrals;
+  names are code; OneAdmin gains setup sessions, analytics and its own
+  agent, and the calculator counts Durable Objects and re-prices OneCredit;
+  scoped checks while working, the whole suite at gates; the three ways a
+  screen is made.
+- 12 Nov, Claude: an app is one self-contained folder whose parts are named
+  for their centres (Folders); OneOS keeps its name for opening files and
+  OneGuard is protection only (P9.4).
 
 ## Waiting for Yamen
 
+Only what needs his own hands:
+
 - The real-use gates of P8.1 and P8.2 (50 real invoices; a week on OneChat).
-- The brand drafts (P10).
+
+## Deferred
+
+(`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
+
+- [ ] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it.
 
 ## Noticed
 

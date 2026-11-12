@@ -11,6 +11,7 @@ from pathlib import Path
 
 RUN = Path(__file__).resolve().parent.parent / "docs" / "run" / "RUN.md"
 ITEM = re.compile(r"^- \[(?P<mark>.)\] (?P<id>P(?P<phase>\d+)\.\d+) (?P<text>.*)$")
+DEFERRED = re.compile(r"^- \[(?P<mark>.)\] (?P<id>D\d+) (?P<text>.*?) — at (?P<at>P\d+\.\d+):")
 CLOSED = {"x", "-"}
 AFTER = {"P8.1": "P3", "P8.2": "P5", "P8.3": "P6", "P8.4": "P7", "P8.5": "P7", "P10.1": "P4"}
 """An item that waits for a whole phase before it may start."""
@@ -53,6 +54,10 @@ def main() -> None:
 		for one in waiting:
 			print("open   ", short(one), "" if may_start(one, all_items) else f"(after {AFTER[one['id']]})")
 		return
+	deferred = [m.groupdict() for m in map(DEFERRED.match, RUN.read_text().splitlines()) if m and m["mark"] not in CLOSED]
+	here = {one["id"] for one in doing} | ({ready[0]["id"]} if ready else set())
+	for one in deferred:
+		print("deferred", one["id"], "due" if one["at"] in here else f"at {one['at']}", one["text"][:90])
 	if ready:
 		print("next   ", short(ready[0]))
 	elif not doing:
