@@ -1,5 +1,7 @@
 # OneAI, rebuilt, and AICenter
 
+What is built here stays; where OneAI goes next, one agent per module under Una, is `docs/ARC-AI.md`.
+
 OneAI is rebuilt from the ground up. We choose the models, they live in code,
 every call goes through Cloudflare's AI Gateway in one request shape, and a
 workspace sets OneAI up in **AICenter**, a centre like AccessCenter and
