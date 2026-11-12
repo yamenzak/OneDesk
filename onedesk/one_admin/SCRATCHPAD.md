@@ -13,3 +13,9 @@ What is known to be wrong and what is planned, kept short.
 - **The rail's tour** uses the window's own marks; Home draws none yet.
 - **Keeping a form.** Home's waiting rows still open the record's own form;
   they move to ControlCenter's tabs when Home is reworked.
+- **A connected server as a development machine.** Later: Connect Server
+  could also offer "Development", running `deploy/local/setup.sh` and the
+  rescue kit beside the copies' container, then New Test Workspace and
+  `link.sh` for its site, so a new dev bench is one command like a copies
+  server. Kept apart as today: the bench under its own user, copies under
+  `one-copies`.
