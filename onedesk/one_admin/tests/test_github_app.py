@@ -272,3 +272,12 @@ def test_a_bucket_keeps_its_cors_rules_once_they_are_ours():
 	assert setup.same_cors({"rules": setup.CORS["rules"]}, setup.CORS)
 	assert not setup.same_cors({"rules": []}, setup.CORS)
 	assert not setup.same_cors(None, setup.CORS)
+
+
+def test_a_failed_wrangler_run_shows_its_error_before_its_configuration():
+	from onedesk.one_admin import setup
+
+	said = setup.wrangler_said('✘ [ERROR] Image registry.cloudflare.com/acc/one-os:abc does not exist\n{\n  "configuration": {\n    "image": "x"\n  }\n}')
+	assert said.startswith("✘ [ERROR] Image") and "configuration" not in said
+	assert setup.image_missing(said)
+	assert setup.wrangler_said("plain failure") == "plain failure"

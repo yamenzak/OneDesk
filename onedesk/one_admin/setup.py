@@ -150,6 +150,14 @@ GUARDRAILS = {
 OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "needs attention"
 
 
+def wrangler_said(output: str, most: int = 600) -> str:
+	"""What a failed wrangler run said: its error lines first, since it
+	prints its configuration after them. Pure."""
+	lines = [one.strip() for one in output.splitlines() if one.strip()]
+	errors = [one for one in lines if "ERROR" in one or one.startswith(("✘", "X [ERROR"))]
+	return (" ".join(errors) or " ".join(lines))[:most]
+
+
 def same_cors(held, wanted: dict) -> bool:
 	"""Whether a bucket's CORS rules are already ours. Pure."""
 	return bool(held) and (held.get("rules") or []) == wanted["rules"]
@@ -988,7 +996,7 @@ class Setup:
 			except subprocess.TimeoutExpired as slow:
 				raise Refused(_("wrangler took too long: {0}").format(slow.cmd[1])) from slow
 			except subprocess.CalledProcessError as failed:
-				raise Refused(((failed.stderr or "") + (failed.stdout or "")).strip()[-600:]) from failed
+				raise Refused(wrangler_said((failed.stderr or "") + (failed.stdout or ""))) from failed
 		return deployed.stdout + deployed.stderr
 
 	def kv_binding(self) -> dict:
