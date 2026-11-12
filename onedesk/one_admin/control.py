@@ -51,6 +51,7 @@ AREAS = (
 	("addresses", "globe", ("worker one-tenant-router", "dns", "route", "certificate", "fallback origin")),
 	("mail", "mail", ("worker one-mail", "worker one-testmail", "mail routing", "test mail routing", "catch-all", "mail sending", "sender")),
 	("storage", "database", ("bucket", "domain ", "backup lock")),
+	("github", "github", ("github",)),
 	("services", "server", ()),
 )
 WORST = ("failed", "needs attention")

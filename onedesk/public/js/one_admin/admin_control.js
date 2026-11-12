@@ -194,6 +194,7 @@ onedesk.admin.drawAreas = ($into, data, { busy, done, master }) => {
 		addresses: __("Workspace Addresses"),
 		mail: __("Mail"),
 		storage: __("Storage and Backups"),
+		github: __("GitHub"),
 		services: __("Services"),
 	};
 	const tiles = (data.areas || [])
@@ -267,11 +268,18 @@ onedesk.admin.drawGitHub = ($into, github, done) => {
 		: github.app
 		? frappe.ui.button({ label: __("Install App"), icon: "github", variant: "solid", onclick: () => (window.location.href = github.install_url) })
 		: frappe.ui.button({ label: __("Connect GitHub"), icon: "github", variant: "solid", onclick: connect });
-	const note =
-		github.installed && github.personal
-			? `<p class="text-muted small mt-2">${__("The personal token is no longer used and can be cleared.")}</p>`
-			: "";
-	$into.empty().append($tile, $(`<div class="d-flex"></div>`).append(action), note);
+	const secrets = !github.installed
+		? ""
+		: !github.production
+		? __("The repository's secrets are left to production.")
+		: github.secrets.length
+		? __("Secrets written: {0}", [github.secrets.join(", ")])
+		: __("No secrets written yet. Press Set Up Again on the Cloudflare tab.");
+	const notes = [secrets, github.installed && github.personal ? __("The personal token is no longer used and can be cleared.") : ""]
+		.filter(Boolean)
+		.map((one) => `<p class="text-muted small mt-2">${esc(one)}</p>`)
+		.join("");
+	$into.empty().append($tile, $(`<div class="d-flex"></div>`).append(action), notes);
 };
 
 onedesk.admin.setupTable = (said) => {

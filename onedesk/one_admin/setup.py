@@ -54,6 +54,12 @@ KEEPER_NEEDS = (("Workers R2 Storage Write", "Workers R2 Storage Edit"),)
 WATCHER = "one-watch"
 WATCHER_NEEDS = (("Email Sending*",),)
 WATCHER_CRON = "*/5 * * * *"
+IMAGES = "OneOS Images"
+IMAGES_NEEDS = (
+	("Account Settings Read",),
+	("Workers Containers Write", "Workers Containers Edit"),
+	("Cloudchamber*",),
+)
 RUN = "Setup"
 RUN_NEEDS = (
 	("Account Settings Read",),
@@ -237,6 +243,7 @@ class Setup:
 			self.sender_sending,
 			self.sender_account,
 			self.ai_gateway,
+			self.github,
 			self.office,
 			self.oneos,
 			self.backups,
@@ -776,6 +783,28 @@ class Setup:
 		if not same(held.get("policies") or [], wanted) or held.get("status") != "active":
 			self.call("PUT", f"/user/tokens/{held['id']}", token=self.master, json={"name": called, "policies": wanted, "status": "active"})
 		return self.call("PUT", f"/user/tokens/{held['id']}/value", token=self.master, json={})["result"]
+
+	def github(self) -> None:
+		"""The repository's Actions secrets, written through the GitHub App
+		(github_app.put_secret): the account and the OneOS Images token the
+		image workflow pushes with, rolled on every run and never kept here,
+		and the release workflow's two (github_app.write_release). Only
+		production writes them, since dev shares the repository."""
+		from onedesk.one_admin import faults, github_app
+
+		if self.env:
+			return self.note("github", THEIRS, _("left to production"))
+		if not github_app.connected():
+			return self.note("github", WAITING, _("Connect GitHub, then set up again."))
+		try:
+			github_app.put_secret("CLOUDFLARE_ACCOUNT_ID", self.account)
+			github_app.put_secret("CLOUDFLARE_CONTAINERS_TOKEN", self.rolled_token(IMAGES, IMAGES_NEEDS))
+			written = ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_CONTAINERS_TOKEN", *github_app.write_release()]
+		except faults.Refused as refused:
+			raise Refused(str(refused)) from refused
+		except requests.RequestException as reason:
+			raise Refused(_("GitHub did not answer: {0}. Set up again.").format(reason)) from reason
+		self.note("github", OURS, ", ".join(written))
 
 	def keeper(self) -> None:
 		"""The keeper Worker (deploy/keeper): the only way into the backup

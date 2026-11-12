@@ -3,9 +3,13 @@ personal token. GitHub makes the app from the manifest the button posts and
 hands back its private key, which goes to the config; the app is installed on
 the repository; and whatever needs the code is given a token minted for one
 hour that reads that repository only. The personal token is still used until
-the app is installed (AGENTS.md, Under the hood, GitHub)."""
+the app is installed. Production's OneAdmin also writes the repository's
+Actions secrets through it, so nobody pastes one (AGENTS.md, Under the hood,
+GitHub)."""
 
+import base64
 import json
+import re
 import secrets
 import time
 from urllib.parse import urlencode, urlparse
@@ -30,6 +34,8 @@ STATE_FOR = 3600
 SIGNED_FOR = 300
 NAME_LONGEST = 34
 TIMEOUT = 30
+WRITTEN = "one_github_secrets"
+SECRET_NAME = re.compile(r"^(?!GITHUB_)[A-Z_][A-Z0-9_]*$")
 FIELDS = ("github_app_name", "github_app_slug", "github_app_id", "github_installation_id", "github_installed_on")
 
 
@@ -39,17 +45,18 @@ def name_for(host: str) -> str:
 
 
 def manifest(name: str, admin_url: str) -> dict:
-	"""What GitHub makes the app from: reading the code, nothing else. Pure."""
+	"""What GitHub makes the app from: reading the code and writing the
+	Actions secrets, nothing else. Pure."""
 	base = admin_url.rstrip("/")
 	return {
 		"name": name,
 		"url": base,
-		"description": "Reads One's code for the servers OneAdmin builds.",
+		"description": "Reads One's code for the servers OneAdmin builds, and writes the secrets its workflows use.",
 		"redirect_url": f"{base}/api/method/{RETURN_TO}",
 		"setup_url": f"{base}/api/method/{INSTALLED}",
 		"setup_on_update": True,
 		"public": False,
-		"default_permissions": {"contents": "read", "metadata": "read"},
+		"default_permissions": {"contents": "read", "metadata": "read", "secrets": "write"},
 		"default_events": [],
 		"hook_attributes": {"url": base, "active": False},
 	}
@@ -103,9 +110,38 @@ def installation_url(repository: str) -> str:
 	return f"{API}/repos/{repository}/installation"
 
 
-def token_asked(installation: str, repository: str) -> tuple[str, dict]:
-	"""The installation token's request: one repository, read only. Pure."""
-	return f"{API}/app/installations/{installation}/access_tokens", {"repositories": [repository.split("/")[-1]], "permissions": {"contents": "read"}}
+def token_asked(installation: str, repository: str, permissions: dict | None = None) -> tuple[str, dict]:
+	"""The installation token's request: one repository, read only unless
+	other permissions are named. Pure."""
+	return f"{API}/app/installations/{installation}/access_tokens", {"repositories": [repository.split("/")[-1]], "permissions": permissions or {"contents": "read"}}
+
+
+def public_key_url(repository: str) -> str:
+	"""Where GitHub gives the key a repository's Actions secrets are sealed
+	to. Pure."""
+	return f"{API}/repos/{repository}/actions/secrets/public-key"
+
+
+def secret_url(repository: str, name: str) -> str:
+	"""Where one Actions secret is written. Pure."""
+	if not SECRET_NAME.match(name or ""):
+		raise ValueError(f"{name} is not a name GitHub takes for a secret.")
+	return f"{API}/repos/{repository}/actions/secrets/{name}"
+
+
+def sealed(public_key: str, value: str) -> str:
+	"""A value sealed to the repository's key with libsodium's sealed box, as
+	GitHub asks, in base64. Pure."""
+	from nacl.public import PublicKey, SealedBox
+
+	return base64.b64encode(SealedBox(PublicKey(base64.b64decode(public_key))).encrypt(value.encode())).decode()
+
+
+def secret_body(key: dict, value: str) -> dict:
+	"""The body that writes a secret, from what `public_key_url` answered. Pure."""
+	if not (key.get("key") and key.get("key_id")):
+		raise ValueError("GitHub did not return the repository's key.")
+	return {"encrypted_value": sealed(key["key"], value), "key_id": key["key_id"]}
 
 
 def token_of(answered: dict) -> dict:
@@ -134,7 +170,20 @@ def status() -> dict:
 		"repository": held["github_installed_on"] or boxes.REPOSITORY,
 		"install_url": install_url(held["github_app_slug"]) if held["github_app_slug"] else None,
 		"personal": bool(vault.get(PERSONAL)),
+		"production": production(),
+		"secrets": sorted(written()),
 	}
+
+
+def production() -> bool:
+	"""Whether this is production's OneAdmin, which leaves Environment empty.
+	Only it writes the repository's secrets: dev shares the repository."""
+	return not (frappe.db.get_single_value(SETTINGS, "environment") or "").strip()
+
+
+def written() -> dict:
+	"""The secrets written to the repository, each with when."""
+	return json.loads(frappe.db.get_default(WRITTEN) or "{}")
 
 
 def _only() -> None:
@@ -186,6 +235,11 @@ def installed(installation_id: str | None = None, setup_action: str | None = Non
 	_only()
 	_found()
 	frappe.db.commit()
+	if production():
+		try:
+			write_release()
+		except (faults.Refused, requests.RequestException):
+			frappe.log_error(title="Writing the release secrets to GitHub")
 	frappe.local.response["type"] = "redirect"
 	frappe.local.response["location"] = BACK_TO
 
@@ -217,17 +271,57 @@ def _found() -> None:
 	frappe.db.set_single_value(SETTINGS, {"github_installation_id": str(answered.json()["id"]), "github_installed_on": boxes.REPOSITORY})
 
 
-def repository_token(repository: str = boxes.REPOSITORY) -> dict | None:
-	"""A token that reads the repository for an hour, or None while the app
-	is not installed."""
+def connected() -> bool:
+	return bool(frappe.db.get_single_value(SETTINGS, "github_installation_id"))
+
+
+def repository_token(repository: str = boxes.REPOSITORY, permissions: dict | None = None) -> dict | None:
+	"""A token for the repository for an hour, reading it unless other
+	permissions are named, or None while the app is not installed."""
 	installation = frappe.db.get_single_value(SETTINGS, "github_installation_id")
 	if not installation:
 		return None
-	url, body = token_asked(installation, repository)
+	url, body = token_asked(installation, repository, permissions)
 	answered = requests.post(url, json=body, headers=headers(_jwt()), timeout=TIMEOUT)
 	if not answered.ok:
-		raise faults.Refused(f"GitHub gave no token for {repository}: {answered.text[:300]}")
+		raise faults.Refused(f"GitHub gave no token for {repository}: {answered.text[:300]}", status=answered.status_code)
 	return token_of(answered.json())
+
+
+def put_secret(name: str, value: str, repository: str = boxes.REPOSITORY) -> None:
+	"""One Actions secret written to the repository with a token that may
+	write its secrets and nothing else, sealed to the repository's key."""
+	try:
+		minted = repository_token(repository, {"secrets": "write"})
+	except faults.Refused as refused:
+		if refused.status == 422:
+			raise faults.Refused(
+				_("The GitHub App may not write secrets yet. On GitHub, give it Secrets: Read and write, accept the change on its installation, then set up again.")
+			) from refused
+		raise
+	if not minted:
+		raise faults.Refused(_("Connect GitHub first."))
+	asked = headers(minted["token"])
+	key = requests.get(public_key_url(repository), headers=asked, timeout=TIMEOUT)
+	if not key.ok:
+		raise faults.Refused(f"GitHub gave no key for {repository}'s secrets: {key.text[:300]}")
+	put = requests.put(secret_url(repository, name), json=secret_body(key.json(), value), headers=asked, timeout=TIMEOUT)
+	if not put.ok:
+		raise faults.Refused(f"GitHub did not take {name}: {put.text[:300]}")
+	frappe.db.set_default(WRITTEN, json.dumps({**written(), name: frappe.utils.now()}))
+	frappe.db.commit()
+
+
+def write_release() -> list[str]:
+	"""The release workflow's two secrets: this site's address, and the secret
+	it signs `releases.released` with, made here when there is none."""
+	from onedesk.one_admin.releases import RELEASE_SECRET
+
+	secret = frappe.conf.get(RELEASE_SECRET) or secrets.token_urlsafe(32)
+	vault.keep(RELEASE_SECRET, secret)
+	put_secret("ONE_RELEASE_SECRET", secret)
+	put_secret("ONE_ADMIN_URL", frappe.utils.get_url().rstrip("/"))
+	return ["ONE_RELEASE_SECRET", "ONE_ADMIN_URL"]
 
 
 def for_boxes(keys: dict) -> str:

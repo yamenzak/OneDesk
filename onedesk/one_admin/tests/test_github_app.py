@@ -1,6 +1,8 @@
 """Connect GitHub's manifest, the app's JWT and the token it is exchanged for
-(one_admin/github_app.py), and the agent's request for one (deploy/server/agent.py)."""
+(one_admin/github_app.py), the Actions secrets it writes, and the agent's
+request for one (deploy/server/agent.py)."""
 
+import base64
 import hashlib
 import hmac
 import importlib.util
@@ -12,8 +14,9 @@ import jwt
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
+from nacl.public import PrivateKey, SealedBox
 
-from onedesk.one_admin import github_app
+from onedesk.one_admin import faults, github_app, setup
 
 AGENT = Path(__file__).resolve().parents[3] / "deploy" / "server" / "agent.py"
 
@@ -25,9 +28,9 @@ def _agent():
 	return agent
 
 
-def test_the_manifest_asks_to_read_the_code_and_nothing_else():
+def test_the_manifest_asks_to_read_the_code_and_write_secrets_and_nothing_else():
 	made = github_app.manifest("One admin.example.com", "https://admin.example.com/")
-	assert made["default_permissions"] == {"contents": "read", "metadata": "read"}
+	assert made["default_permissions"] == {"contents": "read", "metadata": "read", "secrets": "write"}
 	assert made["default_events"] == [] and made["hook_attributes"]["active"] is False and made["public"] is False
 	assert made["url"] == "https://admin.example.com"
 	assert made["redirect_url"] == f"https://admin.example.com/api/method/{github_app.RETURN_TO}"
@@ -72,6 +75,104 @@ def test_the_token_reads_one_repository_only():
 	assert github_app.token_of({"token": "ghs_x", "expires_at": "2026-11-11T13:00:00Z", "permissions": {}}) == {"token": "ghs_x", "expires_at": "2026-11-11T13:00:00Z"}
 	with pytest.raises(ValueError):
 		github_app.token_of({"message": "Bad credentials"})
+
+
+def test_a_secret_is_sealed_to_the_repositorys_key():
+	held = PrivateKey.generate()
+	key = {"key_id": "k1", "key": base64.b64encode(bytes(held.public_key)).decode()}
+	body = github_app.secret_body(key, "s3cret")
+	assert body["key_id"] == "k1"
+	assert SealedBox(held).decrypt(base64.b64decode(body["encrypted_value"])) == b"s3cret"
+	with pytest.raises(ValueError):
+		github_app.secret_body({"key_id": "k1"}, "s3cret")
+	assert github_app.public_key_url("o/r") == "https://api.github.com/repos/o/r/actions/secrets/public-key"
+	assert github_app.secret_url("o/r", "ONE_ADMIN_URL") == "https://api.github.com/repos/o/r/actions/secrets/ONE_ADMIN_URL"
+	for wrong in ("GITHUB_TOKEN", "one", "A-B", "../x", ""):
+		with pytest.raises(ValueError):
+			github_app.secret_url("o/r", wrong)
+
+
+class _Answer:
+	def __init__(self, status: int, body: dict | None = None):
+		self.status_code, self.ok, self._body, self.text = status, 200 <= status < 300, body or {}, json.dumps(body or {})
+
+	def json(self):
+		return self._body
+
+
+class _Db:
+	def __init__(self):
+		self.defaults = {}
+
+	def get_default(self, key):
+		return self.defaults.get(key)
+
+	def set_default(self, key, value):
+		self.defaults[key] = value
+
+	def commit(self):
+		pass
+
+
+def test_put_secret_mints_a_secrets_token_reads_the_key_and_puts_the_sealed_value(monkeypatch):
+	held = PrivateKey.generate()
+	asked, calls = [], []
+	monkeypatch.setattr(github_app, "repository_token", lambda repository, permissions=None: asked.append((repository, permissions)) or {"token": "ghs_w"})
+	monkeypatch.setattr(
+		github_app.requests,
+		"get",
+		lambda url, **kw: calls.append(("GET", url, kw)) or _Answer(200, {"key_id": "k9", "key": base64.b64encode(bytes(held.public_key)).decode()}),
+	)
+	monkeypatch.setattr(github_app.requests, "put", lambda url, **kw: calls.append(("PUT", url, kw)) or _Answer(201))
+	db = _Db()
+	monkeypatch.setattr(github_app.frappe, "db", db, raising=False)
+	github_app.put_secret("CLOUDFLARE_ACCOUNT_ID", "acc", repository="o/r")
+	assert asked == [("o/r", {"secrets": "write"})]
+	(get, url_get, kw_get), (put, url_put, kw_put) = calls
+	assert (get, url_get, put, url_put) == ("GET", "https://api.github.com/repos/o/r/actions/secrets/public-key", "PUT", "https://api.github.com/repos/o/r/actions/secrets/CLOUDFLARE_ACCOUNT_ID")
+	assert kw_get["headers"]["Authorization"] == kw_put["headers"]["Authorization"] == "Bearer ghs_w"
+	assert kw_put["json"]["key_id"] == "k9"
+	assert SealedBox(held).decrypt(base64.b64decode(kw_put["json"]["encrypted_value"])) == b"acc"
+	assert "CLOUDFLARE_ACCOUNT_ID" in json.loads(db.defaults[github_app.WRITTEN])
+
+
+def test_put_secret_says_so_when_the_app_may_not_write_secrets(monkeypatch):
+	def refused(repository, permissions=None):
+		raise faults.Refused("not granted", status=422)
+
+	monkeypatch.setattr(github_app, "repository_token", refused)
+	monkeypatch.setattr(github_app, "_", lambda text: text)
+	with pytest.raises(faults.Refused, match="Secrets: Read and write"):
+		github_app.put_secret("ONE_ADMIN_URL", "https://admin.example.com")
+	monkeypatch.setattr(github_app, "repository_token", lambda repository, permissions=None: {"token": "t"})
+	monkeypatch.setattr(github_app.requests, "get", lambda url, **kw: _Answer(200, {"key_id": "k", "key": base64.b64encode(bytes(PrivateKey.generate().public_key)).decode()}))
+	monkeypatch.setattr(github_app.requests, "put", lambda url, **kw: _Answer(403, {"message": "Resource not accessible by integration"}))
+	with pytest.raises(faults.Refused, match="did not take ONE_ADMIN_URL"):
+		github_app.put_secret("ONE_ADMIN_URL", "https://admin.example.com")
+
+
+def test_the_images_token_may_push_containers_on_the_account_only():
+	groups = [
+		{"id": "a", "name": "Account Settings Read", "scopes": [setup.ACCOUNT]},
+		{"id": "c", "name": "Workers Containers Write", "scopes": [setup.ACCOUNT]},
+		{"id": "w", "name": "Workers Scripts Write", "scopes": [setup.ACCOUNT]},
+		{"id": "z", "name": "Zone Read", "scopes": [setup.ZONE]},
+	]
+	wanted, missing = setup.policies(groups, setup.IMAGES_NEEDS, "acc", ["zone"], [])
+	assert missing == []
+	assert wanted == [{"effect": "allow", "permission_groups": [{"id": "a"}, {"id": "c"}], "resources": {f"{setup.ACCOUNT}.acc": "*"}}]
+	assert setup.token_for_env(None, setup.IMAGES) == "[one-prod] OneOS Images"
+
+
+def test_only_production_writes_the_repositorys_secrets(monkeypatch):
+	said = []
+	run = setup.Setup.__new__(setup.Setup)
+	run.env = "dev"
+	run.note = lambda step, state, detail="": said.append((step, state, detail))
+	monkeypatch.setattr(setup, "_", lambda text: text)
+	monkeypatch.setattr(github_app, "put_secret", lambda *a, **kw: pytest.fail("dev wrote a secret"))
+	run.github()
+	assert said == [("github", setup.THEIRS, "left to production")]
 
 
 def test_a_box_is_believed_only_within_five_minutes():
