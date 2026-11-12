@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+"""One OneOS session (deploy/oneos/README.md): the file the workspace signed
+for is downloaded, opened in LibreOffice for as long as the session lasts,
+and sent back to the workspace each time it is saved. The Worker reads
+GET /state on port 3100 (input idle seconds, last save) and POSTs it to
+save before the session is stopped."""
+
+import datetime
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import threading
+import time
+import urllib.request
+import uuid
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+
+STATE_PORT = 3100
+HOME = Path(os.environ.get("HOME") or "/config")
+FOLDER = HOME / "Documents"
+PROFILE = HOME / ".config" / "libreoffice" / "4" / "user"
+DEFAULTS = Path("/defaults/one/registrymodifications.xcu")
+TRIES = (2, 5, 15, 0)
+SAVE_WAIT = 20
+
+
+def named(given: str) -> str:
+	"""The file's name as it is kept here: its last part only, never empty."""
+	name = Path((given or "").replace("\\", "/")).name.strip()
+	return name if name and name not in (".", "..") else "document"
+
+
+class Session:
+	def __init__(self):
+		self.file_url = os.environ["ONE_FILE_URL"]
+		self.save_url = os.environ["ONE_SAVE_URL"]
+		self.path = FOLDER / named(os.environ.get("ONE_FILE_NAME", ""))
+		self.ready = False
+		self.failed = None
+		self.saved_at = None
+		self.sent = None
+		self.saves = 0
+		self.sending = threading.Lock()
+
+	def state(self) -> dict:
+		return {"ready": self.ready, "failed": self.failed, "idle_seconds": idle(), "saved_at": self.saved_at, "saves": self.saves}
+
+	def fetch(self) -> None:
+		FOLDER.mkdir(parents=True, exist_ok=True)
+		if self.path.exists():
+			self.sent = digest(self.path)
+			return
+		for wait in TRIES:
+			try:
+				with urllib.request.urlopen(self.file_url, timeout=120) as answered, open(f"{self.path}.part", "wb") as kept:
+					shutil.copyfileobj(answered, kept)
+				os.replace(f"{self.path}.part", self.path)
+				self.sent = digest(self.path)
+				return
+			except OSError as failed:
+				print(f"download failed: {failed}", flush=True)
+				if not wait:
+					raise
+				time.sleep(wait)
+
+	def send(self) -> None:
+		"""The file as it is now, to the workspace, unless it is what was
+		last sent."""
+		with self.sending:
+			if not self.path.exists():
+				return
+			now = digest(self.path)
+			if now == self.sent:
+				return
+			body, kind = multipart(self.path)
+			for wait in TRIES:
+				try:
+					asked = urllib.request.Request(self.save_url, data=body, method="POST", headers={"Content-Type": kind})
+					with urllib.request.urlopen(asked, timeout=120) as answered:
+						answered.read()
+					self.sent = now
+					self.saves += 1
+					self.saved_at = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+					return
+				except OSError as failed:
+					print(f"upload failed: {failed}", flush=True)
+					if not wait:
+						return
+					time.sleep(wait)
+
+	def watch(self) -> None:
+		watcher = subprocess.Popen(
+			["inotifywait", "-m", "-q", "-e", "close_write", "-e", "moved_to", "--format", "%f", str(FOLDER)],
+			stdout=subprocess.PIPE,
+			text=True,
+		)
+		for line in watcher.stdout:
+			if line.rstrip("\n") == self.path.name:
+				self.send()
+
+	def open(self) -> None:
+		"""LibreOffice on the file, opened again if it is closed."""
+		while True:
+			try:
+				subprocess.run(["soffice", "--nologo", "--norestore", "--nofirststartwizard", str(self.path)], check=False)
+			except OSError as failed:
+				print(f"LibreOffice did not start: {failed}", flush=True)
+				time.sleep(5)
+			time.sleep(1)
+
+	def save(self) -> dict:
+		"""Before a stop: LibreOffice asked to save what is open, then the file
+		sent if it changed."""
+		was = self.path.stat().st_mtime if self.path.exists() else 0
+		try:
+			pressed = subprocess.run(
+				["xdotool", "search", "--onlyvisible", "--class", "libreoffice", "windowactivate", "--sync", "key", "--clearmodifiers", "ctrl+s"],
+				check=False,
+				capture_output=True,
+				timeout=10,
+			).returncode == 0
+		except (OSError, subprocess.SubprocessError):
+			pressed = False
+		if pressed:
+			until = time.monotonic() + SAVE_WAIT
+			while time.monotonic() < until and self.path.exists() and self.path.stat().st_mtime == was:
+				time.sleep(0.5)
+			time.sleep(1)
+		self.send()
+		return self.state()
+
+
+def digest(path: Path) -> str:
+	return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def multipart(path: Path) -> tuple[bytes, str]:
+	"""The file as a form's `file` field, as Frappe's uploads take it."""
+	boundary = uuid.uuid4().hex
+	quoted = path.name.replace('"', "%22")
+	head = f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="{quoted}"\r\nContent-Type: application/octet-stream\r\n\r\n'
+	return head.encode() + path.read_bytes() + f"\r\n--{boundary}--\r\n".encode(), f"multipart/form-data; boundary={boundary}"
+
+
+def idle() -> int | None:
+	"""Seconds since the last key or mouse movement on the desktop."""
+	try:
+		said = subprocess.run(["xprintidle"], check=True, capture_output=True, text=True, timeout=5).stdout
+		return int(said.strip()) // 1000
+	except (OSError, ValueError, subprocess.SubprocessError):
+		return None
+
+
+def profile() -> None:
+	PROFILE.mkdir(parents=True, exist_ok=True)
+	if not (PROFILE / "registrymodifications.xcu").exists() and DEFAULTS.exists():
+		shutil.copy(DEFAULTS, PROFILE / "registrymodifications.xcu")
+
+
+def server(session: Session) -> ThreadingHTTPServer:
+	class State(BaseHTTPRequestHandler):
+		def answer(self, body: dict) -> None:
+			sent = json.dumps(body).encode()
+			self.send_response(200)
+			self.send_header("Content-Type", "application/json")
+			self.send_header("Content-Length", str(len(sent)))
+			self.end_headers()
+			self.wfile.write(sent)
+
+		def do_GET(self):
+			if self.path != "/state":
+				return self.send_error(404)
+			self.answer(session.state())
+
+		def do_POST(self):
+			if self.path != "/state":
+				return self.send_error(404)
+			self.answer(session.save() if session.ready else session.state())
+
+		def log_message(self, *args):
+			return
+
+	return ThreadingHTTPServer(("0.0.0.0", STATE_PORT), State)
+
+
+def main() -> None:
+	session = Session()
+	try:
+		answering = server(session)
+	except OSError:
+		print("a session is already running here", flush=True)
+		return
+	threading.Thread(target=answering.serve_forever, daemon=True).start()
+	profile()
+	try:
+		session.fetch()
+	except OSError:
+		session.failed = "the file could not be downloaded"
+		threading.Event().wait()
+	threading.Thread(target=session.watch, daemon=True).start()
+	threading.Thread(target=session.open, daemon=True).start()
+	session.ready = True
+	threading.Event().wait()
+
+
+if __name__ == "__main__":
+	main()

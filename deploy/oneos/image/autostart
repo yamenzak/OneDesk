@@ -1,0 +1,1 @@
+/usr/local/bin/one-session >> "$HOME/one-session.log" 2>&1 &

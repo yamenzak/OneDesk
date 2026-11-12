@@ -616,6 +616,14 @@ next to its changes, and a job lists the rows it wrote.
   minutes after, at its credit rate, at least 1 credit (`office.py`,
   `deploy/office/README.md`). The first conversion after a deploy waits a few
   minutes while Cloudflare places the container.
+- **OneOS**: the step after deploys `one-os` (`one-os-dev` on dev), where a
+  file opened in OneOS runs on a desktop in its own container, and keeps its
+  address here and its secret in the vault. Its image is not built here: the
+  OneOS image workflow pushes it to the account's Cloudflare registry when
+  `deploy/oneos/image` changes, tagged with that folder's tree id, and the
+  step names that tag. The repository needs `CLOUDFLARE_ACCOUNT_ID` and
+  `CLOUDFLARE_CONTAINERS_TOKEN` as Actions secrets for it
+  (`deploy/oneos/README.md`).
 - **Sender Email** (noreply@4dl.app): where One's own emails come from, such
   as sign-in links, signups and customer notices. Set Up Cloudflare turns on
   sending for its domain and makes it this site's outgoing account, so those

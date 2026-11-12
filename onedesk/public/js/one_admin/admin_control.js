@@ -31,6 +31,7 @@ onedesk.AdminSection = class AdminSection extends onedesk.CenterSection {
 						"cloudflare_kv",
 						"cloudflare_token",
 						"office_url",
+						"oneos_url",
 						"backup_bucket",
 						"keeper_url",
 						"release_at",

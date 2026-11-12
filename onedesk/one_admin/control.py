@@ -32,6 +32,7 @@ HOLDS = {
 		"mail_domain",
 		"sender_email",
 		"office_url",
+		"oneos_url",
 		"backup_bucket",
 		"keeper_url",
 		"config_copy_key",

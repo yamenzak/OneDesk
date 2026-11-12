@@ -218,7 +218,7 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 	fake = FakeCloudflare()
 	kept = {}
 	settings = frappe.get_doc("One Admin Settings")
-	was = {field: settings.get(field) for field in ("cloudflare_account", "cloudflare_zone", "cloudflare_kv", "bucket_global", "bucket_eu", "r2_key_id", "cloudflare_deployed", "cloudflare_setup", "ai_gateway", "office_url", "backup_bucket", "keeper_url")}
+	was = {field: settings.get(field) for field in ("cloudflare_account", "cloudflare_zone", "cloudflare_kv", "bucket_global", "bucket_eu", "r2_key_id", "cloudflare_deployed", "cloudflare_setup", "ai_gateway", "office_url", "oneos_url", "backup_bucket", "keeper_url")}
 	for field in was:
 		frappe.db.set_single_value("One Admin Settings", field, None)
 	with patch("requests.request", side_effect=fake), patch.object(frappe.db, "commit"), patch("time.sleep"), patch.object(setup, "master", return_value="MASTER"), patch("frappe.publish_realtime"), patch.object(vault, "keep", side_effect=kept.__setitem__), patch.object(vault, "get", side_effect=kept.get), patch.object(vault, "forget_master") as forgot, patch.object(setup.Setup, "wrangle", return_value="Deployed https://one-office.acc1.workers.dev"):
@@ -245,6 +245,7 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 		assert ai["value"] == held and held.endswith("-2"), "the token whose secret was lost is rolled, and the new one saved, in the config"
 		assert forgot.called, "the master key is forgotten when a run ends"
 		assert kept["office_secret"] and frappe.db.get_single_value("One Admin Settings", "office_url") == "https://one-office.acc1.workers.dev"
+		assert kept["oneos_secret"] and kept["oneos_secret"] != kept["office_secret"] and frappe.db.get_single_value("One Admin Settings", "oneos_url"), "OneOS has its own secret"
 		admin = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAdmin")
 		assert {key for policy in admin["policies"] for key in policy["resources"]} == {"com.cloudflare.api.account.acc1", "com.cloudflare.api.account.zone.zone1"}, "OneAdmin is narrowed to what was found"
 		storage = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAdmin Storage")

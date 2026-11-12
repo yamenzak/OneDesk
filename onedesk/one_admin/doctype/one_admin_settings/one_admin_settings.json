@@ -29,6 +29,8 @@
   "cloudflare_deployed",
   "office_url",
   "office_secret",
+  "oneos_url",
+  "oneos_secret",
   "backup_bucket",
   "keeper_url",
   "config_copy_key",
@@ -205,6 +207,20 @@
    "fieldname": "office_secret",
    "fieldtype": "Password",
    "label": "Office Containers Secret",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "oneos_url",
+   "fieldtype": "Data",
+   "label": "OneOS",
+   "read_only": 1,
+   "description": "Set Up Cloudflare deploys it. Files opened in OneOS run on a desktop there."
+  },
+  {
+   "fieldname": "oneos_secret",
+   "fieldtype": "Password",
+   "label": "OneOS Secret",
    "read_only": 1,
    "hidden": 1
   },
@@ -445,7 +461,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-11 12:00:00.000000",
+ "modified": "2026-11-12 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

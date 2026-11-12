@@ -41,6 +41,12 @@ OFFICE = "one-office"
 OFFICE_IMAGE = "docker.io/gotenberg/gotenberg:8"
 OFFICE_TYPE = "standard-1"
 OFFICE_MOST = 2
+OFFICE_FILES = ("worker.js", "package.json")
+ONEOS = "one-os"
+ONEOS_IMAGE = "registry.cloudflare.com/{account}/one-os:{tag}"
+ONEOS_TYPE = "standard-1"
+ONEOS_MOST = 10
+ONEOS_FILES = ("worker.js", "guard.js", "package.json")
 DEPLOYED_AT = re.compile(r"https://[\w.-]+\.workers\.dev")
 BACKUPS = "one-backups"
 KEEPER = "one-keeper"
@@ -232,6 +238,7 @@ class Setup:
 			self.sender_account,
 			self.ai_gateway,
 			self.office,
+			self.oneos,
 			self.backups,
 			self.keeper,
 			self.watcher,
@@ -841,40 +848,49 @@ class Setup:
 		both kept in the settings. Done again only when the code or the
 		image changes."""
 		name = for_env(self.env, OFFICE)
-		source = DEPLOY / "office"
-		wanted = hashlib.sha256(
-			"".join((source / one).read_text() for one in ("worker.js", "package.json")).encode() + f"{OFFICE_IMAGE}{OFFICE_TYPE}{OFFICE_MOST}".encode()
-		).hexdigest()
+		config = wrangler_config(name, "Office", "OFFICE", OFFICE_IMAGE, OFFICE_TYPE, OFFICE_MOST)
+		self.contained("office", name, DEPLOY / "office", OFFICE_FILES, config, f"{OFFICE_IMAGE}{OFFICE_TYPE}{OFFICE_MOST}")
+
+	def oneos(self) -> None:
+		"""OneOS (deploy/oneos): a desktop in the browser for each session,
+		each in a container of its own. Cloudflare pulls the image the OneOS
+		image workflow pushed to the account's registry, tagged with the
+		image folder's tree id, so the Worker runs the image of the code it
+		was deployed with. Done again only when either changes."""
+		name = for_env(self.env, ONEOS)
+		source = DEPLOY / "oneos"
+		image = ONEOS_IMAGE.format(account=self.account, tag=tree_hash(source / "image"))
+		config = wrangler_config(name, "Session", "OS", image, ONEOS_TYPE, ONEOS_MOST)
+		self.contained("oneos", name, source, ONEOS_FILES, config, f"{image}{ONEOS_TYPE}{ONEOS_MOST}")
+
+	def contained(self, field: str, name: str, source: Path, files: tuple, config: dict, image: str) -> None:
+		"""A Worker with containers, deployed with wrangler, which hands
+		Cloudflare the image to pull, then its secret put, and both kept:
+		the address in `<field>_url`, the secret in the vault as
+		`<field>_secret`. Done again only when the code or the image
+		changes."""
+		wanted = hashlib.sha256("".join((source / one).read_text() for one in files).encode() + image.encode()).hexdigest()
 		held = json.loads(self.settings.cloudflare_deployed or "{}")
-		secret = vault.get("office_secret")
-		if held.get(name) == wanted and self.settings.office_url and secret:
-			return self.note(f"office {name}", OURS)
+		secret = vault.get(f"{field}_secret")
+		if held.get(name) == wanted and self.settings.get(f"{field}_url") and secret:
+			return self.note(f"{field} {name}", OURS)
 		secret = secret or secrets.token_urlsafe(32)
-		said = self.wrangle(name, source, secret)
+		said = self.wrangle(source, files, config, secret)
 		found = DEPLOYED_AT.search(said)
 		if not found:
 			raise Refused(_("wrangler did not say where {0} is").format(name))
-		self.own("office_secret", secret)
-		self.own("office_url", found[0], secret=False)
+		self.own(f"{field}_secret", secret)
+		self.own(f"{field}_url", found[0], secret=False)
 		held[name] = wanted
 		self.own("cloudflare_deployed", json.dumps(held), secret=False)
-		self.note(f"office {name}", MADE, found[0])
+		self.note(f"{field} {name}", MADE, found[0])
 
-	def wrangle(self, name: str, source: Path, secret: str) -> str:
+	def wrangle(self, source: Path, files: tuple, config: dict, secret: str) -> str:
 		"""npm install and wrangler deploy in a room of its own, as OneAdmin's
 		token: what wrangler said."""
-		config = {
-			"name": name,
-			"main": "worker.js",
-			"compatibility_date": COMPATIBILITY_CONTAINERS,
-			"containers": [{"class_name": "Office", "image": OFFICE_IMAGE, "instance_type": OFFICE_TYPE, "max_instances": OFFICE_MOST}],
-			"durable_objects": {"bindings": [{"name": "OFFICE", "class_name": "Office"}]},
-			"migrations": [{"tag": "v1", "new_sqlite_classes": ["Office"]}],
-			"observability": {"enabled": True},
-		}
 		env = {**os.environ, "CLOUDFLARE_API_TOKEN": self.token, "CLOUDFLARE_ACCOUNT_ID": self.account, "WRANGLER_SEND_METRICS": "false", "CI": "1"}
 		with tempfile.TemporaryDirectory() as room:
-			for one in ("worker.js", "package.json"):
+			for one in files:
 				shutil.copy(source / one, room)
 			Path(room, "wrangler.jsonc").write_text(json.dumps(config, indent=1))
 			try:
@@ -965,6 +981,37 @@ def for_env(env: str | None, name: str) -> str:
 	"""What Set Up Cloudflare calls a thing it makes: the name itself in
 	production, the name and the environment anywhere else. Pure."""
 	return f"{name}-{env}" if env else name
+
+
+def wrangler_config(name: str, kind: str, binding: str, image: str, size: str, most: int) -> dict:
+	"""wrangler.jsonc for a Worker whose Durable Object class `kind` runs a
+	container of `image`, reached as `binding`. Pure."""
+	return {
+		"name": name,
+		"main": "worker.js",
+		"compatibility_date": COMPATIBILITY_CONTAINERS,
+		"containers": [{"class_name": kind, "image": image, "instance_type": size, "max_instances": most}],
+		"durable_objects": {"bindings": [{"name": binding, "class_name": kind}]},
+		"migrations": [{"tag": "v1", "new_sqlite_classes": [kind]}],
+		"observability": {"enabled": True},
+	}
+
+
+def tree_hash(folder: Path) -> str:
+	"""The id the repository gives a folder's tree (`rev-parse HEAD:<folder>`),
+	worked out from the files themselves, so a server without the
+	repository's history names the image the workflow pushed. Pure."""
+	entries = []
+	for one in sorted(folder.iterdir(), key=lambda path: path.name + ("/" if path.is_dir() else "")):
+		if one.is_dir():
+			mode, sha = "40000", tree_hash(one)
+		else:
+			data = one.read_bytes()
+			mode = "100755" if os.access(one, os.X_OK) else "100644"
+			sha = hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
+		entries.append(f"{mode} {one.name}".encode() + b"\0" + bytes.fromhex(sha))
+	body = b"".join(entries)
+	return hashlib.sha1(b"tree %d\0" % len(body) + body).hexdigest()
 
 
 def token_for_env(env: str | None, name: str) -> str:
