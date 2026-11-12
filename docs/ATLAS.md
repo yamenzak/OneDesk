@@ -547,7 +547,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3 |  |
 | Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
-| File | through a form's link (Presentation: file) | everybody | class, events, 18 fields | no | taught |  | yes |  |  |  | Added to a Library, Closed in OneOS, Deleted While Open, File Ready, Shared With You |
+| File | through a form's link (Presentation: file) | everybody | class, events, 19 fields | no | taught |  | yes |  |  |  | Added to a Library, Closed in OneOS, Deleted While Open, File Ready, Shared With You |
 | File Blob | engine: a file's bytes under frappe's second way of storing files, which One leaves off; One keeps files in OneCloud | **nobody** | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Language | through a form's link (Print Format: default_print_language) | everybody | untouched | no | general |  | yes |  |  |  |  |

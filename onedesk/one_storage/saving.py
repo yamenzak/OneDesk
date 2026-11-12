@@ -2,9 +2,11 @@
 place without losing what nobody chose to lose: read-only for macros and
 older formats, Save Over Original or Save as Copy for a file with parts the
 editor drops (fidelity.py), and a note on One's own record of what a save
-from the drive left out. README, Under the hood, Nothing lost silently."""
+from the drive or OneOS left out. README, Under the hood, Nothing lost
+silently."""
 
 import json
+from contextlib import contextmanager
 
 import frappe
 from frappe import _
@@ -51,9 +53,34 @@ def dropped(raw) -> str | None:
 	said = raw if isinstance(raw, dict) else json.loads(raw) if raw else None
 	if not said or not said.get("what"):
 		return None
-	return _("{0} saved this from the drive on {1}. Its {2} could not be kept. What it held before is in Version History.").format(
-		get_fullname(said.get("by")), frappe.utils.format_datetime(said.get("on"), "d MMM, HH:mm"), fidelity.named(said["what"])
+	line = (
+		_("{0} saved this in OneOS on {1}. Its {2} could not be kept. What it held before is in Version History.")
+		if said.get("in") == lease.ONEOS
+		else _("{0} saved this from the drive on {1}. Its {2} could not be kept. What it held before is in Version History.")
 	)
+	return line.format(get_fullname(said.get("by")), frappe.utils.format_datetime(said.get("on"), "d MMM, HH:mm"), fidelity.named(said["what"]))
+
+
+@contextmanager
+def through(kind: str):
+	"""A save coming in through the alone lease its writer holds, OneOS or
+	a lock on the drive, which the lease does not refuse."""
+	was = frappe.flags.one_lease_through
+	frappe.flags.one_lease_through = kind
+	try:
+		yield
+	finally:
+		frappe.flags.one_lease_through = was
+
+
+def before(usual: str) -> str:
+	"""The name of the version kept before an outside save: `usual`, or
+	that it came from OneOS."""
+	return _("Before a OneOS save") if frappe.flags.one_lease_through == lease.ONEOS else usual
+
+
+def _let_through(alone: dict | None) -> bool:
+	return bool(alone and alone["mine"] and alone["kind"] == frappe.flags.one_lease_through)
 
 
 def check(doctype: str, name: str, item: dict) -> None:
@@ -61,7 +88,7 @@ def check(doctype: str, name: str, item: dict) -> None:
 	while it opens read-only."""
 	found = frappe.db.get_value(doctype, name, ["source_kind", "would_lose"], as_dict=True) or frappe._dict()
 	alone = lease.blocking(item["name"])
-	if alone:
+	if alone and not _let_through(alone):
 		frappe.throw(lease.told(alone), frappe.PermissionError)
 	why = _read_only(found, item)
 	if why:
@@ -158,8 +185,8 @@ def set_aside(doctype: str, name: str, url: str) -> bool:
 
 
 def outside(doctype: str, name: str, found: list[str]) -> None:
-	"""What a save from the drive into One's own record left out."""
-	said = {"what": found, "by": frappe.session.user, "on": str(now_datetime())} if found else None
+	"""What a save from the drive or OneOS into One's own record left out."""
+	said = {"what": found, "by": frappe.session.user, "on": str(now_datetime()), "in": frappe.flags.one_lease_through} if found else None
 	frappe.db.set_value(doctype, name, "outside_dropped", json.dumps(said) if said else None, update_modified=False)
 
 

@@ -1,10 +1,10 @@
 """A file opened in OneOS, the desktop in the browser that OneAdmin runs and
-bills (one_admin/oneos.py). The workspace keeps the lease (lease.py): one
-person has a file alone in OneOS, never while somebody may write in it in
-OneWorkbook or OneWriter, and the lease lapses two minutes after OneAdmin last
-said the session runs. The container reaches the workspace only through two
-addresses sealed with the site's key, one to download this file and one to
-upload a new version of it, each good for the session's longest length."""
+bills (one_admin/oneos.py): the lease (lease.py) taken alone, never while
+somebody may write in it live, and two addresses sealed with the site's key
+for the container, one to download the file and one to save it. A
+workbook, document or presentation of One's own goes as the office file the
+drive serves and each save comes back into it. README, Under the hood,
+OneOS."""
 
 import hashlib
 import hmac
@@ -19,7 +19,7 @@ from werkzeug.exceptions import Conflict, Forbidden, NotFound
 from werkzeug.utils import redirect
 
 from onedesk.one_admin import faults
-from onedesk.one_storage import api, lease, office, store
+from onedesk.one_storage import api, lease, office, opening, saving, store
 from onedesk.one_storage import namespace as ns
 
 OPENS = office.OFFICE | {"csv"}
@@ -79,9 +79,18 @@ def holder(item: dict, now=None) -> dict | None:
 def _openable(node: str) -> dict:
 	item = api._item(node)
 	api._need(item, "read")
-	if item.is_folder or not opens(item.file_name) or ns._document(item) or ns._workbook(item) or ns._presentation(item):
+	own = opening.own_of(item)
+	if item.is_folder or not (own or opens(item.file_name)):
 		frappe.throw(_("{0} can't be opened in OneOS.").format(item.file_name))
+	why = own and opening.kept_inside(*own)
+	if why:
+		frappe.throw(why, title=_("OneOS Not Started"))
 	return item
+
+
+def _named(item: dict) -> str:
+	own = opening.own_of(item)
+	return opening.office_name(item, own[0]) if own else item.file_name
 
 
 @frappe.whitelist(methods=["POST"])
@@ -107,7 +116,7 @@ def start(node: str, copy: int = 0) -> dict:
 		said = account.ask(
 			"onedesk.one_admin.proxy.oneos_start",
 			file=item.name,
-			file_name=item.file_name,
+			file_name=_named(item),
 			user=frappe.session.user,
 			file_url=_address(DOWNLOAD, item.name, taken["lock"], expires),
 			save_url=_address(UPLOAD, item.name, taken["lock"], expires),
@@ -124,7 +133,7 @@ def start(node: str, copy: int = 0) -> dict:
 	if not taken.get("session"):
 		history.note(item.name, _("opened it in OneOS"))
 	changes.announce(item)
-	return {"url": said["url"], "node": item.name, "name": item.file_name}
+	return {"url": said["url"], "node": item.name, "name": _named(item)}
 
 
 def _plainly(refused: faults.Refused) -> str:
@@ -181,6 +190,15 @@ def file(f: str, k: str, e: str, s: str):
 	"""The file a session opens, for its container: redirected to a signed
 	R2 address, or sent from the disk."""
 	item = _sealed(DOWNLOAD, f, k, e, s)
+	own = opening.own_of(item)
+	if own:
+		frappe.local.response.filename = opening.office_name(item, own[0])
+		made = _as(item, lambda: opening.exported(*own))
+		frappe.cache.set_value(f"onecloud_oneos_saved:{k}", hashlib.md5(made).hexdigest(), expires_in_sec=LONGEST)
+		frappe.local.response.filecontent = made
+		frappe.local.response.type = "download"
+		frappe.local.response.display_content_as = "attachment"
+		return
 	if store.is_stored(item.file_url):
 		return redirect(store.signed(store.key_of(item.file_url), filename=item.file_name, inline=False), 302)
 	frappe.local.response.filename = item.file_name
@@ -201,15 +219,46 @@ def save(f: str, k: str, e: str, s: str) -> dict:
 		frappe.throw(_("No file was uploaded."))
 	if len(content) > MOST_BYTES:
 		frappe.throw(_("{0} is over {1} MB.").format(item.file_name, MOST_BYTES // 1024 // 1024))
+	own = opening.own_of(item)
+	if own:
+		return _into_own(item, own, content, k)
 	if hashlib.md5(content).hexdigest() == frappe.db.get_value("File", item.name, "content_hash"):
 		return {"saved": False}
+
+	def kept():
+		api._need(item, "write")
+		_version(item, content, k)
+
+	_as(item, kept)
+	return {"saved": True}
+
+
+def _as(item: dict, then):
+	"""`then`, as the person who opened the file in OneOS."""
 	was = frappe.session.user
 	frappe.set_user(frappe.db.get_value("File", item.name, "one_lease_user") or item.owner)
 	try:
-		api._need(item, "write")
-		_version(item, content, k)
+		return then()
 	finally:
 		frappe.set_user(was)
+
+
+def _into_own(item: dict, own: tuple[str, str], content: bytes, lock: str) -> dict:
+	"""A save from OneOS read back into One's own, as a save from the drive
+	is (dav.write_own): once for each content a session sends."""
+	held = f"onecloud_oneos_saved:{lock}"
+	sent = hashlib.md5(content).hexdigest()
+	if frappe.cache.get_value(held) == sent:
+		return {"saved": False}
+	from onedesk.one_storage import dav
+
+	def kept():
+		api._need(item, "write")
+		with saving.through(lease.ONEOS):
+			dav.write_own({own[0]: own[1]}, content)
+
+	_as(item, kept)
+	frappe.cache.set_value(held, sent, expires_in_sec=LONGEST)
 	return {"saved": True}
 
 

@@ -256,7 +256,7 @@ def write(name: str, content: bytes) -> None:
 	heard = []
 	html = read(name, content, heard)
 	if held.html:
-		versions.new_version(name, held.html, _("Before a Word save"))
+		versions.new_version(name, held.html, saving.before(_("Before a Word save")))
 	frappe.db.set_value(api.DOCUMENT, name, {"html": html, "content": None, "byte_size": len(html.encode("utf-8"))}, update_modified=True)
 	saving.outside(api.DOCUMENT, name, dropped(content, heard, own=True))
 
