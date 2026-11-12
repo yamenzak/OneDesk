@@ -1048,11 +1048,11 @@ MODULES = {
 		"names": ("one_doc", "onedoc"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
 		},
 		"windowless": "A document opens from OneCloud in an editor that fills the window, so OneWriter's foot and settings are OneCloud's.",
 		"help": (
@@ -1072,11 +1072,11 @@ MODULES = {
 		"names": ("one_sheet", "onesheet"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
 		},
 		"windowless": "A workbook opens from OneCloud in an editor that fills the window, so OneWorkbook's foot and settings are OneCloud's.",
 		"help": (
