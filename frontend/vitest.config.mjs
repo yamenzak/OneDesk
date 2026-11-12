@@ -5,5 +5,5 @@ import { slideSeams } from './src/slide/seams.mjs'
 
 export default {
   plugins: [slideSeams, sheetSeams, writerSeams, vue()],
-  test: { environment: 'jsdom', include: ['src/**/*.test.{js,ts}'] },
+  test: { environment: 'jsdom', include: ['src/**/*.test.{js,ts}'], setupFiles: ['fake-indexeddb/auto'], server: { deps: { inline: ['frappe-ui'] } } },
 }

@@ -16,6 +16,16 @@ const MOST = 60;
 
 let presentation = "";
 let timer = null;
+let asked = false;
+
+export function readRulers() {
+	if (asked) return;
+	asked = true;
+	userSettings
+		.get("Presentation")
+		.then((said) => (rulersShown.value = Boolean(said?.rulers)))
+		.catch(() => {});
+}
 
 export function loadGuides(doc) {
 	presentation = doc?.name || "";
@@ -27,11 +37,6 @@ export function loadGuides(doc) {
 	}
 	guides.value = Array.isArray(kept) ? kept : [];
 }
-
-userSettings
-	.get("Presentation")
-	.then((said) => (rulersShown.value = Boolean(said?.rulers)))
-	.catch(() => {});
 
 export function toggleRulers() {
 	rulersShown.value = !rulersShown.value;

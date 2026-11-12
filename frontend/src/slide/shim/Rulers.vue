@@ -56,7 +56,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } 
 import { inReadonlyMode } from "../stores/presentation";
 import { slideBounds } from "../stores/slide";
 import { frame } from "./frame.js";
-import { addGuide, guides, moveGuide, rulersShown } from "./guides.js";
+import { addGuide, guides, moveGuide, readRulers, rulersShown } from "./guides.js";
 import { __ } from "./words.js";
 import { count } from "../../kit/desk";
 
@@ -176,6 +176,9 @@ const observe = async () => {
 };
 watch(rulersShown, (shown) => shown && observe());
 watch(() => [slideBounds.left, slideBounds.top], measure);
-onMounted(observe);
+onMounted(() => {
+	readRulers();
+	observe();
+});
 onBeforeUnmount(() => watcher?.disconnect());
 </script>

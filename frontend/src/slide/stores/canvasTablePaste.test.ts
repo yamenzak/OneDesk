@@ -68,7 +68,7 @@ const readCells = (content: string) =>
 
 const readSpans = (content: string) =>
 	Array.from(new DOMParser().parseFromString(content, 'text/html').querySelectorAll('td')).map(
-		(cell) => `${cell.getAttribute('colspan')}x${cell.getAttribute('rowspan')}`,
+		(cell) => `${cell.colSpan}x${cell.rowSpan}`,
 	)
 
 const readTds = (content: string) =>

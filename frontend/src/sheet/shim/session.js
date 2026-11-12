@@ -1,10 +1,10 @@
 // What Suite's session store gave the editor, read from the desk's own session.
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 import { person } from "../../kit/desk";
 
-export const fullName = ref(person().fullName);
-export const imageURL = ref(person().image);
+export const fullName = computed(() => person().fullName);
+export const imageURL = computed(() => person().image);
 
 export const getSessionUser = () => person().name;
 

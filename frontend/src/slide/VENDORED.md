@@ -17,7 +17,13 @@ presentation as it shares any file) and the offline copy: `service-worker.js`,
 `stores/offlineCopy.js`, `components/OfflineCopyButton.vue`,
 `utils/pinTargets.ts` and `utils/serviceWorker.ts`, with their tests.
 
-Suite's unit tests are kept beside what they test. They need vitest with jsdom.
+Suite's unit tests are kept beside what they test. They run with vitest and
+jsdom (`frontend/vitest.config.mjs`), which also loads `fake-indexeddb/auto`
+for the drafts store in `stores/saving.js`. Two read what One changed rather
+than Suite's exact text: `canvasTablePaste.test.ts` reads a cell's span from
+the DOM, since the tiptap we run leaves out `colspan="1"`, and
+`slideshowScrollGuard.test.ts` finds the slideshow's root by position, since
+One's root covers the window (`fixed inset-0`).
 
 ## Seams: where Suite's shell is replaced, without editing the import
 
