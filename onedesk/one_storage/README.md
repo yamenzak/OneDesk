@@ -111,10 +111,11 @@ dialog that isn't attached to a record goes to your My Files.
   free or to a shape, turn it, flip it, straighten it, set its width, and
   change its brightness, contrast and saturation. **Save** keeps the old one
   as a version; **Save as Copy** makes a new file beside it.
-- A Word, Excel, PowerPoint or OpenDocument file opened in the viewer offers
-  **Preview**: it is turned into a PDF to read there, for 1 credit, and the
-  same file previews free for the rest of the day. **Convert to PDF** in its
-  right-click menu saves the PDF beside it.
+- A Word, Excel, PowerPoint or OpenDocument file that OneWorkbook or
+  OneWriter can't show as it is opens as a PDF preview straight away, for 1
+  credit. Each version of a file is turned into a PDF once, so opening it
+  again is free. Other files in the viewer offer **Preview**. **Convert to
+  PDF** in its right-click menu saves the PDF beside it.
 - **Open** a PowerPoint file to make it a presentation in OneSlide, beside
   it. A Word file opens in OneWriter and an Excel file in OneWorkbook.
 - **Combine into PDF…** puts the PDFs and pictures you chose into one new
@@ -408,10 +409,20 @@ there until you choose:
 
 If a new version of the file arrives before you choose, your changes are
 kept as a copy beside it, named for you, such as *Budget (Huda's copy)*.
+Until you choose, clicking the file opens it in the editor with the bar.
 
-A workbook or document made in One and saved from Excel or Word on the
-drive keeps what it was as a version first. If the file had something One
-doesn't keep, the bar says so the next time it is opened.
+### Workbooks, documents and presentations made in One
+
+| Made in | Clicking it | **Edit** offers |
+| --- | --- | --- |
+| OneWorkbook | OneWorkbook | **Edit in OneWorkbook**, **Edit in OneOS**, **Download as Excel** |
+| OneWriter | OneWriter | **Edit in OneWriter**, **Edit in OneOS**, **Download as Word** |
+| OneSlide | OneSlide | **Edit in OneSlide**, **Edit in OneOS**, **Download as PowerPoint** |
+
+A workbook, document or presentation made in One and saved from Excel,
+Word or PowerPoint on the drive, or in OneOS, keeps what it was as a
+version first. If the file had something One doesn't keep, the bar says so
+the next time it is opened.
 
 A private file opens only for you and for people who can see the record it's
 attached to. Anyone else who gets the link sees nothing. Public files, such
@@ -421,6 +432,11 @@ as a logo on a web page or an image in an email, open for anyone.
 
 OneOS is a desktop in the browser. It opens a Word, Excel, PowerPoint,
 OpenDocument or CSV file in a full office app, without installing anything.
+A workbook, document or presentation made in One opens there as an Excel,
+Word or PowerPoint file, and each save comes back into it, with what it was
+before kept in **Version History** as *Before a OneOS save*. A workbook of a
+record's table, a document with a record's fields and a presentation with
+words from records are edited only in their own editor.
 
 1. Open the file and choose **Edit › Edit in OneOS**, or right-click it
    and choose **Edit in OneOS**.
@@ -545,6 +561,29 @@ time limit, credits, not answering, an operator) is a toast through
 `onecloud_oneos` and the **Closed in OneOS** notification. Read-only for
 somebody else's lease is the viewer, since the container has no read-only
 mode yet.
+
+A workbook, document or presentation of One's own (`opening.own_of`) goes
+to the container as the file the drive serves (`opening.exported`:
+`excel.xlsx`, `word.docx`, `drive.pptx`, named by `opening.office_name`),
+and `save` reads each one back with `dav.write_own`, as a drive save does,
+inside `saving.through(lease.ONEOS)`: the editors' `saving.check` lets the
+lease's own holder through, the version kept first is named by
+`saving.before` ("Before a OneOS save"; a workbook's is still Excel's own),
+and `saving.outside` notes `in` so the bar says OneOS. The drive's save of
+its own lock goes through `saving.through(lease.DAV)` the same way. A save
+is once per content a session sends (`onecloud_oneos_saved:<lock>`, seeded
+with what `file` sent). `start` refuses what `opening.kept_inside` names, the
+same three the drive refuses. `opening.download` is Edit's **Download as**.
+
+**Previews** (`office.py`). A preview is billed when OneAdmin converts it.
+The PDF is kept by the version's content: in the cache for a day, and in R2
+under `previews/<content_hash>.pdf` (on the disk under
+`private/onecloud-previews` where there is no store), with the File's
+`one_preview_of` naming the version it was made from, so the listing says
+`previewed` and the viewer opens it as the PDF without asking. The viewer
+opens the clicked file as its PDF when the editors can't show it
+(`opening.row` has no `edit`, or `loses` is not empty); `weigh` says
+`waiting` when the editor holds changes back, and then the editor opens.
 
 ### One lease per file (lease.py)
 

@@ -2,7 +2,9 @@
 OneWorkbook or OneWriter when it has nothing they would drop, else as its
 exact PDF; Edit there, Edit in OneOS or a copy of One's own. What the
 editor would drop is read once for each version of the file and kept on
-it. README, Under the hood, Opening an office file."""
+it. A workbook, document or presentation of One's own leaves as the Excel,
+Word or PowerPoint file the drive serves. README, Under the hood, Opening
+an office file."""
 
 import io
 import json
@@ -20,6 +22,7 @@ MAKES = {"pptx": "presentation", "ppsx": "presentation"}
 COPIES = {"xlsm": "workbook", "xltm": "workbook", "xls": "workbook", "docm": "document", "dotm": "document"}
 WEIGHED = ("xlsx", "docx")
 APPS = {"workbook": "OneWorkbook", "document": "OneWriter"}
+HELD_BY = {"workbook": "Workbook", "document": "Writer Document"}
 
 
 def extension_of(file_name: str) -> str:
@@ -68,15 +71,17 @@ def weighed(item: dict) -> list:
 
 
 def row(item: dict) -> dict | None:
-	"""What a listing says of an office file: what Edit offers, and what the
-	editor would drop when that is known already."""
+	"""What a listing says of an office file: what Edit offers, what the
+	editor would drop when that is known already, and whether its preview is
+	kept."""
 	if item.get("is_folder"):
 		return None
+	previewed = {"previewed": True} if item.get("content_hash") and item.get("one_preview_of") == item.get("content_hash") else {}
 	found = way(item.get("file_name"))
 	if not found:
-		return None
+		return previewed or None
 	known = kept(item) if found["edit"] else []
-	return {**found, **({"loses": known} if known is not None else {})}
+	return {**found, **({"loses": known} if known is not None else {}), **previewed}
 
 
 def said(app: str, found: list[str]) -> str:
@@ -96,7 +101,83 @@ def weigh(node: str) -> dict:
 	if not found.get("edit"):
 		return {"loses": []}
 	loses = weighed(item)
-	return {"loses": loses, "said": said(APPS[found["edit"]], loses) if loses else None}
+	return {"loses": loses, "said": said(APPS[found["edit"]], loses) if loses else None, "waiting": waiting(item.name, found["edit"])}
+
+
+def waiting(file: str, kind: str) -> bool:
+	"""Whether edits made to the file in OneWorkbook or OneWriter wait to be
+	saved over it or as a copy."""
+	return bool(frappe.db.exists(HELD_BY[kind], {"file": file, "held_back": ["is", "set"]}))
+
+
+def own_of(item: dict) -> tuple[str, str] | None:
+	"""Which of One's own a File holds: ("workbook", its name), a document
+	or a presentation. None for any other file."""
+	from onedesk.one_storage import namespace as ns
+
+	for kind, found in (("workbook", ns._workbook), ("document", ns._document), ("presentation", ns._presentation)):
+		name = found(item)
+		if name:
+			return kind, name
+	return None
+
+
+def _suffix(kind: str) -> str:
+	from onedesk.one_doc import word
+	from onedesk.one_sheet import excel
+	from onedesk.one_slide import drive
+
+	return {"workbook": excel.SUFFIX, "document": word.SUFFIX, "presentation": drive.SUFFIX}[kind]
+
+
+def office_name(item: dict, kind: str) -> str:
+	"""The name One's own goes out under: its own, as an Excel, Word or
+	PowerPoint file. Pure."""
+	name, suffix = item.get("file_name") or "", _suffix(kind)
+	return name if name.lower().endswith(suffix) else name + suffix
+
+
+def exported(kind: str, name: str) -> bytes:
+	"""One's own as the drive serves it, for the reader."""
+	from onedesk.one_doc import word
+	from onedesk.one_sheet import excel
+	from onedesk.one_slide import drive
+
+	return {"workbook": excel.xlsx, "document": word.docx, "presentation": drive.pptx}[kind](name)
+
+
+def kept_inside(kind: str, name: str) -> str | None:
+	"""Why One's own can only be changed in its own editor: a workbook of a
+	record's table, a document with a record's fields, a presentation with
+	words from records. None when an outside save may come back into it."""
+	if kind == "workbook" and frappe.db.get_value("Workbook", name, "bound_doctype"):
+		return _("A record's workbook can only be edited in OneWorkbook.")
+	if kind == "document":
+		held = frappe.db.get_value("Writer Document", name, ["html", "bound_doctype"], as_dict=True) or frappe._dict()
+		if held.bound_doctype or 'data-field="' in (held.html or ""):
+			return _("A document with a record's fields in it can only be edited in OneWriter.")
+	if kind == "presentation":
+		from onedesk.one_slide import data
+
+		if data.cleaned(frappe.db.get_value("Presentation", name, "sources")):
+			return _("A presentation with words from records can only be edited in OneSlide.")
+	return None
+
+
+@frappe.whitelist()
+def download(node: str) -> None:
+	"""A workbook, document or presentation of One's own as its Excel, Word
+	or PowerPoint file."""
+	from onedesk.one_storage import api
+
+	item = api._item(node)
+	api._need(item, "read")
+	own = own_of(item)
+	if not own:
+		frappe.throw(_("{0} can't be downloaded this way.").format(item.file_name))
+	frappe.local.response.filename = office_name(item, own[0])
+	frappe.local.response.filecontent = exported(*own)
+	frappe.local.response.type = "download"
 
 
 def editing(items: list[dict]) -> None:

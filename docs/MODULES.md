@@ -1135,6 +1135,7 @@ No doctypes yet.
 * `onedesk.one_storage.oneos.save`
 * `onedesk.one_storage.oneos.start`
 * `onedesk.one_storage.oneos.stopped`
+* `onedesk.one_storage.opening.download`
 * `onedesk.one_storage.opening.one_copy`
 * `onedesk.one_storage.opening.weigh`
 * `onedesk.one_storage.pdf.combine`

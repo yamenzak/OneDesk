@@ -71,6 +71,9 @@
         <span class="text-base text-ink-gray-7">{{ __("This file can't be shown here.") }}</span>
         <Button variant="solid" icon-left="lucide-download" :label="__('Download')" @click="emit('download', item)" />
       </div>
+      <div v-if="kind === 'office' && previewed.has(item.id) && !editing && choices.length" class="absolute top-3 start-1/2 -translate-x-1/2 rounded-full bg-surface-gray-3 px-3 py-1 text-sm text-ink-gray-7">
+        {{ __("A preview. Edit ▾ to change it.") }}
+      </div>
       <div v-if="cut" class="absolute bottom-3 start-1/2 -translate-x-1/2 rounded-full bg-surface-gray-3 px-3 py-1 text-sm text-ink-gray-7">
         {{ __("Showing the first {0}", [sizeText(MOST)]) }}
       </div>
@@ -162,6 +165,20 @@ watch(
     const now = files.findIndex((one) => one.id === id);
     if (now >= 0) at.value = now;
   }
+);
+
+function shownAsPdf(one) {
+  if (!one || viewedAs(one) !== "office") return false;
+  if (one.office?.previewed) return true;
+  return one.id === props.start && (!one.office?.edit || !!one.office?.loses?.length);
+}
+
+watch(
+  () => item.value?.id,
+  () => {
+    if (shownAsPdf(item.value)) previewed.add(item.value.id);
+  },
+  { immediate: true }
 );
 
 watch(() => item.value?.id, () => {

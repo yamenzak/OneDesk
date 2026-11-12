@@ -168,7 +168,10 @@ def save_into(target: dict, environ: dict, parent: dict, content: bytes | None =
 		data = content if src is None else dav.read_bytes(ns.node(ns.row(src)))
 		if src:
 			frappe.delete_doc("File", src, ignore_permissions=True)
-		dav.write_own(target, data)
+		from onedesk.one_storage import saving
+
+		with saving.through(lease.DAV):
+			dav.write_own(target, data)
 		return
 	copied = copy_of(same)
 	if copied:

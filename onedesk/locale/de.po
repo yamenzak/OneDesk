@@ -1407,6 +1407,10 @@ msgstr "Eine Präsentation mit Wörtern aus Datensätzen kann nur in OneSlide be
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
 msgstr "Die Folien einer Präsentation, hinter der Datei, die sie in OneCloud ablegt. Geöffnet und gespeichert nur über one_slide/api.py, das OneCloud fragt, ob der Leser darf."
 
+#: frontend/src/cloud/CloudViewer.vue:75
+msgid "A preview. Edit ▾ to change it."
+msgstr "Eine Vorschau. Zum Ändern Bearbeiten ▾ wählen."
+
 #: onedesk/one_crm/home.py:117
 msgid "A price agreed for a year of orders."
 msgstr "Ein für ein Jahr an Aufträgen vereinbarter Preis."
@@ -7033,6 +7037,10 @@ msgstr ""
 #: onedesk/public/js/one_legal/legal.js:68
 msgid "Before You Continue"
 msgstr "Bevor Sie fortfahren"
+
+#: onedesk/one_storage/saving.py:79
+msgid "Before a OneOS save"
+msgstr "Vor einer Speicherung aus OneOS"
 
 #: onedesk/one_doc/word.py:259
 msgid "Before a Word save"
@@ -15523,6 +15531,10 @@ msgstr "Als Markdown herunterladen"
 #: onedesk/www/s.html:135
 msgid "Download as PowerPoint"
 msgstr "Als PowerPoint herunterladen"
+
+#: frontend/src/cloud/OneCloud.vue:1057
+msgid "Download as Word"
+msgstr "Als Word herunterladen"
 
 #: onedesk/public/js/one_account/account_center.js:1058
 msgid "Download it first. Nothing can be exported after the workspace closes."
@@ -39738,6 +39750,11 @@ msgstr "Drücken Sie die Tasten für {0} oder klicken Sie sie auf der Tastatur o
 msgid "Preview"
 msgstr "Vorschau"
 
+#. Label of the one_preview_of (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:193
+msgid "Preview Kept For"
+msgstr "Vorschau gespeichert für"
+
 #: frontend/src/cloud/CloudViewer.vue:52
 msgid "Preview as PDF"
 msgstr "Als PDF anzeigen"
@@ -54292,6 +54309,11 @@ msgstr "Die Werte, aus denen die Datensätze von {0} wählen. Jede öffnet sich 
 msgid "The version of the file it was read from."
 msgstr "Die Version der Datei, aus der es gelesen wurde."
 
+#. Description of the 'Preview Kept For' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:201
+msgid "The version of the file its PDF preview was made from."
+msgstr "Die Version der Datei, aus der die PDF-Vorschau erstellt wurde."
+
 #: onedesk/one_crm/home.py:123
 msgid "The visits promised to keep what a customer bought working."
 msgstr "Die zugesagten Besuche, damit das Gekaufte eines Kunden funktioniert."
@@ -68136,6 +68158,11 @@ msgstr "{0} kann nicht in PDF umgewandelt werden."
 msgid "{0} can't be copied into One."
 msgstr "{0} kann nicht in One kopiert werden."
 
+#: onedesk/one_storage/opening.py:176
+#, python-brace-format
+msgid "{0} can't be downloaded this way."
+msgstr "{0} kann so nicht heruntergeladen werden."
+
 #: onedesk/one/linked.py:54
 #, python-brace-format
 msgid "{0} can't be edited."
@@ -70629,6 +70656,11 @@ msgstr "{0} Zeilen entfernt"
 #, python-brace-format
 msgid "{0} saved this from the drive on {1}. Its {2} could not be kept. What it held before is in Version History."
 msgstr "{0} hat dies am {1} aus dem Laufwerk gespeichert. {2} konnten nicht übernommen werden. Der vorherige Stand ist im Versionsverlauf."
+
+#: onedesk/one_storage/saving.py:57
+#, python-brace-format
+msgid "{0} saved this in OneOS on {1}. Its {2} could not be kept. What it held before is in Version History."
+msgstr "{0} hat dies am {1} in OneOS gespeichert. {2} konnten nicht übernommen werden. Der vorherige Stand ist im Versionsverlauf."
 
 #: frontend/src/writer/shim/PrintDialog.vue:109
 #, python-brace-format

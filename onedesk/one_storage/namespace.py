@@ -34,7 +34,7 @@ FIELDS = [
 	"modified", "creation", "attached_to_doctype", "attached_to_name", "one_home_of", "one_deleted",
 	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type", "one_library", "_liked_by",
 	"one_intake", "one_featured", "one_color", "one_lease_kind", "one_lease_user", "one_lease_until",
-	"content_hash", "one_fidelity", "one_fidelity_of",
+	"content_hash", "one_fidelity", "one_fidelity_of", "one_preview_of",
 ]  # fmt: skip
 
 

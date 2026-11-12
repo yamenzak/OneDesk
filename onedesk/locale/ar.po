@@ -1407,6 +1407,10 @@ msgstr "لا يمكن تحرير عرض تقديمي يحتوي على كلما�
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
 msgstr "شرائح العرض التقديمي، خلف الملف الذي يضعه في OneCloud. يُفتح ويُحفظ فقط عبر one_slide/api.py، الذي يسأل OneCloud إن كان القارئ يملك الإذن."
 
+#: frontend/src/cloud/CloudViewer.vue:75
+msgid "A preview. Edit ▾ to change it."
+msgstr "معاينة. استخدم تعديل ▾ لتغييره."
+
 #: onedesk/one_crm/home.py:117
 msgid "A price agreed for a year of orders."
 msgstr "سعر متفق عليه لطلبات سنة كاملة."
@@ -7033,6 +7037,10 @@ msgstr ""
 #: onedesk/public/js/one_legal/legal.js:68
 msgid "Before You Continue"
 msgstr "قبل المتابعة"
+
+#: onedesk/one_storage/saving.py:79
+msgid "Before a OneOS save"
+msgstr "قبل حفظ من OneOS"
 
 #: onedesk/one_doc/word.py:259
 msgid "Before a Word save"
@@ -15523,6 +15531,10 @@ msgstr "تنزيل بصيغة Markdown"
 #: onedesk/www/s.html:135
 msgid "Download as PowerPoint"
 msgstr "تنزيل بصيغة PowerPoint"
+
+#: frontend/src/cloud/OneCloud.vue:1057
+msgid "Download as Word"
+msgstr "تنزيل بصيغة Word"
 
 #: onedesk/public/js/one_account/account_center.js:1058
 msgid "Download it first. Nothing can be exported after the workspace closes."
@@ -39738,6 +39750,11 @@ msgstr "اضغط مفاتيح {0}، أو انقرها على لوحة المفا
 msgid "Preview"
 msgstr "معاينة"
 
+#. Label of the one_preview_of (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:193
+msgid "Preview Kept For"
+msgstr "المعاينة المحفوظة لـ"
+
 #: frontend/src/cloud/CloudViewer.vue:52
 msgid "Preview as PDF"
 msgstr "معاينة كملف PDF"
@@ -54292,6 +54309,11 @@ msgstr "القيم التي تختار منها سجلات {0}. تُفتح كل 
 msgid "The version of the file it was read from."
 msgstr "نسخة الملف التي قُرئ منها."
 
+#. Description of the 'Preview Kept For' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:201
+msgid "The version of the file its PDF preview was made from."
+msgstr "نسخة الملف التي أُعدت منها معاينة PDF."
+
 #: onedesk/one_crm/home.py:123
 msgid "The visits promised to keep what a customer bought working."
 msgstr "الزيارات الموعودة لإبقاء ما اشتراه العميل يعمل."
@@ -68136,6 +68158,11 @@ msgstr "لا يمكن تحويل {0} إلى PDF."
 msgid "{0} can't be copied into One."
 msgstr "لا يمكن نسخ {0} إلى One."
 
+#: onedesk/one_storage/opening.py:176
+#, python-brace-format
+msgid "{0} can't be downloaded this way."
+msgstr "لا يمكن تنزيل {0} بهذه الطريقة."
+
 #: onedesk/one/linked.py:54
 #, python-brace-format
 msgid "{0} can't be edited."
@@ -70629,6 +70656,11 @@ msgstr "أُزيلت {0} صفوف"
 #, python-brace-format
 msgid "{0} saved this from the drive on {1}. Its {2} could not be kept. What it held before is in Version History."
 msgstr "حفظ {0} هذا من محرك الأقراص في {1}. تعذر الاحتفاظ بـ{2}. ما كان يحتويه من قبل موجود في سجل النسخ."
+
+#: onedesk/one_storage/saving.py:57
+#, python-brace-format
+msgid "{0} saved this in OneOS on {1}. Its {2} could not be kept. What it held before is in Version History."
+msgstr "حفظ {0} هذا في OneOS في {1}. تعذر الاحتفاظ بـ{2}. ما كان يحتويه من قبل موجود في سجل النسخ."
 
 #: frontend/src/writer/shim/PrintDialog.vue:109
 #, python-brace-format

@@ -757,7 +757,6 @@ function itemMenu() {
       one && one.parent && search.value ? ["open-location", "lucide-folder-open", __("Open file location"), true] : null,
       one && one.record && !room ? ["open-record", "lucide-external-link", __("Open record"), true] : null,
       files.length === picked.length && !(one && editChoices(one).length) ? ["download", "lucide-download", __("Download"), true] : null,
-      one && one.workbook ? ["download-xlsx", "lucide-file-spreadsheet", __("Download as Excel"), true] : null,
       one && one.workbook ? ["download-csv", "lucide-file-text", __("Download as CSV"), true] : null,
       files.length === picked.length ? ["copy-link", "lucide-link", __("Copy link"), true] : null,
     ],
@@ -947,9 +946,8 @@ async function act(name) {
       return refresh();
     case "download":
       return download(picked.filter((one) => !one.folder && one.url));
-    case "download-xlsx":
     case "download-csv":
-      return goTo("workbook", picked[0].workbook, { export: name.slice(9) });
+      return goTo("workbook", picked[0].workbook, { export: "csv" });
     case "copy-link":
       return copyText(picked.map((one) => document.location.origin + one.url).join("\n"));
     case "open":
@@ -1032,7 +1030,7 @@ async function weigh(one) {
 
 async function openOffice(one) {
   const said = await weigh(one);
-  if (said.loses.length) return view(one.id);
+  if (said.loses.length && !said.waiting) return view(one.id);
   return NATIVE[one.office.edit](one);
 }
 
@@ -1053,7 +1051,33 @@ async function oneCopy(one) {
   goTo("document", made.document);
 }
 
+const OWN = {
+  workbook: { app: "OneWorkbook", suffix: ".xlsx", download: () => __("Download as Excel") },
+  document: { app: "OneWriter", suffix: ".docx", download: () => __("Download as Word") },
+  presentation: { app: "OneSlide", suffix: ".pptx", download: () => __("Download as PowerPoint") },
+};
+const ownKind = (one) => (one && !one.folder ? Object.keys(OWN).find((kind) => one[kind]) : null);
+
+const oneOSChoice = (one) => ({
+  label: __("Edit in OneOS"),
+  short: __("Edit in OneOS"),
+  icon: "lucide-monitor",
+  description: __("{0} OneCredits an hour", [oneosOffer.value.credits_an_hour]),
+  onClick: () => openInOneOS(one),
+});
+
+function ownChoices(one, kind) {
+  const choices = [{ label: __("Edit in {0}", [OWN[kind].app]), short: __("Edit"), icon: "lucide-pencil", onClick: () => goTo(kind, one[kind]) }];
+  if (oneosOffer.value) choices.push(oneOSChoice(one));
+  const name = one.name.toLowerCase().endsWith(OWN[kind].suffix) ? one.name : one.name + OWN[kind].suffix;
+  const exported = { ...one, name, url: `/api/method/onedesk.one_storage.opening.download?node=${encodeURIComponent(one.id)}` };
+  choices.push({ label: OWN[kind].download(), short: OWN[kind].download(), icon: "lucide-download", quiet: true, onClick: () => download([exported]) });
+  return choices;
+}
+
 function editChoices(one) {
+  const kind = ownKind(one);
+  if (kind && filed(one)) return ownChoices(one, kind);
   if (!one || one.folder || !filed(one) || !(one.office || opensInOneOS(one))) return [];
   const way = one.office || {};
   const choices = [];
@@ -1067,15 +1091,7 @@ function editChoices(one) {
       onClick: () => NATIVE.presentation(one),
     });
   }
-  if (oneosOffer.value && opensInOneOS(one)) {
-    choices.push({
-      label: __("Edit in OneOS"),
-      short: __("Edit in OneOS"),
-      icon: "lucide-monitor",
-      description: __("{0} OneCredits an hour", [oneosOffer.value.credits_an_hour]),
-      onClick: () => openInOneOS(one),
-    });
-  }
+  if (oneosOffer.value && opensInOneOS(one)) choices.push(oneOSChoice(one));
   choices.push({ label: __("Download"), short: __("Download"), icon: "lucide-download", quiet: true, onClick: () => download([one]) });
   if (way.copy) {
     choices.push({
@@ -1207,7 +1223,8 @@ function remove(list) {
 // A file opened in OneOS in a tab of its own. The tab is opened at the
 // click, before the server answers, so the browser does not block it.
 async function openInOneOS(item, copy = 0) {
-  const choices = { copy: () => openInOneOS(item, 1), view: () => view(item.id) };
+  const kind = ownKind(item);
+  const choices = { copy: () => openInOneOS(item, 1), view: () => (kind ? goTo(kind, item[kind]) : view(item.id)) };
   if (!copy && item.oneos && !item.oneos.mine) return cloud().oneos_held(item, item.oneos, choices);
   const tab = openTab("");
   let said;

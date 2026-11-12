@@ -1484,6 +1484,102 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 		frappe.db.rollback(save_point="lease_check")
 
 
+@check
+def onecloud_a_document_of_ones_own_is_edited_in_oneos():
+	"""Samir's handover note is a document of One's own. While Rania writes
+	in it in OneWriter, his Edit in OneOS tells him so; once she leaves,
+	OneOS gets it as a Word file, his save comes back into the document with
+	what it said before kept as "Before a OneOS save", the header Word gave
+	it is noted as dropped, and Rania's OneWriter reads while he has it. A
+	document with a record's fields is refused. All undone afterwards."""
+	from urllib.parse import parse_qs, urlparse
+
+	from docx import Document
+
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_doc import api as writing
+	from onedesk.one_doc import versions
+	from onedesk.one_sheet import live
+	from onedesk.one_storage import lease, oneos, opening
+
+	def note(text: str) -> bytes:
+		made = Document()
+		made.add_paragraph(text)
+		made.sections[0].header.paragraphs[0].text = "Mansour Villa"
+		out = io.BytesIO()
+		made.save(out)
+		return out.getvalue()
+
+	def admin(endpoint, **said):
+		return {"session": "own-check", "url": "https://os.example.com/s/own-check?t=1.x", "state": "Running"} if endpoint.endswith("oneos_start") else {}
+
+	def sealed(url):
+		return {key: one[0] for key, one in parse_qs(urlparse(url).query).items()}
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	samir, rania = frappe.utils.get_fullname(demo.PM), "rania@one.test"
+	frappe.db.savepoint("own_oneos_check")
+	try:
+		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("onedesk.one_storage.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime"):
+			with as_user(demo.PM):
+				document = writing.make(root, "Handover note")["document"]
+				frappe.db.set_value(writing.DOCUMENT, document, "html", "<p>Keys on Monday.</p>")
+				file = writing._may(document)["name"]
+			with as_user(rania):
+				assert live.admit("document", document, sid="own-check")["write"]
+			with as_user(demo.PM):
+				held = oneos.start(file)["held"]
+				assert held["by"] == frappe.utils.get_fullname(rania) and held["where"] == "OneWriter", held
+			with as_user(rania):
+				live.leave("document", document, sid="own-check")
+			with as_user(demo.PM):
+				opened = oneos.start(file)
+				assert opened["url"] and opened["name"] == "Handover note.docx", opened
+			start = next(call.kwargs for call in asked.call_args_list if call.args[0].endswith("oneos_start"))
+			assert start["file_name"] == "Handover note.docx"
+			with as_user(rania):
+				said = writing.get_document(document)
+				assert not said["can_write"] and said["notice"] == f"{samir} is editing this in OneOS.", said["notice"]
+			oneos.file(**sealed(start["file_url"]))
+			sent = frappe.local.response.pop("filecontent")
+			for key in ("type", "filename", "display_content_as"):
+				frappe.local.response.pop(key, None)
+			assert sent.startswith(b"PK") and "Keys on Monday." in Document(io.BytesIO(sent)).paragraphs[0].text
+			up = sealed(start["save_url"])
+			try:
+				_asked(data=sent)
+				assert oneos.save(**up) == {"saved": False}, "the file as it was sent is not a save"
+				_asked(data=note("Keys on Friday."))
+				assert oneos.save(**up) == {"saved": True}
+				_asked(data=note("Keys on Friday."))
+				assert oneos.save(**up) == {"saved": False}, "the same save twice is one"
+			finally:
+				_unasked()
+			held = frappe.db.get_value(writing.DOCUMENT, document, ["html", "outside_dropped", "modified_by"], as_dict=True)
+			assert "Keys on Friday." in held.html and held.modified_by == demo.PM, held
+			with as_user(demo.PM):
+				kept = [one for one in versions.listed(document) if one["title"] == "Before a OneOS save"]
+			assert len(kept) == 1 and "Keys on Monday." in kept[0]["snapshot"], kept
+			assert json.loads(held.outside_dropped)["what"] == ["headers_and_footers"], held.outside_dropped
+			with as_user(demo.PM):
+				assert writing.get_document(document)["dropped"].startswith(f"{samir} saved this in OneOS on ")
+				opening.download(file)
+				assert frappe.local.response.pop("filename") == "Handover note.docx"
+				assert "Keys on Friday." in Document(io.BytesIO(frappe.local.response.pop("filecontent"))).paragraphs[0].text
+				frappe.local.response.pop("type", None)
+				oneos.close(file)
+			assert not lease.blocking(file)
+			with as_user(demo.PM):
+				frappe.db.set_value(writing.DOCUMENT, document, "html", '<p>Dear <span data-field="customer_name">Customer</span></p>')
+				try:
+					oneos.start(file)
+					raise AssertionError("a document with a record's fields went to OneOS")
+				except frappe.ValidationError:
+					frappe.clear_last_message()
+	finally:
+		frappe.db.rollback(save_point="own_oneos_check")
+
+
 LOCKINFO = (
 	b'<?xml version="1.0" encoding="utf-8"?><D:lockinfo xmlns:D="DAV:"><D:lockscope><D:exclusive/></D:lockscope>'
 	b"<D:locktype><D:write/></D:locktype><D:owner><D:href>RANIA-PC/rania</D:href></D:owner></D:lockinfo>"
@@ -1793,6 +1889,12 @@ def onecloud_the_site_team_works_in_its_library():
 				frappe.local.response.pop(key, None)
 			assert office.to_pdf(letter)["name"] == "Site letter.pdf"
 		assert sent == [("onedesk.one_admin.proxy.office_convert", "Site letter.rtf")], "the second is the day's kept preview"
+		frappe.cache.delete_value(f"one_storage_office:{frappe.db.get_value('File', letter, 'content_hash')}")
+		office.preview(letter)
+		for key in ("type", "filecontent", "filename"):
+			frappe.local.response.pop(key, None)
+		assert len(sent) == 1, "a version's preview is kept with it, so viewing it again is free"
+		assert next(one for one in api.listing(folder)["items"] if one["id"] == letter)["office"] == {"previewed": True}
 		try:
 			office.to_pdf(notes)
 			raise AssertionError("a text file went to the office containers")

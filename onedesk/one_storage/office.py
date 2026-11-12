@@ -1,9 +1,10 @@
 """Files a browser can't open (Word, Excel, PowerPoint, OpenDocument and the
 like), read as PDFs made in One's office containers through OneAdmin
-(one_admin/office.py), when somebody asks: a preview kept for a day by the
-file's content, or a PDF saved beside it."""
+(one_admin/office.py), when somebody asks: a preview, made and billed once
+for each version of the file and kept with it, or a PDF saved beside it."""
 
 import base64
+import os
 
 import frappe
 from frappe import _
@@ -28,8 +29,9 @@ def converts(name: str) -> bool:
 def _pdf(item) -> bytes:
 	if item.is_folder or not converts(item.file_name):
 		frappe.throw(_("{0} can't be converted to PDF.").format(item.file_name))
-	key = f"one_storage_office:{frappe.db.get_value('File', item.name, 'content_hash') or item.name}"
-	held = frappe.cache.get_value(key)
+	version = frappe.db.get_value("File", item.name, "content_hash")
+	key = f"one_storage_office:{version or item.name}"
+	held = frappe.cache.get_value(key) or _kept(item.name, version)
 	if held:
 		return held
 	from onedesk.one import account
@@ -40,12 +42,54 @@ def _pdf(item) -> bytes:
 		frappe.throw(_("This file could not be converted."))
 	if len(made) <= MOST_KEPT:
 		frappe.cache.set_value(key, made, expires_in_sec=KEPT_FOR)
+	if version:
+		_keep(item.name, version, made)
 	return made
+
+
+def preview_key(version: str) -> str:
+	"""Where the preview of a version is kept, by the version's content. Pure."""
+	return f"previews/{version}.pdf"
+
+
+def _on_disk(version: str) -> str:
+	return frappe.get_site_path("private", "onecloud-previews", f"{version}.pdf")
+
+
+def _kept(file: str, version: str | None) -> bytes | None:
+	"""The preview made for this version of the file, when there is one."""
+	from onedesk.one_storage import store
+
+	if not version or frappe.db.get_value("File", file, "one_preview_of") != version:
+		return None
+	try:
+		if store.enabled():
+			return store.get(preview_key(version))
+		with open(_on_disk(version), "rb") as held:
+			return held.read()
+	except Exception:
+		return None
+
+
+def _keep(file: str, version: str, made: bytes) -> None:
+	from onedesk.one_storage import store
+
+	try:
+		if store.enabled():
+			store.put(preview_key(version), made)
+		else:
+			os.makedirs(os.path.dirname(_on_disk(version)), exist_ok=True)
+			with open(_on_disk(version), "wb") as held:
+				held.write(made)
+	except Exception:
+		frappe.log_error(title="Keeping an office preview")
+		return
+	frappe.db.set_value("File", file, "one_preview_of", version, update_modified=False)
 
 
 @frappe.whitelist()
 def preview(node: str) -> None:
-	"""The file as a PDF, to read in the viewer: made once a day per content,
+	"""The file as a PDF, to read in the viewer: made once for each version,
 	and billed in credits when it is made."""
 	item = api._item(node)
 	api._need(item, "read")
