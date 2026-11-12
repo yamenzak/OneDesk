@@ -1386,6 +1386,10 @@ msgstr ""
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr ""
 
+#: onedesk/one_slide/drive.py:63
+msgid "A presentation with words from records can only be edited in OneSlide."
+msgstr ""
+
 #. Description of a DocType
 #: onedesk/one_slide/doctype/presentation/presentation.json:21
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
@@ -7026,6 +7030,10 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.js:17
 #, python-brace-format
 msgid "Before a new {0} is saved for the first time"
+msgstr ""
+
+#: onedesk/one_slide/drive.py:72
+msgid "Before a save from the drive"
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:27
@@ -32579,6 +32587,11 @@ msgstr ""
 msgid "Not Booked"
 msgstr ""
 
+#. Label of the lost (Data) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json:63
+msgid "Not Brought In"
+msgstr ""
+
 #. Name of a notification
 #: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:268
 msgid "Not Checked In"
@@ -45121,6 +45134,11 @@ msgstr ""
 msgid "Saved document"
 msgstr ""
 
+#: frontend/src/slide/stores/presentation.js:331
+#, python-brace-format
+msgid "Saved from the drive: slides {0} had parts that could not be brought in."
+msgstr ""
+
 #: onedesk/one_studio/ai_setup.py:243
 #, python-brace-format
 msgid "Saved report {0}"
@@ -53957,6 +53975,11 @@ msgstr ""
 msgid "The slide is in the library."
 msgstr ""
 
+#. Description of the 'Not Brought In' (Data) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json:63
+msgid "The slides whose last save from the drive had parts that could not be brought in."
+msgstr ""
+
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
 #: onedesk/one_slide/doctype/presentation/presentation.json:78
 msgid "The slides' height in pixels."
@@ -54895,6 +54918,10 @@ msgstr ""
 
 #: onedesk/one_admin/office.py:86 onedesk/one_storage/office.py:40
 msgid "This file could not be converted."
+msgstr ""
+
+#: onedesk/one_slide/drive.py:69
+msgid "This file is not a presentation."
 msgstr ""
 
 #: onedesk/one_doc/api.py:264

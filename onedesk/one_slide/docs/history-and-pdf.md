@@ -44,6 +44,18 @@ file's own colours. Opening the file again opens the same presentation. A
 chart, SmartArt or a video can't come along, and you are told which slides
 had one.
 
+## On the Drive
+
+When OneCloud is connected as a drive on your computer, a presentation shows
+there as a PowerPoint file, "Name.pptx". Open it in PowerPoint, Keynote or
+LibreOffice and save, and your changes come back into the same presentation:
+its name, sharing and links stay, and what it was before is kept in
+**Version History** as "Before a save from the drive". The master stays the
+master, so its shapes are not copied onto every slide. A chart, SmartArt or
+a video can't come back, and the next time the presentation is opened you
+are told which slides had one. A presentation with words from records can
+only be edited in OneSlide.
+
 ## On a Record
 
 A record's **Files** tab is OneCloud, so **New › Presentation** there files

@@ -315,6 +315,7 @@ def save_slides(name: str, slides: list[dict] | str, base_modified: str) -> dict
 	versions.before_saving(name)
 	doc.set("slides", _merged(doc.slides, slides or []))
 	doc.byte_size = size
+	doc.lost = ""
 	doc.save(ignore_permissions=True)
 	if not doc.master_of:
 		frappe.db.set_value("File", item["name"], "file_size", size, update_modified=True)

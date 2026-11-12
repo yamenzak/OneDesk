@@ -328,6 +328,7 @@ const showPresentation = (id, { doc, content, dirty }) => {
 	// a tab that may not write has nothing of its own to push
 	if (dirty && !inReadonlyMode.value) markDirty()
 	else markClean()
+	if (doc.lost) toast.warning(__('Saved from the drive: slides {0} had parts that could not be brought in.', [doc.lost]))
 }
 
 const fetchReadonly = async (name, url) => {

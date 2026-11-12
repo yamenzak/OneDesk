@@ -230,7 +230,8 @@ only opens your drive. It doesn't work for One in a browser or for the API.
 The drive works like any other: open, save, drag in, rename, create folders
 and delete. It shows exactly what you can open in OneCloud. Saving over a
 file keeps the old one as a version, and deleting moves it to the Recycle
-Bin.
+Bin. A document, workbook or presentation made in One shows as a Word,
+Excel or PowerPoint file, and saving it there saves it back into One.
 
 ## Servers as folders
 

@@ -380,7 +380,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneSlide 1.16.0
+## OneSlide 1.17.0
 
 Ready.
 

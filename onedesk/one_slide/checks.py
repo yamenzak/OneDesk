@@ -317,6 +317,94 @@ def oneslide_keeps_a_presentation_in_onecloud():
 
 
 @check
+def a_presentation_is_a_powerpoint_file_on_the_drive():
+	"""On the network drive a presentation is "Name.pptx": a listing does not
+	make the file, a download is made fresh with its master underneath and
+	the same etag until it changes, and PowerPoint's save over it becomes the
+	same presentation's slides, with a version kept first, the master left to
+	the master and the slides that had a chart named on it for the editor. A
+	file that is not a presentation is refused with 415, and one with words
+	from records is not written from outside. All undone afterwards."""
+	import io
+
+	from pptx import Presentation as Deck
+	from pptx.chart.data import CategoryChartData
+	from pptx.enum.chart import XL_CHART_TYPE
+	from pptx.util import Inches
+	from werkzeug.test import EnvironBuilder
+
+	from onedesk.one_slide import api, drive, master, versions
+	from onedesk.one_storage import dav
+	from onedesk.one_storage import namespace as ns
+
+	def ask(method: str, path: str, body: bytes = b"", depth: str | None = None) -> tuple[int, dict, bytes]:
+		environ = EnvironBuilder(path=dav.MOUNT + path, method=method, data=body, headers={"Depth": depth} if depth else {}).get_environ()
+		environ.update({"SCRIPT_NAME": dav.MOUNT, "PATH_INFO": path, "wsgidav.auth.user_name": frappe.session.user, "wsgidav.auth.realm": "OneCloud"})
+		environ.update({"wsgidav.auth.roles": [], "wsgidav.auth.permissions": []})
+		answer = {}
+
+		def start(status, headers, exc_info=None):
+			answer["status"], answer["headers"] = status, dict(headers)
+
+		said = b"".join(dav._app()(environ, start))
+		dav._forget()
+		return int(answer["status"].split()[0]), answer["headers"], said
+
+	frappe.db.savepoint("slide_drive_check")
+	try:
+		with as_user(OWNER):
+			made = api.make("@my", "Drive check")
+			name = made["presentation"]
+			deck = api.get(name)
+			drawn = [{"id": "t1", "type": "text", "content": "<p>Made in OneSlide</p>", "left": 40, "top": 40, "width": 400}]
+			api.save_slides(name, json.dumps([{"client_id": deck["slides"][0]["client_id"], "elements": json.dumps(drawn)}]), deck["modified"])
+			plate = api.get(master.edit(name))
+			logo = {"id": "logo", "type": "text", "content": "<p>Logo</p>", "left": 0, "top": 0, "width": 100}
+			api.save_slides(plate["name"], json.dumps([{"client_id": plate["slides"][0]["client_id"], "elements": json.dumps([logo])}]), str(plate["modified"]))
+			node = dav._as_file(ns.node(ns.row(made["id"])))
+			assert node["name"] == "Drive check.pptx", node
+			path = "/@my/Drive check.pptx"
+			status, _headers, listing = ask("PROPFIND", "/@my/", depth="1")
+			assert status == 207 and b"Drive check.pptx" in listing, listing[:400]
+			assert drive.held(name) is None, "a listing does not make the file"
+			status, headers, content = ask("GET", path)
+			assert status == 200 and content[:2] == b"PK" and int(headers["Content-Length"]) == len(content), headers
+			assert "presentationml" in headers["Content-Type"] and headers["ETag"] == ask("HEAD", path)[1]["ETag"], "the same etag until it changes"
+			shapes = Deck(io.BytesIO(content)).slides[0].shapes
+			assert [shape.name for shape in shapes][0] == "master-logo" and shapes[-1].text_frame.text == "Made in OneSlide"
+			saved = Deck(io.BytesIO(content))
+			saved.slides[0].shapes[-1].text_frame.text = "Changed in PowerPoint"
+			second = saved.slides.add_slide(saved.slide_layouts[6])
+			chart = CategoryChartData()
+			chart.categories = ["a"]
+			chart.add_series("s", (1,))
+			second.shapes.add_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, Inches(1), Inches(1), Inches(2), Inches(1), chart)
+			out = io.BytesIO()
+			saved.save(out)
+			status, _headers, _said = ask("PUT", path, out.getvalue())
+			assert status in (200, 204), status
+			back = api.get(name)
+			assert back["file"] == made["id"] and back["title"] == "Drive check" and back["lost"] == "2", back["lost"]
+			first = json.loads(back["slides"][0]["elements"])
+			assert len(back["slides"]) == 2 and len(first) == 1 and "Changed in PowerPoint" in first[0]["content"], first
+			assert [one["id"] for one in back["master"]] == ["logo"], "the master stays the master's"
+			assert any(one["title"] == "Before a save from the drive" for one in versions.listed(name)), "a version is kept"
+			assert ask("GET", path)[1]["ETag"] != headers["ETag"], "a changed presentation has a new etag"
+			assert ask("PUT", path, b"not a presentation")[0] == 415
+			assert len(api.get(name)["slides"]) == 2, "and nothing was written"
+			api.save_slides(name, json.dumps([{"client_id": one["client_id"]} for one in back["slides"]]), back["modified"])
+			assert not api.get(name)["lost"], "a save in the editor clears it"
+			frappe.db.set_value(api.PRESENTATION, name, "sources", json.dumps([{"key": "this", "kind": "record", "doctype": "User", "name": OWNER}]))
+			try:
+				drive.write(name, out.getvalue())
+				raise AssertionError("a presentation with words from records was written from outside")
+			except frappe.PermissionError:
+				frappe.clear_messages()
+	finally:
+		frappe.db.rollback(save_point="slide_drive_check")
+
+
+@check
 def oneai_makes_slides_and_pictures():
 	"""Karim asks OneAI for a designed slide, a picture on it and a video,
 	and a picture in a document. The design comes back as the editor's own

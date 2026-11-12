@@ -1390,6 +1390,10 @@ msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظ�
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr "مكان يُعرض طقسه على الشاشات وبجانب الساعة. مكان واحد مجاني، وكل مكان إضافي يستهلك 5 أرصدة يومياً."
 
+#: onedesk/one_slide/drive.py:63
+msgid "A presentation with words from records can only be edited in OneSlide."
+msgstr "لا يمكن تحرير عرض تقديمي يحتوي على كلمات من السجلات إلا في OneSlide."
+
 #. Description of a DocType
 #: onedesk/one_slide/doctype/presentation/presentation.json:21
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
@@ -7031,6 +7035,10 @@ msgstr "قبل موعد طلب الملفات، أو عندما يرسل صاح�
 #, python-brace-format
 msgid "Before a new {0} is saved for the first time"
 msgstr "قبل حفظ {0} جديد لأول مرة"
+
+#: onedesk/one_slide/drive.py:72
+msgid "Before a save from the drive"
+msgstr "قبل حفظ من محرك الأقراص"
 
 #: onedesk/one_studio/doctype/extension/extension.js:27
 #, python-brace-format
@@ -32570,6 +32578,11 @@ msgstr "ساعات غير مفوترة"
 msgid "Not Booked"
 msgstr "غير مسجّل"
 
+#. Label of the lost (Data) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json:63
+msgid "Not Brought In"
+msgstr "لم يُنقل"
+
 #. Name of a notification
 #: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:268
 msgid "Not Checked In"
@@ -45107,6 +45120,11 @@ msgstr "تم الحفظ باسم {0}."
 msgid "Saved document"
 msgstr "حُفظ المستند"
 
+#: frontend/src/slide/stores/presentation.js:331
+#, python-brace-format
+msgid "Saved from the drive: slides {0} had parts that could not be brought in."
+msgstr "حُفظ من محرك الأقراص: تضمنت الشرائح {0} أجزاء تعذّر نقلها."
+
 #: onedesk/one_studio/ai_setup.py:243
 #, python-brace-format
 msgid "Saved report {0}"
@@ -53916,6 +53934,11 @@ msgstr "مشغّلو الموقع، أي لا أحد في مساحة العمل"
 msgid "The slide is in the library."
 msgstr "الشريحة في المكتبة."
 
+#. Description of the 'Not Brought In' (Data) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json:63
+msgid "The slides whose last save from the drive had parts that could not be brought in."
+msgstr "الشرائح التي تضمّن آخر حفظ لها من محرك الأقراص أجزاء تعذّر نقلها."
+
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
 #: onedesk/one_slide/doctype/presentation/presentation.json:78
 msgid "The slides' height in pixels."
@@ -54855,6 +54878,10 @@ msgstr "لا يمكن فتح هذا الملف."
 #: onedesk/one_admin/office.py:86 onedesk/one_storage/office.py:40
 msgid "This file could not be converted."
 msgstr "تعذّر تحويل هذا الملف."
+
+#: onedesk/one_slide/drive.py:69
+msgid "This file is not a presentation."
+msgstr "هذا الملف ليس عرضًا تقديميًا."
 
 #: onedesk/one_doc/api.py:264
 msgid "This file is too large to put into a document."

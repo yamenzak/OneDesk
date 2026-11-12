@@ -334,14 +334,16 @@ def _children(node_id: str) -> list[dict]:
 
 def _as_file(node: dict) -> dict:
 	"""A workbook made in OneWorkbook is an Excel file on the drive
-	(one_sheet/excel.py), and a document made in OneWriter a Word file
-	(one_doc/word.py)."""
+	(one_sheet/excel.py), a document made in OneWriter a Word file
+	(one_doc/word.py), and a presentation made in OneSlide a PowerPoint file
+	(one_slide/drive.py)."""
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
+	from onedesk.one_slide import drive
 
 	if node.get("folder"):
 		return node
-	suffix = excel.SUFFIX if node.get("workbook") else word.SUFFIX if node.get("document") else None
+	suffix = excel.SUFFIX if node.get("workbook") else word.SUFFIX if node.get("document") else drive.SUFFIX if node.get("presentation") else None
 	if not suffix:
 		return node
 	name = node["name"] if node["name"].lower().endswith(suffix) else node["name"] + suffix
@@ -383,12 +385,15 @@ def _move_or_copy(item: dict, dest_path: str, is_move: bool) -> None:
 	from onedesk.one_sheet import excel
 
 	from onedesk.one_doc import word
+	from onedesk.one_slide import drive
 
 	parent, name = _place_for(dest_path)
 	if item.get("workbook") and name.lower().endswith(excel.SUFFIX):
 		name = name[: -len(excel.SUFFIX)]
 	if item.get("document") and name.lower().endswith(word.SUFFIX):
 		name = name[: -len(word.SUFFIX)]
+	if item.get("presentation") and name.lower().endswith(drive.SUFFIX):
+		name = name[: -len(drive.SUFFIX)]
 	here = frappe.db.get_value("File", item["id"], "folder") if not item.get("virtual") else None
 	try:
 		if is_move and here == ns.folder_of(parent["id"]):
@@ -491,9 +496,24 @@ class Document(_DAVNonCollection):
 			return word.docx(self.item["document"])
 		return excel.xlsx(self.item["workbook"])
 
+	def _deck(self, made: bool = True) -> bytes | None:
+		from onedesk.one_slide import drive
+
+		return drive.pptx(self.item["presentation"]) if made else drive.held(self.item["presentation"])
+
+	def _deck_stamp(self) -> float | None:
+		from onedesk.one_slide import drive
+
+		if "deck_stamp" not in self.item:
+			self.item["deck_stamp"] = _stamp(drive.stamp(self.item["presentation"]))
+		return self.item["deck_stamp"]
+
 	def get_content_length(self):
 		if self.item.get("workbook") or self.item.get("document"):
 			return len(self._workbook())
+		if self.item.get("presentation"):
+			made = self._deck(self.environ.get("REQUEST_METHOD") in ("GET", "HEAD"))
+			return len(made) if made else int(self.item.get("size") or 0)
 		return int(self.item.get("size") or 0)
 
 	def get_content_type(self):
@@ -505,6 +525,8 @@ class Document(_DAVNonCollection):
 		return _stamp(self.item.get("modified"))
 
 	def get_last_modified(self):
+		if self.item.get("presentation"):
+			return self._deck_stamp()
 		return _stamp(self.item.get("modified"))
 
 	def get_display_name(self):
@@ -514,6 +536,8 @@ class Document(_DAVNonCollection):
 		return True
 
 	def get_etag(self):
+		if self.item.get("presentation"):
+			return f"{self.item.get('id')}-{int(self._deck_stamp() or 0)}"
 		return f"{self.item.get('id')}-{int(_stamp(self.item.get('modified')) or 0)}-{self.item.get('size') or 0}"
 
 	def support_ranges(self):
@@ -522,6 +546,8 @@ class Document(_DAVNonCollection):
 	def get_content(self):
 		if self.item.get("workbook") or self.item.get("document"):
 			return io.BytesIO(self._workbook())
+		if self.item.get("presentation"):
+			return io.BytesIO(self._deck())
 		url = self.item.get("url") or ""
 		if store.is_stored(url):
 			import requests
@@ -554,14 +580,17 @@ class Document(_DAVNonCollection):
 				content = written.read()
 		finally:
 			os.unlink(spool)
-		if self.item.get("workbook") or self.item.get("document"):
+		if self.item.get("workbook") or self.item.get("document") or self.item.get("presentation"):
 			from onedesk.one_doc import word
 			from onedesk.one_sheet import excel
+			from onedesk.one_slide import drive
 
 			if not content:
 				return
 			try:
-				if self.item.get("document"):
+				if self.item.get("presentation"):
+					drive.write(self.item["presentation"], content)
+				elif self.item.get("document"):
 					word.write(self.item["document"], content)
 				else:
 					excel.write(self.item["workbook"], content)

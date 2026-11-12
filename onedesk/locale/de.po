@@ -1390,6 +1390,10 @@ msgstr "Ein Ort gehört zu einem Standort der Schicht oder zu einem einzelnen Mi
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr "Ein Ort, für den das Wetter auf Bildschirmen und neben der Uhr angezeigt wird. Ein Ort ist kostenlos, jeder weitere kostet 5 Credits pro Tag."
 
+#: onedesk/one_slide/drive.py:63
+msgid "A presentation with words from records can only be edited in OneSlide."
+msgstr "Eine Präsentation mit Wörtern aus Datensätzen kann nur in OneSlide bearbeitet werden."
+
 #. Description of a DocType
 #: onedesk/one_slide/doctype/presentation/presentation.json:21
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
@@ -7031,6 +7035,10 @@ msgstr "Bevor eine Dateianfrage fällig ist, oder wenn ihr Besitzer eine Erinner
 #, python-brace-format
 msgid "Before a new {0} is saved for the first time"
 msgstr "Bevor ein neuer Datensatz vom Typ {0} zum ersten Mal gespeichert wird"
+
+#: onedesk/one_slide/drive.py:72
+msgid "Before a save from the drive"
+msgstr "Vor einer Speicherung vom Laufwerk"
 
 #: onedesk/one_studio/doctype/extension/extension.js:27
 #, python-brace-format
@@ -32570,6 +32578,11 @@ msgstr "Nicht abgerechnete Stunden"
 msgid "Not Booked"
 msgstr "Nicht gebucht"
 
+#. Label of the lost (Data) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json:63
+msgid "Not Brought In"
+msgstr "Nicht übernommen"
+
 #. Name of a notification
 #: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:268
 msgid "Not Checked In"
@@ -45107,6 +45120,11 @@ msgstr "Als {0} gespeichert."
 msgid "Saved document"
 msgstr "Dokument gespeichert"
 
+#: frontend/src/slide/stores/presentation.js:331
+#, python-brace-format
+msgid "Saved from the drive: slides {0} had parts that could not be brought in."
+msgstr "Vom Laufwerk gespeichert: Die Folien {0} enthielten Teile, die nicht übernommen werden konnten."
+
 #: onedesk/one_studio/ai_setup.py:243
 #, python-brace-format
 msgid "Saved report {0}"
@@ -53916,6 +53934,11 @@ msgstr "Die Betreiber der Website, also niemand im Arbeitsbereich"
 msgid "The slide is in the library."
 msgstr "Die Folie ist in der Bibliothek."
 
+#. Description of the 'Not Brought In' (Data) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json:63
+msgid "The slides whose last save from the drive had parts that could not be brought in."
+msgstr "Die Folien, deren letzte Speicherung vom Laufwerk Teile enthielt, die nicht übernommen werden konnten."
+
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
 #: onedesk/one_slide/doctype/presentation/presentation.json:78
 msgid "The slides' height in pixels."
@@ -54855,6 +54878,10 @@ msgstr "Diese Datei kann nicht geöffnet werden."
 #: onedesk/one_admin/office.py:86 onedesk/one_storage/office.py:40
 msgid "This file could not be converted."
 msgstr "Diese Datei konnte nicht umgewandelt werden."
+
+#: onedesk/one_slide/drive.py:69
+msgid "This file is not a presentation."
+msgstr "Diese Datei ist keine Präsentation."
 
 #: onedesk/one_doc/api.py:264
 msgid "This file is too large to put into a document."
