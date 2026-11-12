@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 07:30+0000\n"
-"PO-Revision-Date: 2026-11-12 07:30+0000\n"
+"POT-Creation-Date: 2026-11-12 09:01+0000\n"
+"PO-Revision-Date: 2026-11-12 09:01+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -7032,7 +7032,7 @@ msgstr ""
 msgid "Before a new {0} is saved for the first time"
 msgstr ""
 
-#: onedesk/one_slide/drive.py:72
+#: onedesk/one_slide/drive.py:73
 msgid "Before a save from the drive"
 msgstr ""
 
@@ -8486,7 +8486,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1014
 #: frontend/src/sheet/components/SheetEditor/index.vue:1042
 #: frontend/src/sheet/components/SheetEditor/index.vue:1241
-#: frontend/src/slide/stores/presentation.js:491
+#: frontend/src/slide/stores/presentation.js:492
 #: frontend/src/task/TaskWaits.vue:14
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
 #: onedesk/public/js/doctype_settings.js:253
@@ -11701,7 +11701,7 @@ msgstr ""
 msgid "Could not read range."
 msgstr ""
 
-#: onedesk/one_slide/from_powerpoint.py:315 onedesk/one_storage/pdf.py:102
+#: onedesk/one_slide/from_powerpoint.py:319 onedesk/one_storage/pdf.py:102
 #, python-brace-format
 msgid "Could not read {0}."
 msgstr ""
@@ -13717,7 +13717,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1240
 #: frontend/src/slide/components/ElementContextMenu.vue:188
 #: frontend/src/slide/components/PresentationPreview.vue:141
-#: frontend/src/slide/stores/presentation.js:493
+#: frontend/src/slide/stores/presentation.js:494
 #: frontend/src/slide/utils/slideMenu.js:23 frontend/src/template/Tasks.vue:160
 #: frontend/src/writer/components/FloatingComments.vue:54
 #: frontend/src/writer/components/FloatingComments.vue:106
@@ -13822,7 +13822,7 @@ msgstr ""
 msgid "Delete pivot"
 msgstr ""
 
-#: frontend/src/slide/stores/presentation.js:488
+#: frontend/src/slide/stores/presentation.js:489
 msgid "Delete presentation"
 msgstr ""
 
@@ -21628,7 +21628,7 @@ msgstr ""
 
 #. Label of the guides (Long Text) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:172
-#: onedesk/one_slide/doctype/presentation/presentation.json:83
+#: onedesk/one_slide/doctype/presentation/presentation.json:91
 msgid "Guides"
 msgstr ""
 
@@ -22034,7 +22034,7 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:55
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:55
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:76
+#: onedesk/one_slide/doctype/presentation/presentation.json:84
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:61
 #: onedesk/public/js/table_workbook.js:49
 msgid "Height"
@@ -24657,7 +24657,7 @@ msgstr ""
 #. Label of the is_template (Check) field in DocType 'Presentation'
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:94
 #: onedesk/one_sheet/doctype/workbook/workbook.json:94
-#: onedesk/one_slide/doctype/presentation/presentation.json:116
+#: onedesk/one_slide/doctype/presentation/presentation.json:124
 msgid "Is Template"
 msgstr ""
 
@@ -28940,7 +28940,7 @@ msgid "Master"
 msgstr ""
 
 #. Label of the master_of (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:98
+#: onedesk/one_slide/doctype/presentation/presentation.json:106
 msgid "Master Of"
 msgstr ""
 
@@ -31832,7 +31832,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:521
+#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:522
 msgid "No file was sent."
 msgstr ""
 
@@ -32588,7 +32588,7 @@ msgid "Not Booked"
 msgstr ""
 
 #. Label of the lost (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:63
+#: onedesk/one_slide/doctype/presentation/presentation.json:64
 msgid "Not Brought In"
 msgstr ""
 
@@ -35138,7 +35138,7 @@ msgstr ""
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr ""
 
-#: onedesk/one_slide/from_powerpoint.py:303
+#: onedesk/one_slide/from_powerpoint.py:307
 msgid "Only PowerPoint files can be opened as a presentation."
 msgstr ""
 
@@ -48162,7 +48162,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json:49
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:63
-#: onedesk/one_slide/doctype/presentation/presentation.json:122
+#: onedesk/one_slide/doctype/presentation/presentation.json:130
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:46
 #: onedesk/public/js/table_workbook.js:39
 msgid "Size"
@@ -48305,7 +48305,7 @@ msgstr ""
 msgid "Slide copied to clipboard"
 msgstr ""
 
-#: onedesk/one_slide/api.py:332
+#: onedesk/one_slide/api.py:333
 #, python-brace-format
 msgid "Slide fields not accepted: {0}"
 msgstr ""
@@ -48340,7 +48340,7 @@ msgstr ""
 #. Label of the slides (JSON) field in DocType 'Presentation Version'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:29
-#: onedesk/one_slide/doctype/presentation/presentation.json:127
+#: onedesk/one_slide/doctype/presentation/presentation.json:135
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:66
 msgid "Slides"
 msgstr ""
@@ -48392,7 +48392,7 @@ msgstr ""
 #. Label of the slug (Data) field in DocType 'Tenant'
 #. Label of the slug (Data) field in DocType 'Presentation'
 #: onedesk/one_admin/doctype/tenant/tenant.json:85
-#: onedesk/one_slide/doctype/presentation/presentation.json:106
+#: onedesk/one_slide/doctype/presentation/presentation.json:114
 msgid "Slug"
 msgstr ""
 
@@ -48885,7 +48885,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #. Label of the sources (Long Text) field in DocType 'Presentation'
 #: onedesk/one/sidebar/one/one.json:124
-#: onedesk/one_slide/doctype/presentation/presentation.json:90
+#: onedesk/one_slide/doctype/presentation/presentation.json:98
 #: onedesk/public/js/one_interface/chrome.js:318
 msgid "Sources"
 msgstr ""
@@ -52146,7 +52146,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_slide/api.py:385
+#: onedesk/one_slide/api.py:386
 msgid "That theme does not exist."
 msgstr ""
 
@@ -53214,7 +53214,7 @@ msgid "The letter heads and print formats documents are printed and sent on."
 msgstr ""
 
 #. Description of the 'Guides' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:84
+#: onedesk/one_slide/doctype/presentation/presentation.json:92
 msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
 msgstr ""
 
@@ -53672,7 +53672,7 @@ msgid "The presentation could not be saved. Try again."
 msgstr ""
 
 #. Description of the 'Master Of' (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:101
+#: onedesk/one_slide/doctype/presentation/presentation.json:109
 msgid "The presentation this one is the master of. A master has no File of its own."
 msgstr ""
 
@@ -53844,7 +53844,7 @@ msgid "The record's own link to the one whose fields are shown."
 msgstr ""
 
 #. Description of the 'Sources' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:91
+#: onedesk/one_slide/doctype/presentation/presentation.json:99
 msgid "The records whose words this presentation shows, filled each time it is drawn."
 msgstr ""
 
@@ -53976,17 +53976,17 @@ msgid "The slide is in the library."
 msgstr ""
 
 #. Description of the 'Not Brought In' (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:63
+#: onedesk/one_slide/doctype/presentation/presentation.json:65
 msgid "The slides whose last save from the drive had parts that could not be brought in."
 msgstr ""
 
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:78
+#: onedesk/one_slide/doctype/presentation/presentation.json:86
 msgid "The slides' height in pixels."
 msgstr ""
 
 #. Description of the 'Width' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:71
+#: onedesk/one_slide/doctype/presentation/presentation.json:79
 msgid "The slides' width in pixels."
 msgstr ""
 
@@ -54421,7 +54421,7 @@ msgstr ""
 
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
-#: onedesk/one_slide/doctype/presentation/presentation.json:64
+#: onedesk/one_slide/doctype/presentation/presentation.json:72
 #: onedesk/public/js/outside.js:106 onedesk/public/js/theme.js:132
 msgid "Theme"
 msgstr ""
@@ -54912,7 +54912,7 @@ msgstr ""
 
 #: onedesk/one_doc/word.py:225 onedesk/one_doc/word.py:261
 #: onedesk/one_sheet/api.py:224 onedesk/one_sheet/excel.py:278
-#: onedesk/one_slide/from_powerpoint.py:300
+#: onedesk/one_slide/from_powerpoint.py:304
 msgid "This file cannot be opened."
 msgstr ""
 
@@ -54928,7 +54928,7 @@ msgstr ""
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_slide/api.py:524
+#: onedesk/one_slide/api.py:525
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -54985,8 +54985,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_slide/api.py:557 onedesk/one_slide/api.py:561
-#: onedesk/one_slide/api.py:574 onedesk/one_slide/paper.py:32
+#: onedesk/one_slide/api.py:558 onedesk/one_slide/api.py:562
+#: onedesk/one_slide/api.py:575 onedesk/one_slide/paper.py:32
 msgid "This is not a picture."
 msgstr ""
 
@@ -55115,7 +55115,7 @@ msgstr ""
 msgid "This picture could not be opened."
 msgstr ""
 
-#: onedesk/one_slide/api.py:563 onedesk/one_slide/api.py:577
+#: onedesk/one_slide/api.py:564 onedesk/one_slide/api.py:578
 #: onedesk/one_slide/paper.py:35
 msgid "This picture is too large."
 msgstr ""
@@ -55484,7 +55484,7 @@ msgstr ""
 
 #. Label of the thumbnail (Data) field in DocType 'Presentation'
 #. Label of the thumbnail (Long Text) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation/presentation.json:111
+#: onedesk/one_slide/doctype/presentation/presentation.json:119
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:41
 msgid "Thumbnail"
 msgstr ""
@@ -63356,7 +63356,7 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:43
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:43
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:69
+#: onedesk/one_slide/doctype/presentation/presentation.json:77
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:56
 #: onedesk/public/js/table_workbook.js:48
 msgid "Width"
