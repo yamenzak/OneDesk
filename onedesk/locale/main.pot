@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 09:24+0000\n"
-"PO-Revision-Date: 2026-11-12 09:24+0000\n"
+"POT-Creation-Date: 2026-11-12 09:56+0000\n"
+"PO-Revision-Date: 2026-11-12 09:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -884,7 +884,7 @@ msgstr ""
 msgid "A draft. Submit it to take these out of stock for {0}."
 msgstr ""
 
-#: onedesk/one_storage/dav.py:250
+#: onedesk/one_storage/dav.py:258
 msgid "A drive"
 msgstr ""
 
@@ -13961,6 +13961,11 @@ msgstr ""
 msgid "Deleted On"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "Deleted While Open"
+msgstr ""
+
 #: onedesk/public/js/privacy_request.js:8
 msgid "Deleted. The account is disabled and its personal data erased."
 msgstr ""
@@ -25058,6 +25063,11 @@ msgstr ""
 msgid "It would overwrite {0}."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "It's in the Recycle Bin. Restore it from there to keep working on it, or save your changes as a new file."
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:118
 #: frontend/src/slide/components/FontSection.vue:88
 #: frontend/src/slide/composables/useShortcuts.js:456
@@ -35398,7 +35408,7 @@ msgstr ""
 msgid "Only people on the team can be added. Create a link for {0} instead."
 msgstr ""
 
-#: onedesk/one_storage/dav.py:244
+#: onedesk/one_storage/dav.py:252
 msgid "Only people on the team can connect a drive."
 msgstr ""
 
@@ -35548,6 +35558,7 @@ msgstr ""
 #: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:132
 #: frontend/src/mail/OneMail.vue:213
 #: onedesk/notifications/one_storage/closed_in_oneos.md
+#: onedesk/notifications/one_storage/deleted_while_open.md
 #: onedesk/notifications/one_storage/file_ready.md
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:69
@@ -55089,10 +55100,10 @@ msgid "This is your own mailbox. If OneAI reads it, it files and acts on this ma
 msgstr ""
 
 #: onedesk/one_storage/api.py:19 onedesk/one_storage/api.py:83
-#: onedesk/one_storage/dav.py:273
+#: onedesk/one_storage/dav.py:281
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
 #: onedesk/one_storage/file_requests.py:137 onedesk/one_storage/history.py:102
-#: onedesk/one_storage/history.py:270 onedesk/one_storage/lease.py:207
+#: onedesk/one_storage/history.py:270 onedesk/one_storage/lease.py:225
 #: onedesk/one_storage/library.py:62 onedesk/one_storage/mounts.py:54
 #: onedesk/one_storage/mounts.py:74 onedesk/one_storage/share.py:31
 msgid "This item no longer exists."
@@ -61883,6 +61894,11 @@ msgid "When someone mentions you in a comment."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_storage/deleted_while_open.md
+msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook or OneWriter."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/one_admin/notifications.py
 msgid "When someone pays for a new workspace."
 msgstr ""
@@ -63011,6 +63027,7 @@ msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_storage/closed_in_oneos.md
+#: onedesk/notifications/one_storage/deleted_while_open.md
 msgid "Whoever had it open"
 msgstr ""
 
@@ -64685,11 +64702,11 @@ msgstr ""
 msgid "You are editing in OneOS"
 msgstr ""
 
-#: onedesk/one_storage/lease.py:173
+#: onedesk/one_storage/lease.py:191
 msgid "You are editing this in OneOS."
 msgstr ""
 
-#: onedesk/one_storage/lease.py:174
+#: onedesk/one_storage/lease.py:192
 msgid "You are editing this on the drive."
 msgstr ""
 
@@ -67010,7 +67027,7 @@ msgstr ""
 msgid "required"
 msgstr ""
 
-#: onedesk/one_storage/api.py:539
+#: onedesk/one_storage/api.py:551
 msgid "restored it from the Recycle Bin"
 msgstr ""
 
@@ -67032,6 +67049,11 @@ msgstr ""
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "rule"
+msgstr ""
+
+#: onedesk/one_storage/dav_saves.py:182
+#, python-brace-format
+msgid "saved a copy, since {0} had changed after it was opened"
 msgstr ""
 
 #: onedesk/one_admin/offerings.py:163
@@ -67190,7 +67212,7 @@ msgstr ""
 msgid "the days off each week are now {0}"
 msgstr ""
 
-#: onedesk/one_storage/lease.py:134
+#: onedesk/one_storage/lease.py:142
 msgid "the drive"
 msgstr ""
 
@@ -67528,7 +67550,7 @@ msgstr ""
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one_storage/saving.py:149
+#: onedesk/one_storage/dav_saves.py:179 onedesk/one_storage/saving.py:149
 #, python-brace-format
 msgid "{0} ({1}'s copy)"
 msgstr ""
@@ -69111,12 +69133,12 @@ msgstr ""
 msgid "{0} is editing in OneOS"
 msgstr ""
 
-#: onedesk/one_storage/lease.py:173
+#: onedesk/one_storage/lease.py:191
 #, python-brace-format
 msgid "{0} is editing this in OneOS."
 msgstr ""
 
-#: onedesk/one_storage/lease.py:174
+#: onedesk/one_storage/lease.py:192
 #, python-brace-format
 msgid "{0} is editing this on the drive."
 msgstr ""
@@ -72500,6 +72522,12 @@ msgstr ""
 #: onedesk/notifications/one_studio/collection_deleted.md
 #, python-brace-format
 msgid "{who} deleted {collection}"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_storage/deleted_while_open.md
+#, python-brace-format
+msgid "{who} deleted {file} while you had it open"
 msgstr ""
 
 #. Subject of a notification

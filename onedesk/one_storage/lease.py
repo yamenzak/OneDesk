@@ -67,6 +67,13 @@ def reading(alone: dict | None, user: str, now) -> dict | None:
 	return {"user": alone["one_lease_user"], "kind": alone.get("one_lease_kind"), "mine": alone["one_lease_user"] == user}
 
 
+def holders(alone: dict | None, live: dict, now) -> list[str]:
+	"""Everybody who has the file open to change or to read: who holds it
+	alone, then who is in it live. Pure."""
+	found = [alone["one_lease_user"]] if holding(alone, now) else []
+	return found + [user for user in sorted(live) if user not in found]
+
+
 def _live_key(file: str) -> str:
 	return f"onecloud_live:{file}"
 
@@ -99,9 +106,10 @@ def leave(file: str, sid: str) -> None:
 		frappe.cache.hdel(_live_key(file), f"{frappe.session.user}|{sid}")
 
 
-def take(file: str, kind: str, user: str, seconds: int) -> dict:
-	"""The file alone for `user`: a new lock, their own still running (with
-	its session, to open again), or `held` saying who has it instead."""
+def take(file: str, kind: str, user: str, seconds: int, lock: str | None = None) -> dict:
+	"""The file alone for `user`: a new lock (`lock`, when the drive's lock
+	token is to be the lease's), their own still running (with its session,
+	to open again), or `held` saying who has it instead."""
 	now = now_datetime()
 	alone = alone_of(file, for_update=True)
 	why = refused(alone, live_of(file), user, kind, now)
@@ -110,7 +118,7 @@ def take(file: str, kind: str, user: str, seconds: int) -> dict:
 	if holding(alone, now) and alone.one_lease_session:
 		extend(file, alone.one_lease_lock, seconds)
 		return {"lock": alone.one_lease_lock, "session": alone.one_lease_session}
-	lock = frappe.generate_hash(length=20)
+	lock = lock or frappe.generate_hash(length=20)
 	frappe.db.set_value(
 		"File",
 		file,
@@ -139,6 +147,16 @@ def said(why: dict, user: str) -> dict:
 def extend(file: str, lock: str | None, seconds: int) -> None:
 	if lock and frappe.db.get_value("File", file, "one_lease_lock") == lock:
 		frappe.db.set_value("File", file, "one_lease_until", add_to_date(now_datetime(), seconds=seconds), update_modified=False)
+
+
+def in_it(file: str) -> list[str]:
+	"""`holders` of a File by name."""
+	return holders(alone_of(file), live_of(file), now_datetime())
+
+
+def by_lock(lock: str | None) -> str | None:
+	"""The File whose alone lease is `lock`."""
+	return frappe.db.get_value("File", {"one_lease_lock": lock}, "name") if lock else None
 
 
 def started(file: str, session: str) -> None:
