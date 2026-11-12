@@ -66135,6 +66135,10 @@ msgstr "أنجز"
 msgid "conditional formatting"
 msgstr "التنسيق الشرطي"
 
+#: onedesk/one_storage/fidelity.py:190
+msgid "connections to outside data"
+msgstr "الاتصالات بالبيانات الخارجية"
+
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "contact"
@@ -66344,10 +66348,6 @@ msgstr "الملاحظات"
 msgid "fields such as a table of contents"
 msgstr "الحقول مثل جدول المحتويات"
 
-#: onedesk/one_storage/fidelity.py:149
-msgid "fonts, colours and borders"
-msgstr "الخطوط والألوان والحدود"
-
 #: onedesk/one_storage/fidelity.py:150
 msgid "fonts, sizes and colours"
 msgstr "الخطوط والأحجام والألوان"
@@ -66365,6 +66365,10 @@ msgstr "منذ {0}"
 #, python-brace-format
 msgid "for {0} · usually {1}"
 msgstr "منذ {0} · عادةً {1}"
+
+#: onedesk/one_storage/fidelity.py:189
+msgid "form controls"
+msgstr "عناصر تحكم النماذج"
 
 #: onedesk/public/js/one_mail/rule_builder.js:304
 msgid "from it"
@@ -67157,6 +67161,10 @@ msgstr "أُظهر في البوابة لـ {0} مجدداً"
 msgid "slash"
 msgstr "شرطة مائلة"
 
+#: onedesk/one_storage/fidelity.py:178
+msgid "slicers"
+msgstr "مقسمات طرق العرض"
+
 #: onedesk/one_studio/ai_setup.py:221
 msgid "smallest first"
 msgstr "الأصغر أولاً"
@@ -67180,6 +67188,10 @@ msgstr "نقله شخص ما منذ ذلك الحين"
 #: onedesk/one_ai/reading/act.py:665
 msgid "someone has renamed it since"
 msgstr "أعاد شخص ما تسميته منذ ذلك الحين"
+
+#: onedesk/one_storage/fidelity.py:183
+msgid "sparklines"
+msgstr "خطوط المؤشر"
 
 #: onedesk/one_project/activity.py:357
 msgid "started sub-project"
@@ -69733,6 +69745,11 @@ msgstr "سُجّل خروج {0}. يجري محو بياناته."
 #, python-brace-format
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
 msgstr "{0} شخص في مساحة العمل. يسجّل الدخول إلى One وليس إلى البوابة."
+
+#: onedesk/one_sheet/api.py:280
+#, python-brace-format
+msgid "{0} is still being read in. Try again in a moment."
+msgstr "لا يزال {0} قيد القراءة. حاول مرة أخرى بعد قليل."
 
 #: onedesk/one_admin/servers.py:120
 #, python-brace-format

@@ -66135,6 +66135,10 @@ msgstr "hat erledigt"
 msgid "conditional formatting"
 msgstr "bedingte Formatierung"
 
+#: onedesk/one_storage/fidelity.py:190
+msgid "connections to outside data"
+msgstr "Verbindungen zu externen Daten"
+
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "contact"
@@ -66344,10 +66348,6 @@ msgstr "Rückmeldungen"
 msgid "fields such as a table of contents"
 msgstr "Felder wie ein Inhaltsverzeichnis"
 
-#: onedesk/one_storage/fidelity.py:149
-msgid "fonts, colours and borders"
-msgstr "Schriften, Farben und Rahmen"
-
 #: onedesk/one_storage/fidelity.py:150
 msgid "fonts, sizes and colours"
 msgstr "Schriften, Größen und Farben"
@@ -66365,6 +66365,10 @@ msgstr "seit {0}"
 #, python-brace-format
 msgid "for {0} · usually {1}"
 msgstr "seit {0} · üblich {1}"
+
+#: onedesk/one_storage/fidelity.py:189
+msgid "form controls"
+msgstr "Formularsteuerelemente"
 
 #: onedesk/public/js/one_mail/rule_builder.js:304
 msgid "from it"
@@ -67157,6 +67161,10 @@ msgstr "im Portal wieder für {0} sichtbar"
 msgid "slash"
 msgstr "Schrägstrich"
 
+#: onedesk/one_storage/fidelity.py:178
+msgid "slicers"
+msgstr "Datenschnitte"
+
 #: onedesk/one_studio/ai_setup.py:221
 msgid "smallest first"
 msgstr "kleinste zuerst"
@@ -67180,6 +67188,10 @@ msgstr "jemand hat es inzwischen verschoben"
 #: onedesk/one_ai/reading/act.py:665
 msgid "someone has renamed it since"
 msgstr "jemand hat es inzwischen umbenannt"
+
+#: onedesk/one_storage/fidelity.py:183
+msgid "sparklines"
+msgstr "Sparklines"
 
 #: onedesk/one_project/activity.py:357
 msgid "started sub-project"
@@ -69733,6 +69745,11 @@ msgstr "{0} ist abgemeldet. Die Daten werden gelöscht."
 #, python-brace-format
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
 msgstr "{0} gehört zum Arbeitsbereich und meldet sich bei One an, nicht im Portal."
+
+#: onedesk/one_sheet/api.py:280
+#, python-brace-format
+msgid "{0} is still being read in. Try again in a moment."
+msgstr "{0} wird noch eingelesen. Versuchen Sie es gleich noch einmal."
 
 #: onedesk/one_admin/servers.py:120
 #, python-brace-format

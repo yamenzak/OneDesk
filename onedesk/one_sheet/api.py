@@ -253,17 +253,32 @@ def open_file(file: str) -> dict:
 @frappe.whitelist(methods=["POST"])
 def write_back(name: str, content: str = "", choice: str = "") -> dict:
 	"""What the editor made of an xlsx or csv File, as that File's content:
-	what it held before is kept as a version (one_storage/history.py). When
-	that would drop parts of the file, it waits for the reader's `choice`,
-	over or copy (one_storage/saving.py)."""
+	an Excel file is the File's own with the saved workbook written into it
+	(patching.py), a CSV is what the editor sends. What it held before is
+	kept as a version (one_storage/history.py). When that would drop parts
+	of the file, it waits for the reader's `choice`, over or copy
+	(one_storage/saving.py)."""
 	import base64
 
 	from onedesk.one_storage import saving
 
 	item = _may(name, "write")
-	if not frappe.db.get_value(WORKBOOK, name, "source_kind"):
+	kind = frappe.db.get_value(WORKBOOK, name, "source_kind")
+	if not kind:
 		frappe.throw(_("This workbook is not linked to an Excel or CSV file."))
+	if kind == "xlsx":
+		return saving.write_back(WORKBOOK, name, item, lambda: _patched(name, item), choice)
 	return saving.write_back(WORKBOOK, name, item, base64.b64decode(content) if content else b"", choice)
+
+
+def _patched(name: str, item: dict) -> bytes:
+	from onedesk.one_sheet import excel, patching
+	from onedesk.one_storage import api as cloud
+
+	data = excel._data(name)
+	if not excel._sheets(data):
+		frappe.throw(_("{0} is still being read in. Try again in a moment.").format(item["file_name"]))
+	return patching.file(data, cloud._content(frappe._dict(item)), excel._symbol)
 
 
 @frappe.whitelist(methods=["POST"])

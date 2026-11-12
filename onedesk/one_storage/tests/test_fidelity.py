@@ -30,10 +30,87 @@ def _letter(body: bytes = BODY, **more) -> bytes:
 
 def test_a_plain_workbook_loses_nothing():
 	assert fidelity.workbook(_book()) == []
+	assert fidelity.read_in(_book()) == []
 
 
-def test_what_a_workbook_drops_is_read_from_its_parts():
+def _made(build) -> bytes:
+	from openpyxl import Workbook
+
+	book = Workbook()
+	build(book.active)
+	out = io.BytesIO()
+	book.save(out)
+	return out.getvalue()
+
+
+def test_saving_over_keeps_what_openpyxl_keeps():
+	from openpyxl.comments import Comment
+	from openpyxl.formatting.rule import ColorScaleRule
+	from openpyxl.styles import Border, Font, PatternFill, Side
+	from openpyxl.worksheet.datavalidation import DataValidation
+	from openpyxl.worksheet.table import Table
+
+	def build(ws):
+		ws.append(["Line", "Amount"])
+		ws.append(["Rent", 15000])
+		ws["A1"].font = Font(bold=True, color="FF0000")
+		ws["A1"].fill = PatternFill("solid", fgColor="FFFF00")
+		ws["A1"].border = Border(bottom=Side(style="thin"))
+		ws["B2"].comment = Comment("Monthly", "Huda")
+		rule = DataValidation(type="list", formula1='"Rent,Fees"')
+		rule.add("A2")
+		ws.add_data_validation(rule)
+		ws.conditional_formatting.add("B2", ColorScaleRule(start_type="min", start_color="FFFFFF", end_type="max", end_color="00FF00"))
+		ws.add_table(Table(displayName="Costs", ref="A1:B2"))
+
+	made = _made(build)
+	assert fidelity.workbook(made) == []
+	assert fidelity.read_in(made) == ["comments", "tables", "data_validation", "conditional_formatting"]
+
+
+def test_saving_over_a_chart_changes_it():
+	from openpyxl.chart import BarChart, Reference
+
+	def build(ws):
+		ws.append(["Q1", 10])
+		ws.append(["Q2", 20])
+		chart = BarChart()
+		chart.add_data(Reference(ws, min_col=2, min_row=1, max_row=2))
+		ws.add_chart(chart, "D2")
+
+	assert fidelity.workbook(_made(build)) == ["charts"]
+
+
+def test_what_saving_over_drops_is_read_from_its_parts():
+	extended = "".join(f'<ext uri="{uri.decode()}"/>' for uri in fidelity.EXTENDED.values())
 	found = fidelity.workbook(
+		_book(
+			**{
+				"xl/vbaProject.bin": b"x",
+				"xl/threadedComments/threadedComment1.xml": b"<t/>",
+				"xl/charts/chart1.xml": b"<c/>",
+				"xl/slicers/slicer1.xml": b"<s/>",
+				"xl/media/image1.emf": b"emf",
+				"xl/media/image2.png": b"png",
+				"xl/worksheets/sheet2.xml": f"<worksheet><extLst>{extended}</extLst></worksheet>".encode(),
+				"xl/drawings/drawing1.xml": b"<xdr:wsDr><xdr:twoCellAnchor><xdr:sp/></xdr:twoCellAnchor></xdr:wsDr>",
+				"xl/embeddings/oleObject1.bin": b"x",
+				"xl/ctrlProps/ctrlProp1.xml": b"<c/>",
+				"xl/connections.xml": b"<connections/>",
+				"xl/pivotTables/pivotTable1.xml": b"<p/>",
+				"xl/externalLinks/externalLink1.xml": b"<e/>",
+				"xl/comments1.xml": b"<comments/>",
+			}
+		)
+	)
+	assert found == [
+		"macros", "comments", "charts", "slicers", "pictures", "data_validation", "conditional_formatting",
+		"sparklines", "text_boxes", "embedded_files", "form_controls", "connections",
+	]  # fmt: skip
+
+
+def test_what_a_workbook_of_ones_own_drops_is_read_from_its_parts():
+	found = fidelity.read_in(
 		_book(
 			**{
 				"xl/vbaProject.bin": b"x",
@@ -44,24 +121,19 @@ def test_what_a_workbook_drops_is_read_from_its_parts():
 				"xl/tables/table1.xml": b"<table/>",
 				"xl/externalLinks/externalLink1.xml": b"<e/>",
 				"xl/worksheets/sheet2.xml": b"<worksheet><dataValidations count='1'><dataValidation/></dataValidations><conditionalFormatting/></worksheet>",
-				"xl/styles.xml": b'<styleSheet><fonts count="2"/><fills count="2"/><borders count="1"/></styleSheet>',
+				"xl/styles.xml": b'<styleSheet><fonts count="3"/><fills count="4"/><borders count="2"/></styleSheet>',
 			}
 		)
 	)
 	assert found == [
 		"macros", "comments", "charts", "pivot_tables", "pictures", "tables", "data_validation",
-		"conditional_formatting", "external_links", "formatting",
+		"conditional_formatting", "external_links",
 	]  # fmt: skip
-
-
-def test_a_workbook_of_ones_own_keeps_its_formatting_from_its_own_copy():
-	styled = _book(**{"xl/styles.xml": b'<styleSheet><fonts count="3"/><fills count="4"/><borders count="2"/></styleSheet>'})
-	assert fidelity.workbook(styled) == ["formatting"]
-	assert fidelity.workbook(styled, formatting=False) == []
 
 
 def test_what_is_not_an_office_file_has_nothing_to_lose():
 	assert fidelity.workbook(b"Item,Rate\nGL,60\n") == []
+	assert fidelity.read_in(b"Item,Rate\nGL,60\n") == []
 	assert fidelity.document(b"") == []
 
 

@@ -2076,7 +2076,7 @@ async function writeBack(choice = '') {
   _unwritten = false
   try {
     const waits = fileSaid.value.loses && !choice
-    const said = await call('onedesk.one_sheet.api.write_back', { name: props.id, content: waits ? '' : await fileContent(source.value.kind), choice })
+    const said = await call('onedesk.one_sheet.api.write_back', { name: props.id, content: waits || source.value.kind !== 'csv' ? '' : fileContent(), choice })
     if (said?.held) {
       _unwritten = true
       heldBack.value = said.held

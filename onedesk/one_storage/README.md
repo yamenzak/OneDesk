@@ -388,9 +388,10 @@ editing in OneWorkbook**.
 ### When the file has more than the editor keeps
 
 OneWorkbook and OneWriter don't keep everything an Excel or Word file can
-hold: comments, tracked changes, charts, pivot tables, headers and footers
-and the like. Choosing **Edit in OneWorkbook** or **Edit in OneWriter** on
-such a file first names them, such as *This file has comments and charts
+hold. OneWorkbook keeps an Excel file's look and changes only the cells you
+edit, but charts, slicers, shapes and a few more change or go; OneWriter
+drops comments, tracked changes, headers and footers and the like. Choosing **Edit in OneWorkbook** or **Edit in OneWriter** on
+such a file first names them, such as *This file has charts and slicers
 OneWorkbook can't keep.*
 
 | Button | What it does |
@@ -584,10 +585,14 @@ The version from before the sitting is the one the first save kept.
 
 `fidelity.workbook` and `fidelity.document` read an office file's parts
 (zip names and a few XML markers) for what the native editors drop, pure
-and tested in tests/test_fidelity.py: macros, comments, charts, pivot tables
-and slicers, pictures, tables, data validation, conditional formatting,
-links to other workbooks, and fonts, fills and borders for Excel (SheetJS
-writes none); macros, comments, tracked changes, headers and footers,
+and tested in tests/test_fidelity.py. OneWorkbook writes into the Excel file
+itself with openpyxl (one_sheet/patching.py), so for Excel it is what
+openpyxl does not save: macros, threaded comments (the plain note stays),
+charts (rewritten through its model), slicers and timelines, WMF and EMF
+pictures, the x14 data validation, conditional formatting and sparklines in
+a sheet's extLst, shapes and text boxes, embedded objects, form controls,
+and connections and query tables. `fidelity.read_in` is the longer list for
+an Excel file read into a workbook of One's own from the drive. For Word: macros, comments, tracked changes, headers and footers,
 footnotes, charts, text boxes, equations, embedded files, links, fields and
 fonts, sizes and colours for Word, plus the styles mammoth said it did not
 know (its `messages`, kept by `word.read`, less those `word.build` writes).

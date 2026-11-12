@@ -1,7 +1,7 @@
 """What OneWorkbook or OneWriter would drop from an office file it saves over,
-read from the file's parts when it is opened. The editors keep values,
-formulas, number formats and merges (a workbook), and text, headings, lists,
-tables and pictures (a document); everything listed here is not kept. While
+read from the file's parts when it is opened. OneWorkbook writes what was
+changed into the Excel file itself, and OneWriter keeps text, headings,
+lists, tables and pictures; everything listed here is not kept. While
 a file has something on its list, the editor does not save over it by itself
 (one_sheet/api.py and one_doc/word.py write_back)."""
 
@@ -32,15 +32,52 @@ def _within(parts: dict, prefix: str, pattern: bytes) -> bool:
 	return any(name.startswith(prefix) and found.search(body) for name, body in parts.items())
 
 
-def _counted(styles: bytes, tag: bytes) -> int:
-	found = re.search(rb"<(?:\w+:)?" + tag + rb"\b[^>]*\bcount=\"(\d+)\"", styles or b"")
-	return int(found.group(1)) if found else 0
+#: The worksheet extensions openpyxl leaves out when it saves, by their uri.
+EXTENDED = {
+	"data_validation": b"{CCE6A557-97BC-4B89-ADB6-D9C93CAAB3DF}",
+	"conditional_formatting": b"{78C0D931-6437-407D-A8EE-F0AAD7539E65}",
+	"sparklines": b"{05C60535-1F16-4FD2-B633-F4F36F0B64E0}",
+}
 
 
-def workbook(content: bytes, formatting: bool = True) -> list[str]:
-	"""What OneWorkbook drops from an Excel file: each by its code, in the
-	order labels() lists them. `formatting` counts fonts, colours and borders,
-	which a workbook of One's own keeps from its own copy. Pure."""
+def workbook(content: bytes) -> list[str]:
+	"""What saving over an Excel file from OneWorkbook drops. The file is
+	opened as it is and only what the editor changed is written into it
+	(one_sheet/patching.py), so fonts, fills, borders, comments, data
+	validation, conditional formatting, tables, pivot tables, defined names,
+	pictures and links to other workbooks stay; this lists what openpyxl
+	cannot save. Each by its code, in the order labels() lists them. Pure."""
+	parts = _parts(content)
+	if parts is None:
+		return []
+	out = []
+	if "xl/vbaProject.bin" in parts:
+		out.append("macros")
+	if _any(parts, "xl/threadedComments/"):
+		out.append("comments")
+	if _any(parts, "xl/charts/"):
+		out.append("charts")
+	if _any(parts, "xl/slicers/") or _any(parts, "xl/slicerCaches/") or _any(parts, "xl/timelines/"):
+		out.append("slicers")
+	if any(name.startswith("xl/media/") and name.lower().endswith((".wmf", ".emf")) for name in parts):
+		out.append("pictures")
+	out += [code for code, uri in EXTENDED.items() if _within(parts, "xl/worksheets/", re.escape(uri))]
+	if _within(parts, "xl/drawings/", rb"<(?:\w+:)?(?:sp|grpSp|cxnSp)\b"):
+		out.append("text_boxes")
+	if _any(parts, "xl/embeddings/"):
+		out.append("embedded_files")
+	if _any(parts, "xl/ctrlProps/") or _any(parts, "xl/activeX/"):
+		out.append("form_controls")
+	if "xl/connections.xml" in parts or _any(parts, "xl/queryTables/"):
+		out.append("connections")
+	return out
+
+
+def read_in(content: bytes) -> list[str]:
+	"""What a workbook of One's own drops from an Excel file read into it,
+	as when Excel saves one over the drive: all but values, formulas,
+	number formats and merges, less the fonts, colours and borders it keeps
+	from its own copy. Each by its code. Pure."""
 	parts = _parts(content)
 	if parts is None:
 		return []
@@ -63,9 +100,6 @@ def workbook(content: bytes, formatting: bool = True) -> list[str]:
 		out.append("conditional_formatting")
 	if _any(parts, "xl/externalLinks/"):
 		out.append("external_links")
-	styles = parts.get("xl/styles.xml") or b""
-	if formatting and (_counted(styles, b"fonts") > 1 or _counted(styles, b"fills") > 2 or _counted(styles, b"borders") > 1):
-		out.append("formatting")
 	return out
 
 
@@ -141,16 +175,19 @@ def labels() -> dict:
 		"footnotes": _("footnotes"),
 		"charts": _("charts"),
 		"pivot_tables": _("pivot tables"),
+		"slicers": _("slicers"),
 		"pictures": _("pictures"),
 		"tables": _("tables"),
 		"data_validation": _("data validation"),
 		"conditional_formatting": _("conditional formatting"),
+		"sparklines": _("sparklines"),
 		"external_links": _("links to other workbooks"),
-		"formatting": _("fonts, colours and borders"),
 		"text_formatting": _("fonts, sizes and colours"),
 		"text_boxes": _("text boxes and shapes"),
 		"equations": _("equations"),
 		"embedded_files": _("embedded files"),
+		"form_controls": _("form controls"),
+		"connections": _("connections to outside data"),
 		"links": _("links"),
 		"fields": _("fields such as a table of contents"),
 		"styles": _("styles"),

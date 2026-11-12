@@ -3,8 +3,9 @@
 What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 
 - An Excel file's charts, pictures, colours and column widths aren't read
-  in, and aren't written back: its values, formulas, number formats and
-  merged cells are.
+  in, so the editor shows the file plain; writing back keeps them in the
+  file (patching.py). A row or column inserted in the editor moves the
+  values but leaves the file's styles where they were.
 - A picture column shows the picture's address, not the picture.
 - Frozen rows are meant to head every printed page, as Excel's print titles
   do; the wkhtmltopdf on the dev bench prints them once, at the top.

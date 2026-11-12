@@ -207,20 +207,20 @@ def a_spreadsheet_file_opens_and_saves_back_into_itself():
 
 @check
 def an_excel_file_is_never_saved_over_with_less():
-	"""An Excel file with comments and a chart opens in OneWorkbook saying
+	"""An Excel file with a chart opens in OneWorkbook saying
 	what saving over it would drop, and is not saved over until somebody
 	chooses; an .xlsm opens read-only and refuses a save. Saves by one person
 	in one sitting are one version, the one from before the sitting kept. A
 	workbook of One's own saved from Excel keeps itself as it was first and
 	notes what was left out. All undone afterwards."""
-	import base64
 	import io
 
-	from openpyxl import Workbook
+	from openpyxl import Workbook, load_workbook
 	from openpyxl.chart import BarChart, Reference
 	from openpyxl.comments import Comment
 
 	from onedesk.one_sheet import api, excel
+	from onedesk.one_storage import api as cloud
 	from onedesk.one_storage import history
 	from onedesk.one_storage import namespace as ns
 
@@ -245,18 +245,20 @@ def an_excel_file_is_never_saved_over_with_less():
 			rich.insert()
 			opened = api.open_file(rich.name)["workbook"]
 			said = api.get_sheet(opened)
-			assert said["can_write"] and "comments" in said["loses"] and "charts" in said["loses"], said["loses"]
+			assert said["can_write"] and "charts" in said["loses"] and "comments" not in said["loses"], said["loses"]
 			api.save_sheet("Rates check.xlsx", sheets, opened)
 			assert "held" in api.write_back(opened), "saving over waits for a choice"
 			assert frappe.db.get_value("File", rich.name, "file_url") == rich.file_url
-			copy = api.write_back(opened, base64.b64encode(book(65, rich=False)).decode(), "copy")
+			copy = api.write_back(opened, "", "copy")
 			assert copy["file"] != rich.name and frappe.db.get_value("File", rich.name, "file_url") == rich.file_url, "a copy leaves the file alone"
 			plain = frappe.get_doc({"doctype": "File", "file_name": "Plain check.xlsx", "content": book(60, rich=False), "is_private": 1, "folder": ns.HOME})
 			plain.insert()
 			edited = api.open_file(plain.name)["workbook"]
 			assert not api.get_sheet(edited)["loses"]
 			for rate in (61, 62, 63):
-				api.write_back(edited, base64.b64encode(book(rate, rich=False)).decode())
+				api.save_sheet("Plain check.xlsx", json.dumps({"sheet": {"v": 2, "current": "Sheet", "sheets": {"Sheet": {"rows": {"0": ["GL", str(rate)]}}}}}), edited)
+				api.write_back(edited)
+			assert load_workbook(io.BytesIO(cloud._content(frappe._dict(ns.row(plain.name)))))["Sheet"]["B1"].value == 63
 			assert len(history.versions(plain.name)) == 1, "three saves in one sitting are one version"
 			assert history.versions(plain.name)[0]["url"] == plain.file_url, "and the one kept is the file from before the sitting"
 			macros = frappe.get_doc({"doctype": "File", "file_name": "Macros check.xlsm", "content": book(60, rich=False), "is_private": 1, "folder": ns.HOME})
@@ -278,6 +280,42 @@ def an_excel_file_is_never_saved_over_with_less():
 			assert not api.get_sheet(own)["dropped"]
 	finally:
 		frappe.db.rollback(save_point="sheet_lose_check")
+
+
+@check
+def an_excel_file_keeps_its_look_when_saved_over():
+	"""Huda's budget, with its bold header, number formats and widths, edited
+	in OneWorkbook and saved over: the file has the edit and still has its
+	look and its formulas. All undone afterwards."""
+	import io
+
+	from openpyxl import load_workbook
+
+	from onedesk.one_demo import office as demo
+	from onedesk.one_sheet import api, excel
+	from onedesk.one_storage import api as cloud
+	from onedesk.one_storage import namespace as ns
+
+	budget = next(one for one in demo.files() if one["name"] == demo.budget_name())
+	file = demo.found(budget)
+	assert file, "the demo has Huda's budget"
+	frappe.db.savepoint("sheet_look_check")
+	try:
+		with as_user(budget["owner"]):
+			book = api.open_file(file)["workbook"]
+			assert not api.get_sheet(book)["loses"], "saving over a styled file drops nothing"
+			data = excel.read(book, cloud._content(frappe._dict(ns.row(file))))
+			data["sheet"]["sheets"]["Budget"]["rows"]["1"][1] = 1250000
+			api.save_sheet(budget["name"], json.dumps(data, default=str), book)
+			assert "file" in api.write_back(book)
+			sheet = load_workbook(io.BytesIO(cloud._content(frappe._dict(ns.row(file)))))["Budget"]
+			assert sheet["B2"].value == 1250000, "the edit"
+			assert sheet["A1"].font.bold and sheet["F1"].font.bold, "the bold header"
+			assert sheet["B2"].number_format == "#,##0" and sheet["F2"].number_format == "#,##0", "the number formats"
+			assert sheet["F2"].value == "=SUM(B2:E2)", "the formulas"
+			assert sheet.column_dimensions["A"].width == 24, "the widths"
+	finally:
+		frappe.db.rollback(save_point="sheet_look_check")
 
 
 @check

@@ -160,16 +160,13 @@ export function useExportImport({
     return String(title || '').replace(/\.(xlsx|xlsm|xls|csv)$/i, '')
   }
 
-  // One: the workbook as the bytes of an Excel file, or its first sheet as a
-  // CSV, base64, for writing back into the File it was opened from.
-  async function fileContent(kind) {
-    if (kind === 'csv') {
-      const sheet = getSheet()
-      const text = _csvOf(_sheetToAoa(sheet.getSheetNames()[0], sheet))
-      return btoa(unescape(encodeURIComponent(text)))
-    }
-    const { xlsx, wb } = await _workbookOut()
-    return xlsx.write(wb, { type: 'base64', bookType: 'xlsx' })
+  // One: the first sheet as a CSV, base64, for writing back into the CSV File
+  // it was opened from. An Excel file is written on the server, into the
+  // file itself (one_sheet/patching.py).
+  function fileContent() {
+    const sheet = getSheet()
+    const text = _csvOf(_sheetToAoa(sheet.getSheetNames()[0], sheet))
+    return btoa(unescape(encodeURIComponent(text)))
   }
 
   // One: an Excel or CSV File's content read in, replacing the empty sheet

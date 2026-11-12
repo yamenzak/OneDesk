@@ -74,11 +74,12 @@ def _read_only(held: dict, item: dict) -> str | None:
 	return fidelity.why_read_only(item["file_name"], why) if why else None
 
 
-def write_back(doctype: str, name: str, item: dict, content: bytes, choice: str = "", edited: bool = True) -> dict:
+def write_back(doctype: str, name: str, item: dict, content, choice: str = "", edited: bool = True) -> dict:
 	"""The editor's content as the File's, when nothing would be lost or the
 	reader chose: `held` with the line to show when saving over waits for a
 	choice (and, when something was `edited`, the changes marked as waiting),
-	`copy` with the new File when they chose a copy."""
+	`copy` with the new File when they chose a copy. `content` is the bytes,
+	or what makes them, called only once they are written."""
 	from onedesk.one_storage import history
 
 	check(doctype, name, item)
@@ -87,6 +88,8 @@ def write_back(doctype: str, name: str, item: dict, content: bytes, choice: str 
 		if edited and not frappe.db.get_value(doctype, name, "held_back"):
 			frappe.db.set_value(doctype, name, "held_back", now_datetime(), update_modified=False)
 		return {"held": fidelity.dropping(item["file_name"], found)}
+	if callable(content):
+		content = content()
 	if not content:
 		frappe.throw(_("No file was uploaded."))
 	if choice == COPY:

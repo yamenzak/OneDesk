@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 10:37+0000\n"
-"PO-Revision-Date: 2026-11-12 10:37+0000\n"
+"POT-Creation-Date: 2026-11-12 13:56+0000\n"
+"PO-Revision-Date: 2026-11-12 13:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1501,7 +1501,7 @@ msgstr ""
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr ""
 
-#: onedesk/one_sheet/excel.py:335
+#: onedesk/one_sheet/excel.py:341
 msgid "A record's workbook can only be edited in OneWorkbook."
 msgstr ""
 
@@ -7068,7 +7068,7 @@ msgstr ""
 msgid "Before a {0} is submitted"
 msgstr ""
 
-#: onedesk/one_sheet/excel.py:339
+#: onedesk/one_sheet/excel.py:345
 msgid "Before an Excel save"
 msgstr ""
 
@@ -31951,7 +31951,7 @@ msgstr ""
 msgid "No file was sent."
 msgstr ""
 
-#: onedesk/one_storage/oneos.py:201 onedesk/one_storage/saving.py:91
+#: onedesk/one_storage/oneos.py:201 onedesk/one_storage/saving.py:94
 #: onedesk/one_storage/upload.py:89
 msgid "No file was uploaded."
 msgstr ""
@@ -55073,8 +55073,9 @@ msgid "This file can't be shown here."
 msgstr ""
 
 #: onedesk/one_doc/word.py:226 onedesk/one_doc/word.py:278
-#: onedesk/one_sheet/api.py:240 onedesk/one_sheet/excel.py:278
-#: onedesk/one_slide/from_powerpoint.py:304 onedesk/one_storage/opening.py:194
+#: onedesk/one_sheet/api.py:240 onedesk/one_sheet/excel.py:284
+#: onedesk/one_sheet/patching.py:49 onedesk/one_slide/from_powerpoint.py:304
+#: onedesk/one_storage/opening.py:194
 msgid "This file cannot be opened."
 msgstr ""
 
@@ -55524,7 +55525,7 @@ msgstr ""
 msgid "This workbook is not linked to a record."
 msgstr ""
 
-#: onedesk/one_sheet/api.py:265
+#: onedesk/one_sheet/api.py:268
 msgid "This workbook is not linked to an Excel or CSV file."
 msgstr ""
 
@@ -65402,7 +65403,7 @@ msgstr ""
 msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your One account."
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:170
+#: onedesk/one_storage/fidelity.py:207
 #, python-brace-format
 msgid "Your changes are saved here. Saving them over {0} would drop its {1}."
 msgstr ""
@@ -66176,11 +66177,11 @@ msgstr ""
 msgid "changed"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:142
+#: onedesk/one_storage/fidelity.py:176
 msgid "charts"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:138
+#: onedesk/one_storage/fidelity.py:172
 msgid "comments"
 msgstr ""
 
@@ -66188,8 +66189,12 @@ msgstr ""
 msgid "completed"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:147
+#: onedesk/one_storage/fidelity.py:182
 msgid "conditional formatting"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:190
+msgid "connections to outside data"
 msgstr ""
 
 #. Option for the 'Linked By' (Select) field in DocType 'Communication Link'
@@ -66245,7 +66250,7 @@ msgstr ""
 msgid "dash"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:146
+#: onedesk/one_storage/fidelity.py:181
 msgid "data validation"
 msgstr ""
 
@@ -66344,7 +66349,7 @@ msgstr ""
 msgid "email"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:153
+#: onedesk/one_storage/fidelity.py:188
 msgid "embedded files"
 msgstr ""
 
@@ -66368,7 +66373,7 @@ msgstr ""
 msgid "ends with {0}"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:152
+#: onedesk/one_storage/fidelity.py:187
 msgid "equations"
 msgstr ""
 
@@ -66397,19 +66402,15 @@ msgstr ""
 msgid "feedback"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:155
+#: onedesk/one_storage/fidelity.py:192
 msgid "fields such as a table of contents"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:149
-msgid "fonts, colours and borders"
-msgstr ""
-
-#: onedesk/one_storage/fidelity.py:150
+#: onedesk/one_storage/fidelity.py:185
 msgid "fonts, sizes and colours"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:141
+#: onedesk/one_storage/fidelity.py:175
 msgid "footnotes"
 msgstr ""
 
@@ -66421,6 +66422,10 @@ msgstr ""
 #: onedesk/one_crm/heads.py:67
 #, python-brace-format
 msgid "for {0} · usually {1}"
+msgstr ""
+
+#: onedesk/one_storage/fidelity.py:189
+msgid "form controls"
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:304
@@ -66478,7 +66483,7 @@ msgstr ""
 msgid "hasn't {0}"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:140
+#: onedesk/one_storage/fidelity.py:174
 msgid "headers and footers"
 msgstr ""
 
@@ -66629,7 +66634,7 @@ msgstr ""
 msgid "just you"
 msgstr ""
 
-#: onedesk/one_storage/saving.py:153
+#: onedesk/one_storage/saving.py:156
 #, python-brace-format
 msgid "kept the changes not saved to {0}"
 msgstr ""
@@ -66671,11 +66676,11 @@ msgstr ""
 msgid "left to {0}"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:154
+#: onedesk/one_storage/fidelity.py:191
 msgid "links"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:148
+#: onedesk/one_storage/fidelity.py:184
 msgid "links to other workbooks"
 msgstr ""
 
@@ -66701,7 +66706,7 @@ msgstr ""
 msgid "macOS"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:137
+#: onedesk/one_storage/fidelity.py:171
 msgid "macros"
 msgstr ""
 
@@ -67059,7 +67064,7 @@ msgstr ""
 msgid "phone"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:144
+#: onedesk/one_storage/fidelity.py:179
 msgid "pictures"
 msgstr ""
 
@@ -67068,7 +67073,7 @@ msgstr ""
 msgid "pink"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:143
+#: onedesk/one_storage/fidelity.py:177
 msgid "pivot tables"
 msgstr ""
 
@@ -67214,6 +67219,10 @@ msgstr ""
 msgid "slash"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:178
+msgid "slicers"
+msgstr ""
+
 #: onedesk/one_studio/ai_setup.py:221
 msgid "smallest first"
 msgstr ""
@@ -67238,6 +67247,10 @@ msgstr ""
 msgid "someone has renamed it since"
 msgstr ""
 
+#: onedesk/one_storage/fidelity.py:183
+msgid "sparklines"
+msgstr ""
+
 #: onedesk/one_project/activity.py:357
 msgid "started sub-project"
 msgstr ""
@@ -67260,7 +67273,7 @@ msgstr ""
 msgid "storage"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:156
+#: onedesk/one_storage/fidelity.py:193
 msgid "styles"
 msgstr ""
 
@@ -67268,7 +67281,7 @@ msgstr ""
 msgid "submitted"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:145
+#: onedesk/one_storage/fidelity.py:180
 msgid "tables"
 msgstr ""
 
@@ -67286,7 +67299,7 @@ msgstr ""
 msgid "text"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:151
+#: onedesk/one_storage/fidelity.py:186
 msgid "text boxes and shapes"
 msgstr ""
 
@@ -67447,7 +67460,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:139
+#: onedesk/one_storage/fidelity.py:173
 msgid "tracked changes"
 msgstr ""
 
@@ -67662,7 +67675,7 @@ msgstr ""
 msgid "{0} (was {1})"
 msgstr ""
 
-#: onedesk/one_storage/dav_saves.py:179 onedesk/one_storage/saving.py:149
+#: onedesk/one_storage/dav_saves.py:179 onedesk/one_storage/saving.py:152
 #, python-brace-format
 msgid "{0} ({1}'s copy)"
 msgstr ""
@@ -68802,7 +68815,7 @@ msgstr ""
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:131
+#: onedesk/one_storage/fidelity.py:165
 #, python-brace-format
 msgid "{0} has macros, so it opens read-only here. Open it in OneOS to edit it."
 msgstr ""
@@ -69300,7 +69313,7 @@ msgstr ""
 msgid "{0} is in Presentation Templates."
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:132
+#: onedesk/one_storage/fidelity.py:166
 #, python-brace-format
 msgid "{0} is in an older Excel format, so it opens read-only here. Open it in OneOS to edit it."
 msgstr ""
@@ -69789,6 +69802,11 @@ msgstr ""
 #: onedesk/one_portal/invite.py:97
 #, python-brace-format
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
+msgstr ""
+
+#: onedesk/one_sheet/api.py:280
+#, python-brace-format
+msgid "{0} is still being read in. Try again in a moment."
 msgstr ""
 
 #: onedesk/one_admin/servers.py:120

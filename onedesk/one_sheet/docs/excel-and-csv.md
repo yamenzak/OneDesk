@@ -10,7 +10,9 @@ in OneCloud opens in OneWorkbook.
 An Excel or CSV file in OneCloud opens in OneWorkbook, with its sheets,
 formulas, number formats and merged cells. What you change is saved into the
 same file a minute after you stop, and again when you leave, so downloading
-it or opening it in Excel gets it as it is now. What it held before is kept
+it or opening it in Excel gets it as it is now. Only the cells you changed
+are written: the file keeps its fonts, colours, borders, comments, data
+validation, conditional formatting, tables and pictures. What it held before is kept
 under **Versions** in OneCloud, and saves within 10 minutes of each other
 are one version. A CSV keeps only the first sheet.
 
@@ -19,10 +21,10 @@ opens.
 
 ## When Something Would Be Dropped
 
-OneWorkbook keeps values, formulas, number formats and merged cells. When the
-Excel file has more, such as comments, charts, pivot tables or cell colours,
-a bar over the sheet names them, and your changes stay in the workbook until
-you choose:
+A few things in an Excel file change or go when it is saved here: charts,
+slicers, shapes and text boxes, sparklines, form controls and connections to
+outside data. When the file has one of them, a bar over the sheet names it,
+and your changes stay in the workbook until you choose:
 
 | Button | What it does |
 | --- | --- |

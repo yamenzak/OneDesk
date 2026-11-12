@@ -187,11 +187,7 @@ def build(name: str) -> bytes:
 
 	used = set()
 	for title, page in (_sheets(data) or {"Sheet1": {}}).items():
-		label = re.sub(r"[\[\]:*?/\\]", " ", str(title))[:31].strip() or "Sheet"
-		while label.lower() in used:
-			label = (label[:28] + " " + str(len(used) + 1))[:31]
-		used.add(label.lower())
-		ws = book.add_worksheet(label)
+		ws = book.add_worksheet(sheet_label(title, used))
 		known = (values.get(title) or {}) if isinstance(values, dict) else {}
 		for (row, col), raw in sorted(_grid(page or {}).items()):
 			look = style(_format(formats, title, row, col))
@@ -221,6 +217,16 @@ def build(name: str) -> bytes:
 			ws.freeze_panes(int(view.get("freezeRows") or 0), int(view.get("freezeCols") or 0))
 	book.close()
 	return out.getvalue()
+
+
+def sheet_label(title, used: set) -> str:
+	"""A sheet's name as Excel takes it: none of []:*?/\\, at most 31
+	characters, and not one already `used`, which it is added to."""
+	label = re.sub(r"[\[\]:*?/\\]", " ", str(title))[:31].strip() or "Sheet"
+	while label.lower() in used:
+		label = (label[:28] + " " + str(len(used) + 1))[:31]
+	used.add(label.lower())
+	return label
 
 
 def _value(ws, row: int, col: int, value, look) -> None:
@@ -338,4 +344,4 @@ def write(name: str, content: bytes) -> None:
 	if frappe.db.get_value(api.WORKBOOK, name, "sheets_data"):
 		versions.take(name, "named", _("Before an Excel save"))
 	api.save_sheet(item.get("file_name"), json.dumps(data, default=str), name, request_id=frappe.generate_hash(length=12))
-	saving.outside(api.WORKBOOK, name, fidelity.workbook(content, formatting=False))
+	saving.outside(api.WORKBOOK, name, fidelity.read_in(content))
