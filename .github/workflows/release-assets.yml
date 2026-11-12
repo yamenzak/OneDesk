@@ -37,7 +37,7 @@ jobs:
 
       - name: Already built?
         id: built
-        if: inputs.publish != false
+        if: (github.event_name == 'push' || inputs.publish != false)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ASSETS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_ASSETS_SECRET }}
@@ -102,7 +102,7 @@ jobs:
 
       - name: Base from an earlier build
         id: base-cache
-        if: steps.built.outputs.yes != 'true' && inputs.reuse != false
+        if: steps.built.outputs.yes != 'true' && (github.event_name == 'push' || inputs.reuse != false)
         uses: actions/cache/restore@v4
         with:
           path: ${{ env.ONE_BASE }}
@@ -110,7 +110,7 @@ jobs:
 
       - name: Template from an earlier build
         id: template-cache
-        if: steps.built.outputs.yes != 'true' && inputs.reuse != false
+        if: steps.built.outputs.yes != 'true' && (github.event_name == 'push' || inputs.reuse != false)
         uses: actions/cache/restore@v4
         with:
           path: ${{ env.ONE_TEMPLATE }}
@@ -122,13 +122,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_BRANCH: ${{ github.ref_name }}
-          PUBLISH: ${{ inputs.publish != false && 'true' || 'false' }}
-          R2_ENDPOINT: ${{ inputs.publish != false && secrets.R2_ENDPOINT || '' }}
-          R2_ASSETS_BUCKET: ${{ inputs.publish != false && secrets.R2_ASSETS_BUCKET || '' }}
-          R2_ASSETS_KEY: ${{ inputs.publish != false && secrets.R2_ASSETS_KEY || '' }}
-          R2_ASSETS_SECRET: ${{ inputs.publish != false && secrets.R2_ASSETS_SECRET || '' }}
-          ONE_ADMIN_URL: ${{ inputs.publish != false && secrets.ONE_ADMIN_URL || '' }}
-          ONE_RELEASE_SECRET: ${{ inputs.publish != false && secrets.ONE_RELEASE_SECRET || '' }}
+          PUBLISH: ${{ (github.event_name == 'push' || inputs.publish != false) && 'true' || 'false' }}
+          R2_ENDPOINT: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.R2_ENDPOINT || '' }}
+          R2_ASSETS_BUCKET: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.R2_ASSETS_BUCKET || '' }}
+          R2_ASSETS_KEY: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.R2_ASSETS_KEY || '' }}
+          R2_ASSETS_SECRET: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.R2_ASSETS_SECRET || '' }}
+          ONE_ADMIN_URL: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.ONE_ADMIN_URL || '' }}
+          ONE_RELEASE_SECRET: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.ONE_RELEASE_SECRET || '' }}
         run: |
           sudo chown -R frappe:frappe "$ONE_BASE" "$ONE_TEMPLATE"
           sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" PUBLISH="$PUBLISH" ONE_BASE="$ONE_BASE" ONE_TEMPLATE="$ONE_TEMPLATE" \
