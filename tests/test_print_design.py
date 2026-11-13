@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-AI = (tree.APP / "one" / "agent.py").read_text()
+AI = (tree.APP / "one" / "ai_print_design.py").read_text()
 RECIPES = (tree.APP / "one_studio" / "print_recipes.py").read_text()
 PRINTING = (tree.APP / "one_studio" / "printing.py").read_text()
 

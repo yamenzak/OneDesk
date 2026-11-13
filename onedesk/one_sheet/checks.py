@@ -10,7 +10,7 @@ import frappe
 from frappe.utils import flt
 
 from onedesk.one_demo.base import COMPANY, as_user
-from onedesk.one_demo.check import check
+from onedesk.one_demo.checking import check
 from onedesk.one_demo.people import OWNER
 
 

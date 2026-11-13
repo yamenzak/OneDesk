@@ -475,7 +475,7 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 	layer = (tree.APP / "one" / "layer.py").read_text()
 	assert '"fetch_from",' in layer and "_fetched(doc, where)" in layer
 	assert "there.permlevel" in layer and 'frappe.has_permission(through.options, "read")' in layer
-	ai = (tree.APP / "one" / "agent.py").read_text()
+	ai = (tree.APP / "one" / "ai_customize.py").read_text()
 	assert 'customize.action = "studio"' in ai and "also_on" in ai
 	studio = (STUDIO / "agent.py").read_text()
 	assert 'form_relations.action = "studio"' in studio

@@ -7,7 +7,7 @@ from frappe.utils import add_days, add_to_date, flt, getdate, now_datetime, toda
 
 from onedesk.one import story as stories
 from onedesk.one_demo.base import as_user
-from onedesk.one_demo.check import CENTS, check
+from onedesk.one_demo.checking import CENTS, check
 
 
 @check

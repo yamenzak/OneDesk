@@ -1,6 +1,6 @@
 """What OneAI does in AccountCenter: it reads, and changes nothing. One's own
 tools answer who is in the workspace, the plan, its credits and its domains
-(one/agent.py, which reads them from center.py), and every call here that
+(one/ai_workspace.py, which reads them from center.py), and every call here that
 changes something is a person's to make (NOT_FOR_AI). Its one action,
 Write My Bio, writes words a person then puts in their own profile."""
 
