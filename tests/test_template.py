@@ -203,3 +203,24 @@ def test_the_build_migrates_the_kept_template_and_says_how_it_was_made():
 	assert "fetch-depth: 0" in flow, "the rule reads the commit the kept template was made at"
 	assert "restore-keys: ${{ steps.base.outputs.templates }}" in flow
 	assert "hashFiles('deploy/release/template.py')" in flow, "a new rule starts afresh"
+
+
+def _repo(path: str) -> str | None:
+	found = tree.ROOT / path
+	return found.read_text(encoding="utf-8") if found.is_file() else None
+
+
+def test_install_only_steps_are_read_from_the_manifests():
+	"""hooks.py builds after_sync and after_migrate from each manifest's
+	`settle`; the template reads them there, so what runs only at install is
+	known, never None."""
+	steps = _rule().at_install(_repo("onedesk/hooks.py"), _repo)
+	assert steps and "onedesk.one.brand.apply" in steps and "onedesk.one.roles.ensure" not in steps
+
+
+def test_a_new_install_only_step_in_a_manifest_rebuilds_the_template():
+	manifest = "onedesk/one_task/manifest.py"
+	added = _repo(manifest).replace("settle=(", 'settle=(\n\t\tSettle("board.fresh", install_only=True),', 1)
+	after = lambda path: added if path == manifest else _repo(path)  # noqa: E731
+	said = _rule().reasons([("M", manifest)], _repo, after)
+	assert any("onedesk.one_task.board.fresh" in one and "only at install" in one for one in said), said

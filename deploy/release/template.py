@@ -81,7 +81,7 @@ def kind(path: str) -> tuple[str, str] | None:
 	parts = path.split("/")
 	if parts[0] != "onedesk" or not path.endswith((".json", ".txt", ".py")):
 		return None
-	if path == "onedesk/hooks.py":
+	if path == "onedesk/hooks.py" or (len(parts) == 3 and parts[2] == "manifest.py"):
 		return "hooks", ""
 	if path == "onedesk/modules.txt":
 		return "modules", ""
@@ -132,11 +132,39 @@ def hooks(source: str | None) -> dict[str, str]:
 	return found
 
 
-def listed(source: str | None, name: str) -> list | None:
-	"""A hook's list, read without running hooks.py; None when it is not a
-	plain list or string. Pure."""
+def settled(read, install: bool) -> list[str] | None:
+	"""after_sync (install) or after_migrate as the registry builds them: each
+	manifest's `settle` steps, for each folder modules.txt names, read without
+	running anything; None when a manifest can't be read. Pure but for `read`."""
+	paths = []
+	for module in (read("onedesk/modules.txt") or "").split("\n"):
+		folder = module.strip().lower().replace(" ", "_")
+		if not folder:
+			continue
+		text = read(f"onedesk/{folder}/manifest.py")
+		if text is None:
+			continue
+		try:
+			tree = ast.parse(text)
+		except SyntaxError:
+			return None
+		for call in ast.walk(tree):
+			if isinstance(call, ast.Call) and getattr(call.func, "id", None) == "Settle" and call.args:
+				said = {one.arg: ast.literal_eval(one.value) for one in call.keywords}
+				if install or not said.get("install_only"):
+					paths.append(f"onedesk.{folder}.{ast.literal_eval(call.args[0])}")
+	return paths
+
+
+def listed(source: str | None, name: str, read=None) -> list | None:
+	"""A hook's list, read without running hooks.py: a plain list or string,
+	or the registry's settle steps where hooks.py builds after_sync and
+	after_migrate from the manifests (given `read`); None otherwise. Pure but
+	for `read`."""
 	for node in ast.parse(source or "").body:
 		if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) and node.targets[0].id == name:
+			if read is not None and isinstance(node.value, ast.Call) and getattr(node.value.func, "id", None) == "settles":
+				return settled(read, install=any(one.arg == "install" and getattr(one.value, "value", False) for one in node.value.keywords))
 			try:
 				value = ast.literal_eval(node.value)
 			except (ValueError, TypeError, SyntaxError):
@@ -145,11 +173,11 @@ def listed(source: str | None, name: str) -> list | None:
 	return []
 
 
-def at_install(source: str | None) -> list[str] | None:
+def at_install(source: str | None, read=None) -> list[str] | None:
 	"""Every dotted path hooks.py runs at install and never on migrate:
 	after_sync less after_migrate, and the install hooks. None when one of
-	them cannot be read. Pure."""
-	held = {name: listed(source, name) for name in ("after_sync", "after_migrate", *INSTALL_ONLY[1:])}
+	them cannot be read. Pure but for `read`."""
+	held = {name: listed(source, name, read) for name in ("after_sync", "after_migrate", *INSTALL_ONLY[1:])}
 	if any(value is None for value in held.values()):
 		return None
 	paths = [one for one in held["after_sync"] if one not in held["after_migrate"]]
@@ -271,17 +299,17 @@ def fingerprint(paths: list[str], read) -> dict[str, str]:
 	return held
 
 
-def _hooks_reasons(before: str | None, after: str | None) -> list[str]:
+def _hooks_reasons(before: str | None, after: str | None, read_before=None, read_after=None) -> list[str]:
 	wrong = []
 	was, now = hooks(before), hooks(after)
 	for name in INSTALL_ONLY:
 		if was.get(name) != now.get(name):
 			wrong.append(f"onedesk/hooks.py: {name} changed, and it is read only at install")
-	old, new = at_install(before), at_install(after)
+	old, new = at_install(before, read_before), at_install(after, read_after)
 	if old is None or new is None:
 		return [*wrong, "onedesk/hooks.py: after_sync, after_migrate or an install hook is not a plain list"]
-	ran = set((listed(before, "after_sync") or []) + (listed(before, "after_migrate") or []))
-	runs = set((listed(after, "after_sync") or []) + (listed(after, "after_migrate") or []))
+	ran = set((listed(before, "after_sync", read_before) or []) + (listed(before, "after_migrate", read_before) or []))
+	runs = set((listed(after, "after_sync", read_after) or []) + (listed(after, "after_migrate", read_after) or []))
 	added = sorted(set(new) - set(old) - ran)
 	if added:
 		wrong.append(f"onedesk/hooks.py: {', '.join(added)} runs only at install, and the old template never ran it")
@@ -352,8 +380,8 @@ def reasons(changes: list[tuple[str, str]], before, after) -> list[str]:
 	found = {path: kind(path) for path in touched}
 	if "upstream.json" in touched:
 		wrong.append("upstream.json changed: frappe, erpnext and hrms are other commits")
-	if "onedesk/hooks.py" in touched:
-		wrong += _hooks_reasons(before("onedesk/hooks.py"), after("onedesk/hooks.py"))
+	if "onedesk/hooks.py" in touched or any(found[path] == ("hooks", "") for path in touched):
+		wrong += _hooks_reasons(before("onedesk/hooks.py"), after("onedesk/hooks.py"), before, after)
 	if "onedesk/modules.txt" in touched:
 		wrong += _modules_reasons(before("onedesk/modules.txt"), after("onedesk/modules.txt"))
 	wrong += _custom_reasons(sorted(path for path, one in found.items() if one == ("custom", "")), before, after)
@@ -361,7 +389,7 @@ def reasons(changes: list[tuple[str, str]], before, after) -> list[str]:
 	standard = sorted((path, one[1]) for path, one in found.items() if one and one[0] == "standard")
 	wrong += _records_reasons(fixtures, standard, before, after)
 	if any(path.endswith(".py") for path in touched):
-		old, new = (at_install(read("onedesk/hooks.py")) for read in (before, after))
+		old, new = (at_install(read("onedesk/hooks.py"), read) for read in (before, after))
 		if old is not None and new is not None:
 			was, now = fingerprint(old, before), fingerprint(new, after)
 			moved = sorted(name for name in set(was) | set(now) if was.get(name) != now.get(name))
