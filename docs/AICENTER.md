@@ -103,10 +103,10 @@ Ledger Entry links to it.
 
 Most of the product is sound and is rebuilt rather than thrown away: the
 tool loop (`run.py ask`), the tools and their declarations (`tools.py`,
-`one/agent.py` and each module's `agent.py`), cards and chains (`proposals.py`),
+`one/agent.py` with its `ai_*.py` and each module's `agent.py`), cards and chains (`proposals.py`),
 writing in a field (`touch.py`), memory and Knowledge (`memory.py`),
 summaries (`brief.py`), healing (`heal.py`), and Help as OneAI reads it
-(`guide.py`). `one/agent.py` holds a print-layout compiler that is not OneAI
+(`guide.py`). `one/ai_print_design.py` holds a print-layout compiler that is not OneAI
 at all; it moves to OneStudio.
 
 Two things found on the way: the default Workers AI model in `gateway.py`

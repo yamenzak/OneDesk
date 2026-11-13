@@ -6,8 +6,26 @@ import frappe
 from frappe.utils import add_days, flt, today
 
 from onedesk.one_demo.base import as_user, on
-from onedesk.one_demo.check import SHOWROOM, VILLA, _Told, check
+from onedesk.one_demo.checking import SHOWROOM, VILLA, _each_way, _Told, check
 from onedesk.one_demo.people import OWNER
+
+
+@check
+def a_tasks_progress_is_its_checklist():
+	"""A task with a checklist is as far along as its steps, however its
+	progress is typed in."""
+	task = frappe.db.get_value("Task", {"subject": "Prepare the site visit for the marina"})
+	frappe.db.savepoint("ticked")
+	try:
+		doc = frappe.get_doc("Task", task)
+		doc.one_steps[0].done = 1
+		doc.save(ignore_permissions=True)
+		seen = _each_way("samir@one.test", "Task", task, {"progress": 90})
+	finally:
+		frappe.db.rollback(save_point="ticked")
+		frappe.clear_document_cache("Task", task)
+	for way, got in seen.items():
+		assert not isinstance(got, Exception) and flt(got.progress) == 33.3, (way, got)
 
 
 @check

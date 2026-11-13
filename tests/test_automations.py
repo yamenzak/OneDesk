@@ -46,12 +46,12 @@ def test_the_list_and_form_keep_ones_rail():
 
 
 def test_oneai_suggests_an_automation_as_a_card():
-	ai = (tree.APP / "one" / "agent.py").read_text()
+	ai = (tree.APP / "one" / "ai_automations.py").read_text()
 	suggest = ai.split("def suggest_automation(", 1)[1].split("\ndef ", 1)[0]
 	assert 'trial.run_method("validate")' in suggest and '"TellPeople"' in suggest
-	assert 'suggest_approval.action = suggest_automation.action = draft_notification.action = "workspace_setup"' in ai
+	assert 'suggest_automation.action = "workspace_setup"' in ai
 	for tool in ("workspace_automations", "suggest_automation"):
-		assert f'"onedesk.one.agent.{tool}"' in HOOKS, tool
+		assert f'"onedesk.one.ai_automations.{tool}"' in HOOKS, tool
 
 
 def test_the_step_editor_offers_what_the_workspace_may_keep():

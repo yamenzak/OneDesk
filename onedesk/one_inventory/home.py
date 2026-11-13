@@ -210,12 +210,12 @@ def needs_you() -> dict:
 	"""Purchase orders late, items running low, lots going off, services
 	late or due this week, and drafts left more than a day, each as the
 	reader may see them."""
-	from onedesk.one_inventory import agent, batches
+	from onedesk.one_inventory import agent, ai_equipment, batches
 
 	day = getdate(today())
 	low = agent.running_low()
 	late = agent.late_orders()
-	services = agent.services_due()
+	services = ai_equipment.services_due()
 	lots = (
 		[
 			{

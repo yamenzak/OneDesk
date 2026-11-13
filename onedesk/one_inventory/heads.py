@@ -1,8 +1,9 @@
 """What an item's, an asset's, a warehouse's, a receipt's and a delivery's
 form say above their fields (a work order's and a bill of materials' are
-OneFactory's): the heads, the measures they place and the verbs
-they offer. See one/head.py.
-"""
+OneFactory's): the heads, the measures they place and the verbs they offer.
+See one/head.py. It stays one file past 1500 lines: HEADS, MEASURES, VERBS
+and CHARTS, which registry/hooks.py reads from heads.py, hold the functions
+above them, so a form's head is read in one place."""
 
 from urllib.parse import quote
 

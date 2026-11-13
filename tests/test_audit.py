@@ -51,7 +51,7 @@ def test_the_system_and_the_machinery_are_left_out():
 def test_a_change_shows_only_the_fields_its_reader_may_read():
 	assert "row_hidden(table)" in _body("seen")
 	assert "seen(doc.data, doc.ref_doctype)" in _body("onload")
-	assert "audit.seen(one.data, one.ref_doctype)" in (tree.APP / "one" / "agent.py").read_text()
+	assert "audit.seen(one.data, one.ref_doctype)" in (tree.APP / "one" / "ai_workspace.py").read_text()
 
 
 def test_accesscenter_reads_the_three_as_one_log():

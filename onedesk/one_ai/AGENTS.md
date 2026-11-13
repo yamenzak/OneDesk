@@ -374,8 +374,8 @@ deliberately not here.
   has it on the next round. A guess that misses costs a round, never an
   answer. The groups are declared in `groups.py` rather than worked out from
   module paths, because a group is what a person asks about (their mail, the
-  workspace's setup), and that is not always where the code lives: `one/agent.py`
-  holds both somebody's own day and the workspace's numbering.
+  workspace's setup), and that is not always where the code lives: `one/ai_workspace.py`
+  holds both somebody's own day and the workspace's people.
 - `proposals.py`: the card. Permissions are checked when it is written and
   again when it is applied, as an ordinary insert, save or delete. A card
   whose record moved past its `modified` is Stale.

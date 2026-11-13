@@ -8,8 +8,82 @@ from frappe.utils import add_days, date_diff, flt, getdate, today
 from onedesk.one import story as stories
 from onedesk.one.company import company_currency, reader_company
 from onedesk.one_demo.base import COMPANY, as_user, on
-from onedesk.one_demo.check import CENTS, _abroad, check
+from onedesk.one_demo.checking import CENTS, _close, _each_way, _refused, check
 from onedesk.one_demo.people import OWNER
+
+
+@check
+def the_books_balance():
+	off = frappe.db.sql(
+		"""select voucher_type, voucher_no, sum(debit) - sum(credit) from `tabGL Entry`
+		where is_cancelled = 0 and company = %s group by voucher_type, voucher_no
+		having abs(sum(debit) - sum(credit)) > 0.01""",
+		COMPANY,
+	)
+	assert not off, off[:5]
+
+
+@check
+def every_party_is_billed_in_its_own_currency():
+	from erpnext.accounts.party import get_party_account_currency
+
+	wrong = []
+	for doctype, party_type, party in (("Sales Invoice", "Customer", "customer"), ("Purchase Invoice", "Supplier", "supplier")):
+		for doc in frappe.get_all(doctype, filters={"docstatus": 1}, fields=["name", party, "company", "currency", "conversion_rate", "grand_total", "base_grand_total"]):
+			if doc.currency != get_party_account_currency(party_type, doc[party], doc.company):
+				wrong.append((doc.name, doc.currency))
+			if not _close(doc.grand_total * doc.conversion_rate, doc.base_grand_total, 1):
+				wrong.append((doc.name, "base"))
+	assert not wrong, wrong
+
+
+@check
+def three_currencies_besides_the_companys():
+	used = set(frappe.get_all("Sales Invoice", filters={"docstatus": 1}, pluck="currency")) | set(
+		frappe.get_all("Purchase Invoice", filters={"docstatus": 1}, pluck="currency")
+	)
+	assert {"AED", "USD", "EUR", "GBP"} <= used, used
+
+
+@check
+def the_books_home_tells_the_truth():
+	"""What is owed to us on the books' home is what the invoices still have
+	outstanding, less credit notes not yet set against one."""
+	from onedesk.one_book import home as books
+
+	with as_user("huda@one.test"):
+		said = books.owed_to_us()
+	found = frappe.db.sql(
+		"""select sum(outstanding_amount * conversion_rate) from `tabSales Invoice`
+		where docstatus = 1 and company = %s and outstanding_amount != 0""",
+		COMPANY,
+	)[0][0]
+	assert _close(said["value"], found, 2), (said["value"], found)
+
+
+@check
+def the_assets_depreciate():
+	booked = frappe.db.count("Journal Entry", {"voucher_type": "Depreciation Entry", "docstatus": 1})
+	assert booked, "no depreciation booked this year"
+
+
+@check
+def the_books_lock_up_to_today_at_most():
+	from onedesk.one_demo.base import ahead
+
+	_refused(_each_way("huda@one.test", "Company", COMPANY, {"accounts_frozen_till_date": str(ahead(30))}), "up to today")
+
+
+def _abroad(party_type: str, party: str) -> bool:
+	"""Whether a customer is billed abroad, or a supplier sells from abroad."""
+	from onedesk.one_demo.masters import ABROAD, EXPORTS
+
+	if party_type == "Supplier":
+		return party in ABROAD
+	from erpnext.accounts.party import get_default_address
+
+	address = get_default_address(party_type, party)
+	return bool(address) and frappe.db.get_value("Address", address, "country") in EXPORTS
 
 
 @check

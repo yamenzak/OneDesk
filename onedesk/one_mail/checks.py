@@ -7,7 +7,7 @@ import frappe
 from frappe.utils import add_days, today
 
 from onedesk.one_demo.base import as_user
-from onedesk.one_demo.check import VILLA, _asked, _employee, _unasked, check
+from onedesk.one_demo.checking import VILLA, _asked, _employee, _unasked, check
 from onedesk.one_demo.people import OWNER
 
 
@@ -893,7 +893,7 @@ def onemail_a_team_works_its_shared_mailbox():
 	from frappe.utils import add_to_date, now_datetime
 
 	from onedesk.one_ai import run as runs
-	from onedesk.one_demo.check import _Told
+	from onedesk.one_demo.checking import _Told
 	from onedesk.one_mail import agent, api, drafts, holders, sender, team
 
 	account = holders.workspace()

@@ -66,7 +66,7 @@ Held by: rules on Connections and the suite.
 
 - The module's AGENTS.md (its README until it moves) has a **Connections**
   section, one line per module.
-- The demo runs each hand-off end to end (`one_demo/check.py` HANDOFFS).
+- The demo runs each hand-off end to end (`one_demo/checks.py` HANDOFFS).
 - The document a module hands on names where it came from at the top, by
   name, opening it.
 

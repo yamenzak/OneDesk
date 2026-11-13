@@ -91,7 +91,7 @@ def test_the_workspace_screen_is_for_administrators():
 	preview = words.split("def preview_notification(", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.require()" in preview
 	assert '"Notification Type": {"validate": "onedesk.one.notify.validate"' in HOOKS
-	assert '"onedesk.one.agent.rewrite_notification"' in HOOKS and '"onedesk.one.agent.notification_type"' in HOOKS
+	assert '"onedesk.one.ai_notifications.rewrite_notification"' in HOOKS and '"onedesk.one.ai_notifications.notification_type"' in HOOKS
 
 
 def _push():

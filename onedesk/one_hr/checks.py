@@ -18,12 +18,11 @@ from frappe.utils import (
 )
 
 from onedesk.one_demo.base import COMPANY, as_user
-from onedesk.one_demo.check import (
+from onedesk.one_demo.checking import (
 	CENTS,
 	DESKTOP,
 	PHONE,
 	_asked,
-	_card,
 	_cookies,
 	_employee,
 	_Phone,
@@ -31,7 +30,30 @@ from onedesk.one_demo.check import (
 	_unasked,
 	check,
 )
-from onedesk.one_demo.people import OWNER
+from onedesk.one_demo.people import OWNER, PEOPLE
+
+
+@check
+def a_manager_is_not_kept_to_their_own_records():
+	"""People's managers work with everybody's records (one_hr/everybody.py),
+	and the rest only with their own, as hrms means them to."""
+	from onedesk.one_hr.everybody import manages
+
+	wrong = []
+	for _f, _l, email, *_r in PEOPLE:
+		if not email:
+			continue
+		employee = frappe.db.get_value("Employee", {"user_id": email}, ["name", "create_user_permission"], as_dict=True)
+		kept = frappe.db.exists("User Permission", {"user": email, "allow": "Employee"})
+		if manages(email) == bool(kept) or manages(email) == bool(employee.create_user_permission):
+			wrong.append(email)
+	assert not wrong, wrong
+
+
+def _card(said: dict) -> str:
+	assert said.get("proposal"), said
+	assert frappe.db.get_value("AI Proposal", said["proposal"], "state") == "Proposed"
+	return said["proposal"]
 
 
 @check

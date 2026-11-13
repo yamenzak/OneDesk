@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import frappe
 
-from onedesk.one_demo.check import check
+from onedesk.one_demo.checking import check
 
 
 @check

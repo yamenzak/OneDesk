@@ -291,6 +291,15 @@ report of One's runs, and every rail link opens for the app's people.
 `check.run` prints a line a check and the count that failed. Nothing is
 written: each check is rolled back.
 
+check.py is only the runner. The checks live with what they check: the
+demo's own (each step, sample and hand-off left its records) in
+`checks.py` here, with OneStudio's (its own checks.py checks an
+extension's code) and one that shares a record by hand, which a module may
+not; each other module's in its folder's `checks.py`, which
+the runner imports in the registry's order. What they share (`check`
+itself, a request asked as a person, the projects by name, the three ways a
+record is changed besides its form) is `checking.py`.
+
 ### projects.py
 
 - **Fixed Price**, ordered: the Mansour villa, built from the Aluminium &

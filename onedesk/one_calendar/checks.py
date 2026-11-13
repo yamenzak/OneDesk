@@ -7,7 +7,7 @@ import frappe
 from frappe.utils import add_days, today
 
 from onedesk.one_demo.base import as_user
-from onedesk.one_demo.check import check
+from onedesk.one_demo.checking import check
 
 
 @check

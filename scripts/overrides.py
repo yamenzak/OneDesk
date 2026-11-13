@@ -10,6 +10,9 @@ we write. Ordinary use of a documented API does not.
 
     python scripts/overrides.py           write docs/OVERRIDES.md
     python scripts/overrides.py --check   fail if any upstream line is gone
+
+It stays one file past 1500 lines: OVERRIDES and ASKS are the ledger itself,
+a row an override, and the code is the three functions after them.
 """
 
 import sys

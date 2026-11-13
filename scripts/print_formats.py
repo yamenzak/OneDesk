@@ -2,7 +2,11 @@
 each record's own format from its master, and a version of each one ERPNext
 ships.
 A change made in the builder to one of these belongs here too, or the next
-run puts it back. Run: python3 scripts/print_formats.py "<modified>"."""
+run puts it back. Run: python3 scripts/print_formats.py "<modified>".
+
+It stays one file past 1500 lines: it is a catalogue, a function a record
+type's format over the builder pieces at its top, which VERSIONS at its end
+names."""
 
 import copy
 import json
