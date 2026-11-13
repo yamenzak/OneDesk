@@ -56,6 +56,24 @@ own.
 **Background Tasks** shows in the top bar only while a long job you started is
 still running. Click it to see what is running.
 
+## Your Apps
+
+The rail shows the apps you may use. An app you have no role in, under People
+in {access_center}, isn't on your rail, in **Apps** or in search, and neither
+is its Help.
+
+**Apps**, at the bottom of the rail above your picture, lists your apps, the
+ones you opened last first. Type to find an app, or a page inside one. On a
+phone, **Apps** in the tab bar is the same list.
+
+**Arrange Apps**, at the foot of **Apps** or in your menu, puts the rail in
+your own order: drag an app up or down. Pick a folder beside an app to put it
+in one, or **New Folder** to make one. A folder stands on the rail where its
+first app is, and clicking it lists its apps. **Reset** goes back to the
+workspace's order and removes your folders. Your order and folders stay
+through updates, and an app added later joins your rail beside the app before
+it.
+
 ## Moving Around
 
 In every app the panel on the left lists the app's places, and stays open on
@@ -107,6 +125,7 @@ off are left out.
 Click your picture at the bottom of the rail for your menu:
 
 - **Settings** opens your Profile.
+- **Arrange Apps** puts the rail in your own order, with your folders.
 - **Theme** chooses **Light**, **Dark** or **Automatic**, which follows your
   computer's setting.
 - **Reload** reloads {one}, for when a page looks out of date.

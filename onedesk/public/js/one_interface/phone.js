@@ -1,7 +1,7 @@
 // The shell on a phone (onedesk/one_interface/AGENTS.md, On a phone): frappe's tab
 // bar and its navigation sheet, with what a phone could not reach. An Apps
-// tab opens the sheet from anywhere; the sheet searches every app's rail,
-// lays the apps out as a grid, and carries the bars' tools (Check In,
+// tab opens the sheet from anywhere; the sheet is the launcher (launcher.js),
+// the apps opened lately first, finding apps and every app's pages, and carries the bars' tools (Check In,
 // Timers, OneAI, Documents, open workbooks), moved in while it is open as
 // frappe moves the rail. frappe builds the bar from a bundle it loads on a
 // phone, so its class is dressed as it is defined.
@@ -167,25 +167,14 @@ $.extend(onedesk.interface.phone, {
 			$tools.prepend(company);
 		}
 		$tools.on("click", "button:not(.one-bar-company):not(.one-tray)", () => setTimeout(() => nav.close_sheet()));
-		nav.$one_heading = $(`<div class="one-phone-heading"></div>`).text(title).insertAfter($body.find(".desk-mobile-sheet-dock"));
-		const $found = $(`<div class="one-phone-found hide" role="list"></div>`).appendTo($body);
-		let pages = null;
-		$find.find("input").on("input", function () {
-			const said = this.value.trim();
-			$body.toggleClass("one-phone-finding", !!said);
-			$found.toggleClass("hide", !said).empty();
-			if (!said) return;
-			pages ??= phone.pages();
-			const rows = phone.found(pages, said).slice(0, 40);
-			for (const one of rows) {
-				$(`<a class="one-phone-page" role="listitem"></a>`)
-					.attr("href", one.route)
-					.append(frappe.utils.icon(one.icon || "file", "sm"))
-					.append($(`<span class="one-phone-page-label"></span>`).text(one.label))
-					.append($(`<span class="one-phone-page-app"></span>`).text(one.app))
-					.appendTo($found);
-			}
-			if (!rows.length) $found.append($(`<div class="one-phone-none"></div>`).text(__("No matching pages")));
+		const $grid = $body.find(".desk-mobile-sheet-dock");
+		nav.$one_heading = $(`<div class="one-phone-heading"></div>`).text(title).insertAfter($grid);
+		const $input = $find.find("input");
+		const $launcher = $(`<div class="one-phone-launcher"></div>`).insertBefore($grid);
+		onedesk.rail.draw($launcher, { $find: $input, opened: (entry) => nav.browse_dock_entry(entry), left: () => nav.close_sheet() });
+		$grid.addClass("hide");
+		$input.on("input", function () {
+			$body.toggleClass("one-phone-finding", !!this.value.trim());
 		});
 		return body;
 	},

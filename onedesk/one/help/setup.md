@@ -28,5 +28,12 @@ somebody does it.
 
 ## After Turning an App On
 
-Turning an app on in **Apps** opens {setup_center} on that app's steps, when it
+Turning an app on in **Turn Apps On or Off** opens {setup_center} on that app's steps, when it
 has any.
+
+## Order of Apps
+
+**Order of Apps**, under **Workspace**, is for administrators. Drag the apps
+into the order the rail shows them in and press **Save**. It is the order for
+everybody who hasn't arranged their own with **Arrange Apps**. **Reset** goes
+back to {one}'s own order.

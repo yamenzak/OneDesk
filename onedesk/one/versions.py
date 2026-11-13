@@ -51,11 +51,12 @@ def titles(module: str) -> tuple[tuple[str, str], ...]:
 def for_boot() -> dict:
 	"""Each module's version, whether the reader has seen it, the Help page
 	its ControlCenter is explained on (settings, else overview), and its
-	pages' titles; an app turned off is marked `off`, so HelpCenter and
-	UpdateCenter leave it out."""
-	from onedesk.one import apps
+	pages' titles; an app turned off, or one AccessCenter puts the reader at
+	no level in, is marked `off`, so HelpCenter, UpdateCenter and Ctrl+K
+	leave it out."""
+	from onedesk.one import apps, rail
 
-	hidden = set(apps.hidden())
+	hidden = set(apps.hidden()) | rail.unreached()
 	out = {}
 	for module in ready.MODULES:
 		version = ready.current(module) if offered(module) else None

@@ -92,8 +92,8 @@ shows how far it has got.
 
 ## Turning an App Off
 
-**Apps**, at the bottom of the rail above your picture, is for
-administrators. Click an app's card to turn it off for the whole workspace:
+**Apps**, at the bottom of the rail above your picture, has **Turn Apps On or
+Off** at its foot for administrators. Click an app's card to turn it off for the whole workspace:
 it leaves everybody's rail, and the record types only it lists leave search,
 the record-type pickers of Dynamic Link fields, and forms, where an empty field
 linking to one is hidden. Nothing is deleted or locked. A link to one of its
@@ -118,7 +118,7 @@ turned back on, they all work as they did.
 ## Private Apps
 
 **Private apps** are made for one customer. Somebody who administers the
-workspace types the code they were given at the bottom of Apps and presses
+workspace types the code they were given at the bottom of **Turn Apps On or Off** and presses
 **Add**. The app is installed on the workspace, which takes a few minutes,
 and its card says *Installing…* until it is on the rail. A private app
 can't be turned off, now or later.
