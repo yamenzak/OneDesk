@@ -293,9 +293,9 @@ release through a thin module, removed in P2.9.
 - [ ] P5.2 OneHub: a full window of its own, every centre a tile, searchable; the reimagined One mark at the top of the rail opens it; a centre opened from a screen is a large sheet with a way up to OneHub. — reached from the rail and by address.
 - [ ] P5.3 The top bar's tray: an arrow at the right opens every centre the person may open, the current screen's first. — on desktop and phone.
 - [ ] P5.4 The module foot keeps the version and Help; Settings moves to the tray; the 13 copied foot snippets become one. — one place draws the foot.
-- [ ] P5.5 UpdateCenter redone: the workspace's update window, Update Now, what's coming and what changed (What's New moves in). — from OneAdmin's view of the tenant.
-- [ ] P5.6 TrustCenter redone: agreements, the companies that receive data, optional services, privacy requests, updates waiting for agreement, plainly. — walked as a new owner.
-- [ ] P5.7 HelpCenter: only apps that are on; OneCloud and OneStudio pages. — search finds them.
+- [x] P5.5 UpdateCenter redone: the workspace's update window, Update Now, what's coming and what changed (What's New moves in). — from OneAdmin's view of the tenant. (13 Nov, an agent, b1d59cb4: Next Update, Update Window and What's New by app, through proxy.update_window and update_now; AccountCenter's Updates gone. Fixed on the look: the method path, an empty date.)
+- [x] P5.6 TrustCenter redone: agreements, the companies that receive data, optional services, privacy requests, updates waiting for agreement, plainly. — walked as a new owner. (13 Nov, b1d59cb4: Agreements, Companies That Receive Data, Optional Services, Your Data, Privacy Requests, Waiting for Agreement; looked at as an owner in en/ar.)
+- [x] P5.7 HelpCenter: only apps that are on; OneCloud and OneStudio pages. — search finds them. (13 Nov, b1d59cb4: only apps that are on; One's Updates page added, TrustCenter's rewritten; Ctrl+K finds Help by title. Pictures wait for P6.4.)
 - [ ] P5.8 AccessCenter levels hide rail rows and centre tiles. — a role without OneBook never sees it.
 - [ ] P5.9 The rail is the person's: reorder (frappe's save_user_dock, re-enabled), folders as One's layer in user settings, the workspace's default order set in SetupCenter, reset; the app picker as a searchable launcher, recent first; on a phone the rail is the launcher. — folders survive an upgrade.
 - **Gate P5:** a passthrough of OneHub, the tray and every centre at 1440/820/390, light/dark, Arabic/German; AI step 2 (P8.2) built beside it.
