@@ -905,7 +905,7 @@ def trail(node_id: str) -> list[dict]:
 	if kind[0] == "own":
 		return [*trail(record_node("Project", kind[1]))[:-1], {"id": node_id, "name": _titled("Project", kind[1])}]
 	if kind[0] == "made":
-		return top + [{"id": node_id, "name": _(MADE_NAMES[kind[1]]) if kind[1] in MADE_NAMES else node_id}]
+		return top + [{"id": node_id, "name": str(MADE_NAMES[kind[1]]) if kind[1] in MADE_NAMES else node_id}]
 	if kind[0] == RECORDS:
 		out = top + [{"id": RECORDS, "name": _("Records")}]
 		if len(kind) > 1:
