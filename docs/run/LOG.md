@@ -105,3 +105,5 @@ detail.
   it, since they touch most files.
 
 13 Nov, afternoon. D8, D12 (rules in tests/guards/test_reaches.py) and D3 done: none of the three was order (a stale atlas-site.json; OneCloud's check built its .docx twice across a second; the OneAI one already passed). P2.11 merged and done, 263 strings translated, the POT committed with it, "Make a Presentation for Each" put back to what it meant. D14, D15 added. P2 gate running on a fresh run.localhost (/tmp/gate.log). Agents in worktrees: P3.3 (with D14, D15) and P3.7 (with D6). P2.9 waits for the merge to main.
+
+P2 gate, site half: fresh run.localhost, 314 of 314, the first full run with nothing failing. The release half waits for Yamen's merge.
