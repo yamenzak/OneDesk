@@ -131,7 +131,7 @@ onedesk.brand.named = (rest, marked = false) => {
 };
 
 // Where a centre's name already has its own icon beside it: a rail row.
-onedesk.brand.CENTER_ICONED = ".sidebar-item-label, .settings-dialog-tab-label";
+onedesk.brand.CENTER_ICONED = ".sidebar-item-label, .settings-dialog-tab-label, .one-set-row:has(> .one-set-lead) .one-set-title";
 
 /** A centre's name, such as HelpCenter: One's mark, the first word light
  * and Center after it, in a sentence and at the top of the centre alike;

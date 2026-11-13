@@ -142,6 +142,7 @@
 	.one-dialog .settings-dialog-sidebar .one-module-head :is(.one-module-head-name, .one-module-head-of) { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 	.one-dialog .settings-dialog-panel-header { padding-inline-end: 0; flex-wrap: wrap; row-gap: 12px; }
 	.one-dialog .settings-dialog-panel-header > .settings-dialog-panel-heading { flex-basis: 100%; }
-	.one-dialog .one-set-row:has(> .one-set-end .one-set-value) { flex-wrap: wrap; }
-	.one-dialog .one-set-row:has(> .one-set-end .one-set-value) > .one-set-end { flex-basis: 100%; padding-inline-start: 44px; }
+	.one-dialog .one-set-row:has(> .one-set-end :is(.one-set-value, .one-set-buttons)) { flex-wrap: wrap; }
+	.one-dialog .one-set-row:has(> .one-set-end :is(.one-set-value, .one-set-buttons)) > .one-set-end { flex-basis: 100%; padding-inline-start: 44px; }
+	.one-dialog .one-set-row:has(> .one-set-end .one-set-buttons) .one-set-title { white-space: normal; }
 }

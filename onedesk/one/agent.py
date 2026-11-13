@@ -450,6 +450,12 @@ OPENS_ON = {"onestudio": "numbering", "account": "profile", "one": "company", "n
 # What each centre on One's rail is, for the centres a section of their own
 # says nothing more about.
 CENTRES = {
+	"setup": (
+		"The reader is in SetupCenter: each app that has something to set up, with its steps done and "
+		"waiting. A step with questions opens its form here; one without opens the settings that do it; "
+		"Mark as Done sets a step aside. Apps that were just installed land on their steps. How is in One's "
+		"Help under SetupCenter (how_to)."
+	),
 	"access": (
 		"The reader is in AccessCenter: who may do what in the workspace. Roles and Profiles, then each app's "
 		"roles and people, and who may open one record, and the Audit Log of every change, sign-in and export. "
@@ -482,6 +488,8 @@ def page(said: dict) -> str | None:
 	on the server rather than taken from the browser."""
 	if said.get("page") in CENTRES and not said.get("section"):
 		return CENTRES[said["page"]]
+	if said.get("page") == "setup":
+		return CENTRES["setup"] + f" They are on {said['section']}'s steps."
 	said = {**said, "section": said.get("section") or OPENS_ON.get(said.get("page"), "")}
 	if said.get("section") == "lists":
 		return _lists_page(said.get("page"))
