@@ -160,7 +160,7 @@ class Arrival(InboundMail):
 		from urllib.parse import unquote
 
 		from onedesk.one_mail import room
-		from onedesk.one_storage import store
+		from onedesk.one_cloud import store
 
 		everything, saved, missing = self.attachments, [], []
 		try:

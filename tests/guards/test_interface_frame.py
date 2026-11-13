@@ -102,7 +102,7 @@ def test_onecloud_on_its_page_draws_none_of_the_windows_parts():
 	assert "interfaceHeading(props.win" in CLOUD and "ways: views" in CLOUD
 	assert "interfaceTree(props.win" in CLOUD
 	assert "interfaceSearch(props.win" in CLOUD and "interfaceStatus(props.win" in CLOUD and "interfaceHandles(props.win" in CLOUD
-	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text(encoding="utf-8")
+	page = (tree.APP / "one_cloud" / "page" / "onecloud" / "onecloud.js").read_text(encoding="utf-8")
 	assert "fit: true" in page and "hide_sidebar" not in page
 
 

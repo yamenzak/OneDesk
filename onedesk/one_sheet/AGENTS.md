@@ -31,7 +31,7 @@ Upload a new version of the file and it is read in again the next time it
 is opened. Only the cells that changed are written into the Excel file,
 so its fonts, colours, borders, comments, data validation, conditional
 formatting, tables and pictures stay. When the file has what that drops
-(charts, slicers, shapes, sparklines and the rest `one_storage/fidelity.py`
+(charts, slicers, shapes, sparklines and the rest `one_cloud/fidelity.py`
 reads for), nothing is saved over it until the person chooses **Save Over
 Original** or **Save as Copy**. An .xlsm or .xls opens read-only, and so does
 any file while somebody has it in OneOS.
@@ -357,9 +357,9 @@ socketio process for every app (`frappe/realtime/index.js`), so live editing
 needs no second service. A browser joins a workbook's room with
 `onedesk_join`; the relay asks `live.admit` once, as that socket's session,
 and the server names the room and says whether the person may write (never
-while the File is held alone, `one_storage/saving.state`), and records them
+while the File is held alone, `one_cloud/saving.state`), and records them
 on the File's lease; `live.here` every minute and `live.leave` on leave or
-disconnect keep it current (one_storage AGENTS.md, One lease per file). After
+disconnect keep it current (one_cloud AGENTS.md, One lease per file). After
 that a change goes browser → node → the others, never through Python. A
 reader may ask for the state and be seen, nothing else; only a writer may
 send cell updates or answer with a whole state. Who somebody is in the
@@ -596,7 +596,7 @@ it; an open-ended range such as `H6:H`, which Excel does not have, closed at
 row 1,048,576; a OneWorkbook-only formula as its value. `xlsx` keeps the
 bytes in the cache until the workbook changes. `dav._as_file` names the
 node `Name.xlsx`, `Document` serves those bytes and sends a save to
-`excel.write`, `links.get` hands them to a link, and `one_storage/file.py`'s
+`excel.write`, `links.get` hands them to a link, and `one_cloud/file.py`'s
 `get_content` hands them to anything else that reads a File, an email
 attachment above all, naming it `Name.xlsx` while it is read. `excel.read` takes
 Excel's save back with openpyxl: values and formulas in, `_xlfn.` dropped

@@ -77,7 +77,7 @@ msgstr "(اختياري)"
 msgid "({0} rows changed)"
 msgstr "(تغيّر {0} صفوف)"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:494
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:494
 msgid "* required"
 msgstr "* مطلوب"
 
@@ -798,7 +798,7 @@ msgstr "يُفتح مستند في المستندات."
 msgid "A document of One's own from this file."
 msgstr "مستند خاص بـ One من هذا الملف."
 
-#: onedesk/one_doc/word.py:255 onedesk/one_storage/opening.py:158
+#: onedesk/one_doc/word.py:255 onedesk/one_cloud/opening.py:158
 msgid "A document with a record's fields in it can only be edited in OneWriter."
 msgstr "لا يمكن تحرير مستند يحتوي على حقول سجل إلا في OneWriter."
 
@@ -890,7 +890,7 @@ msgstr "مسودة. أرسلها لإرسال العمل إلى {0}."
 msgid "A draft. Submit it to take these out of stock for {0}."
 msgstr "مسودة. أرسلها لإخراج هذه من المخزون إلى {0}."
 
-#: onedesk/one_storage/dav.py:258
+#: onedesk/one_cloud/dav.py:258
 msgid "A drive"
 msgstr "محرك أقراص"
 
@@ -958,19 +958,19 @@ msgstr "ملف بكل ما تحتفظ به مساحة العمل هذه عنك،
 msgid "A file that belongs to a record as well as to where it is kept."
 msgstr "ملف يخص سجلًا إضافة إلى المكان المحفوظ فيه."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:647
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:647
 msgid "A file with this name is already here"
 msgstr "يوجد هنا بالفعل ملف بهذا الاسم"
 
-#: onedesk/one_storage/api.py:322 onedesk/one_storage/api.py:450
+#: onedesk/one_cloud/api.py:322 onedesk/one_cloud/api.py:450
 msgid "A folder can't be moved into itself."
 msgstr "لا يمكن نقل مجلد إلى داخله."
 
-#: onedesk/one_storage/api.py:236
+#: onedesk/one_cloud/api.py:236
 msgid "A folder has no content."
 msgstr "المجلد ليس له محتوى."
 
-#: onedesk/one_storage/api.py:250
+#: onedesk/one_cloud/api.py:250
 msgid "A folder has no text."
 msgstr "المجلد ليس له نص."
 
@@ -980,7 +980,7 @@ msgid "A folder named {0} already exists."
 msgstr "يوجد مجلد باسم {0} بالفعل."
 
 #. Description of the 'Team Library' (Check) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:73
+#: onedesk/one_cloud/custom/file.json:73
 msgid "A folder people are members of, the way a team's document library is."
 msgstr "مجلد يكون الأشخاص أعضاء فيه، كمكتبة مستندات الفريق."
 
@@ -1111,7 +1111,7 @@ msgstr "ترويسة الرسالة تحتاج إلى شيء لطباعته."
 msgid "A letter head's name may not contain quotes or angle brackets."
 msgstr "لا يجوز أن يحتوي اسم ترويسة الرسائل على علامات اقتباس أو أقواس زاوية."
 
-#: onedesk/one_storage/library.py:31
+#: onedesk/one_cloud/library.py:31
 msgid "A library needs a name."
 msgstr "تحتاج المكتبة إلى اسم."
 
@@ -1137,7 +1137,7 @@ msgid "A link sent to a customer to pay online."
 msgstr "رابط يُرسل إلى العميل للدفع عبر الإنترنت."
 
 #. Description of a DocType
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:6
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:6
 msgid "A link to a file or folder in OneCloud for people outside the team."
 msgstr "رابط إلى ملف أو مجلد في OneCloud لأشخاص من خارج الفريق."
 
@@ -1296,7 +1296,7 @@ msgstr "ملاحظة من One: {0}"
 
 #. Description of the 'Message' (Small Text) field in DocType 'Cloud File
 #. Request'
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:54
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:54
 msgid "A note to the people asked."
 msgstr "ملاحظة للأشخاص المطلوب منهم."
 
@@ -1329,7 +1329,7 @@ msgid "A passkey was added to your account"
 msgstr "أُضيف مفتاح مرور إلى حسابك"
 
 #. Description of a DocType
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:6
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:6
 msgid "A password that opens a person's OneCloud drive and nothing else."
 msgstr "كلمة مرور تفتح محرك OneCloud الخاص بشخص ولا شيء غيره."
 
@@ -1398,7 +1398,7 @@ msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظ�
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr "مكان يُعرض طقسه على الشاشات وبجانب الساعة. مكان واحد مجاني، وكل مكان إضافي يستهلك 5 أرصدة يومياً."
 
-#: onedesk/one_slide/drive.py:63 onedesk/one_storage/opening.py:163
+#: onedesk/one_slide/drive.py:63 onedesk/one_cloud/opening.py:163
 msgid "A presentation with words from records can only be edited in OneSlide."
 msgstr "لا يمكن تحرير عرض تقديمي يحتوي على كلمات من السجلات إلا في OneSlide."
 
@@ -1509,7 +1509,7 @@ msgstr "نوع السجل المسمّى بسلسلة يحتاج إلى سلسل
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr "يُرسم رأس السجل في نموذجه: في كل مرة يُفتح فيها السجل أو يُحفظ."
 
-#: onedesk/one_sheet/excel.py:341 onedesk/one_storage/opening.py:154
+#: onedesk/one_sheet/excel.py:341 onedesk/one_cloud/opening.py:154
 msgid "A record's workbook can only be edited in OneWorkbook."
 msgstr "لا يمكن تعديل مصنف السجل إلا في OneWorkbook."
 
@@ -1537,7 +1537,7 @@ msgid "A report saved here is a list's Report view, saved under a name."
 msgstr "التقرير المحفوظ هنا هو عرض «تقرير» لقائمة، محفوظ باسم."
 
 #. Description of a DocType
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:6
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:6
 msgid "A request for files from a person. Uploaded files go to a folder or a record."
 msgstr "طلب ملفات من شخص. تُحفظ الملفات المرفوعة في مجلد أو سجل."
 
@@ -1546,7 +1546,7 @@ msgstr "طلب ملفات من شخص. تُحفظ الملفات المرفوع�
 msgid "A request in a document for a person to do something."
 msgstr "طلب في مستند من شخص للقيام بأمر ما."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:53
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.py:53
 msgid "A request that fills record fields can go to one person only."
 msgstr "الطلب الذي يملأ حقول السجل يُرسَل إلى شخص واحد فقط."
 
@@ -2210,11 +2210,11 @@ msgid "Accepted. We'll confirm your order."
 msgstr "تم القبول. سنؤكد طلبك."
 
 #. Label of the section_who (Section Break) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:98
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:98
 #: onedesk/public/js/doctype_settings.js:39
 #: onedesk/public/js/doctype_settings.js:259
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:35
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:137
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:35
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:137
 msgid "Access"
 msgstr "الوصول"
 
@@ -2652,7 +2652,7 @@ msgstr "تكييف One مع عملك"
 #: onedesk/public/js/one_interface/json_view.js:343
 #: onedesk/public/js/one_mail/onemail_settings.js:609
 #: onedesk/public/js/one_mail/onemail_settings.js:1327
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:228
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:228
 msgid "Add"
 msgstr "إضافة"
 
@@ -2716,7 +2716,7 @@ msgstr "إضافة إضافة برمجية"
 msgid "Add Field"
 msgstr "إضافة حقل"
 
-#: onedesk/one_storage/tour.py:18
+#: onedesk/one_cloud/tour.py:18
 msgid "Add Files"
 msgstr "إضافة ملفات"
 
@@ -2998,7 +2998,7 @@ msgstr "إضافة متقدمين من السير الذاتية"
 msgid "Add at least one action."
 msgstr "أضف إجراءً واحدًا على الأقل."
 
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.py:40
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.py:40
 msgid "Add at least one email address."
 msgstr "أضف عنوان بريد إلكتروني واحدًا على الأقل."
 
@@ -3050,8 +3050,8 @@ msgid "Add oval"
 msgstr "إضافة شكل بيضاوي"
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:63
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:29
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:215
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:29
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:215
 msgid "Add people"
 msgstr "إضافة أشخاص"
 
@@ -3205,7 +3205,7 @@ msgid "Added to Project"
 msgstr "أُضفت إلى مشروع"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Added to a Library"
 msgstr "أُضفت إلى مكتبة"
 
@@ -3360,7 +3360,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_mail/signatures.py:32
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:62
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:62
 #: onedesk/one_studio/letter_heads.py:54 onedesk/one_studio/letter_heads.py:316
 #: onedesk/one_studio/letter_heads.py:331
 #: onedesk/one_studio/letter_heads.py:351
@@ -3371,8 +3371,8 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:377
 #: onedesk/public/js/one_account/account_center.js:387
 #: onedesk/public/js/one_interface/frame.js:587
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:288
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:527
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:288
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:527
 #: onedesk/public/js/one_studio/studio_control.js:168
 msgid "Address"
 msgstr "العنوان"
@@ -4344,7 +4344,7 @@ msgid "An IAM user's key allowed Lightsail only. Never the root user's."
 msgstr "مفتاح مستخدم IAM مسموح له بـ Lightsail فقط. ليس مفتاح المستخدم الجذر أبدًا."
 
 #. Description of a DocType
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:6
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:6
 msgid "An SFTP or WebDAV server shown as a folder in OneCloud."
 msgstr "خادم SFTP أو WebDAV يظهر كمجلد في OneCloud."
 
@@ -4741,13 +4741,13 @@ msgid "Any password"
 msgstr "أي كلمة مرور"
 
 #. Option for the 'Audience' (Select) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:57
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:112
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:139
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:57
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:112
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:139
 msgid "Anyone With Link"
 msgstr "أي شخص لديه الرابط"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:67
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:67
 msgid "Anyone who can open the record can open this file."
 msgstr "يمكن لكل من يستطيع فتح السجل فتح هذا الملف."
 
@@ -5365,12 +5365,12 @@ msgid "Arrived After Closing"
 msgstr "وصل بعد الإغلاق"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Arrived Through a Link"
 msgstr "وصل عبر رابط"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Arrived Through a Link, One File"
 msgstr "وصل عبر رابط، ملف واحد"
 
@@ -5997,8 +5997,8 @@ msgstr "عند: {0}"
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
-#: onedesk/public/js/one_storage/onecloud_picker.js:37
-#: onedesk/public/js/one_storage/onecloud_picker.js:74
+#: onedesk/public/js/one_cloud/onecloud_picker.js:37
+#: onedesk/public/js/one_cloud/onecloud_picker.js:74
 msgid "Attach"
 msgstr "إرفاق"
 
@@ -6016,7 +6016,7 @@ msgstr "إرفاق PDF بـ {0}"
 msgid "Attach a file"
 msgstr "إرفاق ملف"
 
-#: onedesk/public/js/one_storage/onecloud_picker.js:74
+#: onedesk/public/js/one_cloud/onecloud_picker.js:74
 #, python-brace-format
 msgid "Attach {0} files"
 msgstr "إرفاق {0} ملفات"
@@ -6161,7 +6161,7 @@ msgstr "السمات"
 #. Label of the audience (Data) field in DocType 'Legal Document Version'
 #. Label of the audience (Select) field in DocType 'Cloud Link'
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:52
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:56
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:56
 msgid "Audience"
 msgstr "من يمكنه فتحه"
 
@@ -7052,7 +7052,7 @@ msgstr ""
 msgid "Before You Continue"
 msgstr "قبل المتابعة"
 
-#: onedesk/one_storage/saving.py:79
+#: onedesk/one_cloud/saving.py:79
 msgid "Before a OneOS save"
 msgstr "قبل حفظ من OneOS"
 
@@ -7061,7 +7061,7 @@ msgid "Before a Word save"
 msgstr "قبل حفظ من Word"
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Before a file request is due, or when its owner sends a reminder."
 msgstr "قبل موعد طلب الملفات، أو عندما يرسل صاحبه تذكيراً."
 
@@ -8454,17 +8454,17 @@ msgid "Can change {0}"
 msgstr "يمكنه تغيير {0}"
 
 #. Label of the allow_download (Check) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:64
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:153
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:64
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:153
 msgid "Can download"
 msgstr "يمكنه التنزيل"
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:268
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:328
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:439
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:61
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:63
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:64
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:61
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:63
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:64
 msgid "Can edit"
 msgstr "يمكنه التعديل"
 
@@ -8497,17 +8497,17 @@ msgid "Can update the board and are notified when an item passes its time limit.
 msgstr "يمكنهم تحديث اللوحة ويُبلَّغون عند تجاوز عنصر حدّه الزمني. اتركه فارغًا للسماح لجميع مستخدمي OneDisplay."
 
 #. Label of the allow_upload (Check) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:70
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:155
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:70
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:155
 msgid "Can upload"
 msgstr "يمكنه الرفع"
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:267
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:327
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:438
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:61
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:63
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:64
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:61
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:63
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:64
 msgid "Can view"
 msgstr "يمكنه العرض"
 
@@ -8590,7 +8590,7 @@ msgstr "لا يمكن تشغيلها هنا"
 msgid "Cannot be changed. Storage is pinned to it when the workspace is created."
 msgstr "لا يمكن تغييره. يُثبَّت التخزين عليه عند إنشاء مساحة العمل."
 
-#: onedesk/one_storage/file.py:109
+#: onedesk/one_cloud/file.py:109
 msgid "Cannot get file contents of a Folder"
 msgstr ""
 
@@ -8983,7 +8983,7 @@ msgid "Changes that never reached the server were discarded."
 msgstr "تم تجاهل التغييرات التي لم تصل إلى الخادم."
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Changes you saved are kept. Open it in OneOS again to go on."
 msgstr "التغييرات التي حفظتها محفوظة. افتحه في OneOS مجددًا للمتابعة."
 
@@ -9475,11 +9475,11 @@ msgstr "اختر يوماً لم يمضِ بعد."
 msgid "Choose a file"
 msgstr "اختر ملفًا"
 
-#: onedesk/public/js/one_storage/onecloud_picker.js:42 onedesk/www/r.py:18
+#: onedesk/public/js/one_cloud/onecloud_picker.js:42 onedesk/www/r.py:18
 msgid "Choose a file first."
 msgstr "اختر ملفًا أولًا."
 
-#: onedesk/one_storage/file_requests.py:367
+#: onedesk/one_cloud/file_requests.py:367
 msgid "Choose a file to send."
 msgstr "اختر ملفًا لإرساله."
 
@@ -9531,11 +9531,11 @@ msgstr "اختر دورًا واحدًا على الأقل."
 msgid "Choose files"
 msgstr "اختر ملفات"
 
-#: onedesk/one_storage/pdf.py:83
+#: onedesk/one_cloud/pdf.py:83
 msgid "Choose files to combine."
 msgstr "اختر الملفات المراد دمجها."
 
-#: onedesk/public/js/one_storage/onecloud_picker.js:34
+#: onedesk/public/js/one_cloud/onecloud_picker.js:34
 msgid "Choose from OneCloud"
 msgstr "اختر من OneCloud"
 
@@ -9543,7 +9543,7 @@ msgstr "اختر من OneCloud"
 msgid "Choose how much you see, and the calendar opens on that view next time."
 msgstr "اختر مقدار ما تراه، وسيفتح التقويم على هذا العرض في المرة القادمة."
 
-#: onedesk/one_storage/api.py:263
+#: onedesk/one_cloud/api.py:263
 msgid "Choose one of the colors offered."
 msgstr "اختر أحد الألوان المعروضة."
 
@@ -9945,7 +9945,7 @@ msgstr "إغلاق مساحة العمل"
 msgid "Close in OneOS"
 msgstr "إغلاق في OneOS"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:502
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:502
 msgid "Close request"
 msgstr "إغلاق الطلب"
 
@@ -9972,8 +9972,8 @@ msgstr "إغلاق {0}؟ لن يمكن تسجيل أي شيء آخر عليها.
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_display/widgets.py:145 onedesk/one_display/widgets.py:192
 #: onedesk/one_factory/portal.py:54
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:40
-#: onedesk/one_storage/file_requests.py:170
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:40
+#: onedesk/one_cloud/file_requests.py:170
 msgid "Closed"
 msgstr "مغلق"
 
@@ -10001,7 +10001,7 @@ msgid "Closed at your request. It will be deleted on {0}. Reply to our email to 
 msgstr "أُغلق بناءً على طلبك. سيُحذف في {0}. ردّ على رسالتنا للاحتفاظ به."
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Closed in OneOS"
 msgstr "أُغلق في OneOS"
 
@@ -10081,47 +10081,47 @@ msgid "Closing the Workspace"
 msgstr "إغلاق مساحة العمل"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:57
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:57
 msgid "Cloud Drive Password"
 msgstr "كلمة مرور محرك سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:127
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:127
 msgid "Cloud File Request"
 msgstr "طلب ملفات سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:70
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:70
 msgid "Cloud File Request Item"
 msgstr "بند طلب ملفات سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:68
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:68
 msgid "Cloud File Request Recipient"
 msgstr "مستلم طلب ملفات سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json:49
+#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:49
 msgid "Cloud File Request Upload"
 msgstr "ملف مرفوع لطلب ملفات سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:78
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:78
 msgid "Cloud File Version"
 msgstr "إصدار ملف سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:149
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:149
 msgid "Cloud Link"
 msgstr "رابط سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json:33
+#: onedesk/one_cloud/doctype/cloud_link_invitee/cloud_link_invitee.json:33
 msgid "Cloud Link Invitee"
 msgstr "مدعو إلى رابط سحابي"
 
 #. Name of a DocType
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:130
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:130
 msgid "Cloud Mount"
 msgstr "خادم متصل"
 
@@ -10403,7 +10403,7 @@ msgstr "أعمدة {0}"
 msgid "Combine"
 msgstr "دمج"
 
-#: onedesk/one_storage/pdf.py:85
+#: onedesk/one_cloud/pdf.py:85
 #, python-brace-format
 msgid "Combine at most {0} files at once."
 msgstr "يمكن دمج {0} ملفًا كحد أقصى في المرة الواحدة."
@@ -10416,7 +10416,7 @@ msgstr "دمج في ملف PDF"
 msgid "Combine into PDF…"
 msgstr "دمج في ملف PDF…"
 
-#: onedesk/one_storage/pdf.py:73
+#: onedesk/one_cloud/pdf.py:73
 msgid "Combined"
 msgstr "مدمج"
 
@@ -10589,9 +10589,9 @@ msgstr "الشركات التي تتلقى البيانات"
 #: onedesk/one_project/doctype/project_contact/project_contact.json:39
 #: onedesk/one_quality/custom/non_conformance.json:6
 #: onedesk/one_quality/custom/quality_action.json:17
-#: onedesk/one_storage/history.py:247 onedesk/one_storage/namespace.py:402
-#: onedesk/one_storage/namespace.py:543 onedesk/one_storage/namespace.py:644
-#: onedesk/one_storage/namespace.py:900 onedesk/one_studio/letter_heads.py:586
+#: onedesk/one_cloud/history.py:247 onedesk/one_cloud/namespace.py:402
+#: onedesk/one_cloud/namespace.py:543 onedesk/one_cloud/namespace.py:644
+#: onedesk/one_cloud/namespace.py:900 onedesk/one_studio/letter_heads.py:586
 #: onedesk/public/js/one/one_control.js:20
 #: onedesk/public/js/one/one_control.js:29
 #: onedesk/public/js/project_actions.js:445
@@ -10686,8 +10686,8 @@ msgstr "شكوى"
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
 #: onedesk/one_slide/decks.py:245
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:475
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:475
 #: onedesk/public/js/timesheet.js:67
 msgid "Complete"
 msgstr "إكمال"
@@ -10748,7 +10748,7 @@ msgstr "البند"
 msgid "Compressed folder"
 msgstr "مجلد مضغوط"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:540
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:540
 msgid "Computer"
 msgstr "الحاسوب"
 
@@ -10901,7 +10901,7 @@ msgstr "تم التأكيد"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:924
 #: onedesk/public/js/one_mail/onemail_settings.js:979
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:319
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:319
 msgid "Connect"
 msgstr "اتصال"
 
@@ -10946,7 +10946,7 @@ msgid "Connect as a drive…"
 msgstr "الاتصال كمحرك أقراص…"
 
 #: frontend/src/cloud/OneCloud.vue:795
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:277
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:277
 msgid "Connect server"
 msgstr "ربط خادم"
 
@@ -10963,7 +10963,7 @@ msgstr "صِل هذه الشاشة"
 msgid "Connect {0}"
 msgstr "ربط {0}"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:525
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:525
 #, python-brace-format
 msgid "Connect {0} as a drive"
 msgstr "توصيل {0} كمحرك أقراص"
@@ -11226,7 +11226,7 @@ msgid "Content"
 msgstr ""
 
 #. Label of the content_hash (Data) field in DocType 'Cloud File Version'
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:53
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:53
 msgid "Content Hash"
 msgstr "بصمة المحتوى"
 
@@ -11458,8 +11458,8 @@ msgstr "تم نسخ {0} عناصر"
 #: onedesk/public/js/one_interface/json_view.js:344
 #: onedesk/public/js/one_interface/look.js:208
 #: onedesk/public/js/one_portal/portal.js:156
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:451
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:543
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:451
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:543
 msgid "Copy"
 msgstr "نسخ"
 
@@ -11508,15 +11508,15 @@ msgstr "النصوص والتصاميم"
 msgid "Copy failed"
 msgstr "فشل النسخ"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:546
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:546
 msgid "Copy it now. It won't be shown again."
 msgstr "انسخها الآن. لن تظهر مرة أخرى."
 
 #: frontend/src/cloud/OneCloud.vue:763
 #: frontend/src/sheet/components/SheetEditor/LinkPreviewCard.vue:44
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:136
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:107
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:476
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:107
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:476
 msgid "Copy link"
 msgstr "نسخ الرابط"
 
@@ -11728,7 +11728,7 @@ msgstr "تعذّر فتح قالب رئيسي: هذا العرض قالب رئي
 msgid "Could not open this sheet"
 msgstr "تعذّر فتح هذه الورقة"
 
-#: onedesk/one_storage/mounts.py:304
+#: onedesk/one_cloud/mounts.py:304
 #, python-brace-format
 msgid "Could not open {0}: {1}"
 msgstr "تعذّر فتح {0}: {1}"
@@ -11748,7 +11748,7 @@ msgstr "تعذرت طباعة الورقة."
 msgid "Could not reach your account. Showing what was last known."
 msgstr "تعذّر الوصول إلى حسابك. يُعرض آخر ما هو معروف."
 
-#: onedesk/one_storage/mounts.py:263
+#: onedesk/one_cloud/mounts.py:263
 #, python-brace-format
 msgid "Could not reach {0}: {1}"
 msgstr "تعذّر الوصول إلى {0}: {1}"
@@ -11758,7 +11758,7 @@ msgstr "تعذّر الوصول إلى {0}: {1}"
 msgid "Could not read range."
 msgstr "تعذّرت قراءة النطاق."
 
-#: onedesk/one_slide/from_powerpoint.py:319 onedesk/one_storage/pdf.py:102
+#: onedesk/one_slide/from_powerpoint.py:319 onedesk/one_cloud/pdf.py:102
 #, python-brace-format
 msgid "Could not read {0}."
 msgstr "تعذّرت قراءة {0}."
@@ -12088,8 +12088,8 @@ msgstr "يغطي حتى {0}"
 #: onedesk/public/js/one_inventory/item.js:28
 #: onedesk/public/js/one_inventory/item.js:29
 #: onedesk/public/js/one_inventory/request_for_quotation.js:15
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:197
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:552
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:197
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:552
 #: onedesk/public/js/one_studio/studio_control.js:187
 #: onedesk/public/js/opportunity.js:14 onedesk/public/js/opportunity.js:15
 #: onedesk/public/js/progress.js:30 onedesk/public/js/progress.js:81
@@ -12196,13 +12196,13 @@ msgstr "إنشاء جهات الاتصال وتحديثها"
 msgid "Create it again if much has changed since."
 msgstr "أنشئه مرة أخرى إذا تغيّر الكثير منذ ذلك الحين."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:106
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:132
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:166
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:106
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:132
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:166
 msgid "Create link"
 msgstr "إنشاء رابط"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:537
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:537
 msgid "Create password"
 msgstr "إنشاء كلمة مرور"
 
@@ -12977,7 +12977,7 @@ msgid "Data validation…"
 msgstr "التحقق من صحة البيانات…"
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:115
-#: onedesk/one_storage/api.py:138
+#: onedesk/one_cloud/api.py:138
 #: onedesk/public/js/one_account/account_center.js:774
 #: onedesk/public/js/one_account/account_center.js:1209
 msgid "Database"
@@ -14004,19 +14004,19 @@ msgid "Deleted"
 msgstr "تاريخ الحذف"
 
 #. Label of the one_deleted_by (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:50
+#: onedesk/one_cloud/custom/file.json:50
 msgid "Deleted By"
 msgstr "حذفه"
 
 #. Label of the deleted_on (Date) field in DocType 'Workspace Account'
 #. Label of the one_deleted_on (Datetime) field in DocType 'File'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:360
-#: onedesk/one_storage/custom/file.json:37
+#: onedesk/one_cloud/custom/file.json:37
 msgid "Deleted On"
 msgstr "تاريخ الحذف"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Deleted While Open"
 msgstr "حُذف وهو مفتوح"
 
@@ -14475,7 +14475,7 @@ msgid "Describe It"
 msgstr "صِفه"
 
 #: onedesk/one_display/make.py:80 onedesk/one_doc/api.py:304
-#: onedesk/one_storage/made.py:72
+#: onedesk/one_cloud/made.py:72
 msgid "Describe what OneAI should make."
 msgstr "صِف ما يجب أن يصنعه OneAI."
 
@@ -14739,15 +14739,15 @@ msgstr "اعتماد التصاميم"
 #: onedesk/one/doctype/news_source/news_source.json:318
 #: onedesk/one/doctype/weather_place/weather_place.json:119
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:189
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:140
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:162
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:143
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:140
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:162
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:143
 msgid "Desk User"
 msgstr ""
 
 #. Label of the section_where (Section Break) field in DocType 'Cloud File
 #. Request'
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:59
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:59
 msgid "Destination"
 msgstr "الوجهة"
 
@@ -14782,7 +14782,7 @@ msgstr "التفصيل"
 msgid "Details"
 msgstr "التفاصيل"
 
-#: onedesk/one_storage/tour.py:30
+#: onedesk/one_cloud/tour.py:30
 msgid "Details or Tiles"
 msgstr "التفاصيل أو المربعات"
 
@@ -14923,7 +14923,7 @@ msgstr "تعطيل {0}؟ سيتم تسجيل خروجه ولن يتمكن من �
 #. Label of the disabled (Check) field in DocType 'Cloud Link'
 #: onedesk/one/doctype/news_source/news_source_list.js:7
 #: onedesk/one_admin/doctype/offering/offering_list.js:27
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:93
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:93
 #: onedesk/public/js/doctype_settings.js:920
 #: onedesk/public/js/one_account/account_center.js:417
 #: onedesk/public/js/one_account/account_center.js:532
@@ -14951,7 +14951,7 @@ msgstr "تجاهل النسخة الجديدة؟ تبقى المفعّلة كم�
 msgid "Disconnect"
 msgstr "قطع الاتصال"
 
-#: onedesk/one_storage/mounts.py:401
+#: onedesk/one_cloud/mounts.py:401
 msgid "Disconnect the server instead."
 msgstr "اقطع الاتصال بالخادم بدلًا من ذلك."
 
@@ -15811,7 +15811,7 @@ msgstr "مشروبات"
 msgid "Drinks with a price for each size."
 msgstr "مشروبات مع سعر لكل حجم."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:560
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:560
 msgid "Drive passwords"
 msgstr "كلمات مرور محرك الأقراص"
 
@@ -15919,9 +15919,9 @@ msgstr "الاستحقاق"
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_project/ai.py:601
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:47
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:47
 #: onedesk/one_studio/print_blocks.py:49
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:346
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:346
 #: onedesk/public/js/project_actions.js:578
 msgid "Due Date"
 msgstr "تاريخ الاستحقاق"
@@ -16000,7 +16000,7 @@ msgstr "يستحق غدًا"
 msgid "Due {0}"
 msgstr "مستحقة {0}"
 
-#: onedesk/one_storage/tell.py:78 onedesk/www/r.html:23
+#: onedesk/one_cloud/tell.py:78 onedesk/www/r.html:23
 #, python-brace-format
 msgid "Due {0}."
 msgstr "موعد التسليم {0}."
@@ -16091,7 +16091,7 @@ msgstr "رصيد كل حساب حسب البُعد المحاسبي."
 msgid "Each account's debits and credits, day by day."
 msgstr "مدين ودائن كل حساب، يومًا بيوم."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:148
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:148
 msgid "Each address on its own line gets the link and a sign-in code."
 msgstr "يتلقى كل عنوان في سطر مستقل الرابط ورمز تسجيل الدخول."
 
@@ -16172,7 +16172,7 @@ msgid "Each interviewer who owes it"
 msgstr "كل مُقابِل لم يقدّمه بعد"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Each invited address"
 msgstr "كل عنوان مدعو"
 
@@ -16254,7 +16254,7 @@ msgid "Each person, for their own day"
 msgstr "كل شخص، عن يومه"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Each recipient"
 msgstr "كل مستلم"
 
@@ -16396,7 +16396,7 @@ msgstr "موجّه الحافة"
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/public/js/doctype_settings.js:253
 #: onedesk/public/js/one/access_center.js:103
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:38
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:38
 msgid "Edit"
 msgstr "تعديل"
 
@@ -16416,8 +16416,8 @@ msgstr "تعديل الجهاز"
 msgid "Edit Full Form"
 msgstr ""
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:624
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:631
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:624
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:631
 msgid "Edit Here Anyway"
 msgstr "تعديل هنا على أي حال"
 
@@ -16479,11 +16479,11 @@ msgid "Edit in Builder"
 msgstr "التحرير في المصمم"
 
 #: frontend/src/cloud/OneCloud.vue:1064 frontend/src/cloud/OneCloud.vue:1065
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:624
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:624
 msgid "Edit in OneOS"
 msgstr "تعديل في OneOS"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:619
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:619
 msgid "Edit in OneOS keeps everything. If you edit here, nothing is dropped unless you choose Save Over Original."
 msgstr "التعديل في OneOS يحتفظ بكل شيء. إذا عدّلت هنا، فلن يُحذف شيء إلا إذا اخترت حفظ فوق الأصل."
 
@@ -16513,7 +16513,7 @@ msgid "Edit text of selected element"
 msgstr "تعديل نص العنصر المحدد"
 
 #: onedesk/public/js/one/role_matrix.js:36
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:277
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:277
 #, python-brace-format
 msgid "Edit {0}"
 msgstr "تعديل {0}"
@@ -16571,12 +16571,12 @@ msgid "Editing is disabled until you exit."
 msgstr "التحرير معطّل حتى تخرج."
 
 #. Label of the one_fidelity (Small Text) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:165
+#: onedesk/one_cloud/custom/file.json:165
 msgid "Editor Would Drop"
 msgstr "ما سيحذفه المحرر"
 
 #. Label of the one_fidelity_of (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:179
+#: onedesk/one_cloud/custom/file.json:179
 msgid "Editor Would Drop For"
 msgstr "ما سيحذفه المحرر لـ"
 
@@ -16730,9 +16730,9 @@ msgstr "العناصر"
 #: onedesk/one_mail/signatures.py:30
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:67
 #: onedesk/one_project/doctype/project_contact/project_contact.json:55
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:19
-#: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json:17
-#: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json:15
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:19
+#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:17
+#: onedesk/one_cloud/doctype/cloud_link_invitee/cloud_link_invitee.json:15
 #: onedesk/one_studio/letter_heads.py:56 onedesk/one_studio/letter_heads.py:333
 #: onedesk/one_studio/letter_heads.py:353
 #: onedesk/public/js/one/notification_center.js:50
@@ -16800,7 +16800,7 @@ msgstr "مراسلة الموردين الآن"
 msgid "Email address"
 msgstr "عنوان البريد الإلكتروني"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:147
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:147
 msgid "Email addresses"
 msgstr "عناوين البريد الإلكتروني"
 
@@ -16813,7 +16813,7 @@ msgstr "عناوين بريد أشخاص من خارج مساحة العمل ل�
 msgid "Email addresses outside the workspace, each sent an invitation."
 msgstr "عناوين بريد من خارج مساحة العمل، يُرسل إلى كل منها دعوة."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:344
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:344
 msgid "Email addresses, one per line."
 msgstr "عناوين البريد الإلكتروني، واحد في كل سطر."
 
@@ -16831,7 +16831,7 @@ msgstr "البريد للأشخاص الجدد"
 msgid "Email is always sent so people can reply."
 msgstr "يُرسل البريد دائمًا ليتمكن الناس من الرد."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:458
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:458
 msgid "Email isn't set up, so these links weren't sent."
 msgstr "البريد الإلكتروني غير مُعَدّ، لذا لم تُرسَل هذه الروابط."
 
@@ -18557,8 +18557,8 @@ msgid "Expires in {0} hours"
 msgstr "تنتهي خلال {0} ساعة"
 
 #. Label of the expires_on (Datetime) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:82
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:157
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:82
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:157
 msgid "Expires on"
 msgstr "ينتهي في"
 
@@ -18712,7 +18712,7 @@ msgstr "إضافات تتعثر"
 
 #. Description of the 'File Types' (Data) field in DocType 'Cloud File Request
 #. Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:49
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:49
 msgid "Extensions it may be, like pdf, jpg. Any kind when empty."
 msgstr "الامتدادات المسموح بها، مثل pdf وjpg. أي نوع إن تُرك فارغًا."
 
@@ -18930,7 +18930,7 @@ msgstr "سريع"
 msgid "Featured"
 msgstr "مميز"
 
-#: onedesk/one_storage/namespace.py:748 onedesk/one_storage/namespace.py:853
+#: onedesk/one_cloud/namespace.py:748 onedesk/one_cloud/namespace.py:853
 msgid "Featured Media"
 msgstr "الوسائط المميزة"
 
@@ -19133,12 +19133,12 @@ msgstr "الأرقام"
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:39
 #: onedesk/one_sheet/doctype/workbook/workbook.json:39
 #: onedesk/one_slide/doctype/presentation/presentation.json:48
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:20
-#: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json:24
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:23
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:33
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:357
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:413
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:20
+#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:24
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:23
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:33
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:357
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:413
 msgid "File"
 msgstr "ملف"
 
@@ -19161,47 +19161,47 @@ msgid "File Name"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "File Not Made"
 msgstr "لم يُنشأ الملف"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "File Ready"
 msgstr "الملف جاهز"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "File Request"
 msgstr "طلب ملفات"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "File Request Answered"
 msgstr "تمت الإجابة على طلب ملفات"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "File Request Complete"
 msgstr "اكتمل طلب الملفات"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "File Request Reminder"
 msgstr "تذكير بطلب ملفات"
 
 #. Label of the accept (Data) field in DocType 'Cloud File Request Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:48
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:360
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:48
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:360
 msgid "File Types"
 msgstr "أنواع الملفات"
 
 #. Label of the file_url (Small Text) field in DocType 'Cloud File Version'
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:40
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:40
 msgid "File URL"
 msgstr "رابط الملف"
 
-#: onedesk/one_storage/store.py:214
+#: onedesk/one_cloud/store.py:214
 msgid "File not found"
 msgstr "الملف غير موجود"
 
@@ -19219,7 +19219,7 @@ msgid "File received. Thank you."
 msgstr "تم استلام الملف. شكرًا لك."
 
 #: frontend/src/cloud/OneCloud.vue:716 frontend/src/cloud/OneCloud.vue:728
-#: frontend/src/cloud/cloud.js:107 onedesk/one_storage/file_requests.py:119
+#: frontend/src/cloud/cloud.js:107 onedesk/one_cloud/file_requests.py:119
 msgid "File request"
 msgstr "طلب ملفات"
 
@@ -19260,33 +19260,33 @@ msgstr "حُفظ مع {0}"
 #: frontend/src/cloud/OneCloud.vue:564 frontend/src/cloud/OneCloud.vue:926
 #: frontend/src/cloud/OneCloud.vue:1556
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:124
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:93
-#: onedesk/one_storage/namespace.py:15
-#: onedesk/one_storage/sidebar/onecloud/onecloud.json:15
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:352
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:93
+#: onedesk/one_cloud/namespace.py:15
+#: onedesk/one_cloud/sidebar/onecloud/onecloud.json:15
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:352
 #: onedesk/public/js/record_files.js:25
 msgid "Files"
 msgstr "الملفات"
 
 #. Description of the 'Record' (Dynamic Link) field in DocType 'Cloud File
 #. Request'
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:83
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:83
 msgid "Files are attached to it, and a file asked for a field fills that field."
 msgstr "تُرفق الملفات به، والملف المطلوب لحقل يملأ ذلك الحقل."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:377
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:377
 #, python-brace-format
 msgid "Files are attached to {0}."
 msgstr "تُرفق الملفات بـ {0}."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:378
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:378
 #, python-brace-format
 msgid "Files are saved to a new folder in {0}."
 msgstr "تُحفظ الملفات في مجلد جديد داخل {0}."
 
 #. Label of the section_items (Section Break) field in DocType 'Cloud File
 #. Request'
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:88
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:88
 msgid "Files asked for"
 msgstr "الملفات المطلوبة"
 
@@ -19299,7 +19299,7 @@ msgid "Files in OneCloud and on records."
 msgstr "الملفات في OneCloud وعلى السجلات."
 
 #. Description of the 'Folder' (Link) field in DocType 'Cloud File Request'
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:66
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:66
 msgid "Files not meant for a record land here, in a folder per person when several are asked."
 msgstr "الملفات غير المخصصة لسجل تصل إلى هنا، في مجلد لكل شخص عند الطلب من عدة أشخاص."
 
@@ -19512,7 +19512,7 @@ msgstr "اعثر على ما تحتاجه"
 msgid "Find a Clause"
 msgstr "البحث عن بند"
 
-#: onedesk/one_storage/ai.py:18 onedesk/one_storage/ai.py:43
+#: onedesk/one_cloud/ai.py:18 onedesk/one_cloud/ai.py:43
 msgid "Find a file…"
 msgstr "ابحث عن ملف…"
 
@@ -19536,7 +19536,7 @@ msgstr "البحث عن صنف"
 msgid "Find next"
 msgstr "بحث عن التالي"
 
-#: onedesk/one_storage/ai.py:19 onedesk/one_storage/ai.py:44
+#: onedesk/one_cloud/ai.py:19 onedesk/one_cloud/ai.py:44
 msgid "Find the file that "
 msgstr "ابحث عن الملف الذي "
 
@@ -19847,7 +19847,7 @@ msgstr "طيّ أو فتح"
 #: frontend/src/cloud/OneCloud.vue:251 frontend/src/cloud/OneCloud.vue:719
 #: frontend/src/cloud/cloud.js:108
 #: onedesk/one_mail/custom/communication.json:20
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:64
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:64
 #: onedesk/public/js/one_ai/ai_center.js:176
 #: onedesk/public/js/one_ai/ai_center.js:500
 #: onedesk/public/js/one_ai/ai_center.js:538
@@ -19855,7 +19855,7 @@ msgid "Folder"
 msgstr "المجلد"
 
 #. Label of the one_color (Select) field in DocType 'File'
-#: frontend/src/cloud/OneCloud.vue:549 onedesk/one_storage/custom/file.json:79
+#: frontend/src/cloud/OneCloud.vue:549 onedesk/one_cloud/custom/file.json:79
 msgid "Folder Color"
 msgstr "لون المجلد"
 
@@ -19896,7 +19896,7 @@ msgstr "المجلد {0} غير موجود"
 msgid "Folders"
 msgstr "المجلدات"
 
-#: onedesk/one_storage/api.py:435
+#: onedesk/one_cloud/api.py:435
 #, python-brace-format
 msgid "Folders can't be copied to or from a server. Copy the files in {0} instead."
 msgstr "لا يمكن نسخ المجلدات من خادم أو إليه. انسخ الملفات الموجودة في {0} بدلًا من ذلك."
@@ -20031,7 +20031,7 @@ msgstr "خط فاصل للتذييل"
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 #: onedesk/one_inventory/print_format/one_stock_reservation_entry/one_stock_reservation_entry.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:31
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:31
 #: onedesk/one_studio/print_blocks.py:117
 #: onedesk/public/js/one_mail/mail_templates.js:22
 msgid "For"
@@ -23368,7 +23368,7 @@ msgid "If enabled, no drafts are made and Spending shows what was bought."
 msgstr "عند التفعيل، لا تُنشأ مسودات ويعرض الإنفاق ما اشتُري."
 
 #. Description of the 'Can upload' (Check) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:73
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:73
 msgid "If enabled, people with the link can upload files to the folder."
 msgstr "عند التفعيل، يمكن لمن لديه الرابط رفع ملفات إلى المجلد."
 
@@ -23590,15 +23590,15 @@ msgstr "بعملة"
 msgid "In Documents, when a document opens"
 msgstr "في المستندات، عند فتح مستند"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:520
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:520
 msgid "In File Explorer, right-click This PC, choose Map network drive and paste the address."
 msgstr "في مستكشف الملفات، انقر بزر الماوس الأيمن على هذا الكمبيوتر، واختر تعيين محرك أقراص الشبكة، والصق العنوان."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:522
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:522
 msgid "In Files, choose Other Locations and paste the address with davs:// in place of https://."
 msgstr "في تطبيق الملفات، اختر مواقع أخرى والصق العنوان مع استبدال https:// بـ davs://."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:521
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:521
 msgid "In Finder, choose Go › Connect to Server and paste the address."
 msgstr "في Finder، اختر «انتقال › الاتصال بالخادم» والصق العنوان."
 
@@ -23632,7 +23632,7 @@ msgid "In Progress"
 msgstr "قيد التنفيذ"
 
 #. Label of the one_deleted (Check) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:23
+#: onedesk/one_cloud/custom/file.json:23
 msgid "In Recycle Bin"
 msgstr "في سلة المحذوفات"
 
@@ -24253,7 +24253,7 @@ msgid "Instance Type"
 msgstr "نوع المثيل"
 
 #. Description of the 'Private Key' (Password) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:86
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:86
 msgid "Instead of a password, for a server that signs in with a key."
 msgstr "بدلًا من كلمة المرور، لخادم يسجّل الدخول بمفتاح."
 
@@ -24465,7 +24465,7 @@ msgstr "قيود دفتر غير صالحة"
 msgid "Invalid cell reference."
 msgstr "مرجع خلية غير صالح."
 
-#: onedesk/one_storage/mounts.py:158
+#: onedesk/one_cloud/mounts.py:158
 msgid "Invalid private key."
 msgstr "مفتاح خاص غير صالح."
 
@@ -24545,14 +24545,14 @@ msgstr "دعوة فريقك"
 msgid "Invited"
 msgstr ""
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:140
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:140
 msgid "Invited People Only"
 msgstr "المدعوون فقط"
 
 #. Option for the 'Audience' (Select) field in DocType 'Cloud Link'
 #. Label of the section_invitees (Section Break) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:57
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:99
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:57
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:99
 msgid "Invited people"
 msgstr "أشخاص مدعوون"
 
@@ -24566,7 +24566,7 @@ msgid "Invited, not signed in yet"
 msgstr "مدعوّ، لم يسجّل الدخول بعد"
 
 #. Label of the invitees (Table) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:105
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:105
 msgid "Invitees"
 msgstr "المدعوون"
 
@@ -24787,7 +24787,7 @@ msgid "Is Customer Provided Item"
 msgstr ""
 
 #. Label of the is_folder (Check) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:50
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:50
 msgid "Is Folder"
 msgstr "مجلد"
 
@@ -25184,7 +25184,7 @@ msgid "It would overwrite {0}."
 msgstr "سيؤدي ذلك إلى استبدال {0}."
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "It's in the Recycle Bin. Restore it from there to keep working on it, or save your changes as a new file."
 msgstr "إنه في سلة المحذوفات. استعده من هناك لتواصل العمل عليه، أو احفظ تغييراتك في ملف جديد."
 
@@ -25843,11 +25843,11 @@ msgstr "حفظ قوالب الشركة"
 msgid "Keep Until"
 msgstr "يُحفظ حتى"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:654
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:654
 msgid "Keep both"
 msgstr "الاحتفاظ بالاثنين"
 
-#: onedesk/one_storage/manifest.py:10
+#: onedesk/one_cloud/manifest.py:10
 msgid "Keep the company's files in one place and share them with anyone, inside or out."
 msgstr "احفظ ملفات الشركة في مكان واحد وشاركها مع أي شخص، من داخلها أو خارجها."
 
@@ -25925,7 +25925,7 @@ msgstr "محفوظ في الحساب"
 msgid "Key"
 msgstr "المفتاح"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:303
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:303
 msgid "Key Authentication"
 msgstr "المصادقة بالمفتاح"
 
@@ -26021,8 +26021,8 @@ msgstr "ورشة الانطلاق"
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:46
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:39
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:91
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:61
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:39
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:61
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:39
 #: onedesk/public/js/item_new.js:181 onedesk/public/js/item_new.js:343
 #: onedesk/public/js/project_new.js:177 onedesk/public/js/project_new.js:267
 msgid "Kind"
@@ -26255,7 +26255,7 @@ msgid "Last Check-out"
 msgstr "آخر تسجيل انصراف"
 
 #. Label of the last_checked (Datetime) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:115
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:115
 #: onedesk/public/js/one_mail/onemail_settings.js:703
 msgid "Last Checked"
 msgstr "آخر فحص"
@@ -26299,7 +26299,7 @@ msgstr "آخر بريد"
 #: onedesk/one/doctype/news_source/news_source.json:242
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:129
 #: onedesk/one_mail/custom/email_account.json:45
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:121
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:121
 msgid "Last Error"
 msgstr "آخر خطأ"
 
@@ -26368,7 +26368,7 @@ msgstr "آخر قراءة"
 
 #. Label of the last_reminded (Date) field in DocType 'Cloud File Request
 #. Recipient'
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:43
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:43
 msgid "Last Reminded"
 msgstr "آخر تذكير"
 
@@ -26417,7 +26417,7 @@ msgstr "آخر ظهور"
 #. Label of the last_sent (Datetime) field in DocType 'Cloud File Request
 #. Recipient'
 #: onedesk/one/doctype/push_device/push_device.json:58
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:36
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:36
 msgid "Last Sent"
 msgstr "آخر إرسال"
 
@@ -26440,7 +26440,7 @@ msgstr ""
 #. Label of the last_used (Datetime) field in DocType 'Clock Device'
 #. Label of the last_used (Datetime) field in DocType 'Cloud Drive Password'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:96
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:38
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:38
 #: onedesk/public/js/one_account/account_center.js:378
 #: onedesk/public/js/one_account/account_center.js:1462
 msgid "Last Used"
@@ -26463,7 +26463,7 @@ msgid "Last day this grant can be used. Leave empty for no expiry."
 msgstr "آخر يوم يمكن فيه استخدام هذه المنحة. اتركه فارغاً لعدم الانتهاء."
 
 #. Label of the last_opened (Datetime) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:123
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:123
 msgid "Last opened"
 msgstr "آخر فتح"
 
@@ -26746,22 +26746,22 @@ msgid "Learning"
 msgstr "التعلّم"
 
 #. Label of the one_lease_lock (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:111
+#: onedesk/one_cloud/custom/file.json:111
 msgid "Lease Lock"
 msgstr "قفل الحجز"
 
 #. Label of the one_lease_session (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:125
+#: onedesk/one_cloud/custom/file.json:125
 msgid "Lease Session"
 msgstr "جلسة الحجز"
 
 #. Label of the one_lease_kind (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:97
+#: onedesk/one_cloud/custom/file.json:97
 msgid "Lease Type"
 msgstr "نوع الحجز"
 
 #. Label of the one_lease_until (Datetime) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:155
+#: onedesk/one_cloud/custom/file.json:155
 msgid "Lease Until"
 msgstr "الحجز حتى"
 
@@ -26771,7 +26771,7 @@ msgid "Lease signed"
 msgstr "توقيع عقد الإيجار"
 
 #. Label of the one_lease_user (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:139
+#: onedesk/one_cloud/custom/file.json:139
 msgid "Leased By"
 msgstr "محجوز بواسطة"
 
@@ -26976,7 +26976,7 @@ msgstr "اتركه فارغًا للتطبيق في كل مكان."
 msgid "Leave empty to keep it on until you turn it off."
 msgstr "اتركه فارغًا ليبقى مفعّلًا حتى توقفه."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:301
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:301
 msgid "Leave empty to keep the saved password."
 msgstr "اتركه فارغًا للإبقاء على كلمة المرور المحفوظة."
 
@@ -27405,8 +27405,8 @@ msgstr "مستوى من"
 msgid "Level {0}"
 msgstr "المستوى {0}"
 
-#: onedesk/one_storage/namespace.py:401 onedesk/one_storage/namespace.py:646
-#: onedesk/one_storage/namespace.py:887
+#: onedesk/one_cloud/namespace.py:401 onedesk/one_cloud/namespace.py:646
+#: onedesk/one_cloud/namespace.py:887
 msgid "Libraries"
 msgstr "المكتبات"
 
@@ -27418,7 +27418,7 @@ msgstr "مكتبة"
 msgid "Library hours extended"
 msgstr "تمديد ساعات المكتبة"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:191
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:191
 msgid "Library name"
 msgstr "اسم المكتبة"
 
@@ -27516,7 +27516,7 @@ msgid "Link"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Link Code"
 msgstr "رمز الرابط"
 
@@ -27525,7 +27525,7 @@ msgid "Link Messages to Records"
 msgstr "ربط الرسائل بالسجلات"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Link Shared"
 msgstr "رابط مشارك"
 
@@ -27655,11 +27655,11 @@ msgstr "مرتبطة: {0}"
 #: onedesk/one_portal/sidebar/oneportal/oneportal.json:36
 #: onedesk/public/js/one_account/account_center.js:549
 #: onedesk/public/js/one_portal/portal.js:168
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:105
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:105
 msgid "Links"
 msgstr "الروابط"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:95
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:95
 #, python-brace-format
 msgid "Links to {0}"
 msgstr "روابط إلى {0}"
@@ -27674,7 +27674,7 @@ msgstr "تعمل الروابط لمدة {0} أيام."
 msgid "Links work for {0} hours."
 msgstr "تعمل الروابط لمدة {0} ساعة."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:522
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:522
 msgid "Linux"
 msgstr "Linux"
 
@@ -28182,7 +28182,7 @@ msgstr "المصنَّع"
 #. Label in the One Work Order print format
 #. Label of the made_by (Link) field in DocType 'Cloud File Version'
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:59
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:59
 msgid "Made By"
 msgstr "أنشأه"
 
@@ -28216,7 +28216,7 @@ msgstr "يُصنع هنا"
 #. Label of the made_on (Datetime) field in DocType 'Calendar Feed'
 #. Label of the made_on (Datetime) field in DocType 'Cloud File Version'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:32
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:67
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:67
 msgid "Made On"
 msgstr "أُنشئ في"
 
@@ -28333,7 +28333,7 @@ msgstr "الحركة السحرية"
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:25
 #: onedesk/one_mail/sidebar/onemail/onemail.json:15
-#: onedesk/one_storage/namespace.py:404
+#: onedesk/one_cloud/namespace.py:404
 #: onedesk/public/js/one_admin/admin_control.js:195
 #: onedesk/public/js/one_interface/form.js:152
 msgid "Mail"
@@ -28688,7 +28688,7 @@ msgstr "تحويل هذه الشريحة إلى خط زمني"
 msgid "Make a Company Device"
 msgstr "جعله جهازًا للشركة"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:603
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:603
 msgid "Make a Copy"
 msgstr "إنشاء نسخة"
 
@@ -28748,7 +28748,7 @@ msgstr "إنشاء جهة اتصال للشخص في العميل المحتمل
 msgid "Make a copy"
 msgstr "إنشاء نسخة"
 
-#: onedesk/one_storage/tour.py:19
+#: onedesk/one_cloud/tour.py:19
 msgid "Make a folder, a workbook, a document or a presentation, or upload files from your computer."
 msgstr "إنشاء مجلد أو مصنف أو مستند أو عرض تقديمي، أو رفع ملفات من جهاز الكمبيوتر."
 
@@ -29462,7 +29462,7 @@ msgid "Meetings, leave and deadlines from every app, on one calendar."
 msgstr "الاجتماعات والإجازات والمواعيد النهائية من كل تطبيق، في تقويم واحد."
 
 #: onedesk/one_project/ai.py:498
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:205
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:205
 msgid "Member"
 msgstr "عضو"
 
@@ -29470,11 +29470,11 @@ msgstr "عضو"
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:40
 #: onedesk/one/access_center.py:236 onedesk/public/js/one/access_center.js:329
 #: onedesk/public/js/one/access_center.js:529
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:246
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:246
 msgid "Members"
 msgstr "الأعضاء"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:209
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:209
 #, python-brace-format
 msgid "Members of {0}"
 msgstr "أعضاء {0}"
@@ -29558,7 +29558,7 @@ msgstr "دمج الخلايا"
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:61
 #: onedesk/one_mail/mail_templates.py:316
 #: onedesk/one_mail/mail_templates.py:317
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:53
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:53
 #: onedesk/one_studio/automation_steps.py:42
 #: onedesk/public/js/one/notification_center.js:380
 #: onedesk/public/js/one/notification_center.js:475
@@ -29568,7 +29568,7 @@ msgstr "دمج الخلايا"
 #: onedesk/public/js/one_mail/mail_templates.js:37
 #: onedesk/public/js/one_mail/onemail_settings.js:355
 #: onedesk/public/js/one_mail/rule_builder.js:226
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:347
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:347
 #: onedesk/public/js/quotes_actions.js:33 onedesk/www/message.html:2
 msgid "Message"
 msgstr "الرسالة"
@@ -30275,7 +30275,7 @@ msgstr "تنتقل الآن"
 msgid "Moving from {lower} to {upper} costs {step} more a month, but the same as add-ons costs {alone}."
 msgstr "الانتقال من {lower} إلى {upper} يكلّف {step} إضافية شهريًا، لكن الشيء نفسه كإضافات يكلّف {alone}."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:359
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:359
 msgid "Multiple"
 msgstr "متعدد"
 
@@ -30322,31 +30322,31 @@ msgstr "مكتوم الصوت"
 msgid "My Events"
 msgstr "أحداثي"
 
-#: onedesk/one_storage/history.py:246 onedesk/one_storage/namespace.py:336
-#: onedesk/one_storage/namespace.py:397 onedesk/one_storage/namespace.py:543
-#: onedesk/one_storage/namespace.py:648 onedesk/one_storage/namespace.py:884
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:378
+#: onedesk/one_cloud/history.py:246 onedesk/one_cloud/namespace.py:336
+#: onedesk/one_cloud/namespace.py:397 onedesk/one_cloud/namespace.py:543
+#: onedesk/one_cloud/namespace.py:648 onedesk/one_cloud/namespace.py:884
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:378
 msgid "My Files"
 msgstr "ملفاتي"
 
 #. Label of the one_home_of (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:7
+#: onedesk/one_cloud/custom/file.json:7
 msgid "My Files Of"
 msgstr "ملفات"
 
-#: onedesk/one_storage/links.py:34 onedesk/one_storage/share.py:19
+#: onedesk/one_cloud/links.py:34 onedesk/one_cloud/share.py:19
 msgid "My Files can't be shared. Share the folders in it instead."
 msgstr "لا يمكن مشاركة ملفاتي. شارك المجلدات الموجودة فيها بدلًا من ذلك."
 
-#: onedesk/one_storage/api.py:316
+#: onedesk/one_cloud/api.py:316
 msgid "My Files cannot be moved."
 msgstr "لا يمكن نقل ملفاتي."
 
-#: onedesk/one_storage/api.py:201
+#: onedesk/one_cloud/api.py:201
 msgid "My Files cannot be renamed."
 msgstr "لا يمكن إعادة تسمية ملفاتي."
 
-#: onedesk/one_storage/tour.py:13
+#: onedesk/one_cloud/tour.py:13
 msgid "My Files, Company, Libraries, Records and the Recycle Bin are here, and each opens to its folders."
 msgstr "ملفاتي والشركة والمكتبات والسجلات وسلة المحذوفات هنا، ويفتح كل منها على مجلداته."
 
@@ -30413,8 +30413,8 @@ msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما
 #: onedesk/one_project/report/workload/workload.py:174
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:47
 #: onedesk/one_slide/decks.py:212
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:43
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:31
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:43
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:31
 #: onedesk/one_studio/letter_heads.py:53
 #: onedesk/public/js/doctype_settings.js:705 onedesk/public/js/item_new.js:34
 #: onedesk/public/js/item_new.js:273
@@ -30431,7 +30431,7 @@ msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما
 #: onedesk/public/js/one_interface/form.js:568
 #: onedesk/public/js/one_mail/mail_templates.js:17
 #: onedesk/public/js/one_mail/rule_builder.js:430
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:279
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:279
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/one_studio/studio_control.js:181
 #: onedesk/public/js/project_new.js:72
@@ -30466,7 +30466,7 @@ msgstr "اسم النسخة"
 msgid "Name is empty or already used."
 msgstr "الاسم فارغ أو مستخدم بالفعل."
 
-#: onedesk/one_storage/api.py:204
+#: onedesk/one_cloud/api.py:204
 msgid "Name is required."
 msgstr "الاسم مطلوب."
 
@@ -30703,7 +30703,7 @@ msgstr "الوزن الصافي"
 #: frontend/src/admin/ServerMetrics.vue:26
 #: frontend/src/slide/shim/WidgetMock.vue:222
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:229
-#: onedesk/one_storage/mounts.py:326 onedesk/one_storage/namespace.py:405
+#: onedesk/one_cloud/mounts.py:326 onedesk/one_cloud/namespace.py:405
 #: onedesk/www/tv.py:60
 msgid "Network"
 msgstr "الشبكة"
@@ -30736,7 +30736,7 @@ msgstr "لم تُغيَّر قط"
 msgid "Never sent to anybody outside."
 msgstr "لا تُرسل أبدًا إلى أي جهة خارجية."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:561
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:561
 msgid "Never used"
 msgstr "لم تُستخدم"
 
@@ -31132,7 +31132,7 @@ msgstr "عملاء جدد"
 msgid "New customers against returning ones, month by month."
 msgstr "العملاء الجدد مقابل العائدين، شهرًا بشهر."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:551
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:551
 msgid "New drive password"
 msgstr "كلمة مرور جديدة لمحرك الأقراص"
 
@@ -31146,7 +31146,7 @@ msgstr "خطأ جديد في {part} على {workspace}: {count} حتى الآن"
 msgid "New field"
 msgstr "حقل جديد"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:340
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:340
 msgid "New file request"
 msgstr "طلب ملفات جديد"
 
@@ -31165,7 +31165,7 @@ msgid "New files in this folder and the folders inside it are read, filed and ac
 msgstr "يقرأ OneAI الملفات الجديدة في هذا المجلد والمجلدات داخله، ويحفظها ويتصرف بناءً عليها."
 
 #: frontend/src/cloud/OneCloud.vue:798 frontend/src/cloud/OneCloud.vue:1178
-#: onedesk/one_storage/api.py:181 onedesk/one_storage/api.py:185
+#: onedesk/one_cloud/api.py:181 onedesk/one_cloud/api.py:185
 msgid "New folder"
 msgstr "مجلد جديد"
 
@@ -31197,7 +31197,7 @@ msgid "New level {0}"
 msgstr "مستوى جديد {0}"
 
 #: frontend/src/cloud/OneCloud.vue:794
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:196
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:196
 msgid "New library"
 msgstr "مكتبة جديدة"
 
@@ -32032,8 +32032,8 @@ msgstr "لا توجد طلبات ملفات"
 msgid "No file was sent."
 msgstr "لم يُرسل أي ملف."
 
-#: onedesk/one_storage/oneos.py:219 onedesk/one_storage/saving.py:121
-#: onedesk/one_storage/upload.py:89
+#: onedesk/one_cloud/oneos.py:219 onedesk/one_cloud/saving.py:121
+#: onedesk/one_cloud/upload.py:89
 msgid "No file was uploaded."
 msgstr "لم يُرفع أي ملف."
 
@@ -32348,7 +32348,7 @@ msgstr "لا توجد سجلات بها ملفات"
 msgid "No releases yet"
 msgstr "لا إصدارات بعد"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:500
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:500
 msgid "No reminders sent"
 msgstr "لم تُرسَل أي تذكيرات"
 
@@ -33253,7 +33253,7 @@ msgstr "ليس بعد"
 #: onedesk/one_hr/heads.py:163 onedesk/one_hr/heads.py:571
 #: onedesk/one_project/ai.py:761
 #: onedesk/one_project/doctype/project_contact/project_contact.json:70
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:28
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:28
 #: onedesk/public/js/one_studio/studio_control.js:243
 #: onedesk/public/js/project_actions.js:450 onedesk/public/js/tenant.js:62
 msgid "Note"
@@ -33363,7 +33363,7 @@ msgstr "لا شيء هنا بعد"
 msgid "Nothing is being announced."
 msgstr "لا إعلانات الآن."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:620
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:620
 msgid "Nothing is dropped unless you choose Save Over Original."
 msgstr "لن يُحذف شيء إلا إذا اخترت حفظ فوق الأصل."
 
@@ -34466,7 +34466,7 @@ msgstr "OneProject"
 
 #. Option for the 'App' (Select) field in DocType 'Workspace Field'
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
-msgid "One Storage"
+msgid "One Cloud"
 msgstr "OneCloud"
 
 #: onedesk/one_display/widgets.py:79
@@ -34746,7 +34746,7 @@ msgstr "يجيب OneAI عن أسئلة العملاء حول الطلبات وا
 msgid "OneAI answers new conversations from outside, in the sender's language."
 msgstr "يرد OneAI على المحادثات الجديدة من الخارج بلغة المرسل."
 
-#: onedesk/one_storage/made.py:69
+#: onedesk/one_cloud/made.py:69
 msgid "OneAI can make a picture, music, a video or speech."
 msgstr "يمكن لـ OneAI إنشاء صورة أو موسيقى أو فيديو أو كلام منطوق."
 
@@ -34771,7 +34771,7 @@ msgstr "تعذّر على OneAI تصميم الشريحة. حاول مرة أخ�
 msgid "OneAI could not fix {0}: {1}"
 msgstr "لم يتمكن OneAI من إصلاح {0}: {1}"
 
-#: onedesk/one_doc/api.py:308 onedesk/one_storage/made.py:92
+#: onedesk/one_doc/api.py:308 onedesk/one_cloud/made.py:92
 msgid "OneAI could not make it. Try again, or describe it differently."
 msgstr "تعذّر على OneAI إنشاؤه. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
@@ -34785,7 +34785,7 @@ msgstr "تعذّر على OneAI صنع التسجيل. حاول مرة أخرى.
 
 #. Subject of a notification
 #: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "OneAI could not make “{what}”"
 msgstr "تعذّر على OneAI صنع «{what}»"
@@ -34877,11 +34877,11 @@ msgstr "يُنشئ OneAI الفيديو. يستغرق ذلك بضع دقائق؛
 msgid "OneAI is off"
 msgstr "OneAI متوقف"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:440
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:440
 msgid "OneAI is reading it…"
 msgstr "يقرؤه OneAI…"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:587
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:587
 #, python-brace-format
 msgid "OneAI is reading {0}."
 msgstr "يقرأ OneAI الآن {0}."
@@ -34922,7 +34922,7 @@ msgid "OneAI looked at {extension}"
 msgstr "فحص OneAI الإضافة {extension}"
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "OneAI made it in the folder you asked from."
 msgstr "أنشأه OneAI في المجلد الذي طلبته منه."
 
@@ -35055,11 +35055,11 @@ msgstr "OneCalendar"
 
 #. Title of a Sidebar
 #: frontend/src/cloud/OneCloud.vue:397 frontend/src/cloud/OneCloud.vue:1550
-#: onedesk/one_mail/cloud.py:65 onedesk/one_storage/file_requests.py:196
-#: onedesk/one_storage/mounts.py:326 onedesk/one_storage/namespace.py:835
-#: onedesk/one_storage/page/onecloud/onecloud.js:4
-#: onedesk/one_storage/sidebar/onecloud/onecloud.json:29
-#: onedesk/public/js/one_storage/onecloud_picker.js:104
+#: onedesk/one_mail/cloud.py:65 onedesk/one_cloud/file_requests.py:196
+#: onedesk/one_cloud/mounts.py:326 onedesk/one_cloud/namespace.py:835
+#: onedesk/one_cloud/page/onecloud/onecloud.js:4
+#: onedesk/one_cloud/sidebar/onecloud/onecloud.json:29
+#: onedesk/public/js/one_cloud/onecloud_picker.js:104
 msgid "OneCloud"
 msgstr "OneCloud"
 
@@ -35214,8 +35214,8 @@ msgstr "OneOS"
 msgid "OneOS Hourly Credits"
 msgstr "رصيد OneOS في الساعة"
 
-#: onedesk/one_storage/oneos.py:87 onedesk/one_storage/oneos.py:104
-#: onedesk/one_storage/oneos.py:128
+#: onedesk/one_cloud/oneos.py:87 onedesk/one_cloud/oneos.py:104
+#: onedesk/one_cloud/oneos.py:128
 msgid "OneOS Not Started"
 msgstr "لم يبدأ OneOS"
 
@@ -35234,7 +35234,7 @@ msgstr "سر OneOS"
 msgid "OneOS Session"
 msgstr "جلسة OneOS"
 
-#: onedesk/one_admin/oneos.py:405 onedesk/one_storage/oneos.py:141
+#: onedesk/one_admin/oneos.py:405 onedesk/one_cloud/oneos.py:141
 msgid "OneOS could not be started. Try again in a few minutes."
 msgstr "تعذّر بدء OneOS. حاول مجددًا بعد بضع دقائق."
 
@@ -35242,7 +35242,7 @@ msgstr "تعذّر بدء OneOS. حاول مجددًا بعد بضع دقائق.
 msgid "OneOS isn't available yet."
 msgstr "OneOS غير متاح بعد."
 
-#: onedesk/one_storage/oneos.py:104
+#: onedesk/one_cloud/oneos.py:104
 msgid "OneOS isn't offered to this workspace."
 msgstr "OneOS غير متاح لمساحة العمل هذه."
 
@@ -35255,7 +35255,7 @@ msgstr "يُفتح OneOS بعد انتهاء الفترة التجريبية."
 msgid "OneOS stopped answering, so {0} was closed. Changes you saved are kept."
 msgstr "توقف OneOS عن الاستجابة، لذا أُغلق {0}. التغييرات التي حفظتها محفوظة."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:602
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:602
 msgid "OneOS uses OneCredits for each minute it is open."
 msgstr "يستخدم OneOS رصيد OneCredits عن كل دقيقة يكون فيها مفتوحًا."
 
@@ -35381,7 +35381,7 @@ msgstr "لا يمكن فتح سوى ملفات Word كمستند."
 msgid "Only a OneCalendar Manager or an administrator can put an event on everyone's calendar."
 msgstr "لا يمكن إلا لمدير OneCalendar أو لمسؤول وضع حدث في تقويم الجميع."
 
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:14
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.py:14
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤول مساحة العمل."
 
@@ -35574,29 +35574,29 @@ msgstr "يمكن ربط صناديق البريد على {0} فقط."
 msgid "Only me"
 msgstr "أنا فقط"
 
-#: onedesk/one_storage/library.py:83 onedesk/one_storage/library.py:102
+#: onedesk/one_cloud/library.py:83 onedesk/one_cloud/library.py:102
 #, python-brace-format
 msgid "Only owners of {0} can manage its members."
 msgstr "يمكن لمالكي {0} فقط إدارة أعضائها."
 
-#: onedesk/one_storage/share.py:79
+#: onedesk/one_cloud/share.py:79
 #, python-brace-format
 msgid "Only people on the team can be added. Create a link for {0} instead."
 msgstr "يمكن إضافة أعضاء الفريق فقط. أنشئ رابطًا لـ {0} بدلًا من ذلك."
 
-#: onedesk/one_storage/dav.py:252
+#: onedesk/one_cloud/dav.py:252
 msgid "Only people on the team can connect a drive."
 msgstr "يمكن لأعضاء الفريق فقط توصيل محرك أقراص."
 
-#: onedesk/one_storage/mounts.py:414
+#: onedesk/one_cloud/mounts.py:414
 msgid "Only people on the team can connect a server."
 msgstr "يمكن لأعضاء الفريق فقط الاتصال بخادم."
 
-#: onedesk/one_storage/library.py:28
+#: onedesk/one_cloud/library.py:28
 msgid "Only people on the team can create a library."
 msgstr "يمكن لأعضاء الفريق فقط إنشاء مكتبة."
 
-#: onedesk/one_storage/file_requests.py:67
+#: onedesk/one_cloud/file_requests.py:67
 msgid "Only people on the team can request files."
 msgstr "يمكن لأعضاء الفريق فقط طلب الملفات."
 
@@ -35644,12 +35644,12 @@ msgstr "الخمسة المتاحة للجميع فقط"
 msgid "Only the owner of {0} can turn this on, because OneAI acts on their behalf."
 msgstr "مالك {0} وحده يمكنه تشغيل هذا، لأن OneAI يتصرف نيابة عنه."
 
-#: onedesk/one_storage/mounts.py:417
+#: onedesk/one_cloud/mounts.py:417
 #, python-brace-format
 msgid "Only the person who connected {0} can change it."
 msgstr "يمكن فقط لمن ربط {0} تغييره."
 
-#: onedesk/one_storage/mounts.py:447
+#: onedesk/one_cloud/mounts.py:447
 #, python-brace-format
 msgid "Only the person who connected {0} can remove it."
 msgstr "يمكن فقط لمن ربط {0} إزالته."
@@ -35688,7 +35688,7 @@ msgstr "لا يراها إلا أنت والموارد البشرية."
 msgid "Only you can agree to these."
 msgstr "أنت فقط من يمكنه الموافقة على هذه."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:112
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:112
 #, python-brace-format
 msgid "Only {0}"
 msgstr "{0} فقط"
@@ -35742,8 +35742,8 @@ msgstr "العتامة"
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:12
 #: onedesk/one_project/status.py:14
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:40
-#: onedesk/one_storage/notifications.py onedesk/one_task/custom/task.json:87
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:40
+#: onedesk/one_cloud/notifications.py onedesk/one_task/custom/task.json:87
 #: onedesk/public/js/audit_list.js:6 onedesk/public/js/doctype_settings.js:731
 #: onedesk/public/js/one_ai/panel/Record.vue:15
 #: onedesk/public/js/project.js:150 onedesk/public/js/project_actions.js:56
@@ -35959,7 +35959,7 @@ msgstr "افتح مساحة العمل"
 msgid "Open Your Profile"
 msgstr "فتح ملفك الشخصي"
 
-#: onedesk/one_storage/tour.py:25
+#: onedesk/one_cloud/tour.py:25
 msgid "Open a file to see it, drag files onto a folder to move them, or right-click one to share it."
 msgstr "افتح ملفًا لعرضه، واسحب الملفات إلى مجلد لنقلها، أو انقر بزر الفأرة الأيمن على ملف لمشاركته."
 
@@ -35995,7 +35995,7 @@ msgstr ""
 msgid "Open in OneCloud"
 msgstr "افتح في OneCloud"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:601
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:601
 msgid "Open in OneOS"
 msgstr "فتح في OneOS"
 
@@ -36052,7 +36052,7 @@ msgstr "فتح التقويم"
 msgid "Open the TV address on the screen, then type the code it shows here and choose its channel."
 msgstr "افتح عنوان التلفاز على الشاشة، ثم اكتب هنا الرمز الذي تعرضه واختر قناتها."
 
-#: onedesk/one_storage/tour.py:43
+#: onedesk/one_cloud/tour.py:43
 msgid "Open the settings from the cog, and take the tour of any screen again from the button beside it."
 msgstr "افتح الإعدادات من الترس، وأعد جولة أي شاشة من الزر المجاور له."
 
@@ -36105,7 +36105,7 @@ msgid "Opened again."
 msgstr "تم الفتح مجدداً."
 
 #. Label of the opened_on (Datetime) field in DocType 'Cloud Link Invitee'
-#: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json:23
+#: onedesk/one_cloud/doctype/cloud_link_invitee/cloud_link_invitee.json:23
 msgid "Opened on"
 msgstr "فُتح في"
 
@@ -36793,7 +36793,7 @@ msgid "Otherwise"
 msgstr "وإلا"
 
 #. Description of the 'Whole Team' (Check) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:105
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:105
 msgid "Otherwise only its maker. Only a Workspace Administrator can share one."
 msgstr "وإلا فمنشئه فقط. لا يشاركه إلا مسؤول مساحة العمل."
 
@@ -37221,8 +37221,8 @@ msgstr "مملوك ومُستخدم، مثل شاحنة أو حاسوب محمو
 #: frontend/src/cloud/CloudPreview.vue:112
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:104
 #: onedesk/one_admin/doctype/tenant/tenant.json:102
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:65
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:206
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:65
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:206
 #: onedesk/public/js/task_new.js:32
 msgid "Owner"
 msgstr "المالك"
@@ -37700,8 +37700,8 @@ msgstr "مدفوع جزئيًا"
 
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:475
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:475
 msgid "Partly Sent"
 msgstr "أُرسل جزئيًا"
 
@@ -37870,15 +37870,15 @@ msgstr "جواز السفر"
 #: frontend/portal/src/pages/Password.vue:2
 #: frontend/src/slide/shim/WidgetMock.vue:224
 #: onedesk/one_display/widgets.py:170 onedesk/one_portal/portal.py:29
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:88
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:78
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:88
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:78
 #: onedesk/public/js/one_account/account_center.js:227
 #: onedesk/public/js/one_mail/onemail_settings.js:711
 #: onedesk/public/js/one_mail/onemail_settings.js:945
 #: onedesk/public/js/one_mail/onemail_settings.js:1013
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:162
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:300
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:547
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:162
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:300
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:547
 #: onedesk/public/js/setup_wizard.js:149 onedesk/www/s.html:46
 #: onedesk/www/tv.py:61
 msgid "Password"
@@ -37890,7 +37890,7 @@ msgid "Password Changed"
 msgstr "تم تغيير كلمة المرور"
 
 #. Label of the password_hash (Data) field in DocType 'Cloud Drive Password'
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:45
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:45
 msgid "Password Hash"
 msgstr "بصمة كلمة المرور"
 
@@ -38603,7 +38603,7 @@ msgstr "خماسي"
 #: onedesk/one_hr/print_format/one_payroll_run/one_payroll_run.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json:19
 #: onedesk/one_portal/sidebar/oneportal/oneportal.json:22
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:105
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:105
 #: onedesk/public/js/one/access_center.js:44
 #: onedesk/public/js/one/access_center.js:46
 #: onedesk/public/js/one/access_center.js:117
@@ -38635,7 +38635,7 @@ msgstr "الأشخاص والسجلات"
 
 #. Label of the section_people (Section Break) field in DocType 'Cloud File
 #. Request'
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:100
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:100
 msgid "People asked"
 msgstr "الأشخاص المطلوب منهم"
 
@@ -38664,7 +38664,7 @@ msgstr "يسجّل الناس الدخول بمفتاح المرور على أج
 msgid "People turned on take a seat."
 msgstr "كل شخص مفعَّل يشغل مقعدًا."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:66
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:66
 msgid "People with access"
 msgstr "الأشخاص الذين لديهم وصول"
 
@@ -39011,7 +39011,7 @@ msgstr "اختر العميل."
 msgid "Pick the emirate."
 msgstr "اختر الإمارة."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:16
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.py:16
 msgid "Pick the folder or the record the files go to."
 msgstr "اختر المجلد أو السجل الذي تذهب إليه الملفات."
 
@@ -39504,8 +39504,8 @@ msgid "Policy Number"
 msgstr "رقم الوثيقة"
 
 #. Label of the port (Int) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:55
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:283
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:55
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:283
 msgid "Port"
 msgstr "المنفذ"
 
@@ -39849,7 +39849,7 @@ msgid "Preview"
 msgstr "معاينة"
 
 #. Label of the one_preview_of (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:193
+#: onedesk/one_cloud/custom/file.json:193
 msgid "Preview Kept For"
 msgstr "المعاينة المحفوظة لـ"
 
@@ -40126,8 +40126,8 @@ msgid "Private Apps"
 msgstr "التطبيقات الخاصة"
 
 #. Label of the private_key (Password) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:83
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:307
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:83
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:307
 msgid "Private Key"
 msgstr "المفتاح الخاص"
 
@@ -41825,7 +41825,7 @@ msgstr "اقرأ هذا المشروع، ثم اقترح المهام التي �
 msgid "Read with OneAI"
 msgstr "اقرأ باستخدام OneAI"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:582
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:582
 #, python-brace-format
 msgid "Read {0} with OneAI? OneAI files it and acts on it. Scans and photos use credits."
 msgstr "قراءة {0} باستخدام OneAI؟ يصنّفه OneAI ويتصرف بناءً عليه. تستهلك الصور الممسوحة والصور أرصدة."
@@ -41839,11 +41839,11 @@ msgstr "القراءة والأرشفة والتنفيذ"
 msgid "Read, Filed and Acted On"
 msgstr "يُقرأ ويُحفظ ويُنفَّذ"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:204
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:204
 msgid "Reader"
 msgstr "قارئ"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:224
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:224
 msgid "Readers view and download, Members also add, change and delete, and Owners also manage members."
 msgstr "القراء يعرضون وينزّلون، والأعضاء يضيفون ويغيّرون ويحذفون أيضًا، والمالكون يديرون الأعضاء أيضًا."
 
@@ -42208,7 +42208,7 @@ msgstr "تم الاستلام والفوترة والدفع."
 msgid "Receives only"
 msgstr "يستقبل فقط"
 
-#: frontend/portal/src/pages/Home.vue:54 onedesk/one_storage/namespace.py:398
+#: frontend/portal/src/pages/Home.vue:54 onedesk/one_cloud/namespace.py:398
 msgid "Recent"
 msgstr "الأخيرة"
 
@@ -42242,12 +42242,12 @@ msgstr "المستلم"
 #: onedesk/one_studio/automation_steps.py:29
 #: onedesk/public/js/one/notification_center.js:413
 #: onedesk/public/js/one/notification_center.js:472
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:344
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:344
 msgid "Recipients"
 msgstr "المستلمون"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Recipients who haven't sent everything"
 msgstr "المستلمون الذين لم يرسلوا كل شيء"
 
@@ -42296,7 +42296,7 @@ msgstr "إعادة ربط {0}"
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:84
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:38
 #: onedesk/one_sheet/doctype/workbook/workbook.json:72
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:81
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:81
 #: onedesk/one_studio/ai.py:393
 #: onedesk/one_studio/doctype/extension/extension.json:66
 #: onedesk/public/js/extension_errors.js:16 onedesk/public/js/hiring.js:8
@@ -42401,7 +42401,7 @@ msgstr "مشاركة السجلات"
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:32
 #: onedesk/one_display/doctype/display_source/display_source.json:92
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:29
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:75
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:75
 #: onedesk/one_studio/doctype/record_type/record_type.json:68
 #: onedesk/public/js/doctype_settings.js:730
 #: onedesk/public/js/one_account/account_center.js:603
@@ -42523,11 +42523,11 @@ msgstr "جارٍ التسجيل…"
 #: frontend/src/slide/shim/EditorNavbar.vue:290
 #: onedesk/one_display/doctype/display_source/display_source.json:52
 #: onedesk/one_display/doctype/display_source/display_source.json:86
-#: onedesk/one_storage/namespace.py:403 onedesk/one_storage/namespace.py:859
+#: onedesk/one_cloud/namespace.py:403 onedesk/one_cloud/namespace.py:859
 msgid "Records"
 msgstr "السجلات"
 
-#: onedesk/one_storage/api.py:184 onedesk/one_storage/api.py:448
+#: onedesk/one_cloud/api.py:184 onedesk/one_cloud/api.py:448
 msgid "Records can't contain folders."
 msgstr "لا يمكن أن تحتوي السجلات على مجلدات."
 
@@ -42571,7 +42571,7 @@ msgid "Recurring"
 msgstr "متكرر"
 
 #. Label of a Sidebar Item
-#: onedesk/one/sidebar/one/one.json:38 onedesk/one_storage/namespace.py:407
+#: onedesk/one/sidebar/one/one.json:38 onedesk/one_cloud/namespace.py:407
 #: onedesk/public/js/deleted_document_list.js:16
 msgid "Recycle Bin"
 msgstr "سلة المحذوفات"
@@ -42985,7 +42985,7 @@ msgstr "تم التذكّر: {0}"
 
 #. Label of the remind_by (Link) field in DocType 'Mail Conversation'
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:77
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:497
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:497
 msgid "Remind"
 msgstr "ذكّر"
 
@@ -43036,7 +43036,7 @@ msgstr "رقم التذكير"
 msgid "Reminder for an unknown invoice. Ask for the invoice before paying."
 msgstr "تذكير بفاتورة غير معروفة. اطلب الفاتورة قبل الدفع."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:500
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:500
 #, python-brace-format
 msgid "Reminder sent to {0} people"
 msgstr "أُرسل تذكير إلى {0} أشخاص"
@@ -43063,7 +43063,7 @@ msgid "Reminder: {said}"
 msgstr "تذكير: {said}"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "Reminder: {who} requested files for {request}"
 msgstr "تذكير: طلب {who} ملفات لـ {request}"
@@ -43093,10 +43093,10 @@ msgstr "الصور الخارجية مخفية."
 #: onedesk/public/js/one_mail/mail_compose.js:26
 #: onedesk/public/js/one_mail/rule_builder.js:117
 #: onedesk/public/js/one_mail/rule_builder.js:325
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:62
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:108
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:244
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:562
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:62
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:108
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:244
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:562
 #: onedesk/public/js/project_actions.js:336
 #: onedesk/public/js/project_actions.js:458
 msgid "Remove"
@@ -43253,7 +43253,7 @@ msgstr "إعادة تسمية الملفات ووسمها"
 msgid "Rename sheet"
 msgstr "إعادة تسمية الورقة"
 
-#: onedesk/one_storage/mounts.py:378
+#: onedesk/one_cloud/mounts.py:378
 msgid "Rename the connection instead."
 msgstr "أعد تسمية الاتصال بدلًا من ذلك."
 
@@ -43296,7 +43296,7 @@ msgid "Renews {0}"
 msgstr "يتجدد في {0}"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1101
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:502
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:502
 #: onedesk/public/js/opportunity.js:13
 msgid "Reopen"
 msgstr ""
@@ -43403,7 +43403,7 @@ msgstr "يتكرر {0}"
 #: frontend/src/sheet/components/SheetEditor/LinkPreviewCard.vue:78
 #: frontend/src/slide/components/ImageSection.vue:4
 #: frontend/src/slide/components/PlaybackSection.vue:4
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:649 onedesk/www/r.html:65
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:649 onedesk/www/r.html:65
 msgid "Replace"
 msgstr "استبدال"
 
@@ -43425,7 +43425,7 @@ msgstr "استبدال بـ"
 msgid "Replaced"
 msgstr "مستبدَل"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:648
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:648
 msgid "Replaced files are kept as earlier versions."
 msgstr "تُحفظ الملفات المستبدلة كإصدارات سابقة."
 
@@ -43706,11 +43706,11 @@ msgstr "حالة الطلب"
 msgid "Request for Quotation"
 msgstr "طلب عرض أسعار"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:453
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:453
 msgid "Request links"
 msgstr "روابط الطلب"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:394
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:394
 msgid "Request sent"
 msgstr "أُرسل الطلب"
 
@@ -43747,8 +43747,8 @@ msgstr "تم الطلب. ستتلقى إشعارًا بالقرار."
 msgid "Requested. You'll be notified when it's ready."
 msgstr "تم الطلب. ستتلقى إشعارًا عندما تصبح جاهزة."
 
-#: onedesk/one_storage/file_requests.py:197
-#: onedesk/one_storage/namespace.py:406
+#: onedesk/one_cloud/file_requests.py:197
+#: onedesk/one_cloud/namespace.py:406
 #: onedesk/public/js/one_legal/trust_center.js:156
 #: onedesk/public/js/one_legal/trust_center.js:159
 msgid "Requests"
@@ -43778,8 +43778,8 @@ msgid "Require Reason on Check Out"
 msgstr "طلب سبب عند تسجيل الخروج"
 
 #. Label of the required (Check) field in DocType 'Cloud File Request Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:34
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:358 onedesk/www/r.html:36
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:34
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:358 onedesk/www/r.html:36
 msgid "Required"
 msgstr "مطلوب"
 
@@ -44510,7 +44510,7 @@ msgstr "سبب الخطر"
 #: onedesk/one_project/doctype/project_contact/project_contact.json:21
 #: onedesk/one_slide/decks.py:212 onedesk/public/js/doctype_settings.js:271
 #: onedesk/public/js/one/access_center.js:348
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:221
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:221
 #: onedesk/public/js/project_actions.js:436
 msgid "Role"
 msgstr "الدور"
@@ -44519,7 +44519,7 @@ msgstr "الدور"
 msgid "Role in the team"
 msgstr "الدور في الفريق"
 
-#: onedesk/one_storage/library.py:85
+#: onedesk/one_cloud/library.py:85
 msgid "Role must be Reader, Member or Owner."
 msgstr "يجب أن يكون الدور قارئًا أو عضوًا أو مالكًا."
 
@@ -44913,7 +44913,7 @@ msgid "Runs with {0}'s permissions."
 msgstr "يعمل بصلاحيات {0}."
 
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:40
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:40
 msgid "SFTP"
 msgstr "SFTP"
 
@@ -45243,7 +45243,7 @@ msgstr "السبت"
 #: onedesk/public/js/one_mail/onemail_settings.js:853
 #: onedesk/public/js/one_mail/onemail_settings.js:1073
 #: onedesk/public/js/one_mail/onemail_settings.js:1345
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:319
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:319
 #: onedesk/public/js/project_actions.js:60
 #: onedesk/public/js/project_actions.js:288
 #: onedesk/public/js/project_actions.js:330
@@ -45352,8 +45352,8 @@ msgid "Saved Reports"
 msgstr "التقارير المحفوظة"
 
 #. Label of the fieldname (Data) field in DocType 'Cloud File Request Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:54
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:364
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:54
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:364
 msgid "Saved To"
 msgstr "حُفظ في"
 
@@ -45808,7 +45808,7 @@ msgstr "بحث في هذه القائمة"
 msgid "Search Work Orders"
 msgstr "البحث في أوامر العمل"
 
-#: onedesk/one_storage/tour.py:36
+#: onedesk/one_cloud/tour.py:36
 msgid "Search Your Files"
 msgstr "البحث في ملفاتك"
 
@@ -46141,7 +46141,7 @@ msgstr "فاصلة منقوطة"
 #: onedesk/public/js/one_ai/panel/Panel.vue:214
 #: onedesk/public/js/one_mail/onemail_settings.js:664
 #: onedesk/public/js/one_mail/onemail_settings.js:1248
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:422
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:422
 #: onedesk/public/js/privacy_copy.js:47 onedesk/www/r.html:65
 #: onedesk/www/s.html:107
 msgid "Send"
@@ -46219,7 +46219,7 @@ msgstr "أرسل الفواتير، وادفع فواتير الموردين، �
 msgid "Send mail from an address or domain to Junk, and run no other rule on it."
 msgstr "إرسال البريد من عنوان أو نطاق إلى البريد غير الهام، وعدم تشغيل أي قاعدة أخرى عليه."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:382
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:382
 msgid "Send request"
 msgstr "إرسال الطلب"
 
@@ -46350,9 +46350,9 @@ msgstr "الحساسية"
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_inventory/portal.py:35 onedesk/one_inventory/portal.py:84
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:54
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:112
-#: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json:31
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:428
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:112
+#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:31
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:428
 #: onedesk/public/js/privacy_copy_list.js:9
 msgid "Sent"
 msgstr "المرسلة"
@@ -46372,7 +46372,7 @@ msgid "Sent By"
 msgstr "أرسله"
 
 #. Label of the sent_on (Datetime) field in DocType 'Cloud File Request Upload'
-#: onedesk/one_storage/doctype/cloud_file_request_upload/cloud_file_request_upload.json:39
+#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:39
 msgid "Sent On"
 msgstr ""
 
@@ -46583,9 +46583,9 @@ msgstr "يُقدّم مع السلطة والخبز الطازج."
 #: onedesk/one_admin/doctype/tenant/tenant.json:202
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:36
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:95
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:48
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:48
 #: onedesk/public/js/one_mail/onemail_settings.js:947
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:280
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:280
 msgid "Server"
 msgstr "الخادم"
 
@@ -46614,8 +46614,8 @@ msgid "Server Filling Up"
 msgstr "الخادم يمتلئ"
 
 #. Label of the root_path (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:91
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:293
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:91
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:293
 msgid "Server Folder"
 msgstr "مجلد الخادم"
 
@@ -46632,12 +46632,12 @@ msgstr "اتصال بخادم"
 msgid "Server error"
 msgstr "خطأ في الخادم"
 
-#: onedesk/one_storage/mounts.py:182
+#: onedesk/one_cloud/mounts.py:182
 #, python-brace-format
 msgid "Server error: {0}"
 msgstr "خطأ في الخادم: {0}"
 
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:18
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.py:18
 msgid "Server is required."
 msgstr "الخادم مطلوب."
 
@@ -46649,7 +46649,7 @@ msgstr "لم يتم تعيين مفاتيح الخادم."
 msgid "Server ordered."
 msgstr "تم طلب الخادم."
 
-#: onedesk/one_storage/mounts.py:85
+#: onedesk/one_cloud/mounts.py:85
 #, python-brace-format
 msgid "Server {0} not found."
 msgstr "الخادم {0} غير موجود."
@@ -46980,7 +46980,7 @@ msgstr "أنشئ سنة مالية في OneBook أولًا."
 msgid "Set up an automation: when a Sales Invoice's status changes to Paid, tell its owner that the customer has paid, naming the invoice and the amount."
 msgstr "أنشئ أتمتة: عندما تتغير حالة فاتورة المبيعات إلى مدفوعة، أبلغ منشئها بأن العميل دفع، مع ذكر الفاتورة والمبلغ."
 
-#: onedesk/one_storage/links.py:80
+#: onedesk/one_cloud/links.py:80
 msgid "Set up an outgoing email account to send invitations."
 msgstr "أعِدّ حساب بريد صادر لإرسال الدعوات."
 
@@ -47066,7 +47066,7 @@ msgstr "تغيّرت الإعدادات"
 #: onedesk/one_display/tour.py:30 onedesk/one_factory/tour.py:29
 #: onedesk/one_hr/tour.py:30 onedesk/one_inventory/tour.py:30
 #: onedesk/one_mail/tour.py:42 onedesk/one_project/tour.py:31
-#: onedesk/one_quality/tour.py:17 onedesk/one_storage/tour.py:42
+#: onedesk/one_quality/tour.py:17 onedesk/one_cloud/tour.py:42
 #: onedesk/one_studio/tour.py:17 onedesk/one_task/tour.py:30
 msgid "Settings and Tours"
 msgstr "الإعدادات والجولات"
@@ -47143,7 +47143,7 @@ msgid "Setup hit a problem on our side. We're working on it."
 msgstr "واجه الإعداد مشكلة من جهتنا. نحن نعمل على حلها."
 
 #. Label of the several (Check) field in DocType 'Cloud File Request Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:41
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:41
 msgid "Several Files"
 msgstr "عدة ملفات"
 
@@ -47180,7 +47180,7 @@ msgstr "الأشكال"
 #: frontend/src/sheet/components/SheetEditor/index.vue:147
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:44
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:44
 msgid "Share"
 msgstr "مشاركة"
 
@@ -47202,7 +47202,7 @@ msgstr "نقل أسهم"
 msgid "Share Type"
 msgstr "نوع السهم"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:314
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:314
 msgid "Share With Team"
 msgstr "مشاركة مع الفريق"
 
@@ -47237,8 +47237,8 @@ msgstr "مشاركة هذه الورقة"
 msgid "Share with the tagged people?"
 msgstr "هل تريد المشاركة مع الأشخاص المُشار إليهم؟"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:23
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:95
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:23
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:95
 #, python-brace-format
 msgid "Share {0}"
 msgstr "مشاركة {0}"
@@ -47283,7 +47283,7 @@ msgid "Shared Over"
 msgstr "موزّع على"
 
 #. Name of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Shared With You"
 msgstr "مشارك معك"
 
@@ -47295,8 +47295,8 @@ msgstr "شاركه"
 msgid "Shared with"
 msgstr "مشارك مع"
 
-#: onedesk/one_storage/namespace.py:400 onedesk/one_storage/namespace.py:648
-#: onedesk/one_storage/namespace.py:893
+#: onedesk/one_cloud/namespace.py:400 onedesk/one_cloud/namespace.py:648
+#: onedesk/one_cloud/namespace.py:893
 msgid "Shared with Me"
 msgstr "المشارَكة معي"
 
@@ -47764,7 +47764,7 @@ msgstr "إظهار القالب الرئيسي"
 msgid "Show the chart only when the record matches these filters. Leave empty to always show it."
 msgstr "اعرض المخطط فقط عندما يطابق السجل هذه المرشحات. اتركه فارغاً لعرضه دائماً."
 
-#: onedesk/one_storage/tour.py:31
+#: onedesk/one_cloud/tour.py:31
 msgid "Show the folder as a list with its columns, or as tiles with a picture of each file."
 msgstr "عرض المجلد كقائمة بأعمدتها، أو كمربعات بصورة لكل ملف."
 
@@ -47909,7 +47909,7 @@ msgid "Sign Count"
 msgstr "عدد مرات التوقيع"
 
 #: onedesk/public/js/one_admin/admin_control.js:24
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:294
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:294
 #: onedesk/www/message.html:21
 msgid "Sign In"
 msgstr "تسجيل الدخول"
@@ -47979,7 +47979,7 @@ msgstr "سجّل الدخول إلى حسابك في One أولًا."
 msgid "Sign in with a Passkey"
 msgstr "تسجيل الدخول بمفتاح المرور"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:533
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:533
 msgid "Sign in with a drive password, not your One password."
 msgstr "سجّل الدخول بكلمة مرور محرك الأقراص، لا بكلمة مرور One."
 
@@ -48449,7 +48449,7 @@ msgstr "ستة أماكن لشعارات رعاتك."
 #: onedesk/one_sheet/doctype/workbook/workbook.json:52
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:63
 #: onedesk/one_slide/doctype/presentation/presentation.json:130
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:46
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:46
 #: onedesk/public/js/table_workbook.js:39
 msgid "Size"
 msgstr "الحجم"
@@ -49433,7 +49433,7 @@ msgstr "تمييز بنجمة أو إزالتها"
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: frontend/src/cloud/CloudItems.vue:112
 #: onedesk/one_mail/custom/communication.json:46
-#: onedesk/one_storage/namespace.py:399
+#: onedesk/one_cloud/namespace.py:399
 msgid "Starred"
 msgstr "المميّزة بنجمة"
 
@@ -49627,7 +49627,7 @@ msgstr "يبدأ محادثة"
 msgid "Starts when registered"
 msgstr "يبدأ عند التسجيل"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:291
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:291
 msgid "Starts with https://"
 msgstr "يبدأ بـ https://"
 
@@ -49663,8 +49663,8 @@ msgstr "يبدأ بقدرات هذا الدور وصلاحياته."
 #: onedesk/one_display/layout.py:70
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:36
 #: onedesk/one_hr/heads.py:829
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:27
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:110
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:27
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:110
 #: onedesk/one_studio/heads.py:97
 msgid "State"
 msgstr "الحالة"
@@ -49839,7 +49839,7 @@ msgstr ""
 #: onedesk/one_portal/portal.py:34 onedesk/one_project/ai.py:539
 #: onedesk/one_project/portal.py:339 onedesk/one_project/portal.py:344
 #: onedesk/one_project/report/project_progress/project_progress.js:5
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:39
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:39
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:45
 #: onedesk/one_studio/print_blocks.py:101
 #: onedesk/public/js/one_account/account_center.js:1109
@@ -50348,7 +50348,7 @@ msgstr "المحطات المُزارة"
 #: onedesk/one_admin/doctype/tenant/tenant.json:378
 #: onedesk/one_admin/heads.py:546
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:113
-#: onedesk/one_storage/api.py:137
+#: onedesk/one_cloud/api.py:137
 #: onedesk/public/js/one_account/account_center.js:763
 #: onedesk/public/js/one_account/account_center.js:1209
 #: onedesk/public/js/one_admin/admin_control.js:97
@@ -50379,7 +50379,7 @@ msgstr "التخزين والنسخ الاحتياطية"
 msgid "Storage is full. Saved automatically once there's space."
 msgstr "التخزين ممتلئ. سيُحفظ تلقائيًا عند توفر مساحة."
 
-#: onedesk/one_storage/store.py:78
+#: onedesk/one_cloud/store.py:78
 msgid "Storage is full. This file wasn't saved."
 msgstr "مساحة التخزين ممتلئة. لم يُحفظ هذا الملف."
 
@@ -50856,11 +50856,11 @@ msgstr "لخّص هذه المحادثة"
 msgid "Summarise this conversation in a few lines: who wants what, what was agreed, and what is still open."
 msgstr "لخّص هذه المحادثة في بضعة أسطر: من يريد ماذا، وما الذي اتُّفق عليه، وما الذي ما زال مفتوحًا."
 
-#: onedesk/one_storage/ai.py:31
+#: onedesk/one_cloud/ai.py:31
 msgid "Summarise this file"
 msgstr "لخّص هذا الملف"
 
-#: onedesk/one_storage/ai.py:33
+#: onedesk/one_cloud/ai.py:33
 msgid "Summarise this file in a few lines. Who is it from or for, and does anything in it need doing?"
 msgstr "لخّص هذا الملف في بضعة أسطر. ممن هو أو لمن، وهل فيه ما يحتاج إلى إجراء؟"
 
@@ -51482,7 +51482,7 @@ msgstr ""
 #: onedesk/one_project/custom/project_template.json:7
 #: onedesk/one_project/heads.py:289
 #: onedesk/one_project/report/workload/workload.py:180
-#: onedesk/one_storage/namespace.py:758 onedesk/one_storage/namespace.py:855
+#: onedesk/one_cloud/namespace.py:758 onedesk/one_cloud/namespace.py:855
 msgid "Tasks"
 msgstr "المهام"
 
@@ -51872,7 +51872,7 @@ msgid "Team Dashboard"
 msgstr "لوحة الفريق"
 
 #. Label of the one_library (Check) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:64
+#: onedesk/one_cloud/custom/file.json:64
 msgid "Team Library"
 msgstr "مكتبة الفريق"
 
@@ -52567,7 +52567,7 @@ msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only th
 msgstr "رمز OneAdmin Storage، ينشئه إعداد Cloudflare ولا يصل إلا إلى الحاويتين."
 
 #. Description of the 'Lease Session' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:129
+#: onedesk/one_cloud/custom/file.json:129
 msgid "The OneOS session this file is open in."
 msgstr "جلسة OneOS المفتوح فيها هذا الملف."
 
@@ -52626,7 +52626,7 @@ msgstr "إقرار ضريبة القيمة المضافة يعرف حسابات�
 msgid "The Views of Home"
 msgstr "عروض الرئيسية"
 
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:16
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.py:16
 msgid "The WebDAV address must start with https://."
 msgstr "يجب أن يبدأ عنوان WebDAV بـ https://."
 
@@ -52705,7 +52705,7 @@ msgid "The address of deploy/aws/lightsail-user.yaml on Amazon S3. Requires an u
 msgstr "عنوان deploy/aws/lightsail-user.yaml على Amazon S3. يتطلب رفعه إلى S3 مرة واحدة."
 
 #. Description of the 'Address' (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:64
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:64
 msgid "The address of the WebDAV folder, as the server gives it."
 msgstr "عنوان مجلد WebDAV كما يعطيه الخادم."
 
@@ -52886,7 +52886,7 @@ msgid "The cog holds what OneAdmin runs on, and the tour runs again from the but
 msgstr "يحوي الترس ما يعمل عليه OneAdmin، ويعيد الزر المجاور الجولة."
 
 #. Description of the 'Folder Color' (Select) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:87
+#: onedesk/one_cloud/custom/file.json:87
 msgid "The color its icon is drawn in."
 msgstr "اللون الذي تُرسم به أيقونته."
 
@@ -53226,7 +53226,7 @@ msgstr "تعذّرت قراءة الملف: {0}"
 
 #. Description of the 'Saved To' (Data) field in DocType 'Cloud File Request
 #. Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:56
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:56
 msgid "The file field on the record, or on one of its tables, the file goes in."
 msgstr "حقل الملف في السجل، أو في أحد جداوله، الذي يوضع فيه الملف."
 
@@ -53386,7 +53386,7 @@ msgid "The interview with {applicant} moved to {when}"
 msgstr "نُقلت المقابلة مع {applicant} إلى {when}"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "The invited address"
 msgstr "العنوان المدعو"
 
@@ -53526,7 +53526,7 @@ msgid "The lists prices are kept in, for buying and selling."
 msgstr "القوائم التي تُحفظ فيها الأسعار، للشراء والبيع."
 
 #. Description of the 'Lease Lock' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:115
+#: onedesk/one_cloud/custom/file.json:115
 msgid "The lock that lets the holder save this file."
 msgstr "القفل الذي يتيح لصاحب الحجز حفظ هذا الملف."
 
@@ -53785,7 +53785,7 @@ msgid "The people trusted with grievances"
 msgstr "المؤتمنون على الشكاوى"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "The person added"
 msgstr "الشخص المُضاف"
 
@@ -53810,7 +53810,7 @@ msgid "The person it reads for, and whoever put the file there"
 msgstr "الشخص الذي يقرأ له، ومن وضع الملف هناك"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "The person it's shared with"
 msgstr "الشخص الذي تمت المشاركة معه"
 
@@ -53830,7 +53830,7 @@ msgid "The person who asked for it"
 msgstr "الشخص الذي طلبها"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "The person who created the link"
 msgstr "الشخص الذي أنشأ الرابط"
 
@@ -53850,7 +53850,7 @@ msgid "The person who signed up"
 msgstr "الشخص الذي سجّل"
 
 #. Description of the 'My Files Of' (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:17
+#: onedesk/one_cloud/custom/file.json:17
 msgid "The person whose My Files this folder is."
 msgstr "الشخص الذي يمثل هذا المجلد ملفاته."
 
@@ -54211,7 +54211,7 @@ msgid "The server rejected the email address or password."
 msgstr "رفض الخادم عنوان البريد الإلكتروني أو كلمة المرور."
 
 #. Description of the 'Server' (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:50
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:50
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
 
@@ -54454,12 +54454,12 @@ msgid "The values {0}'s records pick from. Each opens as its own list."
 msgstr "القيم التي تختار منها سجلات {0}. تُفتح كل منها قائمةً مستقلة."
 
 #. Description of the 'Editor Would Drop For' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:187
+#: onedesk/one_cloud/custom/file.json:187
 msgid "The version of the file it was read from."
 msgstr "نسخة الملف التي قُرئ منها."
 
 #. Description of the 'Preview Kept For' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:201
+#: onedesk/one_cloud/custom/file.json:201
 msgid "The version of the file its PDF preview was made from."
 msgstr "نسخة الملف التي أُعدت منها معاينة PDF."
 
@@ -54898,7 +54898,7 @@ msgstr "لا توجد أداة باسم {0}."
 msgid "There is no workspace {0}."
 msgstr "لا توجد مساحة عمل باسم {0}."
 
-#: onedesk/one_storage/api.py:173
+#: onedesk/one_cloud/api.py:173
 #, python-brace-format
 msgid "There is no {0} here."
 msgstr "لا يوجد {0} هنا."
@@ -54955,7 +54955,7 @@ msgstr "وقعت هذه الإضافات في أخطاء، واستمر العم
 msgid "These feeds belong to their publishers. You need each publisher's permission to show their content."
 msgstr "هذه الخلاصات ملك لناشريها. تحتاج إلى إذن كل ناشر لعرض محتواه."
 
-#: onedesk/one_storage/pdf.py:95
+#: onedesk/one_cloud/pdf.py:95
 #, python-brace-format
 msgid "These files are over {0} MB together."
 msgstr "يتجاوز حجم هذه الملفات معًا {0} ميغابايت."
@@ -54977,7 +54977,7 @@ msgid "They Replied"
 msgstr "ردّوا"
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "They are still waiting for them."
 msgstr "لا يزالون بانتظارها."
 
@@ -55209,15 +55209,15 @@ msgstr "لا يمكن عرض هذا الملف هنا."
 #: onedesk/one_doc/word.py:226 onedesk/one_doc/word.py:278
 #: onedesk/one_sheet/api.py:240 onedesk/one_sheet/excel.py:284
 #: onedesk/one_sheet/patching.py:49 onedesk/one_slide/from_powerpoint.py:304
-#: onedesk/one_storage/opening.py:275
+#: onedesk/one_cloud/opening.py:275
 msgid "This file cannot be opened."
 msgstr "لا يمكن فتح هذا الملف."
 
-#: onedesk/one_admin/office.py:86 onedesk/one_storage/office.py:42
+#: onedesk/one_admin/office.py:86 onedesk/one_cloud/office.py:42
 msgid "This file could not be converted."
 msgstr "تعذّر تحويل هذا الملف."
 
-#: onedesk/one_storage/opening.py:89
+#: onedesk/one_cloud/opening.py:89
 #, python-brace-format
 msgid "This file has {0} {1} can't keep."
 msgstr "يحتوي هذا الملف على {0} لا يستطيع {1} الاحتفاظ بها."
@@ -55331,13 +55331,13 @@ msgstr "نشهد بأن {0}{1} يعمل لدى {2} بوظيفة {3} منذ {4}."
 msgid "This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions."
 msgstr "هذا صندوق بريدك الخاص. إذا قرأه OneAI، فإنه يحفظ هذا البريد ويتصرف بناءً عليه في مساحة العمل، بصلاحياتك."
 
-#: onedesk/one_storage/api.py:19 onedesk/one_storage/api.py:83
-#: onedesk/one_storage/dav.py:281
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.py:24
-#: onedesk/one_storage/file_requests.py:137 onedesk/one_storage/history.py:102
-#: onedesk/one_storage/history.py:270 onedesk/one_storage/lease.py:225
-#: onedesk/one_storage/library.py:59 onedesk/one_storage/mounts.py:54
-#: onedesk/one_storage/mounts.py:74 onedesk/one_storage/share.py:31
+#: onedesk/one_cloud/api.py:19 onedesk/one_cloud/api.py:83
+#: onedesk/one_cloud/dav.py:281
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.py:24
+#: onedesk/one_cloud/file_requests.py:137 onedesk/one_cloud/history.py:102
+#: onedesk/one_cloud/history.py:270 onedesk/one_cloud/lease.py:225
+#: onedesk/one_cloud/library.py:59 onedesk/one_cloud/mounts.py:54
+#: onedesk/one_cloud/mounts.py:74 onedesk/one_cloud/share.py:31
 msgid "This item no longer exists."
 msgstr "هذا العنصر لم يعد موجودًا."
 
@@ -55498,8 +55498,8 @@ msgstr "ربما كتب OneAI، وهو وكيل ذكاء اصطناعي، هذا
 msgid "This request expired. Try again."
 msgstr "انتهت صلاحية هذا الطلب. حاول مرة أخرى."
 
-#: onedesk/one_inventory/portal.py:275 onedesk/one_storage/file_requests.py:340
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:494 onedesk/www/r.html:27
+#: onedesk/one_inventory/portal.py:275 onedesk/one_cloud/file_requests.py:340
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:494 onedesk/www/r.html:27
 #: onedesk/www/r.py:19
 msgid "This request is closed."
 msgstr "هذا الطلب مغلق."
@@ -55601,7 +55601,7 @@ msgstr "يستغرق هذا بضع دقائق. ستصلك رسالة بريد إ
 msgid "This template can't be filled in: {0}"
 msgstr "لا يمكن ملء هذا القالب: {0}"
 
-#: onedesk/one_storage/upload.py:69
+#: onedesk/one_cloud/upload.py:69
 msgid "This upload expired. Try again."
 msgstr "انتهت صلاحية هذا الرفع. حاول مرة أخرى."
 
@@ -55613,7 +55613,7 @@ msgstr "دور هذا المستخدم يسمح مسبقاً بكل ما هنا.
 msgid "This value is not allowed"
 msgstr "هذه القيمة غير مسموح بها"
 
-#: onedesk/one_storage/history.py:131
+#: onedesk/one_cloud/history.py:131
 #, python-brace-format
 msgid "This version doesn't belong to {0}."
 msgstr "هذا الإصدار لا يخص {0}."
@@ -56080,7 +56080,7 @@ msgid "Times Seen"
 msgstr "مرات الظهور"
 
 #. Label of the opened (Int) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:116
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:116
 msgid "Times opened"
 msgstr "مرات الفتح"
 
@@ -56168,10 +56168,10 @@ msgstr "مظلل"
 #: onedesk/one_slide/decks.py:22
 #: onedesk/one_slide/doctype/presentation/presentation.json:41
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:50
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:31
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:31
 #: onedesk/one_studio/doctype/extension/extension.json:40
 #: onedesk/public/js/one_ai/ai_center.js:222
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:343
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:343
 msgid "Title"
 msgstr "العنوان"
 
@@ -56518,8 +56518,8 @@ msgstr "إظهار لوحة التنقل أو إخفاؤها"
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:51
 #: onedesk/one_display/doctype/display_screen/display_screen.json:267
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:120
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:49
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:129
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:49
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:129
 msgid "Token"
 msgstr "الرمز المميز"
 
@@ -56534,8 +56534,8 @@ msgstr "الرمز المميز"
 #: onedesk/one_admin/doctype/tenant/tenant.json:242
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:58
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:127
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:57
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:137
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:57
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:137
 msgid "Token Hash"
 msgstr "بصمة الرمز"
 
@@ -57273,7 +57273,7 @@ msgid "Try again in a moment."
 msgstr "حاول مرة أخرى بعد لحظات."
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Try again, or describe it differently."
 msgstr "حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
@@ -57533,7 +57533,7 @@ msgstr "ضمان لمدة سنتين"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:37
 #: onedesk/one_studio/print_blocks.py:61 onedesk/one_studio/print_blocks.py:100
 #: onedesk/public/js/one_account/account_center.js:1654
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:282
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:282
 msgid "Type"
 msgstr "النوع"
 
@@ -57557,7 +57557,7 @@ msgstr "اكتبها واضغط Enter، مع موعدها إن كان لها م�
 msgid "Type the code you were given."
 msgstr "اكتب الرمز الذي أُعطي لك."
 
-#: onedesk/one_storage/tour.py:37
+#: onedesk/one_cloud/tour.py:37
 msgid "Type to search this folder and the folders in it, or every file you can open."
 msgstr "اكتب للبحث في هذا المجلد والمجلدات داخله، أو في كل ملف يمكنك فتحه."
 
@@ -58286,7 +58286,7 @@ msgid "Upload"
 msgstr "رفع"
 
 #. The button on a notification's mail
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Upload Files"
 msgstr "رفع الملفات"
 
@@ -58315,12 +58315,12 @@ msgid "Upload new version"
 msgstr "رفع إصدار جديد"
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "Upload them with the button below.{note}{due}"
 msgstr "ارفعها بالزر أدناه.{note}{due}"
 
-#: onedesk/one_storage/upload.py:34
+#: onedesk/one_cloud/upload.py:34
 #, python-brace-format
 msgid "Upload up to {0} files at a time."
 msgstr "ارفع حتى {0} ملفات في المرة الواحدة."
@@ -58399,7 +58399,7 @@ msgstr "الاستهلاك"
 #: onedesk/one_admin/doctype/offering/offering_list.js:19
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:116
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:90
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:111
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:111
 #: onedesk/public/js/one_ai/oneai.js:202
 msgid "Use"
 msgstr "الاستخدام"
@@ -58536,7 +58536,7 @@ msgstr "يُستخدم لصفحات الويب وللشرائح التي ليس 
 msgid "Used in URLs. Do not change it once the offering has been sold."
 msgstr "يُستعمل في الروابط. لا تغيّره بعد بيع العرض."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:308
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:308
 msgid "Used in place of a password, for SFTP only."
 msgstr "يُستخدم بدلًا من كلمة المرور، لـ SFTP فقط."
 
@@ -58546,7 +58546,7 @@ msgid "Used to find the source's logo. Filled in automatically for feeds."
 msgstr "يُستخدم لإيجاد شعار المصدر. يُملأ تلقائياً للخلاصات."
 
 #: frontend/src/inventory/item/ItemStock.vue:52
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:567
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:567
 #, python-brace-format
 msgid "Used {0}"
 msgstr "استُخدمت {0}"
@@ -58573,7 +58573,7 @@ msgstr "استُخدم {0} في {1}"
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:40
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:49
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:61
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:21
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:21
 #: onedesk/public/js/one/access_center.js:300
 #: onedesk/public/js/one/access_center.js:359
 #: onedesk/public/js/one_mail/onemail_settings.js:1001
@@ -58589,8 +58589,8 @@ msgid "User Agent"
 msgstr ""
 
 #. Label of the username (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:73
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:295
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:73
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:295
 msgid "User Name"
 msgstr "اسم المستخدم"
 
@@ -58608,7 +58608,7 @@ msgstr "تم التحقق من المستخدم"
 msgid "User journeys and wireframes"
 msgstr "مسارات المستخدم والمخططات الأولية"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:528
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:528
 msgid "User name"
 msgstr "اسم المستخدم"
 
@@ -58874,7 +58874,7 @@ msgstr "تحقق بواسطة"
 #. Label of the version (Int) field in DocType 'Cloud File Version'
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:33
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:39
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:33
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:33
 msgid "Version"
 msgstr "الإصدار"
 
@@ -58951,7 +58951,7 @@ msgstr "فيديو بواسطة OneAI…"
 #: onedesk/public/js/account_tree.js:14
 #: onedesk/public/js/one_interface/frame.js:798
 #: onedesk/public/js/one_interface/look.js:774
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:37
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:37
 #: onedesk/public/js/project.js:27 onedesk/public/js/project.js:32
 #: onedesk/www/account_invoices.html:39
 msgid "View"
@@ -58965,7 +58965,7 @@ msgstr "عرض الصنف"
 msgid "View Items"
 msgstr "عرض العناصر"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:608
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:608
 msgid "View Read-Only"
 msgstr "عرض للقراءة فقط"
 
@@ -59153,10 +59153,10 @@ msgstr "انتظار حدث"
 #: onedesk/one_display/programme.py:451
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:37
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
-#: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
 #: onedesk/one_studio/print_blocks.py:943
 #: onedesk/public/js/one_ai/ai_center.js:130
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:475 onedesk/www/tv.py:54
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:475 onedesk/www/tv.py:54
 msgid "Waiting"
 msgstr "قيد الانتظار"
 
@@ -59537,7 +59537,7 @@ msgid "Web search is off for this workspace."
 msgstr "البحث في الويب متوقف في مساحة العمل هذه."
 
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:40
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:40
 msgid "WebDAV"
 msgstr "WebDAV"
 
@@ -59870,7 +59870,7 @@ msgid "What OneAI's reply should do, such as answering from their orders and pro
 msgstr "ما يجب أن يفعله رد OneAI، مثل الإجابة من طلباتهم والوعد بالرد خلال يوم."
 
 #. Description of the 'Editor Would Drop' (Small Text) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:173
+#: onedesk/one_cloud/custom/file.json:173
 msgid "What OneWorkbook or OneWriter would drop from this version of the file."
 msgstr "ما سيحذفه OneWorkbook أو OneWriter من هذه النسخة من الملف."
 
@@ -59914,7 +59914,7 @@ msgid "What a customer signs, and until when."
 msgstr "ما يوقّعه العميل، وحتى متى."
 
 #. Description of a DocType
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:6
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:6
 msgid "What a file in OneCloud held before it was replaced."
 msgstr "ما كان يحتويه ملف في OneCloud قبل استبداله."
 
@@ -60275,11 +60275,11 @@ msgstr "ما الذي لم يُسلَّم للعملاء بعد، وما الم�
 msgid "What is still to deliver?"
 msgstr "ما الذي لم يُسلَّم بعد؟"
 
-#: onedesk/one_storage/ai.py:25
+#: onedesk/one_cloud/ai.py:25
 msgid "What is taking the most space in my files, and what could I clear out?"
 msgstr "ما الذي يشغل أكبر مساحة في ملفاتي، وما الذي يمكنني حذفه؟"
 
-#: onedesk/one_storage/ai.py:24
+#: onedesk/one_cloud/ai.py:24
 msgid "What is taking the space?"
 msgstr "ما الذي يشغل المساحة؟"
 
@@ -60465,7 +60465,7 @@ msgid "What the equipment was worth and is worth now."
 msgstr "كم كانت قيمة المعدات وكم قيمتها الآن."
 
 #. Description of the 'Title' (Data) field in DocType 'Cloud File Request'
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:34
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:34
 msgid "What the files are for, as the people asked will see it."
 msgstr "الغرض من الملفات، كما سيراه الأشخاص المطلوب منهم."
 
@@ -60475,7 +60475,7 @@ msgid "What the first look said this is, before it was read in full."
 msgstr "ما قالته النظرة الأولى عن هذا قبل قراءته كاملاً."
 
 #. Description of the 'Name' (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:34
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:34
 msgid "What the folder is called in OneCloud."
 msgstr "اسم المجلد في OneCloud."
 
@@ -60713,7 +60713,7 @@ msgid "What to make, how many, and from what."
 msgstr "ما يجب صنعه، وكم، ومن ماذا."
 
 #. Description of the 'File' (Data) field in DocType 'Cloud File Request Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:23
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:23
 msgid "What to send, as the person will see it."
 msgstr "ما يجب إرساله، كما سيراه الشخص."
 
@@ -61048,7 +61048,7 @@ msgid "When OneAI could not make a video somebody asked for in a presentation."
 msgstr "عندما يتعذّر على OneAI إنشاء فيديو طلبه أحدهم في عرض تقديمي."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When OneAI could not make music or a video somebody asked for."
 msgstr "عندما يتعذّر على OneAI إنشاء موسيقى أو فيديو طلبه أحدهم."
 
@@ -61186,12 +61186,12 @@ msgid "When a file is refused because the workspace's storage is full. Once a da
 msgstr "عندما يُرفض ملف لامتلاء تخزين مساحة العمل. مرة في اليوم على الأكثر."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When a file request is sent."
 msgstr "عند إرسال طلب ملفات."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When a file you had open in OneOS is closed after 15 minutes without use, after 8 hours, or because the workspace ran out of OneCredits."
 msgstr "عندما يُغلق ملف كان مفتوحًا لديك في OneOS بعد 15 دقيقة دون استخدام، أو بعد 8 ساعات، أو لنفاد رصيد OneCredits في مساحة العمل."
 
@@ -61206,7 +61206,7 @@ msgid "When a lead arrives that nobody owns, from the website or the inbox."
 msgstr "عندما يصل عميل محتمل لا يملكه أحد، من الموقع أو البريد الوارد."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When a link is shared with an email address."
 msgstr "عند مشاركة رابط مع عنوان بريد إلكتروني."
 
@@ -61650,7 +61650,7 @@ msgid "When an interview you are on moves to another time."
 msgstr "عند نقل مقابلة أنت فيها إلى وقت آخر."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When an invited address opens a shared link. It can't be turned off."
 msgstr "عندما يفتح عنوان مدعو رابطًا مُشارَكًا. لا يمكن إيقافه."
 
@@ -61834,7 +61834,7 @@ msgid "When mail you sent could not be delivered after every retry."
 msgstr "عندما يتعذر تسليم بريد أرسلته بعد كل محاولة."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When music or a video somebody asked OneAI for is ready in its folder."
 msgstr "عندما تصبح الموسيقى أو الفيديو الذي طلبه أحدهم من OneAI جاهزًا في مجلده."
 
@@ -62089,7 +62089,7 @@ msgid "When somebody you referred is accepted or rejected."
 msgstr "عندما يُقبل من رشّحته أو يُرفض."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When someone adds you to a library."
 msgstr "عندما يضيفك شخص ما إلى مكتبة."
 
@@ -62132,7 +62132,7 @@ msgid "When someone mentions you in a comment."
 msgstr "عندما يذكرك شخص في تعليق."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook or OneWriter."
 msgstr "عندما ينقل أحدهم إلى سلة المحذوفات ملفًا مفتوحًا لديك في OneOS أو على محرك الأقراص أو في OneWorkbook أو OneWriter."
 
@@ -62147,17 +62147,17 @@ msgid "When someone sends a customer or supplier a link to a record."
 msgstr "عندما يرسل أحدهم إلى عميل أو مورد رابطاً إلى سجل."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When someone sends a file you requested."
 msgstr "عندما يرسل شخص ما ملفًا طلبته."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When someone sends all the files you requested."
 msgstr "عندما يرسل شخص ما كل الملفات التي طلبتها."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When someone shares a file or folder with you."
 msgstr "عندما يشارك شخص ما ملفًا أو مجلدًا معك."
 
@@ -62171,12 +62171,12 @@ msgid "When someone stops being a workspace administrator."
 msgstr "عندما يتوقف أحدهم عن كونه مسؤولًا عن مساحة العمل."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When someone uploads files through a link you created."
 msgstr "عندما يرفع شخص ما ملفات عبر رابط أنشأته."
 
 #. When a notification is sent
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "When someone uploads one file through a link you created."
 msgstr "عندما يرفع شخص ما ملفًا واحدًا عبر رابط أنشأته."
 
@@ -62248,7 +62248,7 @@ msgid "When the last task a task waits on is done."
 msgstr "عند إنجاز آخر مهمة تنتظرها المهمة."
 
 #. Description of the 'Lease Until' (Datetime) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:159
+#: onedesk/one_cloud/custom/file.json:159
 msgid "When the lease lapses unless its holder renews it."
 msgstr "متى ينتهي الحجز ما لم يجدده صاحبه."
 
@@ -62586,7 +62586,7 @@ msgid "Where the company's equipment is kept, with more added later under Setup 
 msgstr "حيث تُحفظ معدات الشركة، ويمكن إضافة المزيد لاحقًا من الإعداد › المواقع."
 
 #. Description of the 'Server Folder' (Data) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:93
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:93
 msgid "Where the folder starts. The server's top when left as /."
 msgstr "من أين يبدأ المجلد. أعلى الخادم إذا تُرك /."
 
@@ -62671,7 +62671,7 @@ msgid "Which bank lines are still to match?"
 msgstr "أي الحركات البنكية لم تُطابق بعد؟"
 
 #. Description of the 'For' (Data) field in DocType 'Cloud Drive Password'
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:33
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:33
 msgid "Which computer or app it was made for."
 msgstr "الحاسوب أو التطبيق الذي أُنشئت له."
 
@@ -62843,7 +62843,7 @@ msgid "Which rooms are free and which are in use."
 msgstr "أي الغرف متاحة وأيها مشغولة."
 
 #. Description of the 'Kind' (Data) field in DocType 'Cloud File Request Item'
-#: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:62
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:62
 msgid "Which row of the table the file is for, by its kind. It goes on that row, or a new one."
 msgstr "أي صف من الجدول يخصّه الملف، حسب نوعه. يوضع في ذلك الصف أو في صف جديد."
 
@@ -62986,11 +62986,11 @@ msgstr "من حضر كل وردية، متأخرًا أو مبكرًا."
 msgid "Who can do what?"
 msgstr "من يستطيع ماذا؟"
 
-#: onedesk/one_storage/ai.py:39
+#: onedesk/one_cloud/ai.py:39
 msgid "Who can see this file, and how?"
 msgstr "من يمكنه رؤية هذا الملف، وكيف؟"
 
-#: onedesk/one_storage/ai.py:38
+#: onedesk/one_cloud/ai.py:38
 msgid "Who can see this?"
 msgstr "من يمكنه رؤية هذا؟"
 
@@ -63039,7 +63039,7 @@ msgid "Who has not signed in lately?"
 msgstr "من لم يسجّل الدخول مؤخرًا؟"
 
 #. Description of the 'Leased By' (Link) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:145
+#: onedesk/one_cloud/custom/file.json:145
 msgid "Who has this file alone."
 msgstr "من يحجز هذا الملف وحده."
 
@@ -63196,13 +63196,13 @@ msgstr "من يقرأ له OneAI ومن وصله، أو كل مسؤول"
 
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py onedesk/one_inventory/notifications.py
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Whoever asked"
 msgstr "من طلب"
 
 #. Who a notification is sent to
 #: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Whoever asked for it"
 msgstr "من طلبه"
 
@@ -63262,7 +63262,7 @@ msgid "Whoever gave the task and whoever made it, but whoever marked it"
 msgstr "من أسند المهمة ومن أنشأها، باستثناء من غيّر حالتها"
 
 #. Who a notification is sent to
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "Whoever had it open"
 msgstr "من كان قد فتحه"
 
@@ -63427,7 +63427,7 @@ msgid "Whole Number"
 msgstr "العدد كاملًا"
 
 #. Label of the shared (Check) field in DocType 'Cloud Mount'
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:103
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:103
 msgid "Whole Team"
 msgstr "الفريق بأكمله"
 
@@ -63698,7 +63698,7 @@ msgstr "نسبة الفوز (90 يوماً)"
 msgid "Window"
 msgstr "نافذة"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:520
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:520
 msgid "Windows"
 msgstr "Windows"
 
@@ -64268,11 +64268,11 @@ msgstr "عناوين مساحات العمل"
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:82
 #: onedesk/one_mail/doctype/face/face.json:62
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:138
-#: onedesk/one_storage/doctype/cloud_drive_password/cloud_drive_password.json:62
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:132
-#: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:83
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json:154
-#: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:135
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:62
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:132
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:83
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:154
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:135
 #: onedesk/one_studio/doctype/extension/extension.json:225
 #: onedesk/one_studio/doctype/record_type/record_type.json:83
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:82
@@ -64940,15 +64940,15 @@ msgstr "أنت تحرره في OneOS"
 msgid "You are editing in {0}"
 msgstr "أنت تحرره في {0}"
 
-#: onedesk/one_storage/lease.py:191
+#: onedesk/one_cloud/lease.py:191
 msgid "You are editing this in OneOS."
 msgstr "أنت تحرر هذا في OneOS."
 
-#: onedesk/one_storage/lease.py:192
+#: onedesk/one_cloud/lease.py:192
 msgid "You are editing this on the drive."
 msgstr "أنت تحرر هذا على محرك الأقراص."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:598
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:598
 #, python-brace-format
 msgid "You are editing {0} in {1}. Make a copy to edit it in OneOS, or view it read-only."
 msgstr "أنت تحرر {0} في {1}. أنشئ نسخة لتحريرها في OneOS، أو اعرضه للقراءة فقط."
@@ -65014,22 +65014,22 @@ msgstr "يمكنك طلب خطاب عن نفسك فقط."
 msgid "You can use {0}."
 msgstr "يمكنك استخدام {0}."
 
-#: onedesk/one_storage/api.py:36 onedesk/one_storage/api.py:42
-#: onedesk/one_storage/file_requests.py:114
+#: onedesk/one_cloud/api.py:36 onedesk/one_cloud/api.py:42
+#: onedesk/one_cloud/file_requests.py:114
 #, python-brace-format
 msgid "You can't add files to {0}."
 msgstr "لا يمكنك إضافة ملفات إلى {0}."
 
-#: onedesk/one_storage/api.py:46
+#: onedesk/one_cloud/api.py:46
 msgid "You can't add items here."
 msgstr "لا يمكنك إضافة عناصر هنا."
 
 #: onedesk/one_doc/paper.py:245 onedesk/one_sheet/paper.py:419
-#: onedesk/one_storage/api.py:48
+#: onedesk/one_cloud/api.py:48
 msgid "You can't add to this folder."
 msgstr "لا يمكنك الإضافة إلى هذا المجلد."
 
-#: onedesk/one_storage/api.py:25
+#: onedesk/one_cloud/api.py:25
 #, python-brace-format
 msgid "You can't change {0}."
 msgstr "لا يمكنك تغيير {0}."
@@ -65039,13 +65039,13 @@ msgstr "لا يمكنك تغيير {0}."
 msgid "You can't make a passkey on {0} because it's shared. Use your phone."
 msgstr "لا يمكنك إنشاء مفتاح مرور على {0} لأنه مشترك. استخدم هاتفك."
 
-#: onedesk/one_storage/api.py:370 onedesk/one_storage/api.py:391
-#: onedesk/one_storage/api.py:433
+#: onedesk/one_cloud/api.py:370 onedesk/one_cloud/api.py:391
+#: onedesk/one_cloud/api.py:433
 #, python-brace-format
 msgid "You can't open {0}."
 msgstr "لا يمكنك فتح {0}."
 
-#: onedesk/one_storage/links.py:36 onedesk/one_storage/share.py:21
+#: onedesk/one_cloud/links.py:36 onedesk/one_cloud/share.py:21
 #, python-brace-format
 msgid "You can't share {0}."
 msgstr "لا يمكنك مشاركة {0}."
@@ -65257,7 +65257,7 @@ msgid "You were marked absent on {date}"
 msgstr "سُجّلت غائبًا في {date}"
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 msgid "You'll get a sign-in code at this address when you open it."
 msgstr "سيصلك رمز تسجيل دخول على هذا العنوان عند فتحه."
 
@@ -65355,12 +65355,12 @@ msgstr "بياناتك جاهزة للتنزيل"
 msgid "Your Events"
 msgstr "أحداثك"
 
-#: onedesk/one_storage/tour.py:24
+#: onedesk/one_cloud/tour.py:24
 #: onedesk/public/js/one_account/account_center.js:124
 msgid "Your Files"
 msgstr "ملفاتك"
 
-#: onedesk/one_storage/tour.py:12
+#: onedesk/one_cloud/tour.py:12
 msgid "Your Folders"
 msgstr "مجلداتك"
 
@@ -65533,7 +65533,7 @@ msgstr "رابط تقويمك في الإعدادات من زر الترس، و�
 msgid "Your card was not charged. Unless it is paid, {workspace} is suspended on {date}. Pay it, or change your card, on your One account."
 msgstr "لم تُخصم بطاقتك. إن لم تُدفع، ستُعلّق {workspace} في {date}. ادفعها أو غيّر بطاقتك في حسابك على One."
 
-#: onedesk/one_storage/fidelity.py:207
+#: onedesk/one_cloud/fidelity.py:207
 #, python-brace-format
 msgid "Your changes are saved here. Saving them over {0} would drop its {1}."
 msgstr "تغييراتك محفوظة هنا. حفظها فوق {0} سيُسقط منه {1}."
@@ -65554,13 +65554,13 @@ msgid "Your check-in was closed at the end of your shift"
 msgstr "أُغلق تسجيل حضورك عند نهاية مناوبتك"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "Your code for {file}"
 msgstr "رمزك لـ {file}"
 
 #. Message of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "Your code is <b>{code}</b>. It expires in 10 minutes."
 msgstr "رمزك هو <b>{code}</b>. تنتهي صلاحيته خلال 10 دقائق."
@@ -65844,7 +65844,7 @@ msgstr "لا يسمح لك دورك بتغيير هذا في {0}."
 msgid "Your role doesn't allow changing this."
 msgstr "دورك لا يسمح بتغيير هذا."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:596
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:596
 #, python-brace-format
 msgid "Your role doesn't allow changing {0}. Make a copy to edit it in OneOS, or view it read-only."
 msgstr "لا يسمح دورك بتغيير {0}. أنشئ نسخة لتحريرها في OneOS، أو اعرضه للقراءة فقط."
@@ -66183,7 +66183,7 @@ msgid "all of these:"
 msgstr "كل هذه:"
 
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:81
+#: onedesk/one_cloud/custom/file.json:81
 msgid "amber"
 msgstr "كهرماني"
 
@@ -66213,7 +66213,7 @@ msgid "and"
 msgstr ""
 
 #: onedesk/one_hr/control.py:159 onedesk/public/js/one_ai/panel/Panel.vue:114
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:645
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:645
 #, python-brace-format
 msgid "and {0} more"
 msgstr "و{0} غيرها"
@@ -66253,7 +66253,7 @@ msgstr "بين {0} و{1}"
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json:33
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:35
-#: onedesk/one_storage/custom/file.json:81
+#: onedesk/one_cloud/custom/file.json:81
 msgid "blue"
 msgstr ""
 
@@ -66282,15 +66282,15 @@ msgstr "بحلول {0}"
 msgid "called {0}"
 msgstr "باسم {0}"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:113
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:113
 msgid "can download"
 msgstr "يمكنه التنزيل"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:113
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:113
 msgid "can upload"
 msgstr "يمكنه الرفع"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:113
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:113
 msgid "can view"
 msgstr "يمكنه العرض"
 
@@ -66307,11 +66307,11 @@ msgstr "الفئة"
 msgid "changed"
 msgstr "غيّر"
 
-#: onedesk/one_storage/fidelity.py:176
+#: onedesk/one_cloud/fidelity.py:176
 msgid "charts"
 msgstr "المخططات"
 
-#: onedesk/one_storage/fidelity.py:172
+#: onedesk/one_cloud/fidelity.py:172
 msgid "comments"
 msgstr "التعليقات"
 
@@ -66319,11 +66319,11 @@ msgstr "التعليقات"
 msgid "completed"
 msgstr "أنجز"
 
-#: onedesk/one_storage/fidelity.py:182
+#: onedesk/one_cloud/fidelity.py:182
 msgid "conditional formatting"
 msgstr "التنسيق الشرطي"
 
-#: onedesk/one_storage/fidelity.py:190
+#: onedesk/one_cloud/fidelity.py:190
 msgid "connections to outside data"
 msgstr "الاتصالات بالبيانات الخارجية"
 
@@ -66345,16 +66345,16 @@ msgstr "الشبّاك {0}"
 msgid "created"
 msgstr "أنشأ"
 
-#: onedesk/one_storage/links.py:98
+#: onedesk/one_cloud/links.py:98
 #, python-brace-format
 msgid "created a link for {0}"
 msgstr "أنشأ رابطًا لـ {0}"
 
-#: onedesk/one_storage/links.py:98
+#: onedesk/one_cloud/links.py:98
 msgid "created a public link"
 msgstr "أنشأ رابطًا عامًا"
 
-#: onedesk/one_storage/history.py:285
+#: onedesk/one_cloud/history.py:285
 msgid "created it"
 msgstr "أنشأه"
 
@@ -66372,7 +66372,7 @@ msgid "current address"
 msgstr "العنوان الحالي"
 
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:81
+#: onedesk/one_cloud/custom/file.json:81
 msgid "cyan"
 msgstr ""
 
@@ -66380,7 +66380,7 @@ msgstr ""
 msgid "dash"
 msgstr "شرطة"
 
-#: onedesk/one_storage/fidelity.py:181
+#: onedesk/one_cloud/fidelity.py:181
 msgid "data validation"
 msgstr "التحقق من البيانات"
 
@@ -66479,7 +66479,7 @@ msgstr "التعليم"
 msgid "email"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:188
+#: onedesk/one_cloud/fidelity.py:188
 msgid "embedded files"
 msgstr "الملفات المضمنة"
 
@@ -66503,7 +66503,7 @@ msgstr "ينتهي بـ"
 msgid "ends with {0}"
 msgstr "ينتهي بـ {0}"
 
-#: onedesk/one_storage/fidelity.py:187
+#: onedesk/one_cloud/fidelity.py:187
 msgid "equations"
 msgstr "المعادلات"
 
@@ -66523,7 +66523,7 @@ msgstr "الجميع"
 msgid "everywhere"
 msgstr "في كل مكان"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:114
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:114
 #, python-brace-format
 msgid "expired {0}"
 msgstr "انتهت {0}"
@@ -66532,15 +66532,15 @@ msgstr "انتهت {0}"
 msgid "feedback"
 msgstr "الملاحظات"
 
-#: onedesk/one_storage/fidelity.py:192
+#: onedesk/one_cloud/fidelity.py:192
 msgid "fields such as a table of contents"
 msgstr "الحقول مثل جدول المحتويات"
 
-#: onedesk/one_storage/fidelity.py:185
+#: onedesk/one_cloud/fidelity.py:185
 msgid "fonts, sizes and colours"
 msgstr "الخطوط والأحجام والألوان"
 
-#: onedesk/one_storage/fidelity.py:175
+#: onedesk/one_cloud/fidelity.py:175
 msgid "footnotes"
 msgstr "الحواشي السفلية"
 
@@ -66554,7 +66554,7 @@ msgstr "منذ {0}"
 msgid "for {0} · usually {1}"
 msgstr "منذ {0} · عادةً {1}"
 
-#: onedesk/one_storage/fidelity.py:189
+#: onedesk/one_cloud/fidelity.py:189
 msgid "form controls"
 msgstr "عناصر تحكم النماذج"
 
@@ -66562,7 +66562,7 @@ msgstr "عناصر تحكم النماذج"
 msgid "from it"
 msgstr "منه"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:64
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:64
 #, python-brace-format
 msgid "from {0}"
 msgstr "من {0}"
@@ -66599,7 +66599,7 @@ msgstr ""
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json:33
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:35
-#: onedesk/one_storage/custom/file.json:81
+#: onedesk/one_cloud/custom/file.json:81
 msgid "green"
 msgstr ""
 
@@ -66613,7 +66613,7 @@ msgstr "يحتوي {0}"
 msgid "hasn't {0}"
 msgstr "لا يحتوي {0}"
 
-#: onedesk/one_storage/fidelity.py:174
+#: onedesk/one_cloud/fidelity.py:174
 msgid "headers and footers"
 msgstr "الرؤوس والتذييلات"
 
@@ -66760,7 +66760,7 @@ msgstr "من يدفع لها"
 msgid "jane@example.com"
 msgstr ""
 
-#: onedesk/one_storage/saving.py:183
+#: onedesk/one_cloud/saving.py:183
 #, python-brace-format
 msgid "kept the changes not saved to {0}"
 msgstr "احتفظ بالتغييرات التي لم تُحفظ في {0}"
@@ -66806,11 +66806,11 @@ msgstr "متروك لبيئة الإنتاج"
 msgid "left to {0}"
 msgstr "تُرك لـ {0}"
 
-#: onedesk/one_storage/fidelity.py:191
+#: onedesk/one_cloud/fidelity.py:191
 msgid "links"
 msgstr "الروابط"
 
-#: onedesk/one_storage/fidelity.py:184
+#: onedesk/one_cloud/fidelity.py:184
 msgid "links to other workbooks"
 msgstr "الروابط إلى مصنفات أخرى"
 
@@ -66832,11 +66832,11 @@ msgstr "سجّل {0}"
 msgid "logged {0} over {1} days"
 msgstr "سجّل {0} على مدى {1} أيام"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:521
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:521
 msgid "macOS"
 msgstr "macOS"
 
-#: onedesk/one_storage/fidelity.py:171
+#: onedesk/one_cloud/fidelity.py:171
 msgid "macros"
 msgstr "وحدات الماكرو"
 
@@ -66888,7 +66888,7 @@ msgstr "صفوف إضافية في الأسفل"
 msgid "move it on"
 msgstr "المضي به"
 
-#: onedesk/one_storage/api.py:329
+#: onedesk/one_cloud/api.py:329
 #, python-brace-format
 msgid "moved it from {0}"
 msgstr "نقله من {0}"
@@ -67092,7 +67092,7 @@ msgid "oneai"
 msgstr "OneAI"
 
 #. Description of the 'Lease Type' (Data) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:101
+#: onedesk/one_cloud/custom/file.json:101
 msgid "oneos while a OneOS session has this file alone, dav while a desktop app on the drive does."
 msgstr "oneos عندما تحجز جلسة OneOS هذا الملف وحدها، وdav عندما يحجزه تطبيق مكتبي على محرك الأقراص."
 
@@ -67119,11 +67119,11 @@ msgstr "أنت فقط"
 msgid "open"
 msgstr "مفتوح"
 
-#: onedesk/one_storage/oneos.py:134
+#: onedesk/one_cloud/oneos.py:134
 msgid "opened it in OneOS"
 msgstr "فتحه في OneOS"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:116
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:116
 #, python-brace-format
 msgid "opened {0} times"
 msgstr "فُتح {0} مرات"
@@ -67178,7 +67178,7 @@ msgstr "الصفحة {0}"
 msgid "pages {0}–{1}"
 msgstr "الصفحات {0}–{1}"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:115
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:115
 msgid "password"
 msgstr "كلمة مرور"
 
@@ -67198,16 +67198,16 @@ msgstr "العنوان الدائم"
 msgid "phone"
 msgstr "الهاتف"
 
-#: onedesk/one_storage/fidelity.py:179
+#: onedesk/one_cloud/fidelity.py:179
 msgid "pictures"
 msgstr "الصور"
 
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:81
+#: onedesk/one_cloud/custom/file.json:81
 msgid "pink"
 msgstr ""
 
-#: onedesk/one_storage/fidelity.py:177
+#: onedesk/one_cloud/fidelity.py:177
 msgid "pivot tables"
 msgstr "الجداول المحورية"
 
@@ -67243,7 +67243,7 @@ msgstr "مع قراءة سجلاتهم"
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json:33
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:35
-#: onedesk/one_storage/custom/file.json:81
+#: onedesk/one_cloud/custom/file.json:81
 msgid "red"
 msgstr ""
 
@@ -67260,7 +67260,7 @@ msgstr "مرفوض"
 msgid "removed {0}"
 msgstr "حذف {0}"
 
-#: onedesk/one_storage/api.py:212
+#: onedesk/one_cloud/api.py:212
 #, python-brace-format
 msgid "renamed it from {0}"
 msgstr "أعاد تسميته من {0}"
@@ -67278,11 +67278,11 @@ msgstr "طلب لكل مساحة عمل"
 msgid "required"
 msgstr "مطلوب"
 
-#: onedesk/one_storage/api.py:556
+#: onedesk/one_cloud/api.py:556
 msgid "restored it from the Recycle Bin"
 msgstr "استعاده من سلة المحذوفات"
 
-#: onedesk/one_storage/history.py:152
+#: onedesk/one_cloud/history.py:152
 #, python-brace-format
 msgid "restored version {0}"
 msgstr "استعاد الإصدار {0}"
@@ -67302,7 +67302,7 @@ msgstr "ألغى رابط البوابة لـ {0}"
 msgid "rule"
 msgstr "قاعدة"
 
-#: onedesk/one_storage/dav_saves.py:185
+#: onedesk/one_cloud/dav_saves.py:185
 #, python-brace-format
 msgid "saved a copy, since {0} had changed after it was opened"
 msgstr "حفظ نسخة، لأن {0} تغيّر بعد فتحه"
@@ -67331,7 +67331,7 @@ msgstr "sections قائمة أقسام، كل منها قائمة أعمدة."
 msgid "sections is not JSON: {0}."
 msgstr "sections ليست JSON: {0}."
 
-#: onedesk/one_storage/share.py:92
+#: onedesk/one_cloud/share.py:92
 #, python-brace-format
 msgid "shared it with {0}"
 msgstr "شاركه مع {0}"
@@ -67353,7 +67353,7 @@ msgstr "أُظهر في البوابة لـ {0} مجدداً"
 msgid "slash"
 msgstr "شرطة مائلة"
 
-#: onedesk/one_storage/fidelity.py:178
+#: onedesk/one_cloud/fidelity.py:178
 msgid "slicers"
 msgstr "مقسمات طرق العرض"
 
@@ -67381,7 +67381,7 @@ msgstr "نقله شخص ما منذ ذلك الحين"
 msgid "someone has renamed it since"
 msgstr "أعاد شخص ما تسميته منذ ذلك الحين"
 
-#: onedesk/one_storage/fidelity.py:183
+#: onedesk/one_cloud/fidelity.py:183
 msgid "sparklines"
 msgstr "خطوط المؤشر"
 
@@ -67407,7 +67407,7 @@ msgstr "حالة"
 msgid "storage"
 msgstr "التخزين"
 
-#: onedesk/one_storage/fidelity.py:193
+#: onedesk/one_cloud/fidelity.py:193
 msgid "styles"
 msgstr "الأنماط"
 
@@ -67415,7 +67415,7 @@ msgstr "الأنماط"
 msgid "submitted"
 msgstr "اعتمد"
 
-#: onedesk/one_storage/fidelity.py:180
+#: onedesk/one_cloud/fidelity.py:180
 msgid "tables"
 msgstr "الجداول"
 
@@ -67433,7 +67433,7 @@ msgstr "الرقم الضريبي"
 msgid "text"
 msgstr "نص"
 
-#: onedesk/one_storage/fidelity.py:186
+#: onedesk/one_cloud/fidelity.py:186
 msgid "text boxes and shapes"
 msgstr "مربعات النص والأشكال"
 
@@ -67471,7 +67471,7 @@ msgstr "يوم السنة"
 msgid "the days off each week are now {0}"
 msgstr "أيام العطلة الأسبوعية الآن {0}"
 
-#: onedesk/one_storage/lease.py:142
+#: onedesk/one_cloud/lease.py:142
 msgid "the drive"
 msgstr "محرك الأقراص"
 
@@ -67594,7 +67594,7 @@ msgstr "غدًا"
 msgid "too far from the last check-in"
 msgstr "بعيد جدًا عن آخر تسجيل حضور"
 
-#: onedesk/one_storage/fidelity.py:173
+#: onedesk/one_cloud/fidelity.py:173
 msgid "tracked changes"
 msgstr "التغييرات المتعقبة"
 
@@ -67631,12 +67631,12 @@ msgid "unsubscribe"
 msgstr "إلغاء الاشتراك"
 
 #: onedesk/public/js/one_portal/portal.js:23
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:114
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:114
 #, python-brace-format
 msgid "until {0}"
 msgstr "حتى {0}"
 
-#: onedesk/one_storage/history.py:84
+#: onedesk/one_cloud/history.py:84
 msgid "uploaded a new version"
 msgstr "رفع إصدارًا جديدًا"
 
@@ -67649,7 +67649,7 @@ msgid "us"
 msgstr "نحن"
 
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
-#: onedesk/one_storage/custom/file.json:81
+#: onedesk/one_cloud/custom/file.json:81
 msgid "violet"
 msgstr "بنفسجي"
 
@@ -67809,7 +67809,7 @@ msgstr "{0} (مورّد)"
 msgid "{0} (was {1})"
 msgstr "{0} (كان {1})"
 
-#: onedesk/one_storage/dav_saves.py:182 onedesk/one_storage/saving.py:179
+#: onedesk/one_cloud/dav_saves.py:182 onedesk/one_cloud/saving.py:179
 #, python-brace-format
 msgid "{0} ({1}'s copy)"
 msgstr "{0} (نسخة {1})"
@@ -68239,7 +68239,7 @@ msgstr "طلب {0} هذه القاعدة، وتعمل بعد الموافقة ع
 msgid "{0} asked to delete their account. Approving signs them out and erases their data. Kept records are anonymised."
 msgstr "طلب {0} حذف حسابه. الموافقة تسجّل خروجه وتمحو بياناته. السجلات المحفوظة تصبح مجهولة الهوية."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:415
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:415
 #, python-brace-format
 msgid "{0} asks for this in {1}."
 msgstr "يطلب {0} هذا في {1}."
@@ -68295,7 +68295,7 @@ msgstr "{0} يصبح {1}"
 msgid "{0} belongs to your browser, so it can't be a shortcut."
 msgstr "{0} يخص متصفحك، لذا لا يمكن أن يكون اختصارًا."
 
-#: onedesk/one_storage/share.py:15
+#: onedesk/one_cloud/share.py:15
 #, python-brace-format
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} يخص {1} {2}. شارك السجل بدلًا من ذلك."
@@ -68330,17 +68330,17 @@ msgstr "لم يعد بالإمكان تغيير {0} في {1}."
 msgid "{0} can't be changed in a workspace."
 msgstr "لا يمكن تغيير {0} في مساحة العمل."
 
-#: onedesk/one_storage/office.py:31
+#: onedesk/one_cloud/office.py:31
 #, python-brace-format
 msgid "{0} can't be converted to PDF."
 msgstr "لا يمكن تحويل {0} إلى PDF."
 
-#: onedesk/one_storage/opening.py:236
+#: onedesk/one_cloud/opening.py:236
 #, python-brace-format
 msgid "{0} can't be copied into One."
 msgstr "لا يمكن نسخ {0} إلى One."
 
-#: onedesk/one_storage/opening.py:177
+#: onedesk/one_cloud/opening.py:177
 #, python-brace-format
 msgid "{0} can't be downloaded this way."
 msgstr "لا يمكن تنزيل {0} بهذه الطريقة."
@@ -68350,7 +68350,7 @@ msgstr "لا يمكن تنزيل {0} بهذه الطريقة."
 msgid "{0} can't be edited."
 msgstr "لا يمكن تعديل {0}."
 
-#: onedesk/one_storage/oneos.py:84
+#: onedesk/one_cloud/oneos.py:84
 #, python-brace-format
 msgid "{0} can't be opened in OneOS."
 msgstr "لا يمكن فتح {0} في OneOS."
@@ -68411,7 +68411,7 @@ msgstr "لا يمكنك تغيير {0}."
 msgid "{0} cannot be changed here."
 msgstr "لا يمكن تغيير {0} هنا."
 
-#: onedesk/one_storage/api.py:509
+#: onedesk/one_cloud/api.py:509
 #, python-brace-format
 msgid "{0} cannot be deleted."
 msgstr "لا يمكن حذف {0}."
@@ -68704,7 +68704,7 @@ msgstr "مضت {0} أيام"
 msgid "{0} days read. Save to keep them."
 msgstr "قُرئ {0} يوماً. احفظ للإبقاء عليها."
 
-#: onedesk/one_storage/upload.py:73
+#: onedesk/one_cloud/upload.py:73
 #, python-brace-format
 msgid "{0} didn't upload. Try again."
 msgstr "لم يُرفع {0}. حاول مرة أخرى."
@@ -68719,7 +68719,7 @@ msgstr "وصلك {0} مستند هذا الأسبوع. عالج OneAI منها {
 msgid "{0} does not have {1} credits to spend."
 msgstr "لا يملك {0} رصيداً بمقدار {1} لإنفاقه."
 
-#: onedesk/one_storage/share.py:114
+#: onedesk/one_cloud/share.py:114
 #, python-brace-format
 msgid "{0} doesn't have access to {1}."
 msgstr "ليس لدى {0} وصول إلى {1}."
@@ -68818,12 +68818,12 @@ msgstr "تعذّرت قراءة {0} ملفات وهي مدرجة فيه."
 msgid "{0} files open"
 msgstr "{0} ملفات مفتوحة"
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:647
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:647
 #, python-brace-format
 msgid "{0} files with these names are already here"
 msgstr "يوجد هنا بالفعل {0} ملفات بهذه الأسماء"
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:40
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.py:40
 #, python-brace-format
 msgid "{0} fills a record field, so the request must be on a record."
 msgstr "{0} يملأ حقلًا في سجل، لذا يجب أن يكون الطلب من سجل."
@@ -68923,7 +68923,7 @@ msgstr "{0} س {1}"
 msgid "{0} has a contract already. Change it on its sales order."
 msgstr "لدى {0} عقد بالفعل. غيّره من أمر البيع الخاص به."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:37
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.py:37
 #, python-brace-format
 msgid "{0} has a kind but no place on the record."
 msgstr "لـ {0} نوع لكن لا مكان له على السجل."
@@ -68954,7 +68954,7 @@ msgstr "تغيّر {0} منذ اقتراح هذا، فلم يعد ينطبق."
 msgid "{0} has ended and its profit is not yet moved to Retained Earnings."
 msgstr "انتهت {0} ولم يُنقل ربحها بعد إلى الأرباح المحتجزة."
 
-#: onedesk/one_storage/fidelity.py:165
+#: onedesk/one_cloud/fidelity.py:165
 #, python-brace-format
 msgid "{0} has macros, so it opens read-only here. Open it in OneOS to edit it."
 msgstr "يحتوي {0} على وحدات ماكرو، لذا يُفتح هنا للقراءة فقط. افتحه في OneOS لتحريره."
@@ -69002,7 +69002,7 @@ msgstr "لا يحتوي {0} على الحقل {1}"
 msgid "{0} has no field {1}."
 msgstr "لا يحتوي {0} على الحقل {1}."
 
-#: onedesk/one_storage/targets.py:91
+#: onedesk/one_cloud/targets.py:91
 #, python-brace-format
 msgid "{0} has no file field called {1}."
 msgstr "لا يوجد في {0} حقل ملف باسم {1}."
@@ -69012,7 +69012,7 @@ msgstr "لا يوجد في {0} حقل ملف باسم {1}."
 msgid "{0} has no help."
 msgstr "لا توجد مساعدة لـ {0}."
 
-#: onedesk/one_storage/targets.py:93
+#: onedesk/one_cloud/targets.py:93
 #, python-brace-format
 msgid "{0} has no kinds to pick from."
 msgstr "لا توجد أنواع للاختيار منها في {0}."
@@ -69202,7 +69202,7 @@ msgstr "{0} فواتير"
 msgid "{0} is a One address and can't be added."
 msgstr "{0} عنوان من One ولا يمكن إضافته."
 
-#: onedesk/one_storage/api.py:389
+#: onedesk/one_cloud/api.py:389
 #, python-brace-format
 msgid "{0} is a folder. Choose the files in it."
 msgstr "{0} مجلد. اختر الملفات التي فيه."
@@ -69437,17 +69437,17 @@ msgstr "{0} يحرره في OneOS"
 msgid "{0} is editing in {1}"
 msgstr "{0} يحرره في {1}"
 
-#: onedesk/one_storage/lease.py:191
+#: onedesk/one_cloud/lease.py:191
 #, python-brace-format
 msgid "{0} is editing this in OneOS."
 msgstr "{0} يحرر هذا في OneOS."
 
-#: onedesk/one_storage/lease.py:192
+#: onedesk/one_cloud/lease.py:192
 #, python-brace-format
 msgid "{0} is editing this on the drive."
 msgstr "{0} يحرر هذا على محرك الأقراص."
 
-#: onedesk/public/js/one_storage/onecloud_dialogs.js:599
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:599
 #, python-brace-format
 msgid "{0} is editing {1} in {2}. Make a copy to edit it in OneOS, or view it read-only."
 msgstr "{0} يحرر {1} في {2}. أنشئ نسخة لتحريرها في OneOS، أو اعرضه للقراءة فقط."
@@ -69472,12 +69472,12 @@ msgstr "{0} يمتلئ"
 msgid "{0} is in Presentation Templates."
 msgstr "{0} موجود في قوالب العروض التقديمية."
 
-#: onedesk/one_storage/fidelity.py:166
+#: onedesk/one_cloud/fidelity.py:166
 #, python-brace-format
 msgid "{0} is in an older Excel format, so it opens read-only here. Open it in OneOS to edit it."
 msgstr "{0} بتنسيق Excel قديم، لذا يُفتح هنا للقراءة فقط. افتحه في OneOS لتحريره."
 
-#: onedesk/one_storage/api.py:318
+#: onedesk/one_cloud/api.py:318
 #, python-brace-format
 msgid "{0} is in someone else's files. Copy it instead."
 msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
@@ -69507,12 +69507,12 @@ msgstr "يُحفظ {0} في دفعات"
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr "{0} أكبر من {1} ميغابايت، وهذا أقصى ما يحمله سؤال واحد."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:31
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.py:31
 #, python-brace-format
 msgid "{0} is listed twice."
 msgstr "{0} مدرج مرتين."
 
-#: onedesk/one_storage/pdf.py:101
+#: onedesk/one_cloud/pdf.py:101
 #, python-brace-format
 msgid "{0} is locked with a password."
 msgstr "{0} محمي بكلمة مرور."
@@ -69532,7 +69532,7 @@ msgstr "{0} مُسجَّل بحالة {1} في {2}. ولا يُدفع العمل
 msgid "{0} is more than the {1} still owed."
 msgstr "{0} أكثر من المتبقي {1}."
 
-#: onedesk/one_storage/targets.py:125
+#: onedesk/one_cloud/targets.py:125
 #, python-brace-format
 msgid "{0} is needed."
 msgstr "{0} مطلوب."
@@ -69542,7 +69542,7 @@ msgstr "{0} مطلوب."
 msgid "{0} is no longer emailed to {1}."
 msgstr "لم يعد {0} يُرسل بالبريد إلى {1}."
 
-#: onedesk/one_storage/pdf.py:92
+#: onedesk/one_cloud/pdf.py:92
 #, python-brace-format
 msgid "{0} is not a PDF or a picture."
 msgstr "{0} ليس ملف PDF ولا صورة."
@@ -69567,7 +69567,7 @@ msgstr "{0} ليس حقلًا للتحرير."
 msgid "{0} is not a field."
 msgstr "{0} ليس حقلًا."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:20
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.py:20
 #, python-brace-format
 msgid "{0} is not a folder."
 msgstr "{0} ليس مجلدًا."
@@ -69612,7 +69612,7 @@ msgstr "{0} ليست مهمة."
 msgid "{0} is not a key."
 msgstr "{0} ليس مفتاحًا."
 
-#: onedesk/one_storage/library.py:20
+#: onedesk/one_cloud/library.py:20
 #, python-brace-format
 msgid "{0} is not a library."
 msgstr "{0} ليس مكتبة."
@@ -69782,7 +69782,7 @@ msgstr "{0} ليس نموذجًا آخر هنا."
 msgid "{0} is not connecting"
 msgstr "{0} لا يتصل"
 
-#: onedesk/one_storage/office.py:107
+#: onedesk/one_cloud/office.py:107
 #, python-brace-format
 msgid "{0} is not in a folder."
 msgstr "{0} ليس في مجلد."
@@ -69853,7 +69853,7 @@ msgstr "{0} ليس من أدوار مساحة العمل."
 msgid "{0} is not one of this template's tasks."
 msgstr "{0} ليست من مهام هذا القالب."
 
-#: onedesk/one_storage/targets.py:95
+#: onedesk/one_cloud/targets.py:95
 #, python-brace-format
 msgid "{0} is not one of {1}."
 msgstr "{0} ليس من {1}."
@@ -69913,7 +69913,7 @@ msgstr "{0} لا يعمل بعد، فلا يصلح أن يكون العنوان 
 msgid "{0} is not working."
 msgstr "{0} لا يعمل."
 
-#: onedesk/one_storage/mounts.py:89
+#: onedesk/one_cloud/mounts.py:89
 #, python-brace-format
 msgid "{0} is on a private network. OneCloud can't connect to it."
 msgstr "{0} على شبكة خاصة. لا يمكن لـ OneCloud الاتصال به."
@@ -69928,7 +69928,7 @@ msgstr "{0} في إجازة حتى {1}."
 msgid "{0} is one of One's own addresses."
 msgstr "{0} من عناوين One نفسها."
 
-#: onedesk/one_storage/oneos.py:162
+#: onedesk/one_cloud/oneos.py:162
 #, python-brace-format
 msgid "{0} is open in OneOS by {1}."
 msgstr "{0} مفتوح في OneOS لدى {1}."
@@ -69938,7 +69938,7 @@ msgstr "{0} مفتوح في OneOS لدى {1}."
 msgid "{0} is over budget"
 msgstr "{0} تجاوز الميزانية"
 
-#: onedesk/one_storage/oneos.py:221
+#: onedesk/one_cloud/oneos.py:221
 #, python-brace-format
 msgid "{0} is over {1} MB."
 msgstr "{0} أكبر من {1} ميغابايت."
@@ -69989,7 +69989,7 @@ msgstr "لا يزال {0} مستحقًا."
 msgid "{0} is taken."
 msgstr "{0} محجوز."
 
-#: onedesk/one_storage/library.py:107
+#: onedesk/one_cloud/library.py:107
 #, python-brace-format
 msgid "{0} is the last owner of {1}. Make someone else an owner first."
 msgstr "{0} هو آخر مالك لـ {1}. اجعل شخصًا آخر مالكًا أولًا."
@@ -70054,7 +70054,7 @@ msgstr "{0} ليس نطاقًا، مثل gmail.com."
 msgid "{0} isn't a valid slug. Use letters, digits and hyphens."
 msgstr "{0} ليس معرّفًا مختصرًا صالحًا. استخدم الأحرف والأرقام والشرطات."
 
-#: onedesk/public/js/one_storage/onecloud_picker.js:45
+#: onedesk/public/js/one_cloud/onecloud_picker.js:45
 #, python-brace-format
 msgid "{0} isn't an allowed file type."
 msgstr "{0} ليس نوع ملف مسموحًا به."
@@ -70389,7 +70389,7 @@ msgstr "منها {0} تعمل."
 #: onedesk/one_inventory/heads.py:852 onedesk/one_inventory/heads.py:861
 #: onedesk/one_inventory/heads.py:928 onedesk/one_project/view.py:570
 #: onedesk/one_quality/heads.py:43 onedesk/one_quality/heads.py:52
-#: onedesk/one_storage/api.py:146 onedesk/one_task/heads.py:63
+#: onedesk/one_cloud/api.py:146 onedesk/one_task/heads.py:63
 #: onedesk/public/js/work_order_list.js:16
 #, python-brace-format
 msgid "{0} of {1}"
@@ -70425,7 +70425,7 @@ msgstr "فُوتر {0} من {1}"
 msgid "{0} of {1} budget"
 msgstr "{0} من ميزانية {1}"
 
-#: onedesk/one_storage/file_requests.py:172
+#: onedesk/one_cloud/file_requests.py:172
 #, python-brace-format
 msgid "{0} of {1} complete"
 msgstr "{0} من {1} مكتمل"
@@ -70869,12 +70869,12 @@ msgstr "أُضيفت {0} صفوف"
 msgid "{0} rows removed"
 msgstr "أُزيلت {0} صفوف"
 
-#: onedesk/one_storage/saving.py:59
+#: onedesk/one_cloud/saving.py:59
 #, python-brace-format
 msgid "{0} saved this from the drive on {1}. Its {2} could not be kept. What it held before is in Version History."
 msgstr "حفظ {0} هذا من محرك الأقراص في {1}. تعذر الاحتفاظ بـ{2}. ما كان يحتويه من قبل موجود في سجل النسخ."
 
-#: onedesk/one_storage/saving.py:57
+#: onedesk/one_cloud/saving.py:57
 #, python-brace-format
 msgid "{0} saved this in OneOS on {1}. Its {2} could not be kept. What it held before is in Version History."
 msgstr "حفظ {0} هذا في OneOS في {1}. تعذر الاحتفاظ بـ{2}. ما كان يحتويه من قبل موجود في سجل النسخ."
@@ -71078,7 +71078,7 @@ msgstr "{0} يجمع {1}، وهو غير موجود في {2}."
 msgid "{0} takes its value from nowhere."
 msgstr "{0} لا يأخذ قيمته من أي مصدر."
 
-#: onedesk/one_storage/file_requests.py:343
+#: onedesk/one_cloud/file_requests.py:343
 #, python-brace-format
 msgid "{0} takes only {1}."
 msgstr "{0} لا يقبل إلا {1}."
@@ -71170,7 +71170,7 @@ msgstr "تم رفع {0}"
 msgid "{0} uploaded, {1} failed"
 msgstr "تم رفع {0}، وفشل {1}"
 
-#: onedesk/one_storage/api.py:146
+#: onedesk/one_cloud/api.py:146
 #, python-brace-format
 msgid "{0} used"
 msgstr "{0} مستخدمة"
@@ -71354,7 +71354,7 @@ msgstr "تم اعتماد {0} {1}، ولا يمكن تغيير هذه الآن."
 msgid "{0} {1} made and linked to this conversation."
 msgstr "تم إنشاء {0} {1} وربطه بهذه المحادثة."
 
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:18
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.py:18
 #, python-brace-format
 msgid "{0} {1} not found"
 msgstr "{0} {1} غير موجود"
@@ -72008,7 +72008,7 @@ msgid "{count} domains need attention"
 msgstr "{count} نطاقات تحتاج إلى متابعة"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{count} files uploaded to {folder}"
 msgstr "رُفع {count} ملفات إلى {folder}"
@@ -72230,19 +72230,19 @@ msgid "{event} starts at {time}{where}"
 msgstr "يبدأ {event} في {time}{where}"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{file} is ready"
 msgstr "{file} جاهز"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{file} uploaded to {folder}"
 msgstr "رُفع {file} إلى {folder}"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{file} was closed in OneOS"
 msgstr "أُغلق {file} في OneOS"
@@ -72711,7 +72711,7 @@ msgid "{where}, on {kind}. {explanation}"
 msgstr "{where}، على {kind}. {explanation}"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{who} added you to the library {library}"
 msgstr "أضافك {who} إلى المكتبة {library}"
@@ -72849,7 +72849,7 @@ msgid "{who} deleted {collection}"
 msgstr "حذف {who} المجموعة {collection}"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{who} deleted {file} while you had it open"
 msgstr "حذف {who} الملف {file} وهو مفتوح لديك"
@@ -72933,7 +72933,7 @@ msgid "{who} reopened {task}"
 msgstr "أعاد {who} فتح {task}"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{who} requested files for {request}"
 msgstr "طلب {who} ملفات لـ {request}"
@@ -72945,13 +72945,13 @@ msgid "{who} resolved it. Read what was done to stop it happening again."
 msgstr "قام {who} بحلها. اطلع على ما تم لمنع تكرارها."
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{who} sent everything for {request}"
 msgstr "أرسل {who} كل شيء لـ {request}"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{who} sent {item} for {request}"
 msgstr "أرسل {who} {item} لـ {request}"
@@ -72963,7 +72963,7 @@ msgid "{who} sent {task} back to you"
 msgstr "أعاد {who} المهمة {task} إليك"
 
 #. Subject of a notification
-#: onedesk/one_storage/notifications.py
+#: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "{who} shared {file} with you"
 msgstr "شارك {who} ‏{file} معك"

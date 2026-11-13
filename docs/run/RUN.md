@@ -396,7 +396,9 @@ Only what needs his own hands:
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
 
-- [ ] D6 OneCloud's checks move out of one_demo/check.py into its own checks.py, as every other module's are; check.py imports a module's checks only where the file exists until then — at P3.7: check.py is split there.
+- [ ] D6 OneCloud's checks move out of one_demo/check.py into its own checks.py, as every other module's are; check.py imports a module's checks only where the file exists until then — at P3.7: check.py is split there. (OneCloud's folder is one_cloud since P2.1.)
+- [ ] D4 Remove the one_storage shim — at P2.9: it stays one release so old dotted paths run
+- [ ] D5 OneAdmin's post to a workspace's `oneos.stopped` names `onedesk.one_cloud` again — at P2.9: until every workspace runs the rename, only the old path is on all of them (the shim answers it on the new)
 - [ ] D3 Two demo checks pass alone and fail inside a full run (one_atlas_knows_who_may_open_what, onecloud_a_document_of_ones_own_is_edited_in_oneos): an earlier check leaves state a rollback doesn't undo (frappe's SQLite logs, or a commit inside a check); find which and make each check leave the site as it found it — at P3.3: the checks are reworked there.
 - [ ] D2 A manifest's shipped fields (interface, help, roles, companies) count toward its module's fingerprint again; manifest.py is left out while P1 moves ready.MODULES into manifests, since that moved no module's version before — at P3.4: readiness is reworked there.
 - [ ] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it.

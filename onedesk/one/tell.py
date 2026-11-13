@@ -679,7 +679,7 @@ def storage_full() -> None:
 	a day: the person refused may be a guest on a link."""
 	from onedesk.one import account
 
-	key = "one_storage_full_told"
+	key = "one_cloud_full_told"
 	if frappe.cache.get_value(key):
 		return
 	frappe.cache.set_value(key, 1, expires_in_sec=24 * 60 * 60)

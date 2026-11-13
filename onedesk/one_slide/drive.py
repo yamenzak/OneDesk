@@ -70,7 +70,7 @@ def write(name: str, content: bytes) -> list[int]:
 	width, height, slides, lost = from_powerpoint.read(
 		content, lambda file_name, blob: api.MEDIA + api._kept(name, file_name, blob)["name"], mastered=bool(master.of(name))
 	)
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	versions._keep(name, saving.before(_("Before a save from the drive")))
 	doc = frappe.get_doc(api.PRESENTATION, name)

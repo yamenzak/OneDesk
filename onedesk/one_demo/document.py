@@ -51,7 +51,7 @@ def run(password=None):
 
 
 def _make():
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	with as_user(OWNER):
 		doc = frappe.get_doc({"doctype": api.DOCUMENT, "title": TITLE, "html": HTML})

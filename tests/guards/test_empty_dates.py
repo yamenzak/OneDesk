@@ -67,7 +67,7 @@ REVIEWED = {
 	"one_project/report/workload/workload.py::from_date": ALWAYS + ": a leave application's",
 	"one_project/site_time.py::start_date": ALWAYS + ": a shift assignment's",
 	"one_project/view.py::exp_end_date": "bounded below by a >= on the same field",
-	"one_storage/api.py::one_deleted_on": "a file deleted before one_deleted_on was kept is old enough to empty",
+	"one_cloud/api.py::one_deleted_on": "a file deleted before one_deleted_on was kept is old enough to empty",
 	"one_task/tell.py::exp_end_date": "or_filters; a task with neither date is dropped by when(due(...))",
 	"one_task/tell.py::exp_start_date": "or_filters; a task with neither date is dropped by when(due(...))",
 }

@@ -34,7 +34,7 @@ def run(password=None):
 
 
 def _make():
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	layouts = setup.system()[0]["slides"]
 	with as_user(OWNER):

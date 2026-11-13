@@ -331,7 +331,7 @@ APPS = {
 	"one_hr": "hr",
 	"one_display": "display",
 	"one_mail": "mail",
-	"one_storage": "files",
+	"one_cloud": "files",
 	"one_studio": "studio",
 	"one_ai": "workspace",
 	"one_legal": "workspace",

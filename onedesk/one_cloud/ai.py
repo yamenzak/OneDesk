@@ -1,0 +1,307 @@
+"""What OneAI does in OneCloud: knows the folder open and the file chosen,
+reads a file's text, says who can see a file, and says what takes the space.
+Nothing here changes a file."""
+
+from typing import Annotated
+
+import frappe
+from frappe import _lt
+from frappe.utils import cint, get_fullname
+
+MOST_TEXT = 12000
+
+MOST_LISTED = 15
+
+SUGGESTIONS = {
+	"page:onecloud": [
+		{
+			"label": _lt("Find a file…"),
+			"ask": _lt("Find the file that "),
+			"fill": True,
+			"expects": "find_documents",
+		},
+		{
+			"label": _lt("What is taking the space?"),
+			"ask": _lt("What is taking the most space in my files, and what could I clear out?"),
+			"expects": "largest_files",
+		},
+	],
+	"page:onecloud/file": [
+		{
+			"label": _lt("Summarise this file"),
+			"ask": _lt(
+				"Summarise this file in a few lines. Who is it from or for, and does anything in it need doing?"
+			),
+			"expects": "open_file",
+		},
+		{
+			"label": _lt("Who can see this?"),
+			"ask": _lt("Who can see this file, and how?"),
+			"expects": "who_can_see",
+		},
+		{
+			"label": _lt("Find a file…"),
+			"ask": _lt("Find the file that "),
+			"fill": True,
+			"expects": "find_documents",
+		},
+	],
+}
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on the OneCloud page: the folder open,
+	and the file chosen, when the reader may open them."""
+	if said.get("page") != "onecloud":
+		return None
+	from onedesk.one_cloud import namespace as ns
+
+	where = "The reader is in OneCloud, the workspace's files"
+	folder = _named(said.get("folder") or "")
+	if folder:
+		where += f', in the folder "{folder}" (its id is {said.get("folder")})'
+	chosen = ns.row(said.get("record") or "") if said.get("record") else None
+	if chosen and not chosen.get("is_folder") and ns.may(chosen):
+		where += f', with the file "{chosen.file_name}" chosen (its id is {chosen.name})'
+	return (
+		where + ". open_file reads a file's text; who_can_see says who can see a file and how; "
+		"largest_files says what takes the space; find_documents finds a file by what is written in it. "
+		"Nothing is changed from here: sharing, moving and deleting are done in the explorer. How OneCloud "
+		"works is in its documentation (how_to)."
+	)
+
+
+def _named(node: str) -> str | None:
+	"""A folder's name as the reader sees it, or None when they may not."""
+	from onedesk.one_cloud import namespace as ns
+
+	if not node:
+		return None
+	if node.startswith("@"):
+		return {
+			ns.MY: "My Files",
+			ns.SHARED: "Shared with Me",
+			ns.COMPANY: "Company",
+			ns.RECORDS: "Records",
+			ns.BIN: "Recycle Bin",
+		}.get(node, node.lstrip("@").replace("-", " ").title())
+	item = ns.row(node)
+	if not item or not ns.may(item):
+		return None
+	return "My Files" if item.get("one_home_of") else item.file_name
+
+
+def _file(file: str):
+	"""A file the reader may open, or the reason there is none."""
+	from onedesk.one_cloud import namespace as ns
+
+	item = ns.row(file or "")
+	if not item or item.get("one_deleted") or not ns.may(item):
+		return None, {"error": "There is no such file the reader may open."}
+	if item.get("is_folder"):
+		return None, {"error": "That is a folder. Ask about a file in it."}
+	return item, None
+
+
+def open_file(
+	file: Annotated[str, "The file's id, as the page names it."],
+) -> dict:
+	"""A file the reader may open: what it is, where it is, who owns it, and
+	its text (what OneAI read of it, or read now). Read it before
+	summarising a file or answering a question about what it says."""
+	from onedesk.one_ai.reading import read
+
+	item, refused = _file(file)
+	if refused:
+		return refused
+	from onedesk.one_mail import gate
+
+	if not gate.readable("File", item.name):
+		return {"error": "OneAI is turned off for the mailbox this file came with."}
+	said = {
+		"name": item.file_name,
+		"size": cint(item.file_size),
+		"modified": str(item.modified),
+		"owner": get_fullname(item.owner),
+		"record": [item.attached_to_doctype, item.attached_to_name] if item.get("attached_to_name") else None,
+	}
+	hashed = frappe.db.get_value("File", item.name, "content_hash")
+	reading = frappe.get_all(
+		"Reading",
+		filters={"source_doctype": "File", "source_name": item.name, "state": ["in", ("Read", "Understood")]},
+		fields=["text", "kind", "summary"],
+		order_by="modified desc",
+		limit=1,
+	) or (
+		hashed
+		and frappe.get_all(
+			"Reading",
+			filters={"key": hashed, "state": ["in", ("Read", "Understood")]},
+			fields=["text", "kind", "summary"],
+			limit=1,
+		)
+	)
+	if reading and (reading[0].text or "").strip():
+		said.update(
+			{"kind": reading[0].kind, "summary": reading[0].summary, "text": reading[0].text[:MOST_TEXT]}
+		)
+		return said
+	try:
+		content = frappe.get_doc("File", item.name).get_content()
+	except Exception:
+		return {**said, "error": "The file could not be opened."}
+	if isinstance(content, str):
+		content = content.encode()
+	text = read.read(item.file_name, content or b"")
+	if text.needs in ("eyes", "ears"):
+		return {
+			**said,
+			"text": None,
+			"note": "It is a scan, a photo or a recording. Read with OneAI, on the file's menu, reads it.",
+		}
+	if text.needs:
+		return {**said, "text": None, "note": "It is locked with a password."}
+	said["text"] = (text.text or "")[:MOST_TEXT] or None
+	return said
+
+
+def who_can_see(
+	file: Annotated[str, "The file's id, as the page names it."],
+) -> dict:
+	"""Who can see a file the reader may open: its owner, the people it is
+	shared with (and whether they may change it), those it reaches through a
+	folder above it, and the links on it that reach people outside."""
+	from onedesk.one_cloud import links, share
+
+	item, refused = _file(file)
+	if refused:
+		return refused
+	if item.get("attached_to_name"):
+		return {
+			"name": item.file_name,
+			"record": [item.attached_to_doctype, item.attached_to_name],
+			"rule": "A record's file is seen by whoever may open the record.",
+		}
+	people = share.people(item.name)
+	return {
+		"name": item.file_name,
+		"owner": people["owner"]["name"],
+		"shared_with": [{"name": one["name"], "may_change": one["edit"]} for one in people["people"]],
+		"through_a_folder": [
+			{"name": one["name"], "may_change": one["edit"], "folder": one["from"]}
+			for one in people["inherited"]
+		],
+		"links": [
+			{
+				"reaches": "only the people invited" if one["invitees"] else one["audience"],
+				"invited": one["invitees"],
+				"password": one["has_password"],
+				"download": bool(one["allow_download"]),
+				"expires": str(one["expires_on"]) if one["expires_on"] else None,
+				"expired": one["expired"],
+				"opened": one["opened"],
+			}
+			for one in links.links(item.name)
+		],
+	}
+
+
+def largest_files() -> dict:
+	"""The reader's own largest files, how much they take together, and how
+	full the workspace's storage is. The files are the reader's own, not
+	everybody's: what takes the space in their files is theirs to clear."""
+	user = frappe.session.user
+	mine = frappe.get_all(
+		"File",
+		filters={"owner": user, "is_folder": 0, "one_deleted": 0},
+		fields=["name", "file_name", "file_size", "modified", "folder"],
+		order_by="file_size desc",
+		limit=MOST_LISTED,
+	)
+	total = frappe.db.sql(
+		"select coalesce(sum(file_size), 0) from `tabFile` where owner = %s and is_folder = 0 and ifnull(one_deleted, 0) = 0",
+		user,
+	)[0][0]
+	binned = frappe.db.sql(
+		"select coalesce(sum(file_size), 0) from `tabFile` where owner = %s and is_folder = 0 and one_deleted = 1",
+		user,
+	)[0][0]
+	held = (
+		frappe.get_single("Workspace Account") if frappe.db.exists("DocType", "Workspace Account") else None
+	)
+	return {
+		"largest": [
+			{
+				"name": one.file_name,
+				"id": one.name,
+				"bytes": cint(one.file_size),
+				"modified": str(one.modified),
+			}
+			for one in mine
+		],
+		"mine_bytes": cint(total),
+		"in_recycle_bin_bytes": cint(binned),
+		"workspace_used_bytes": cint(held.storage_bytes) if held else None,
+		"workspace_limit_bytes": cint(held.storage_limit) if held else None,
+		"note": "The Recycle Bin counts until it is emptied, or for thirty days.",
+	}
+
+
+READS = (
+	"open_file",
+	"who_can_see",
+	"largest_files",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+NOT_FOR_AI = {
+	"api.make_folder": "A folder is made where the reader is standing in the explorer, with its name typed there.",
+	"api.rename": "Renaming changes the name everybody who shares the item sees, so the reader does it in the explorer.",
+	"api.color": "A folder's colour is picked by looking at it, in its menu in the explorer.",
+	"api.move": "Moving changes where everybody who shares the item finds it, so the reader drags it in the explorer.",
+	"api.copy": "A copy is made by dragging or pasting where the reader can see both folders.",
+	"api.attach": "It answers the upload dialog with the files the reader chose in it.",
+	"api.delete": "Deleting is done in the explorer, where the reader sees what goes to the Recycle Bin.",
+	"api.restore": "Restoring is done from the Recycle Bin, where the reader sees what comes back.",
+	"api.purge": "Deleting for good cannot be undone, so the reader does it in the Recycle Bin.",
+	"api.empty_bin": "Emptying the Recycle Bin cannot be undone, so the reader does it there.",
+	"dav.make_password": "A drive password is shown once to the person it is for, never to OneAI.",
+	"dav.drop_password": "Taking a password away signs that computer out, so its owner does it in the drive's dialog.",
+	"file_requests.make": "A request mails people outside the workspace, so the reader writes and sends it.",
+	"file_requests.remind": "A reminder mails people outside the workspace, so the request's owner sends it.",
+	"file_requests.close": "Closing a request stops its links taking files, so its owner does it.",
+	"file_requests.send": "It is the page a recipient sends their files from, not anything the reader does.",
+	"file_requests.send_mine": "The person asked sends their own file, chosen from their own computer.",
+	"file_requests.guess": "It is OneAI's own reading of a file being sent, which the sender then checks.",
+	"history.restore": "Restoring a version changes the file for everybody who shares it, so the reader does it in its history.",
+	"history.star": "A star is the reader's own mark, set with one click on the file.",
+	"library.make": "A library is made by its first owner, who then chooses its members.",
+	"library.add": "Who may open a library is its owners' choice, made in its members dialog.",
+	"library.remove": "Who may open a library is its owners' choice, made in its members dialog.",
+	"links.make": "A link opens a file to people outside the workspace, so the reader makes it in the Share dialog.",
+	"links.drop": "A link is removed in the Share dialog, where the reader sees which link goes.",
+	"links.unlock": "It is a guest opening a link with its password, not anything the reader does.",
+	"links.ask_code": "It is a guest asking for the code that opens a link, not anything the reader does.",
+	"links.enter_code": "It is a guest entering the code that opens a link, not anything the reader does.",
+	"links.put": "It is a guest sending files through a link, not anything the reader does.",
+	"made.create": "OneAI makes the file itself when asked on New, so there is no card to approve.",
+	"mounts.save": "A server connection takes its password or key, which is never typed to OneAI.",
+	"mounts.disconnect": "Disconnecting a server is its owner's choice, made on the connection.",
+	"office.to_pdf": "Converting uses OneCredits, so the reader asks for it on the file.",
+	"oneos.start": "OneOS opens in the reader's own browser and uses OneCredits by the minute.",
+	"oneos.close": "Closing OneOS ends the reader's own session on the file.",
+	"oneos.save": "It is OneOS saving a file back, not anything the reader does.",
+	"oneos.stopped": "It is OneAdmin saying a session stopped, not anything the reader does.",
+	"opening.weigh": "It is the explorer reading what an editor would drop before it opens a file.",
+	"opening.one_copy": "A copy of One's own is made from the file the reader has open, as they choose on it.",
+	"pdf.combine": "The pages are put in order by dragging them in the dialog, where the reader sees them.",
+	"share.share": "Sharing opens a file to other people, so the reader chooses them in the Share dialog.",
+	"share.unshare": "Taking somebody off a file is done in the Share dialog, where the reader sees who has it.",
+	"share.set_edit": "What somebody may do with a shared file is changed in the Share dialog.",
+	"upload.begin": "An upload is the reader's own files, sent from their own computer.",
+	"upload.done": "An upload is the reader's own files, sent from their own computer.",
+	"upload.here": "An upload is the reader's own files, sent from their own computer.",
+}
+"""Every call of OneCloud's that changes something, and why OneAI suggests no
+card for it (docs/READY.md, mechanism 11): sharing, moving and deleting stay
+the explorer's, where the reader sees what they are doing."""

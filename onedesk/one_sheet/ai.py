@@ -84,7 +84,7 @@ def my_workbooks(
 ) -> list[dict]:
 	"""Find workbooks the reader may open, newest first: each one's id, name
 	and sheets. Templates are left out."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	filters = {"is_template": 0}
 	if words:
@@ -330,7 +330,7 @@ def approved(changes: dict) -> str:
 	from frappe.utils import get_fullname, now_datetime
 
 	if changes["what"] == "workbook":
-		from onedesk.one_storage import namespace as ns
+		from onedesk.one_cloud import namespace as ns
 
 		made = api.make(changes.get("folder") or ns.HOME, changes["name"])
 		data = {}

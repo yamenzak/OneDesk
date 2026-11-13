@@ -15,7 +15,7 @@ from frappe.utils import flt, is_image
 from frappe.utils.html_utils import sanitize_html
 
 from onedesk.one import layer, roles
-from onedesk.one_storage import store
+from onedesk.one_cloud import store
 from onedesk.one_studio import print_html
 from onedesk.one_studio.customize import REFUSED_MODULES
 
@@ -334,7 +334,7 @@ PICTURES = (
 def _stored_images(doc) -> None:
 	"""frappe writes a letter head's picture into its markup only when the URL names
 	an image file, and reads the name before any query, where One's store keeps it
-	(one_storage/store.py). Such a picture is written here as frappe writes it
+	(one_cloud/store.py). Such a picture is written here as frappe writes it
 	(LetterHead.set_image_as_html), and frappe's word that it was not an image
 	is taken back."""
 	for source, field, prefix, align, html_field, failed in PICTURES:

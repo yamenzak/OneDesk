@@ -12,7 +12,7 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one_ai.reading import facts
-from onedesk.one_storage import namespace as ns
+from onedesk.one_cloud import namespace as ns
 
 FACTS = ("number", "issued_on", "gross", "paid_how", "iban", "payment_reference", "valid_until", "document_type", "issuing_country")
 
@@ -246,7 +246,7 @@ def _record(row) -> list | None:
 
 
 def _folder_path(folder: str | None) -> list[str]:
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	chain = ns.chain(folder)[:2] if folder else []
 	return [frappe.db.get_value("File", at, "file_name") for at in reversed(chain)]

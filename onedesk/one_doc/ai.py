@@ -75,7 +75,7 @@ def my_documents(
 ) -> list[dict]:
 	"""Find documents the reader may open, newest first: each one's id, name
 	and when it last changed. Templates are left out."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	filters = {"is_template": 0}
 	if words:
@@ -285,7 +285,7 @@ def approved(changes: dict) -> str:
 	editor builds itself from it the next time the document opens; an open
 	copy is told to put it in now, where the reader left the selection."""
 	if changes["what"] == "document":
-		from onedesk.one_storage import namespace as ns
+		from onedesk.one_cloud import namespace as ns
 
 		where = "@records/{}/{}".format(*changes["record"]) if changes.get("record") else changes.get("folder") or ns.HOME
 		made = api.make(where, changes["name"], changes.get("template"))

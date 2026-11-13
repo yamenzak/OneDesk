@@ -35,7 +35,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   const currency = ref('') // One: the workspace's currency, the $ button's first
   const source = ref(null) // One: the Excel or CSV File this workbook edits in place
   const canTemplate = ref(false) // One: whether the reader keeps company templates (one_sheet/abilities.py)
-  const fileSaid = ref({ notice: '', loses: '', dropped: '' }) // One: why it is read-only, what saving over its file drops, what a drive save left out (one_storage/saving.py)
+  const fileSaid = ref({ notice: '', loses: '', dropped: '' }) // One: why it is read-only, what saving over its file drops, what a drive save left out (one_cloud/saving.py)
 
   async function loadSheet(name) {
     loadError.value = null

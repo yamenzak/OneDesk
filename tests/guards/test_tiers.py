@@ -150,7 +150,7 @@ def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
 	]
 	assert sorted(patched) == ["head.js", "record_tabs.js"], patched
 	hooks = HOOKS.split("one_record_tabs = [", 1)[1].split("]", 1)[0]
-	for declared in ("one_mail.linking.TABS", "one_storage.namespace.TABS", "one.tabs.TABS"):
+	for declared in ("one_mail.linking.TABS", "one_cloud.namespace.TABS", "one.tabs.TABS"):
 		assert declared in hooks, declared
 	for name, script in (
 		("mail", "one_mail/record_mail.js"),

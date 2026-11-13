@@ -41,8 +41,8 @@ with when each runs out. A scan on a document row is moved into the
 person's Employee room in OneCloud when Profile saves (`center._file_scans`:
 only files they uploaded and nothing has claimed), and Documents mounts
 that room as Your Files. A person may add to their own Employee's room
-though they cannot change the record (`one_storage/namespace.may_add`).
-A file request HR sends for a document (OneCloud's, `one_storage/targets.py`)
+though they cannot change the record (`one_cloud/namespace.may_add`).
+A file request HR sends for a document (OneCloud's, `one_cloud/targets.py`)
 lands on this same table, by its Type: Documents knows nothing of requests.
 
 **OneAccount has no window.** AccountCenter is a dialog

@@ -401,8 +401,8 @@ def pdf(
 def _keep(name: str, item: dict, file_name: str, content: bytes, keep: str) -> dict:
 	"""The PDF as a File: on the record the workbook belongs to, or beside it
 	in its folder."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	fields = {"doctype": "File", "content": content, "is_private": 1}
 	if keep == "record":

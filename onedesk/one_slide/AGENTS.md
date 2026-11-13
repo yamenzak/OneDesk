@@ -278,7 +278,7 @@ built: a table of `{key.N.field}` chips covers the list case.
 `onedesk.cloud.share`) on the presentation's file: people inside the
 workspace by *Can view* or *Can edit*, and links for anyone else.
 
-`shared.py`, with OneCloud's links (`one_storage/links.py`) deciding who
+`shared.py`, with OneCloud's links (`one_cloud/links.py`) deciding who
 gets in. A presentation opened through `/s/<token>` is played on the page
 (`www/s.py`, `www/s.html`, `public/js/one_slide/viewer.js`) by `play.js`, as
 a screen plays it: `play.for_screen` with the records read as the link's
@@ -332,7 +332,7 @@ layout gives are read as plain paragraphs.
 
 ### On the drive
 
-On the WebDAV drive (`one_storage/dav.py`) a presentation is "Name.pptx",
+On the WebDAV drive (`one_cloud/dav.py`) a presentation is "Name.pptx",
 like a workbook's .xlsx and a document's .docx. `drive.pptx` is
 `powerpoint.build` for the reader (chips filled as they may see them), kept
 in redis per presentation, master and reader until either changes. A
@@ -452,7 +452,7 @@ shapes as Suite's or ours, a fade as a fade, a QR code as a picture of one
 (`one/qr.py`). A picture is kept on the presentation as an upload is; a
 video is made in the background, put on a slide of its own across the whole
 of it, and whoever asked is told (`tell.py`; the kinds are with OneCloud's
-in `notifications/one_storage` until OneSlide is a module of its own).
+in `notifications/one_cloud` until OneSlide is a module of its own).
 OneWriter's **Make a Picture with OneAI** is the same picture job
 (`one_doc/api.py`, `make_picture`).
 

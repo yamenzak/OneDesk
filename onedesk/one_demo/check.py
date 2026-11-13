@@ -1350,7 +1350,7 @@ def onecloud_a_letter_is_edited_in_oneos():
 	from werkzeug.exceptions import Forbidden
 
 	from onedesk.one_demo import storage as demo
-	from onedesk.one_storage import api, history, oneos, upload
+	from onedesk.one_cloud import api, history, oneos, upload
 
 	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
 	asked, answers = [], {}
@@ -1364,7 +1364,7 @@ def onecloud_a_letter_is_edited_in_oneos():
 	def sealed(url):
 		return {key: one[0] for key, one in parse_qs(urlparse(url).query).items()}
 
-	with mock.patch("onedesk.one.account.ask", side_effect=admin), mock.patch("onedesk.one.account.configured", return_value=True), mock.patch("onedesk.one_storage.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime") as told:
+	with mock.patch("onedesk.one.account.ask", side_effect=admin), mock.patch("onedesk.one.account.configured", return_value=True), mock.patch("onedesk.one_cloud.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime") as told:
 		with as_user(demo.PM):
 			letter = upload._place(root, None, {"file_name": "Villa handover.odt", "content": b"handover v1"})["id"]
 			opened = oneos.start(letter)
@@ -1400,7 +1400,7 @@ def onecloud_a_letter_is_edited_in_oneos():
 			_unasked()
 		assert len(history.versions(letter)) == 1 and frappe.db.get_value("File", letter, "modified_by") == demo.PM
 		answers["oneos_state"] = {"state": "Stopped", "stop_reason": "Idle"}
-		with mock.patch("onedesk.one_storage.tell.oneos_closed") as closed:
+		with mock.patch("onedesk.one_cloud.tell.oneos_closed") as closed:
 			oneos.stopped(frappe.db.get_value("File", letter, "one_lease_session"))
 		assert not frappe.db.get_value("File", letter, "one_lease_user")
 		assert any(call.args[0] == "onecloud_oneos" and call.args[1].get("why") == "Idle" for call in told.call_args_list)
@@ -1424,7 +1424,7 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 	from onedesk.one_doc import api as writing
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import live
-	from onedesk.one_storage import history, lease, oneos, upload
+	from onedesk.one_cloud import history, lease, oneos, upload
 
 	def letter(text: str) -> bytes:
 		made = Document()
@@ -1440,7 +1440,7 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 	samir, rania = frappe.utils.get_fullname(demo.PM), "rania@one.test"
 	frappe.db.savepoint("lease_check")
 	try:
-		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("onedesk.one_storage.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime"):
+		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("onedesk.one_cloud.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime"):
 			with as_user(demo.PM):
 				file = upload._place(root, None, {"file_name": "Handover check.docx", "content": letter("Keys on Monday.")})["id"]
 				first = upload._place(root, None, {"file_name": "Handover check.docx", "content": letter("Keys on Tuesday.")}, replace=1)
@@ -1501,7 +1501,7 @@ def onecloud_a_document_of_ones_own_is_edited_in_oneos():
 	from onedesk.one_doc import api as writing
 	from onedesk.one_doc import versions
 	from onedesk.one_sheet import live
-	from onedesk.one_storage import lease, oneos, opening
+	from onedesk.one_cloud import lease, oneos, opening
 
 	def note(text: str) -> bytes:
 		made = Document()
@@ -1521,7 +1521,7 @@ def onecloud_a_document_of_ones_own_is_edited_in_oneos():
 	samir, rania = frappe.utils.get_fullname(demo.PM), "rania@one.test"
 	frappe.db.savepoint("own_oneos_check")
 	try:
-		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("onedesk.one_storage.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime"):
+		with mock.patch("onedesk.one.account.ask", side_effect=admin) as asked, mock.patch("onedesk.one_cloud.oneos.offered", return_value={"credits_an_hour": 3}), mock.patch("frappe.publish_realtime"):
 			with as_user(demo.PM):
 				document = writing.make(root, "Handover note")["document"]
 				frappe.db.set_value(writing.DOCUMENT, document, "html", "<p>Keys on Monday.</p>")
@@ -1603,7 +1603,7 @@ def onecloud_the_drives_locks_join_the_lease():
 	from onedesk.one_demo import storage as demo
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import live
-	from onedesk.one_storage import api, dav, history, lease, upload
+	from onedesk.one_cloud import api, dav, history, lease, upload
 
 	def letter(text: str) -> bytes:
 		made = Document()
@@ -1629,7 +1629,7 @@ def onecloud_the_drives_locks_join_the_lease():
 	rania, taken = "rania@one.test", []
 	frappe.db.savepoint("drive_lock_check")
 	try:
-		with mock.patch("frappe.publish_realtime"), mock.patch("onedesk.one_storage.tell.deleted_while_open") as told:
+		with mock.patch("frappe.publish_realtime"), mock.patch("onedesk.one_cloud.tell.deleted_while_open") as told:
 			with as_user(demo.PM):
 				file = upload._place(root, None, {"file_name": "Drive check.docx", "content": letter("Keys on Monday.")})["id"]
 				path = dav.path_of(file)
@@ -1729,7 +1729,7 @@ def onecloud_an_office_file_opens_where_nothing_is_lost():
 
 	from onedesk.one_demo import storage as demo
 	from onedesk.one_sheet import api as sheets
-	from onedesk.one_storage import api, opening, oneos, upload
+	from onedesk.one_cloud import api, opening, oneos, upload
 
 	def book(chart: bool = False) -> bytes:
 		from openpyxl.chart import BarChart, Reference
@@ -1762,7 +1762,7 @@ def onecloud_an_office_file_opens_where_nothing_is_lost():
 			assert made["name"] == "Rent model check" and not frappe.db.get_value(sheets.WORKBOOK, made["workbook"], "source_kind")
 			assert "Rent" in json.dumps(sheets.get_sheet(made["workbook"])["sheets_data"]), "the copy has the file's cells"
 			assert api._content(api._item(macros)) == before, "the file stays as it was"
-			with mock.patch("onedesk.one_storage.oneos.offered", return_value=None):
+			with mock.patch("onedesk.one_cloud.oneos.offered", return_value=None):
 				try:
 					oneos.start(plain)
 					raise AssertionError("OneOS started while it is off")
@@ -1786,8 +1786,8 @@ def onecloud_office_files_wait_to_open_in_oneos():
 	from pptx import Presentation
 
 	from onedesk.one_demo import office as demo
-	from onedesk.one_storage import api, oneos
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api, oneos
+	from onedesk.one_cloud import namespace as ns
 
 	for one in demo.files():
 		node = demo.found(one)
@@ -1831,8 +1831,8 @@ def onecloud_the_site_team_works_in_its_library():
 	from onedesk.one_demo import storage as demo
 	from PIL import Image
 
-	from onedesk.one_storage import ai, api, dav, history, library, made, office, pdf, share, upload
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import ai, api, dav, history, library, made, office, pdf, share, upload
+	from onedesk.one_cloud import namespace as ns
 
 	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
 	drawing = frappe.db.get_value("File", {"folder": root, "file_name": demo.ELEVATIONS})
@@ -1884,7 +1884,7 @@ def onecloud_the_site_team_works_in_its_library():
 		blank.add_blank_page(100, 100)
 		blank.write(plain)
 		sent = []
-		frappe.cache.delete_value(f"one_storage_office:{frappe.db.get_value('File', letter, 'content_hash')}")
+		frappe.cache.delete_value(f"one_cloud_office:{frappe.db.get_value('File', letter, 'content_hash')}")
 		with mock.patch("onedesk.one.account.ask", side_effect=lambda endpoint, **said: sent.append((endpoint, said["name"])) or {"data": base64.b64encode(plain.getvalue()).decode(), "credits": 1}):
 			office.preview(letter)
 			assert frappe.local.response.filecontent.startswith(b"%PDF") and frappe.local.response.filename == "Site letter.pdf"
@@ -1892,7 +1892,7 @@ def onecloud_the_site_team_works_in_its_library():
 				frappe.local.response.pop(key, None)
 			assert office.to_pdf(letter)["name"] == "Site letter.pdf"
 		assert sent == [("onedesk.one_admin.proxy.office_convert", "Site letter.rtf")], "the second is the day's kept preview"
-		frappe.cache.delete_value(f"one_storage_office:{frappe.db.get_value('File', letter, 'content_hash')}")
+		frappe.cache.delete_value(f"one_cloud_office:{frappe.db.get_value('File', letter, 'content_hash')}")
 		office.preview(letter)
 		for key in ("type", "filecontent", "filename"):
 			frappe.local.response.pop(key, None)
@@ -1986,8 +1986,8 @@ def onecloud_files_go_out_and_come_in():
 	from urllib.parse import unquote
 
 	from onedesk.one_demo import storage as demo
-	from onedesk.one_storage import api, file_requests, links, mounts, store, upload
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api, file_requests, links, mounts, store, upload
+	from onedesk.one_cloud import namespace as ns
 
 	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
 	drawing = frappe.db.get_value("File", {"folder": root, "file_name": demo.ELEVATIONS})
@@ -2023,7 +2023,7 @@ def onecloud_files_go_out_and_come_in():
 	_asked()
 	links.ask_code(invited_token, "khalid@mansour.example")
 	link = frappe.db.get_value("Cloud Link", {"file": drawing, "audience": links.INVITED})
-	code = frappe.cache.get_value(f"onestorage:code:{link}:khalid@mansour.example")
+	code = frappe.cache.get_value(f"onecloud:code:{link}:khalid@mansour.example")
 	_asked(cookies=_cookies())
 	links.enter_code(invited_token, code)
 	assert frappe.db.get_value("Cloud Link Invitee", {"parent": link}, "opened_on")
@@ -2063,10 +2063,10 @@ def onecloud_files_go_out_and_come_in():
 		assert file_requests.progress(mine["name"])["people"][0]["sent"]["Signed contract"]
 
 	where = "https://r2.example.com/put"
-	with as_user(demo.PM), mock.patch("onedesk.one_storage.store.enabled", return_value=True), mock.patch(
+	with as_user(demo.PM), mock.patch("onedesk.one_cloud.store.enabled", return_value=True), mock.patch(
 		"onedesk.one.account.put_url", return_value={"url": where}
-	), mock.patch("onedesk.one_storage.store.signed", return_value="https://r2.example.com/get"), mock.patch(
-		"onedesk.one_storage.upload.requests.get", return_value=mock.Mock(status_code=206)
+	), mock.patch("onedesk.one_cloud.store.signed", return_value="https://r2.example.com/get"), mock.patch(
+		"onedesk.one_cloud.upload.requests.get", return_value=mock.Mock(status_code=206)
 	):
 		tickets = upload.begin(root, [{"name": demo.ELEVATIONS, "size": 900}, {"name": "Door schedule.pdf", "size": 400}])
 		assert tickets["direct"] and tickets["existing"] == [demo.ELEVATIONS]
@@ -2088,7 +2088,7 @@ def onecloud_files_go_out_and_come_in():
 		assert frappe.db.get_value("File", placed["id"], "file_name") == "W03 note.txt"
 
 		held = {"drawings": None, "drawings/old.dwg": b"DWG"}
-		with mock.patch("onedesk.one_storage.mounts.connect", return_value=_Server(held)):
+		with mock.patch("onedesk.one_cloud.mounts.connect", return_value=_Server(held)):
 			server = mounts.save({"title": "Office NAS", "protocol": "WebDAV", "url": "https://nas.example.com/dav", "username": "samir", "password": "nas-pass"})["id"]
 			assert mounts.settings(server)["values"]["title"] == "Office NAS"
 			assert "drawings" in {one["name"] for one in api.listing(server)["items"]}
@@ -2117,15 +2117,15 @@ def onecloud_each_file_answers_to_its_people():
 	from werkzeug.exceptions import NotFound
 
 	from onedesk.one_demo import storage as demo
-	from onedesk.one_storage import api, file_requests, library, mounts, share, store
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api, file_requests, library, mounts, share, store
+	from onedesk.one_cloud import namespace as ns
 
 	notes = frappe.db.get_value("File", {"owner": demo.PM, "file_name": demo.NOTES})
 	key = "demo/kept/site-visit.pdf"
 	kept = frappe.get_doc({"doctype": "File", "file_name": "Site visit.pdf", "file_url": store.url_for(key), "is_private": 1, "folder": ns.home(demo.PM)})
 	kept.owner = demo.PM
 	kept.db_insert()
-	with mock.patch("onedesk.one_storage.store.signed", return_value="https://r2.example.com/get"):
+	with mock.patch("onedesk.one_cloud.store.signed", return_value="https://r2.example.com/get"):
 		with as_user(demo.PM):
 			assert store.fetch(key).status_code == 302
 		with as_user("omar@one.test"):
@@ -2180,7 +2180,7 @@ def onecloud_each_file_answers_to_its_people():
 		else:
 			raise AssertionError("a library was left without an owner")
 
-	with as_user(demo.PM), mock.patch("onedesk.one_storage.mounts.connect", return_value=_Server({})):
+	with as_user(demo.PM), mock.patch("onedesk.one_cloud.mounts.connect", return_value=_Server({})):
 		server = mounts.save({"title": "Office NAS", "protocol": "WebDAV", "url": "https://nas.example.com/dav", "username": "samir", "password": "nas-pass"})["id"]
 		assert "password" not in mounts.settings(server)["values"]
 		try:
@@ -2191,7 +2191,7 @@ def onecloud_each_file_answers_to_its_people():
 			raise AssertionError("a server was shared with everyone by somebody who is not an administrator")
 	with as_user("rania@one.test"):
 		assert server not in {one["id"] for one in mounts.visible()}
-	with as_user(OWNER), mock.patch("onedesk.one_storage.mounts.connect", return_value=_Server({})):
+	with as_user(OWNER), mock.patch("onedesk.one_cloud.mounts.connect", return_value=_Server({})):
 		mounts.save({"shared": 1}, name=mounts.split(server)[0])
 	with as_user("rania@one.test"):
 		assert server in {one["id"] for one in mounts.visible()}
@@ -4012,7 +4012,7 @@ def the_workspace_tells_what_the_second_pass_found():
 			control.save("general", {"allow_consecutive_login_attempts": 7})
 		assert "allow_consecutive_login_attempts" not in str(said("Sign-in Rules Changed")[2]["what"]), said("Sign-in Rules Changed")
 
-		frappe.cache.delete_value("one_storage_full_told")
+		frappe.cache.delete_value("one_cloud_full_told")
 		tell.storage_full()
 		tell.storage_full()
 		assert len([one for one in told if one[0] == "Storage Full"]) == 1

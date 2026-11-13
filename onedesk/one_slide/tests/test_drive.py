@@ -1,4 +1,4 @@
-"""A presentation on the network drive as a .pptx (one_slide/drive.py, one_storage/dav.py)."""
+"""A presentation on the network drive as a .pptx (one_slide/drive.py, one_cloud/dav.py)."""
 
 import io
 
@@ -8,7 +8,7 @@ from pptx.util import Inches
 from onedesk.one_slide import drive
 from onedesk.one_slide import from_powerpoint as fp
 from onedesk.one_slide.powerpoint import MASTER
-from onedesk.one_storage import dav
+from onedesk.one_cloud import dav
 
 
 def _saved() -> bytes:

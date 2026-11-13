@@ -111,7 +111,7 @@ def read() -> dict:
 
 def _asked() -> list[dict]:
 	from onedesk.one_hr import own
-	from onedesk.one_storage import file_requests
+	from onedesk.one_cloud import file_requests
 
 	return file_requests.asked_of(own.addresses_of())
 

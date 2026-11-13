@@ -262,8 +262,8 @@ def a_document_is_a_word_file_on_the_drive():
 	from docx import Document
 
 	from onedesk.one_doc import api, versions, word
-	from onedesk.one_storage import dav
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import dav
+	from onedesk.one_cloud import namespace as ns
 
 	frappe.db.savepoint("doc_word_check")
 	try:
@@ -339,8 +339,8 @@ def a_word_file_is_never_saved_over_with_less():
 	from docx import Document
 
 	from onedesk.one_doc import api, word
-	from onedesk.one_storage import history, saving
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import history, saving
+	from onedesk.one_cloud import namespace as ns
 
 	def letter(text: str, comment: bool = True) -> bytes:
 		made = Document()

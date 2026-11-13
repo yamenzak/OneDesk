@@ -177,7 +177,7 @@ def a_spreadsheet_file_opens_and_saves_back_into_itself():
 	import base64
 
 	from onedesk.one_sheet import api
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	frappe.db.savepoint("file_sheet_check")
 	try:
@@ -220,9 +220,9 @@ def an_excel_file_is_never_saved_over_with_less():
 	from openpyxl.comments import Comment
 
 	from onedesk.one_sheet import api, excel
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import history
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import history
+	from onedesk.one_cloud import namespace as ns
 
 	def book(rate: int, rich: bool = True) -> bytes:
 		made = Workbook()
@@ -293,8 +293,8 @@ def an_excel_file_keeps_its_look_when_saved_over():
 
 	from onedesk.one_demo import office as demo
 	from onedesk.one_sheet import api, excel
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	budget = next(one for one in demo.files() if one["name"] == demo.budget_name())
 	file = demo.found(budget)
@@ -392,8 +392,8 @@ def a_workbook_is_an_excel_file_on_the_drive():
 	from openpyxl import load_workbook
 
 	from onedesk.one_sheet import api, excel, table
-	from onedesk.one_storage import dav
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import dav
+	from onedesk.one_cloud import namespace as ns
 
 	frappe.db.savepoint("excel_check")
 	try:

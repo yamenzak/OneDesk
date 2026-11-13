@@ -25,7 +25,7 @@ def _held() -> list[str]:
 def mailboxes() -> list[dict]:
 	"""The folders under Mail: the reader's mailboxes, as holders.mailboxes
 	orders them."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	return [
 		ns.virtual(
@@ -40,7 +40,7 @@ def mailboxes() -> list[dict]:
 
 def files(account: str, search: str | None = None) -> list[dict]:
 	"""A mailbox's attachments, newest first."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	if account not in _held():
 		return []

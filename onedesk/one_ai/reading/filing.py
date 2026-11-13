@@ -215,7 +215,7 @@ def where_of(reading, held: str | None = None) -> dict | None:
 
 def _own(folder: str | None) -> bool:
 	"""Whether a folder is inside somebody's My Files."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	return any(frappe.db.get_value("File", at, "one_home_of") for at in ns.chain(folder)) if folder else False
 

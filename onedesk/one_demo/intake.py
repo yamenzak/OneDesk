@@ -16,8 +16,8 @@ ACCOUNTS = "huda@one.test"
 def run(password=None):
 	from onedesk.one_ai.reading import switches
 	from onedesk.one_mail import addresses
-	from onedesk.one_storage import api
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api
+	from onedesk.one_cloud import namespace as ns
 
 	with as_user(OWNER):
 		account = mailbox() or addresses.give(OWNER, ADDRESS)
@@ -82,6 +82,6 @@ def mailbox() -> str | None:
 
 
 def folder() -> str | None:
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	return frappe.db.get_value("File", {"folder": ns.home(ACCOUNTS, create=False), "file_name": FOLDER, "is_folder": 1})

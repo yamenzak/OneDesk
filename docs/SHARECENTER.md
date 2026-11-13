@@ -6,9 +6,9 @@ presentation is shared, and kept here because it is not one module's.
 Today there are three ways to share, each built for one module:
 
 - **Inside the team:** frappe's `DocShare`, drawn by OneCloud's Share dialog
-  (`one_storage/share.py`) for files and folders, and read by AccessCenter
+  (`one_cloud/share.py`) for files and folders, and read by AccessCenter
   as "what one person was given on one record".
-- **Files to outsiders:** OneCloud's `Cloud Link` (`one_storage/links.py`,
+- **Files to outsiders:** OneCloud's `Cloud Link` (`one_cloud/links.py`,
   `/s/<token>`): anyone with the link, optional password and expiry, or
   invited people with a mailed one-time code; download, upload, opened count.
 - **Records to a customer or supplier:** OnePortal's `Portal Link`

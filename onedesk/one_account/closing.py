@@ -196,7 +196,7 @@ def _records(zipped) -> dict:
 def _files(zipped) -> list[str]:
 	"""Every file under its folder, one copy per name; the ones that could
 	not be read are returned and listed in the README."""
-	from onedesk.one_storage import store
+	from onedesk.one_cloud import store
 
 	missing, seen = [], set()
 	for one in frappe.get_all(

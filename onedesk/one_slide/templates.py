@@ -19,7 +19,7 @@ FOLDER_NAME = "Presentation Templates"
 def folder() -> str:
 	"""The Presentation Templates folder in the company's files, made the first
 	time it's needed."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	found = frappe.db.get_value("File", {"is_folder": 1, "folder": ns.HOME, "file_name": FOLDER_NAME})
 	if found:
@@ -33,8 +33,8 @@ def folder() -> str:
 @frappe.whitelist(methods=["POST"])
 def save_as(name: str, title: str) -> dict:
 	"""This presentation, kept as a template: a copy, with copies of its pictures."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	from onedesk.one import rights
 

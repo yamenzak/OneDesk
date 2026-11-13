@@ -58,7 +58,7 @@
    "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "App",
-   "options": "\nOne Book\nOne CRM\nOne HR\nOne Inventory\nOne Project\nOne Intake\nOne Mail\nOne Storage\nOne Task\nOne Calendar\nOther Forms",
+   "options": "\nOne Book\nOne CRM\nOne HR\nOne Inventory\nOne Project\nOne Intake\nOne Mail\nOne Cloud\nOne Task\nOne Calendar\nOther Forms",
    "read_only": 1
   },
   {

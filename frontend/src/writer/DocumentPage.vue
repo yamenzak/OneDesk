@@ -382,7 +382,7 @@ const stopWritten = listen("one_document_written", (said) => {
 // A Word file opened from OneCloud is written back into itself when it is
 // left, once the last save is in (one_doc/word.py, write_back). One with
 // parts OneWriter drops waits for Save Over Original or Save as Copy
-// (one_storage/saving.py), and only a save after the editor's first paint
+// (one_cloud/saving.py), and only a save after the editor's first paint
 // is somebody's change to keep.
 const PAINTED_MS = 8000;
 let unwritten = false;

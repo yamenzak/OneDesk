@@ -40,7 +40,7 @@
 		<p class="one-portal__lede">{{ _("{0} shared this with you.").format(by) }}</p>
 		{% if said %}<p class="{{ 'one-said' if said_wrong else 'one-share__ok' }}">{{ said }}</p>{% endif %}
 		{% if ask == "password" %}
-			<form method="post" action="/api/method/onedesk.one_storage.links.unlock">
+			<form method="post" action="/api/method/onedesk.one_cloud.links.unlock">
 				{{ csrf() }}
 				<input type="hidden" name="token" value="{{ token }}">
 				<label class="one-field"><span>{{ _("Password") }}</span>
@@ -48,7 +48,7 @@
 				<button class="one-go" type="submit">{{ _("Open") }}</button>
 			</form>
 		{% elif asked_email %}
-			<form method="post" action="/api/method/onedesk.one_storage.links.enter_code">
+			<form method="post" action="/api/method/onedesk.one_cloud.links.enter_code">
 				{{ csrf() }}
 				<input type="hidden" name="token" value="{{ token }}">
 				<label class="one-field"><span>{{ _("Code sent to {0}").format(asked_email) }}</span>
@@ -56,7 +56,7 @@
 				<button class="one-go" type="submit">{{ _("Open") }}</button>
 			</form>
 		{% else %}
-			<form method="post" action="/api/method/onedesk.one_storage.links.ask_code">
+			<form method="post" action="/api/method/onedesk.one_cloud.links.ask_code">
 				{{ csrf() }}
 				<input type="hidden" name="token" value="{{ token }}">
 				<label class="one-field"><span>{{ _("Your email address") }}</span>
@@ -98,7 +98,7 @@
 		{% endif %}
 
 		{% if link.allow_upload %}
-			<form class="one-share__send" method="post" enctype="multipart/form-data" action="/api/method/onedesk.one_storage.links.put">
+			<form class="one-share__send" method="post" enctype="multipart/form-data" action="/api/method/onedesk.one_cloud.links.put">
 				{{ csrf() }}
 				<input type="hidden" name="token" value="{{ token }}">
 				<input type="hidden" name="folder" value="{{ here.name }}">

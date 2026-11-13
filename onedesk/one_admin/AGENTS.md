@@ -2783,7 +2783,7 @@ that it is taking longer than it should.
   only one a token reaches — iterates and reads `c.key`. Handed a mapping it
   iterates the keys as strings and dies on the first one. `max_file_size` is
   set there too, since it is the one Frappe limit the site cannot change for
-  itself (see `one_storage/store.py` `unlimit`). `host_name` is set there and
+  itself (see `one_cloud/store.py` `unlimit`). `host_name` is set there and
   not through press's `set_host_name`, which needs a `Site Domain` record
   first. Our name is deliberately not one of those: the workspace is reached
   at it because a Worker rewrites `Host`, and press is never told it exists.

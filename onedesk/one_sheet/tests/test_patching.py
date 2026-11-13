@@ -12,7 +12,7 @@ from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.worksheet.table import Table
 
 from onedesk.one_sheet import patching
-from onedesk.one_storage import fidelity
+from onedesk.one_cloud import fidelity
 
 
 def _styled() -> bytes:

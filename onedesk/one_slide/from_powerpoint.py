@@ -296,8 +296,8 @@ def open_file(file: str) -> dict:
 	"""The presentation made from a .pptx File, beside it, the first time it
 	is opened; afterwards the same one."""
 	from onedesk.one_slide import api, play
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	item = ns.row(file)
 	if not item or item.get("is_folder") or item.get("one_deleted_on") or not ns.may(item, "read"):

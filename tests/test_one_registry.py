@@ -15,11 +15,23 @@ sys.path.insert(0, str(ROOT))
 from onedesk.one import registry  # noqa: E402
 from onedesk.one.registry import hooks  # noqa: E402
 
-FOLDERS = sorted(path.parent.name for path in (ROOT / "onedesk").glob("*/__init__.py") if path.parent.name == "one" or path.parent.name.startswith("one_"))
+FOLDERS = sorted(
+	path.parent.name
+	for path in (ROOT / "onedesk").glob("*/__init__.py")
+	if (path.parent.name == "one" or path.parent.name.startswith("one_")) and path.parent.name not in registry.moved()
+)
 
 
 def test_every_folder_has_a_manifest():
 	assert sorted(one.id for one in registry.apps()) == FOLDERS
+
+
+def test_a_folder_kept_after_a_rename_is_not_an_app():
+	for old, now in registry.moved().items():
+		modules = (ROOT / "onedesk" / "modules.txt").read_text().splitlines()
+		assert old not in {one.strip().lower().replace(" ", "_") for one in modules}, old
+		assert [path.name for path in (ROOT / "onedesk" / old).iterdir() if path.name != "__pycache__"] == ["__init__.py"], old
+		assert (ROOT / now.replace(".", "/") / "manifest.py").exists(), now
 
 
 def test_names_are_read_from_the_manifest():

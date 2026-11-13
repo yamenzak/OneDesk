@@ -88,7 +88,7 @@ def new(address: str, workspace_name: str) -> dict:
 	site.require_admin()
 	frappe.only_for(site.OPERATOR)
 	from onedesk.one_admin import backups, cloudflare, steps
-	from onedesk.one_storage import store
+	from onedesk.one_cloud import store
 
 	try:
 		address = hosts.tidy(address)

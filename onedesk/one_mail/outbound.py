@@ -166,7 +166,7 @@ def _linker(queue):
 def _link(communication: str | None, name: str) -> str | None:
 	from frappe.utils import add_days, today
 
-	from onedesk.one_storage import links
+	from onedesk.one_cloud import links
 
 	file = communication and frappe.db.get_value(
 		"File",

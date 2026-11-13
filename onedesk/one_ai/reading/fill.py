@@ -113,7 +113,7 @@ def _asked(doctype: str, asked: list[dict], already: dict, document: dict, refer
 def from_file(doctype: str, fields: list[dict], name: str, content: bytes, already: dict, reference: str) -> dict:
 	"""What a file says for `fields` of a `doctype` row, read now rather
 	than kept: a file requested with a number and dates beside it
-	(one_storage/file_requests.guess). Only the fields asked, as given."""
+	(one_cloud/file_requests.guess). Only the fields asked, as given."""
 	from onedesk.one_ai.reading import read as reader
 	from onedesk.one_ai.reading import vision
 

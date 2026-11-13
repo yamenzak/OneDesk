@@ -580,7 +580,7 @@ def _papers(project):
 	Files tab, a photo from site in its Featured Media, and a request for
 	the next run of profile, each added as Samir adds them."""
 	from onedesk.one_project import media
-	from onedesk.one_storage import namespace, upload
+	from onedesk.one_cloud import namespace, upload
 
 	if not frappe.db.exists("File", {"attached_to_name": project, "file_name": "Window schedule.csv"}):
 		rows = ["Mark,Type,Width,Height,Count", *(",".join(map(str, one)) for one in SCHEDULE)]

@@ -999,6 +999,18 @@ Pages: onecrm (on a rail or a home).
 
 Pages: onecalendar (on a rail or a home).
 
+## onedesk / One Cloud
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Cloud Drive Password | inside: OneCloud › Connect a Drive makes and revokes them | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Cloud File Request | inside: a OneCloud folder's Request Files | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Cloud File Version | inside: a OneCloud file's Versions | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Cloud Link | inside: a OneCloud file's Share | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Cloud Mount | engine: a mounted folder, which OneCloud keeps and shows as a folder | everybody | untouched | yes | general |  | **none** |  |  |  |  |
+
+Pages: onecloud (on a rail or a home).
+
 ## onedesk / One Display
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
@@ -1115,18 +1127,6 @@ Pages: workbook (inside: a workbook opens on it from OneCloud).
 | Presentation View | engine: one look at a presentation through a OneCloud link, read back as its Views in the editor | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: presentation (inside: a presentation opens on it from OneCloud).
-
-## onedesk / One Storage
-
-| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Cloud Drive Password | inside: OneCloud › Connect a Drive makes and revokes them | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Cloud File Request | inside: a OneCloud folder's Request Files | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Cloud File Version | inside: a OneCloud file's Versions | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Cloud Link | inside: a OneCloud file's Share | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Cloud Mount | engine: a mounted folder, which OneCloud keeps and shows as a folder | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-
-Pages: onecloud (on a rail or a home).
 
 ## onedesk / One Studio
 

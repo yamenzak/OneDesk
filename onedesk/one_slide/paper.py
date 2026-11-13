@@ -101,8 +101,8 @@ def pdf(name: str, pictures: str | list, notes: int = 0) -> dict:
 
 def beside(item: dict, title: str, content: bytes) -> dict:
 	"""A file made from a presentation, kept beside it in OneCloud or on its record."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	file = {"doctype": "File", "content": content, "is_private": 1}
 	if item.get("attached_to_doctype") and item.get("attached_to_name"):
