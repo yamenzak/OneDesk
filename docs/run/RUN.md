@@ -417,5 +417,6 @@ Only what needs his own hands:
 - [ ] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it.
 
 ## Noticed
+- 13 Nov: the tunnel routes only one.4dl.dev since dev's OneAdmin was retired, so a site linked to https://admin.4dl.dev (run.localhost) gets 404 on every live OneAdmin call; the checks fake those answers. P4's gate (a signup on the dev OneAdmin, a box calling back) needs admin.4dl.dev routed again for the drill, or the drill against production's OneAdmin: decide at the P4 gate.
 
 (one line each; things outside the current item)
