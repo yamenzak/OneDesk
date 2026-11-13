@@ -9,16 +9,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-10, `bc85304` |
+| 1. Demo and tests | 11 | in 2.12.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-10, `bc85304` |
-| 11. Notifications | 6 | 2026-11-10, `bc85304` |
-| 13. Plain words | 13 | 2026-11-10, `bc85304` |
+| 7. Our look | 11 | in 2.12.0 |
+| 11. Notifications | 6 | in 2.12.0 |
+| 13. Plain words | 13 | in 2.12.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-10, `bc85304` |
+| 19. Legal | 5 | in 2.12.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -61,16 +61,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `52a0c1d` |
+| 1. Demo and tests | 11 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `0e15846` |
-| 11. Notifications | 6 | 2026-11-07, `52a0c1d` |
-| 13. Plain words | 13 | 2026-11-07, `ef82a0f` |
+| 7. Our look | 11 | in 1.3.0 |
+| 11. Notifications | 6 | in 1.3.0 |
+| 13. Plain words | 13 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `52a0c1d` |
+| 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -87,16 +87,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `4d0fc1c` |
+| 1. Demo and tests | 11 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `4d0fc1c` |
-| 11. Notifications | 6 | 2026-11-07, `4d0fc1c` |
-| 13. Plain words | 13 | 2026-11-07, `4d0fc1c` |
+| 7. Our look | 11 | in 1.3.0 |
+| 11. Notifications | 6 | in 1.3.0 |
+| 13. Plain words | 13 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `4d0fc1c` |
+| 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -113,16 +113,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-06, `8184e87` |
+| 1. Demo and tests | 11 | in 2.1.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-06, `8184e87` |
-| 11. Notifications | 6 | 2026-11-06, `8184e87` |
-| 13. Plain words | 13 | 2026-11-06, `8184e87` |
+| 7. Our look | 11 | in 2.1.0 |
+| 11. Notifications | 6 | in 2.1.0 |
+| 13. Plain words | 13 | in 2.1.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-06, `8184e87` |
+| 19. Legal | 5 | in 2.1.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -191,16 +191,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `e24156b` |
+| 1. Demo and tests | 11 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `e24156b` |
-| 11. Notifications | 6 | 2026-11-07, `e24156b` |
-| 13. Plain words | 13 | 2026-11-07, `e24156b` |
+| 7. Our look | 11 | in 1.3.0 |
+| 11. Notifications | 6 | in 1.3.0 |
+| 13. Plain words | 13 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `e24156b` |
+| 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -217,16 +217,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `70b26c9` |
+| 1. Demo and tests | 11 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `70b26c9` |
-| 11. Notifications | 6 | 2026-11-07, `70b26c9` |
-| 13. Plain words | 13 | 2026-11-07, `70b26c9` |
+| 7. Our look | 11 | in 1.2.0 |
+| 11. Notifications | 6 | in 1.2.0 |
+| 13. Plain words | 13 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `70b26c9` |
+| 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -243,16 +243,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-06, `18161bb` |
+| 1. Demo and tests | 11 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-06, `18161bb` |
-| 11. Notifications | 6 | 2026-11-06, `18161bb` |
-| 13. Plain words | 13 | 2026-11-06, `18161bb` |
+| 7. Our look | 11 | in 1.3.0 |
+| 11. Notifications | 6 | in 1.3.0 |
+| 13. Plain words | 13 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-06, `18161bb` |
+| 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -269,16 +269,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `e24156b` |
+| 1. Demo and tests | 11 | in 2.2.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `e24156b` |
-| 11. Notifications | 6 | 2026-11-07, `e24156b` |
-| 13. Plain words | 13 | 2026-11-07, `e24156b` |
+| 7. Our look | 11 | in 2.2.0 |
+| 11. Notifications | 6 | in 2.2.0 |
+| 13. Plain words | 13 | in 2.2.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `e24156b` |
+| 19. Legal | 5 | in 2.2.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -295,16 +295,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `5536d07` |
+| 1. Demo and tests | 11 | in 1.1.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `5536d07` |
-| 11. Notifications | 6 | 2026-11-07, `5536d07` |
-| 13. Plain words | 13 | 2026-11-07, `5536d07` |
+| 7. Our look | 11 | in 1.1.0 |
+| 11. Notifications | 6 | in 1.1.0 |
+| 13. Plain words | 13 | in 1.1.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `5536d07` |
+| 19. Legal | 5 | in 1.1.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -321,16 +321,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `70b26c9` |
+| 1. Demo and tests | 11 | in 2.6.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `70b26c9` |
-| 11. Notifications | 6 | 2026-11-07, `70b26c9` |
-| 13. Plain words | 13 | 2026-11-07, `70b26c9` |
+| 7. Our look | 11 | in 2.6.0 |
+| 11. Notifications | 6 | in 2.6.0 |
+| 13. Plain words | 13 | in 2.6.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `70b26c9` |
+| 19. Legal | 5 | in 2.6.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -347,16 +347,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-07, `5e04e24` |
+| 1. Demo and tests | 11 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-07, `5e04e24` |
-| 11. Notifications | 6 | 2026-11-07, `5e04e24` |
-| 13. Plain words | 13 | 2026-11-07, `5e04e24` |
+| 7. Our look | 11 | in 1.2.0 |
+| 11. Notifications | 6 | in 1.2.0 |
+| 13. Plain words | 13 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-07, `5e04e24` |
+| 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -373,16 +373,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-08, `87069d3` |
+| 1. Demo and tests | 11 | in 1.11.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-08, `87069d3` |
-| 11. Notifications | 6 | 2026-11-08, `87069d3` |
-| 13. Plain words | 13 | 2026-11-08, `87069d3` |
+| 7. Our look | 11 | in 1.11.0 |
+| 11. Notifications | 6 | in 1.11.0 |
+| 13. Plain words | 13 | in 1.11.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-08, `87069d3` |
+| 19. Legal | 5 | in 1.11.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -451,16 +451,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-09, `ad363dd` |
+| 1. Demo and tests | 11 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-09, `ad363dd` |
-| 11. Notifications | 6 | 2026-11-09, `ad363dd` |
-| 13. Plain words | 13 | 2026-11-09, `ad363dd` |
+| 7. Our look | 11 | in 1.2.0 |
+| 11. Notifications | 6 | in 1.2.0 |
+| 13. Plain words | 13 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-09, `ad363dd` |
+| 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -477,16 +477,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-13, `a82dc95` |
+| 1. Demo and tests | 11 | in 1.18.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-13, `a82dc95` |
-| 11. Notifications | 6 | 2026-11-13, `a82dc95` |
-| 13. Plain words | 13 | 2026-11-13, `a82dc95` |
+| 7. Our look | 11 | in 1.18.0 |
+| 11. Notifications | 6 | in 1.18.0 |
+| 13. Plain words | 13 | in 1.18.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-13, `a82dc95` |
+| 19. Legal | 5 | in 1.18.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -503,16 +503,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-12, `3c226de` |
+| 1. Demo and tests | 11 | in 1.1.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-12, `3c226de` |
-| 11. Notifications | 6 | 2026-11-12, `3c226de` |
-| 13. Plain words | 13 | 2026-11-12, `3c226de` |
+| 7. Our look | 11 | in 1.1.0 |
+| 11. Notifications | 6 | in 1.1.0 |
+| 13. Plain words | 13 | in 1.1.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-12, `3c226de` |
+| 19. Legal | 5 | in 1.1.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -555,16 +555,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-09, `c07da17` |
+| 1. Demo and tests | 11 | in 1.5.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-09, `c07da17` |
-| 11. Notifications | 6 | 2026-11-09, `c07da17` |
-| 13. Plain words | 13 | 2026-11-09, `c07da17` |
+| 7. Our look | 11 | in 1.5.0 |
+| 11. Notifications | 6 | in 1.5.0 |
+| 13. Plain words | 13 | in 1.5.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-09, `c07da17` |
+| 19. Legal | 5 | in 1.5.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -581,16 +581,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-12, `3c226de` |
+| 1. Demo and tests | 11 | in 1.1.0 |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-12, `3c226de` |
-| 11. Notifications | 6 | 2026-11-12, `3c226de` |
-| 13. Plain words | 13 | 2026-11-12, `3c226de` |
+| 7. Our look | 11 | in 1.1.0 |
+| 11. Notifications | 6 | in 1.1.0 |
+| 13. Plain words | 13 | in 1.1.0 |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-12, `3c226de` |
+| 19. Legal | 5 | in 1.1.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:

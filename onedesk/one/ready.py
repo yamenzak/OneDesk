@@ -231,7 +231,7 @@ def places(module: str) -> list[Path]:
 # What a version is taken over: what the module ships and its help pages,
 # not what only we read or run (its notes, versions, tests, checks, demo, and
 # the passover's stamps, which only a dev site shows).
-UNSHIPPED = ("AGENTS.md", "SCRATCHPAD.md", "checks.py", "demo.py", "stamps.py", "manifest.py")
+UNSHIPPED = ("AGENTS.md", "SCRATCHPAD.md", "checks.py", "demo.py", "stamps.py")
 KINDS = ("major", "minor", "fix", "internal")
 SHOWN = ("major", "minor", "fix")
 """An internal version is numbered as a fix and holds the fingerprint, but is
@@ -319,10 +319,28 @@ def help_pages(module: str) -> list[dict]:
 	return found
 
 
+GROWN = ("major", "minor")
+"""A version that makes a module's hand looks stale: people work it
+differently, so a person looks again."""
+
+
+def looks(module: str) -> dict[str, dict]:
+	"""The hand looks that hold now: each version's `looked:` and `looked_by:`,
+	from the newest back to the newest major or minor, which a look must not
+	be older than."""
+	found = {}
+	for one in versions(module):
+		for key in (key.strip() for key in one.get("looked", "").split(",") if key.strip()):
+			found.setdefault(key, {"version": one["version"], "by": one.get("looked_by", "")})
+		if one["kind"] in GROWN:
+			break
+	return found
+
+
 def registry(module: str) -> list[dict]:
 	"""Where a module stands on each point it is held to before live: for a
-	point a person must look at, when they last did."""
-	checked = MODULES[module].get("checked", {})
+	point a person must look at, the version they last looked at it in."""
+	checked = looks(module)
 	return [
 		{
 			"point": key,

@@ -29,13 +29,6 @@ APP = App(
 	),
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-08", "commit": "87069d373334", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-08", "commit": "87069d373334", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-08", "commit": "87069d373334", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-08", "commit": "87069d373334", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-08", "commit": "87069d373334", "by": "Claude, for Yamen"},
-		},
 	},
 	parts=("reading",),
 	hooks={

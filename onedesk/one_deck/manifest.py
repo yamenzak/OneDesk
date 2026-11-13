@@ -22,13 +22,6 @@ APP = App(
 	windowless="A presentation opens from OneCloud in an editor that fills the window, so OneDeck's foot and settings are OneCloud's.",
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
-		},
 	},
 	settle=(
 		Settle("setup.themes"),

@@ -35,13 +35,6 @@ APP = App(
 	),
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-		},
 	},
 	companies=(
 		"Customer Credit Limit",

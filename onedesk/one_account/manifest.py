@@ -19,13 +19,6 @@ APP = App(
 	windowless="AccountCenter is a dialog the avatar's menu and links open, so OneAccount has no window, foot or settings of its own.",
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
-		},
 	},
 	hooks={
 		"one_ai_actions": ("ai.ACTIONS",),

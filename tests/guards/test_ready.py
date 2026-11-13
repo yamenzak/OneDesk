@@ -525,24 +525,15 @@ def _git(*args: str) -> subprocess.CompletedProcess:
 
 def test_a_ready_module_was_looked_at_where_no_guard_can():
 	"""A module marked ready has a look on every point a guard holds only in
-	part (ready.HAND): the day, the commit it was taken at, and who looked.
-	A major or minor version after that commit makes the look stale."""
-	import datetime
-
+	part (ready.HAND), written in a version's front matter (`looked:` and
+	`looked_by:`) no older than its newest major or minor version, which makes
+	a look stale."""
 	for module, spec in ready.MODULES.items():
-		checked = spec.get("checked", {})
-		assert set(checked) <= set(ready.HAND), f"{module}: only ready.HAND points are looked at: {sorted(set(checked) - set(ready.HAND))}"
+		looks = ready.looks(module)
+		strange = set(looks) - set(ready.HAND)
+		assert not strange, f"{module}: only ready.HAND points are looked at: {sorted(strange)}"
+		for look in looks.values():
+			assert look["by"], f"{module} {look['version']}: say who looked (looked_by)"
 		if spec.get("ready"):
-			left = [ready.POINTS[key]["title"] for key in ready.HAND if key not in checked]
-			assert not left, f"{module} is marked ready but nobody has looked at: {left}"
-		grown = next((one for one in ready.versions(module) if one["kind"] not in ("fix", "internal")), None)
-		since = _git("log", "--diff-filter=A", "--format=%H", "--", str(grown["path"].relative_to(ROOT))).stdout.split() if grown else []
-		for key, look in checked.items():
-			where = f"{module}'s look at {ready.POINTS[key]['title']}"
-			assert look.get("by"), f"{where}: say who looked"
-			assert datetime.date.fromisoformat(look["on"]) <= datetime.date.today(), f"{where}: a day not yet come"
-			assert _git("cat-file", "-e", f"{look['commit']}^{{commit}}").returncode == 0, f"{where}: no commit {look['commit']}"
-			if grown:
-				assert since and _git("merge-base", "--is-ancestor", since[-1], look["commit"]).returncode == 0, (
-					f"{where}: {grown['version']} came after it, so look again"
-				)
+			left = [ready.POINTS[key]["title"] for key in ready.HAND if key not in looks]
+			assert not left, f"{module} is marked ready, but since its last major or minor version nobody has looked at: {left} (python3 scripts/close.py --looked)"

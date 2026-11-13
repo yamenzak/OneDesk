@@ -14,9 +14,9 @@ A module changed since an older version is named, with the command that
 writes its next one. It says how many strings still want Arabic and German
 (scripts/translate.py todo), when `bench` is on the path.
 
-`--looked` is for after the commit: it records that you looked at those hand
-points (ready.HAND) of a ready module on the commit now at HEAD, today. Only
-name a point you looked at.
+`--looked` records that you looked at those hand points (ready.HAND) of a
+module, on its newest version (`looked:` in the front matter), as `--by` who
+looked. Only name a point you looked at.
 """
 
 import argparse
@@ -33,6 +33,9 @@ sys.path.insert(0, str(ROOT))
 from onedesk.one import ready
 
 
+
+LOOKER = "Claude, for Yamen"
+"""Who --looked records as having looked, unless --by names somebody."""
 
 def _git(*args: str) -> str:
 	return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True).stdout
@@ -95,11 +98,9 @@ def settle(name: str) -> str:
 	return f"{name}: {newest['version']} takes fingerprint {now}"
 
 
-def looked(pairs: list[str]) -> list[str]:
-	"""Re-date the named hand looks to HEAD, today, keeping who looked: in
-	each module's manifest.py, where its readiness is declared."""
-	head = _git("rev-parse", "--short=12", "HEAD").strip()
-	today = datetime.date.today().isoformat()
+def looked(pairs: list[str], by: str = LOOKER) -> list[str]:
+	"""Record the named hand looks on each module's newest version, in its
+	front matter (`looked:`, `looked_by:`), where ready.looks reads them."""
 	folders = by_folder()
 	said = []
 	for pair in pairs:
@@ -107,17 +108,19 @@ def looked(pairs: list[str]) -> list[str]:
 		name = folders.get(folder, folder)
 		if name not in ready.MODULES:
 			sys.exit(f"no module {folder}")
-		manifest = ROOT / "onedesk" / ready.MODULES[name]["folder"] / "manifest.py"
-		source = manifest.read_text(encoding="utf-8")
-		for point in filter(None, points.split(",")):
-			if point not in ready.HAND:
-				sys.exit(f"{point} is not a hand point: {sorted(ready.HAND)}")
-			pattern = re.compile(rf'("{point}": \{{"on": )"[\d-]+", "commit": "\w+"')
-			if not pattern.search(source):
-				sys.exit(f"{name} has no look at {point} to re-date")
-			source = pattern.sub(rf'\1"{today}", "commit": "{head}"', source, count=1)
-			said.append(f"{name}: looked at {point} on {head}")
-		manifest.write_text(source, encoding="utf-8")
+		taken = [point for point in points.split(",") if point]
+		strange = [point for point in taken if point not in ready.HAND]
+		if strange:
+			sys.exit(f"{', '.join(strange)} is not a hand point: {sorted(ready.HAND)}")
+		newest = ready.versions(name)[0]
+		text = newest["path"].read_text(encoding="utf-8")
+		head = ready.HEAD.match(text)
+		lines = [line for line in head.group(1).splitlines() if not line.startswith(("looked: ", "looked_by: "))]
+		held = [key.strip() for key in newest.get("looked", "").split(",") if key.strip()]
+		keys = [key for key in ready.HAND if key in held or key in taken]
+		lines += [f"looked: {', '.join(keys)}", f"looked_by: {by}"]
+		newest["path"].write_text("---\n" + "\n".join(lines) + "\n---\n" + text[head.end() :], encoding="utf-8")
+		said.append(f"{name}: looked at {', '.join(taken)} in {newest['version']}")
 	return said
 
 
@@ -152,12 +155,13 @@ def main() -> None:
 	parser.add_argument(
 		"modules", nargs="*", help="module folders; the ones this change touches when left out"
 	)
+	parser.add_argument("--by", default=LOOKER, help="who looked")
 	parser.add_argument(
-		"--looked", nargs="+", metavar="FOLDER:POINT,POINT", help="re-date these hand looks to HEAD"
+		"--looked", nargs="+", metavar="FOLDER:POINT,POINT", help="record these hand looks on the newest version"
 	)
 	args = parser.parse_args()
 	if args.looked:
-		print("\n".join(looked(args.looked)))
+		print("\n".join(looked(args.looked, args.by)))
 		return
 	run(sys.executable, "scripts/overrides.py")
 	folders = by_folder()

@@ -129,9 +129,7 @@ def registry_page() -> str:
 		out.append("\n| Point | Rules | Last looked at |\n|---|--:|---|\n")
 		for one in ready.registry(module):
 			said = one["checked"]
-			looked = (
-				f"{said['on']}, `{said['commit'][:7]}`" if said else "not yet" if one["look"] else "—"
-			)
+			looked = f"in {said['version']}" if said else "not yet" if one["look"] else "—"
 			out.append(f"| {one['number']}. {one['title']} | {len(_rules(one['number']))} | {looked} |\n")
 		looks = [one for one in ready.registry(module) if one["look"]]
 		out.append("\nWhat a person looks at:\n\n")

@@ -19,13 +19,6 @@ APP = App(
 	windowless="TrustCenter is a dialog every module's foot opens, so OneLegal has no window, foot or settings of its own.",
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
-		},
 	},
 	settle=(
 		Settle("gate.told_of_changes"),

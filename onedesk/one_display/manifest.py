@@ -30,13 +30,6 @@ APP = App(
 	),
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
-		},
 	},
 	hooks={
 		"one_deck_loaded": ("screen.loaded",),

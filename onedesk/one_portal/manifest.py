@@ -23,13 +23,6 @@ APP = App(
 	),
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
-		},
 	},
 	settle=(
 		Settle("portal.settle", install_only=True),

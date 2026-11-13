@@ -29,13 +29,6 @@ APP = App(
 	),
 	ready={
 		"ready": True,
-		"checked": {
-			"copy": {"on": "2026-11-07", "commit": "ef82a0f5117c", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-07", "commit": "0e158460772b", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
-		},
 	},
 	hooks={
 		"one_record_tabs": ("linking.TABS",),
