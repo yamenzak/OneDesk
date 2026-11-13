@@ -28811,6 +28811,15 @@ msgstr "Bild mit OneAI erstellen"
 msgid "Make a Presentation"
 msgstr "Präsentation erstellen"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:300
+#, python-brace-format
+msgid "Make a Presentation for Each {0}"
+msgstr "Eine Präsentation für jeden Datensatz vom Typ {0} erstellen"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:168
+msgid "Make a Presentation for Each…"
+msgstr "Eine Präsentation für jeden Datensatz erstellen…"
+
 #: frontend/src/cloud/OneCloud.vue:589
 #: frontend/src/slide/shim/EditorNavbar.vue:330
 #: frontend/src/slide/shim/EditorNavbar.vue:410 onedesk/one_ai/jobs.py:75
@@ -28934,16 +28943,6 @@ msgstr "Erstellen Sie Ihren Passkey auf Ihrem Telefon."
 #, python-brace-format
 msgid "Make {0}"
 msgstr "{0} anlegen"
-
-#: frontend/src/slide/shim/EditorNavbar.vue:168
-#, python-brace-format
-msgid "Make {0} for Each…"
-msgstr "Eine {0}-Präsentation für jeden Datensatz erstellen…"
-
-#: frontend/src/slide/shim/EditorNavbar.vue:300
-#, python-brace-format
-msgid "Make {1} for Each {0}"
-msgstr "Eine {1}-Präsentation für jeden Datensatz vom Typ {0} erstellen"
 
 #. Label in the One Bill of Materials print format
 #. Label in the One BOM Creator print format

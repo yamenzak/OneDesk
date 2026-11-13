@@ -67,7 +67,7 @@ import { sources } from "./data.js";
 
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
 const ONE = "One"; // a name, not a word to translate
-const ONEAI = appName("one_ai"); // a name too
+const ONEAI = appName("one_ai");
 // a screen's editor belongs to OneDisplay, a presentation's to OneDeck
 const oneMark = computed(() => mark(screen.value ? "onedisplay" : "onedeck"));
 const inReadonlyMode = inject("inReadonlyMode", ref(false));
@@ -165,7 +165,7 @@ const fileMenu = computed(() => [
 		options: [
 			{ label: __("Data from Records"), icon: "lucide-database", onClick: () => (showData.value = true) },
 			...(inReadonlyMode.value || !sources.value.length || screen.value ? [] : [{ label: __("Freeze Data"), icon: "lucide-snowflake", onClick: freezeData }]),
-			...(!screen.value && sources.value.some((one) => one.kind === "this" && one.doctype) ? [{ label: __("Make {0} for Each…", [appName("one")]), icon: "lucide-copy", onClick: makeForEach }] : []),
+			...(!screen.value && sources.value.some((one) => one.kind === "this" && one.doctype) ? [{ label: __("Make a Presentation for Each…"), icon: "lucide-copy", onClick: makeForEach }] : []),
 		],
 	}]),
 	{
@@ -297,7 +297,7 @@ function makeForEach() {
 			const { queued } = await call("onedesk.one_deck.data.for_each", { name: presentationDoc.value.name, names });
 			alert(__("Making {0} presentations. You will be told when they are filed.", [queued]));
 		},
-		__("Make {1} for Each {0}", [__(doctype), appName("one")]),
+		__("Make a Presentation for Each {0}", [__(doctype)]),
 		__("Make")
 	);
 }

@@ -28811,6 +28811,15 @@ msgstr "إنشاء صورة باستخدام OneAI"
 msgid "Make a Presentation"
 msgstr "إنشاء عرض تقديمي"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:300
+#, python-brace-format
+msgid "Make a Presentation for Each {0}"
+msgstr "إنشاء عرض تقديمي لكل {0}"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:168
+msgid "Make a Presentation for Each…"
+msgstr "إنشاء عرض تقديمي لكل سجل…"
+
 #: frontend/src/cloud/OneCloud.vue:589
 #: frontend/src/slide/shim/EditorNavbar.vue:330
 #: frontend/src/slide/shim/EditorNavbar.vue:410 onedesk/one_ai/jobs.py:75
@@ -28934,16 +28943,6 @@ msgstr "أنشئ مفتاح المرور على هاتفك."
 #, python-brace-format
 msgid "Make {0}"
 msgstr "أنشئ {0}"
-
-#: frontend/src/slide/shim/EditorNavbar.vue:168
-#, python-brace-format
-msgid "Make {0} for Each…"
-msgstr "إنشاء عرض {0} لكل سجل…"
-
-#: frontend/src/slide/shim/EditorNavbar.vue:300
-#, python-brace-format
-msgid "Make {1} for Each {0}"
-msgstr "إنشاء عرض {1} لكل {0}"
 
 #. Label in the One Bill of Materials print format
 #. Label in the One BOM Creator print format
