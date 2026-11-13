@@ -170,9 +170,30 @@ $.extend(onedesk.interface, {
 		$now.data("one-tip", tip($now[0]));
 		onedesk.interface.weather($bottom.find(".one-bar-weather"), tip);
 		onedesk.interface.news(frappe.boot.one_announcements);
+		onedesk.interface.copy_band($top);
 		onedesk.interface.place_status();
 		clearInterval(onedesk.interface._ticking);
 		onedesk.interface._ticking = setInterval(() => onedesk.interface.now($now), 15 * 1000);
+	},
+
+	/** What a training copy or a dev site says on every screen, so it never
+	 * looks live (one/dev.py, kind): a band in the top bar, the same band
+	 * across the top of a phone, whose height the page makes room for, and a
+	 * soft edge round the window. A live site draws nothing. */
+	copy_band($top) {
+		const said = frappe.boot.one_site_kind || {};
+		const words = {
+			copy: () => __("Training copy, ends {0}. Nothing here is real.", [frappe.datetime.str_to_user(said.ends)]),
+			dev: () => __("Development site. Nothing here is real."),
+		}[said.kind];
+		if (!words || $(".one-copy-edge").length) return;
+		const root = document.documentElement;
+		root.dataset.oneSite = said.kind;
+		const band = (at) => $(`<div class="one-copy-band" data-at="${at}" role="note"></div>`).text(words()).attr("title", words());
+		band("bar").insertAfter($top.find(".one-bar-lead"));
+		const $phone = band("phone").prependTo(document.body);
+		$(`<div class="one-copy-edge" aria-hidden="true"></div>`).appendTo(document.body);
+		new ResizeObserver(() => root.style.setProperty("--one-bar-copy", `${$phone[0].offsetHeight}px`)).observe($phone[0]);
 	},
 
 	/** The tray at the right of the top bar, as Windows shows its hidden

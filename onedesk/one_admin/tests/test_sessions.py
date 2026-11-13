@@ -1,7 +1,7 @@
 import base64
 from datetime import datetime, timedelta
 
-from onedesk.one import errors
+from onedesk.one import dev, errors
 from onedesk.one_admin import boxes, servers, sessions
 from onedesk.one_admin import errors as heard
 
@@ -21,6 +21,16 @@ def test_a_copy_stays_quiet_and_only_a_demo_may_build_the_demo_company():
 	assert copy["mute_emails"] == 1 and copy["pause_scheduler"] == 1 and "one_dev" not in copy
 	assert demo["one_dev"] == 1 and demo["pause_scheduler"] == 0
 	assert "one_dev" not in sessions.config_for(sessions.FRESH, "https://s-1.d.x")
+
+
+def test_every_session_says_when_it_ends_and_the_frame_reads_it_as_a_copy():
+	for source in sessions.WALKS:
+		config = sessions.config_for(source, "https://s-1.d.x", datetime(2026, 11, 20, 9, 30))
+		assert dev.kind(config) == {"kind": dev.COPY, "ends": "2026-11-20"}, source
+	assert dev.kind({"one_dev": 1}) == {"kind": dev.DEV}
+	assert dev.kind({"developer_mode": 1}) == {"kind": dev.DEV}
+	assert dev.kind({}) == {"kind": dev.LIVE}
+	assert dev.kind({"one_dev": 0, "one_copy_ends": ""}) == {"kind": dev.LIVE}
 
 
 def test_a_copy_needs_a_workspace_that_has_said_so_lately():

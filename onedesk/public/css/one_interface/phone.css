@@ -561,3 +561,35 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 body.one-drawer-open .es-bottom-sheet-root {
 	z-index: calc(var(--one-layer-dialog) + 1);
 }
+
+/* A training copy or a dev site on a phone (chrome.js, copy_band): the band
+   across the top, wrapping rather than cut, and the page moved down by its
+   height (--one-bar-copy, which chrome.js keeps). */
+@media (max-width: 767.98px) {
+	.one-copy-band[data-at="phone"] {
+		position: fixed;
+		top: 0;
+		inset-inline: 0;
+		z-index: var(--one-layer-sticky);
+		display: block;
+		padding: calc(env(safe-area-inset-top) + 4px) 12px 4px;
+		background: var(--one-copy-band-bg);
+		color: var(--one-copy-band-ink);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		line-height: 16px;
+		text-align: center;
+	}
+
+	:root[data-one-site] body {
+		padding-top: var(--one-bar-copy);
+	}
+
+	:root[data-one-site] body .main-section {
+		height: calc(100dvh - var(--one-bar-copy));
+	}
+
+	:root[data-one-site] body.has-mobile-nav:is(.island-page, .full-height-page) .main-section {
+		height: calc(100dvh - var(--desk-mobile-nav-height) - var(--one-bar-copy));
+	}
+}

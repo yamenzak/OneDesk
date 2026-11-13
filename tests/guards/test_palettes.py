@@ -92,6 +92,26 @@ def test_every_palette_sets_every_role():
 	assert not short, short
 
 
+COPY_ROLES = {"--one-copy-band-bg", "--one-copy-band-ink", "--one-copy-vignette"}
+"""What a training copy or a dev site draws in (chrome.js, copy_band)."""
+
+
+def copy_unset(tokens: str, text: str) -> list[str]:
+	"""The copy's roles tokens.css does not declare, or a palette leaves
+	unset in its light or its dark. Pure."""
+	missing = sorted(COPY_ROLES - roles(tokens))
+	for name, themes in palettes(text).items():
+		missing += [f"{name} {theme} {role}" for theme in ("light", "dark") for role in sorted(COPY_ROLES - themes.get(theme, set()))]
+	return missing
+
+
+def test_a_copy_is_drawn_in_every_palette():
+	"""A copy never looks live, whatever the palette and theme: the band and
+	the vignette are roles every palette sets for its light and its dark."""
+	missing = copy_unset(TOKENS, PALETTES)
+	assert not missing, missing
+
+
 def stray(tokens: str, text: str) -> dict[str, list[str]]:
 	"""What a palette sets that is neither a role nor a step of the gray
 	scale. Pure."""
@@ -329,6 +349,11 @@ def test_the_palette_rules_catch_their_examples():
 	assert not palette_gaps(tokens, whole)
 	assert palette_gaps(tokens, _palette("sand", "--one-ink: var(--gray-9);", "")) == {"sand light": ["--one-radius-sheet"], "sand dark": ["--one-ink"]}
 	assert not stray(tokens, whole)
+	copied = ":root { " + "".join(f"{role}: red; " for role in sorted(COPY_ROLES)) + "}"
+	every = "".join(f"{role}: red; " for role in sorted(COPY_ROLES))
+	assert not copy_unset(copied, _palette("sand", every, every))
+	assert copy_unset(copied, _palette("sand", every, "--one-copy-band-bg: red;")) == ["sand dark --one-copy-band-ink", "sand dark --one-copy-vignette"]
+	assert copy_unset(":root { }", "") == sorted(COPY_ROLES)
 	assert stray(tokens, _palette("sand", "--one-ink: red; --one-own: red; --gray-1: #fff;", "")) == {"sand light": ["--one-own"]}
 	assert named_steps("--one-ink: var(--ink-gray-8); --one-line: var(--gray-3);") == [("--one-ink", "ink-gray-8")]
 	on = "".join(f"--one-{role}: var(--one-level-{level}); " for role, level in ON_LEVEL.items())

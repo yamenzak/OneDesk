@@ -15321,6 +15321,10 @@ msgstr "اكتُشف نمط لكن تعذّر تطبيقه على أي صف."
 msgid "Developed Design"
 msgstr "التصميم المطوَّر"
 
+#: onedesk/public/js/one_interface/chrome.js:187
+msgid "Development site. Nothing here is real."
+msgstr "موقع تطوير. لا شيء هنا حقيقي."
+
 #. Name of a DocType
 #. Label of the label (Data) field in DocType 'Push Device'
 #. Label of the section_break_device (Section Break) field in DocType 'Display
@@ -58336,6 +58340,11 @@ msgstr "جلسة تدريب"
 #: onedesk/one_admin/notifications.py
 msgid "Training and disposable copies can now start on it. Open Sessions to start one."
 msgstr "يمكن الآن بدء نسخ التدريب والنسخ المؤقتة عليه. افتح الجلسات لبدء واحدة."
+
+#: onedesk/public/js/one_interface/chrome.js:186
+#, python-brace-format
+msgid "Training copy, ends {0}. Nothing here is real."
+msgstr "نسخة تدريب، تنتهي في {0}. لا شيء هنا حقيقي."
 
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json

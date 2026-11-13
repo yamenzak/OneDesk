@@ -1873,6 +1873,13 @@ GUARDS = [
 		"tests/guards/test_palettes.py::test_the_palette_rules_catch_their_examples",
 	),
 	Guard(
+		"palette-copy-band",
+		7,
+		"a training copy's band or vignette left without a colour in a palette or theme",
+		"tests/guards/test_palettes.py::test_a_copy_is_drawn_in_every_palette",
+		"tests/guards/test_palettes.py::test_the_palette_rules_catch_their_examples",
+	),
+	Guard(
 		"palette-only-roles",
 		7,
 		"a palette setting anything but roles and the scale",

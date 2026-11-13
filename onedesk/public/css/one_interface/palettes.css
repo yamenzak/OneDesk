@@ -48,6 +48,9 @@
 	--one-control-bg: oklch(0.965 0.01 80);
 	--one-count-bg: oklch(0.905 0.02 72);
 	--one-count-ink: var(--gray-800);
+	--one-copy-band-bg: oklch(0.88 0.08 78);
+	--one-copy-band-ink: oklch(0.32 0.06 55);
+	--one-copy-vignette: oklch(0.74 0.13 68 / 0.5);
 	--one-details-bg: var(--one-level-float);
 	--one-dialog-bg: var(--one-level-float);
 	--one-dialog-rail: var(--gray-50);
@@ -137,6 +140,9 @@
 	--one-control-bg: var(--gray-700);
 	--one-count-bg: oklch(0.3 0.007 65);
 	--one-count-ink: var(--gray-200);
+	--one-copy-band-bg: oklch(0.44 0.08 65);
+	--one-copy-band-ink: oklch(0.95 0.03 80);
+	--one-copy-vignette: oklch(0.7 0.12 70 / 0.38);
 	--one-details-bg: var(--one-level-float);
 	--one-dialog-bg: var(--one-level-float);
 	--one-dialog-rail: transparent;

@@ -188,6 +188,20 @@ the person and sits as far from the bottom, so the two read as one row.
   Check In, Timers, OneAI, and the date and time (OneCalendar) at the end,
   where Windows keeps its clock. OneAI's floating dial is not drawn while
   the bars are.
+- **A copy never looks live.** Boot carries `one_site_kind`
+  (`one/dev.py`, `kind`, from site config): a training copy when
+  `one_copy_ends` is set (OneAdmin's sessions write it, `sessions.config_for`,
+  with the session's end), a dev site on `one_dev` or developer mode, else
+  live. On a copy or a dev site `chrome.js` (`copy_band`) puts a band after
+  the workspace's name in the top bar ("Training copy, ends {date}. Nothing
+  here is real." in the reader's date format, or "Development site. Nothing
+  here is real."), the same band fixed across the top of a phone, wrapping
+  rather than cut, with the page moved down by its height (`--one-bar-copy`),
+  and a soft vignette round the window (`.one-copy-edge`, no pointer
+  events). Its colours are the roles `--one-copy-band-bg`,
+  `--one-copy-band-ink` and `--one-copy-vignette`, which every palette sets
+  for light and dark (`test_palettes`, `palette-copy-band`). It is the
+  frame's, so every look draws it. A live site draws nothing.
 
 The frame's colour is `--one-frame`: frappe-ui's darkest grey in a light
 theme, and in a dark one a grey a step lighter than the page (which is

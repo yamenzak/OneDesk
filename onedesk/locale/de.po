@@ -15321,6 +15321,10 @@ msgstr "Ein Muster wurde erkannt, konnte aber auf keine Zeile angewendet werden.
 msgid "Developed Design"
 msgstr "Entwurfsplanung"
 
+#: onedesk/public/js/one_interface/chrome.js:187
+msgid "Development site. Nothing here is real."
+msgstr "Entwicklungsumgebung. Nichts hier ist echt."
+
 #. Name of a DocType
 #. Label of the label (Data) field in DocType 'Push Device'
 #. Label of the section_break_device (Section Break) field in DocType 'Display
@@ -58336,6 +58340,11 @@ msgstr "Schulung"
 #: onedesk/one_admin/notifications.py
 msgid "Training and disposable copies can now start on it. Open Sessions to start one."
 msgstr "Trainings- und Wegwerfkopien können nun darauf starten. Öffnen Sie Sitzungen, um eine zu starten."
+
+#: onedesk/public/js/one_interface/chrome.js:186
+#, python-brace-format
+msgid "Training copy, ends {0}. Nothing here is real."
+msgstr "Trainingskopie, endet am {0}. Nichts hier ist echt."
 
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json

@@ -131,6 +131,12 @@
 	--one-tab-on-ink: var(--ink-gray-9);
 	--one-count-bg: var(--surface-gray-3);
 	--one-count-ink: var(--ink-gray-6);
+
+	/* A training copy or a dev site (chrome.js, copy_band): the band in the
+	   top bar, and the soft edge round the window. */
+	--one-copy-band-bg: var(--surface-amber-2);
+	--one-copy-band-ink: var(--ink-amber-9);
+	--one-copy-vignette: color-mix(in oklab, var(--surface-amber-5) 45%, transparent);
 }
 
 /* A .one-sample is a small picture of the page in a theme and palette of
@@ -172,6 +178,8 @@
 	--one-bar-height: 28px;
 	--one-bar-offset: 0px;
 	--one-frame-gutter: 6px;
+	/* the band across the top of a phone on a copy (chrome.js, copy_band) */
+	--one-bar-copy: 0px;
 
 	/* The workspace's colour when it set one (chrome.js), else frappe-ui's
 	   darkest grey. */

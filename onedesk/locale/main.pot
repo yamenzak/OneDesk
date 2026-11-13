@@ -15409,6 +15409,10 @@ msgstr ""
 msgid "Developed Design"
 msgstr ""
 
+#: onedesk/public/js/one_interface/chrome.js:187
+msgid "Development site. Nothing here is real."
+msgstr ""
+
 #. Name of a DocType
 #. Label of the label (Data) field in DocType 'Push Device'
 #. Label of the section_break_device (Section Break) field in DocType 'Display
@@ -58536,6 +58540,10 @@ msgstr ""
 #. Label of the copies_agreed_on (Datetime) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:506
 msgid "Training Copies Agreed On"
+msgstr ""
+
+#: onedesk/public/js/one_interface/chrome.js:186
+msgid "Training copy, ends {0}. Nothing here is real."
 msgstr ""
 
 #. Label of a Sidebar Item

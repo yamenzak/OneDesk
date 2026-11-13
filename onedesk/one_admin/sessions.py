@@ -46,10 +46,13 @@ def expires_on(start, lasts: str):
 	return add_to_date(start, hours=LASTS[lasts])
 
 
-def config_for(source: str, link: str) -> dict:
-	"""What a site is told: a copy's mail and jobs stay off, and only a demo
-	may build the demo company. Pure."""
+def config_for(source: str, link: str, ends=None) -> dict:
+	"""What a site is told: a copy's mail and jobs stay off, only a demo may
+	build the demo company, and every session says when it ends, which the
+	frame's band shows (one/dev.py, kind). Pure."""
 	config = {"hostname": link, "mute_emails": 1, "pause_scheduler": 1 if source == COPY else 0}
+	if ends:
+		config["one_copy_ends"] = str(ends)
 	if source == DEMO:
 		config["one_dev"] = 1
 	return config
@@ -237,7 +240,7 @@ def created(doc) -> str | None:
 
 
 def configure(doc) -> None:
-	pilot.on(doc, "PATCH", f"/sites/{doc.site}/configuration", json=config_for(doc.source, doc.link))
+	pilot.on(doc, "PATCH", f"/sites/{doc.site}/configuration", json=config_for(doc.source, doc.link, doc.expires_on))
 
 
 def demo(doc) -> None:

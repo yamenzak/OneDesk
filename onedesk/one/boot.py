@@ -38,6 +38,7 @@ def boot_session(bootinfo) -> None:
 	from onedesk.one import dev
 
 	bootinfo["one_dev"] = dev.site()
+	bootinfo["one_site_kind"] = dev.kind(frappe.conf)
 	from onedesk.one import company
 
 	bootinfo["one_frame_colour"] = company.frame_colour()
