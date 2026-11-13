@@ -85,6 +85,7 @@ A person looks: each screen, as each role, on a desktop and a phone: tokens only
 - `shell-styles-shell`: anything but the shell styling the shell (`tests/guards/test_frame.py::test_only_the_shell_styles_the_shell`, caught in `test_the_frame_rules_catch_their_examples`)
 - `page-draws-no-shell`: a page drawing a part the shell draws (`tests/guards/test_frame.py::test_a_page_on_the_shell_draws_none_of_its_parts`, caught in `test_the_frame_rules_catch_their_examples`)
 - `centre-frame`: a centre drawing its own dialog, or a section its own body without saying why (`tests/guards/test_frame.py::test_every_centre_opens_in_the_frame`, caught in `test_the_frame_rules_catch_their_examples`)
+- `centre-tables-fit`: a table in a centre wider than its frame, cut or scrolling sideways (D16) (`tests/guards/test_frame.py::test_every_table_in_a_centre_fits_it`, caught in `test_the_frame_rules_catch_their_examples`)
 - `portal-look`: a page outside the desk without the portal (`tests/guards/test_frame.py::test_every_page_outside_the_desk_wears_the_portal`, caught in `test_the_frame_rules_catch_their_examples`)
 - `tabs-across`: a record's views run down the side of the page (`tests/guards/test_record_page.py::test_no_tabs_run_down_the_side`, caught in `test_the_record_page_rules_catch_their_examples`)
 - `tabs-scroll`: a row of tabs that sticks to the top of the page (`tests/guards/test_record_page.py::test_no_tab_row_sticks_to_the_top`, caught in `test_the_record_page_rules_catch_their_examples`)

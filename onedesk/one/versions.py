@@ -30,12 +30,15 @@ def seen(module: str) -> str | None:
 
 
 def for_boot() -> dict:
-	"""Each module's version, and whether the reader has seen it."""
+	"""Each module's version, whether the reader has seen it, and the Help
+	page its ControlCenter is explained on (settings, else overview)."""
 	out = {}
 	for module in ready.MODULES:
 		version = ready.current(module) if offered(module) else None
 		if version:
-			out[module] = {"version": version, "unseen": int(seen(module) != version)}
+			pages = [page for page, _icon in ready.MODULES[module].get("help", ())]
+			told = next((page for page in ("settings", "overview") if page in pages), "")
+			out[module] = {"version": version, "unseen": int(seen(module) != version), "help": told}
 	return out
 
 

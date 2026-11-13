@@ -129,13 +129,26 @@ $.extend(onedesk.shell, {
 		const table = wrap && wrap.querySelector("table");
 		if (!table || !wrap.clientWidth) return;
 		const columns = table.querySelectorAll("thead th").length;
-		const fits = () => table.scrollWidth <= wrap.clientWidth + 1;
-		for (let from = 2; from <= 6; from++) table.classList.remove(`one-fold-${from}`);
+		const fits = () => table.scrollWidth <= onedesk.shell.room(wrap) + 1;
+		for (let from = 2; from <= 7; from++) table.classList.remove(`one-fold-${from}`);
 		table.classList.remove("one-fold");
-		for (let from = Math.min(columns, 6); from >= 2 && !fits(); from--) {
-			if (from < 6) table.classList.remove(`one-fold-${from + 1}`);
+		for (let from = Math.min(columns, 7); from >= 2 && !fits(); from--) {
+			if (from < 7) table.classList.remove(`one-fold-${from + 1}`);
 			table.classList.add("one-fold", `one-fold-${from}`);
 		}
+	},
+
+	/** How wide a table may be where it sits: its frame's width, or the
+	 * panel's or page's it is in where that is narrower, so a frame that grew
+	 * with its table still folds it. */
+	room(wrap) {
+		const at = wrap.getBoundingClientRect();
+		const holder = wrap.closest(".settings-dialog-panel-body, .layout-main-section, .page-body");
+		if (!holder) return wrap.clientWidth;
+		const edge = holder.getBoundingClientRect();
+		const style = getComputedStyle(holder);
+		const inner = document.documentElement.dir === "rtl" ? at.right - edge.left - parseFloat(style.paddingLeft) : edge.right - parseFloat(style.paddingRight) - at.left;
+		return Math.max(0, Math.min(wrap.clientWidth, inner));
 	},
 
 	side({ image = null, initials = "", mark = null, title = "", sub = "", groups = [], meta = [] } = {}) {

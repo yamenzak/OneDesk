@@ -1200,6 +1200,25 @@ html[dir="rtl"] #driver-popover-item {
 	min-width: 0;
 	max-width: 100%;
 }
+.one-centre .settings-dialog-panel-body :has(.embedded-list-table),
+.one-centre .settings-dialog-panel-body .embedded-list-table-wrap {
+	min-width: 0;
+	max-width: 100%;
+}
+.one-centre .settings-dialog-panel-body .embedded-list-table td {
+	max-width: none;
+}
+.one-centre .settings-dialog-panel-body .embedded-list-table.one-fold td:first-child {
+	min-width: 0;
+}
+.one-centre .settings-dialog-panel-body table:not(.embedded-list-table) {
+	width: 100%;
+	max-width: 100%;
+	table-layout: fixed;
+}
+.one-centre .settings-dialog-panel-body table:not(.embedded-list-table) :is(td, th) {
+	overflow-wrap: anywhere;
+}
 .one-centre .embedded-list-header {
 	flex-wrap: wrap;
 	row-gap: calc(var(--spacing) * 2);
@@ -1213,4 +1232,9 @@ html[dir="rtl"] #driver-popover-item {
 	.one-centre .settings-dialog-panel-header > .settings-dialog-panel-heading {
 		padding-inline-end: 0;
 	}
+}
+
+/* A centre's empty section: frappe's empty state, in the middle of the body. */
+.one-centre .one-centre-empty {
+	margin-block: auto;
 }

@@ -266,7 +266,7 @@ onedesk.centers.declare("trust", {
 					.on("click", async () => {
 						const read = await frappe.xcall("onedesk.trust_center.reading.document", { key: doc.key, version: old.version }, "GET");
 						kit.view(panel, { title: doc.title, description: __("As agreed, version {0}.", [short(read.version)]) });
-						onedesk.centers.page(panel.body.empty(), read.html.split("</h1>").pop());
+						onedesk.centers.page(panel.body.empty(), read.html.split("</h1>").pop(), { lang: "en" });
 					})
 					.appendTo($buttons);
 			}
@@ -374,6 +374,7 @@ onedesk.centers.declare("trust", {
 			title: one.title,
 			description: one.description,
 			page: one.html,
+			lang: one.id.startsWith("doc:") ? "en" : null,
 			before: one.before,
 			after: one.after,
 		}));

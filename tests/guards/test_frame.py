@@ -557,6 +557,41 @@ def drawn_unsaid(text: str) -> list[int]:
 	return found
 
 
+FITS = (
+	".one-centre .settings-dialog-panel-body :has(.embedded-list-table)",
+	".one-centre .settings-dialog-panel-body table:not(.embedded-list-table) {\n\twidth: 100%;\n\tmax-width: 100%;\n\ttable-layout: fixed;",
+)
+"""What keeps every table in a centre inside its frame (centre.css): each box
+holding a list's table no wider than the section, and any other table laid
+out to the section's width, its words wrapping."""
+
+
+def unfitted(shell: str, css: str, code: dict[str, str]) -> list[str]:
+	"""How a table in a centre could run past the frame (D16): the shell's
+	table not folding after it draws and as its frame resizes, folding by its
+	own width rather than the room it has, the frame's CSS not holding a table
+	to the section, or a script drawing frappe's EmbeddedList itself. Pure."""
+	table = shell.split("async table(", 1)[1].split("\n\t},", 1)[0]
+	wrong = [f"onedesk.shell.table does not {said}" for part, said in (
+		("list.after_render = () => onedesk.shell.fold(list)", "fold after it draws"),
+		("new ResizeObserver(() => onedesk.shell.fold(list))", "fold as its frame resizes"),
+	) if part not in table]
+	if "onedesk.shell.room(wrap)" not in shell.split("fold(list) {", 1)[1].split("\n\t},", 1)[0]:
+		wrong.append("onedesk.shell.fold measures the table's own frame, not the room it has")
+	wrong += [f"centre.css lost {rule.splitlines()[0]}" for rule in FITS if rule not in css]
+	return wrong + [f"{name} draws an EmbeddedList itself; use onedesk.shell.table" for name, text in sorted(code.items()) if "new frappe.ui.EmbeddedList(" in text and not name.endswith("shell.js")]
+
+
+def test_every_table_in_a_centre_fits_it():
+	"""No table in a centre is wider than the frame, at any width, in either
+	direction: the shell's table folds a column under the first where it has
+	no room (D16), and the frame holds every table to its section."""
+	shell = (tree.APP / "public" / "js" / "shell.js").read_text(encoding="utf-8")
+	css = (tree.APP / "public" / "css" / "one_interface" / "centre.css").read_text(encoding="utf-8")
+	code = {str(path.relative_to(ROOT)): path.read_text(encoding="utf-8") for path in _ours("*.js", "*.vue")}
+	assert not unfitted(shell, css, code), unfitted(shell, css, code)
+
+
 def test_every_centre_opens_in_the_frame():
 	"""Every centre is a declaration the frame draws (one_interface/centre.js):
 	no script draws a centre's dialog of its own, every centre the registry
@@ -615,6 +650,13 @@ def test_the_frame_rules_catch_their_examples():
 	said = 'onedesk.centers.declare("x", {\n\t/** Why. */\n\trender(panel) {},\n\trender: (panel) => 1,\n});'
 	assert drawn_unsaid(said) == [4]
 	assert drawn_unsaid("render(panel) {}") == []
+	shell = "async table($into) {\n\t\tlist.after_render = () => onedesk.shell.fold(list);\n\t\tnew ResizeObserver(() => onedesk.shell.fold(list))\n\t},\n\tfold(list) {\n\t\tonedesk.shell.room(wrap)\n\t},"
+	assert unfitted(shell, "\n".join(FITS), {"a/shell.js": "new frappe.ui.EmbeddedList("}) == []
+	assert unfitted(shell.replace("room(wrap)", "x"), "", {"b/c.js": "new frappe.ui.EmbeddedList("}) == [
+		"onedesk.shell.fold measures the table's own frame, not the room it has",
+		*[f"centre.css lost {rule.splitlines()[0]}" for rule in FITS],
+		"b/c.js draws an EmbeddedList itself; use onedesk.shell.table",
+	]
 	assert islands_unknown({"Task": 1}, {}) == ["Task"] and not islands_unknown({}, {})
 	record = 'onedesk.record_files.side(frm, open_files)\n' + "".join(f'__("{word}")' for word in MENU)
 	good = 'useRecord("Task" record.menu( follow('

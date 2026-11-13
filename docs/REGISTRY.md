@@ -11,7 +11,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 2.13.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 2.13.0 |
+| 7. Our look | 81 | in 2.13.0 |
 | 11. Notifications | 10 | in 2.13.0 |
 | 13. Plain words | 24 | in 2.13.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -37,7 +37,7 @@ Not marked ready yet.
 |---|--:|---|
 | 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | not yet |
+| 7. Our look | 81 | not yet |
 | 11. Notifications | 10 | not yet |
 | 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -63,7 +63,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.4.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.4.0 |
+| 7. Our look | 81 | in 1.4.0 |
 | 11. Notifications | 10 | in 1.4.0 |
 | 13. Plain words | 24 | in 1.4.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -89,7 +89,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.3.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.3.0 |
+| 7. Our look | 81 | in 1.3.0 |
 | 11. Notifications | 10 | in 1.3.0 |
 | 13. Plain words | 24 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -115,7 +115,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 2.1.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 2.1.0 |
+| 7. Our look | 81 | in 2.1.0 |
 | 11. Notifications | 10 | in 2.1.0 |
 | 13. Plain words | 24 | in 2.1.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -141,7 +141,7 @@ Not marked ready yet.
 |---|--:|---|
 | 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | not yet |
+| 7. Our look | 81 | not yet |
 | 11. Notifications | 10 | not yet |
 | 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -167,7 +167,7 @@ Not marked ready yet.
 |---|--:|---|
 | 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | not yet |
+| 7. Our look | 81 | not yet |
 | 11. Notifications | 10 | not yet |
 | 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -193,7 +193,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.3.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.3.0 |
+| 7. Our look | 81 | in 1.3.0 |
 | 11. Notifications | 10 | in 1.3.0 |
 | 13. Plain words | 24 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -219,7 +219,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.2.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.2.0 |
+| 7. Our look | 81 | in 1.2.0 |
 | 11. Notifications | 10 | in 1.2.0 |
 | 13. Plain words | 24 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -245,7 +245,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.3.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.3.0 |
+| 7. Our look | 81 | in 1.3.0 |
 | 11. Notifications | 10 | in 1.3.0 |
 | 13. Plain words | 24 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -271,7 +271,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 2.2.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 2.2.0 |
+| 7. Our look | 81 | in 2.2.0 |
 | 11. Notifications | 10 | in 2.2.0 |
 | 13. Plain words | 24 | in 2.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -297,7 +297,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.1.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.1.0 |
+| 7. Our look | 81 | in 1.1.0 |
 | 11. Notifications | 10 | in 1.1.0 |
 | 13. Plain words | 24 | in 1.1.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -323,7 +323,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 2.6.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 2.6.0 |
+| 7. Our look | 81 | in 2.6.0 |
 | 11. Notifications | 10 | in 2.6.0 |
 | 13. Plain words | 24 | in 2.6.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -349,7 +349,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.3.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.3.0 |
+| 7. Our look | 81 | in 1.3.0 |
 | 11. Notifications | 10 | in 1.3.0 |
 | 13. Plain words | 24 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -375,7 +375,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.12.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.12.0 |
+| 7. Our look | 81 | in 1.12.0 |
 | 11. Notifications | 10 | in 1.12.0 |
 | 13. Plain words | 24 | in 1.12.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -401,7 +401,7 @@ Not marked ready yet.
 |---|--:|---|
 | 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | not yet |
+| 7. Our look | 81 | not yet |
 | 11. Notifications | 10 | not yet |
 | 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -427,7 +427,7 @@ Not marked ready yet.
 |---|--:|---|
 | 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | not yet |
+| 7. Our look | 81 | not yet |
 | 11. Notifications | 10 | not yet |
 | 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -453,7 +453,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.3.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.3.0 |
+| 7. Our look | 81 | in 1.3.0 |
 | 11. Notifications | 10 | in 1.3.0 |
 | 13. Plain words | 24 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -479,7 +479,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.18.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.18.0 |
+| 7. Our look | 81 | in 1.18.0 |
 | 11. Notifications | 10 | in 1.18.0 |
 | 13. Plain words | 24 | in 1.18.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -505,7 +505,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.2.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.2.0 |
+| 7. Our look | 81 | in 1.2.0 |
 | 11. Notifications | 10 | in 1.2.0 |
 | 13. Plain words | 24 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -531,7 +531,7 @@ Not marked ready yet.
 |---|--:|---|
 | 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | not yet |
+| 7. Our look | 81 | not yet |
 | 11. Notifications | 10 | not yet |
 | 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -557,7 +557,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.2.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.2.0 |
+| 7. Our look | 81 | in 1.2.0 |
 | 11. Notifications | 10 | in 1.2.0 |
 | 13. Plain words | 24 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
@@ -583,7 +583,7 @@ Ready.
 |---|--:|---|
 | 1. Demo and tests | 14 | in 1.5.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 80 | in 1.5.0 |
+| 7. Our look | 81 | in 1.5.0 |
 | 11. Notifications | 10 | in 1.5.0 |
 | 13. Plain words | 24 | in 1.5.0 |
 | 14. Documented, with Help and a tour | 9 | — |

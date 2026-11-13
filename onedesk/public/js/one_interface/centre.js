@@ -142,6 +142,7 @@ onedesk.centers.kit = (() => {
 	const glyph = (name) => `<span class="one-set-glyph">${frappe.utils.icon(name, "sm")}</span>`;
 	const chevron = () => `<span class="one-set-chevron">${frappe.utils.icon("chevron-right", "sm")}</span>`;
 	const empty = (words) => `<div class="one-set-empty">${esc(words)}</div>`;
+	const nothing = ($body, words, icon = null) => $body.append(frappe.ui.empty_state.html({ title: words, icon: icon || undefined, css_class: "one-centre-empty" }));
 	const fields = ($into, list) => {
 		const group = new frappe.ui.FieldGroup({ fields: list, body: $into.get(0) });
 		group.make();
@@ -209,14 +210,18 @@ onedesk.centers.kit = (() => {
 		return control;
 	};
 
-	return { esc, saved, heading, heading_with, row, glyph, chevron, empty, fields, button, buttons, remove, view, track, header_switch, switched };
+	return { esc, saved, heading, heading_with, row, glyph, chevron, empty, nothing, fields, button, buttons, remove, view, track, header_switch, switched };
 })();
 
 /** Words to read (a Help page, a version, an agreement), laid out for
  * reading: a picture becomes a figure captioned with what it shows, a table
- * scrolls in its own frame. */
-onedesk.centers.page = ($into, html) => {
+ * scrolls in its own frame. Words written in one language only (`lang`,
+ * English for Help, versions and agreements) keep that language's
+ * direction whatever the reader's, while the screen around them keeps
+ * theirs. */
+onedesk.centers.page = ($into, html, { lang = null } = {}) => {
 	const $doc = $(`<div class="one-doc"></div>`).html(html).appendTo($into);
+	if (lang) $doc.attr({ lang, dir: "ltr" });
 	$doc.find("img").each((_i, img) => {
 		const $figure = $(`<figure class="one-doc-figure"></figure>`);
 		const $p = $(img).parent("p");
@@ -283,7 +288,10 @@ onedesk.centers.body = (declared) => {
 			async render(panel) {
 				const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 				const rows = await item.rows(panel);
-				if (!rows.length && item.empty) $list.append(kit.empty(item.empty));
+				if (!rows.length && item.empty) {
+					$list.remove();
+					kit.nothing(panel.body, item.empty, item.icon);
+				}
 				for (const one of rows) kit.row(one).appendTo($list);
 			},
 		};
@@ -321,7 +329,7 @@ onedesk.centers.body = (declared) => {
 				panel.body.empty();
 				if (item.before) item.before(panel);
 				const html = typeof item.page === "function" ? item.page(panel) : item.page;
-				if (html) onedesk.centers.page(panel.body, html);
+				if (html) onedesk.centers.page(panel.body, html, { lang: item.lang || null });
 				if (item.after) item.after(panel);
 				panel.body.off("scroll.one-docs").on("scroll.one-docs", frappe.utils.throttle(() => panel.dialog.spy(item.id), 80));
 			},
@@ -606,7 +614,7 @@ onedesk.centers.open = async (key, { at = null, record = null, module = null, ..
 		index,
 		follow: d.follow ? (page, anchor) => d.follow(centre, page, anchor) : null,
 		default_tab: ids.includes(opening) ? opening : own[0].id,
-		help: typeof d.help === "function" ? (tab) => d.help(tab, ctx) : d.help || null,
+		help: (typeof d.help === "function" ? d.help(null, ctx) : d.help) ? (typeof d.help === "function" ? (tab) => d.help(tab, ctx) : d.help) : null,
 	});
 	ctx.centre = centre;
 	centre.ctx = ctx;

@@ -146,6 +146,13 @@ GUARDS = [
 		"tests/guards/test_frame.py::test_the_frame_rules_catch_their_examples",
 	),
 	Guard(
+		"centre-tables-fit",
+		7,
+		"a table in a centre wider than its frame, cut or scrolling sideways (D16)",
+		"tests/guards/test_frame.py::test_every_table_in_a_centre_fits_it",
+		"tests/guards/test_frame.py::test_the_frame_rules_catch_their_examples",
+	),
+	Guard(
 		"portal-look",
 		7,
 		"a page outside the desk without the portal",

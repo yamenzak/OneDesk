@@ -60,10 +60,11 @@ onedesk.mail.sections = (ctx) => {
 		/** Each mailbox the reader holds, opening into its own sections, and Connect: rows that open views of their own. */
 		async render(panel) {
 			const was = panel.shown;
-			const boxes = (await frappe.xcall(H + "mailboxes")) || [];
+			const boxes = (await frappe.xcall(H + "mailboxes").catch(() => null)) || [];
 			if (panel.shown !== was) return;
-			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-			if (!boxes.length) $list.append(empty(__("No mailboxes")));
+			panel.body.empty();
+			if (!boxes.length) return onedesk.centers.kit.nothing(panel.body, __("No mailboxes"), "mail");
+			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
 			boxes.forEach((box) => {
 				const said = [kind_of(box), box.sends ? __("Read and Send") : __("Read Only")];
 				if (box.sends && box.signed) said.push(box.signed);

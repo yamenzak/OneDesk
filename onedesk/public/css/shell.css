@@ -730,7 +730,8 @@ a.one-shell-row:hover {
 .embedded-list table.one-fold-3 td:nth-child(n + 3):not(.embedded-list-actions),
 .embedded-list table.one-fold-4 td:nth-child(n + 4):not(.embedded-list-actions),
 .embedded-list table.one-fold-5 td:nth-child(n + 5):not(.embedded-list-actions),
-.embedded-list table.one-fold-6 td:nth-child(n + 6):not(.embedded-list-actions) {
+.embedded-list table.one-fold-6 td:nth-child(n + 6):not(.embedded-list-actions),
+.embedded-list table.one-fold-7 td:nth-child(n + 7):not(.embedded-list-actions) {
 	order: 2;
 	flex: 1 1 100%;
 	padding-top: 0;

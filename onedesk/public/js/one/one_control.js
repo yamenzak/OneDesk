@@ -286,6 +286,10 @@ onedesk.centers.declare("settings", {
 		return parts.One;
 	},
 	found: (ctx) => ctx.module,
+	help: (_tab, ctx) => {
+		const page = ((frappe.boot.one_versions || {})[ctx.module] || {}).help;
+		return page ? [ctx.module, page] : null;
+	},
 });
 
 // One's own: the workspace's company, branding, formats, sign-in, sharing

@@ -65,6 +65,7 @@ onedesk.centers.declare("help", {
 					icon: one.icon,
 					title: one.title,
 					page: one.html,
+					lang: "en",
 					after: (panel) =>
 						onedesk.help_center.more(
 							panel,
@@ -118,6 +119,7 @@ onedesk.centers.declare("updates", {
 					title: module ? one.title : `${of} ${one.version} · ${one.title}`,
 					description: [kinds[one.kind] || one.kind, frappe.datetime.str_to_user(one.date)].join(" · "),
 					page: one.html,
+					lang: "en",
 					before(panel) {
 						const $title = panel.$header.find(".settings-dialog-panel-title");
 						if (one.new) $title.append(" ", frappe.ui.badge.html({ label: __("New"), theme: "blue" }));
