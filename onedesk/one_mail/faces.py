@@ -9,7 +9,7 @@ from urllib.parse import quote, urlparse
 
 import frappe
 import requests
-from frappe.utils import add_days, now_datetime
+from frappe.utils import add_days, now_datetime, sha256_hash
 
 from onedesk.one_ai.reading.identifiers import PROVIDERS
 from onedesk.one_legal import services
@@ -66,7 +66,7 @@ def is_person(key: str) -> bool:
 
 def gravatar(address: str) -> str:
 	"""Gravatar's picture of an address, or a 404 when it has none. Pure."""
-	digest = hashlib.sha256(address.strip().lower().encode()).hexdigest()
+	digest = sha256_hash(address.strip().lower())
 	return f"https://www.gravatar.com/avatar/{digest}?d=404&s=128"
 
 

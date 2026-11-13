@@ -7,6 +7,9 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, flt, get_first_day, getdate, nowdate
 
+from onedesk.one.company import reader_company
+from onedesk.one.needs_you import kept
+
 WEEK = 7
 
 
@@ -17,18 +20,12 @@ def _card(amount, route: list, options: dict | None = None) -> dict:
 	return card
 
 
-def _company() -> str:
-	from erpnext import get_default_company
-
-	return get_default_company()
-
-
 def _ledger(account: dict, **more) -> float:
 	"""Debit less credit on the reader's company's accounts that match
 	`account`, through the reader's own permissions on the ledger, its
 	accounts and cost centres, as story._entries reads it."""
 	frappe.has_permission("GL Entry", "read", throw=True)
-	company = _company()
+	company = reader_company()
 	accounts = frappe.get_all("Account", filters={"company": company, "is_group": 0, **account}, pluck="name")
 	if not accounts:
 		return 0.0
@@ -70,7 +67,7 @@ def _unpaid(doctype: str, fields: list | None = None, credits: bool = False) -> 
 	Accounts Receivable and Payable count it."""
 	from erpnext import get_company_currency
 
-	company = _company()
+	company = reader_company()
 	ours = get_company_currency(company)
 	rows = frappe.get_list(
 		doctype,
@@ -193,8 +190,6 @@ def DUE_THIS_WEEK() -> dict:
 	"""The bills behind Due This Week: unpaid, and due by the week's end."""
 	return {"docstatus": 1, "outstanding_amount": [">", 0], "due_date": ["<=", this_week()]}
 
-
-FEW = 5
 
 GROUPS = (
 	("receivables", _lt("Receivables")),
@@ -439,18 +434,14 @@ def read() -> dict:
 	}
 
 
-def _kept(rows: list) -> dict:
-	return {"rows": rows[:FEW], "count": len(rows)}
-
-
 def needs_you() -> dict:
 	"""Invoices overdue, bills due this week or late, bank lines to match,
 	approved claims and advances still to pay their employees, and drafts left
 	more than a day, each as the reader may see them."""
 	day = getdate(nowdate())
 	return {
-		"overdue": _kept(_late("Sales Invoice", "customer", yesterday(), day)),
-		"bills": {**_kept(_late("Purchase Invoice", "supplier", this_week(), day)), "until": str(this_week())},
+		"overdue": kept(_late("Sales Invoice", "customer", yesterday(), day)),
+		"bills": {**kept(_late("Purchase Invoice", "supplier", this_week(), day)), "until": str(this_week())},
 		"bank": _bank(),
 		"people": _to_people(),
 		"drafts": drafts(),
@@ -464,13 +455,13 @@ def _late(doctype: str, party: str, until, day) -> list[dict]:
 		return []
 	rows = frappe.get_list(
 		doctype,
-		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": _company()},
+		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": reader_company()},
 		fields=["name", party, f"{party}_name as party_name", "due_date", "outstanding_amount", "currency", "party_account_currency", "conversion_rate"],
 		limit_page_length=0,
 	)
 	from erpnext import get_company_currency
 
-	ours = get_company_currency(_company())
+	ours = get_company_currency(reader_company())
 	schedule = _schedule(doctype, [one.name for one in rows])
 	out = []
 	for one in rows:
@@ -498,7 +489,7 @@ def _bank() -> dict:
 		return {"rows": [], "count": 0}
 	rows = frappe.get_list(
 		"Bank Transaction",
-		filters={"docstatus": 1, "status": "Unreconciled", "company": _company()},
+		filters={"docstatus": 1, "status": "Unreconciled", "company": reader_company()},
 		fields=["bank_account", {"COUNT": "*", "as": "lines"}, {"SUM": "unallocated_amount", "as": "amount"}],
 		group_by="bank_account",
 		limit_page_length=0,
@@ -516,7 +507,7 @@ def _to_people() -> dict:
 	if frappe.has_permission("Expense Claim", "read"):
 		for one in frappe.get_list(
 			"Expense Claim",
-			filters={"docstatus": 1, "approval_status": "Approved", "status": ["in", ["Unpaid", "Partially Paid"]], "company": _company()},
+			filters={"docstatus": 1, "approval_status": "Approved", "status": ["in", ["Unpaid", "Partially Paid"]], "company": reader_company()},
 			fields=["name", "employee_name", "grand_total", "total_amount_reimbursed", "posting_date", "currency"],
 			order_by="posting_date asc",
 			limit_page_length=0,
@@ -525,13 +516,13 @@ def _to_people() -> dict:
 	if frappe.has_permission("Employee Advance", "read"):
 		for one in frappe.get_list(
 			"Employee Advance",
-			filters={"docstatus": 1, "status": "Unpaid", "company": _company()},
+			filters={"docstatus": 1, "status": "Unpaid", "company": reader_company()},
 			fields=["name", "employee_name", "advance_amount", "paid_amount", "posting_date", "currency"],
 			order_by="posting_date asc",
 			limit_page_length=0,
 		):
 			rows.append({"doctype": "Employee Advance", "name": one.name, "employee": one.employee_name, "owed": flt(one.advance_amount) - flt(one.paid_amount), "since": str(one.posting_date), "currency": one.currency})
-	return {"rows": rows[:FEW], "count": len(rows)}
+	return kept(rows)
 
 
 DRAFTS = (

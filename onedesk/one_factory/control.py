@@ -2,15 +2,16 @@
 the account workshop time is costed to and the warehouses a new work order
 takes, each the reader's default company's own fields on Company."""
 
-import erpnext
 import frappe
 from frappe import _
+
+from onedesk.one.company import reader_company
 
 FIELDS = ("default_operating_cost_account", "default_wip_warehouse", "default_fg_warehouse")
 
 
 def _company() -> str:
-	company = erpnext.get_default_company()
+	company = reader_company()
 	if not company:
 		frappe.throw(_("Add a company first."))
 	return company
@@ -64,12 +65,12 @@ def save_workshop(
 
 def costed() -> bool:
 	"""Whether workshop time has an account to go to."""
-	company = erpnext.get_default_company()
+	company = reader_company()
 	return bool(company and frappe.db.get_value("Company", company, "default_operating_cost_account"))
 
 
 def placed() -> bool:
 	"""Whether a new work order knows where to work and where to put what it makes."""
-	company = erpnext.get_default_company()
+	company = reader_company()
 	said = company and frappe.db.get_value("Company", company, ["default_wip_warehouse", "default_fg_warehouse"])
 	return bool(said and all(said))

@@ -5,12 +5,11 @@ Calls only ever go tenant to admin. A tenant proves itself with the token
 """
 
 import base64
-import hashlib
 import hmac
 
 import frappe
 from frappe.rate_limiter import rate_limit
-from frappe.utils import cint
+from frappe.utils import cint, sha256_hash
 
 from onedesk.one_admin import faults, site
 
@@ -44,7 +43,7 @@ def caller(serving: tuple = SERVING):
 	)
 	if not held or not held.token_hash:
 		_refuse()
-	if not hmac.compare_digest(held.token_hash, _hashed(offered)):
+	if not hmac.compare_digest(held.token_hash, sha256_hash(offered)):
 		_refuse()
 	if held.status not in serving:
 		_refuse()
@@ -78,10 +77,6 @@ def _offered_token() -> str:
 	not `Authorization`, which Frappe's API-key authentication reads first.
 	"""
 	return (frappe.get_request_header(HEADER) or "").strip()
-
-
-def _hashed(token: str) -> str:
-	return hashlib.sha256(token.encode()).hexdigest()
 
 
 def _refuse():

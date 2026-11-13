@@ -7,6 +7,8 @@ import json
 import erpnext
 import frappe
 
+from onedesk.one.company import reader_company
+
 THIS_MONTH = ["creation", "Timespan", "this month"]
 
 CARDS = {
@@ -37,7 +39,7 @@ CHARTS = {
 
 
 def settle() -> None:
-	company = erpnext.get_default_company()
+	company = reader_company()
 	currency = erpnext.get_company_currency(company) if company else None
 	for name, said in CARDS.items():
 		_set("Number Card", name, said)

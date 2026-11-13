@@ -15,7 +15,7 @@ HOOKS = tree.hooks()
 
 
 def _load(path, names):
-	space = {"hashlib": hashlib}
+	space = {"sha256_hash": lambda text: hashlib.sha256(text.encode()).hexdigest()}
 	for node in ast.parse(path.read_text()).body:
 		if isinstance(node, ast.FunctionDef) and node.name in names:
 			exec(ast.unparse(node), space)

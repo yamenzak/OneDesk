@@ -779,9 +779,9 @@ def workspace() -> str:
 	"""The weekly offs, for the `one_ai_workspace` hook: read off the reader's
 	company's default holiday list, because "Friday" costing a day or not is
 	the first thing a question about leave turns on."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
-	company = get_default_company()
+	company = reader_company()
 	listed = company and frappe.db.get_value("Company", company, "default_holiday_list")
 	if not listed:
 		return ""
@@ -801,7 +801,7 @@ def people_today() -> dict:
 	a holiday, absent, or not heard from yet. Only the people the reader may
 	see are counted. Read it before saying anything about who is or is not at
 	work today: nothing else knows."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	from onedesk.one_hr import presence
 
@@ -809,7 +809,7 @@ def people_today() -> dict:
 		return {"error": "Check-ins are not kept in this workspace."}
 	people = frappe.get_list(
 		"Employee",
-		filters={"status": "Active", "company": get_default_company()},
+		filters={"status": "Active", "company": reader_company()},
 		fields=["name", "employee_name"],
 		limit_page_length=500,
 	)
@@ -822,7 +822,7 @@ def people_today() -> dict:
 		if state == "in" and said.get("late"):
 			late.append(one.employee_name)
 	return {
-		"company": get_default_company(),
+		"company": reader_company(),
 		"counted": len(people),
 		**{state: {"count": len(names), "people": names[:20]} for state, names in groups.items()},
 		"late": late[:20],
@@ -836,12 +836,12 @@ def whos_off(
 	"""Everybody in the reader's company on leave on any day between two
 	dates, approved or still asked for, as the reader may see them, with the
 	kind and the days. Read it before saying who is off on days to come."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	rows = frappe.get_list(
 		"Leave Application",
 		filters=[
-			["company", "=", get_default_company()],
+			["company", "=", reader_company()],
 			["status", "in", ["Approved", "Open"]],
 			["docstatus", "<", 2],
 			["from_date", "<=", to_date],
@@ -872,14 +872,14 @@ def papers_expiring(
 	"""Passports, visas, permits and the rest on the records of the reader's
 	company's active employees that expire within the days given, soonest
 	first, with their number. Read it before saying whose papers run out."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	until = add_days(today(), int(days or 30))
 	people = {
 		one.name: one.employee_name
 		for one in frappe.get_list(
 			"Employee",
-			filters={"status": "Active", "company": get_default_company()},
+			filters={"status": "Active", "company": reader_company()},
 			fields=["name", "employee_name"],
 			limit_page_length=0,
 		)

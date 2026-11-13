@@ -8,6 +8,7 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one import roles, tell
+from onedesk.one.company import workspace_company
 from onedesk.one.sections import as_opened
 from onedesk.one.sections import fields as fields_of
 from onedesk.one.sections import opened as opened_of
@@ -54,7 +55,7 @@ def _holidays(record: str | None = None) -> dict:
 	off rather than listed (one_hr/holidays.py)."""
 	from onedesk.one_hr import holidays
 
-	held = holidays.company()
+	held = workspace_company()
 	now = holidays.in_force(held=held)
 	name = record if record and frappe.db.exists("Holiday List", record) else now
 	if not name:

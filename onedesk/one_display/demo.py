@@ -268,7 +268,7 @@ def _track() -> str:
 def _paired():
 	"""Screens on the list as if somebody had paired them and not switched
 	them on yet: each keeps a token nobody holds, so none can be played."""
-	from onedesk.one_display.screens import _hash
+	from frappe.utils import sha256_hash
 
 	for screen_name, channel, rotate, zone in SCREENS:
 		if frappe.db.exists("Display Screen", {"screen_name": screen_name}):
@@ -281,7 +281,7 @@ def _paired():
 				"rotate": rotate,
 				"sound_zone": zone,
 				"status": "Paired",
-				"token_hash": _hash(secrets.token_urlsafe(32)),
+				"token_hash": sha256_hash(secrets.token_urlsafe(32)),
 				"device": "Paired in the demo",
 			}
 		).insert(ignore_permissions=True)

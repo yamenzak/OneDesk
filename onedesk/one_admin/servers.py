@@ -16,6 +16,7 @@ from urllib.parse import urlparse
 import boto3
 import frappe
 from frappe.rate_limiter import rate_limit
+from frappe.utils import sha256_hash
 from werkzeug.wrappers import Response
 
 from onedesk.one_admin import boxes, faults, fleet, pilot, providers, quota, site, tell, vault
@@ -351,7 +352,7 @@ def connect_command(server: str) -> str:
 
 
 def _ticket(ticket: str) -> str:
-	return f"one_admin_connect:{hashlib.sha256(ticket.encode()).hexdigest()}"
+	return f"one_admin_connect:{sha256_hash(ticket)}"
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])

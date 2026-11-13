@@ -299,7 +299,7 @@ def plan_work_order(
 	materials, as a card the reader approves. Its materials and steps come from
 	the bill, and it takes them from the company's stores to its work in
 	progress. Nothing is made until it is submitted."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	from onedesk.one_ai import proposals
 
@@ -313,7 +313,7 @@ def plan_work_order(
 		return {"error": f"{code} has no bill of materials to make it from."}
 	if flt(qty) <= 0:
 		return {"error": "Say how many to make."}
-	changes = {"production_item": code, "bom_no": bom, "qty": flt(qty), "company": get_default_company()}
+	changes = {"production_item": code, "bom_no": bom, "qty": flt(qty), "company": reader_company()}
 	if project:
 		found = frappe.db.get_value("Project", {"name": project}) or frappe.db.get_value("Project", {"project_name": project})
 		if not found:

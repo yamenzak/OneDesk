@@ -770,6 +770,18 @@ GUARDS = [
 		"tests/guards/test_frappe_calls.py::test_a_field_group_is_given_one_value_at_a_time",
 	),
 	Guard(
+		"helpers-one-home",
+		20,
+		"a module's own copy of a shared helper: the reader's company, a read check, a token's hash, a plain _lt",
+		"tests/guards/test_helpers.py::test_a_shared_helper_is_not_copied",
+	),
+	Guard(
+		"company-one-place",
+		20,
+		"erpnext.get_default_company called anywhere but one/company.py",
+		"tests/guards/test_helpers.py::test_the_default_company_is_asked_of_one_place",
+	),
+	Guard(
 		"upstream-imports",
 		20,
 		"an import of a name frappe, erpnext or hrms no longer has",

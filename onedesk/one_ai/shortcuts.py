@@ -1,8 +1,6 @@
 """OneAI's key (docs/READY.md, mechanism 19): asking, from anywhere. Pure."""
 
-
-def _lt(text: str) -> str:
-	return text
+from onedesk.one.registry.model import _lt
 
 
 SHORTCUTS = [

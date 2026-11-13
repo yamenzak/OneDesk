@@ -2,10 +2,10 @@
 else? A separate AI action (`studio_review`) that sees nothing of the chat.
 """
 
-import hashlib
 import json
 
 import frappe
+from frappe.utils import sha256_hash
 
 REVIEW = "studio_review"
 
@@ -19,7 +19,7 @@ def fingerprint(code: str, runs: str, doctype: str, when: str) -> str:
 	and the reviewer read the code for one kind of record at one moment, so a
 	change to any of the four needs a new review. Pure."""
 	of = json.dumps([code or "", runs or "", doctype or "", when or ""], ensure_ascii=False)
-	return hashlib.sha256(of.encode()).hexdigest()
+	return sha256_hash(of)
 
 
 def prompt(runs: str, doctype: str, when: str, explanation: str, code: str) -> str:

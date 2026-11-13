@@ -10,6 +10,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, flt, get_datetime, getdate, now_datetime
 
+from onedesk.one.company import reader_company
 from onedesk.one_crm import next as next_step
 from onedesk.one_crm import stages
 
@@ -43,19 +44,12 @@ def closed(deals: list[str] | None = None) -> dict[str, frappe._dict]:
 	return found
 
 
-def company() -> str:
-	"""The reader's company, which every figure is of."""
-	from erpnext import get_default_company
-
-	return get_default_company()
-
-
 def deals(filters: dict | None = None, fields: tuple = ()) -> list[frappe._dict]:
 	"""The deals the reader may see, the company's, with what every measure
 	needs."""
 	return frappe.get_list(
 		"Opportunity",
-		filters={"company": company(), **(filters or {})},
+		filters={"company": reader_company(), **(filters or {})},
 		fields=[
 			"name",
 			"status",

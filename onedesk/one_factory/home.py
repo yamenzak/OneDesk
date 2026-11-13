@@ -3,12 +3,13 @@ somebody today in the workshop, and everything in OneFactory, each with what
 it is for. How it works is in the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from frappe import _lt
 from frappe.utils import add_days, date_diff, flt, get_first_day, getdate, today
 
-FEW = 5
+from onedesk.one.company import company_currency, reader_company
+from onedesk.one.needs_you import kept
+
 OPEN = ("Not Started", "In Process", "Stock Reserved", "Stock Partially Reserved")
 
 GROUPS = (
@@ -80,18 +81,13 @@ def read() -> dict:
 			"out": sent_out.figures()["out"],
 			"made": _made(),
 		},
-		"currency": _currency(),
+		"currency": company_currency(),
 		"today": today(),
 		"needs": needs,
 		"groups": [{"key": key, "label": str(label)} for key, label in GROUPS],
 		"everything": directory(),
 		"may_make": [doctype for doctype in ("Work Order", "BOM", "Production Plan") if frappe.has_permission(doctype, "create")],
 	}
-
-
-def _currency() -> str | None:
-	company = erpnext.get_default_company()
-	return erpnext.get_company_currency(company) if company else None
 
 
 def _made() -> float | None:
@@ -104,7 +100,7 @@ def _made() -> float | None:
 		filters={
 			"docstatus": 1,
 			"purpose": "Manufacture",
-			"company": erpnext.get_default_company(),
+			"company": reader_company(),
 			"posting_date": [">=", get_first_day(today())],
 		},
 		fields=["total_incoming_value"],
@@ -112,14 +108,10 @@ def _made() -> float | None:
 	return flt(sum(flt(one.total_incoming_value) for one in rows))
 
 
-def _kept(rows: list) -> dict:
-	return {"rows": rows[:FEW], "count": len(rows)}
-
-
 def _orders(filters: list, order_by: str) -> list:
 	return frappe.get_list(
 		"Work Order",
-		filters=[["docstatus", "=", 1], ["status", "in", OPEN], ["company", "=", erpnext.get_default_company()], *filters],
+		filters=[["docstatus", "=", 1], ["status", "in", OPEN], ["company", "=", reader_company()], *filters],
 		fields=["name", "production_item", "item_name", "qty", "produced_qty", "stock_uom", "status", "planned_start_date", "expected_delivery_date"],
 		order_by=order_by,
 	)
@@ -142,9 +134,9 @@ def needs_you() -> dict:
 	]
 	back = [one for one in sent_out.orders() if one["late"]]
 	return {
-		"late": _kept(late),
-		"start": _kept(start),
-		"back": _kept(back),
+		"late": kept(late),
+		"start": kept(start),
+		"back": kept(back),
 		"drafts": drafts(),
 	}
 
@@ -152,7 +144,7 @@ def needs_you() -> dict:
 def drafts() -> list[dict]:
 	"""For each kind of paper, how many drafts were left more than a day ago."""
 	out = []
-	company = erpnext.get_default_company()
+	company = reader_company()
 	for doctype, label in DRAFTS:
 		if not frappe.has_permission(doctype, "read"):
 			continue

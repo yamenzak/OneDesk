@@ -10,12 +10,12 @@ KEEPER = "Stock Manager"
 
 
 def _move(purpose: str, asset: str, **row) -> str:
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	movement = frappe.get_doc(
 		{
 			"doctype": "Asset Movement",
-			"company": get_default_company(),
+			"company": reader_company(),
 			"purpose": purpose,
 			"transaction_date": now_datetime(),
 			"assets": [{"asset": asset, **row}],

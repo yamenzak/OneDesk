@@ -10,6 +10,7 @@ from frappe import _
 from frappe.utils import flt, nowdate
 
 from onedesk.one import roles
+from onedesk.one.company import workspace_company
 
 ITEM = "One Subscription"
 
@@ -200,7 +201,7 @@ def _payable_for(supplier: str, currency: str | None) -> None:
 	"""A bill in dollars goes to a payable in dollars: ERPNext will not put a
 	document in one currency on a party account in another, except the
 	company's own. Made once, as Creditors USD, and set on the supplier."""
-	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
+	company = workspace_company()
 	own = frappe.get_cached_value("Company", company, "default_currency")
 	if not currency or currency == own:
 		return
@@ -246,7 +247,7 @@ def _expense_account() -> str | None:
 	)
 	if last and last[0][0]:
 		return last[0][0]
-	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
+	company = workspace_company()
 	for like in EXPENSES:
 		found = frappe.db.get_value(
 			"Account",

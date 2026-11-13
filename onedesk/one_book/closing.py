@@ -5,11 +5,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_years, getdate, nowdate
 
-
-def _company() -> str:
-	from erpnext import get_default_company
-
-	return get_default_company()
+from onedesk.one.company import reader_company
 
 
 def year_began(day=None, company: str | None = None):
@@ -18,12 +14,12 @@ def year_began(day=None, company: str | None = None):
 	from erpnext.accounts.utils import get_fiscal_year
 
 	day = getdate(day or nowdate())
-	found = get_fiscal_year(day, company=company or _company(), raise_on_missing=False)
+	found = get_fiscal_year(day, company=company or reader_company(), raise_on_missing=False)
 	return getdate(found[1]) if found else add_days(add_years(day, -1), 1)
 
 
 def locked(company: str | None = None):
-	return frappe.get_cached_value("Company", company or _company(), "accounts_frozen_till_date")
+	return frappe.get_cached_value("Company", company or reader_company(), "accounts_frozen_till_date")
 
 
 @frappe.whitelist(methods=["POST"])
@@ -31,7 +27,7 @@ def lock(until: str | None = None) -> str | None:
 	"""Lock the books up to and including `until`; unlock with none."""
 	if not locks():
 		raise frappe.PermissionError
-	_lock(_company(), getdate(until) if until else None)
+	_lock(reader_company(), getdate(until) if until else None)
 	return until
 
 

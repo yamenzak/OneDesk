@@ -6,11 +6,11 @@ it week by week for a quarter.
 
 from typing import Annotated
 
-import erpnext
 import frappe
 from frappe.utils import date_diff, flt, formatdate, getdate, nowdate
 
 from onedesk.one import figures
+from onedesk.one.company import reader_company
 from onedesk.one_project import members, money, tree
 
 DONE = ("Completed", "Cancelled", "Template")
@@ -58,7 +58,7 @@ def own_progress(project: str, method: str | None, stored) -> int | None:
 		return round(flt(stored))
 	tasks = frappe.get_all(
 		"Task",
-		filters={"project": project, "status": ["!=", "Template"], "company": erpnext.get_default_company()},
+		filters={"project": project, "status": ["!=", "Template"], "company": reader_company()},
 		fields=["status", "progress", "task_weight"],
 	)
 	return round(progress(method, tasks, stored)) if tasks else None
@@ -119,7 +119,7 @@ def overview(project: Annotated[str, "The project."]) -> dict:
 	)
 	projects = [one for one in tree.scope(project) if one == project or members.sees(one, user)]
 	today = nowdate()
-	company = erpnext.get_default_company()
+	company = reader_company()
 
 	counts = frappe.get_all(
 		"Task",
@@ -192,7 +192,7 @@ def _weekly(projects: list[str], day) -> dict | None:
 			["Timesheet Detail", "project", "in", projects],
 			["Timesheet Detail", "from_time", ">=", str(starts[0])],
 			["Timesheet", "docstatus", "<", 2],
-			["Timesheet", "company", "=", erpnext.get_default_company()],
+			["Timesheet", "company", "=", reader_company()],
 		],
 		fields=["from_time", "hours"],
 		limit_page_length=0,

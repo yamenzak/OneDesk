@@ -2,7 +2,6 @@
 per person, at an address with a secret in it.
 """
 
-import hashlib
 import secrets
 from contextlib import contextmanager
 from datetime import datetime
@@ -11,7 +10,7 @@ from zoneinfo import ZoneInfo
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_days, get_system_timezone, get_url, getdate, now_datetime, nowdate
+from frappe.utils import add_days, get_system_timezone, get_url, getdate, now_datetime, nowdate, sha256_hash
 from frappe.utils.password import get_decrypted_password
 
 from onedesk.one_calendar import layers
@@ -83,7 +82,7 @@ def _new(user: str) -> str:
 		frappe.throw(_("Log in to create a calendar link."), frappe.PermissionError)
 	token = secrets.token_urlsafe(24)
 	doc = frappe.get_doc("Calendar Feed", user) if frappe.db.exists("Calendar Feed", user) else frappe.new_doc("Calendar Feed")
-	doc.update({"user": user, "token": token, "token_hash": _hash(token), "made_on": now_datetime(), "last_read": None})
+	doc.update({"user": user, "token": token, "token_hash": sha256_hash(token), "made_on": now_datetime(), "last_read": None})
 	doc.save(ignore_permissions=True)
 	return token
 
@@ -115,7 +114,7 @@ def stop() -> None:
 @rate_limit(key="token", ip_based=False, limit=60, seconds=60 * 60)
 def ics(token: str) -> None:
 	"""The calendar behind a link, as the person it belongs to."""
-	user = frappe.db.get_value("Calendar Feed", {"token_hash": _hash(token or "")}, "user")
+	user = frappe.db.get_value("Calendar Feed", {"token_hash": sha256_hash(token or "")}, "user")
 	if not user or not allowed() or not frappe.db.get_value("User", user, "enabled"):
 		frappe.throw(_("This calendar link no longer works."), frappe.PermissionError)
 	frappe.db.set_value("Calendar Feed", user, "last_read", now_datetime(), update_modified=False)
@@ -157,10 +156,6 @@ def _as(user: str):
 		frappe.local.role_permissions = {}
 		frappe.local.user_perms = None
 		frappe.local.cache = {}
-
-
-def _hash(token: str) -> str:
-	return hashlib.sha256(token.encode()).hexdigest()
 
 
 def calendar(found: list[dict], name: str, zone, now: datetime, site: str) -> str:

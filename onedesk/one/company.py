@@ -19,6 +19,30 @@ def several() -> bool:
 	return frappe.db.count("Company") > 1
 
 
+def reader_company() -> str | None:
+	"""The company the reader works in: their own default, else the
+	workspace's (erpnext.get_default_company). Every figure, Home and new
+	record follows it."""
+	from erpnext import get_default_company
+
+	return get_default_company()
+
+
+def workspace_company() -> str | None:
+	"""The workspace's own default company, else the first there is, whoever
+	reads: for what belongs to the workspace rather than to one reader."""
+	return frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
+
+
+def company_currency(company: str | None = None) -> str | None:
+	"""A company's own currency, the reader's company's when none is named;
+	None with no company at all."""
+	from erpnext import get_company_currency
+
+	company = company or reader_company()
+	return get_company_currency(company) if company else None
+
+
 def ready() -> set[str]:
 	"""The record types every module has made ready for several companies."""
 	from onedesk.one.ready import MODULES
@@ -51,12 +75,10 @@ def mine() -> dict | None:
 	"""The companies the reader may work in, the one they work in now, and the
 	record types whose lists open on it, for the frame's switch and the lists
 	(list.js); None with only one, so nothing shows."""
-	from erpnext import get_default_company
-
 	names = frappe.get_list("Company", pluck="name", order_by="name asc", limit_page_length=0, ignore_permissions=False)
 	if len(names) < 2:
 		return None
-	now = get_default_company()
+	now = reader_company()
 	return {"current": now if now in names else names[0], "all": names, "doctypes": sorted(ready())}
 
 

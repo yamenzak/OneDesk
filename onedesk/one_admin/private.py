@@ -7,13 +7,12 @@ installs the app on its site.
 The rest is in one_admin/AGENTS.md under private.py, and docs/PRIVATE-APPS.md.
 """
 
-import hashlib
 import json
 import secrets
 
 import frappe
 from frappe import _
-from frappe.utils import now_datetime
+from frappe.utils import now_datetime, sha256_hash
 
 from onedesk.one_admin import site
 
@@ -30,7 +29,7 @@ def normal(code: str | None) -> str:
 
 
 def hashed(code: str | None) -> str:
-	return hashlib.sha256(normal(code).encode()).hexdigest()
+	return sha256_hash(normal(code))
 
 
 def spaced(raw: str) -> str:

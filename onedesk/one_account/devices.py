@@ -3,10 +3,9 @@ names and sorts into Shared or Assigned. A browser is given an id in a cookie
 the first time anybody signs in on it (`signed_in`); `here` answers it after.
 """
 
-import hashlib
 
 import frappe
-from frappe.utils import add_days, now_datetime
+from frappe.utils import add_days, now_datetime, sha256_hash
 
 from onedesk.one import roles
 
@@ -14,10 +13,6 @@ COOKIE = "one_device"
 KEEP_SECONDS = 10 * 365 * 24 * 3600
 
 FORGET_DAYS = 30
-
-
-def _hash(token: str) -> str:
-	return hashlib.sha256(token.encode()).hexdigest()
 
 
 def here():
@@ -28,7 +23,7 @@ def here():
 		return None
 	found = frappe.get_all(
 		"Device",
-		filters={"token_hash": _hash(token), "status": "Active"},
+		filters={"token_hash": sha256_hash(token), "status": "Active"},
 		fields=["name", "device_name", "use", "user"],
 		limit=1,
 		ignore_permissions=True,
@@ -47,12 +42,12 @@ def signed_in(login_manager) -> None:
 		return
 	agent = request.headers.get("User-Agent") or ""
 	token = request.cookies.get(COOKIE)
-	name = token and frappe.db.get_value("Device", {"token_hash": _hash(token)})
+	name = token and frappe.db.get_value("Device", {"token_hash": sha256_hash(token)})
 	if not name:
 		token = frappe.generate_hash(length=40)
 		name = (
 			frappe.get_doc(
-				{"doctype": "Device", "device_name": said(agent), "token_hash": _hash(token), "user_agent": agent}
+				{"doctype": "Device", "device_name": said(agent), "token_hash": sha256_hash(token), "user_agent": agent}
 			)
 			.insert(ignore_permissions=True)
 			.name

@@ -19,6 +19,7 @@ from pathlib import Path
 import frappe
 import requests
 from frappe import _
+from frappe.utils import sha256_hash
 
 from onedesk.one_admin import site, tell, vault
 
@@ -372,7 +373,7 @@ class Setup:
 		if name == "OneAdmin Storage":
 			# R2's S3 keys are the token: its id, and the SHA-256 of its secret.
 			self.own("r2_key_id", ident, secret=False)
-			self.own("r2_secret", hashlib.sha256(value.encode()).hexdigest())
+			self.own("r2_secret", sha256_hash(value))
 		else:
 			self.own(field, value)
 
@@ -1006,7 +1007,7 @@ class Setup:
 		"""Upload our Worker if it is not there, or if the repository's code or
 		bindings are not what is deployed."""
 		code = path.read_text()
-		wanted = hashlib.sha256((code + json.dumps(bindings, sort_keys=True)).encode()).hexdigest()
+		wanted = sha256_hash(code + json.dumps(bindings, sort_keys=True))
 		held = json.loads(self.settings.cloudflare_deployed or "{}")
 		scripts = self.call("GET", f"/accounts/{self.account}/workers/scripts")["result"]
 		there = any(one["id"] == name for one in scripts)

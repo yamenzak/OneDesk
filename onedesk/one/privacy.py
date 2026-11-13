@@ -285,7 +285,8 @@ def remind() -> None:
 
 
 def query(user: str | None = None) -> str | None:
-	"""permission_query_conditions: the requests are the administrators'."""
+	"""permission_query_conditions, for a deletion and for a copy alike: the
+	requests are the administrators'."""
 	user = user or frappe.session.user
 	if user == "Administrator" or roles.administers(user):
 		return None
@@ -293,8 +294,9 @@ def query(user: str | None = None) -> str | None:
 
 
 def has_permission(doc, ptype: str | None = None, user: str | None = None) -> bool:
-	"""Read only, and an administrator's: deciding goes through `hold` and
-	`approve`, never by editing the record."""
+	"""Read only, and an administrator's, for a deletion and for a copy alike:
+	deciding goes through `hold` and `approve`, or privacy_copy's `send`,
+	never by editing the record. The person sees theirs on their profile."""
 	user = user or frappe.session.user
 	if user == "Administrator":
 		return True

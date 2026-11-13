@@ -5,9 +5,7 @@ already had (Ctrl+K, Ctrl+S, Ctrl+B, Ctrl+P, Ctrl+/) keep their keys, and
 go with Alt and Shift: Alt alone and a letter is frappe's, for the button
 whose letter is underlined. Pure."""
 
-
-def _lt(text: str) -> str:
-	return text
+from onedesk.one.registry.model import _lt
 
 
 SHORTCUTS = [

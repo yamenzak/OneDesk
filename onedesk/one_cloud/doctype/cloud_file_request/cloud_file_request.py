@@ -1,13 +1,9 @@
 """Files asked of somebody, by name. See one_cloud/file_requests.py."""
 
-import hashlib
-
 import frappe
 from frappe import _
 from frappe.model.document import Document
-
-def hashed(token: str) -> str:
-	return hashlib.sha256(token.encode()).hexdigest()
+from frappe.utils import sha256_hash
 
 
 class CloudFileRequest(Document):
@@ -56,5 +52,5 @@ class CloudFileRequest(Document):
 			if not one.token_hash:
 				token = frappe.generate_hash(length=32)
 				one.token = token
-				one.token_hash = hashed(token)
+				one.token_hash = sha256_hash(token)
 				self.flags.tokens[one.email] = token

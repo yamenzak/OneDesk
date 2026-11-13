@@ -3,14 +3,13 @@ dev bench's, linked to this OneAdmin (`Tenant.is_test`). Nobody bills it,
 OneAdmin never moves, updates or rebuilds it, it backs itself up through the
 keeper, and its credits are given by hand. AGENTS.md, Test workspaces."""
 
-import hashlib
 import re
 import secrets
 from urllib.parse import urlparse
 
 import frappe
 from frappe import _lt
-from frappe.utils import now_datetime
+from frappe.utils import now_datetime, sha256_hash
 
 from onedesk.one_admin import hosts, site
 
@@ -136,7 +135,7 @@ def new(address: str, workspace_name: str) -> dict:
 	mail_secret = secrets.token_urlsafe(32)
 	backup = backups.given(slug)
 	cloudflare.mail_route(slug, cloudflare.mail_entry(tenant, mail_secret, [slug]))
-	tenant.db_set({"token_hash": hashlib.sha256(token.encode()).hexdigest(), "backup_ready": 1})
+	tenant.db_set({"token_hash": sha256_hash(token), "backup_ready": 1})
 	return {
 		"tenant": slug,
 		"config": block(admin, slug, token, mail_secret, cloudflare.mail_domain(), backup, store.LARGEST),

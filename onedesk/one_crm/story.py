@@ -9,8 +9,11 @@ from collections import defaultdict
 from datetime import date
 
 import frappe
-from frappe.utils import add_days, add_months, flt, get_first_day, getdate, today
+from frappe.utils import add_days, flt, getdate, today
 
+from onedesk.one.company import company_currency, reader_company
+from onedesk.one.rights import can
+from onedesk.one.story import month_of, story_months
 from onedesk.one_crm import chain, measure, stages
 
 MONTHS = 12
@@ -22,36 +25,21 @@ FEW = 8
 FUNNEL = ("Opportunity", "Quotation", "Sales Order", "Sales Invoice", "Paid")
 
 
-def _may(doctype: str) -> bool:
-	return bool(frappe.has_permission(doctype, "read"))
-
-
-def _months(back: int = MONTHS, ahead: int = 0) -> list[date]:
-	start = get_first_day(today())
-	return [getdate(add_months(start, step)) for step in range(-(back - 1), ahead + 1)]
-
-
-def _month(day) -> str:
-	return get_first_day(getdate(day)).isoformat()
-
-
 @frappe.whitelist()
 @frappe.read_only()
 def read() -> dict:
 	"""Everything Home's story draws, each part None when the reader may not
 	see it or there is nothing to draw."""
-	import erpnext
-
-	company = erpnext.get_default_company()
-	months = _months()
+	company = reader_company()
+	months = story_months()
 	since = months[0]
-	may = _may("Opportunity")
+	may = can("Opportunity")
 	opportunities = measure.deals({"creation": [">=", since]}, fields=("creation",)) if may else []
 	shut = measure.closed() if may else {}
 	closed = _closed(shut, since) if may else []
 	leads = _leads(since)
 	return {
-		"currency": erpnext.get_company_currency(company) if company else None,
+		"currency": company_currency(company),
 		"months": [one.isoformat() for one in months],
 		"cards": _cards(months, closed, leads, shut) if may else {},
 		"sales": {
@@ -79,11 +67,11 @@ def read() -> dict:
 
 
 def _leads(since) -> list | None:
-	if not _may("Lead"):
+	if not can("Lead"):
 		return None
 	return frappe.get_list(
 		"Lead",
-		filters={"creation": [">=", since], "company": measure.company()},
+		filters={"creation": [">=", since], "company": reader_company()},
 		fields=["name", "creation", "status", "utm_source"],
 		limit=0,
 	)
@@ -104,7 +92,7 @@ def _won(closed: list, months: list[date]) -> list[float]:
 	by = defaultdict(float)
 	for one in closed:
 		if one.outcome == "Won":
-			by[_month(one.on)] += one.worth
+			by[month_of(one.on)] += one.worth
 	return [by[month.isoformat()] for month in months]
 
 
@@ -123,7 +111,7 @@ def _cards(months, closed, leads, shut) -> dict:
 	if leads is not None:
 		by = defaultdict(int)
 		for one in leads:
-			by[_month(one.creation)] += 1
+			by[month_of(one.creation)] += 1
 		series = [by[month.isoformat()] for month in months]
 		cards["leads"] = {"value": series[-1], "series": series}
 	worth = [one.worth for one in closed if one.outcome == "Won"]
@@ -136,12 +124,12 @@ def _trend(months, leads, opportunities, closed) -> list[dict]:
 	"""How many leads came in, opportunities were opened and won, each month."""
 	count = {key: defaultdict(int) for key in ("leads", "opportunities", "won")}
 	for one in leads or []:
-		count["leads"][_month(one.creation)] += 1
+		count["leads"][month_of(one.creation)] += 1
 	for one in opportunities:
-		count["opportunities"][_month(one.creation)] += 1
+		count["opportunities"][month_of(one.creation)] += 1
 	for one in closed:
 		if one.outcome == "Won":
-			count["won"][_month(one.on)] += 1
+			count["won"][month_of(one.on)] += 1
 	return [
 		{"month": month.isoformat(), **{key: by[month.isoformat()] for key, by in count.items()}}
 		for month in months
@@ -153,13 +141,13 @@ def _forecast(closed) -> list[dict]:
 	each by its probability, in the month it is expected to close. One whose
 	closing date has passed is late, not forecast (Opportunity Forecast has it
 	as Overdue)."""
-	months = _months(back=MONTHS - AHEAD, ahead=AHEAD)
+	months = story_months(back=MONTHS - AHEAD, ahead=AHEAD)
 	day = getdate(today())
 	won = dict(zip((one.isoformat() for one in months), _won(closed, months), strict=True))
 	ahead = defaultdict(float)
 	for one in measure.deals(measure.alive()):
 		if one.expected_closing and getdate(one.expected_closing) >= day:
-			ahead[_month(one.expected_closing)] += measure.value(one) * flt(one.probability) / 100
+			ahead[month_of(one.expected_closing)] += measure.value(one) * flt(one.probability) / 100
 	return [
 		{"month": key, "won": won[key], "forecast": ahead[key]} for key in (one.isoformat() for one in months)
 	]
@@ -172,7 +160,7 @@ def _funnel(opportunities) -> list[dict]:
 	for one in chain.follow([row.name for row in opportunities]).values():
 		for step in chain.reached(one):
 			reached[step] += 1
-	shown = [step for step in FUNNEL if _may("Sales Invoice" if step == "Paid" else step)]
+	shown = [step for step in FUNNEL if can("Sales Invoice" if step == "Paid" else step)]
 	return [{"step": step, "count": reached[step]} for step in shown]
 
 

@@ -7,6 +7,7 @@ from frappe import _, _lt
 from frappe.utils import escape_html, flt, fmt_money, formatdate
 from frappe.utils.caching import request_cache
 
+from onedesk.one import head
 from onedesk.one_hr import decision, employee, encashment, expense, payroll, request, review, shift, shift_setup
 from onedesk.one_hr import leave as applications
 
@@ -189,8 +190,9 @@ def _on(date) -> str:
 	return formatdate(str(date)) if date else ""
 
 
-def _money(value, currency=None) -> str:
-	return fmt_money(flt(value), currency=currency or frappe.db.get_default("currency"))
+def _in_currency(value, currency=None) -> str:
+	"""In the record's currency, or the workspace's own where it names none."""
+	return head.money(value, currency or frappe.db.get_default("currency"))
 
 
 def _period(start, end) -> str:
@@ -266,7 +268,7 @@ def expense_about(doc):
 	if doc.is_new() or doc.docstatus != 0:
 		return None
 	said = expense.about(doc.name)
-	money = lambda value: _money(value, said["currency"])  # noqa: E731
+	money = lambda value: _in_currency(value, said["currency"])  # noqa: E731
 	lines = [
 		_("Approving this pays {0} back {1}, across {2} expenses.").format(
 			said["employee_name"], money(said["payable"]), said["rows"]
@@ -290,7 +292,7 @@ def slip_pays(doc):
 	from when the month was not a whole month."""
 	if doc.is_new() or not flt(doc.net_pay):
 		return None
-	paid = _money(doc.rounded_total or doc.net_pay, doc.currency)
+	paid = _in_currency(doc.rounded_total or doc.net_pay, doc.currency)
 	month = _period(doc.start_date, doc.end_date)
 	whole = flt(doc.payment_days) >= flt(doc.total_working_days)
 	return {
@@ -314,7 +316,7 @@ def payroll_run(doc):
 			"text": _("No salary slips yet for {0} to {1}.").format(_on(doc.start_date), _on(doc.end_date)),
 			"colour": "orange",
 		}
-	money = _money(run["total"], run["currency"] or doc.currency)
+	money = _in_currency(run["total"], run["currency"] or doc.currency)
 	period = _period(doc.start_date, doc.end_date)
 	if run["drafts"]:
 		return {
@@ -378,7 +380,7 @@ def encashment_pays(doc):
 		return {
 			"text": _("Submitting this pays {0} {1} for {2} days of {3}.").format(
 				doc.employee_name or doc.employee,
-				_money(doc.encashment_amount, doc.currency),
+				_in_currency(doc.encashment_amount, doc.currency),
 				_number(flt(doc.encashment_days, 2)),
 				doc.leave_type,
 			),
@@ -413,7 +415,7 @@ def vehicle_went(doc):
 			far,
 			fmt_money(litres, precision=2),
 			unit,
-			_money(litres * flt(doc.price)),
+			_in_currency(litres * flt(doc.price)),
 			_number(flt(went / litres, 1)),
 		),
 		"colour": "blue",
@@ -437,14 +439,14 @@ def exemption_allowed(doc):
 	if allowed >= claimed:
 		return {
 			"text": _("{0} claimed {1} for {2}, and all of it is allowed.").format(
-				who, _money(claimed, doc.currency), doc.payroll_period
+				who, _in_currency(claimed, doc.currency), doc.payroll_period
 			),
 			"colour": "blue",
 		}
 	return {
 		"text": _(
 			"{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
-		).format(who, _money(claimed, doc.currency), doc.payroll_period, _money(allowed, doc.currency)),
+		).format(who, _in_currency(claimed, doc.currency), doc.payroll_period, _in_currency(allowed, doc.currency)),
 		"colour": "orange",
 	}
 
@@ -480,7 +482,7 @@ def overtime_pays(doc):
 		return None
 	if doc.get("one_pay_note"):
 		return {"text": doc.one_pay_note, "colour": "orange"}
-	money, hours = _money(doc.get("one_amount")), _number(doc.total_overtime_duration)
+	money, hours = _in_currency(doc.get("one_amount")), _number(doc.total_overtime_duration)
 	if doc.docstatus == 1:
 		return {"text": _("{0} for {1} hours of overtime.").format(money, hours), "colour": "green"}
 	return {"text": _("Submitting this pays {0} for {1} hours.").format(money, hours), "colour": "blue"}

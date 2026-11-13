@@ -6,10 +6,11 @@ is ERPNext's own mapper: a request for quotation from a material request
 Create menu). How it works is in the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate, today
+
+from onedesk.one.company import reader_company
 
 MOST = 40
 SOON = 7
@@ -19,7 +20,7 @@ def figures() -> dict:
 	"""Suppliers still to answer, quotes waiting for a decision, quotes
 	still in draft, and live quotes running out within a week."""
 	out = {"waiting": None, "to_decide": None, "drafts": None, "expiring": None}
-	company = erpnext.get_default_company()
+	company = reader_company()
 	if frappe.has_permission("Request for Quotation", "read"):
 		open_requests = frappe.get_list(
 			"Request for Quotation",
@@ -53,7 +54,7 @@ def asked(search: str | None = None) -> list[dict]:
 	how they answered."""
 	if not frappe.has_permission("Request for Quotation", "read"):
 		return []
-	filters = {"docstatus": ["<", 2], "company": erpnext.get_default_company()}
+	filters = {"docstatus": ["<", 2], "company": reader_company()}
 	if search:
 		filters["name"] = ["like", f"%{search}%"]
 	found = frappe.get_list(
@@ -155,7 +156,7 @@ def _answers(requests: list) -> dict:
 			filters={
 				"name": ["in", [row.parent for row in rows]],
 				"docstatus": ["<", 2],
-				"company": erpnext.get_default_company(),
+				"company": reader_company(),
 			},
 			fields=["name", "supplier", "status", "creation"],
 			order_by="creation asc",
@@ -187,7 +188,7 @@ def quotes(search: str | None = None) -> list[dict]:
 	or_filters = {"name": ["like", f"%{search}%"], "supplier_name": ["like", f"%{search}%"]} if search else None
 	found = frappe.get_list(
 		"Supplier Quotation",
-		filters={"docstatus": ["<", 2], "company": erpnext.get_default_company()},
+		filters={"docstatus": ["<", 2], "company": reader_company()},
 		or_filters=or_filters,
 		fields=[
 			"name",

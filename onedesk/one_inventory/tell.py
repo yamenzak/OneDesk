@@ -108,7 +108,7 @@ def stock_values() -> None:
 	whoever keeps the stock and the books. ERPNext mails the second only to
 	System Managers, the operator's role and nobody's in a workspace, and
 	marks the first failed without a hook when no outgoing mail is set."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 	from frappe.utils.user import get_users_with_role
 
 	from onedesk.one_inventory import ready
@@ -124,7 +124,7 @@ def stock_values() -> None:
 			dedupe_on=["document_type", "document_name"],
 			entry=name,
 		)
-	company = get_default_company()
+	company = reader_company()
 	if not company or not frappe.get_cached_value("Company", company, "enable_perpetual_inventory"):
 		return
 	for warehouse, account in ready.wrong_accounts(company):

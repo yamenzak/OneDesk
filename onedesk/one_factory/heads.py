@@ -9,16 +9,10 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import flt, fmt_money, formatdate
 
-from onedesk.one import stages
+from onedesk.one import head, stages
+from onedesk.one.company import company_currency
 
 SUBMITTED = [["docstatus", "=", 1]]
-
-
-def _money(value, company: str | None) -> str:
-	"""An amount in the company's own currency."""
-	from erpnext import get_company_currency
-
-	return fmt_money(flt(value), currency=get_company_currency(company) if company else None)
 
 
 def _of(made, wanted, unit) -> dict:
@@ -142,7 +136,7 @@ def bom_cost(doc):
 
 	if not flt(doc.quantity) or not costs.seen():
 		return None
-	return _money(flt(doc.base_total_cost) / flt(doc.quantity), doc.company)
+	return head.money(flt(doc.base_total_cost) / flt(doc.quantity), company_currency(doc.company))
 
 
 def bom_orders(doc):

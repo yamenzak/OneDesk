@@ -21,12 +21,12 @@ SOURCES = (
 
 
 def execute(filters=None):
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	filters = frappe._dict(filters or {})
 	start = getdate(filters.from_date or get_quarter_start(nowdate()))
 	end = getdate(filters.to_date or nowdate())
-	company = filters.company or get_default_company()
+	company = filters.company or reader_company()
 	rows = []
 	for section, parent, child, taxable, extra in SOURCES:
 		if frappe.db.table_exists(child) and frappe.has_permission(parent, "read"):

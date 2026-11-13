@@ -471,9 +471,8 @@ def test_a_requested_file_is_one_of_the_kinds_asked_for():
 
 def test_a_request_link_is_kept_only_as_its_hash():
 	source = REQUEST.read_text(encoding="utf-8")
-	assert "sha256" in source
-	assert "one.token_hash = hashed(token)" in source
-	assert "'token_hash': hashed(token)" in _body(REQUESTS, "live")
+	assert "one.token_hash = sha256_hash(token)" in source
+	assert "'token_hash': sha256_hash(token)" in _body(REQUESTS, "live")
 	fields = {f["fieldname"]: f for f in json.loads((REQUEST.parent.parent / "cloud_file_request_recipient" / "cloud_file_request_recipient.json").read_text())["fields"]}
 	assert fields["token"]["fieldtype"] == "Password"
 

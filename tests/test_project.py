@@ -836,7 +836,7 @@ def test_costing_shows_both_sides_and_opens_what_is_behind_each_figure():
 	money = (PROJECT / "money.py").read_text()
 	for label in ('_("Quoted")', '_("Delivered")', '_("Invoiced")', '_("Received")', '_("Stock Used")'):
 		assert label in money
-	assert '"docstatus": 1' in money and "_sees(" in money
+	assert '"docstatus": 1' in money and "can(" in money
 	assert HOOKS.count('"onedesk.one_project.money.moved"') == 2
 	assert "tree.above(" in money and "after_commit=True" in money
 	layout = json.loads((PROJECT / "custom" / "project.json").read_text())
@@ -1583,7 +1583,7 @@ def test_a_completed_project_reads_as_done():
 def test_a_project_with_several_orders_bills_and_holds_each():
 	view = (PROJECT / "view.py").read_text()
 	assert '"orders": orders(doc, view["tree"]),' in view
-	assert 'filters={"project": ["in", projects], "docstatus": 1, "company": _company()}' in view
+	assert 'filters={"project": ["in", projects], "docstatus": 1, "company": reader_company()}' in view
 	form = (tree.APP / "public" / "js" / "project.js").read_text()
 	assert "onedesk.project.bill_progress(s.orders, s.contract, s.currency, s.overview?.billing?.billable?.share)" in form
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
@@ -2131,8 +2131,8 @@ def test_time_groups_add_up_every_entry_not_only_those_sent():
 
 def test_money_shows_its_totals_to_every_reader_and_links_only_for_those_who_may_open():
 	money = (PROJECT / "money.py").read_text()
-	assert "if doctype and _sees(doctype):" in money
-	assert "if _sees(doctype):\n\t\t\tcustomer.append" not in money
+	assert "if doctype and can(doctype):" in money
+	assert "if can(doctype):\n\t\t\tcustomer.append" not in money
 	assert '_opens(received)' in money and '_opens(paid)' in money
 	assert '"currency": currency(project)' in money and 'frappe.db.get_default("currency")' not in money
 
@@ -2205,12 +2205,12 @@ def test_each_order_says_how_its_retention_is_taxed():
 			"get_value": staticmethod(lambda *_args, **_kwargs: None),
 		},
 	)
-	defaults = type("defaults", (), {"get_global_default": staticmethod(lambda _key: None)})
-	frappe = type("frappe", (), {"db": db, "defaults": defaults})
+	frappe = type("frappe", (), {"db": db})
 	space = _load(
 		PROJECT / "retention.py",
 		("WITH_INVOICE", "WHEN_RELEASED", "on", "default_tax", "_country_tax", "when_released"),
 		frappe=frappe,
+		workspace_company=lambda: None,
 	)
 	when_released = space["when_released"]
 	assert not when_released() and space["default_tax"]() == "With Invoice", "nothing set is taxed with the invoice"

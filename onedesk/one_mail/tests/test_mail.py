@@ -403,7 +403,13 @@ def _faces():
 		"sources",
 	)
 	return _load(
-		MAIL / "faces.py", names, hashlib=hashlib, quote=quote, urlparse=urlparse, PROVIDERS=PROVIDERS
+		MAIL / "faces.py",
+		names,
+		hashlib=hashlib,
+		sha256_hash=lambda text: hashlib.sha256(text.encode() if isinstance(text, str) else text).hexdigest(),
+		quote=quote,
+		urlparse=urlparse,
+		PROVIDERS=PROVIDERS,
 	)
 
 

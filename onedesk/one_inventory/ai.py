@@ -824,13 +824,13 @@ def _warehouse(said: str | None, groups: bool = False) -> str | None:
 	"""The warehouse the reader means: by its full name (Stores - ABC), or by
 	its plain name (Stores) in their company; one stock is kept in, unless
 	`groups`."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	if not said:
 		return None
 	kept = {} if groups else {"is_group": 0}
 	return frappe.db.get_value("Warehouse", {"name": said, **kept}) or frappe.db.get_value(
-		"Warehouse", {"warehouse_name": said, "company": get_default_company(), **kept}
+		"Warehouse", {"warehouse_name": said, "company": reader_company(), **kept}
 	)
 
 
@@ -1454,7 +1454,7 @@ def plan_handover(
 	"""Suggest handing a piece of equipment to a person, from whoever has it
 	now, as a card the reader approves. It is a draft handover until it is
 	submitted, which tells the person and makes the sheet they sign."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	from onedesk.one_ai import proposals
 
@@ -1476,7 +1476,7 @@ def plan_handover(
 		row["from_employee"] = holder
 	changes = {
 		"purpose": "Issue",
-		"company": get_default_company(),
+		"company": reader_company(),
 		"transaction_date": str(frappe.utils.now_datetime()),
 		"assets": [row],
 	}

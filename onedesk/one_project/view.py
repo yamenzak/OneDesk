@@ -4,7 +4,6 @@
 
 from typing import Annotated
 
-import erpnext
 import frappe
 from frappe import _
 from frappe.utils import (
@@ -20,6 +19,7 @@ from frappe.utils import (
 )
 
 from onedesk.one import head as record_head
+from onedesk.one.company import reader_company
 from onedesk.one_project import (
 	agreement,
 	billing,
@@ -38,11 +38,6 @@ from onedesk.one_project import (
 from onedesk.one_project import updates as asking
 
 LISTED = 200
-
-
-def _company() -> str | None:
-	"""The reader's company, which every list on the page is of."""
-	return erpnext.get_default_company()
 
 
 SHOWN = 6
@@ -170,7 +165,7 @@ def _contract(doc) -> str | None:
 			"project": doc.name,
 			"docstatus": 1,
 			"status": ["not in", ("Closed", "Completed")],
-			"company": _company(),
+			"company": reader_company(),
 		},
 		order_by="transaction_date asc",
 		pluck="name",
@@ -203,7 +198,7 @@ def _orders(doc, projects: list[str] | None = None) -> list[dict]:
 	projects = projects or sorted(tree.scope(doc.name))
 	found = frappe.get_list(
 		"Sales Order",
-		filters={"project": ["in", projects], "docstatus": 1, "company": _company()},
+		filters={"project": ["in", projects], "docstatus": 1, "company": reader_company()},
 		fields=[
 			"name",
 			"project",
@@ -229,7 +224,7 @@ def _orders(doc, projects: list[str] | None = None) -> list[dict]:
 	titles = dict(
 		frappe.get_all(
 			"Project",
-			filters={"name": ["in", projects], "company": _company()},
+			filters={"name": ["in", projects], "company": reader_company()},
 			fields=["name", "project_name"],
 			as_list=True,
 		)
@@ -275,7 +270,7 @@ def quotation(doc) -> dict | None:
 	}
 	found = frappe.get_all(
 		"Quotation",
-		filters={**filters, "company": _company()},
+		filters={**filters, "company": reader_company()},
 		fields=["name", "base_net_total", "valid_till"],
 		order_by="transaction_date desc, creation desc",
 	)
@@ -627,7 +622,7 @@ def _last_billed(projects: list[str]) -> dict | None:
 		return None
 	found = frappe.get_list(
 		"Sales Invoice",
-		filters={"docstatus": 1, "is_return": 0, "project": ["in", projects], "company": _company()},
+		filters={"docstatus": 1, "is_return": 0, "project": ["in", projects], "company": reader_company()},
 		fields=["posting_date", "one_progress"],
 		order_by="posting_date desc, creation desc",
 		limit=1,
@@ -669,7 +664,7 @@ def _quotes(doc) -> list[dict]:
 				"project": doc.name,
 				"docstatus": ["<", 2],
 				"status": ["!=", "Ordered"],
-				"company": _company(),
+				"company": reader_company(),
 			},
 			fields=[
 				"name",
@@ -743,7 +738,7 @@ def needs(doc, view: dict, kind: str | None = None) -> list[dict]:
 	sections of their own. A completed project still owed money says so
 	first. Every row there is, for the Overview to show some and count all."""
 	user = frappe.session.user
-	company = _company()
+	company = reader_company()
 	found = []
 	if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):
 		from onedesk.one_project.status import due
@@ -859,7 +854,7 @@ def _subcontracts(project: str, view: dict, orders: list[dict]) -> list[dict]:
 	work on its project has got, to set beside what's billed."""
 	if not orders:
 		return []
-	ours = {"name": ["in", view["tree"]], "company": _company()}
+	ours = {"name": ["in", view["tree"]], "company": reader_company()}
 	titles = dict(frappe.get_all("Project", filters=ours, fields=["name", "project_name"], as_list=True))
 	done = {
 		one.name: 100 if one.status == "Completed" else round(flt(one.percent_complete))
@@ -1000,7 +995,7 @@ def _due_soon(projects: list[str]) -> list[dict]:
 		"Task",
 		filters=[
 			["project", "in", projects],
-			["company", "=", _company()],
+			["company", "=", reader_company()],
 			["status", "not in", overview.DONE],
 			["exp_end_date", ">=", str(today)],
 			["exp_end_date", "<=", str(add_days(today, 14))],
@@ -1029,7 +1024,7 @@ def _on_it(projects: list[str]) -> list[dict]:
 		"Task",
 		filters=[
 			["project", "in", projects],
-			["company", "=", _company()],
+			["company", "=", reader_company()],
 			["status", "not in", overview.DONE],
 		],
 		fields=["_assign"],
@@ -1055,7 +1050,7 @@ def _unbilled_people(project: str) -> list[dict]:
 		one.name: one
 		for one in frappe.get_all(
 			"Timesheet",
-			filters={"name": ["in", list({row.time_sheet for row in rows})], "company": _company()},
+			filters={"name": ["in", list({row.time_sheet for row in rows})], "company": reader_company()},
 			fields=["name", "employee_name", "user", "employee"],
 		)
 	}
@@ -1107,14 +1102,14 @@ def _sub_projects(project: str) -> dict:
 		one.name: one
 		for one in frappe.get_all(
 			"Project",
-			filters={"name": ["in", names], "company": _company()},
+			filters={"name": ["in", names], "company": reader_company()},
 			fields=["name", "one_kind", "one_manager", "expected_end_date", "one_health"],
 		)
 	}
 	extra = set(
 		frappe.get_all(
 			"Sales Order",
-			filters={"project": ["in", names], "docstatus": 1, billing.EXTRA: 1, "company": _company()},
+			filters={"project": ["in", names], "docstatus": 1, billing.EXTRA: 1, "company": reader_company()},
 			pluck="project",
 		)
 	)
@@ -1183,7 +1178,7 @@ def _month_hours(projects: list[str]) -> float:
 			["Timesheet Detail", "from_time", ">=", str(get_first_day(nowdate()))],
 			["Timesheet Detail", "from_time", "<", str(get_first_day(add_months(nowdate(), 1)))],
 			["Timesheet", "docstatus", "<", 2],
-			["Timesheet", "company", "=", _company()],
+			["Timesheet", "company", "=", reader_company()],
 		],
 		fields=["hours"],
 		limit_page_length=0,
@@ -1193,7 +1188,7 @@ def _month_hours(projects: list[str]) -> float:
 
 def _time_rows(project: str) -> list:
 	"""This month's time on the project, each with who logged it."""
-	company = _company()
+	company = reader_company()
 	rows = frappe.get_list(
 		"Timesheet Detail",
 		parent_doctype="Timesheet",
@@ -1236,7 +1231,7 @@ def _faces(sheets) -> dict:
 			dict(
 				frappe.get_all(
 					"Employee",
-					filters={"name": ["in", list(employees)], "company": _company()},
+					filters={"name": ["in", list(employees)], "company": reader_company()},
 					fields=["name", "image"],
 					as_list=True,
 				)

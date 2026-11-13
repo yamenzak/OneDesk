@@ -13,7 +13,7 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _
-from frappe.utils import get_datetime
+from frappe.utils import get_datetime, sha256_hash
 from werkzeug.wrappers import Response
 
 from onedesk.one_cloud import api, dav_locks, dav_saves, store
@@ -193,12 +193,6 @@ class FrappeSignIn(_signin_base()):
 GROUPS, LETTERS = 4, "abcdefghijkmnopqrstuvwxyz"
 
 
-def hashed(password: str) -> str:
-	import hashlib
-
-	return hashlib.sha256((password or "").encode()).hexdigest()
-
-
 def basic(header: str | None) -> tuple[str, str] | None:
 	"""(user name, password) from a Basic Authorization header. Pure."""
 	import base64
@@ -228,7 +222,7 @@ def sign_in() -> None:
 		return
 	email, password = found
 	row = frappe.db.get_value(
-		"Cloud Drive Password", {"password_hash": hashed(password)}, ["name", "user", "last_used"], as_dict=True
+		"Cloud Drive Password", {"password_hash": sha256_hash(password or "")}, ["name", "user", "last_used"], as_dict=True
 	)
 	if not row or row.user.lower() != email.strip().lower():
 		return
@@ -258,7 +252,7 @@ def make_password(label: str | None = None) -> dict:
 			"doctype": "Cloud Drive Password",
 			"user": user,
 			"label": (label or "").strip()[:140] or _("A drive"),
-			"password_hash": hashed(password),
+			"password_hash": sha256_hash(password or ""),
 		}
 	).insert(ignore_permissions=True)
 	return {"user_name": user, "password": password}

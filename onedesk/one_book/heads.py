@@ -13,13 +13,10 @@ from frappe import _, _lt
 from frappe.utils import date_diff, flt, fmt_money, formatdate, getdate, today
 
 from onedesk.one import figures, stages
+from onedesk.one.company import company_currency, reader_company
 from onedesk.one_book import paid
 
 OWED = [["docstatus", "=", 1], ["is_return", "=", 0]]
-
-
-def _money(doc, value) -> str:
-	return fmt_money(flt(value), currency=doc.currency)
 
 
 def _owed(doc, value) -> str:
@@ -162,21 +159,13 @@ BILLS = {"Customer": ("Sales Invoice", "customer"), "Supplier": ("Purchase Invoi
 COUNTED = {"docstatus": 1, "is_return": 0}
 
 
-def _currency(company: str | None = None) -> str:
-	from erpnext import get_company_currency, get_default_company
-
-	return get_company_currency(company or get_default_company())
-
-
 def _bills(party_doctype: str, party: str, since=None, fields=None) -> list | None:
 	"""A party's invoices as the reader's list would give them, or None when
 	the reader may not see that list at all."""
 	doctype, field = BILLS[party_doctype]
 	if not frappe.has_permission(doctype, "read"):
 		return None
-	from erpnext import get_default_company
-
-	filters = {field: party, "company": get_default_company(), **COUNTED}
+	filters = {field: party, "company": reader_company(), **COUNTED}
 	if since:
 		filters["posting_date"] = [">=", since]
 	return frappe.get_list(
@@ -188,7 +177,7 @@ def _bills(party_doctype: str, party: str, since=None, fields=None) -> list | No
 
 
 def _party_money(value) -> str:
-	return fmt_money(flt(value), currency=_currency())
+	return fmt_money(flt(value), currency=company_currency())
 
 
 def party_overdue(doc):
@@ -207,7 +196,7 @@ def party_overdue(doc):
 		for row in owing
 		for part in home.parts(
 			{
-				"outstanding_amount": flt(row.outstanding_amount) * (flt(row.conversion_rate or 1) if row.party_account_currency and row.party_account_currency != _currency() else 1),
+				"outstanding_amount": flt(row.outstanding_amount) * (flt(row.conversion_rate or 1) if row.party_account_currency and row.party_account_currency != company_currency() else 1),
 				"own": flt(row.outstanding_amount),
 				"due_date": row.due_date,
 			},
@@ -229,11 +218,9 @@ def party_last_bill(doc):
 	doctype, field = BILLS[doc.doctype]
 	if not frappe.has_permission(doctype, "read"):
 		return None
-	from erpnext import get_default_company
-
 	found = frappe.get_list(
 		doctype,
-		filters={field: doc.name, "company": get_default_company(), **COUNTED},
+		filters={field: doc.name, "company": reader_company(), **COUNTED},
 		fields=["name", "posting_date", "base_grand_total"],
 		order_by="posting_date desc, creation desc",
 		limit_page_length=1,
@@ -272,7 +259,7 @@ def _billed(party_doctype: str, party: str, marked_day=None) -> dict | None:
 	return {
 		"labels": [formatdate(one, "MMM") for one in starts],
 		"values": values,
-		"currency": _currency(),
+		"currency": company_currency(),
 		"said": _("{0} in 12 months").format(_party_money(sum(values))),
 		"route": f"/desk/{frappe.scrub(doctype).replace('_', '-')}?{field}={party}",
 		"marked": marked,

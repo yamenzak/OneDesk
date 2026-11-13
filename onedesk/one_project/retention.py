@@ -10,6 +10,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_months, flt, getdate, nowdate
 
+from onedesk.one.company import workspace_company
+
 HANDOVER = "Retention at Handover"
 RETENTION = "Retention"
 HELD = (HANDOVER, RETENTION)
@@ -43,7 +45,7 @@ def default_tax() -> str:
 
 
 def _country_tax() -> str | None:
-	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {})
+	company = workspace_company()
 	country = company and frappe.db.get_value("Company", company, "country")
 	if not country:
 		return None

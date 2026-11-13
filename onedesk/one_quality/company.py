@@ -2,10 +2,10 @@
 import or a script, is the reader's default company's, as the form would
 have filled it."""
 
-import erpnext
+from onedesk.one.company import reader_company
 
 
 def fill(doc, method=None) -> None:
 	"""before_validate on Non Conformance and Quality Action."""
 	if not doc.get("company"):
-		doc.company = erpnext.get_default_company()
+		doc.company = reader_company()

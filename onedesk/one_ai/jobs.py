@@ -8,14 +8,10 @@ from dataclasses import dataclass
 from functools import cache
 from pathlib import Path
 
+from onedesk.one.registry.model import _lt
 from onedesk.one_ai import voice
 
 WORDS = Path(__file__).with_name("words")
-
-
-def _lt(text: str) -> str:
-	"""Marks a label for the translation files; `label` translates it."""
-	return text
 
 
 @dataclass(frozen=True)

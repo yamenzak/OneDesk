@@ -12,12 +12,6 @@ from pathlib import Path
 
 from onedesk.one import registry, standard
 
-
-def _lt(text: str) -> str:
-	"""Marks a word the interface shows; the renderer says it in the reader's
-	language. Plain here, so this file reads without frappe."""
-	return text
-
 APP = Path(__file__).resolve().parents[1]
 ROOT = APP.parent
 

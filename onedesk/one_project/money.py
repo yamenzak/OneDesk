@@ -9,6 +9,7 @@ from frappe import _
 from frappe.query_builder.functions import Sum
 from frappe.utils import flt, getdate, nowdate
 
+from onedesk.one.rights import can
 from onedesk.one_project import tree
 from onedesk.one_project.progress import LUMP_SUM
 
@@ -82,10 +83,6 @@ def _route(doctype: str, filters: dict) -> str:
 	return f"/desk/{frappe.scrub(doctype).replace('_', '-')}?{query}"
 
 
-def _sees(doctype: str) -> bool:
-	return bool(frappe.has_permission(doctype, "read"))
-
-
 def _lines(doctype: str, projects: list[str]) -> float:
 	"""What the lines on the projects come to. On an invoice that's the work
 	billed: retention held below it and later released by an invoice of its
@@ -129,7 +126,7 @@ def _figure(label: str, value: float, doctype: str | None, projects: list[str], 
 	read them. The total itself is the project's, shown to whoever reads it,
 	as ERPNext's project form shows what's billed."""
 	said = {"label": label, "value": value, "doctype": doctype}
-	if doctype and _sees(doctype):
+	if doctype and can(doctype):
 		where = {WHERE.get(doctype, "project"): ["in", projects]}
 		said["route"] = _route(doctype, {**where, "docstatus": 1, **filters})
 	return said
@@ -247,7 +244,7 @@ def money(project: Annotated[str, "The project."]) -> dict:
 		"customer": customer,
 		"cost": cost,
 		"own": own,
-		"suppliers": _placed(_suppliers(projects), project) if _sees("Purchase Order") else [],
+		"suppliers": _placed(_suppliers(projects), project) if can("Purchase Order") else [],
 		"can_pay": bool(frappe.has_permission("Payment Entry", "create")),
 		"can_bill": bool(frappe.has_permission("Purchase Invoice", "create")),
 		"can_order": bool(frappe.has_permission("Purchase Order", "create")),
@@ -338,7 +335,7 @@ def currency(project: str) -> str | None:
 
 def _opens(paid: dict) -> dict:
 	"""The payments behind a Paid figure, for whoever may read them."""
-	return {"route": paid["route"]} if _sees("Payment Entry") else {}
+	return {"route": paid["route"]} if can("Payment Entry") else {}
 
 
 def _paid_on(projects: list[str], doctype: str) -> dict:
