@@ -107,9 +107,10 @@ onedesk.StudioSection = class StudioSection extends onedesk.CenterSection {
 		}
 		frappe.require("doctype_settings.bundle.js", () => {
 			onedesk.doctype_settings.adapt();
+			const Panel = frappe.ui.SettingsDialogPanel;
 			for (const [doctype, label] of kinds) {
 				frappe.model.with_doctype(doctype, () => {
-					const panel = new frappe.ui.SettingsDialogPanel({ hide() {} }, {});
+					const panel = new Panel({ hide() {} }, {});
 					const set_view = panel.set_view.bind(panel);
 					panel.set_view = (view) => set_view({ ...view, title: __(label), description: null });
 					panel.$el.appendTo($kinds);
@@ -176,7 +177,7 @@ onedesk.StudioSection = class StudioSection extends onedesk.CenterSection {
 			title: one ? one.name : __("New Letter Head"),
 			size: theirs ? "" : "extra-large",
 			fields: [
-				...(theirs ? [{ fieldtype: "HTML", fieldname: "theirs", options: frappe.ui.alert.html({ title: __("A standard letter head can only be set as default or disabled."), theme: "gray" }) }] : []),
+				...(theirs ? [{ fieldtype: "HTML", fieldname: "theirs", options: frappe.ui.alert.html({ title: __("Standard Letter Head"), description: __("Only Default and Disabled can be changed on a standard letter head."), theme: "gray" }) }] : []),
 				{ fieldtype: "Data", fieldname: "letter_head_name", label: __("Name"), reqd: 1, hidden: one ? 1 : 0 },
 				{ fieldtype: "HTML", fieldname: "preview" },
 				{ fieldtype: "Section Break" },
@@ -398,3 +399,13 @@ onedesk.studio_control.open = ({ at = null } = {}) => {
 
 frappe.provide("onedesk.control_centers");
 onedesk.control_centers.OneStudio = onedesk.studio_control.open;
+
+$(document).on("page-change", () =>
+	setTimeout(() => {
+		const sidebar = frappe.app && frappe.app.sidebar;
+		const win = onedesk.interface.current();
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneStudio") return;
+		win.module_foot({ module: "OneStudio", settings: () => onedesk.studio_control.open() });
+		onedesk.interface.nav.place();
+	}, 0)
+);

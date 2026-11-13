@@ -25,7 +25,7 @@ ROOT = APP.parent
 # agreements change freely (docs/READY.md, Before production).
 PRODUCTION = False
 
-NOT_YET = ("one_storage", "one_studio", "one_demo")
+NOT_YET = ("one_storage", "one_demo")
 """Folders without READY.md's module layout yet. Until P1.10 gives them
 theirs, they are in the registry but not here."""
 
@@ -277,6 +277,7 @@ SHARED = {
 	"onedesk/one/custom/personal_data_deletion_request.json": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
 	"onedesk/one/custom/personal_data_download_request.json": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
 	"onedesk/one/webhooks.py": "OneStudio's Webhooks, to move into one_studio",
+	"brand/onestudio.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/one/patches/holiday_names.py": "OneHR's holidays, a patch that has run",
 }
 
@@ -307,8 +308,7 @@ def places(module: str) -> list[Path]:
 		APP / "public" / "js" / spec["folder"],
 		APP / "public" / "css" / spec["folder"],
 		APP / "public" / "images" / spec["folder"],
-		ROOT / "frontend" / "src" / spec["screens"],
-	] + ([ROOT / "frontend" / spec["app"]] if spec.get("app") else [])
+	] + ([ROOT / "frontend" / "src" / spec["screens"]] if spec.get("screens") else []) + ([ROOT / "frontend" / spec["app"]] if spec.get("app") else [])
 
 
 # What a version is taken over: what the module ships and its help pages,

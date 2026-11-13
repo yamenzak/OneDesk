@@ -15,8 +15,6 @@ module's README says what it does.
   `oneinventory_equipment_bought_given_serviced_and_mended`. The twelve steps
   are in `onedesk/one_demo/README.md`. A fresh site needs the database's root
   password.
-- **OneStudio's server extensions on dev.** `onestudio_tells_the_others_and_oneai_remembers_once`
-  needs `server_script_enabled` on one.4dl.dev, which is yours to switch.
 - **Every island is over its 2 MB budget, by what they share.** Measured 7
   November 2026: each island loads about 2.2 MB raw before its own code
   (frappe-ui's core chunk 754 kB, the kit 380 kB, Vue 219 kB, one stylesheet
@@ -123,24 +121,6 @@ One, runs underneath, or is the platform's; `onedesk/one/atlas.py` says which.
 - **One reaching into an outside service** (Connected App).
 
 Webhooks are the integration One offers today (Workspace › Webhooks).
-
-## OneStudio
-
-- **Still to take from frappe's Flow and Studio** (the rest went in on
-  2026-11-03): a card for any submit, cancel or approval step a record
-  offers (Flow's `_doc_actions`); a thumbs-down on an answer, kept as
-  memory; and a page extension that draws a small block of frappe-ui parts
-  rather than a note or a button (Studio's blocks).
-- **An extension behind an API call**, and **a table inside a custom
-  collection**. AI-written endpoints and SQL are not going to be built.
-- **Custom apps**: a workspace's own app in the dock, with its own icon, rail
-  and Home, holding its custom collections (a Fleet app for vans, drivers and
-  trips). Needs its own roles, a place in People and in the switcher. Today a
-  collection sits in a group of one of One's apps.
-- **Hiding a record tab** (Files, Mail, Activity) on one form, as a Record
-  Head row. Tabs are declared by modules only (`one/tabs.py`).
-- **Server scripts on every workspace**: `server_script_enabled` per Frappe
-  Cloud bench group. Opening a code-execution surface is your call.
 
 ## The shell
 
@@ -363,8 +343,6 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
 - **The Settings dialog's General and User Permissions tabs** for workspace
   administrators: what each setting does to a workspace, then whether to open
   it.
-- **Numbering refuses manual names** for the dozen kinds `one_makes_records`
-  declares. Taking them off changes Numbering for those kinds.
 - **OneBook › Bank**: erpnext's reconciliation tool shows a banner for its
   newer Banking app, which One does not carry.
 - **The monthly statements** that Process Statement Of Accounts mails print

@@ -232,7 +232,7 @@ def suggest_saved_report(
 		summary.append(
 			{
 				"label": _("Shown in"),
-				"value": f"{place['label']} ({_('everyone') if place['everybody'] else _('just you')})",
+				"value": f"{place['label']} ({_('everyone') if place['everybody'] else _('only you')})",
 			}
 		)
 	route = ["List", doctype, "Report", name]
@@ -357,7 +357,7 @@ def suggest_dashboard(
 		summary.append(
 			{
 				"label": _("Shown in"),
-				"value": f"{place['label']} ({_('everyone') if place['everybody'] else _('just you')})",
+				"value": f"{place['label']} ({_('everyone') if place['everybody'] else _('only you')})",
 			}
 		)
 	payload = {"name": name, "charts": made_charts, "cards": made_cards, "place": place}

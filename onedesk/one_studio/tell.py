@@ -1,5 +1,5 @@
 """Telling the administrators about OneStudio's extensions and collections
-(notifications/one_studio/)."""
+(notifications.py)."""
 
 from onedesk.one import notify, roles
 

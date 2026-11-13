@@ -1110,7 +1110,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `common_site_config.json` (on Frappe Cloud, the bench group's config). It
   is set once per bench group, never per site. A workspace on a bench
   without it shows Cannot Run Here on its server extensions and nothing else
-  changes. Who may write one is OneStudio's rule (`one_studio/README.md`).
+  changes. Who may write one is OneStudio's rule (`one_studio/AGENTS.md`).
 - **What lives where.** OneAdmin's doctypes are on every site and answer only
   on the admin site: `One Admin Settings`, `Tenant` (with `Tenant Add-on`),
   `Tenant Event`, `Tenant Domain`, `Account Request`, `Provisioning Job`,
