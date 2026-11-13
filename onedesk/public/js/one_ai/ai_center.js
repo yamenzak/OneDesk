@@ -1,16 +1,16 @@
-// AICenter (docs/AICENTER.md): OneAI for the workspace (one_ai/center.py).
-// For administrators: OneAI on or off and its tier, reading what arrives,
-// Knowledge, what each module has OneAI do on its own, which records get a
-// summary, and what was used. For everybody: Yours, what OneAI keeps about them. From One's
-// Centers, and OneAI in a module's ControlCenter (on that module).
-// For the whole workspace AICenter is OneAI's own settings, with its mark,
-// Help and what OneAI's ControlCenter finds; for one module, that module's
-// part.
+// AICenter (docs/ARC-AI.md, AICenter): the agents' office and OneAI for the
+// workspace (one_ai/office.py, one_ai/center.py). For administrators: every
+// agent together, then a tab per app's agent (who it is, what it may do,
+// what it learned, what it did with Undo, what it costs, and its module's
+// OneAI switches), then OneAI's tier, reading, Knowledge, summaries and
+// usage. For everybody: Yours, what OneAI keeps about them. From One's
+// Centers, and OneAI in a module's ControlCenter, on that module's agent.
 onedesk.centers.declare("ai", {
 	whose: ({ module }) => ({ module: module || onedesk.names.of("one_ai") }),
 	found: ({ module }) => !module && onedesk.names.of("one_ai"),
 	help: [onedesk.names.of("one_ai"), "settings"],
 	css: "one-ai-center",
+	files: ["/assets/onedesk/css/one_ai/ai_center.css"],
 	async sections(ctx) {
 		const { module } = ctx;
 		const C = "onedesk.one_ai.center.";
@@ -253,61 +253,224 @@ onedesk.centers.declare("ai", {
 			asked.show();
 		};
 
-		// A module's part: what OneAI does there on its own.
+		// A module's switches for what OneAI does there: its mailboxes, its
+		// buttons and its jobs, each list under its heading.
+		const draw_part = ($body, part) => {
+			if (part.mailboxes) {
+				$body.append(kit.heading(__("Mailboxes"), __("How far {0} reads each mailbox's new mail.", [onedesk.names.of("one_ai")])));
+				const $boxes = $(`<div class="one-set-list"></div>`).appendTo($body);
+				if (!part.mailboxes.length) $boxes.append(kit.empty(__("No mailboxes")));
+				for (const box of part.mailboxes) {
+					kit.row({
+						lead: kit.glyph("mail"),
+						title: box.email,
+						sub: esc(box.reads ? box.level : __("Not read")),
+						end: kit.chevron(),
+						open: () => {
+							ctx.centre.hide();
+							onedesk.centers.open("settings", { module: onedesk.names.of("one_mail"), at: `mailbox:${box.name}:oneai` });
+						},
+					}).appendTo($boxes);
+				}
+			}
+			if ((part.actions || []).length) {
+				$body.append(kit.heading(__("Buttons"), __("What {1}'s buttons in {0} do, each using credits.", [part.module, onedesk.names.of("one_ai")])));
+				const $actions = $(`<div class="one-set-list"></div>`).appendTo($body);
+				for (const one of part.actions) {
+					const $row = kit.row({ lead: "", title: one.label, sub: esc(one.about || "") }).appendTo($actions);
+					toggle($row.find(".one-set-end"), {
+						value: one.on,
+						label: one.label,
+						change: async (on) => {
+							frappe.boot.one_ai_actions = await frappe.xcall("onedesk.one_ai.actions.switch", { key: one.key, on });
+						},
+					});
+				}
+			}
+			if ((part.jobs || []).length) {
+				$body.append(kit.heading(__("Jobs"), __("Jobs {1} runs in {0} by itself, each using credits.", [part.module, onedesk.names.of("one_ai")])));
+				const $jobs = $(`<div class="one-set-list"></div>`).appendTo($body);
+				for (const job of part.jobs) {
+					const $end = kit.row({ lead: "", title: job.label, sub: esc(job.about || "") }).appendTo($jobs).find(".one-set-end");
+					const change = (value) => frappe.xcall(C + "set_job", { key: job.key, value });
+					if (job.kind === "switch") toggle($end, { value: job.value, label: job.label, change });
+					else number($end, { value: job.value, label: job.label, change });
+				}
+			}
+		};
+
+		const O = "onedesk.one_ai.office.";
+		const mark = (module) => frappe.utils.icon(onedesk.brand.mark_of(module.replace(/^One/, "")) || "oneai", "sm");
+
+		// A module whose switches have no agent to sit with keeps a tab of its own.
 		const part_tab = (part) => ({
 			id: `part:${part.module}`,
 			label: part.module,
-			icon_html: frappe.utils.icon(onedesk.brand.mark_of(part.module.replace(/^One/, "")) || "oneai", "sm"),
+			icon_html: mark(part.module),
 			title: part.module,
-			description: part.mailboxes
-				? __("How far {0} reads each mailbox's new mail.", [onedesk.names.of("one_ai")])
-				: part.jobs.length
-				? __("Jobs {1} runs in {0} by itself, each using credits.", [part.module, onedesk.names.of("one_ai")])
-				: __("What {1}'s buttons in {0} do, each using credits.", [part.module, onedesk.names.of("one_ai")]),
-			/** A module's mailboxes, its actions and its jobs, each with a switch or a number at its end: rows whose end is a control. */
+			/** Several lists under headings, each row ending in a switch or a number: no declared kind holds more than one list. */
 			render(panel) {
-				const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-				if (part.mailboxes) {
-					if (!part.mailboxes.length) return $list.append(kit.empty(__("No mailboxes")));
-					for (const box of part.mailboxes) {
-						kit.row({
-							lead: kit.glyph("mail"),
-							title: box.email,
-							sub: esc(box.reads ? box.level : __("Not read")),
-							chevron: true,
-						})
-							.on("click", () => {
-								ctx.centre.hide();
-								onedesk.centers.open("settings", { module: onedesk.names.of("one_mail"), at: `mailbox:${box.name}:oneai` });
-							})
-							.appendTo($list);
-					}
-					return;
+				draw_part(panel.body.empty(), part);
+			},
+		});
+
+		const LEVELS = [
+			{ value: "Do it", label: __("Act") },
+			{ value: "Draft", label: __("Draft") },
+			{ value: "Ask First", label: __("Ask First") },
+		];
+
+		// A level at a row's end, saved as it is picked; put back if refused.
+		const level_at = ($end, { value, label, change }) => {
+			const control = frappe.ui.form.make_control({
+				df: { fieldtype: "Select", fieldname: "level", label: "", options: LEVELS },
+				parent: $(`<span class="one-set-number one-set-level"></span>`).appendTo($end),
+				render_input: true,
+			});
+			control.set_value(value);
+			control.$input.attr("aria-label", label).on("change", async () => {
+				try {
+					await change(control.get_value());
+					kit.saved();
+				} catch (e) {
+					control.set_value(value);
 				}
-				if (part.actions && part.actions.length) {
-					if (part.jobs.length) panel.body.append(kit.heading(__("Actions")));
-					else $list.remove();
-					const $actions = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
-					for (const one of part.actions) {
-						const $row = kit.row({ lead: "", title: one.label, sub: esc(one.about || "") }).appendTo($actions);
-						toggle($row.find(".one-set-end"), {
-							value: one.on,
-							label: one.label,
-							change: async (on) => {
-								frappe.boot.one_ai_actions = await frappe.xcall("onedesk.one_ai.actions.switch", { key: one.key, on });
-							},
-						});
-					}
+			});
+			return control;
+		};
+
+		const counted = (record) =>
+			[
+				__("{0} done", [format_number(record.done, null, 0)]),
+				record.corrected ? __("{0} corrected", [format_number(record.corrected, null, 0)]) : null,
+				record.refused ? __("{0} refused", [format_number(record.refused, null, 0)]) : null,
+				record.waiting ? __("{0} waiting", [format_number(record.waiting, null, 0)]) : null,
+			]
+				.filter(Boolean)
+				.join(" · ");
+
+		// A month's credits for one agent, or all of them as "*", at a row's end.
+		const limit_at = ($costs, { value, app, panel }) => {
+			const $end = kit.row({ lead: kit.glyph("gauge"), title: __("Monthly Limit (Credits)") }).appendTo($costs).find(".one-set-end");
+			number($end, { value, label: __("Monthly Limit (Credits)"), change: (credits) => frappe.xcall(O + "set_limit", { app, credits }).then(() => panel.refresh()) });
+		};
+
+		// What an agent did, newest first, each opening its record, with Undo
+		// on what was done (reading/act.py undo_one, which checks who asks).
+		const draw_did = ($did, rows, panel) => {
+			if (!rows.length) $did.append(kit.empty(__("Nothing done yet")));
+			for (const row of rows) {
+				const sub = [row.level_label, row.action_label, frappe.datetime.prettyDate(row.creation), row.why].filter(Boolean).join(" · ");
+				const icon = { Done: "check", Proposed: "clock", Undone: "undo-2" }[row.level] || "circle-slash";
+				const opens = row.opens ? () => (ctx.centre.hide(), frappe.set_route("Form", row.target_doctype, row.target_name)) : null;
+				const $row = kit.row({ lead: kit.glyph(icon), title: `${row.kind_label} · ${__(row.target_doctype || "")} ${row.target_name || ""}`, sub: esc(sub), open: opens }).appendTo($did);
+				if (row.level !== "Done") continue;
+				kit.button({ label: __("Undo"), variant: "subtle", size: "sm" })
+					.on("click", async (event) => {
+						event.stopPropagation();
+						const done = await frappe.xcall("onedesk.one_ai.reading.act.undo_one", { action: row.name });
+						if (done.undone) frappe.show_alert({ message: __("Undone"), indicator: "green" });
+						else frappe.msgprint(__("Kept, because {0}.", [done.why]));
+						panel.refresh();
+					})
+					.appendTo($row.find(".one-set-end"));
+			}
+		};
+
+		// One agent: who it is, what it may do and how that went, what it
+		// never does, what it learned, what it did with Undo, and its credits.
+		const agent_tab = (one, part) => ({
+			id: `agent:${one.app}`,
+			label: one.module,
+			icon_html: mark(one.module),
+			title: one.name,
+			/** Lists under headings, rows ending in a level, a switch, a figure or Undo: no declared kind holds more than one list. */
+			async render(panel) {
+				const said = await frappe.xcall(O + "agent", { app: one.app }, "GET");
+				const $body = panel.body.empty();
+				if (said.line) $(`<div class="one-shell-quiet"></div>`).text(said.line).appendTo($body);
+				const $who = $(`<div class="one-set-list"></div>`).appendTo($body);
+				kit.row({ lead: kit.glyph("users"), title: __("Roles"), end: `<span class="one-set-value">${esc(said.roles.join(", "))}</span>` }).appendTo($who);
+				kit.row({ lead: kit.glyph("user-check"), title: __("Approver"), end: `<span class="one-set-value">${esc(said.approver || __("None"))}</span>` }).appendTo($who);
+
+				$body.append(kit.heading(__("What It May Do"), __("At Draft a person submits what the agent prepares, and at Ask First the approver decides.")));
+				const $may = $(`<div class="one-set-list"></div>`).appendTo($body);
+				if (!said.actions.length) $may.append(kit.empty(__("No actions yet")));
+				for (const action of said.actions) {
+					const usual = action.level !== action.declared ? __("Usually {0}", [LEVELS.find((one) => one.value === action.declared).label]) : null;
+					const sub = [counted(action.record), usual].filter(Boolean).join(" · ");
+					const $end = kit.row({ lead: "", title: action.label, sub: esc(sub) }).appendTo($may).find(".one-set-end");
+					level_at($end, {
+						value: action.level,
+						label: action.label,
+						change: (level) => frappe.xcall(O + "set_level", { app: one.app, action: action.action, level }).then(() => panel.refresh()),
+					});
 				}
-				for (const job of part.jobs) {
-					const $row = kit.row({ lead: "", title: job.label, sub: esc(job.about || "") }).appendTo($list);
-					const $end = $row.find(".one-set-end");
-					if (job.kind === "switch") {
-						toggle($end, { value: job.value, label: job.label, change: (on) => frappe.xcall(C + "set_job", { key: job.key, value: on }) });
-						continue;
-					}
-					number($end, { value: job.value, label: job.label, change: (value) => frappe.xcall(C + "set_job", { key: job.key, value }) });
+				if (part) draw_part($body, part);
+				if (said.never.length) {
+					$body.append(kit.heading(__("Never Done by the Agent")));
+					const $never = $(`<div class="one-set-list"></div>`).appendTo($body);
+					for (const why of said.never) kit.row({ lead: kit.glyph("ban"), title: why }).appendTo($never);
 				}
+
+				$body.append(kit.heading(__("What It Learned"), __("Corrections people made, read with the next document from the same party.")));
+				const $learned = $(`<div class="one-set-list"></div>`).appendTo($body);
+				if (!said.learned.length) $learned.append(kit.empty(__("Nothing learned yet")));
+				for (const lesson of said.learned) {
+					const sub = [lesson.party_name, __(lesson.what), frappe.datetime.prettyDate(lesson.creation)].filter(Boolean).join(" · ");
+					kit.row({ lead: kit.glyph("graduation-cap"), title: lesson.said || __(lesson.what), sub: esc(sub) }).appendTo($learned);
+				}
+
+				$body.append(kit.heading(__("What It Did")));
+				draw_did($(`<div class="one-set-list"></div>`).appendTo($body), said.did, panel);
+
+				$body.append(kit.heading(__("What It Costs"), __("Set to 0 for no limit.")));
+				const $costs = $(`<div class="one-set-list"></div>`).appendTo($body);
+				kit.row({ lead: kit.glyph("coins"), title: __("This Month"), end: `<span class="one-set-value">${esc(credits(said.spent))}</span>` }).appendTo($costs);
+				limit_at($costs, { value: said.limit, app: one.app, panel });
+			},
+		});
+
+		// Every agent together: the switch, each at a glance, the rules
+		// every one follows, One's own buttons and the month's credits.
+		const team_tab = (own) => ({
+			id: "agents",
+			label: __("All Agents"),
+			icon: "users",
+			title: __("All Agents"),
+			description: __("Each app's agent works as its own user, for the people who may open that app."),
+			/** A switch, then lists under headings: rows that open an agent, rules to read, switches and a limit. */
+			async render(panel) {
+				const said = await frappe.xcall(O + "team", {}, "GET");
+				const $body = panel.body.empty();
+				const $on = kit.row({ lead: kit.glyph("bot"), title: __("Agents"), sub: esc(__("If off, no agent reads or changes anything.")) }).appendTo($(`<div class="one-set-list"></div>`).appendTo($body));
+				toggle($on.find(".one-set-end"), { value: said.on, label: __("Agents"), change: (on) => frappe.xcall(O + "set_on", { on }) });
+
+				$body.append(kit.heading(__("Agents")));
+				const $team = $(`<div class="one-set-list"></div>`).appendTo($body);
+				if (!said.agents.length) $team.append(kit.empty(__("No agents yet")));
+				for (const one of said.agents) {
+					const sub = [counted(one.record), credits(one.spent)].join(" · ");
+					kit.row({ lead: `<span class="one-set-glyph">${mark(one.module)}</span>`, title: one.name, sub: esc(sub), end: kit.chevron(), open: () => ctx.centre.activate(`agent:${one.app}`) }).appendTo($team);
+				}
+
+				$body.append(kit.heading(__("Rules for Every Agent")));
+				const $rules = $(`<div class="one-set-list"></div>`).appendTo($body);
+				for (const [icon, title, sub] of [
+					["user-cog", __("Own User and Roles"), __("An agent holds only its app's roles, never {0}.", [said.never_roles.join(", ")])],
+					["hand", __("Ask First by Default"), __("An action with no level waits for the approver.")],
+					["file-pen", __("Drafts Stay Drafts"), __("A person submits what an agent drafts.")],
+					["undo-2", __("Undo on Every Action"), __("Each action is kept under the agent's name, with Undo.")],
+					["ban", __("Never Done by an Agent"), __("{0} actions, each with its reason on the agent's tab.", [format_number(said.never, null, 0)])],
+				]) {
+					kit.row({ lead: kit.glyph(icon), title, sub: esc(sub) }).appendTo($rules);
+				}
+				if (own) draw_part($body, own);
+
+				$body.append(kit.heading(__("Credits This Month"), __("Set to 0 for no limit.")));
+				const $costs = $(`<div class="one-set-list"></div>`).appendTo($body);
+				kit.row({ lead: kit.glyph("coins"), title: __("All Agents"), end: `<span class="one-set-value">${esc(credits(said.spent))}</span>` }).appendTo($costs);
+				limit_at($costs, { value: said.limit, app: "*", panel });
 			},
 		});
 
@@ -422,11 +585,17 @@ onedesk.centers.declare("ai", {
 		};
 
 		const parts = admin ? await frappe.xcall(C + "parts", {}, "GET") : [];
-		const mine = module ? parts.filter((part) => part.module === module) : parts;
+		const team = admin ? await frappe.xcall(O + "team", {}, "GET") : null;
+		const ones = onedesk.names.of("one");
+		const part_of = (name) => parts.find((part) => part.module === name) || null;
+		const staffed = new Set((team ? team.agents : []).map((one) => one.module));
+		const agent_tabs = (team ? team.agents : []).filter((one) => !module || one.module === module).map((one) => agent_tab(one, part_of(one.module)));
+		const loose = parts.filter((part) => !staffed.has(part.module) && part.module !== ones && (!module || part.module === module)).map(part_tab);
 		const tabs = admin
 			? [
-					{ group: null, items: module ? [] : [oneai_tab, reading_tab, knowledge_tab, summaries_tab, usage_tab] },
-					{ group: module ? null : __("Apps"), items: mine.map(part_tab) },
+					{ group: null, items: !module || module === ones ? [team_tab(part_of(ones))] : [] },
+					{ group: module ? null : __("Agents"), items: [...agent_tabs, ...loose] },
+					{ group: module ? null : onedesk.names.of("one_ai"), items: module ? [] : [oneai_tab, reading_tab, knowledge_tab, summaries_tab, usage_tab] },
 					{ group: module ? null : __("Yours"), items: module ? [] : [yours_tab, reads_tab] },
 			  ]
 			: [

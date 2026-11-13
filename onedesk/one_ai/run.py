@@ -475,10 +475,16 @@ def read(action: str, state: str, asked: dict, reference: str | None = None, on:
 
 def _counted(reference: str | None, credits) -> None:
 	"""A call made for a reading of mail counts against its mailbox's month
-	(one_mail/gate.py)."""
+	(one_mail/gate.py), and one made while an agent works against that
+	agent's (agents/workspace.py)."""
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import workspace
 	from onedesk.one_mail import gate
 
 	gate.spent(reference, credits)
+	agent = agents.by_email(frappe.session.user)
+	if agent:
+		workspace.spend(agent.app, credits)
 
 
 @frappe.whitelist()

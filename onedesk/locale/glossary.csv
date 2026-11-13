@@ -101,3 +101,6 @@ Approver,any,معتمد,معتمد|اعتماد,Genehmigende Person,genehmig,
 Approval,any,اعتماد,اعتماد|معتمد,Genehmigung,genehmig,
 Letter Head,any,ترويسة,ترويسة,Briefkopf,briefkopf,
 Print Format,any,تنسيق طباعة,تنسيق طباعة|تنسيق الطباعة|تنسيقات الطباعة,Druckformat,druckformat,
+Agent,any,وكيل,وكيل|وكلاء,Agent,agent,"An app's agent, a user of the workspace that works for that app."
+Act,label,تنفيذ,تنفيذ,Ausführen,ausführ,"The level at which an agent acts without asking."
+Ask First,label,الاستئذان أولًا,استئذان,Zuerst fragen,frag,"The level at which an agent waits for the approver."

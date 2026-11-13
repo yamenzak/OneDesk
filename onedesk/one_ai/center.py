@@ -43,10 +43,12 @@ def may() -> dict:
 
 
 def modules() -> list[str]:
-	"""The modules AICenter has a part for, for their ControlCenter."""
+	"""The modules AICenter has a part for, for their ControlCenter: each
+	app's agent first."""
+	from onedesk.one.registry import agents
 	from onedesk.one_ai import actions
 
-	return list(dict.fromkeys([*PARTS, *registry_hooks.centres("ai"), *actions.modules()]))
+	return list(dict.fromkeys([*(registry.name(one.app) for one in agents.listed()), *PARTS, *registry_hooks.centres("ai"), *actions.modules()]))
 
 
 def tier() -> str:

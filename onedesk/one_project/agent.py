@@ -57,6 +57,16 @@ LEVELS = {
 }
 """How far its agent goes with each action (one_ai/agents/levels.py)."""
 
+LABELS = {
+	"kinds.make": _lt("Create Project"),
+	"status.change": _lt("Change Status"),
+	"hours.log": _lt("Log Time"),
+	"budget.set_budget": _lt("Set Cost Budget"),
+	"team.add": _lt("Add Team Member"),
+	"contacts.save": _lt("Add Contact"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
+
 HR = "Employee Boarding"
 
 MOST = 15

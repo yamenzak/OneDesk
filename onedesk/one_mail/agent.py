@@ -679,6 +679,42 @@ LEVELS = {
 }
 """How far its agent goes with each action (one_ai/agents/levels.py)."""
 
+LABELS = {
+	"actions.mark": _lt("Mark Conversations"),
+	"actions.star": _lt("Star Conversations"),
+	"actions.move": _lt("Move Conversations"),
+	"actions.delete": _lt("Delete Conversations"),
+	"actions.create_folder": _lt("Create Folder"),
+	"actions.rename_folder": _lt("Rename Folder"),
+	"actions.delete_folder": _lt("Delete Folder"),
+	"linking.file": _lt("Link to Record"),
+	"linking.unfile": _lt("Unlink from Record"),
+	"rules.set_away": _lt("Set Away Reply"),
+	"rules.save_rule": _lt("Save Mail Rule"),
+	"rules.enable_rule": _lt("Enable Mail Rule"),
+	"rules.delete_rule": _lt("Delete Mail Rule"),
+	"rules.decide_rule": _lt("Approve Mail Rule"),
+	"holders.set_signature": _lt("Set Signature"),
+	"holders.grant": _lt("Share Mailbox"),
+	"holders.revoke": _lt("Stop Sharing Mailbox"),
+	"holders.give": _lt("Set Mailbox Permissions"),
+	"holders.set_personal_sends": _lt("Allow New Addresses to Send"),
+	"holders.set_sends": _lt("Allow Address to Send"),
+	"holders.set_external": _lt("Allow Connecting Own Mailboxes"),
+	"holders.set_allowed_domains": _lt("Set Allowed Domains"),
+	"holders.set_defaults": _lt("Set Default Mailboxes"),
+	"connect.add_domain": _lt("Add Company Domain"),
+	"connect.remove_domain": _lt("Remove Company Domain"),
+	"mail_templates.set_default": _lt("Set Default Template"),
+	"team.assign": _lt("Assign Conversation"),
+	"team.done": _lt("Mark Conversation Done"),
+	"team.snooze": _lt("Snooze Conversation"),
+	"team.remind": _lt("Set Reply Reminder"),
+	"incoming": _lt("Read Incoming Mail"),
+	"hand_on": _lt("Pass On Invoices"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
+
 APPROVED = (
 	"mail_rule",
 	"conversations",

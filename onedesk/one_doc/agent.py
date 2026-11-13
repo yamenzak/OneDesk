@@ -7,7 +7,7 @@ OneCloud's answer for the File behind the document. AGENTS.md, Asking OneAI.
 from typing import Annotated
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 from onedesk.one_doc import api
 
@@ -38,6 +38,11 @@ LEVELS = {
 	"api.make": "Draft",
 }
 """How far its agent goes with each action (one_ai/agents/levels.py)."""
+
+LABELS = {
+	"api.make": _lt("Create Document"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
 
 #: The most characters of a document a read answers with.
 MOST_TEXT = 20_000

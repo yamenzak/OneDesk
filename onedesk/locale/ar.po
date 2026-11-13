@@ -1367,6 +1367,10 @@ msgstr "فترة مغلقة أمام القيود الجديدة."
 msgid "A person can be held to a territory, a customer group, a customer, a supplier, a department, a branch, a project or a warehouse."
 msgstr "يمكن حصر الشخص في منطقة أو مجموعة عملاء أو عميل أو مورد أو قسم أو فرع أو مشروع أو مستودع."
 
+#: onedesk/public/js/one_ai/ai_center.js:462
+msgid "A person submits what an agent drafts."
+msgstr "يُرسل شخصٌ ما يُعدّه الوكيل من مسودات."
+
 #. Description of a DocType
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:6
 msgid "A person's calendar link, which other calendar apps read."
@@ -2498,6 +2502,10 @@ msgstr "بدقة تقارب {0} متر."
 msgid "Acknowledge New Mail"
 msgstr "تأكيد استلام البريد الجديد"
 
+#: onedesk/public/js/one_ai/ai_center.js:318
+msgid "Act"
+msgstr "تنفيذ"
+
 #. Label of the act_after (Datetime) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:370
 msgid "Act After"
@@ -2707,6 +2715,10 @@ msgstr "إضافة مجموعة"
 msgid "Add Company"
 msgstr "إضافة شركة"
 
+#: onedesk/one_mail/agent.py:706
+msgid "Add Company Domain"
+msgstr "إضافة نطاق الشركة"
+
 #: frontend/src/project/Team.vue:59
 #: onedesk/public/js/one_project/project_actions.js:431
 #: onedesk/public/js/one_project/project_actions.js:452
@@ -2870,6 +2882,10 @@ msgstr "إضافة مهمة تحتها"
 #: onedesk/public/js/one_project/project_actions.js:72
 msgid "Add Tasks"
 msgstr "إضافة المهام"
+
+#: onedesk/one_project/agent.py:65
+msgid "Add Team Member"
+msgstr "إضافة عضو فريق"
 
 #: frontend/src/project/Team.vue:10
 #: onedesk/public/js/one_project/project_actions.js:406
@@ -3752,6 +3768,10 @@ msgstr "مستوى الوكيل"
 msgid "Agents Secret"
 msgstr "سرّ الوكلاء"
 
+#: onedesk/one_ai/agents/workspace.py:118 onedesk/one_ai/checks.py:729
+msgid "Agents are turned off for this workspace."
+msgstr "الوكلاء متوقفون في مساحة العمل هذه."
+
 #. Label of the aggregate (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:68
 #: onedesk/one_display/doctype/display_source/display_source.json:139
@@ -3913,6 +3933,12 @@ msgstr "المحاذاة"
 #: onedesk/public/js/one_interface/look.js:728
 msgid "All"
 msgstr "الكل"
+
+#: onedesk/public/js/one_ai/ai_center.js:438
+#: onedesk/public/js/one_ai/ai_center.js:440
+#: onedesk/public/js/one_ai/ai_center.js:472
+msgid "All Agents"
+msgstr "جميع الوكلاء"
 
 #: frontend/src/one/Home.vue:28 onedesk/public/js/one_interface/chrome.js:345
 msgid "All Announcements"
@@ -4116,6 +4142,14 @@ msgstr "المخصص"
 msgid "Allocation No"
 msgstr "رقم التخصيص"
 
+#: onedesk/one_mail/agent.py:702
+msgid "Allow Address to Send"
+msgstr "السماح للعنوان بالإرسال"
+
+#: onedesk/one_mail/agent.py:703
+msgid "Allow Connecting Own Mailboxes"
+msgstr "السماح بربط صناديق بريد خاصة"
+
 #. Label of the one_self_checkin (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json:23
 msgid "Allow Employees to Check In Themselves"
@@ -4133,6 +4167,10 @@ msgstr "السماح بتسجيل المقابلات"
 #: frontend/src/inventory/item/ItemStock.vue:109
 msgid "Allow Negative Stock"
 msgstr "السماح بالمخزون السالب"
+
+#: onedesk/one_mail/agent.py:701
+msgid "Allow New Addresses to Send"
+msgstr "السماح للعناوين الجديدة بالإرسال"
 
 #: onedesk/public/js/one/notification_center.js:191
 msgid "Allow notifications for this site in your browser settings."
@@ -4423,6 +4461,10 @@ msgstr "مفتاح مستخدم IAM مسموح له بـ Lightsail فقط. لي�
 msgid "An SFTP or WebDAV server shown as a folder in OneCloud."
 msgstr "خادم SFTP أو WebDAV يظهر كمجلد في OneCloud."
 
+#: onedesk/public/js/one_ai/ai_center.js:461
+msgid "An action with no level waits for the approver."
+msgstr "الإجراء الذي ليس له مستوى ينتظر المعتمِد."
+
 #: onedesk/one_admin/doctype/offering/offering.py:53
 msgid "An add-on adds exactly one thing."
 msgstr "الإضافة تضيف شيئًا واحدًا فقط."
@@ -4464,6 +4506,11 @@ msgstr "يراجع أحد المسؤولين الطلب. بعد ذلك يتم ت
 #, python-brace-format
 msgid "An administrator reviews the request. Then you're signed out, and your {0} chats, memory, notifications and devices are deleted."
 msgstr "يراجع مسؤول الطلب. بعدها يُسجَّل خروجك وتُحذف محادثاتك مع {0} وذاكرته وإشعاراتك وأجهزتك."
+
+#: onedesk/public/js/one_ai/ai_center.js:460
+#, python-brace-format
+msgid "An agent holds only its app's roles, never {0}."
+msgstr "لا يحمل الوكيل إلا أدوار تطبيقه، ولا يحمل أبدًا {0}."
 
 #: onedesk/public/js/one_project/project_new.js:24
 msgid "An agreed price, billed as the work gets done. Subcontracts and a budget."
@@ -5142,6 +5189,10 @@ msgstr "اعتماد"
 msgid "Approve All ({0})"
 msgstr "الموافقة على الكل ({0})"
 
+#: onedesk/one_mail/agent.py:696
+msgid "Approve Mail Rule"
+msgstr "اعتماد قاعدة البريد"
+
 #: onedesk/public/js/trust_center/privacy_request.js:13
 msgid "Approve and Delete"
 msgstr "الموافقة والحذف"
@@ -5555,6 +5606,14 @@ msgstr "اطلب"
 msgid "Ask Again"
 msgstr "اطلب مجددًا"
 
+#: onedesk/public/js/one_ai/ai_center.js:320
+msgid "Ask First"
+msgstr "الاستئذان أولًا"
+
+#: onedesk/public/js/one_ai/ai_center.js:461
+msgid "Ask First by Default"
+msgstr "الاستئذان أولًا افتراضيًا"
+
 #. Label in the One Delivery Trip print format
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 msgid "Ask For"
@@ -5948,6 +6007,10 @@ msgstr "للأصول فئات"
 msgid "Assign"
 msgstr "إسناد"
 
+#: onedesk/one_mail/agent.py:709
+msgid "Assign Conversation"
+msgstr "إسناد المحادثة"
+
 #: onedesk/public/js/one_mail/rule_builder.js:686
 #: onedesk/public/js/one_mail/rule_builder.js:689
 msgid "Assign New Conversations"
@@ -6034,6 +6097,10 @@ msgstr ""
 #: frontend/src/factory/floor/OrderRows.vue:7 onedesk/one_mail/agent.py:1070
 msgid "At"
 msgstr "في"
+
+#: onedesk/public/js/one_ai/ai_center.js:396
+msgid "At Draft a person submits what the agent prepares, and at Ask First the approver decides."
+msgstr "في مستوى المسودة يُرسل شخصٌ ما يُعدّه الوكيل، وفي مستوى الاستئذان أولًا يقرّر المعتمِد."
 
 #: frontend/src/slide/shim/DataDialog.vue:114
 msgid "At Most"
@@ -8185,6 +8252,10 @@ msgstr "الأيام المزدحمة"
 msgid "Button"
 msgstr ""
 
+#: onedesk/public/js/one_ai/ai_center.js:277
+msgid "Buttons"
+msgstr "الأزرار"
+
 #. Description of the 'Verbs' (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json:99
 msgid "Buttons that do something a module registered. Each shows only when it can be done."
@@ -8976,6 +9047,10 @@ msgstr "تغيير الخطة"
 msgid "Change Request"
 msgstr "طلب تغيير"
 
+#: onedesk/one_project/agent.py:62
+msgid "Change Status"
+msgstr "تغيير الحالة"
+
 #: onedesk/one_studio/agent.py:40
 msgid "Change a collection…"
 msgstr "تغيير مجموعة…"
@@ -9574,6 +9649,10 @@ msgstr "صحة الأطفال"
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json:57
 msgid "Chime First"
 msgstr "نغمة قبله"
+
+#: onedesk/one_ai/office.py:188
+msgid "Choose Act, Draft or Ask First."
+msgstr "اختر تنفيذ أو مسودة أو الاستئذان أولًا."
 
 #: onedesk/one_ai/center.py:92
 msgid "Choose Fast, Balanced or Full."
@@ -11744,6 +11823,10 @@ msgstr "تصحيح"
 msgid "Corrections"
 msgstr "التصحيحات"
 
+#: onedesk/public/js/one_ai/ai_center.js:416
+msgid "Corrections people made, read with the next document from the same party."
+msgstr "تصحيحات أجراها الأشخاص، تُقرأ مع المستند التالي من الطرف نفسه."
+
 #. Label in the One Bill of Materials print format
 #. Label in the One Full and Final Settlement print format
 #. Label in the One Staffing Plan print format
@@ -12316,6 +12399,10 @@ msgstr "إنشاء التنزيل"
 msgid "Create Events"
 msgstr "إنشاء الأحداث"
 
+#: onedesk/one_mail/agent.py:687
+msgid "Create Folder"
+msgstr "إنشاء مجلد"
+
 #: onedesk/one_inventory/portal.py:46
 msgid "Create Invoice"
 msgstr "إنشاء فاتورة"
@@ -12348,6 +12435,10 @@ msgstr "إنشاء المهام"
 #: frontend/src/doc/components/VersionsSidebar.vue:63
 msgid "Create Version"
 msgstr "إنشاء نسخة"
+
+#: onedesk/one_sheet/agent.py:45
+msgid "Create Workbook"
+msgstr "إنشاء مصنف"
 
 #: onedesk/one_sheet/agent.py:196
 #, python-brace-format
@@ -14039,9 +14130,21 @@ msgstr "حذف الحساب"
 msgid "Delete All Transactions"
 msgstr "حذف كل المعاملات"
 
+#: onedesk/one_mail/agent.py:686
+msgid "Delete Conversations"
+msgstr "حذف المحادثات"
+
 #: onedesk/public/js/account_center/account_center.js:1074
 msgid "Delete Everything"
 msgstr "حذف كل شيء"
+
+#: onedesk/one_mail/agent.py:689
+msgid "Delete Folder"
+msgstr "حذف المجلد"
+
+#: onedesk/one_mail/agent.py:695
+msgid "Delete Mail Rule"
+msgstr "حذف قاعدة البريد"
 
 #: frontend/portal/src/pages/YourData.vue:24
 #: frontend/portal/src/pages/YourData.vue:27
@@ -15851,6 +15954,10 @@ msgstr "رقم المسودة"
 msgid "Draft Orders"
 msgstr "إنشاء مسودات الأوامر"
 
+#: onedesk/one_book/agent.py:35
+msgid "Draft Purchase Invoice"
+msgstr "مسودة فاتورة شراء"
+
 #: onedesk/one_inventory/shortcuts.py:10
 msgid "Draft Purchase Orders"
 msgstr "إعداد مسودات أوامر الشراء"
@@ -15986,6 +16093,10 @@ msgstr "المسودات"
 #: onedesk/one_book/home.py:321
 msgid "Drafts OneAI read from mail and scans, bills most of all, waiting to be submitted."
 msgstr "مسودات قرأها OneAI من البريد والمستندات الممسوحة، وأغلبها فواتير، تنتظر الاعتماد."
+
+#: onedesk/public/js/one_ai/ai_center.js:462
+msgid "Drafts Stay Drafts"
+msgstr "المسودات تبقى مسودات"
 
 #: onedesk/one_task/tour.py:25
 msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
@@ -16332,6 +16443,10 @@ msgstr "رصيد كل حساب حسب البُعد المحاسبي."
 msgid "Each account's debits and credits, day by day."
 msgstr "مدين ودائن كل حساب، يومًا بيوم."
 
+#: onedesk/public/js/one_ai/ai_center.js:463
+msgid "Each action is kept under the agent's name, with Undo."
+msgstr "يُحفظ كل إجراء باسم الوكيل، مع إمكانية التراجع."
+
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:148
 msgid "Each address on its own line gets the link and a sign-in code."
 msgstr "يتلقى كل عنوان في سطر مستقل الرابط ورمز تسجيل الدخول."
@@ -16339,6 +16454,10 @@ msgstr "يتلقى كل عنوان في سطر مستقل الرابط ورمز 
 #: onedesk/trust_center/tour.py:18
 msgid "Each agreement, the optional services, who receives data and what is changing."
 msgstr "كل اتفاقية، والخدمات الاختيارية، ومن يتلقى البيانات، وما الذي يتغير."
+
+#: onedesk/public/js/one_ai/ai_center.js:441
+msgid "Each app's agent works as its own user, for the people who may open that app."
+msgstr "يعمل وكيل كل تطبيق بصفته مستخدمًا خاصًا به، للأشخاص الذين يمكنهم فتح ذلك التطبيق."
 
 #: onedesk/one/manifest.py:68
 msgid "Each app's settings."
@@ -17477,6 +17596,10 @@ msgstr ""
 #: onedesk/public/js/account_center/account_center.js:925
 msgid "Enable Auto Top-Up"
 msgstr "تفعيل الشحن التلقائي"
+
+#: onedesk/one_mail/agent.py:694
+msgid "Enable Mail Rule"
+msgstr "تفعيل قاعدة البريد"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:946
 #: onedesk/public/js/one_mail/onemail_settings.js:1014
@@ -23762,6 +23885,10 @@ msgstr "إذا كان {0}"
 msgid "If not"
 msgstr "إذا لم يكن"
 
+#: onedesk/public/js/one_ai/ai_center.js:446
+msgid "If off, no agent reads or changes anything."
+msgstr "عند الإيقاف، لا يقرأ أي وكيل شيئًا ولا يغيّره."
+
 #: onedesk/public/js/one_ai/ai_center.js:49
 #, python-brace-format
 msgid "If off, nobody can ask {0} and none of its jobs run."
@@ -26264,6 +26391,11 @@ msgstr "محفوظ في مساحة العمل هذه، دون خادم خاص ب
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 msgid "Kept on Account"
 msgstr "محفوظ في الحساب"
+
+#: onedesk/public/js/one_ai/ai_center.js:373
+#, python-brace-format
+msgid "Kept, because {0}."
+msgstr "لم يُتراجع عنه، لأن {0}."
 
 #. Label of the key (Data) field in DocType 'Offering'
 #. Label of the key (Data) field in DocType 'Reading'
@@ -29355,6 +29487,14 @@ msgstr "التسجيل كـ"
 msgid "Mark Attendance"
 msgstr ""
 
+#: onedesk/one_mail/agent.py:710
+msgid "Mark Conversation Done"
+msgstr "تعليم المحادثة كمكتملة"
+
+#: onedesk/one_mail/agent.py:683
+msgid "Mark Conversations"
+msgstr "تعليم المحادثات"
+
 #: frontend/src/mail/MailConversation.vue:21
 #: frontend/src/mail/MailConversation.vue:22 onedesk/one_mail/agent.py:1306
 #: onedesk/public/js/one_inventory/asset_maintenance_log.js:7
@@ -30437,6 +30577,10 @@ msgstr "زر التقدم في الفأرة"
 msgid "Move"
 msgstr "نقل"
 
+#: onedesk/one_mail/agent.py:685
+msgid "Move Conversations"
+msgstr "نقل المحادثات"
+
 #: onedesk/public/js/one_mail/rule_builder.js:105
 msgid "Move Down"
 msgstr "نقل للأسفل"
@@ -31112,6 +31256,14 @@ msgstr "الشبكة والموقع"
 #: onedesk/public/js/account_center/account_center.js:1462
 msgid "Never"
 msgstr "أبدًا"
+
+#: onedesk/public/js/one_ai/ai_center.js:464
+msgid "Never Done by an Agent"
+msgstr "لا يقوم به أي وكيل"
+
+#: onedesk/public/js/one_ai/ai_center.js:411
+msgid "Never Done by the Agent"
+msgstr "لا يقوم به الوكيل"
 
 #: frontend/src/inventory/item/ItemSuppliers.vue:2
 msgid "Never bought"
@@ -32205,6 +32357,10 @@ msgstr "لا حاجة إلى حساب. يفتح حتى {0}."
 msgid "No action yet"
 msgstr "لا يوجد إجراء بعد"
 
+#: onedesk/public/js/one_ai/ai_center.js:398
+msgid "No actions yet"
+msgstr "لا توجد إجراءات بعد"
+
 #: onedesk/public/js/account_center/account_center.js:589
 msgid "No active sessions"
 msgstr "لا توجد جلسات نشطة"
@@ -32216,6 +32372,10 @@ msgstr "بلا نشاط"
 #: onedesk/public/js/account_center/account_center.js:1268
 msgid "No add-ons available"
 msgstr "لا توجد إضافات متاحة"
+
+#: onedesk/public/js/one_ai/ai_center.js:451
+msgid "No agents yet"
+msgstr "لا يوجد وكلاء بعد"
 
 #: onedesk/public/js/doctype_settings.js:168
 #: onedesk/public/js/one_studio/studio_control.js:67
@@ -33754,6 +33914,10 @@ msgstr "لم يكتمل شيء بعد"
 msgid "Nothing dated on or before this day can then be entered, changed or cancelled, by anybody."
 msgstr "بعدها لا يمكن لأحد إدخال أو تعديل أو إلغاء أي شيء بتاريخ هذا اليوم أو قبله."
 
+#: onedesk/public/js/one_ai/ai_center.js:361
+msgid "Nothing done yet"
+msgstr "لم يُنجز شيء بعد"
+
 #: onedesk/one_inventory/heads.py:993
 msgid "Nothing due"
 msgstr "لا شيء مستحق"
@@ -33791,6 +33955,10 @@ msgstr "لا يُخصم رصيد ولا يُسجَّل حضور."
 #: onedesk/public/js/trust_center/trust_center.js:190
 msgid "Nothing is waiting for agreement."
 msgstr "لا شيء بانتظار الموافقة."
+
+#: onedesk/public/js/one_ai/ai_center.js:418
+msgid "Nothing learned yet"
+msgstr "لم يُتعلّم شيء بعد"
 
 #: onedesk/one_inventory/ready.py:86
 msgid "Nothing leaves a warehouse that does not have it."
@@ -37380,6 +37548,10 @@ msgstr "صناديق البريد الخاصة"
 msgid "Own Server"
 msgstr "خادم خاص"
 
+#: onedesk/public/js/one_ai/ai_center.js:460
+msgid "Own User and Roles"
+msgstr "مستخدم وأدوار خاصة"
+
 #: onedesk/public/js/one_inventory/item_new.js:6
 msgid "Owned and used, like a van or a laptop."
 msgstr "مملوك ومُستخدم، مثل شاحنة أو حاسوب محمول."
@@ -37963,6 +38135,10 @@ msgstr "صنف خاص بطرف"
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:48
 msgid "Party Type"
 msgstr "نوع الطرف"
+
+#: onedesk/one_mail/agent.py:714
+msgid "Pass On Invoices"
+msgstr "تحويل الفواتير"
 
 #. Option for the 'Review' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json:144
@@ -41924,6 +42100,10 @@ msgstr "قراءة تسجيلات الحضور"
 msgid "Read Files Attached to Records"
 msgstr "قراءة الملفات المرفقة بالسجلات"
 
+#: onedesk/one_mail/agent.py:713
+msgid "Read Incoming Mail"
+msgstr "قراءة البريد الوارد"
+
 #: frontend/src/factory/floor/FloorSteps.vue:108
 msgid "Read Instructions"
 msgstr "قراءة التعليمات"
@@ -43361,6 +43541,10 @@ msgstr "الصور الخارجية مخفية."
 #: onedesk/public/js/one_project/project_actions.js:458
 msgid "Remove"
 msgstr "إزالة"
+
+#: onedesk/one_mail/agent.py:707
+msgid "Remove Company Domain"
+msgstr "إزالة نطاق الشركة"
 
 #: onedesk/public/js/account_center/account_center.js:867
 msgid "Remove One"
@@ -45081,6 +45265,10 @@ msgstr "تم تحديث القاعدة"
 msgid "Rules"
 msgstr "القواعد"
 
+#: onedesk/public/js/one_ai/ai_center.js:457
+msgid "Rules for Every Agent"
+msgstr "قواعد لكل وكيل"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1158
 msgid "Rules on this sheet"
 msgstr "القواعد في هذه الورقة"
@@ -45550,6 +45738,10 @@ msgstr "حفظ العنوان"
 #: onedesk/public/js/one_interface/list.js:248
 msgid "Save Layout"
 msgstr "حفظ التخطيط"
+
+#: onedesk/one_mail/agent.py:693
+msgid "Save Mail Rule"
+msgstr "حفظ قاعدة البريد"
 
 #: frontend/src/doc/DocumentPage.vue:29
 #: frontend/src/sheet/components/SheetEditor/index.vue:165
@@ -47081,17 +47273,41 @@ msgstr "جلسات اليوم، كل منها في سطر: الوقت والمو
 msgid "Set"
 msgstr ""
 
+#: onedesk/one_mail/agent.py:704
+msgid "Set Allowed Domains"
+msgstr "تحديد النطاقات المسموح بها"
+
+#: onedesk/one_mail/agent.py:692
+msgid "Set Away Reply"
+msgstr "تحديد رد الغياب"
+
 #: frontend/src/slide/components/controls/ColorPicker.vue:58
 msgid "Set Color"
 msgstr "تعيين اللون"
+
+#: onedesk/one_project/agent.py:64
+msgid "Set Cost Budget"
+msgstr "تحديد ميزانية التكلفة"
 
 #: frontend/src/inventory/item/ItemCustomers.vue:75
 msgid "Set Customer's Code"
 msgstr "تعيين رمز العميل"
 
+#: onedesk/one_mail/agent.py:705
+msgid "Set Default Mailboxes"
+msgstr "تحديد صناديق البريد الافتراضية"
+
+#: onedesk/one_mail/agent.py:708
+msgid "Set Default Template"
+msgstr "تحديد القالب الافتراضي"
+
 #: onedesk/one_studio/automations.py:110
 msgid "Set Field Value"
 msgstr "تعيين قيمة حقل"
+
+#: onedesk/one_mail/agent.py:700
+msgid "Set Mailbox Permissions"
+msgstr "تحديد صلاحيات صندوق البريد"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:465
 #, python-brace-format
@@ -47124,6 +47340,14 @@ msgstr "تحديد السعر"
 #: frontend/src/inventory/item/ItemPlaces.vue:75
 msgid "Set Reorder Level"
 msgstr "تعيين حد إعادة الطلب"
+
+#: onedesk/one_mail/agent.py:712
+msgid "Set Reply Reminder"
+msgstr "تحديد تذكير بالرد"
+
+#: onedesk/one_mail/agent.py:697
+msgid "Set Signature"
+msgstr "تحديد التوقيع"
 
 #: onedesk/one_hr/overtime.py:243
 msgid "Set Standard Working Hours in Attendance Settings before claiming overtime."
@@ -47500,6 +47724,10 @@ msgstr "رصيد الأسهم"
 #: onedesk/one_book/home.py:370
 msgid "Share Ledger"
 msgstr "سجل الأسهم"
+
+#: onedesk/one_mail/agent.py:698
+msgid "Share Mailbox"
+msgstr "مشاركة صندوق البريد"
 
 #. Label in the One Share Transfer print format
 #: onedesk/one_book/home.py:414
@@ -49055,6 +49283,10 @@ msgstr "لقطة"
 msgid "Snooze"
 msgstr "تأجيل"
 
+#: onedesk/one_mail/agent.py:711
+msgid "Snooze Conversation"
+msgstr "تأجيل المحادثة"
+
 #: frontend/src/mail/team.js:67
 msgid "Snooze Until"
 msgstr "تأجيل حتى"
@@ -49745,6 +49977,10 @@ msgstr "عمودي (9:16)"
 #: onedesk/one_mail/flow.py:329 onedesk/public/js/one_mail/rule_builder.js:41
 msgid "Star"
 msgstr "تمييز بنجمة"
+
+#: onedesk/one_mail/agent.py:684
+msgid "Star Conversations"
+msgstr "تمييز المحادثات بنجمة"
 
 #: onedesk/public/js/one_mail/rule_builder.js:271
 msgid "Star it"
@@ -50574,6 +50810,10 @@ msgstr "إيقاف التكرار"
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.js:8
 msgid "Stop Session"
 msgstr "إيقاف الجلسة"
+
+#: onedesk/one_mail/agent.py:699
+msgid "Stop Sharing Mailbox"
+msgstr "إيقاف مشاركة صندوق البريد"
 
 #: onedesk/one_mail/agent.py:1010
 #, python-brace-format
@@ -53083,6 +53323,11 @@ msgstr "العناوين التي تستجيب عليها مساحة العمل.
 #: onedesk/one_quality/home.py:29
 msgid "The agenda and the minutes of a quality meeting."
 msgstr "جدول أعمال اجتماع الجودة ومحضره."
+
+#: onedesk/one_ai/agents/workspace.py:124
+#, python-brace-format
+msgid "The agents have used their {0} credits for this month."
+msgstr "استخدم الوكلاء رصيدهم البالغ {0} لهذا الشهر."
 
 #: onedesk/one_ai/manifest.py:48
 msgid "The agents, what they may do and what they did."
@@ -58187,6 +58432,10 @@ msgstr "تراجع"
 msgid "Undo (Ctrl+Z)"
 msgstr "تراجع (Ctrl+Z)"
 
+#: onedesk/public/js/one_ai/ai_center.js:463
+msgid "Undo on Every Action"
+msgstr "التراجع عن كل إجراء"
+
 #: frontend/src/intake/IntakeReading.vue:123
 msgid "Undo this?"
 msgstr "التراجع عن هذا؟"
@@ -58401,6 +58650,10 @@ msgstr "بلا حدود"
 #: frontend/src/mail/MailPanel.vue:31
 msgid "Unlink"
 msgstr "إلغاء الربط"
+
+#: onedesk/one_mail/agent.py:691
+msgid "Unlink from Record"
+msgstr "إلغاء الربط بالسجل"
 
 #: frontend/src/doc/DocumentPage.vue:19 frontend/src/doc/DocumentPage.vue:305
 #: frontend/src/slide/components/ElementContextMenu.vue:182
@@ -59135,6 +59388,11 @@ msgstr "المدة المعتادة بالأيام"
 #: onedesk/public/js/one_inventory/item_new.js:98
 msgid "Usual Supplier"
 msgstr "المورد المعتاد"
+
+#: onedesk/public/js/one_ai/ai_center.js:400
+#, python-brace-format
+msgid "Usually {0}"
+msgstr "عادةً {0}"
 
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:179
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:224
@@ -60293,6 +60551,14 @@ msgstr "المبلغ المستحق"
 msgid "What It Brings"
 msgstr "ما يأتي به"
 
+#: onedesk/public/js/one_ai/ai_center.js:427
+msgid "What It Costs"
+msgstr "التكلفة"
+
+#: onedesk/public/js/one_ai/ai_center.js:424
+msgid "What It Did"
+msgstr "ما قام به"
+
 #: onedesk/one_studio/doctype/extension/extension.js:99
 msgid "What It Does"
 msgstr "ما تفعله"
@@ -60300,6 +60566,14 @@ msgstr "ما تفعله"
 #: onedesk/one_crm/tour.py:45
 msgid "What It Is Worth"
 msgstr "ما تساويه"
+
+#: onedesk/public/js/one_ai/ai_center.js:416
+msgid "What It Learned"
+msgstr "ما تعلّمه"
+
+#: onedesk/public/js/one_ai/ai_center.js:396
+msgid "What It May Do"
+msgstr "ما يُسمح له به"
 
 #: onedesk/public/js/one_ai/ai_center.js:385
 msgid "What It Reads"
@@ -65121,6 +65395,10 @@ msgstr ""
 msgid "Write Cancellation"
 msgstr "كتابة الإلغاء"
 
+#: onedesk/one_sheet/agent.py:46
+msgid "Write Cells"
+msgstr "كتابة الخلايا"
+
 #: onedesk/account_center/agent.py:17
 #: onedesk/public/js/account_center/account_center.js:133
 #: onedesk/public/js/account_center/account_center.js:140
@@ -68734,6 +69012,11 @@ msgstr "{0} موزعة على {1} حسابات."
 msgid "{0} actions"
 msgstr "{0} إجراءات"
 
+#: onedesk/public/js/one_ai/ai_center.js:464
+#, python-brace-format
+msgid "{0} actions, each with its reason on the agent's tab."
+msgstr "{0} إجراءات، لكلٍّ منها سببه في علامة تبويب الوكيل."
+
 #: onedesk/public/js/account_center/account_center.js:731
 #, python-brace-format
 msgid "{0} add-ons"
@@ -69202,6 +69485,11 @@ msgstr "{0} علّقت"
 #, python-brace-format
 msgid "{0} conversations selected"
 msgstr "تم تحديد {0} محادثات"
+
+#: onedesk/public/js/one_ai/ai_center.js:345
+#, python-brace-format
+msgid "{0} corrected"
+msgstr "{0} مصحَّحة"
 
 #: frontend/src/project/Overview.vue:29
 #, python-brace-format
@@ -69681,6 +69969,11 @@ msgstr "يحتوي {0} على وحدات ماكرو، لذا يُفتح هنا �
 msgid "{0} has no access to any of your folders."
 msgstr "لا يملك {0} صلاحية الوصول إلى أي من مجلداتك."
 
+#: onedesk/one_ai/office.py:26
+#, python-brace-format
+msgid "{0} has no agent."
+msgstr "ليس لدى {0} وكيل."
+
 #: onedesk/one_hr/overtime.py:47
 #, python-brace-format
 msgid "{0} has no attendance marked on {1}."
@@ -69819,6 +70112,11 @@ msgstr "وصلت {0} إلى {1}. لا يمكن إلا أن تزيد: الرقم 
 #, python-brace-format
 msgid "{0} has run into no errors, so there is nothing to fix."
 msgstr "لم تقع {0} في أي خطأ، فلا شيء لإصلاحه."
+
+#: onedesk/one_ai/agents/workspace.py:122
+#, python-brace-format
+msgid "{0} has used its {1} credits for this month."
+msgstr "استخدم {0} رصيده البالغ {1} لهذا الشهر."
 
 #: onedesk/public/js/one_admin/tenant.js:50
 #, python-brace-format
@@ -71663,6 +71961,11 @@ msgstr "استُلم {0} من {1}."
 #, python-brace-format
 msgid "{0} records"
 msgstr "{0} سجلات"
+
+#: onedesk/public/js/one_ai/ai_center.js:346
+#, python-brace-format
+msgid "{0} refused"
+msgstr "{0} مرفوضة"
 
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.js:27
 #, python-brace-format

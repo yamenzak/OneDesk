@@ -693,3 +693,60 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 	drafted = called("one_book", "draft_purchase_invoice", {"reading": reading})["drafts"]
 	assert {one.target_doctype for one in drafted} <= {"Purchase Invoice"}, drafted
 	assert frappe.db.count("Purchase Invoice", {"bill_no": "GS-11873"}) == bills, "a second bill for the same invoice"
+
+
+@check
+def aicenter_keeps_the_agents_levels_limits_and_switch():
+	"""AICenter as the agents' office (one_ai/office.py): the owner sees
+	every agent and raises one action's level, which the door then works at;
+	a month's limit reached and agents turned off each stop the door with
+	the reason; Nadia, who neither administers nor asked, may read none of
+	it and undo nothing an agent did for somebody else."""
+	from onedesk.one.registry import agents
+	from onedesk.one_ai import office
+	from onedesk.one_ai.agents import levels, workspace
+	from onedesk.one_ai.reading import act
+
+	was = {key: frappe.db.get_default(key) for key in (workspace.LEVELS_KEY, workspace.LIMITS_KEY, workspace.SPENT_KEY, workspace.OFF_KEY)}
+	try:
+		with as_user(OWNER):
+			team = office.team()
+			assert {"one_mail", "one_book"} <= {one["app"] for one in team["agents"]}, team
+			said = office.agent("one_book")
+			assert [one["level"] for one in said["actions"] if one["action"] == "draft_purchase_invoice"] == ["Draft"], said["actions"]
+			assert office.set_level("one_book", "draft_purchase_invoice", "Do it") == "Do it"
+			assert levels.of("one_book", "draft_purchase_invoice") == "Do it"
+			assert office.set_level("one_book", "draft_purchase_invoice", "Draft") == "Draft"
+			assert not workspace.chosen(), "the declared level is kept as no choice"
+			office.set_limit("one_book", 1)
+		workspace.spend("one_book", 1)
+		why = workspace.refusal("one_book")
+		assert why and "1" in why, why
+		assert workspace.refusal("one_mail") is None
+		with as_user(OWNER):
+			office.set_limit("one_book", 0)
+			assert office.set_on(0) is False
+		assert workspace.refusal("one_book") == frappe._("Agents are turned off for this workspace.")
+		with as_user("nadia@one.test"):
+			for call, args in ((office.team, {}), (office.agent, {"app": "one_book"}), (office.set_on, {"on": 1})):
+				try:
+					call(**args)
+					raise AssertionError(f"Nadia reached {call.__name__}")
+				except frappe.PermissionError:
+					pass
+		done = frappe.get_all(
+			"Reading Action",
+			filters={"agent": ["in", [one.email for one in agents.listed()]], "level": "Done", "on_behalf_of": ["!=", "nadia@one.test"]},
+			pluck="name",
+			limit=1,
+		)
+		if done:
+			with as_user("nadia@one.test"):
+				try:
+					act.undo_one(done[0])
+					raise AssertionError("Nadia undid an agent's action")
+				except frappe.PermissionError:
+					pass
+	finally:
+		for key, value in was.items():
+			frappe.db.set_default(key, value or "")

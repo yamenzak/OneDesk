@@ -9,7 +9,7 @@ import json
 from typing import Annotated
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 from onedesk.one_sheet import api, storage
 from onedesk.one_sheet.cells import CELL, letters
@@ -40,6 +40,12 @@ LEVELS = {
 	"api.save_sheet": "Draft",
 }
 """How far its agent goes with each action (one_ai/agents/levels.py)."""
+
+LABELS = {
+	"api.make": _lt("Create Workbook"),
+	"api.save_sheet": _lt("Write Cells"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
 
 #: The most cells a read answers with, and a card writes.
 MOST_CELLS = 2000

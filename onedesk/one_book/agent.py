@@ -31,6 +31,11 @@ LEVELS = {
 }
 """How far its agent goes with each action (one_ai/agents/levels.py)."""
 
+LABELS = {
+	"draft_purchase_invoice": _lt("Draft Purchase Invoice"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
+
 HOME = "books"
 
 SALES, BUYING, LEDGER = "Sales Invoice", "Purchase Invoice", "GL Entry"
