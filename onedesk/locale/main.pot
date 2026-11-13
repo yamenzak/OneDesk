@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 19:02+0000\n"
-"PO-Revision-Date: 2026-11-13 19:02+0000\n"
+"POT-Creation-Date: 2026-11-13 19:19+0000\n"
+"PO-Revision-Date: 2026-11-13 19:19+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -68094,6 +68094,10 @@ msgstr ""
 #: onedesk/one_cloud/dav_saves.py:185
 #, python-brace-format
 msgid "saved a copy, since {0} had changed after it was opened"
+msgstr ""
+
+#: onedesk/one_display/manifest.py:19
+msgid "screen keeper"
 msgstr ""
 
 #: onedesk/one_admin/offerings.py:174

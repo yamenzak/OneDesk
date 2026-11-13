@@ -1,6 +1,6 @@
 """OneDisplay's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Region
+from onedesk.one.registry.model import App, Region, Roles, _lt
 
 APP = App(
 	id="one_display",
@@ -15,6 +15,8 @@ APP = App(
 	mark="onedisplay",
 	rail=130,
 	sidebar="OneDisplay",
+	roles=Roles(user=("OneDisplay User",), manager=("OneDisplay Manager",)),
+	agent=_lt("screen keeper"),
 	screens="display",
 	names=("one_display", "onedisplay"),
 	help=(

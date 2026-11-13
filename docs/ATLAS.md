@@ -1026,21 +1026,21 @@ Pages: presentation (inside: a presentation opens on it from OneCloud).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Display Board | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
-| Display Board Change | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Display Channel | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
-| Display Screen | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  | Screen Offline |
-| Display Settings | on a rail or a home | the administrator | events | no | general |  |  |  |  |  |  |
-| Display Source | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
-| Display Voice | engine: a phrase OneDisplay's screens say in OneAI's voice, recorded once and kept | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| Music Playlist | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
-| Queue | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
-| Queue Ticket | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  | Long Wait |
-| Slide Playlist | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
-| Sound Zone | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Voice Ad | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
-| Voice Pack | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Widget Collection | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Board | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Board Change | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Display Channel | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Screen | on a rail or a home | OneDisplay, the administrator | events | yes | taught |  | yes |  |  |  | Screen Offline |
+| Display Settings | on a rail or a home | OneDisplay, the administrator | events | no | general |  |  |  |  |  |  |
+| Display Source | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Voice | engine: a phrase OneDisplay's screens say in OneAI's voice, recorded once and kept | OneDisplay, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
+| Music Playlist | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Queue | on a rail or a home | OneDisplay, the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Queue Ticket | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  | Long Wait |
+| Slide Playlist | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Sound Zone | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Voice Ad | on a rail or a home | OneDisplay, the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Voice Pack | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Widget Collection | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
 
 Pages: boards (on a rail or a home); counter (on a rail or a home).
 

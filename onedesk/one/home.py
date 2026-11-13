@@ -124,13 +124,13 @@ def _announcements() -> list[dict]:
 
 def news() -> list[dict]:
 	"""The apps the reader has whose newest version they have not opened,
-	each with that version's title (UpdateCenter)."""
-	from onedesk.one import apps, ready, versions
+	each with that version's title (UpdateCenter); an app turned off or out
+	of the reader's reach is not theirs (versions.for_boot marks it off)."""
+	from onedesk.one import ready, versions
 
-	off = set(apps.hidden())
 	said = []
 	for module, one in versions.for_boot().items():
-		if not one["unseen"] or module in off:
+		if not one["unseen"] or one.get("off"):
 			continue
 		newest = next(iter(ready.shown(module)), None)
 		said.append(

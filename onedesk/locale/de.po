@@ -67943,6 +67943,10 @@ msgstr "Vertriebsassistent"
 msgid "saved a copy, since {0} had changed after it was opened"
 msgstr "hat eine Kopie gespeichert, da sich {0} nach dem Öffnen geändert hatte"
 
+#: onedesk/one_display/manifest.py:19
+msgid "screen keeper"
+msgstr "Bildschirmbetreuung"
+
 #: onedesk/one_admin/offerings.py:163
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:21
 msgid "seats"
