@@ -1,0 +1,144 @@
+/* The launcher, Arrange Apps and a folder on the rail (one/rail.py,
+   launcher.js, arrange.js, folders.js). */
+
+.one-launcher-find {
+	margin-bottom: 12px;
+}
+
+.one-launcher-group + .one-launcher-group {
+	margin-top: 16px;
+}
+
+.one-launcher-head {
+	margin: 0 0 8px;
+	color: var(--one-ink-quiet);
+	font-size: var(--text-sm);
+	font-weight: 500;
+}
+
+.one-launcher-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+	gap: 4px;
+}
+
+.one-launcher-app {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	padding: 10px 4px;
+	border: 0;
+	border-radius: var(--one-radius-control);
+	background: transparent;
+	color: var(--one-ink);
+	font-size: var(--text-sm);
+}
+
+.one-launcher-app:hover,
+.one-launcher-app:focus-visible {
+	background: var(--one-control-bg);
+	color: var(--one-ink-strong);
+}
+
+.one-launcher-name {
+	max-width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-launcher-pages {
+	display: flex;
+	flex-direction: column;
+}
+
+.one-launcher-page {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 44px;
+	padding: 0 8px;
+	border-radius: var(--one-radius-control);
+	color: var(--one-ink);
+	font-size: var(--text-base);
+	text-decoration: none;
+}
+
+.one-launcher-page:hover,
+.one-launcher-page:active {
+	background: var(--one-control-bg);
+	text-decoration: none;
+	color: var(--one-ink-strong);
+}
+
+.one-launcher-page .icon {
+	margin: 0;
+	flex: none;
+	color: var(--one-ink-soft);
+}
+
+.one-launcher-page-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-launcher-page-app {
+	flex: none;
+	color: var(--one-ink-quiet);
+	font-size: var(--text-sm);
+}
+
+.one-launcher-foot {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.one-arrange {
+	display: flex;
+	flex-direction: column;
+}
+
+.one-arrange-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 44px;
+	padding: 0 4px;
+	border-radius: var(--one-radius-control);
+	color: var(--one-ink);
+}
+
+.one-arrange-row:hover {
+	background: var(--one-control-bg);
+}
+
+.one-arrange-grip {
+	display: flex;
+	color: var(--one-ink-muted);
+	cursor: grab;
+}
+
+.one-arrange-icon {
+	display: flex;
+	flex: none;
+}
+
+.one-arrange-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-arrange-row .one-arrange-folder {
+	flex: none;
+	color: var(--one-ink-quiet);
+}

@@ -296,8 +296,8 @@ release through a thin module, removed in P2.9.
 - [x] P5.5 UpdateCenter redone: the workspace's update window, Update Now, what's coming and what changed (What's New moves in). — from OneAdmin's view of the tenant. (13 Nov, an agent, b1d59cb4: Next Update, Update Window and What's New by app, through proxy.update_window and update_now; AccountCenter's Updates gone. Fixed on the look: the method path, an empty date.)
 - [x] P5.6 TrustCenter redone: agreements, the companies that receive data, optional services, privacy requests, updates waiting for agreement, plainly. — walked as a new owner. (13 Nov, b1d59cb4: Agreements, Companies That Receive Data, Optional Services, Your Data, Privacy Requests, Waiting for Agreement; looked at as an owner in en/ar.)
 - [x] P5.7 HelpCenter: only apps that are on; OneCloud and OneStudio pages. — search finds them. (13 Nov, b1d59cb4: only apps that are on; One's Updates page added, TrustCenter's rewritten; Ctrl+K finds Help by title. Pictures wait for P6.4.)
-- [ ] P5.8 AccessCenter levels hide rail rows and centre tiles. — a role without OneBook never sees it.
-- [ ] P5.9 The rail is the person's: reorder (frappe's save_user_dock, re-enabled), folders as One's layer in user settings, the workspace's default order set in SetupCenter, reset; the app picker as a searchable launcher, recent first; on a phone the rail is the launcher. — folders survive an upgrade.
+- [x] P5.8 AccessCenter levels hide rail rows and centre tiles. — a role without OneBook never sees it. (13 Nov, an agent, 495c0817: an app at no level leaves the boot's module_sidebars (one/rail.py unreached, outside.kept), so no rail row, launcher tile or search; its Help off; one_centres only what One's rail opens. Demo check written, not run; not walked in a browser.)
+- [x] P5.9 The rail is the person's: reorder (frappe's save_user_dock, re-enabled), folders as One's layer in user settings, the workspace's default order set in SetupCenter, reset; the app picker as a searchable launcher, recent first; on a phone the rail is the launcher. — folders survive an upgrade. (13 Nov, 495c0817: Arrange Apps (user menu's Manage Dock, launcher's foot) through save_user_dock, Reset empty; workspace order is the site layer, SetupCenter's Order of Apps; folders and recent in user settings One Rail; the Apps button and the phone's Apps are the launcher; test_own_rail proves order and folders survive a changed Dock. Needs a restart; not walked in a browser.)
 - **Gate P5:** a passthrough of OneHub, the tray and every centre at 1440/820/390, light/dark, Arabic/German; AI step 2 (P8.2) built beside it.
 
 ### P6. OneMarketplace, needs and kept, the editors as apps
@@ -392,6 +392,24 @@ registry.
   charged every use 2.6% more credits and moved a round number people learn;
   repricing the one pack that broke keeps a credit at four fils. Nothing is
   sold yet: the packs are their launch versions (@2026-12).
+- 13 Nov, Claude (P5.8): "may not reach" is AccessCenter's None: none of an
+  app's User or Manager roles and none of the workspace's own levels of it.
+  Such an app's sidebar leaves the boot's module_sidebars (`outside.kept`),
+  which frappe's dock, the launcher, the phone and Ctrl+K all read, so it is
+  never drawn and then refused; its Help and versions are marked off.
+  `one_centres` carries only the centres One's rail opens for the reader,
+  and ControlCenter always, since every app's own settings open in it.
+- 13 Nov, Claude (P5.9): frappe's Manage Dock stays in the user menu as
+  Arrange Apps, One's own dialog writing through frappe's `save_user_dock`,
+  not frappe's DockManager: that one adds any module, workspace or address
+  to the rail and its Reset for Everyone deletes the site layer One's
+  `companions.layer` owns. The workspace's order is that site layer (it now
+  keeps its order and takes one from SetupCenter). frappe drops from a
+  person's layer what it never named (`keep_unnamed=False`); One puts such a
+  row back beside the app before it in the workspace's order, so an app an
+  upgrade adds reaches people who arranged their rail. Folders and recent
+  apps are user settings `One Rail`, by dock key. The rail's Apps button is
+  everybody's launcher; turning apps on or off moves to its foot.
 - 12 Nov, Claude: an app is one self-contained folder whose parts are named
   for their centres (Folders); OneOS keeps its name for opening files and
   OneGuard is protection only (P9.4).

@@ -7,7 +7,6 @@ onedesk.apps.intake = () => frappe.boot.one_hidden?.intake !== false;
 onedesk.apps.button = ($dock) => {
 	const $user = $dock.find(".dock-user");
 	if (!$user.length || $dock.find(".one-apps-button").length) return;
-	if (!frappe.user.has_role("Workspace Administrator")) return;
 	const $button = $(
 		`<div class="one-apps"><button class="dock-item one-apps-button" aria-label="${__("Apps")}">${frappe.utils.icon(
 			"layout-grid",
@@ -18,7 +17,7 @@ onedesk.apps.button = ($dock) => {
 		.find("button");
 	$button.on("click", (event) => {
 		event.stopPropagation();
-		onedesk.apps.configure();
+		onedesk.rail.launcher();
 	});
 	onedesk.interface.tips.name($button[0], __("Apps"));
 };
@@ -45,7 +44,7 @@ onedesk.apps.configure = async () => {
 	const { apps } = await frappe.xcall("onedesk.one.apps.read");
 	const off = new Set(apps.filter((app) => !app.on).map((app) => app.name));
 	const dialog = new frappe.ui.Dialog({
-		title: __("Apps"),
+		title: __("Turn Apps On or Off"),
 		size: "large",
 		fields: [
 			{

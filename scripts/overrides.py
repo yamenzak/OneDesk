@@ -958,8 +958,8 @@ OVERRIDES = [
 		"frappe.ui.form.ControlPassword = class ControlPassword extends frappe.ui.form.ControlData {",
 	),
 	(
-		"One's desk has no Manage Dock",
-		"frappe's user menu builds its options inline and hands them to frappe.ui.Dropdown; outside.js swaps the Dropdown during create_user_menu to leave the option named workspace-selector out",
+		"Manage Dock is Arrange Apps",
+		"frappe's user menu builds its options inline and hands them to frappe.ui.Dropdown; outside.js swaps the Dropdown during create_user_menu to relabel the option named workspace-selector Arrange Apps and open One's arranger (arrange.js), which saves through frappe's save_user_dock",
 		"onedesk/public/js/outside.js",
 		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
 		'name: "workspace-selector",',
@@ -2125,6 +2125,13 @@ OVERRIDES = [
 		"onedesk/public/js/one_interface/chrome.js",
 		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
 		'<span class="dock-item-icon">${icon}</span>',
+	),
+	(
+		"A person's folders stand on the rail",
+		"their dock draws one tile per entry; one_interface/folders.js wraps Dock.render_entries, draws the entries in no folder through it and puts each folder's tile where its first app stands",
+		"onedesk/public/js/one_interface/folders.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
+		"render_entries(entries = this.sidebar.collect_dock_entries(this.app)) {",
 	),
 	(
 		"Search leaves out the record types only apps turned off list",
@@ -3479,8 +3486,8 @@ ASKS = {
 	"The Print Formats tab's two reads of the current default are answered by One's door": (
 		"Patches the global frappe.db.get_value for the whole desk to answer the Print Formats tab's two reads (Property Setter / DocType default_print_format); calls the original otherwise. Propose the tab read the default from frappe.get_meta(doctype).default_print_format (meta already merges property setters) or one whitelisted method, which removes this global patch; same proposal as row 67."
 	),
-	"One's desk has no Manage Dock": (
-		"create_user_menu temporarily swaps the global frappe.ui.Dropdown for a subclass that filters 'workspace-selector' and inserts Theme; relies on frappe building exactly one Dropdown synchronously inside it, and fails silently otherwise. Propose frappe move the inline options into an overridable Sidebar.get_user_menu_items() (as SidebarHeader.menu_items already is); then this is a plain super-and-filter override."
+	"Manage Dock is Arrange Apps": (
+		"create_user_menu temporarily swaps the global frappe.ui.Dropdown for a subclass that relabels 'workspace-selector' and inserts Theme; relies on frappe building exactly one Dropdown synchronously inside it, and fails silently otherwise. Propose frappe move the inline options into an overridable Sidebar.get_user_menu_items() (as SidebarHeader.menu_items already is); then this is a plain super-and-filter override."
 	),
 	'The email composer offers the templates of the record it is about, form or none': (
 		'Wraps CommunicationComposer.get_fields, calls the original and swaps the email_template get_query. Propose frappe use `me.frm?.doctype || me.doc?.doctype` in that get_query (communication.js ~l.563) and in get_email_template_names (~l.509), which ignore this.doc today; then the wrap drops (ours also only fixes the query, not get_email_template_names).'

@@ -97,6 +97,41 @@ onedesk.centers.declare("setup", {
 			render: (panel) => steps(one.app, panel),
 		});
 
-		return [{ items: [overview] }, ...(apps.length ? [{ group: __("Apps"), items: apps.map(app_tab) }] : [])];
+		const order = {
+			id: "order",
+			label: __("Order of Apps"),
+			icon: "arrow-up-down",
+			title: __("Order of Apps"),
+			description: __("The order of the apps on the rail for everybody who has not arranged their own."),
+			/** A list dragged into order with Save and Reset under it, which
+			 * no declared kind draws. */
+			render: async (panel) => {
+				const R = "onedesk.one.rail.";
+				const draw = ({ apps: shown }) => {
+					panel.body.empty();
+					const read = onedesk.rail.sortable(panel.body, shown.map((one) => ({ key: one.key, label: one.title, icon: one.icon })));
+					const $buttons = kit.buttons(panel.body);
+					kit.button({ label: __("Save"), variant: "solid" })
+						.on("click", async () => {
+							draw(await frappe.xcall(R + "save_workspace", { order: read() }));
+							kit.saved(__("Order of Apps"));
+						})
+						.appendTo($buttons);
+					kit.button({ label: __("Reset"), variant: "ghost" })
+						.on("click", async () => {
+							draw(await frappe.xcall(R + "save_workspace", { order: [] }));
+							kit.saved(__("Order of Apps"));
+						})
+						.appendTo($buttons);
+				};
+				draw(await frappe.xcall(R + "workspace"));
+			},
+		};
+
+		return [
+			{ items: [overview] },
+			...(apps.length ? [{ group: __("Apps"), items: apps.map(app_tab) }] : []),
+			...(frappe.boot.one_administers ? [{ group: __("Workspace"), items: [order] }] : []),
+		];
 	},
 });

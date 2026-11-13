@@ -40,16 +40,17 @@ def keep(bootinfo) -> None:
 
 def kept(said: dict) -> None:
 	"""One's sidebars only, One's first, and the records they own, less the
-	apps the workspace turned off (one/apps.py), whose records then open in
+	apps the workspace turned off (one/apps.py) and those AccessCenter puts
+	the reader at no level in (one/rail.py), whose records then open in
 	another app that lists them. Also what `reports.sidebars` swaps in when a
 	sidebar changes."""
 	sidebars = said.get("module_sidebars")
 	if not isinstance(sidebars, dict):
 		return
 	from onedesk.account_center import private
-	from onedesk.one import apps
+	from onedesk.one import apps, rail
 
-	off = set(apps.hidden())
+	off = set(apps.hidden()) | rail.unreached()
 	held = {APP, *private.names()}
 	ours = {
 		name: sidebar

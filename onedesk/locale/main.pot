@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 18:59+0000\n"
-"PO-Revision-Date: 2026-11-13 18:59+0000\n"
+"POT-Creation-Date: 2026-11-13 19:04+0000\n"
+"PO-Revision-Date: 2026-11-13 19:04+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2669,7 +2669,7 @@ msgstr ""
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:18
 #: onedesk/public/js/account_center/account_center.js:613
 #: onedesk/public/js/account_center/account_center.js:1230
-#: onedesk/public/js/apps.js:65 onedesk/public/js/doctype_settings.js:350
+#: onedesk/public/js/apps.js:64 onedesk/public/js/doctype_settings.js:350
 #: onedesk/public/js/doctype_settings.js:924
 #: onedesk/public/js/one_admin/admin_control.js:142
 #: onedesk/public/js/one_ai/ai_center.js:192
@@ -3958,6 +3958,10 @@ msgstr ""
 msgid "All Announcements"
 msgstr ""
 
+#: onedesk/public/js/one_interface/launcher.js:28
+msgid "All Apps"
+msgstr ""
+
 #: onedesk/public/js/one/news_add.js:148
 msgid "All Categories"
 msgstr ""
@@ -4544,7 +4548,7 @@ msgstr ""
 msgid "An app made for some workspaces only. A workspace types its code into Apps, and the app is installed there for good."
 msgstr ""
 
-#: onedesk/public/js/apps.js:54
+#: onedesk/public/js/apps.js:53
 msgid "An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
 msgstr ""
 
@@ -4863,7 +4867,7 @@ msgstr ""
 msgid "Any domain"
 msgstr ""
 
-#: onedesk/one/agent.py:270
+#: onedesk/one/agent.py:271
 msgid "Any odd sign-ins?"
 msgstr ""
 
@@ -5207,7 +5211,7 @@ msgstr ""
 msgid "Approve and Delete"
 msgstr ""
 
-#: onedesk/one/agent.py:180
+#: onedesk/one/agent.py:181
 msgid "Approve bills by amount"
 msgstr ""
 
@@ -5371,19 +5375,29 @@ msgstr ""
 #: onedesk/public/js/account_center/account_center.js:420
 #: onedesk/public/js/account_center/account_center.js:559
 #: onedesk/public/js/account_center/account_center.js:653
-#: onedesk/public/js/apps.js:12 onedesk/public/js/apps.js:23
-#: onedesk/public/js/apps.js:48 onedesk/public/js/one/access_center.js:263
+#: onedesk/public/js/apps.js:11 onedesk/public/js/apps.js:22
+#: onedesk/public/js/one/access_center.js:263
 #: onedesk/public/js/one/access_center.js:317
 #: onedesk/public/js/one/access_center.js:505
 #: onedesk/public/js/one/notification_center.js:252
-#: onedesk/public/js/one/setup_center.js:100
+#: onedesk/public/js/one/setup_center.js:133
 #: onedesk/public/js/one/shortcut_center.js:305
+#: onedesk/public/js/one_interface/launcher.js:36
+#: onedesk/public/js/one_interface/launcher.js:66
 #: onedesk/public/js/one_interface/phone.js:71
-#: onedesk/public/js/one_interface/phone.js:255
+#: onedesk/public/js/one_interface/phone.js:244
 msgid "Apps"
 msgstr ""
 
-#: onedesk/public/js/apps.js:76
+#: onedesk/public/js/one_interface/arrange.js:88
+msgid "Apps arranged"
+msgstr ""
+
+#: onedesk/public/js/one_interface/arrange.js:98
+msgid "Apps reset"
+msgstr ""
+
+#: onedesk/public/js/apps.js:75
 msgid "Apps saved"
 msgstr ""
 
@@ -5459,15 +5473,15 @@ msgstr ""
 msgid "Are any of my mailboxes not working, why, and what do I do about it?"
 msgstr ""
 
-#: onedesk/one/agent.py:373
+#: onedesk/one/agent.py:374
 msgid "Are our holidays ready for next year?"
 msgstr ""
 
-#: onedesk/one/agent.py:249
+#: onedesk/one/agent.py:250
 msgid "Are the webhooks working?"
 msgstr ""
 
-#: onedesk/one/agent.py:323
+#: onedesk/one/agent.py:324
 msgid "Are we on the cheapest plan?"
 msgstr ""
 
@@ -5480,6 +5494,12 @@ msgstr ""
 
 #: frontend/src/slide/components/ArrangeSection.vue:3
 msgid "Arrange"
+msgstr ""
+
+#: onedesk/public/js/one_interface/arrange.js:72
+#: onedesk/public/js/one_interface/launcher.js:80
+#: onedesk/public/js/outside.js:96
+msgid "Arrange Apps"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -5657,7 +5677,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:328 onedesk/public/js/outside.js:276
+#: onedesk/public/js/desk.js:328 onedesk/public/js/outside.js:271
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr ""
@@ -8728,7 +8748,7 @@ msgstr ""
 #: onedesk/public/js/one/shortcut_center.js:154
 #: onedesk/public/js/one/shortcut_center.js:184
 #: onedesk/public/js/one_interface/dialogs.js:181
-#: onedesk/public/js/one_interface/phone.js:434
+#: onedesk/public/js/one_interface/phone.js:423
 #: onedesk/public/js/trust_center/trust_center.js:458
 msgid "Cancel"
 msgstr ""
@@ -10425,7 +10445,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:11
 #: onedesk/one_display/widgets.py:201
 #: onedesk/one_studio/doctype/extension/extension.json:157
-#: onedesk/public/js/apps.js:63 onedesk/public/js/one_inventory/item_new.js:38
+#: onedesk/public/js/apps.js:62 onedesk/public/js/one_inventory/item_new.js:38
 msgid "Code"
 msgstr ""
 
@@ -12042,6 +12062,10 @@ msgstr ""
 msgid "Could not save the document."
 msgstr ""
 
+#: onedesk/one/rail.py:164
+msgid "Could not save the order."
+msgstr ""
+
 #: frontend/src/doc/shim/SaveTemplateDialog.vue:49
 #: frontend/src/sheet/shim/TemplateDialog.vue:49
 msgid "Could not save the template."
@@ -12057,7 +12081,7 @@ msgstr ""
 msgid "Couldn't Read"
 msgstr ""
 
-#: onedesk/public/js/apps.js:29
+#: onedesk/public/js/apps.js:28
 msgid "Couldn't be installed. We've been told."
 msgstr ""
 
@@ -12366,6 +12390,7 @@ msgstr ""
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:552
 #: onedesk/public/js/one_crm/opportunity.js:14
 #: onedesk/public/js/one_crm/opportunity.js:15
+#: onedesk/public/js/one_interface/arrange.js:33
 #: onedesk/public/js/one_interface/form.js:40
 #: onedesk/public/js/one_inventory/item.js:27
 #: onedesk/public/js/one_inventory/item.js:28
@@ -15016,19 +15041,19 @@ msgstr ""
 msgid "Design a Slide"
 msgstr ""
 
-#: onedesk/one/agent.py:165
+#: onedesk/one/agent.py:166
 msgid "Design a clean invoice format"
 msgstr ""
 
-#: onedesk/one/agent.py:167
+#: onedesk/one/agent.py:168
 msgid "Design a clean, modern print format for Sales Invoice: the customer and dates at the top, the items as a table, and the totals on the right."
 msgstr ""
 
-#: onedesk/one/agent.py:157
+#: onedesk/one/agent.py:158
 msgid "Design a letter head from our details"
 msgstr ""
 
-#: onedesk/one/agent.py:159
+#: onedesk/one/agent.py:160
 msgid "Design a letter head in HTML from the company's details in One's ControlCenter (Company and Branding): the name and logo in the header, the address, phone and email in the footer, each after its icon."
 msgstr ""
 
@@ -20313,6 +20338,7 @@ msgid "Folder Color"
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:352
+#: onedesk/public/js/one_interface/arrange.js:33
 msgid "Folder Name"
 msgstr ""
 
@@ -21751,7 +21777,7 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-#: onedesk/public/js/outside.js:255 onedesk/www/404.html:18
+#: onedesk/public/js/outside.js:250 onedesk/www/404.html:18
 #: onedesk/www/error.html:19
 msgid "Go Back"
 msgstr ""
@@ -21760,7 +21786,7 @@ msgstr ""
 msgid "Go Back to This"
 msgstr ""
 
-#: onedesk/one/shortcuts.py:10 onedesk/public/js/outside.js:256
+#: onedesk/one/shortcuts.py:10 onedesk/public/js/outside.js:251
 #: onedesk/www/404.html:19 onedesk/www/error.html:21
 #: onedesk/www/message.html:21 onedesk/www/message.html:25
 msgid "Go Home"
@@ -21780,7 +21806,7 @@ msgstr ""
 msgid "Go live"
 msgstr ""
 
-#: onedesk/one/agent.py:75
+#: onedesk/one/agent.py:76
 msgid "Go through my profile with me: what each part is for, and what only HR can change."
 msgstr ""
 
@@ -22417,7 +22443,7 @@ msgstr ""
 msgid "Have a One account?"
 msgstr ""
 
-#: onedesk/public/js/apps.js:61
+#: onedesk/public/js/apps.js:60
 msgid "Have a code for a private app? Type it here. Once installed, a private app stays on."
 msgstr ""
 
@@ -22707,7 +22733,7 @@ msgstr ""
 msgid "Help me set this up"
 msgstr ""
 
-#: onedesk/one/agent.py:427
+#: onedesk/one/agent.py:428
 msgid "Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule."
 msgstr ""
 
@@ -23118,27 +23144,27 @@ msgstr ""
 msgid "How buying works."
 msgstr ""
 
-#: onedesk/one/agent.py:250
+#: onedesk/one/agent.py:251
 msgid "How did the webhooks' calls go this week, and why did any give up?"
 msgstr ""
 
-#: onedesk/one/agent.py:402
+#: onedesk/one/agent.py:403
 msgid "How do I add it?"
 msgstr ""
 
-#: onedesk/one/agent.py:403
+#: onedesk/one/agent.py:404
 msgid "How do I add my calendar to Google Calendar, Apple Calendar or Outlook?"
 msgstr ""
 
-#: onedesk/one/agent.py:73
+#: onedesk/one/agent.py:74
 msgid "How do I fill this in?"
 msgstr ""
 
-#: onedesk/one/agent.py:434
+#: onedesk/one/agent.py:435
 msgid "How do notifications work in One, and what can I change on this page?"
 msgstr ""
 
-#: onedesk/one/agent.py:433
+#: onedesk/one/agent.py:434
 msgid "How do notifications work?"
 msgstr ""
 
@@ -23349,11 +23375,11 @@ msgstr ""
 msgid "How long stock has been sitting."
 msgstr ""
 
-#: onedesk/one/agent.py:333
+#: onedesk/one/agent.py:334
 msgid "How long will our credits last at the rate we use them, and do any expire before we would use them?"
 msgstr ""
 
-#: onedesk/one/agent.py:331
+#: onedesk/one/agent.py:332
 msgid "How long will our credits last?"
 msgstr ""
 
@@ -23792,7 +23818,7 @@ msgstr ""
 msgid "If"
 msgstr ""
 
-#: onedesk/one/agent.py:235
+#: onedesk/one/agent.py:236
 msgid "If I approve this request, what is deleted, what is kept without their name, and is anything still theirs that somebody should take over first?"
 msgstr ""
 
@@ -24264,7 +24290,7 @@ msgstr ""
 msgid "In place of"
 msgstr ""
 
-#: onedesk/one/agent.py:84
+#: onedesk/one/agent.py:85
 msgid "In plain words, what have I and my organisation agreed to, and what does it mean for my data?"
 msgstr ""
 
@@ -24294,7 +24320,7 @@ msgstr ""
 msgid "In the last 24 hours"
 msgstr ""
 
-#: onedesk/one/agent.py:272
+#: onedesk/one/agent.py:273
 msgid "In the last week, which sign-ins failed, and did anybody sign in from somewhere new?"
 msgstr ""
 
@@ -24755,7 +24781,7 @@ msgstr ""
 msgid "Installing the app"
 msgstr ""
 
-#: onedesk/public/js/apps.js:29
+#: onedesk/public/js/apps.js:28
 msgid "Installing…"
 msgstr ""
 
@@ -25315,7 +25341,7 @@ msgstr ""
 msgid "Is Template"
 msgstr ""
 
-#: onedesk/one/agent.py:123
+#: onedesk/one/agent.py:124
 msgid "Is any numbering out of step?"
 msgstr ""
 
@@ -25332,11 +25358,11 @@ msgstr ""
 msgid "Is everything set up?"
 msgstr ""
 
-#: onedesk/one/agent.py:393
+#: onedesk/one/agent.py:394
 msgid "Is my account safe?"
 msgstr ""
 
-#: onedesk/one/agent.py:395
+#: onedesk/one/agent.py:396
 msgid "Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do."
 msgstr ""
 
@@ -25345,15 +25371,15 @@ msgstr ""
 msgid "Is not empty"
 msgstr ""
 
-#: onedesk/one/agent.py:325
+#: onedesk/one/agent.py:326
 msgid "Is our plan, with what is added to it, the cheapest way to have what we use now? If not, what should we change to and what would it save?"
 msgstr ""
 
-#: onedesk/one/agent.py:383
+#: onedesk/one/agent.py:384
 msgid "Is signing in here safe enough?"
 msgstr ""
 
-#: onedesk/one/agent.py:385
+#: onedesk/one/agent.py:386
 msgid "Is signing in to this workspace safe enough? Look at our rules and at how people sign in, and say what to change."
 msgstr ""
 
@@ -28565,7 +28591,7 @@ msgstr ""
 msgid "Look For"
 msgstr ""
 
-#: onedesk/one/agent.py:125
+#: onedesk/one/agent.py:126
 msgid "Look at how each kind of record is numbered. Is any counter behind the records already made, or any series that looks mistyped?"
 msgstr ""
 
@@ -28573,7 +28599,7 @@ msgstr ""
 msgid "Look at my calendar today and suggest how to plan the day around what is on it."
 msgstr ""
 
-#: onedesk/one/agent.py:60
+#: onedesk/one/agent.py:61
 msgid "Look at my profile and my employee record, if I have one. What is empty or looks out of date, and what is each of those used for?"
 msgstr ""
 
@@ -28581,15 +28607,15 @@ msgstr ""
 msgid "Look at my tasks and say which I should do first and why: what is late, what is due soonest, and what is most pressing."
 msgstr ""
 
-#: onedesk/one/agent.py:151
+#: onedesk/one/agent.py:152
 msgid "Look at our default letter head's footer and suggest a cleaner one: what it should show, which preset, and whether it needs a note."
 msgstr ""
 
-#: onedesk/one/agent.py:375
+#: onedesk/one/agent.py:376
 msgid "Look at our holiday list. When does it end, is there a list after it, is anything missing for our country, and who is on a list of their own?"
 msgstr ""
 
-#: onedesk/one/agent.py:419
+#: onedesk/one/agent.py:420
 msgid "Look at the notifications One sends here. Which should people get by email as well as in the bell, and which are better left to the bell? Say why for each."
 msgstr ""
 
@@ -29327,7 +29353,7 @@ msgstr ""
 msgid "Make a new link in its place? The old one stops opening."
 msgstr ""
 
-#: onedesk/one/agent.py:425
+#: onedesk/one/agent.py:426
 msgid "Make a rule"
 msgstr ""
 
@@ -30092,7 +30118,7 @@ msgid "Mentioned in the message"
 msgstr ""
 
 #: onedesk/one_display/starters.py:802
-#: onedesk/public/js/one_interface/phone.js:300
+#: onedesk/public/js/one_interface/phone.js:289
 msgid "Menu"
 msgstr ""
 
@@ -31252,7 +31278,7 @@ msgstr ""
 msgid "Needs the buckets and the storage token first."
 msgstr ""
 
-#: onedesk/public/js/apps.js:40
+#: onedesk/public/js/apps.js:39
 #, python-brace-format
 msgid "Needs {0}"
 msgstr ""
@@ -31472,6 +31498,8 @@ msgstr ""
 
 #: frontend/src/mail/OneMail.vue:324 frontend/src/mail/OneMail.vue:341
 #: frontend/src/mail/OneMail.vue:355
+#: onedesk/public/js/one_interface/arrange.js:30
+#: onedesk/public/js/one_interface/arrange.js:33
 msgid "New Folder"
 msgstr ""
 
@@ -32366,6 +32394,12 @@ msgstr ""
 msgid "No End Date"
 msgstr ""
 
+#: onedesk/public/js/one_interface/arrange.js:19
+#: onedesk/public/js/one_interface/arrange.js:25
+#: onedesk/public/js/one_interface/arrange.js:49
+msgid "No Folder"
+msgstr ""
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:12
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:31
 msgid "No Location"
@@ -32414,7 +32448,7 @@ msgstr ""
 #: frontend/portal/src/pages/List.vue:17
 #: frontend/portal/src/pages/Project.vue:5
 #: frontend/portal/src/pages/Record.vue:17 frontend/portal/src/pages/Rfq.vue:5
-#: frontend/portal/src/parts/WebForm.vue:12 onedesk/public/js/outside.js:275
+#: frontend/portal/src/parts/WebForm.vue:12 onedesk/public/js/outside.js:270
 #: onedesk/www/message.html:16
 msgid "No access"
 msgstr ""
@@ -32455,6 +32489,10 @@ msgstr ""
 
 #: frontend/portal/src/pages/Apps.vue:16
 msgid "No apps"
+msgstr ""
+
+#: onedesk/public/js/one_interface/launcher.js:52
+msgid "No apps or pages found"
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:253
@@ -32789,10 +32827,6 @@ msgstr ""
 
 #: onedesk/public/js/one/notification_center.js:318
 msgid "No matching notifications"
-msgstr ""
-
-#: onedesk/public/js/one_interface/phone.js:188
-msgid "No matching pages"
 msgstr ""
 
 #: onedesk/public/js/account_center/account_center.js:411
@@ -34417,7 +34451,7 @@ msgstr ""
 msgid "Number formats, fonts, colours, borders, filters, charts and pivot tables are here."
 msgstr ""
 
-#: onedesk/one/agent.py:131
+#: onedesk/one/agent.py:132
 msgid "Number invoices by year"
 msgstr ""
 
@@ -36908,6 +36942,13 @@ msgstr ""
 msgid "Order long-lead items"
 msgstr ""
 
+#: onedesk/public/js/one/setup_center.js:102
+#: onedesk/public/js/one/setup_center.js:104
+#: onedesk/public/js/one/setup_center.js:117
+#: onedesk/public/js/one/setup_center.js:123
+msgid "Order of Apps"
+msgstr ""
+
 #: onedesk/public/js/one_inventory/quotes_actions.js:74
 msgid "Order the cheapest quote on each line?"
 msgstr ""
@@ -37685,13 +37726,14 @@ msgstr ""
 msgid "Page memory was nearly full."
 msgstr ""
 
-#: onedesk/public/js/outside.js:268 onedesk/www/404.html:15
+#: onedesk/public/js/outside.js:263 onedesk/www/404.html:15
 #: onedesk/www/error.py:17
 msgid "Page not found"
 msgstr ""
 
 #. Label of the page_count (Int) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:172
+#: onedesk/public/js/one_interface/launcher.js:41
 msgid "Pages"
 msgstr ""
 
@@ -40427,7 +40469,7 @@ msgstr ""
 msgid "Print Headings"
 msgstr ""
 
-#: onedesk/public/js/outside.js:85
+#: onedesk/public/js/outside.js:77
 msgid "Print Settings"
 msgstr ""
 
@@ -40546,7 +40588,7 @@ msgstr ""
 msgid "Private Mailboxes"
 msgstr ""
 
-#: onedesk/public/js/apps.js:30
+#: onedesk/public/js/apps.js:29
 msgid "Private app"
 msgstr ""
 
@@ -42653,6 +42695,7 @@ msgid "Receives only"
 msgstr ""
 
 #: frontend/portal/src/pages/Home.vue:54 onedesk/one_cloud/namespace.py:402
+#: onedesk/public/js/one_interface/launcher.js:27
 msgid "Recent"
 msgstr ""
 
@@ -44342,11 +44385,17 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:6
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:82
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:25
+#: onedesk/public/js/one/setup_center.js:120
+#: onedesk/public/js/one_interface/arrange.js:90
 msgid "Reset"
 msgstr ""
 
 #: onedesk/public/js/one/shortcut_center.js:290
 msgid "Reset All"
+msgstr ""
+
+#: onedesk/public/js/one_interface/arrange.js:100
+msgid "Reset Apps"
 msgstr ""
 
 #: onedesk/public/js/one_hr/employee.js:5
@@ -44355,6 +44404,10 @@ msgstr ""
 
 #: onedesk/public/js/account_center/account_center.js:478
 msgid "Reset Two-Factor"
+msgstr ""
+
+#: onedesk/public/js/one_interface/arrange.js:93
+msgid "Reset Your Apps?"
 msgstr ""
 
 #: frontend/src/slide/components/ImageSection.vue:42
@@ -44963,11 +45016,11 @@ msgstr ""
 msgid "Rewrite slide {0} in {1}"
 msgstr ""
 
-#: onedesk/one/agent.py:411
+#: onedesk/one/agent.py:412
 msgid "Rewrite the text of the notification I have open so it is short, plain and friendly, and keeps every slot it uses. Suggest it as a change I can apply."
 msgstr ""
 
-#: onedesk/one/agent.py:409
+#: onedesk/one/agent.py:410
 msgid "Rewrite this notification"
 msgstr ""
 
@@ -45737,14 +45790,16 @@ msgstr ""
 #: onedesk/public/js/account_center/account_center.js:928
 #: onedesk/public/js/account_center/account_center.js:1301
 #: onedesk/public/js/account_center/account_center.js:1517
-#: onedesk/public/js/apps.js:68 onedesk/public/js/one/access_center.js:182
+#: onedesk/public/js/apps.js:67 onedesk/public/js/one/access_center.js:182
 #: onedesk/public/js/one/role_matrix.js:144
 #: onedesk/public/js/one/setup_center.js:34
+#: onedesk/public/js/one/setup_center.js:114
 #: onedesk/public/js/one_ai/ai_center.js:237
 #: onedesk/public/js/one_ai/ai_center.js:577
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:319
 #: onedesk/public/js/one_crm/crm_record.js:97
 #: onedesk/public/js/one_crm/next_step.js:27
+#: onedesk/public/js/one_interface/arrange.js:74
 #: onedesk/public/js/one_interface/centre.js:344
 #: onedesk/public/js/one_interface/chrome.js:342
 #: onedesk/public/js/one_interface/form.js:441
@@ -46293,13 +46348,14 @@ msgstr ""
 #: onedesk/public/js/one_interface/chrome.js:101
 #: onedesk/public/js/one_interface/frame.js:483
 #: onedesk/public/js/one_interface/list.js:454
-#: onedesk/public/js/one_interface/phone.js:402
-#: onedesk/public/js/one_interface/phone.js:405
-#: onedesk/public/js/one_interface/phone.js:406
+#: onedesk/public/js/one_interface/phone.js:391
+#: onedesk/public/js/one_interface/phone.js:394
+#: onedesk/public/js/one_interface/phone.js:395
 #: onedesk/public/js/one_mail/onemail_settings.js:1389
 msgid "Search"
 msgstr ""
 
+#: onedesk/public/js/one_interface/launcher.js:69
 #: onedesk/public/js/one_interface/phone.js:126
 msgid "Search Apps and Pages"
 msgstr ""
@@ -47549,7 +47605,7 @@ msgstr ""
 msgid "Set up a fiscal year in {0} first."
 msgstr ""
 
-#: onedesk/one/agent.py:197
+#: onedesk/one/agent.py:198
 msgid "Set up an automation: when a Sales Invoice's status changes to Paid, tell its owner that the customer has paid, naming the invoice and the amount."
 msgstr ""
 
@@ -47701,7 +47757,7 @@ msgstr ""
 msgid "Setup Answers"
 msgstr ""
 
-#: onedesk/public/js/outside.js:70
+#: onedesk/public/js/outside.js:62
 msgid "Setup Auto Email"
 msgstr ""
 
@@ -51412,19 +51468,19 @@ msgstr ""
 msgid "Such as {0}"
 msgstr ""
 
-#: onedesk/one/agent.py:141
+#: onedesk/one/agent.py:142
 msgid "Suggest a letter head"
 msgstr ""
 
-#: onedesk/one/agent.py:143
+#: onedesk/one/agent.py:144
 msgid "Suggest a letter head drawn from our details in One's ControlCenter (Company and Branding): the header and the footer presets that suit us, as the default."
 msgstr ""
 
-#: onedesk/one/agent.py:182
+#: onedesk/one/agent.py:183
 msgid "Suggest an approval for Purchase Invoices: a bill starts Pending, an accounts user approves it up to 5,000 and an accounts manager above that, and a manager may reject it."
 msgstr ""
 
-#: onedesk/one/agent.py:133
+#: onedesk/one/agent.py:134
 msgid "Suggest numbering new Sales Invoices as INV-, the year and a five-digit number that starts again each year, keeping the series already in use."
 msgstr ""
 
@@ -52926,7 +52982,7 @@ msgstr ""
 msgid "Thank You"
 msgstr ""
 
-#: onedesk/one/agent.py:195
+#: onedesk/one/agent.py:196
 msgid "Thank customers who pay"
 msgstr ""
 
@@ -54187,7 +54243,7 @@ msgstr ""
 msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
 msgstr ""
 
-#: onedesk/public/js/outside.js:269 onedesk/www/404.html:16
+#: onedesk/public/js/outside.js:264 onedesk/www/404.html:16
 #: onedesk/www/error.py:18
 msgid "The link may be broken, or the page has moved."
 msgstr ""
@@ -54380,6 +54436,10 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/one_admin/notifications.py
 msgid "The operators"
+msgstr ""
+
+#: onedesk/public/js/one/setup_center.js:105
+msgid "The order of the apps on the rail for everybody who has not arranged their own."
 msgstr ""
 
 #: onedesk/one_display/starters.py:1182
@@ -54756,6 +54816,10 @@ msgstr ""
 
 #: onedesk/one/control.py:326
 msgid "The rail and the bars around every screen, for everyone. Leave it empty for One's own."
+msgstr ""
+
+#: onedesk/public/js/one_interface/arrange.js:94
+msgid "The rail goes back to the workspace's order, and your folders are removed."
 msgstr ""
 
 #: frontend/src/sheet/shim/problems.js:16
@@ -55288,7 +55352,7 @@ msgstr ""
 msgid "The workspace takes its name, and its address starts with it."
 msgstr ""
 
-#: onedesk/public/js/apps.js:143
+#: onedesk/public/js/apps.js:142
 msgid "The workspace's apps changed. Reload to see them."
 msgstr ""
 
@@ -55440,7 +55504,7 @@ msgstr ""
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
 #: onedesk/one_deck/doctype/presentation/presentation.json:72
-#: onedesk/public/js/outside.js:106 onedesk/public/js/theme.js:132
+#: onedesk/public/js/outside.js:101 onedesk/public/js/theme.js:132
 msgid "Theme"
 msgstr ""
 
@@ -56636,7 +56700,7 @@ msgstr ""
 msgid "Tickets being served at each counter and how many are waiting."
 msgstr ""
 
-#: onedesk/one/agent.py:149
+#: onedesk/one/agent.py:150
 msgid "Tidy our footer"
 msgstr ""
 
@@ -57343,7 +57407,7 @@ msgstr ""
 msgid "Too many edits in one save."
 msgstr ""
 
-#: onedesk/one/agent.py:103
+#: onedesk/one/agent.py:104
 msgid "Too many emails?"
 msgstr ""
 
@@ -58044,6 +58108,10 @@ msgstr ""
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:52
 #: onedesk/one_display/widgets.py:192 onedesk/public/js/one/help_center.js:108
 msgid "Tuesday"
+msgstr ""
+
+#: onedesk/public/js/apps.js:47 onedesk/public/js/one_interface/launcher.js:87
+msgid "Turn Apps On or Off"
 msgstr ""
 
 #: onedesk/one_display/doctype/display_screen/display_screen.js:6
@@ -60814,7 +60882,7 @@ msgstr ""
 msgid "What can I claim?"
 msgstr ""
 
-#: onedesk/one/agent.py:99
+#: onedesk/one/agent.py:100
 msgid "What can One tell me about, and which of those do I also get by email?"
 msgstr ""
 
@@ -60826,7 +60894,7 @@ msgstr ""
 msgid "What changed since last month?"
 msgstr ""
 
-#: onedesk/one/agent.py:263
+#: onedesk/one/agent.py:264
 msgid "What changed today?"
 msgstr ""
 
@@ -60850,7 +60918,7 @@ msgstr ""
 msgid "What did this stock movement do? Say from where to where, for which project, what it was worth and who made it."
 msgstr ""
 
-#: onedesk/one/agent.py:210
+#: onedesk/one/agent.py:211
 msgid "What do our dashboards show?"
 msgstr ""
 
@@ -60866,11 +60934,11 @@ msgstr ""
 msgid "What do we have to pay this week?"
 msgstr ""
 
-#: onedesk/one/agent.py:113
+#: onedesk/one/agent.py:114
 msgid "What do you know about me?"
 msgstr ""
 
-#: onedesk/one/agent.py:115
+#: onedesk/one/agent.py:116
 msgid "What do you know about me? Say what you remember from our conversations, and what my workspace told you."
 msgstr ""
 
@@ -60998,7 +61066,7 @@ msgstr ""
 msgid "What happens today, when and where."
 msgstr ""
 
-#: onedesk/one/agent.py:82
+#: onedesk/one/agent.py:83
 msgid "What have I agreed to?"
 msgstr ""
 
@@ -61038,7 +61106,7 @@ msgstr ""
 msgid "What is left to do on this task: the steps and sub-tasks still open, what it waits on, how its hours compare with the plan, and whether it is late."
 msgstr ""
 
-#: onedesk/one/agent.py:58
+#: onedesk/one/agent.py:59
 msgid "What is missing from my profile?"
 msgstr ""
 
@@ -61152,7 +61220,7 @@ msgstr ""
 msgid "What its plan includes beyond the quotas, copied when the plan changes."
 msgstr ""
 
-#: onedesk/one/agent.py:279
+#: onedesk/one/agent.py:280
 msgid "What left as a file?"
 msgstr ""
 
@@ -61160,7 +61228,7 @@ msgstr ""
 msgid "What may be used in place of an item when it runs out."
 msgstr ""
 
-#: onedesk/one/agent.py:295
+#: onedesk/one/agent.py:296
 msgid "What may each app's users, managers and our own levels do, and who is at each? Say anything that looks too wide."
 msgstr ""
 
@@ -61176,11 +61244,11 @@ msgstr ""
 msgid "What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 msgstr ""
 
-#: onedesk/one/agent.py:363 onedesk/one_admin/agent.py:83
+#: onedesk/one/agent.py:364 onedesk/one_admin/agent.py:83
 msgid "What needs me today?"
 msgstr ""
 
-#: onedesk/one/agent.py:365
+#: onedesk/one/agent.py:366
 msgid "What needs me today? Look at my tasks, my meetings, what waits for me in Documents, OneAI's suggestions and what I have to approve, and say what to do first."
 msgstr ""
 
@@ -61200,7 +61268,7 @@ msgstr ""
 msgid "What reaches whom, and how."
 msgstr ""
 
-#: onedesk/one/agent.py:203
+#: onedesk/one/agent.py:204
 msgid "What runs by itself?"
 msgstr ""
 
@@ -61595,15 +61663,15 @@ msgstr ""
 msgid "What training would help?"
 msgstr ""
 
-#: onedesk/one/agent.py:340
+#: onedesk/one/agent.py:341
 msgid "What used the most credits in the last thirty days, by model and by person?"
 msgstr ""
 
-#: onedesk/one/agent.py:339
+#: onedesk/one/agent.py:340
 msgid "What used the most credits this month?"
 msgstr ""
 
-#: onedesk/one/agent.py:356
+#: onedesk/one/agent.py:357
 msgid "What used the most credits?"
 msgstr ""
 
@@ -61624,15 +61692,15 @@ msgstr ""
 msgid "What was bought, month by month."
 msgstr ""
 
-#: onedesk/one/agent.py:264
+#: onedesk/one/agent.py:265
 msgid "What was changed today, by whom, and does anything look out of place?"
 msgstr ""
 
-#: onedesk/one/agent.py:287
+#: onedesk/one/agent.py:288
 msgid "What was deleted in the last week, by whom, and is any of it worth putting back?"
 msgstr ""
 
-#: onedesk/one/agent.py:286
+#: onedesk/one/agent.py:287
 msgid "What was deleted lately?"
 msgstr ""
 
@@ -61644,7 +61712,7 @@ msgstr ""
 msgid "What was done, what comes next, and anything in the way."
 msgstr ""
 
-#: onedesk/one/agent.py:280
+#: onedesk/one/agent.py:281
 msgid "What was exported or printed in the last week, by whom, and was any of it large?"
 msgstr ""
 
@@ -61714,19 +61782,19 @@ msgstr ""
 msgid "What went wrong here, what was done to put it right, and what stops it happening again?"
 msgstr ""
 
-#: onedesk/one/agent.py:98
+#: onedesk/one/agent.py:99
 msgid "What will I be told about?"
 msgstr ""
 
-#: onedesk/one/agent.py:233
+#: onedesk/one/agent.py:234
 msgid "What would deleting them remove?"
 msgstr ""
 
-#: onedesk/one/agent.py:224
+#: onedesk/one/agent.py:225
 msgid "What would this copy give?"
 msgstr ""
 
-#: onedesk/one/agent.py:226
+#: onedesk/one/agent.py:227
 msgid "What would this copy of their data give, kind by kind, and is any of it other people's or the company's confidential information I should withhold?"
 msgstr ""
 
@@ -63599,11 +63667,11 @@ msgstr ""
 msgid "Whether {0} may read this mailbox, and what it does with new mail here on its own."
 msgstr ""
 
-#: onedesk/one/agent.py:189
+#: onedesk/one/agent.py:190
 msgid "Which approvals are on, and who takes each step?"
 msgstr ""
 
-#: onedesk/one/agent.py:204
+#: onedesk/one/agent.py:205
 msgid "Which automations are on, what starts each, and what does each do?"
 msgstr ""
 
@@ -63628,7 +63696,7 @@ msgstr ""
 msgid "Which customers owe us the most, how much of it is late and by how long?"
 msgstr ""
 
-#: onedesk/one/agent.py:211
+#: onedesk/one/agent.py:212
 msgid "Which dashboards do we have, and what does each chart and card count?"
 msgstr ""
 
@@ -63644,7 +63712,7 @@ msgstr ""
 msgid "Which extensions does this workspace have, what does each do, and is any of them failing?"
 msgstr ""
 
-#: onedesk/one/agent.py:173
+#: onedesk/one/agent.py:174
 msgid "Which format do invoices print with?"
 msgstr ""
 
@@ -63692,11 +63760,11 @@ msgstr ""
 msgid "Which numbered pieces are in stock and where, which went to a customer, and whose warranty ends soon?"
 msgstr ""
 
-#: onedesk/one/agent.py:357
+#: onedesk/one/agent.py:358
 msgid "Which of OneAI's jobs used the most credits in the last thirty days?"
 msgstr ""
 
-#: onedesk/one/agent.py:348
+#: onedesk/one/agent.py:349
 msgid "Which of our own domains are not working, and what should we check or change in the DNS to fix each one?"
 msgstr ""
 
@@ -63704,7 +63772,7 @@ msgstr ""
 msgid "Which of our screens are offline, and since when?"
 msgstr ""
 
-#: onedesk/one/agent.py:105
+#: onedesk/one/agent.py:106
 msgid "Which of the notifications I get by email could I leave to the bell, or have pushed instead? Say which to untick and why."
 msgstr ""
 
@@ -63736,7 +63804,7 @@ msgstr ""
 msgid "Which orders are late?"
 msgstr ""
 
-#: onedesk/one/agent.py:91
+#: onedesk/one/agent.py:92
 msgid "Which other companies receive data from this workspace, what do they get, and where is it kept?"
 msgstr ""
 
@@ -63755,7 +63823,7 @@ msgstr ""
 msgid "Which preset draws the top from the company's details, and what it shows. It is drawn again whenever the company changes."
 msgstr ""
 
-#: onedesk/one/agent.py:174
+#: onedesk/one/agent.py:175
 msgid "Which print format do Sales Invoices print with, and which others could they use?"
 msgstr ""
 
@@ -63775,11 +63843,11 @@ msgstr ""
 msgid "Which purchase orders are late, from whom, since when, and what is still to come on each?"
 msgstr ""
 
-#: onedesk/one/agent.py:218
+#: onedesk/one/agent.py:219
 msgid "Which reports are mailed, how often, and to whom?"
 msgstr ""
 
-#: onedesk/one/agent.py:217
+#: onedesk/one/agent.py:218
 msgid "Which reports go out by mail?"
 msgstr ""
 
@@ -63816,7 +63884,7 @@ msgstr ""
 msgid "Which shifts an asset worked, for its depreciation."
 msgstr ""
 
-#: onedesk/one/agent.py:417
+#: onedesk/one/agent.py:418
 msgid "Which should be emailed?"
 msgstr ""
 
@@ -63840,7 +63908,7 @@ msgstr ""
 msgid "Which values of a dimension an account may take."
 msgstr ""
 
-#: onedesk/one/agent.py:257
+#: onedesk/one/agent.py:258
 msgid "Which webhook calls gave up this week, and what did the other system answer?"
 msgstr ""
 
@@ -63910,7 +63978,7 @@ msgstr ""
 msgid "Who answers calls to a number, on which days and hours."
 msgstr ""
 
-#: onedesk/one/agent.py:188
+#: onedesk/one/agent.py:189
 msgid "Who approves what?"
 msgstr ""
 
@@ -63927,7 +63995,7 @@ msgstr ""
 msgid "Who came on each shift, late or early."
 msgstr ""
 
-#: onedesk/one/agent.py:293
+#: onedesk/one/agent.py:294
 msgid "Who can do what?"
 msgstr ""
 
@@ -63947,11 +64015,11 @@ msgstr ""
 msgid "Who else a customer is talking to."
 msgstr ""
 
-#: onedesk/one/agent.py:89
+#: onedesk/one/agent.py:90
 msgid "Who else sees my data?"
 msgstr ""
 
-#: onedesk/one/agent.py:307
+#: onedesk/one/agent.py:308
 msgid "Who has access to what?"
 msgstr ""
 
@@ -63967,19 +64035,19 @@ msgstr ""
 msgid "Who has not answered?"
 msgstr ""
 
-#: onedesk/one/agent.py:242
+#: onedesk/one/agent.py:243
 msgid "Who has not read it?"
 msgstr ""
 
-#: onedesk/one/agent.py:243
+#: onedesk/one/agent.py:244
 msgid "Who has not seen the latest announcement yet?"
 msgstr ""
 
-#: onedesk/one/agent.py:316
+#: onedesk/one/agent.py:317
 msgid "Who has not signed in for a month or more, and should any of them be turned off to free a seat?"
 msgstr ""
 
-#: onedesk/one/agent.py:314
+#: onedesk/one/agent.py:315
 msgid "Who has not signed in lately?"
 msgstr ""
 
@@ -64004,7 +64072,7 @@ msgstr ""
 msgid "Who has too much on?"
 msgstr ""
 
-#: onedesk/one/agent.py:309
+#: onedesk/one/agent.py:310
 msgid "Who in this workspace can use which apps, and who administers it? Say anything that looks too wide."
 msgstr ""
 
@@ -64016,7 +64084,7 @@ msgstr ""
 msgid "Who is cheapest?"
 msgstr ""
 
-#: onedesk/one/agent.py:301
+#: onedesk/one/agent.py:302
 msgid "Who is held to a territory, a department or another record, and to which?"
 msgstr ""
 
@@ -64079,7 +64147,7 @@ msgstr ""
 msgid "Who reports to whom."
 msgstr ""
 
-#: onedesk/one/agent.py:300
+#: onedesk/one/agent.py:301
 msgid "Who sees only part?"
 msgstr ""
 
@@ -64429,7 +64497,7 @@ msgstr ""
 msgid "Why are we losing opportunities?"
 msgstr ""
 
-#: onedesk/one/agent.py:256
+#: onedesk/one/agent.py:257
 msgid "Why did these fail?"
 msgstr ""
 
@@ -64453,7 +64521,7 @@ msgstr ""
 msgid "Why is a mailbox not working?"
 msgstr ""
 
-#: onedesk/one/agent.py:346
+#: onedesk/one/agent.py:347
 msgid "Why is our domain not working?"
 msgstr ""
 
@@ -65168,6 +65236,7 @@ msgstr ""
 #: onedesk/public/js/one/notification_center.js:149
 #: onedesk/public/js/one/notification_center.js:253
 #: onedesk/public/js/one/one_control.js:15
+#: onedesk/public/js/one/setup_center.js:134
 #: onedesk/public/js/one_mail/onemail_settings.js:30
 #: onedesk/public/js/one_mail/onemail_settings.js:1435
 #: onedesk/trust_center/access.py:21
@@ -65551,7 +65620,7 @@ msgstr ""
 msgid "Write a reply that says: "
 msgstr ""
 
-#: onedesk/one/agent.py:67
+#: onedesk/one/agent.py:68
 msgid "Write a short bio for my profile from my job, my department and what I work on, and suggest it as a change to my profile I can approve."
 msgstr ""
 
@@ -65622,7 +65691,7 @@ msgstr ""
 msgid "Write in what the data says now? The slides stop following the records. What they were is kept in Version History."
 msgstr ""
 
-#: onedesk/one/agent.py:65
+#: onedesk/one/agent.py:66
 msgid "Write my bio"
 msgstr ""
 
@@ -70455,7 +70524,7 @@ msgstr ""
 msgid "{0} is already connected."
 msgstr ""
 
-#: onedesk/public/js/apps.js:94
+#: onedesk/public/js/apps.js:93
 #, python-brace-format
 msgid "{0} is already installed."
 msgstr ""
@@ -70535,7 +70604,7 @@ msgstr ""
 msgid "{0} is behind on payment, so nothing more is charged until it is paid."
 msgstr ""
 
-#: onedesk/public/js/apps.js:96
+#: onedesk/public/js/apps.js:95
 #, python-brace-format
 msgid "{0} is being installed. It takes a few minutes, and appears in Apps and on the rail when it's ready."
 msgstr ""

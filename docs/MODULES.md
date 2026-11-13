@@ -417,6 +417,8 @@ No doctypes yet.
 * `onedesk.one.push.register`
 * `onedesk.one.push.test`
 * `onedesk.one.push.worker`
+* `onedesk.one.rail.save_workspace`
+* `onedesk.one.rail.workspace`
 * `onedesk.one.recycle.bulk_restore`
 * `onedesk.one.recycle.restore`
 * `onedesk.one.rules.fields_of`

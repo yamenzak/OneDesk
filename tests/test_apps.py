@@ -42,7 +42,9 @@ def test_turning_an_app_off_hides_and_never_refuses():
 	assert "not app.kept.held" in source, "One's own Home and the operators' never go"
 	companions = (tree.APP / "one" / "companions.py").read_text()
 	assert "row.get(\"link_to\") not in off" in companions, "the site's Dock layer hides them"
-	assert 'frappe.user.has_role("Workspace Administrator")' in JS and ".dock-user" in JS
+	assert "onedesk.rail.launcher()" in JS and ".dock-user" in JS, "the Apps button is everybody's launcher"
+	launcher = (tree.APP / "public" / "js" / "one_interface" / "launcher.js").read_text()
+	assert "if (frappe.boot.one_administers) {" in launcher and "onedesk.apps.configure()" in launcher, "turning apps on or off stays an administrator's"
 	assert "build_options" in JS and 'frappe.ui.form.on("*"' in JS
 
 

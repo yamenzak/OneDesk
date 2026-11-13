@@ -45,11 +45,12 @@ def test_menus_offer_no_screen_the_reader_cannot_open():
 
 
 def test_frappes_furniture_editors_are_not_offered():
-	"""Gap 6: Edit Sidebar and Manage Dock arrange frappe's sidebars and dock,
-	and the sidebar's header opens no menu at all: frappe's switched to other
-	apps and frappe's own desk."""
+	"""Gap 6: Edit Sidebar arranges frappe's sidebars, and the sidebar's
+	header opens no menu at all: frappe's switched to other apps and frappe's
+	own desk. Manage Dock is One's Arrange Apps, which saves through frappe's
+	save_user_dock (P5.9)."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
-	assert '["workspace-selector"]' in js
+	assert 'one.name === "workspace-selector"' in js and "onedesk.rail.arrange()" in js
 	assert "if (frappe.boot.one_elsewhere && frappe.ui.Sidebar)" in js
 	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
 	assert "Header.prototype.setup_menu = function () {};" in shell
