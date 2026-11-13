@@ -648,6 +648,8 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 	from types import SimpleNamespace
 	from unittest import mock
 
+	from frappe.permissions import AUTOMATIC_ROLES
+
 	from onedesk.one.registry import agents
 	from onedesk.one_ai.agents import api, token
 	from onedesk.one_ai.reading import act
@@ -655,7 +657,7 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 
 	for agent in agents.listed():
 		assert not frappe.db.get_value("User", agent.email, "enabled"), agent.email
-		assert set(frappe.get_roles(agent.email)) - {"All", "Guest"} == set(agent.roles), agent.email
+		assert set(frappe.get_roles(agent.email)) - set(AUTOMATIC_ROLES) == set(agent.roles), agent.email
 	held = frappe.get_all("Has Role", filters={"role": ["in", list(agents.only()) or [""]], "parenttype": "User"}, fields=["parent", "role"])
 	assert all(agents.only()[one.role] == one.parent for one in held), held
 	reading = _sample("new-supplier-invoice")
