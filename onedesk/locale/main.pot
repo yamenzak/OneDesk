@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 19:35+0000\n"
-"PO-Revision-Date: 2026-11-13 19:35+0000\n"
+"POT-Creation-Date: 2026-11-13 19:47+0000\n"
+"PO-Revision-Date: 2026-11-13 19:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3803,12 +3803,16 @@ msgid "Agent's Level"
 msgstr ""
 
 #. Label of the agents_url (Data) field in DocType 'One Admin Settings'
-#: frontend/src/chat/ChannelList.vue:28
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:232
-#: onedesk/one_chat/tour.py:16 onedesk/public/js/one_ai/ai_center.js:446
+msgid "Agents"
+msgstr ""
+
+#: frontend/src/chat/ChannelList.vue:28 onedesk/one_chat/tour.py:16
+#: onedesk/public/js/one_ai/ai_center.js:446
 #: onedesk/public/js/one_ai/ai_center.js:447
 #: onedesk/public/js/one_ai/ai_center.js:449
 #: onedesk/public/js/one_ai/ai_center.js:597
+msgctxt "AI"
 msgid "Agents"
 msgstr ""
 

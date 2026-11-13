@@ -17,22 +17,22 @@
     <div v-if="files.length" class="mb-2 flex flex-wrap gap-2">
       <span v-for="(file, at) in files" :key="file.name" class="flex items-center gap-1 rounded-3 bg-surface-gray-2 px-2 py-1 text-sm">
         <span class="max-w-48 truncate">{{ file.file_name }}</span>
-        <Button size="sm" variant="ghost" icon="x" :aria-label="__('Remove')" @click="files.splice(at, 1)" />
+        <Button size="sm" variant="ghost" icon="lucide-x" :aria-label="__('Remove')" @click="files.splice(at, 1)" />
       </span>
     </div>
     <div class="flex items-end gap-2">
-      <Button variant="ghost" icon="paperclip" :aria-label="__('Attach a File')" :title="__('Attach a File')" @click="attach" />
+      <Button variant="ghost" icon="lucide-paperclip" :aria-label="__('Attach a File')" :title="__('Attach a File')" @click="attach" />
       <textarea
         ref="box"
         v-model="text"
         rows="1"
-        class="form-control max-h-40 min-h-9 flex-1 resize-none"
+        dir="auto" class="max-h-40 min-h-9 flex-1 resize-none rounded border border-transparent bg-surface-gray-2 px-2.5 py-1.5 text-base text-ink-gray-8 placeholder-ink-gray-4 hover:border-outline-gray-modals hover:bg-surface-gray-3 focus:border-outline-gray-4 focus:bg-surface-white focus:shadow-sm focus:outline-none focus:ring-0"
         :placeholder="placeholder"
         :aria-label="placeholder"
         @input="fit"
         @keydown="key"
       />
-      <Button variant="solid" icon="send-horizontal" :aria-label="__('Send')" :title="__('Send')" :loading="sending" :disabled="busy || (!text.trim() && !files.length)" @click="send" />
+      <Button variant="solid" icon="lucide-send-horizontal" :aria-label="__('Send')" :title="__('Send')" :loading="sending" :disabled="busy || (!text.trim() && !files.length)" @click="send" />
     </div>
   </footer>
 </template>

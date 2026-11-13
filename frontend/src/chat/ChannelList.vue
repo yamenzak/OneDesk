@@ -4,9 +4,9 @@
       <div class="flex items-center justify-between px-2 py-1">
         <h3 class="text-sm font-medium text-ink-gray-5">{{ group.label }}</h3>
         <Dropdown v-if="group.kind === 'Channel'" :options="channelMenu">
-          <template #trigger><Button size="sm" variant="ghost" icon="plus" :aria-label="__('Channels')" :title="__('Channels')" /></template>
+          <template #trigger><Button size="sm" variant="ghost" icon="lucide-plus" :aria-label="__('Channels')" :title="__('Channels')" /></template>
         </Dropdown>
-        <Button v-else-if="group.kind === 'Direct'" size="sm" variant="ghost" icon="plus" :aria-label="__('New Message')" :title="__('New Message')" @click="pickPerson" />
+        <Button v-else-if="group.kind === 'Direct'" size="sm" variant="ghost" icon="lucide-plus" :aria-label="__('New Message')" :title="__('New Message')" @click="pickPerson" />
       </div>
       <button
         v-for="one in group.rows"
@@ -25,7 +25,7 @@
       <p v-if="!group.rows.length && group.empty" class="px-2 py-1 text-sm text-ink-gray-5">{{ group.empty }}</p>
     </section>
     <section class="mb-3" data-tour="onechat-agents">
-      <h3 class="px-2 py-1 text-sm font-medium text-ink-gray-5">{{ __("Agents") }}</h3>
+      <h3 class="px-2 py-1 text-sm font-medium text-ink-gray-5">{{ __("Agents", null, "AI") }}</h3>
       <button
         v-for="one in agents"
         :key="one.agent"

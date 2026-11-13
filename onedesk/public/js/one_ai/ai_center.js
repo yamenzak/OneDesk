@@ -443,10 +443,10 @@ onedesk.centers.declare("ai", {
 			async render(panel) {
 				const said = await frappe.xcall(O + "team", {}, "GET");
 				const $body = panel.body.empty();
-				const $on = kit.row({ lead: kit.glyph("bot"), title: __("Agents"), sub: esc(__("If off, no agent reads or changes anything.")) }).appendTo($(`<div class="one-set-list"></div>`).appendTo($body));
-				toggle($on.find(".one-set-end"), { value: said.on, label: __("Agents"), change: (on) => frappe.xcall(O + "set_on", { on }) });
+				const $on = kit.row({ lead: kit.glyph("bot"), title: __("Agents", null, "AI"), sub: esc(__("If off, no agent reads or changes anything.")) }).appendTo($(`<div class="one-set-list"></div>`).appendTo($body));
+				toggle($on.find(".one-set-end"), { value: said.on, label: __("Agents", null, "AI"), change: (on) => frappe.xcall(O + "set_on", { on }) });
 
-				$body.append(kit.heading(__("Agents")));
+				$body.append(kit.heading(__("Agents", null, "AI")));
 				const $team = $(`<div class="one-set-list"></div>`).appendTo($body);
 				if (!said.agents.length) $team.append(kit.empty(__("No agents yet")));
 				for (const one of said.agents) {
@@ -594,7 +594,7 @@ onedesk.centers.declare("ai", {
 		const tabs = admin
 			? [
 					{ group: null, items: !module || module === ones ? [team_tab(part_of(ones))] : [] },
-					{ group: module ? null : __("Agents"), items: [...agent_tabs, ...loose] },
+					{ group: module ? null : __("Agents", null, "AI"), items: [...agent_tabs, ...loose] },
 					{ group: module ? null : onedesk.names.of("one_ai"), items: module ? [] : [oneai_tab, reading_tab, knowledge_tab, summaries_tab, usage_tab] },
 					{ group: module ? null : __("Yours"), items: module ? [] : [yours_tab, reads_tab] },
 			  ]

@@ -9,12 +9,12 @@
         <time class="text-sm text-ink-gray-5" :datetime="message.creation" :title="message.creation">{{ ago(message.creation) }}</time>
         <div class="ms-auto flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100">
           <Dropdown :options="reactions">
-            <template #trigger><Button size="sm" variant="ghost" icon="smile-plus" :aria-label="__('Add Reaction')" :title="__('Add Reaction')" /></template>
+            <template #trigger><Button size="sm" variant="ghost" icon="lucide-smile-plus" :aria-label="__('Add Reaction')" :title="__('Add Reaction')" /></template>
           </Dropdown>
-          <Button v-if="threads" size="sm" variant="ghost" icon="message-square" :aria-label="__('Reply in Thread')" :title="__('Reply in Thread')" @click="$emit('thread')" />
+          <Button v-if="threads" size="sm" variant="ghost" icon="lucide-message-square" :aria-label="__('Reply in Thread')" :title="__('Reply in Thread')" @click="$emit('thread')" />
         </div>
       </div>
-      <div v-if="message.text" class="prose prose-sm max-w-none text-base text-ink-gray-8" v-html="said(message.text)" />
+      <div v-if="message.text" dir="auto" class="prose prose-sm max-w-none text-start text-base text-ink-gray-8" v-html="said(message.text)" />
       <p v-for="(look, at) in looked" :key="at" class="text-sm text-ink-gray-5">{{ look }}</p>
       <Button v-if="suggested" class="mt-1" size="sm" :label="__('Review Suggestions')" @click="$emit('suggestions')" />
       <div v-if="message.files.length" class="mt-1 flex flex-wrap gap-2">

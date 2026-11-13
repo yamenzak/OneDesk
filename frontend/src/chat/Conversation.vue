@@ -1,7 +1,7 @@
 <template>
   <section class="flex h-full min-h-0 flex-col overflow-hidden rounded-6 border border-outline-gray-1 bg-surface-elevation-2" data-tour="onechat-conversation">
     <header class="flex items-center gap-2 border-b border-outline-gray-1 px-3 py-2">
-      <Button v-if="back" size="sm" variant="ghost" icon="arrow-left" :aria-label="__('Back')" @click="$emit('back')" />
+      <Button v-if="back" size="sm" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" @click="$emit('back')" />
       <img v-if="agentOf(info.agent)?.face" :src="face(agentOf(info.agent))" alt="" class="size-6 rounded-full bg-surface-gray-2" />
       <span v-else-if="!thread && info.kind === 'Channel'" :class="info.private ? 'lucide-lock' : 'lucide-hash'" class="size-4 text-ink-gray-5" aria-hidden="true" />
       <div class="flex min-w-0 flex-1 flex-col">
@@ -10,9 +10,9 @@
       </div>
       <People v-if="!thread && info.kind === 'Channel'" :users="people" :people="peopleInfo" size="sm" />
       <Dropdown v-if="!thread && info.kind === 'Channel'" :options="menu">
-        <template #trigger><Button size="sm" variant="ghost" icon="more-horizontal" :aria-label="__('More')" /></template>
+        <template #trigger><Button size="sm" variant="ghost" icon="lucide-more-horizontal" :aria-label="__('More')" /></template>
       </Dropdown>
-      <Button v-if="thread" size="sm" variant="ghost" icon="x" :aria-label="__('Close')" @click="$emit('close')" />
+      <Button v-if="thread" size="sm" variant="ghost" icon="lucide-x" :aria-label="__('Close')" @click="$emit('close')" />
     </header>
     <div ref="body" class="min-h-0 flex-1 overflow-y-auto px-3 py-2">
       <Loading v-if="loading" />

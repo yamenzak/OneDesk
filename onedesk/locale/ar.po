@@ -3780,6 +3780,13 @@ msgstr "إجراء الوكيل"
 msgid "Agent's Level"
 msgstr "مستوى الوكيل"
 
+#: frontend/src/chat/ChannelList.vue:28 onedesk/one_chat/tour.py:16
+#: onedesk/public/js/one_ai/ai_center.js:446
+#: onedesk/public/js/one_ai/ai_center.js:447
+msgctxt "AI"
+msgid "Agents"
+msgstr "الوكلاء"
+
 #. Label of the agents_secret (Password) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:239
 msgid "Agents Secret"

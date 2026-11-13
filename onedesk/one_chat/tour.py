@@ -13,7 +13,7 @@ CHAT = [
 	{
 		"target": "onechat-agents",
 		"side": "right",
-		"title": _lt("Agents"),
+		"title": _lt("Agents", context="AI"),
 		"text": _lt("Una and the agent of each app you use, ready to answer."),
 	},
 ]
