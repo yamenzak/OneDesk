@@ -19,6 +19,9 @@ same way (docs/PASSOVER.md, The panel and A record's page).
 
 import re
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
@@ -73,7 +76,7 @@ def test_no_page_draws_its_own_record_sidebar():
 
 
 def test_every_crumb_is_a_searchable_switcher():
-	hooks = (APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"/assets/onedesk/js/panel_menu.js"' in hooks and '"/assets/onedesk/js/crumb_switch.js"' in hooks
 	panel = (APP / "public" / "js" / "panel_menu.js").read_text()
 	assert ".body-sidebar .sidebar-items .item-anchor" in panel, "the places are the panel's own rows"
@@ -91,7 +94,7 @@ def test_every_crumb_is_a_searchable_switcher():
 
 
 def test_a_phone_head_is_two_rows():
-	hooks = (APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"/assets/onedesk/js/phone_head.js"' in hooks
 	head = (APP / "public" / "js" / "phone_head.js").read_text()
 	assert "--page-head-height" in head, "frappe's sticky parts are told the head's height"

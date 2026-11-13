@@ -3,6 +3,9 @@ for somebody who changes nothing, and what it leaves for next year.
 """
 
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import tree  # noqa: E402
 
 APP = Path(__file__).resolve().parent.parent / "onedesk"
 WIZARD = (APP / "one" / "setup_wizard.py").read_text()
@@ -37,7 +40,7 @@ def test_the_leave_and_payroll_years_are_the_companys():
 	assert "-01-01" not in WIZARD
 	periods = (APP / "one_hr" / "periods.py").read_text()
 	assert "get_fiscal_year" in periods
-	assert '"onedesk.one_hr.periods.daily"' in (APP / "hooks.py").read_text()
+	assert '"onedesk.one_hr.periods.daily"' in tree.hooks()
 
 
 def test_one_failing_settle_does_not_undo_the_setup():

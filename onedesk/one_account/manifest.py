@@ -28,4 +28,7 @@ APP = App(
 			"legal": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
 		},
 	},
+	hooks={
+		"one_ai_actions": ("ai.ACTIONS",),
+	},
 )

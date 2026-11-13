@@ -38,7 +38,7 @@ def test_menus_offer_no_screen_the_reader_cannot_open():
 	assert 'frappe.model.can_read("Audit Trail")' in js
 	assert 'frappe.model.can_read("Auto Email Report")' in js
 	assert "if (!frappe.boot.one_elsewhere) return super.setup_menu();" in js
-	assert '"/assets/onedesk/js/outside.js"' in (tree.APP / "hooks.py").read_text()
+	assert '"/assets/onedesk/js/outside.js"' in tree.hooks()
 	assert 'bootinfo["user"]["can_import"] = []' in SOURCE
 	declutter = (tree.APP / "one" / "declutter.py").read_text()
 	assert '"System Health": "frappe.model.can_read(\'System Health Report\')"' in declutter
@@ -131,7 +131,7 @@ def test_not_found_and_errors_are_one_scene():
 	assert 'code|length == 3 and code[1] == "0"' in message
 	assert '403 if title == _("Not Permitted")' in message
 	assert "const id = `one-lost-${++drawn}`;" in js
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert hooks.count('"/assets/onedesk/css/lost.css"') == 2
 	assert "prefers-reduced-motion" in (tree.APP / "public" / "css" / "lost.css").read_text()
 
@@ -169,7 +169,7 @@ def test_every_source_of_frappes_search_bar_is_filtered():
 def test_pickers_and_global_search_offer_what_one_shows():
 	"""A picker of record types or reports, which is also what a Dynamic Link
 	asks first, and frappe's global search offer only `shown`."""
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"DocType": "onedesk.one.outside.doctype_query"' in hooks and '"Report": "onedesk.one.outside.report_query"' in hooks
 	assert '"frappe.utils.global_search.search": "onedesk.one.outside.search"' in hooks
 	assert 'clear_cache = ["onedesk.one.outside.forget"]' in hooks

@@ -6,6 +6,9 @@ These read the code."""
 
 import ast
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
@@ -43,7 +46,7 @@ def test_notifications_go_out_from_tell():
 
 def test_oneai_hooks_point_at_ai_files():
 	wrong = []
-	for node in ast.parse((APP / "hooks.py").read_text()).body:
+	for node in ast.parse(tree.hooks()).body:
 		name = isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "")
 		if not name or not name.startswith("one_ai_"):
 			continue

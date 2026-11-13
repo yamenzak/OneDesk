@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one_studio" / "letter_heads.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def _keys(name: str) -> list[str]:

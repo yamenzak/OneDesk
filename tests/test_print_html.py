@@ -30,7 +30,7 @@ def _body(source: str, name: str) -> str:
 def test_the_macro_draws_a_marked_block_in_the_sandbox():
 	assert "df.one_sandboxed" in MACRO and "one_html_block(df.html, doc)" in MACRO
 	assert "Derived from frappe/templates/print_format/macros/HTML.html" in MACRO
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_studio.print_html.one_html_block"' in hooks
 	assert ast.literal_eval(_constant(HTML, "MARK")) == "one_sandboxed"
 

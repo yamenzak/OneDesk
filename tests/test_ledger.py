@@ -128,5 +128,5 @@ def test_a_hold_that_never_came_back_is_let_go():
 	source = LEDGER.read_text(encoding="utf-8")
 	assert "STALE_MINUTES" in source
 	assert "def nightly(" in source
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert "onedesk.one_admin.ledger.nightly" in hooks

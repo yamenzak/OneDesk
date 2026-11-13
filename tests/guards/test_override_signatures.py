@@ -9,13 +9,16 @@ from pathlib import Path
 
 import pytest
 from tests.bench import APPS
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
 def _overrides() -> dict[str, str]:
-	tree = ast.parse((ROOT / "onedesk" / "hooks.py").read_text())
-	for node in tree.body:
+	parsed = ast.parse(tree.hooks())
+	for node in parsed.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "override_doctype_class":
 			return ast.literal_eval(node.value)
 	return {}

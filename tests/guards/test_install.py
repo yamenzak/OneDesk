@@ -10,6 +10,9 @@ from pathlib import Path
 
 import pytest
 from tests.bench import APPS
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
@@ -55,8 +58,8 @@ def test_no_shipped_customization_hides_a_mandatory_field():
 def test_install_hooks_run_after_the_custom_fields_exist():
 	"""frappe's after_install runs before an app's custom fields are synced,
 	and much of what One sets up reads them; after_sync runs once they are."""
-	tree = ast.parse((APP / "hooks.py").read_text())
-	names = {node.targets[0].id for node in tree.body if isinstance(node, ast.Assign) and hasattr(node.targets[0], "id")}
+	parsed = ast.parse(tree.hooks())
+	names = {node.targets[0].id for node in parsed.body if isinstance(node, ast.Assign) and hasattr(node.targets[0], "id")}
 	assert "after_install" not in names
 	assert "after_sync" in names
 
@@ -64,8 +67,8 @@ def test_install_hooks_run_after_the_custom_fields_exist():
 def test_a_new_site_is_settled_as_a_migrated_one_is():
 	"""Everything after_migrate sets up runs when the app is installed too:
 	a new site is never migrated before its first person signs in."""
-	tree = ast.parse((APP / "hooks.py").read_text())
-	hooks = {node.targets[0].id: ast.literal_eval(node.value) for node in tree.body if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in ("after_sync", "after_migrate")}
+	parsed = ast.parse(tree.hooks())
+	hooks = {node.targets[0].id: ast.literal_eval(node.value) for node in parsed.body if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in ("after_sync", "after_migrate")}
 	assert set(hooks["after_migrate"]) <= set(hooks["after_sync"]), sorted(set(hooks["after_migrate"]) - set(hooks["after_sync"]))
 
 
@@ -123,7 +126,7 @@ def test_an_overridden_controller_builds_on_the_apps_before_it():
 	"""frappe keeps only the last app's class for a doctype, so a class One
 	puts on a doctype erpnext or hrms already overrides must extend theirs,
 	or theirs stops running."""
-	ours = _overrides((APP / "hooks.py").read_text())
+	ours = _overrides(tree.hooks())
 	for app in ("erpnext", "hrms"):
 		theirs = _overrides((APPS / app / app / "hooks.py").read_text())
 		for doctype in set(ours) & set(theirs):

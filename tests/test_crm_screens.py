@@ -43,7 +43,7 @@ def test_where_a_lead_came_from_is_open_on_the_form():
 
 
 def test_access_is_changed_once_and_on_both_paths():
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert hooks.count('"onedesk.one_crm.access.settle"') == 2, "after install and after migrate"
 	source = (CRM / "access.py").read_text(encoding="utf-8")
 	assert 'frappe.db.exists("Custom DocPerm", {"parent": doctype})' in source, "a workspace's own decision stands"

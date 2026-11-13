@@ -1,6 +1,6 @@
 """OneStudio's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, _lt
+from onedesk.one.registry.model import App, Settle, _lt
 
 APP = App(
 	id="one_studio",
@@ -11,4 +11,12 @@ APP = App(
 	mark="onestudio",
 	rail=160,
 	sidebar="OneStudio",
+	hooks={
+		"automation_actions": ("automation_steps.TellPeople",),
+		"one_record_tabs": ("mend.TABS",),
+	},
+	settle=(
+		Settle("print_blocks.settle"),
+		Settle("reports.settle"),
+	),
 )

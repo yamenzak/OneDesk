@@ -6,13 +6,16 @@ fails here until its module says what the reader sees on it."""
 import ast
 import json
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3]
 APP = ROOT / "onedesk"
 
 
 def _hook(name: str):
-	for node in ast.parse((APP / "hooks.py").read_text(encoding="utf-8")).body:
+	for node in ast.parse(tree.hooks()).body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == name:
 			return ast.literal_eval(node.value)
 	return None

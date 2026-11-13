@@ -117,3 +117,9 @@ def page(said: dict) -> str | None:
 		"The ticked ready ones are submitted together with Submit, or each from its own page. list_records on Purchase Invoice with docstatus 0 reads the "
 		"drafts. How OneAI works is in its documentation (how_to)."
 	)
+
+
+READS = (
+	"find_documents",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""

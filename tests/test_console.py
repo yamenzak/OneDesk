@@ -77,7 +77,7 @@ def test_the_console_is_gated_on_the_operator_role():
 	"""The whole of the hiding, and the only thing standing between a tenant and it."""
 	roles = [row["role"] for row in _workspace().get("roles") or []]
 	assert roles == [OPERATOR], f"the OneAdmin page grants {roles}"
-	assert '"onedesk.one_admin.site.offer"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.site.offer"' in tree.hooks()
 	offer = (ADMIN / "site.py").read_text().split("def offer(", 1)[1]
 	assert "is_admin() and OPERATOR in frappe.get_roles()" in offer and "pop(MODULE" in offer
 
@@ -161,7 +161,7 @@ def test_both_gates_are_registered_on_every_owned_doctype():
 	"""
 	import re
 
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	owned = _owned()
 	for hook, fn in (
 		("has_permission", "refuse_on_a_tenant"),
@@ -290,7 +290,7 @@ def test_oneai_reads_the_console_for_an_operator_only():
 	body = source.split("def console_today(", 1)[1]
 	assert "site.is_admin()" in body and "site.OPERATOR not in frappe.get_roles()" in body
 	assert "home.needs()" in body, "the panel is told what the page shows"
-	assert '"onedesk.one_admin.ai.console_today"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.ai.console_today"' in tree.hooks()
 
 
 def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
@@ -322,7 +322,7 @@ def test_oneai_reads_a_workspace_for_an_operator_only():
 	body = source.split("def workspace_facts(", 1)[1]
 	assert body.index("if not _operator()") < body.index("frappe.get_doc")
 	assert '"expects": "workspace_facts"' in source
-	assert '"onedesk.one_admin.ai.workspace_facts"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.ai.workspace_facts"' in tree.hooks()
 
 
 def test_our_lists_are_called_what_the_rail_calls_them():
@@ -369,7 +369,7 @@ def test_oneai_asks_about_a_job_only_in_the_state_it_is_in():
 	)
 	body = source.split("def job_facts(", 1)[1]
 	assert body.index("if not _operator()") < body.index("frappe.get_doc")
-	assert '"onedesk.one_admin.ai.job_facts"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.ai.job_facts"' in tree.hooks()
 	assert "def _holds(" in (tree.APP / "one_ai" / "suggest.py").read_text()
 
 
@@ -387,7 +387,7 @@ def test_every_log_row_goes_through_log_write():
 	assert "_lt(" in log and 'by or ("Operator" if operator else "One")' in log
 	assert 'log.write(slug, kind, detail, by="Customer")' in (ADMIN / "billing.py").read_text()
 	assert 'lifecycle.fall(held, rung, log.said("by_hand"))' in (ADMIN / "operator.py").read_text()
-	assert '"Tenant": ["onedesk.one_admin.log.timeline"]' in (tree.APP / "hooks.py").read_text()
+	assert '"Tenant": ["onedesk.one_admin.log.timeline"]' in tree.hooks()
 
 
 def test_the_log_keeps_one_row_per_stretch_over_storage_and_no_dead_kinds():
@@ -436,7 +436,7 @@ def test_the_price_list_says_who_has_an_offering_and_shows_only_what_its_kind_ca
 	assert fields["trial_days"]["depends_on"].startswith("eval:doc.kind=='Plan'")
 	assert fields["storage_gb"]["depends_on"] == "eval:doc.kind!='Credit Pack'"
 	assert offering["sort_field"] == "sort_key" and not offering["permissions"][0]["share"]
-	assert '"onedesk.one_admin.ai.price_list"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.ai.price_list"' in tree.hooks()
 
 
 def test_price_check_says_its_findings_in_words_and_warns_on_save():
@@ -451,7 +451,7 @@ def test_price_check_says_its_findings_in_words_and_warns_on_save():
 	for rule in ("margin", "fewer", "no_upgrade", "thin_upgrade", "addon_dear", "per_unit"):
 		assert f'"{rule}": _lt(' in offerings, rule
 	assert rules, "each finding carries its rule"
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_admin.offerings.warn"' in hooks
 	assert "*_mispriced()" in (ADMIN / "home.py").read_text()
 	report = (ADMIN / "report" / "price_check" / "price_check.py").read_text()
@@ -472,7 +472,7 @@ def test_plan_calculator_quotes_as_the_customer_is_quoted():
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"report:Plan Calculator"' in ai and '"expects": "plan_quote"' in ai
 	assert "def plan_quote(" in ai and "if not _operator():" in ai.split("def plan_quote(")[1]
-	assert '"onedesk.one_admin.ai.plan_quote"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.ai.plan_quote"' in tree.hooks()
 	assert "## Plan Calculator" in (ADMIN / "AGENTS.md").read_text()
 
 
@@ -486,7 +486,7 @@ def test_a_signup_moves_on_its_own_and_lets_an_unpaid_name_go():
 	assert '"Abandoned"' not in signup.split("HOLDING =")[1].split("\n")[0]
 	assert 'db_set("status", "Paid"' in signup and "def built(" in signup and "def abandon(" in signup
 	assert "signup.built(tenant)" in (ADMIN / "steps.py").read_text()
-	assert '"onedesk.one_admin.signup.abandon"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.signup.abandon"' in tree.hooks()
 	heads = (ADMIN / "heads.py").read_text().split("REQUEST = {")[1].split("}")[0]
 	listed = (ADMIN / "doctype" / "account_request" / "account_request_list.js").read_text()
 	head_words = dict(re.findall(r'"(\w+)": \("\w+", _lt\("([^"]+)"\)\)', heads))
@@ -498,7 +498,7 @@ def test_a_signup_moves_on_its_own_and_lets_an_unpaid_name_go():
 	assert not request["permissions"][0]["share"]
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "signup_facts"' in ai and "if not _operator():" in ai.split("def signup_facts(")[1]
-	assert '"onedesk.one_admin.ai.signup_facts"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_admin.ai.signup_facts"' in tree.hooks()
 	assert "## Signups" in (ADMIN / "AGENTS.md").read_text()
 
 

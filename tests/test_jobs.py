@@ -105,7 +105,7 @@ def test_a_workspace_holds_no_job_and_no_choice():
 	assert not (tree.APP / "fixtures" / "ai_action.json").exists()
 	for gone in ("ai_action", "ai_action_setting"):
 		assert not (tree.APP / "one_ai" / "doctype" / gone).exists(), gone
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert '"AI Action' not in hooks
 
 

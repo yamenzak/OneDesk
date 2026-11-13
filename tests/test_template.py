@@ -182,7 +182,7 @@ def test_a_changed_record_is_imported_again_whatever_its_modified_says():
 
 def test_this_app_can_be_read_by_the_rule():
 	rule = _rule()
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	paths = rule.at_install(hooks)
 	assert paths, "after_sync, after_migrate and the install hooks stay plain lists"
 

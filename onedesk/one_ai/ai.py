@@ -21,3 +21,9 @@ NOT_FOR_AI = {
 	"yours.forget": "Forgetting is the person's own say over what OneAI keeps, so they do it, never OneAI.",
 	"yours.forget_all": "Forgetting is the person's own say over what OneAI keeps, so they do it, never OneAI.",
 }
+
+
+READS = (
+	"ai_web.web_search",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""

@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import tree  # noqa: E402
 
-HOOKS = (APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 SUITE = tree.suite()
 
 RULES = (

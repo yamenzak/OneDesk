@@ -4,6 +4,9 @@ import ast
 import re
 from datetime import date, timedelta
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
 
@@ -88,7 +91,7 @@ def test_references_are_compared_the_way_they_are_stored():
 
 
 def test_acting_waits_for_quiet_and_lessons_turn_into_asking():
-	hooks = (ROOT.parents[1] / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert "onedesk.one_ai.reading.matters.due" in hooks
 	assert hooks.count('"* * * * *"') == 1, "a second key of the same cron line would silently replace the first"
 	assert '"onedesk.one_ai.reading.lessons.deleted",\n\t\t\t"onedesk.one_ai.touch.forget"' in hooks, "the lesson is read before the mark goes"
@@ -103,7 +106,7 @@ def test_understood_documents_are_still_found_and_only_by_those_who_may_open_the
 	for one in (source, body):
 		assert "state in ('Read', 'Understood')" in one, "understanding a document must not hide it from search"
 	assert "files_of(" in body and "messages_of(" in body, "every hit is checked against the file or the message"
-	hooks = (ROOT.parents[1] / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_ai.reading.ai.find_documents"' in hooks
 	memory = (ROOT.parent / "memory.py").read_text()
 	assert "search.about(doctype, name)" in memory

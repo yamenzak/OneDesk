@@ -38,7 +38,7 @@ def test_home_counts_what_the_reminders_count_as_open():
 
 
 def test_both_records_carry_the_step_and_remind():
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	for doctype in ("lead", "opportunity"):
 		custom = json.loads((tree.APP / "one_crm" / "custom" / f"{doctype}.json").read_text())
 		assert {"one_next_step", "one_next_on"} <= {f["fieldname"] for f in custom["custom_fields"]}

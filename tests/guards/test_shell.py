@@ -19,7 +19,7 @@ import tree
 
 SHELL_JS = tree.APP / "public" / "js" / "shell.js"
 SHELL_CSS = tree.APP / "public" / "css" / "shell.css"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 ON_THE_SHELL = {
 	"onecalendar": (

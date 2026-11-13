@@ -97,7 +97,7 @@ def test_the_hiring_instructions_say_what_may_not_be_judged():
 
 
 def test_a_new_applicant_is_screened_after_commit():
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert re.search(r'"Job Applicant": \{"after_insert": \[?"onedesk\.one_hr\.hiring\.arrived"', hooks)
 	source = HIRING.read_text(encoding="utf-8")
 	assert "enqueue_after_commit=True" in source
@@ -123,7 +123,7 @@ def test_nothing_is_recorded_without_the_candidates_agreement():
 
 
 def test_only_retention_or_an_hr_manager_deletes_what_was_said():
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert '"onedesk.one_hr.hiring.keep_sound",' in hooks.split('"File": {', 1)[1].split("}", 1)[0]
 	assert '"onedesk.one_hr.hiring.purge"' in hooks
 	spec = json.loads((tree.APP / "one_hr" / "doctype" / "interview_recording" / "interview_recording.json").read_text())

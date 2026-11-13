@@ -13,7 +13,7 @@ import pytest
 import tree
 
 STUDIO = tree.APP / "one_studio"
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def _guard():

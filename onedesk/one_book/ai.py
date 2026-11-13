@@ -268,3 +268,13 @@ def tax_now(
 		"to_date": str(getdate(to_date or nowdate())),
 		"lines": [{key: one[key] for key in ("line", "rate", "taxable", "tax") if one.get(key) not in (None, "")} for one in lines],
 	}
+
+
+READS = (
+	"money_now",
+	"late_invoices",
+	"invoice_facts",
+	"bank_to_match",
+	"tax_now",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""

@@ -1,6 +1,6 @@
 """OneCRM's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Roles, _lt
+from onedesk.one.registry.model import App, Settle, Roles, _lt
 
 APP = App(
 	id="one_crm",
@@ -127,4 +127,16 @@ APP = App(
 			"states": {"order": ("Open", "Work In Progress", "Closed", "Cancelled")},
 		},
 	},
+	hooks={
+		"one_ai_workspace": ("ai.workspace",),
+	},
+	settle=(
+		Settle("stages.settle"),
+		Settle("board.sync"),
+		Settle("board.one_pipeline"),
+		Settle("next.settle"),
+		Settle("record.settle"),
+		Settle("capture.defaults", install_only=True),
+		Settle("access.settle"),
+	),
 )

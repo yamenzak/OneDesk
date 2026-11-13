@@ -1,6 +1,6 @@
 """OneAdmin's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, _lt
+from onedesk.one.registry.model import App, Settle, _lt
 
 APP = App(
 	id="one_admin",
@@ -24,4 +24,11 @@ APP = App(
 			"views": ({"name": "Cards", "label": _lt("Cards View"), "icon": "layout-grid", "island": "onedesk.oneadmin_servers"},),
 		},
 	},
+	settle=(
+		Settle("media.after_migrate"),
+		Settle("notes.after_migrate"),
+		Settle("site.apply"),
+		Settle("offerings.install", install_only=True),
+		Settle("books.ensure", install_only=True),
+	),
 )

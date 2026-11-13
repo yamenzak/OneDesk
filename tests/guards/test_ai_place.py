@@ -12,7 +12,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree
 
-HOOKS = tree.APP / "hooks.py"
 ONE = tree.APP / "one" / "sidebar" / "one" / "one.json"
 RAIL = tree.APP / "one_ai" / "sidebar" / "oneai" / "oneai.json"
 DOCK = tree.APP / "dock" / "onedesk" / "onedesk.json"
@@ -22,7 +21,7 @@ PROXY = tree.APP / "one_admin" / "proxy.py"
 
 
 def _hook(name: str):
-	for node in ast.parse(HOOKS.read_text(encoding="utf-8")).body:
+	for node in ast.parse(tree.hooks()).body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == name:
 			return ast.literal_eval(node.value)
 	return None

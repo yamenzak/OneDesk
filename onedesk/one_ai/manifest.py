@@ -1,6 +1,6 @@
 """OneAI's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, _lt
+from onedesk.one.registry.model import App, Settle, _lt
 
 APP = App(
 	id="one_ai",
@@ -37,4 +37,11 @@ APP = App(
 			"legal": {"on": "2026-11-08", "commit": "87069d373334", "by": "Claude, for Yamen"},
 		},
 	},
+	parts=("reading",),
+	hooks={
+		"one_record_notices": ("heads.NOTICES",),
+	},
+	settle=(
+		Settle("reading.search.index"),
+	),
 )

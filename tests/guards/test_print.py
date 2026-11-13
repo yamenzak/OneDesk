@@ -10,6 +10,9 @@ from pathlib import Path
 
 import pytest
 from tests.bench import APPS
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
@@ -198,7 +201,7 @@ def test_every_block_is_a_field_template_with_its_template():
 
 def test_the_blocks_reach_jinja_and_settle_after_migrate():
 	"""A new site gets the blocks and the formats as defaults, and every migrate keeps them."""
-	hooks = (APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_studio.print_blocks.one_print_block"' in hooks
 	assert hooks.count('"onedesk.one_studio.print_blocks.settle"') == 2, "after_install and after_migrate"
 	assert "def _sync_blocks" in BLOCKS.read_text() and "_sync_blocks()" in BLOCKS.read_text()

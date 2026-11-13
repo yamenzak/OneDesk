@@ -8,8 +8,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from onedesk.one_ai.reading import identifiers as ids
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import tree  # noqa: E402
 
-HOOKS = (Path(__file__).resolve().parent.parent / "onedesk" / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def test_an_iban_is_checked_not_only_tidied():

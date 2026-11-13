@@ -47,7 +47,7 @@ def test_what_marks_one_due_names_a_record_that_carries_one():
 
 
 def test_it_is_wired_to_every_save_submit_and_cancel_and_runs_hourly():
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	star = hooks[hooks.index('\t"*": {') :]
 	star = star[: star.index("\n\t},")]
 	for event in ("on_update", "on_submit", "on_cancel"):

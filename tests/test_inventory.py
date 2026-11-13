@@ -12,7 +12,7 @@ import tree
 from tests.bench import APPS
 
 INVENTORY = tree.APP / "one_inventory"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 RAIL = json.loads((INVENTORY / "sidebar" / "oneinventory" / "oneinventory.json").read_text())
 
 
@@ -71,7 +71,7 @@ def test_the_inventory_check_opens_setup_and_shares_the_books_checks_page():
 	assert home.index('("setup", _lt("Inventory Check")') < home.index('("setup", _lt("Warehouse")')
 	page = (tree.APP / "one_inventory" / "report" / "inventory_check" / "inventory_check.js").read_text()
 	assert "onedesk.check.report(" in page
-	assert '"/assets/onedesk/js/check.js"' in (tree.APP / "hooks.py").read_text()
+	assert '"/assets/onedesk/js/check.js"' in tree.hooks()
 
 
 def _pure(path, name, **extra):
@@ -170,7 +170,7 @@ def test_an_item_that_becomes_a_fixed_asset_makes_its_assets_when_bought():
 
 
 def test_a_receipt_registers_the_assets_it_made():
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"on_submit": "onedesk.one_inventory.assets.registered"' in hooks
 	assert '"validate": "onedesk.one_inventory.assets.fixed_item"' in hooks
 	source = (tree.APP / "one_inventory" / "assets.py").read_text(encoding="utf-8")
@@ -194,7 +194,7 @@ def test_leaving_asks_for_each_asset_back_once():
 
 
 def test_custody_is_wired_to_the_asset_the_employee_and_leaving():
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"before_submit": "onedesk.one_inventory.custody.leaving"' in hooks
 	heads = (tree.APP / "one_inventory" / "heads.py").read_text()
 	assert "custody.give(doc.name, employee)" in heads and "custody.take_back(doc.name, location)" in heads
@@ -225,7 +225,7 @@ def test_a_schedule_with_an_end_date_is_due_until_the_end():
 
 
 def test_maintenance_is_on_the_calendar_once():
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_inventory.calendar.LAYERS"' in hooks
 	assert '"Asset Maintenance": {"before_validate": "onedesk.one_inventory.maintenance.due"}' in hooks
 	todos = (tree.APP / "one_task" / "calendar.py").read_text()

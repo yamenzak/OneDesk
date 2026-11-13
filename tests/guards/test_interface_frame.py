@@ -19,7 +19,7 @@ CHROME = (FRAME_JS / "chrome.js").read_text(encoding="utf-8")
 ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in FRAME_JS.glob("*.js") if path.stem not in ("frame", "chrome", "phone", "nav_tree", "json_view", "look", "dialogs", "stamps", "star", "select", "keys", "views")}
 JS = FRAME + "".join(ADAPTERS.values())
 CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(FRAME_CSS.glob("*.css")))
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 CLOUD = (tree.ROOT / "frontend" / "src" / "cloud" / "OneCloud.vue").read_text(encoding="utf-8")
 
 

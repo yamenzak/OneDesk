@@ -38,4 +38,9 @@ APP = App(
 			"legal": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
 		},
 	},
+	hooks={
+		"one_slide_loaded": ("screen.loaded",),
+		"one_slide_saving": ("screen.saving",),
+		"one_slide_rows": ("screen.rows",),
+	},
 )

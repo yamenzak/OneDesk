@@ -58,7 +58,7 @@ def test_payroll_is_read_as_the_person_asking():
 	source = (HR / "ai_payroll.py").read_text(encoding="utf-8")
 	assert "frappe.get_list(\n\t\t\"Salary Slip\"" in source or 'frappe.get_list("Salary Slip"' in source
 	assert "ignore_permissions" not in source
-	assert '"onedesk.one_hr.ai_payroll.payroll_changes"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_hr.ai_payroll.payroll_changes"' in tree.hooks()
 
 
 LETTER = HR / "doctype" / "employee_letter"
@@ -113,7 +113,7 @@ def test_oneai_marks_a_grievance_sensitive_and_never_clears_it():
 	assert 'values["one_ai_sensitive"] = 1' in source
 	assert '"one_ai_sensitive": 0' not in source and "one_ai_sensitive = 0" not in source
 	assert "Only an HR Manager can mark a grievance as not sensitive." in source
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed"' in hooks
 	assert '"Employee Grievance": "onedesk.one_hr.ai_grievance.query"' in hooks
 

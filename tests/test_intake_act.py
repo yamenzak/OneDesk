@@ -42,6 +42,9 @@ ACT = _load(
 	{"KINDS", "FLOOR", "CHANGES", "Action", "level", "key_of", "_filled", "_same"},
 )
 import re  # noqa: E402
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import tree  # noqa: E402
 
 FILING = _load(
 	ROOT / "filing.py",
@@ -179,7 +182,7 @@ def test_filing_writes_only_through_the_door():
 
 
 def test_the_mark_is_taken_down_by_a_person_and_nothing_else():
-	hooks = (ROOT.parents[1] / "hooks.py").read_text()
+	hooks = tree.hooks()
 	for event in ("on_update", "on_submit", "on_cancel"):
 		assert re.search(rf'"{event}": \[?[^\]]*"onedesk\.one_ai\.reading\.mark\.looked_at"', hooks), event
 	assert '"before_rename": "onedesk.one_ai.reading.mark.before_rename"' in hooks

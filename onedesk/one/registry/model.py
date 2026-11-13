@@ -48,11 +48,26 @@ class Region:
 
 
 @dataclass(frozen=True)
+class Settle:
+	"""A function that makes the site right for the app, relative to its
+	folder ("access.settle"): run when the app is installed and again on every
+	migrate, or only at install (`install_only`). `last` runs it after every
+	app's other steps, for what reads them all."""
+
+	path: str
+	install_only: bool = False
+	last: bool = False
+
+
+@dataclass(frozen=True)
 class App:
 	"""One folder of One: an app people use, a centre they open, or an engine
 	the others stand on. `id` is the folder and never changes; `name` is what
 	people see and can change in one place. `names` are the stems of its files
-	that still sit outside its folder (public/, frontend/src/)."""
+	that still sit outside its folder (public/, frontend/src/). `parts` are its
+	sub-packages that carry centre parts of their own (OneAI's reading);
+	`hooks` names, relative to the folder, what a hook takes from it beyond
+	what its files declare by convention (registry/hooks.py)."""
 
 	id: str
 	name: str
@@ -81,3 +96,6 @@ class App:
 	no_roles: str = ""
 	operators: bool = False
 	frontend: str | None = None
+	parts: tuple[str, ...] = ()
+	hooks: dict[str, tuple[str, ...]] = field(default_factory=dict)
+	settle: tuple[Settle, ...] = ()

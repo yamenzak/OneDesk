@@ -336,7 +336,10 @@ def places(module: str) -> list[Path]:
 # not what only we read or run (its notes, versions, tests, checks, demo, and
 # the passover's stamps, which only a dev site shows).
 UNSHIPPED = ("AGENTS.md", "SCRATCHPAD.md", "checks.py", "demo.py", "stamps.py", "manifest.py")
-KINDS = ("major", "minor", "fix")
+KINDS = ("major", "minor", "fix", "internal")
+SHOWN = ("major", "minor", "fix")
+"""An internal version is numbered as a fix and holds the fingerprint, but is
+for us: What's New and the version chip never show it."""
 HEAD = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 
 
@@ -394,9 +397,14 @@ def legal(module: str) -> str:
 	return assemble.stamp(module)
 
 
+def shown(module: str) -> list[dict]:
+	"""The versions people read in What's New: every one but internal ones."""
+	return [one for one in versions(module) if one["kind"] in SHOWN]
+
+
 def current(module: str) -> str | None:
-	"""A module's version: its newest changelog entry's."""
-	found = versions(module)
+	"""A module's version as people see it: its newest shown entry's."""
+	found = shown(module)
 	return found[0]["version"] if found else None
 
 

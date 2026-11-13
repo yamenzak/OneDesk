@@ -231,3 +231,16 @@ def plan_event(
 		"state": "Proposed",
 		"next": "Tell them approving the card puts it on their calendar and invites the people on it.",
 	}
+
+
+READS = (
+	"my_calendar",
+	"busy_times",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"plan_event",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

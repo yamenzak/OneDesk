@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 SIGNIN = tree.APP / "one_account" / "signin.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _load(names):

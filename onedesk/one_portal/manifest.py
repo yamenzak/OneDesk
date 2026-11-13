@@ -1,6 +1,6 @@
 """OnePortal's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, _lt
+from onedesk.one.registry.model import App, Settle, _lt
 
 APP = App(
 	id="one_portal",
@@ -31,4 +31,7 @@ APP = App(
 			"legal": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
 		},
 	},
+	settle=(
+		Settle("portal.settle", install_only=True),
+	),
 )

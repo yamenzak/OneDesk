@@ -13,7 +13,7 @@ import tree
 
 MAIL = tree.APP / "one_mail"
 WORKER = (tree.ROOT / "deploy" / "mail" / "worker.js").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def _load(path: Path, names: tuple, **extra) -> dict:
@@ -779,7 +779,7 @@ def test_oneai_suggests_a_mail_rule_as_a_card():
 	"""Asked to sort mail into a folder, OneAI writes a rule card: the folder
 	is made, and Intake switched on for a rule about meaning, only when a
 	holder of the mailbox approves it."""
-	hooks = (MAIL.parent / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_mail.ai.suggest_mail_rule"' in hooks
 	ai = (MAIL / "ai.py").read_text()
 	make = ai.split("def make_rule(", 1)[1]

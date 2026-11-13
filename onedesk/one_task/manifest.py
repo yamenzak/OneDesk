@@ -1,6 +1,6 @@
 """OneTask's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, _lt
+from onedesk.one.registry.model import App, Settle, _lt
 
 APP = App(
 	id="one_task",
@@ -43,4 +43,8 @@ APP = App(
 			"states": {"order": ("Open", "Working", "Pending Review", "Overdue", "Completed"), "hide": ("Template", "Cancelled")},
 		},
 	},
+	settle=(
+		Settle("access.settle"),
+		Settle("board.settle"),
+	),
 )

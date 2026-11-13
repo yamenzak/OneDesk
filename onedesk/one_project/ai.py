@@ -1270,3 +1270,26 @@ def plain(html: str | None) -> str:
 	text = re.sub(r"(?i)<br\s*/?>|</?(p|div|li)\b[^>]*>", "\n", html or "")
 	lines = (" ".join(strip_html_tags(line).split()) for line in text.split("\n"))
 	return "\n".join(line for line in lines if line)
+
+
+READS = (
+	"project_facts",
+	"projects_needing_attention",
+	"project_templates",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"draft_update",
+	"draft_template",
+	"draft_project",
+	"set_status",
+	"add_milestone",
+	"log_time",
+	"set_cost_budget",
+	"remind_customer",
+	"add_member",
+	"add_contact",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

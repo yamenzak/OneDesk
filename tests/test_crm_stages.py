@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 STAGES = tree.APP / "one_crm" / "stages.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _module():

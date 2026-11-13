@@ -1,6 +1,6 @@
 """OneCloud's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, _lt
+from onedesk.one.registry.model import App, Settle, _lt
 
 APP = App(
 	id="one_storage",
@@ -12,4 +12,10 @@ APP = App(
 	owns=("One Sheet", "One Doc"),
 	rail=20,
 	sidebar="OneCloud",
+	hooks={
+		"one_record_tabs": ("namespace.TABS",),
+	},
+	settle=(
+		Settle("store.unlimit"),
+	),
 )

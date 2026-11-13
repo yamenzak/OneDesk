@@ -6,15 +6,18 @@ import re
 from pathlib import Path
 
 from onedesk.one import tiers
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
-HOOKS = (APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _hook(name: str) -> dict:
-	tree = ast.parse((APP / "hooks.py").read_text())
-	for node in tree.body:
+	parsed = ast.parse(tree.hooks())
+	for node in parsed.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == name:
 			return ast.literal_eval(node.value)
 	return {}

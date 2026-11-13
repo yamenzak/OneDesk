@@ -479,3 +479,17 @@ def page(said: dict) -> str | None:
 		".\ndraft_deck writes a whole deck as a card; write_slide rewrites, shortens or translates a slide's words; "
 		"remake_slide makes a slide another kind, such as a timeline."
 	)
+
+
+READS = (
+	"read_presentation",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"draft_deck",
+	"write_slide",
+	"remake_slide",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

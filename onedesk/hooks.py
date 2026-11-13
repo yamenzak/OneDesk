@@ -1,3 +1,4 @@
+from onedesk.one.registry.hooks import hook, settles
 from onedesk.one.stamp import stamped
 
 app_name = "onedesk"
@@ -11,137 +12,13 @@ required_apps = ["erpnext", "hrms"]
 
 app_logo_url = "/assets/onedesk/images/one.svg"
 
-after_sync = [
-	"onedesk.one.roles.ensure",
-	"onedesk.one_admin.media.after_migrate",
-	"onedesk.one_admin.notes.after_migrate",
-	"onedesk.one.notify.install",
-	"onedesk.one_legal.gate.told_of_changes",
-	"onedesk.one.access.settle",
-	"onedesk.one.rights.settle",
-	"onedesk.one.rights.everyone",
-	"onedesk.one_calendar.feed.settle",
-	"onedesk.one_studio.print_blocks.settle",
-	"onedesk.one_book.paper.settle",
-	"onedesk.one_book.vat.emirate_only_in_the_uae",
-	"onedesk.one_mail.mail_templates.settle",
-	"onedesk.one.recycle.settle",
-	"onedesk.one_calendar.tell.install",
-	"onedesk.one.head.install",
-	"onedesk.one_studio.reports.settle",
-	"onedesk.one_project.hours.settle",
-	"onedesk.one_ai.reading.search.index",
-	"onedesk.one_storage.store.unlimit",
-	"onedesk.one.brand.quiet_errors",
-	"onedesk.one_portal.portal.settle",
-	"onedesk.one.company.hide",
-	"onedesk.one_hr.names.hide",
-	"onedesk.one_hr.money.hide",
-	"onedesk.one_hr.policy.seed",
-	"onedesk.one_hr.papers.settle",
-	"onedesk.one_hr.leave.encashable",
-	"onedesk.one_hr.accounts.ready",
-	"onedesk.one_hr.accounts.components",
-	"onedesk.one_hr.accounts.year",
-	"onedesk.one_hr.hiring.ensure",
-	"onedesk.one.brand.apply",
-	"onedesk.one.declutter.apply",
-	"onedesk.one.companions.apply",
-	"onedesk.one_slide.setup.themes",
-	"onedesk.one_slide.decks.sync",
-	"onedesk.one_admin.site.apply",
-	"onedesk.one_admin.offerings.install",
-	"onedesk.one_admin.books.ensure",
-	"onedesk.one_crm.stages.settle",
-	"onedesk.one_crm.board.sync",
-	"onedesk.one_crm.board.one_pipeline",
-	"onedesk.one_crm.next.settle",
-	"onedesk.one_crm.record.settle",
-	"onedesk.one_crm.capture.defaults",
-	"onedesk.one_crm.access.settle",
-	"onedesk.one_book.access.settle",
-	"onedesk.one_inventory.access.settle",
-	"onedesk.one_factory.access.settle",
-	"onedesk.one_quality.access.settle",
-	"onedesk.one_inventory.boards.settle",
-	"onedesk.one_inventory.prepared.settle",
-	"onedesk.one_factory.boards.settle",
-	"onedesk.one_project.access.settle",
-	"onedesk.one_hr.access.settle",
-	"onedesk.one_task.access.settle",
-	"onedesk.one_project.board.settle",
-	"onedesk.one_task.board.settle",
-	"onedesk.one_project.progress.settle",
-	"onedesk.one_project.retention.ready",
-	"onedesk.one_project.kinds.settle",
-	"onedesk.one_project.updates.settle",
-	"onedesk.one_hr.lifecycle.settle_boardings",
-]
+after_sync = settles(install=True)
 
 after_app_install = ["onedesk.one_account.private.installed_now"]
 
 before_app_uninstall = ["onedesk.one_account.private.refuse_uninstall"]
 
-after_migrate = [
-	"onedesk.one.roles.ensure",
-	"onedesk.one_admin.media.after_migrate",
-	"onedesk.one_admin.notes.after_migrate",
-	"onedesk.one.notify.install",
-	"onedesk.one_legal.gate.told_of_changes",
-	"onedesk.one.access.settle",
-	"onedesk.one.rights.settle",
-	"onedesk.one.rights.everyone",
-	"onedesk.one_calendar.feed.settle",
-	"onedesk.one_studio.print_blocks.settle",
-	"onedesk.one_book.paper.settle",
-	"onedesk.one_book.vat.emirate_only_in_the_uae",
-	"onedesk.one_mail.mail_templates.settle",
-	"onedesk.one.recycle.settle",
-	"onedesk.one_calendar.tell.install",
-	"onedesk.one.head.install",
-	"onedesk.one_studio.reports.settle",
-	"onedesk.one_project.hours.settle",
-	"onedesk.one_ai.reading.search.index",
-	"onedesk.one_storage.store.unlimit",
-	"onedesk.one.brand.quiet_errors",
-	"onedesk.one.companions.apply",
-	"onedesk.one_slide.setup.themes",
-	"onedesk.one_slide.decks.sync",
-	"onedesk.one.company.hide",
-	"onedesk.one_hr.names.hide",
-	"onedesk.one_hr.money.hide",
-	"onedesk.one_hr.policy.seed",
-	"onedesk.one_hr.papers.settle",
-	"onedesk.one_hr.leave.encashable",
-	"onedesk.one_hr.accounts.ready",
-	"onedesk.one_hr.accounts.components",
-	"onedesk.one_hr.accounts.year",
-	"onedesk.one_hr.hiring.ensure",
-	"onedesk.one_admin.site.apply",
-	"onedesk.one_crm.stages.settle",
-	"onedesk.one_crm.board.sync",
-	"onedesk.one_crm.board.one_pipeline",
-	"onedesk.one_crm.next.settle",
-	"onedesk.one_crm.record.settle",
-	"onedesk.one_crm.access.settle",
-	"onedesk.one_book.access.settle",
-	"onedesk.one_inventory.access.settle",
-	"onedesk.one_factory.access.settle",
-	"onedesk.one_quality.access.settle",
-	"onedesk.one_inventory.boards.settle",
-	"onedesk.one_inventory.prepared.settle",
-	"onedesk.one_factory.boards.settle",
-	"onedesk.one_project.access.settle",
-	"onedesk.one_hr.access.settle",
-	"onedesk.one_task.access.settle",
-	"onedesk.one_project.board.settle",
-	"onedesk.one_task.board.settle",
-	"onedesk.one_project.progress.settle",
-	"onedesk.one_project.retention.ready",
-	"onedesk.one_project.kinds.settle",
-	"onedesk.one_project.updates.settle",
-	"onedesk.one_hr.lifecycle.settle_boardings",
-]
+after_migrate = settles(install=False)
 extend_bootinfo = [
 	"onedesk.one.boot.boot_session",
 	"onedesk.one_project.retention.boot",
@@ -1374,320 +1251,47 @@ one_makes_records = {
 	"Work Order": ["one_factory"],
 }
 
-one_ai_reads = [
-	"onedesk.one_sheet.ai.my_workbooks",
-	"onedesk.one_sheet.ai.read_workbook",
-	"onedesk.one_doc.ai.my_documents",
-	"onedesk.one_doc.ai.read_document",
-	"onedesk.one_slide.ai.read_presentation",
-	"onedesk.one.ai.workspace_numbering",
-	"onedesk.one.ai.workspace_printing",
-	"onedesk.one_mail.ai.workspace_mail_templates",
-	"onedesk.one.ai.workspace_approvals",
-	"onedesk.one.ai.workspace_automations",
-	"onedesk.one.ai.print_layout",
-	"onedesk.one.ai.my_sign_in",
-	"onedesk.one.ai.workspace_sign_in",
-	"onedesk.one.ai.workspace_people",
-	"onedesk.one.ai.workspace_access",
-	"onedesk.one.ai.workspace_reports",
-	"onedesk.one.ai.audit_log",
-	"onedesk.one.ai.webhooks",
-	"onedesk.one.ai.announcements",
-	"onedesk.one.ai.privacy_request",
-	"onedesk.one.ai.workspace_plan",
-	"onedesk.one.ai.workspace_oneai",
-	"onedesk.one.ai.workspace_intake",
-	"onedesk.one.ai.workspace_holidays",
-	"onedesk.one.ai.my_day",
-	"onedesk.one_mail.ai.open_conversation",
-	"onedesk.one_mail.ai.waiting_for_answer",
-	"onedesk.one_calendar.ai.my_calendar",
-	"onedesk.one_display.ai.queue_now",
-	"onedesk.one_display.ai.screens_now",
-	"onedesk.one_task.ai.my_tasks",
-	"onedesk.one_task.ai.task_facts",
-	"onedesk.one_inventory.ai.item_facts",
-	"onedesk.one_inventory.ai.stock_on_hand",
-	"onedesk.one_inventory.ai.running_low",
-	"onedesk.one_inventory.ai.receipt_facts",
-	"onedesk.one_inventory.ai.still_to_arrive",
-	"onedesk.one_inventory.ai.still_to_deliver",
-	"onedesk.one_factory.ai.work_order_facts",
-	"onedesk.one_factory.ai.on_the_floor",
-	"onedesk.one_factory.ai.plant_floor_now",
-	"onedesk.one_inventory.ai.lots_and_numbers",
-	"onedesk.one_inventory.ai.quotes_now",
-	"onedesk.one_factory.ai.sent_out_now",
-	"onedesk.one_quality.ai.quality_now",
-	"onedesk.one_inventory.ai.upkeep_now",
-	"onedesk.one_inventory.ai.asset_facts",
-	"onedesk.one_book.ai.money_now",
-	"onedesk.one_book.ai.late_invoices",
-	"onedesk.one_book.ai.invoice_facts",
-	"onedesk.one_book.ai.bank_to_match",
-	"onedesk.one_book.ai.tax_now",
-	"onedesk.one_admin.ai.console_today",
-	"onedesk.one_admin.ai.workspace_facts",
-	"onedesk.one_admin.ai.job_facts",
-	"onedesk.one_admin.ai.signup_facts",
-	"onedesk.one_admin.ai.credit_facts",
-	"onedesk.one_admin.ai.settings_check",
-	"onedesk.one_admin.ai.price_list",
-	"onedesk.one_admin.ai.plan_quote",
-	"onedesk.one_calendar.ai.busy_times",
-	"onedesk.one_storage.ai.open_file",
-	"onedesk.one_storage.ai.who_can_see",
-	"onedesk.one_storage.ai.largest_files",
-	"onedesk.one_ai.reading.ai.find_documents",
-	"onedesk.one_ai.ai_web.web_search",
-	"onedesk.one_hr.ai.my_leave",
-	"onedesk.one_hr.ai.people_today",
-	"onedesk.one_hr.ai.whos_off",
-	"onedesk.one_hr.ai.papers_expiring",
-	"onedesk.one_hr.ai.appraisal_facts",
-	"onedesk.one_hr.ai.why_people_leave",
-	"onedesk.one_hr.ai.interview_facts",
-	"onedesk.one_hr.ai_payroll.payroll_changes",
-	"onedesk.one_hr.ai_letters.letter_facts",
-	"onedesk.one_hr.ai_policy.hr_policy",
-	"onedesk.one_hr.ai_growth.goal_facts",
-	"onedesk.one_hr.ai_growth.training_options",
-	"onedesk.one_project.ai.project_facts",
-	"onedesk.one_project.ai.projects_needing_attention",
-	"onedesk.one_project.ai.project_templates",
-	"onedesk.one_crm.ai.crm_facts",
-	"onedesk.one_crm.ai.gone_quiet",
-	"onedesk.one_crm.ai.why_we_lose",
-	"onedesk.one_crm.ai.quotes_waiting",
-	"onedesk.one_legal.ai.agreement",
-	"onedesk.one.ai.notification_type",
-	"onedesk.one.ai.my_notifications",
-	"onedesk.one_mail.ai.my_mailboxes",
-	"onedesk.one_mail.ai.mail_rules",
-	"onedesk.one_mail.ai.workspace_mail",
-	"onedesk.one_studio.ai.extensions_here",
-	"onedesk.one_studio.ai.extension_mistakes",
-	"onedesk.one_studio.ai.extension_code",
-	"onedesk.one_studio.ai.extension_places",
-	"onedesk.one_studio.ai.record_types_here",
-	"onedesk.one_studio.ai.forms_here",
-	"onedesk.one_studio.ai.form_relations",
-]
+one_ai_reads = hook("one_ai_reads")
 
-one_ai_reader = ["onedesk.one_hr.ai.reader"]
+one_ai_reader = hook("one_ai_reader")
 
-one_ai_workspace = ["onedesk.one_hr.ai.workspace", "onedesk.one_crm.ai.workspace"]
+one_ai_workspace = hook("one_ai_workspace")
 
 # Each app's OneAI actions, the buttons that do one thing in place, which
 # AICenter lists and an administrator turns off (one_ai/actions.py).
-one_ai_actions = ["onedesk.one_account.ai.ACTIONS"]
-one_ai_suggests = [
-	"onedesk.one_sheet.ai.draft_workbook",
-	"onedesk.one_doc.ai.draft_document",
-	"onedesk.one_doc.ai.write_document",
-	"onedesk.one_slide.ai.draft_deck",
-	"onedesk.one_slide.ai.write_slide",
-	"onedesk.one_slide.ai.remake_slide",
-	"onedesk.one_sheet.ai.write_cells",
-	"onedesk.one_sheet.ai.comment_on_cell",
-	"onedesk.one_hr.ai.claim_expense",
-	"onedesk.one_hr.ai.book_leave",
-	"onedesk.one_hr.ai.add_applicant",
-	"onedesk.one_hr.ai.draft_feedback",
-	"onedesk.one_hr.ai.draft_interview_feedback",
-	"onedesk.one_hr.ai_letters.request_letter",
-	"onedesk.one_hr.ai_growth.draft_goal",
-	"onedesk.one_crm.ai.add_lead",
-	"onedesk.one_project.ai.draft_update",
-	"onedesk.one_project.ai.draft_template",
-	"onedesk.one_project.ai.draft_project",
-	"onedesk.one_project.ai.set_status",
-	"onedesk.one_project.ai.add_milestone",
-	"onedesk.one_project.ai.log_time",
-	"onedesk.one_project.ai.set_cost_budget",
-	"onedesk.one_project.ai.remind_customer",
-	"onedesk.one_project.ai.add_member",
-	"onedesk.one_project.ai.add_contact",
-	"onedesk.one_crm.ai.plan_next_step",
-	"onedesk.one_crm.ai.write_up_call",
-	"onedesk.one.ai.rewrite_notification",
-	"onedesk.one.ai.draft_notification",
-	"onedesk.one.ai.change_numbering",
-	"onedesk.one.ai.change_printing",
-	"onedesk.one.ai.design_print_format",
-	"onedesk.one_mail.ai.write_mail_template",
-	"onedesk.one.ai.suggest_approval",
-	"onedesk.one.ai.suggest_automation",
-	"onedesk.one_studio.ai_setup.suggest_saved_report",
-	"onedesk.one_studio.ai_setup.suggest_dashboard",
-	"onedesk.one_studio.ai_setup.suggest_report_mail",
-	"onedesk.one_studio.ai_setup.suggest_level",
-	"onedesk.one_studio.ai_setup.suggest_profile",
-	"onedesk.one_studio.ai_setup.suggest_group",
-	"onedesk.one_studio.ai_setup.suggest_hold",
-	"onedesk.one.ai.customize",
-	"onedesk.one_mail.ai.sign_mailbox",
-	"onedesk.one.ai.change_holidays",
-	"onedesk.one_mail.ai.draft_reply",
-	"onedesk.one_mail.ai.suggest_mail_rule",
-	"onedesk.one_mail.ai.sort_conversations",
-	"onedesk.one_mail.ai.change_folder",
-	"onedesk.one_mail.ai.file_conversation",
-	"onedesk.one_mail.ai.work_conversation",
-	"onedesk.one_mail.ai.mail_for_me",
-	"onedesk.one_mail.ai.suggest_away",
-	"onedesk.one_mail.ai.change_mail_rule",
-	"onedesk.one_mail.ai.share_mailbox",
-	"onedesk.one_mail.ai.suggest_mail_policy",
-	"onedesk.one_mail.ai.company_domain",
-	"onedesk.one_mail.ai.default_mail_template",
-	"onedesk.one_calendar.ai.plan_event",
-	"onedesk.one_display.ai.plan_voice_ad",
-	"onedesk.one_task.ai.plan_task",
-	"onedesk.one_task.ai.plan_steps",
-	"onedesk.one_task.ai.assign_task",
-	"onedesk.one_inventory.ai.plan_item_change",
-	"onedesk.one_inventory.ai.plan_receipt",
-	"onedesk.one_inventory.ai.plan_delivery",
-	"onedesk.one_inventory.ai.plan_transfer",
-	"onedesk.one_inventory.ai.plan_count",
-	"onedesk.one_inventory.ai.plan_quote_request",
-	"onedesk.one_factory.ai.plan_work_order",
-	"onedesk.one_inventory.ai.plan_handover",
-	"onedesk.one_studio.ai.write_extension",
-	"onedesk.one_studio.ai.mend_extension",
-	"onedesk.one_studio.ai.design_record_type",
-]
-automation_actions = ["onedesk.one_studio.automation_steps.TellPeople"]
+one_ai_actions = hook("one_ai_actions")
+one_ai_suggests = hook("one_ai_suggests")
+automation_actions = hook("automation_actions")
 
-one_ai_suggestions = [
-	"onedesk.one_hr.ai.SUGGESTIONS",
-	"onedesk.one_crm.ai.SUGGESTIONS",
-	"onedesk.one.ai.SUGGESTIONS",
-	"onedesk.one_mail.ai.SUGGESTIONS",
-	"onedesk.one_storage.ai.SUGGESTIONS",
-	"onedesk.one_calendar.ai.SUGGESTIONS",
-	"onedesk.one_display.ai.SUGGESTIONS",
-	"onedesk.one_task.ai.SUGGESTIONS",
-	"onedesk.one_inventory.ai.SUGGESTIONS",
-	"onedesk.one_factory.ai.SUGGESTIONS",
-	"onedesk.one_quality.ai.SUGGESTIONS",
-	"onedesk.one_book.ai.SUGGESTIONS",
-	"onedesk.one_project.ai.SUGGESTIONS",
-	"onedesk.one_admin.ai.SUGGESTIONS",
-	"onedesk.one_studio.ai.SUGGESTIONS",
-]
+one_ai_suggestions = hook("one_ai_suggestions")
 
-one_ai_page = [
-	"onedesk.one.ai.page",
-	"onedesk.one_mail.ai.page",
-	"onedesk.one_storage.ai.page",
-	"onedesk.one_calendar.ai.page",
-	"onedesk.one_display.ai.page",
-	"onedesk.one_task.ai.page",
-	"onedesk.one_inventory.ai.page",
-	"onedesk.one_factory.ai.page",
-	"onedesk.one_quality.ai.page",
-	"onedesk.one_admin.ai.page",
-	"onedesk.one_crm.ai.page",
-	"onedesk.one_hr.ai.page",
-	"onedesk.one_book.ai.page",
-	"onedesk.one_doc.ai.page",
-	"onedesk.one_slide.ai.page",
-	"onedesk.one_sheet.ai.page",
-	"onedesk.one_ai.reading.ai.page",
-	"onedesk.one_legal.ai.page",
-]
+one_ai_page = hook("one_ai_page")
 
-one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
+one_homes = hook("one_homes")
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_factory.abilities", "onedesk.one_quality.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities", "onedesk.one_display.abilities", "onedesk.one_slide.abilities", "onedesk.one_doc.abilities", "onedesk.one_sheet.abilities"]
+one_abilities = hook("one_abilities")
 
 # What another module adds to a presentation as OneSlide loads and saves it
 # (one_slide/api.py): OneDisplay's widgets on a screen's backdrop.
-one_slide_loaded = ["onedesk.one_display.screen.loaded"]
-one_slide_saving = ["onedesk.one_display.screen.saving"]
+one_slide_loaded = hook("one_slide_loaded")
+one_slide_saving = hook("one_slide_saving")
 # a presentation's `rows` source: a Display Source's rows, for chips on a screen (one_slide/data.py)
-one_slide_rows = ["onedesk.one_display.screen.rows"]
+one_slide_rows = hook("one_slide_rows")
 
 # What each module shows on the portal, in its own portal.py's KINDS, read by
 # OnePortal's engine (one_portal/portal.py `kinds`).
-one_portal = [
-	"onedesk.one.portal",
-	"onedesk.one_crm.portal",
-	"onedesk.one_inventory.portal",
-	"onedesk.one_book.portal",
-	"onedesk.one_project.portal",
-	"onedesk.one_factory.portal",
-]
+one_portal = hook("one_portal")
 
-one_record_heads = [
-	"onedesk.one.heads.HEADS",
-	"onedesk.one_inventory.heads.HEADS",
-	"onedesk.one_factory.heads.HEADS",
-	"onedesk.one_quality.heads.HEADS",
-	"onedesk.one_book.heads.HEADS",
-	"onedesk.one_crm.heads.HEADS",
-	"onedesk.one_project.heads.HEADS",
-	"onedesk.one_task.heads.HEADS",
-	"onedesk.one_hr.heads.HEADS",
-	"onedesk.one_account.heads.HEADS",
-	"onedesk.one_admin.heads.HEADS",
-	"onedesk.one_ai.heads.HEADS",
-	"onedesk.one_studio.heads.HEADS",
-]
-one_measures = [
-	"onedesk.one.heads.MEASURES",
-	"onedesk.one_inventory.heads.MEASURES",
-	"onedesk.one_factory.heads.MEASURES",
-	"onedesk.one_quality.heads.MEASURES",
-	"onedesk.one_book.heads.MEASURES",
-	"onedesk.one_crm.heads.MEASURES",
-	"onedesk.one_project.heads.MEASURES",
-	"onedesk.one_task.heads.MEASURES",
-	"onedesk.one_hr.heads.MEASURES",
-	"onedesk.one_account.heads.MEASURES",
-	"onedesk.one_admin.heads.MEASURES",
-	"onedesk.one_ai.heads.MEASURES",
-	"onedesk.one_studio.heads.MEASURES",
-]
-one_verbs = [
-	"onedesk.one_inventory.heads.VERBS",
-	"onedesk.one_book.heads.VERBS",
-	"onedesk.one_crm.heads.VERBS",
-	"onedesk.one_task.heads.VERBS",
-	"onedesk.one_hr.heads.VERBS",
-	"onedesk.one_admin.heads.VERBS",
-	"onedesk.one_ai.heads.VERBS",
-	"onedesk.one_studio.heads.VERBS",
-]
-one_record_notices = ["onedesk.one_ai.heads.NOTICES"]
-one_charts = [
-	"onedesk.one_inventory.heads.CHARTS",
-	"onedesk.one_book.heads.CHARTS",
-	"onedesk.one_project.heads.CHARTS",
-	"onedesk.one_hr.heads.CHARTS",
-]
-one_record_tabs = [
-	"onedesk.one_mail.linking.TABS",
-	"onedesk.one_storage.namespace.TABS",
-	"onedesk.one.tabs.TABS",
-	"onedesk.one_studio.mend.TABS",
-]
+one_record_heads = hook("one_record_heads")
+one_measures = hook("one_measures")
+one_verbs = hook("one_verbs")
+one_record_notices = hook("one_record_notices")
+one_charts = hook("one_charts")
+one_record_tabs = hook("one_record_tabs")
 
-one_calendar_layers = [
-	"onedesk.one_calendar.events.LAYERS",
-	"onedesk.one_task.calendar.LAYERS",
-	"onedesk.one_project.calendar.LAYERS",
-	"onedesk.one_crm.calendar.LAYERS",
-	"onedesk.one_hr.calendar.LAYERS",
-	"onedesk.one_inventory.calendar.LAYERS",
-	"onedesk.one_book.calendar.LAYERS",
-	"onedesk.one_ai.reading.calendar.LAYERS",
-]
+one_calendar_layers = hook("one_calendar_layers")
 
 additional_timeline_content = {
 	"Project": ["onedesk.one_project.updates.timeline", "onedesk.one_project.activity.timeline"],

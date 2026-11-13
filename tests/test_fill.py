@@ -29,7 +29,7 @@ def test_every_intake_write_of_a_new_record_is_filled():
 
 
 def test_the_hooks_act_only_inside_intakes_write():
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"before_insert": "onedesk.one_ai.reading.fill.before_insert"' in hooks
 	assert '"before_save": "onedesk.one_ai.reading.fill.before_save"' in hooks
 

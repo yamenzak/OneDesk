@@ -386,3 +386,18 @@ def page(said: dict) -> str | None:
 		". read_workbook reads any sheet; write_cells writes values, formulas and formatting, and comment_on_cell "
 		"leaves a note, each as a card. How OneWorkbook works is in its documentation (how_to)."
 	)
+
+
+READS = (
+	"my_workbooks",
+	"read_workbook",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"draft_workbook",
+	"write_cells",
+	"comment_on_cell",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

@@ -54,3 +54,9 @@ NOT_FOR_AI = {
 	"gate.accept": "Agreeing binds the person or the workspace, so they agree themselves, never OneAI.",
 	"services.switch": "Turning a service on agrees for the whole workspace, so an administrator does it, never OneAI.",
 }
+
+
+READS = (
+	"agreement",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""

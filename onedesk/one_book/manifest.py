@@ -1,6 +1,6 @@
 """OneBook's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Roles, _lt
+from onedesk.one.registry.model import App, Settle, Roles, _lt
 
 APP = App(
 	id="one_book",
@@ -157,4 +157,9 @@ APP = App(
 			"states": {"field": "supplier_type", "order": ("Company", "Individual", "Partnership")},
 		},
 	},
+	settle=(
+		Settle("paper.settle"),
+		Settle("vat.emirate_only_in_the_uae"),
+		Settle("access.settle"),
+	),
 )

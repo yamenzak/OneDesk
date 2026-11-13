@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one_portal" / "portal.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 # What each module shows on the portal, in its own portal.py (the one_portal hook).
 DECLARING = ("one", "one_crm", "one_inventory", "one_book", "one_project")
 DECLARED = {folder: (tree.APP / folder / "portal.py").read_text() for folder in DECLARING}
@@ -213,7 +213,7 @@ def test_a_contact_is_invited_to_the_portal_by_one():
 			in js + (tree.APP / "public" / "js" / "one_portal" / "contact.js").read_text()
 			or f'"{doctype}"' in js
 		)
-	assert '"Contact": "public/js/one_portal/contact.js"' in (tree.APP / "hooks.py").read_text()
+	assert '"Contact": "public/js/one_portal/contact.js"' in tree.hooks()
 	home = (tree.APP / "one_admin" / "accounts.py").read_text()
 	assert 'return "portal" if website else None' in home
 

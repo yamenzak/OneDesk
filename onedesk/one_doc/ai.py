@@ -353,3 +353,17 @@ def page(said: dict) -> str | None:
 		"\nwrite_document writes into it as a card; draft_document makes a new one, in a folder or on a record, "
 		"from a template or not. How OneWriter works is in its documentation (how_to)."
 	)
+
+
+READS = (
+	"my_documents",
+	"read_document",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"draft_document",
+	"write_document",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

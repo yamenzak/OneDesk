@@ -16,7 +16,7 @@ THERE = (tree.APP / "one_admin" / "closing.py").read_text()
 PROXY = (tree.APP / "one_admin" / "proxy.py").read_text()
 TELL = (tree.APP / "one_admin" / "tell.py").read_text()
 TOLD = (tree.APP / "one" / "tell.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def _body(name: str, source: str) -> str:

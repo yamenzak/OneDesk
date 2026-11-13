@@ -1361,3 +1361,34 @@ def mail_for_me() -> dict:
 			if one.status != "Done" and held[one.account]["shared"] and not (frappe.parse_json(one._assign or "[]") or [])
 		),
 	}
+
+
+READS = (
+	"workspace_mail_templates",
+	"open_conversation",
+	"waiting_for_answer",
+	"my_mailboxes",
+	"mail_rules",
+	"workspace_mail",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"write_mail_template",
+	"sign_mailbox",
+	"draft_reply",
+	"suggest_mail_rule",
+	"sort_conversations",
+	"change_folder",
+	"file_conversation",
+	"work_conversation",
+	"mail_for_me",
+	"suggest_away",
+	"change_mail_rule",
+	"share_mailbox",
+	"suggest_mail_policy",
+	"company_domain",
+	"default_mail_template",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

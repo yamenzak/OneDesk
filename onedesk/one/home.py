@@ -132,7 +132,7 @@ def news() -> list[dict]:
 	for module, one in versions.for_boot().items():
 		if not one["unseen"] or module in off:
 			continue
-		newest = next(iter(ready.versions(module)), None)
+		newest = next(iter(ready.shown(module)), None)
 		said.append(
 			{
 				"module": module,

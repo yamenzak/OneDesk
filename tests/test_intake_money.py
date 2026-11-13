@@ -7,6 +7,9 @@ from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
 from types import SimpleNamespace
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
 
@@ -161,8 +164,8 @@ def test_every_money_draft_is_written_as_the_person():
 def test_no_hook_table_names_a_doctype_twice():
 	"""A second key for the same doctype in a hooks dict silently replaces the
 	first, and every hook under it stops running."""
-	tree = ast.parse((ROOT.parents[1] / "hooks.py").read_text())
-	for node in tree.body:
+	parsed = ast.parse(tree.hooks())
+	for node in parsed.body:
 		if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
 			keys = [key.value for key in node.value.keys if isinstance(key, ast.Constant)]
 			assert len(keys) == len(set(keys)), f"{node.targets[0].id} names {sorted({k for k in keys if keys.count(k) > 1})} twice"

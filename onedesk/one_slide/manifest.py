@@ -1,6 +1,6 @@
 """OneSlide's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App
+from onedesk.one.registry.model import App, Settle
 
 APP = App(
 	id="one_slide",
@@ -30,4 +30,8 @@ APP = App(
 			"legal": {"on": "2026-11-12", "commit": "ec12a9996047", "by": "Claude, for Yamen"},
 		},
 	},
+	settle=(
+		Settle("setup.themes"),
+		Settle("decks.sync"),
+	),
 )

@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from onedesk.one import ready  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 
 def _tracked() -> list[str]:
@@ -93,6 +95,7 @@ def test_versions_follow_one_another():
 				"major": (major + 1, 0, 0),
 				"minor": (major, minor + 1, 0),
 				"fix": (major, minor, fix + 1),
+				"internal": (major, minor, fix + 1),
 			}[after["kind"]]
 			assert ready.number(after["version"]) == expected, f"{module} {after['version']} is no {after['kind']} after {before['version']}"
 
@@ -111,7 +114,7 @@ def test_a_version_is_written_for_the_people_using_it():
 			assert 0 < len(one["title"].split()) <= 5, f"{where}: a title is five words or fewer"
 			body = one["body"]
 			assert body and "Say here what people can do now" not in body, f"{where} says nothing yet"
-			hit = TECHNICAL.search(body)
+			hit = TECHNICAL.search(body) if one["kind"] in ready.SHOWN else None
 			assert not hit, f"{where} reads like a commit: …{body[max(hit.start() - 30, 0) : hit.end() + 30]}…"
 			for picture in PICTURE.findall(body):
 				assert (one["path"].parent / picture).exists(), f"{where}: no {picture}"
@@ -223,7 +226,7 @@ def test_a_change_to_what_a_module_agrees_on_is_said():
 		for newer, older in zip(found, found[1:]):
 			if "legal" in older and newer.get("legal") != older["legal"]:
 				assert AGREEMENTS.search(newer["body"]), f"{module} {newer['version']} changes the agreements without saying which"
-				assert newer["kind"] != "fix", f"{module} {newer['version']} changes the agreements, so it is at least a minor (docs/READY.md, Which number moves)"
+				assert newer["kind"] not in ("fix", "internal"), f"{module} {newer['version']} changes the agreements, so it is at least a minor (docs/READY.md, Which number moves)"
 
 
 def _declared(path: Path) -> dict:
@@ -247,7 +250,7 @@ def test_a_module_ships_its_roles():
 	role it ships a value for each ability and are what migrate makes the
 	roles from, and its Help shows them ({roles}), so the page says what
 	ships."""
-	hooks = (ROOT / "onedesk" / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	for module, spec in ready.MODULES.items():
 		if spec.get("engine"):
 			# A module that is the frame the others are drawn in has no
@@ -482,7 +485,7 @@ def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 	NOT_FOR_AI with the reason in one sentence (docs/READY.md, mechanism 11)."""
 	import ast
 
-	hooks = (ROOT / "onedesk" / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	approving = (ROOT / "onedesk" / "one_ai" / "proposals.py").read_text(encoding="utf-8")
 	for module, spec in ready.MODULES.items():
 		folder = ROOT / "onedesk" / spec["folder"]
@@ -537,7 +540,7 @@ def test_a_ready_module_was_looked_at_where_no_guard_can():
 		if spec.get("ready"):
 			left = [ready.POINTS[key]["title"] for key in ready.HAND if key not in checked]
 			assert not left, f"{module} is marked ready but nobody has looked at: {left}"
-		grown = next((one for one in ready.versions(module) if one["kind"] != "fix"), None)
+		grown = next((one for one in ready.versions(module) if one["kind"] not in ("fix", "internal")), None)
 		since = _git("log", "--diff-filter=A", "--format=%H", "--", str(grown["path"].relative_to(ROOT))).stdout.split() if grown else []
 		for key, look in checked.items():
 			where = f"{module}'s look at {ready.POINTS[key]['title']}"

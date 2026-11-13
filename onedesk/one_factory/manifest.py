@@ -1,6 +1,6 @@
 """OneFactory's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Roles, _lt
+from onedesk.one.registry.model import App, Settle, Roles, _lt
 
 APP = App(
 	id="one_factory",
@@ -93,4 +93,8 @@ APP = App(
 			"states": {"field": "warehouse"},
 		},
 	},
+	settle=(
+		Settle("access.settle"),
+		Settle("boards.settle"),
+	),
 )

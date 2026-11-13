@@ -19,7 +19,6 @@ import tree
 AI = tree.APP / "one_storage" / "ai.py"
 NAMESPACE = tree.APP / "one_storage" / "namespace.py"
 REQUESTS = tree.APP / "one_storage" / "file_requests.py"
-HOOKS = tree.APP / "hooks.py"
 LAUNCHER = tree.APP / "public" / "js" / "one_ai" / "oneai.js"
 EXPLORER = tree.ROOT / "frontend" / "src" / "cloud" / "OneCloud.vue"
 DIALOGS = tree.APP / "public" / "js" / "onecloud_dialogs.js"
@@ -42,7 +41,7 @@ def test_the_panel_is_offered_a_file_only_with_one_chosen():
 
 
 def test_every_onecloud_tool_is_registered():
-	hooks = HOOKS.read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	for name in ("open_file", "who_can_see", "largest_files"):
 		assert f"onedesk.one_storage.ai.{name}" in hooks
 	assert "onedesk.one_storage.ai.SUGGESTIONS" in hooks

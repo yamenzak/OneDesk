@@ -107,3 +107,23 @@ def suite() -> str:
 	"""The integration suite's source: one_demo/check.py and each module's own
 	checks.py, which it imports (docs/READY.md, A module's folder)."""
 	return "\n".join(path.read_text(encoding="utf-8") for path in [APP / "one_demo" / "check.py", *sorted(APP.glob("*/checks.py"))])
+
+
+def hooks() -> str:
+	"""hooks.py as frappe sees it: each list it builds from the registry
+	written out in place of the call that builds it, so a guard reading
+	hooks.py finds what the registry gives it where it always was."""
+	import sys
+
+	sys.path.insert(0, str(ROOT))
+	from onedesk.one.registry import hooks as built
+
+	lists = {f'{name} = hook("{name}")': (name, built.hook(name)) for name in built.derived()}
+	lists["after_sync = settles(install=True)"] = ("after_sync", built.settles(install=True))
+	lists["after_migrate = settles(install=False)"] = ("after_migrate", built.settles(install=False))
+	said = (APP / "hooks.py").read_text(encoding="utf-8")
+	for call, (name, entries) in lists.items():
+		short = f"{name} = [" + ", ".join(f'"{one}"' for one in entries) + "]"
+		long = f"{name} = [\n" + "".join(f'\t"{one}",\n' for one in entries) + "]"
+		said = said.replace(call, short if len(short) <= 110 else long)
+	return said

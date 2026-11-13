@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import tree
 
 NOTIFY = tree.APP / "one" / "notify.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 FORBIDDEN = (

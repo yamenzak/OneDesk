@@ -1,6 +1,6 @@
 """OneMail's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Roles, _lt
+from onedesk.one.registry.model import App, Settle, Roles, _lt
 
 APP = App(
 	id="one_mail",
@@ -37,4 +37,10 @@ APP = App(
 			"legal": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
 		},
 	},
+	hooks={
+		"one_record_tabs": ("linking.TABS",),
+	},
+	settle=(
+		Settle("mail_templates.settle"),
+	),
 )

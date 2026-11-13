@@ -12,7 +12,7 @@ import tree
 from tests.bench import APPS
 
 CAPTURE = tree.APP / "one_crm" / "capture.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _tail():
