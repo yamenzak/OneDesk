@@ -1,83 +1,50 @@
-"""The workspace set up as a new one is: frappe's setup wizard with One's own
-questions answered, then the settings a contractor's books and stock want."""
+"""The workspace set up as a new one is, through the same setup job a
+signup's site runs (one/setup_job.py) with the demo's answers, then the
+settings a contractor's books and stock want."""
 
 import frappe
 from frappe.utils import getdate
 
+from onedesk.one import registry
 from onedesk.one_demo.base import ABBR, COMPANY, CURRENCY, today
 
 BUILDER = "faisal@one.test"
 
 
-def run(password=None):
-	from onedesk.one import roles
+def answers(password=None) -> dict:
+	"""What the demo's builder answers: Sahara Glass in Dubai, its working
+	week, and the team invited from People with the apps each one's work
+	needs (one_demo/people.py)."""
+	from onedesk.one_demo.people import OWNER, PEOPLE
 
-	roles.ensure()
-	if not frappe.is_setup_complete():
-		from frappe.desk.page.setup_wizard.setup_wizard import setup_complete
-
-		year = today().year
-		for field, value in (("country", "United Arab Emirates"), ("currency", CURRENCY), ("time_zone", "Asia/Dubai"), ("language", "en")):
-			if not frappe.db.get_single_value("System Settings", field):
-				frappe.db.set_single_value("System Settings", field, value)
-		said = setup_complete(
+	return {
+		"owner": {"email": BUILDER, "first_name": "Faisal", "last_name": "Al Mansoori", "password": password or frappe.generate_hash()},
+		"language": "en",
+		"time_zone": "Asia/Dubai",
+		"field": "contracting",
+		"theme": "Light",
+		"companies": [{"name": COMPANY, "abbr": ABBR, "country": "United Arab Emirates", "currency": CURRENCY, "year_starts": "01-01"}],
+		"working_day": {"starts": "08:00", "ends": "17:00", "days_off": ["Sunday"]},
+		"people": [
 			{
-				"language": "English",
-				"country": "United Arab Emirates",
-				"timezone": "Asia/Dubai",
-				"currency": CURRENCY,
-				"full_name": "Faisal Al Mansoori",
-				"email": BUILDER,
-				"password": password or frappe.generate_hash(),
-				"company_name": COMPANY,
-				"company_abbr": ABBR,
-				"fy_start_date": f"{year}-01-01",
-				"fy_end_date": f"{year}-12-31",
-				"setup_demo": 0,
-				"onedesk_theme": "Light",
-				"onedesk_day_starts": "08:00:00",
-				"onedesk_day_ends": "17:00:00",
-				"onedesk_weekly_off": "Sunday",
+				"email": email,
+				"first_name": first,
+				"last_name": last,
+				"levels": {registry.by_name(name).id: level for name, level in (access or {}).items()},
+				"admin": email == OWNER,
 			}
-		)
-		if (said or {}).get("status") != "ok":
-			frappe.throw(f"The setup wizard did not finish: {said}")
-		frappe.db.commit()
-	if not frappe.db.get_single_value("System Settings", "language"):
-		frappe.db.set_single_value("System Settings", "language", "en")
-	_builder(password)
+			for first, last, email, *_rest, access in PEOPLE
+			if email
+		],
+	}
+
+
+def run(password=None):
+	from onedesk.one import setup_job
+
+	setup_job.run(answers(password))
 	_kept()
 	settle()
-
-
-def _builder(password=None):
-	"""The demo's builder, an administrator of the workspace: frappe's setup
-	wizard no longer makes a user from its name and email."""
-	from onedesk.one import roles
-
-	if frappe.db.exists("User", BUILDER):
-		user = frappe.get_doc("User", BUILDER)
-		if roles.ADMINISTRATOR not in {one.role for one in user.roles}:
-			user.append("roles", {"role": roles.ADMINISTRATOR})
-			user.save(ignore_permissions=True)
-		return
-	user = frappe.get_doc(
-		{
-			"doctype": "User",
-			"email": BUILDER,
-			"first_name": "Faisal",
-			"last_name": "Al Mansoori",
-			"user_type": "System User",
-			"send_welcome_email": 0,
-			"roles": [{"role": "Desk User"}, {"role": roles.ADMINISTRATOR}],
-		}
-	)
-	user.insert(ignore_permissions=True)
-	if password:
-		from frappe.utils.password import update_password
-
-		update_password(BUILDER, password)
-	frappe.db.commit()
 
 
 def settle():

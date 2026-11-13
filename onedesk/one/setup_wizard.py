@@ -108,7 +108,7 @@ def set_the_working_day(args):
 		return
 
 	company = args.get("company_name") or frappe.db.get_value("Company", {}, "name")
-	holidays = _holiday_list(company, days_off(args.get("onedesk_weekly_off")))
+	holidays = holiday_list(company, days_off(args.get("onedesk_weekly_off")))
 
 	hours = time_diff_in_hours(f"{nowdate()} {get_time(ends)}", f"{nowdate()} {get_time(starts)}")
 	frappe.db.set_single_value("HR Settings", "standard_working_hours", abs(hours))
@@ -156,7 +156,7 @@ def _weekends() -> dict:
 	return out
 
 
-def _holiday_list(company: str | None, weekly_offs: list[str]) -> str | None:
+def holiday_list(company: str | None, weekly_offs: list[str]) -> str | None:
 	"""The company's first list, put in force. HRMS's own setup stage, which
 	runs first, makes it for the company's first financial year with the
 	country's usual days off; here it takes the days off chosen on the

@@ -94,6 +94,20 @@ def every_rail_link_opens_for_its_app():
 
 
 @check
+def the_demo_was_set_up_by_the_setup_job():
+	"""Every step of the setup job is done, the builder is an administrator,
+	and a wake starts nothing again."""
+	from onedesk.one import setup_job
+	from onedesk.one.roles import ADMINISTRATOR
+	from onedesk.one_demo.setup import BUILDER
+
+	assert set(setup_job.held().get("done") or []) == set(setup_job.ORDER), setup_job.held()
+	assert ADMINISTRATOR in frappe.get_roles(BUILDER)
+	assert frappe.db.get_single_value("System Settings", "country") == "United Arab Emirates"
+	assert setup_job.wake() in ({"setup": "done"}, {"setup": "waiting"})
+
+
+@check
 def everybody_signs_in_to_what_they_were_given():
 	"""Each person holds the roles People gave them, and only the owner and
 	the person who set the workspace up are administrators."""

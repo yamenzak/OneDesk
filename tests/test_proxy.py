@@ -116,9 +116,13 @@ def test_every_signed_url_is_scoped_by_the_key_rules():
 	assert 'Key": key' not in source, "a raw caller key must never reach R2"
 
 
+BUILDING = ("hello", "setup_answers")
+
+
 def test_only_hello_answers_a_workspace_still_being_built():
-	"""The build's `invite_owner` step is the new site asking `hello`, so hello
-	must answer Provisioning or no build ever reaches Live. Nothing else may."""
+	"""The build's `invite_owner` step is the new site asking `hello`, and its
+	`set_up` step the new site asking `setup_answers`, so both must answer
+	Provisioning or no build ever reaches Live. Nothing else may."""
 	module = _module()
 	introduced = next(
 		n.value
@@ -133,7 +137,7 @@ def test_only_hello_answers_a_workspace_still_being_built():
 			if isinstance(child, ast.Call) and isinstance(child.func, ast.Name) and child.func.id == "caller"
 		]
 		widened = [ast.unparse(one) for one in asked if one.args or one.keywords]
-		if node.name == "hello":
+		if node.name in BUILDING:
 			assert widened == ["caller(INTRODUCED)"]
 		else:
 			assert not widened, f"{node.name} lets a workspace that is not serving call it"

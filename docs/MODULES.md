@@ -420,6 +420,7 @@ No doctypes yet.
 * `onedesk.one.recycle.restore`
 * `onedesk.one.rules.fields_of`
 * `onedesk.one.rules.watchable`
+* `onedesk.one.setup_job.wake`
 * `onedesk.one.setup_steps.finish`
 * `onedesk.one.setup_wizard.setup_complete`
 * `onedesk.one.shortcut_center.reset`
@@ -529,6 +530,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.private_apps`
 * `onedesk.one_admin.proxy.search_access`
 * `onedesk.one_admin.proxy.set_auto_topup`
+* `onedesk.one_admin.proxy.setup_answers`
 * `onedesk.one_admin.proxy.spend_limit`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`

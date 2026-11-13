@@ -70,6 +70,20 @@ def copies_agreed() -> dict:
 	return {"ok": True}
 
 
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def setup_answers() -> dict:
+	"""The answers this workspace is set up from (one/setup_job.py), while
+	it is being built: none once it has gone live."""
+	from onedesk.one_admin import answers
+
+	tenant = caller(INTRODUCED)
+	held = frappe.get_doc("Tenant", tenant.name)
+	if held.live_on:
+		_refuse()
+	return answers.of(held) or {}
+
+
 def _offered_token() -> str:
 	"""Our own header, because `Authorization` is already spoken for.
 

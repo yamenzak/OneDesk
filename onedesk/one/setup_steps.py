@@ -86,18 +86,28 @@ def apply(args=None) -> None:
 			continue
 		prefix = _prefix(module, step)
 		values = {field["fieldname"]: args.get(prefix + field["fieldname"]) for field in step["fields"]}
-		if all(value in (None, "", []) for value in values.values()):
-			continue
-		frappe.db.savepoint("one_setup_step")
-		try:
-			step["save"](values)
-			frappe.db.set_default(_flag(module, step), "1")
-		except Exception:
-			frappe.db.rollback(save_point="one_setup_step")
-			frappe.log_error(f"setup step: {module} {step['key']}")
+		save(module, step, values)
 	from onedesk.trust_center import services
 
 	services.from_wizard(args)
+
+
+def save(module: str, step: dict, values: dict) -> bool:
+	"""A step saved from its values (the wizard's, or the setup job's) and
+	marked done; one given nothing stays a to-do, and one that fails is
+	logged and left for later rather than undoing the setup. Whether it
+	was saved."""
+	if all(value in (None, "", []) for value in values.values()):
+		return False
+	frappe.db.savepoint("one_setup_step")
+	try:
+		step["save"](values)
+		frappe.db.set_default(_flag(module, step), "1")
+	except Exception:
+		frappe.db.rollback(save_point="one_setup_step")
+		frappe.log_error(f"setup step: {module} {step['key']}")
+		return False
+	return True
 
 
 def _may(module: str, step: dict) -> bool:
