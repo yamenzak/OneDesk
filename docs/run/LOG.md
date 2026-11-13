@@ -109,3 +109,5 @@ detail.
 P2 gate, site half: fresh run.localhost, 314 of 314, the first full run with nothing failing. The release half waits for Yamen's merge.
 
 13 Nov, evening. P3.3 and P3.7 merged and done, with D6, D14, D15. P3.7's new order found the importer leaving in_import on (33 checks); the runner now gives each check the flags it found: 314 of 314 (4ccc8f29). P3.8's first agent: --all 160 s to 62 s; a change still 35 s, so a second agent scopes per-file guards to the changed files. P3.9 (skills, CLAUDE.md) with another agent. After both: the P3 gate, then P4.
+
+13 Nov, midday. P3 done and its gate passed (303 rules each with a proof; --all 2,239 in 58 s; a change 14 s). P4.9, P4.8, P4.2 merged; P4.5 merged and on a fresh gate now (the demo builds through the setup job). One 2.13.0 waits for its two looks (Our look: credits read right in en/ar; Demo and tests: after the gate). OneCloud's search failed on a file of a pruned News Item: fixed (9cfbc4ad). The dev OneAdmin is off the tunnel: noted for the P4 gate. Agents: P4.3+P4.4 (wizard), P4.6 (companies), P4.11 (agent costs).
