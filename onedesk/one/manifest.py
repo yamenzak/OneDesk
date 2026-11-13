@@ -57,4 +57,8 @@ APP = App(
 		Settle("declutter.apply", install_only=True, last=True),
 		Settle("companions.apply", last=True),
 	),
+	makes=(
+		"Address",
+		"Shift Type",
+	),
 )

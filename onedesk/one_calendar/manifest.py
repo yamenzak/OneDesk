@@ -42,4 +42,7 @@ APP = App(
 		Settle("feed.settle"),
 		Settle("tell.install"),
 	),
+	makes=(
+		"Contact",
+	),
 )

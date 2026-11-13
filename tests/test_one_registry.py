@@ -98,3 +98,48 @@ def test_the_dock_and_the_module_list_are_the_registrys():
 	assert [row["title"] for row in rows] == [one.name for one in registry.apps() if one.rail is not None]
 	listed = (ROOT / "onedesk" / "modules.txt").read_text().split()
 	assert " ".join(listed) == " ".join(one.module for one in registry.apps() if one.module)
+
+
+ALLOWED = {
+	"onedesk/one/ready.py": "NOT_YET, the folders P1.10 gives the module layout",
+	"onedesk/one_admin/setup.py": "Cloudflare token names, which share apps' names",
+	"onedesk/one_ai/groups.py": "the tool group of each app's records, until P8 gives each app its agent",
+	"onedesk/one_ai/yours.py": "the marks drawn beside a reading; P2.11 turns names into ids",
+}
+"""Where a literal may still name two apps, and why."""
+
+
+def _named_twice(path: Path, names: set) -> list[int]:
+	lines = []
+	for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+		elts = node.elts if isinstance(node, ast.List | ast.Tuple | ast.Set) else node.keys if isinstance(node, ast.Dict) else None
+		said = [one.value for one in elts or () if isinstance(one, ast.Constant) and isinstance(one.value, str)]
+		if sum(one in names for one in said) >= 2:
+			lines.append(node.lineno)
+	return lines
+
+
+def _apps_named() -> set:
+	return ({one.name for one in registry.apps()} | {one.id for one in registry.apps()}) - {"one", "One", "Demo"}
+
+
+def test_no_list_of_apps_is_typed_outside_the_registry():
+	"""A list, tuple, set or dict that names two apps, by name or folder, is a
+	second copy of the registry. Manifests, tests, checks, patches and the
+	demo's data may; ALLOWED says why the rest may."""
+	names = _apps_named()
+	found = {}
+	for path in sorted((ROOT / "onedesk").rglob("*.py")):
+		where = str(path.relative_to(ROOT))
+		if path.name in ("manifest.py", "checks.py") or {"tests", "patches", "one_demo"} & set(path.parts) or where in ALLOWED:
+			continue
+		lines = _named_twice(path, names)
+		if lines:
+			found[where] = lines
+	assert not found, f"say it in the apps' manifests instead (onedesk/one/registry): {found}"
+
+
+def test_the_list_guard_catches_its_example(tmp_path):
+	example = tmp_path / "example.py"
+	example.write_text('APPS = ("OneBook", "OneHR")\n')
+	assert _named_twice(example, _apps_named()) == [1]

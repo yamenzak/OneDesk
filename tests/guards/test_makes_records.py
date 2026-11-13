@@ -98,7 +98,7 @@ def test_every_kind_made_is_declared(upstream):
 		for module, where in sorted(modules.items())
 		if module not in declared.get(kind, [])
 	]
-	assert not missing, "Add to hooks.py one_makes_records:\n" + "\n".join(missing)
+	assert not missing, "Add to the making folder's manifest `makes`:\n" + "\n".join(missing)
 
 
 def test_nothing_declared_is_stale(upstream):

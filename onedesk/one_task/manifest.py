@@ -47,4 +47,8 @@ APP = App(
 		Settle("access.settle"),
 		Settle("board.settle"),
 	),
+	makes=(
+		"Task",
+		"Timesheet",
+	),
 )

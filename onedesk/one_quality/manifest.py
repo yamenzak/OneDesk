@@ -61,4 +61,11 @@ APP = App(
 	settle=(
 		Settle("access.settle"),
 	),
+	makes=(
+		"Non Conformance",
+		"Quality Action",
+		"Quality Goal",
+		"Quality Procedure",
+		"Quality Review",
+	),
 )

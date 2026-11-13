@@ -78,6 +78,17 @@ def centres(centre: str) -> list[str]:
 	return [app.name for app in registry.apps() if centre in app.centres]
 
 
+def makers() -> dict[str, list[str]]:
+	"""one_makes_records: each record type One's own code makes, and the
+	folders whose manifests say they make it (onedesk/one_studio/numbering.py
+	never lets such a kind be numbered by hand)."""
+	found: dict[str, list[str]] = {}
+	for app in registry.apps():
+		for doctype in app.makes:
+			found.setdefault(doctype, []).append(app.id)
+	return {doctype: sorted(found[doctype]) for doctype in sorted(found)}
+
+
 def heirs() -> dict[str, list[str]]:
 	"""one_module_heirs: each Frappe module an app owns, to the app whose
 	records they are reached in (one/outside.py)."""

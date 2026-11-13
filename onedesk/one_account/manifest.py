@@ -30,4 +30,10 @@ APP = App(
 	hooks={
 		"one_ai_actions": ("ai.ACTIONS",),
 	},
+	makes=(
+		"Account",
+		"Item",
+		"Purchase Invoice",
+		"Supplier",
+	),
 )

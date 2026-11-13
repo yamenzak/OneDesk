@@ -32,4 +32,18 @@ APP = App(
 		Settle("offerings.install", install_only=True),
 		Settle("books.ensure", install_only=True),
 	),
+	makes=(
+		"Account",
+		"Contact",
+		"Customer",
+		"Item",
+		"Item Group",
+		"Journal Entry",
+		"Lead",
+		"Mode of Payment",
+		"Opportunity",
+		"Opportunity Lost Reason",
+		"Sales Invoice",
+		"Sales Stage",
+	),
 )

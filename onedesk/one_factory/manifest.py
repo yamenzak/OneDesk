@@ -97,4 +97,11 @@ APP = App(
 		Settle("access.settle"),
 		Settle("boards.settle"),
 	),
+	makes=(
+		"BOM",
+		"Job Card",
+		"Subcontracting Order",
+		"Subcontracting Receipt",
+		"Work Order",
+	),
 )
