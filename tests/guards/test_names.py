@@ -74,7 +74,7 @@ def in_python(file: str, source: str) -> int:
 	for node in ast.walk(parsed):
 		if isinstance(node, ast.Call) and _called(node) in WORD_CALLS and node.args:
 			words.add(id(node.args[0]))
-	told = file.endswith("notifications.py")
+	told = Path(file).name == "notifications.py"
 	count = 0
 	for node in ast.walk(parsed):
 		if not isinstance(node, ast.Constant) or not isinstance(node.value, str) or id(node) in docs:
