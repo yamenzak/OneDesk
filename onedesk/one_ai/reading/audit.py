@@ -119,5 +119,5 @@ def _ask(text: str) -> dict | None:
 	try:
 		return read(run.once(AUDIT, text))
 	except Exception:
-		frappe.log_error(title="Intake audit")
+		frappe.log_error(title="Reading audit")
 		return None

@@ -34419,7 +34419,7 @@ msgstr ""
 
 #. Option for the 'App' (Select) field in DocType 'Workspace Field'
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
-msgid "One Intake"
+msgid "One AI"
 msgstr ""
 
 #. Option for the 'App' (Select) field in DocType 'Workspace Field'

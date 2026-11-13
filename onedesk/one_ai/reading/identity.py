@@ -162,7 +162,7 @@ def remember_all() -> None:
 			try:
 				remember(frappe.get_doc(doctype, name))
 			except Exception:
-				frappe.log_error(title=f"Intake could not read who {doctype} {name} is")
+				frappe.log_error(title=f"OneAI could not read who {doctype} {name} is")
 		frappe.db.commit()
 
 

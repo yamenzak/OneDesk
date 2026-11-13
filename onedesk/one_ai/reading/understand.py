@@ -138,7 +138,7 @@ def _done(reading) -> None:
 	try:
 		matters.place(reading)
 	except Exception:
-		frappe.log_error(title=f"Intake could not place {reading.name}")
+		frappe.log_error(title=f"OneAI could not place {reading.name}")
 		reading.matter, reading.change, reading.act_after = reading.matter or reading.name, reading.change or "New", now_datetime()
 	reading.flags.ignore_permissions = True
 	reading.save()

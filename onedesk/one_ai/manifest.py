@@ -9,7 +9,7 @@ APP = App(
 	module="One AI",
 	ui="mixed",
 	regions=(
-		Region("page", "intake", "what Intake read and did (Reading, Reading Action)"),
+		Region("page", "intake", "what OneAI read and did (Reading, Reading Action)"),
 	),
 	line=_lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
 	mark="oneai",

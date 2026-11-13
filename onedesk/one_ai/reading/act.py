@@ -106,7 +106,7 @@ def apply(action: Action, reading) -> str | None:
 	"""Do, propose or refuse one action for a reading. Answers the Intake
 	Action row's name, or None when there is nobody to act for."""
 	if action.kind not in KINDS:
-		raise ValueError(f"Intake cannot {action.kind}")
+		raise ValueError(f"OneAI cannot {action.kind}")
 	person = reading.on_behalf_of
 	if not person or cint(reading.history):
 		return None

@@ -60,7 +60,7 @@ def weekly() -> None:
 		try:
 			send(person, since, until)
 		except Exception:
-			frappe.log_error(title=f"Intake digest for {person}")
+			frappe.log_error(title=f"Reading digest for {person}")
 
 
 def send(person: str, since, until) -> None:

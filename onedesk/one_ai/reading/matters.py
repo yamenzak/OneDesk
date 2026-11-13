@@ -277,7 +277,7 @@ def _ask(reading, new: dict, shortlist: list[dict]) -> dict:
 	try:
 		return understand._ask(PLACE, text, reading.name) or {}
 	except Exception:
-		frappe.log_error(title=f"Intake could not place {reading.name}")
+		frappe.log_error(title=f"OneAI could not place {reading.name}")
 		return {}
 
 
@@ -339,7 +339,7 @@ def act_now(name: str) -> None:
 			then()
 		except Exception:
 			frappe.db.rollback()
-			frappe.log_error(title=f"Intake could not act on {name}: {step}")
+			frappe.log_error(title=f"OneAI could not act on {name}: {step}")
 	after(name)
 
 
@@ -368,7 +368,7 @@ def after(name: str) -> None:
 		frappe.db.commit()
 	except Exception:
 		frappe.db.rollback()
-		frappe.log_error(title=f"Intake could not audit {name}")
+		frappe.log_error(title=f"OneAI could not audit {name}")
 	inbox.fresh(name)
 	tell.waiting(name)
 	frappe.db.commit()

@@ -113,7 +113,7 @@ def read_file(name: str, history: int = 0, person: str | None = None) -> str | N
 	try:
 		content = frappe.get_doc("File", name).get_content()
 	except Exception:
-		frappe.log_error(title=f"Intake could not open the file {name}")
+		frappe.log_error(title=f"OneAI could not open the file {name}")
 		return None
 	if isinstance(content, str):
 		content = content.encode()
@@ -409,7 +409,7 @@ def _failed(reading, raised: Exception) -> None:
 	elif isinstance(raised, faults.Again) and cint(reading.tries) < TRIES:
 		_set(reading, state="Queued", tries=cint(reading.tries) + 1, error=str(raised)[:500])
 	else:
-		frappe.log_error(title=f"Intake could not read {reading.name}")
+		frappe.log_error(title=f"OneAI could not read {reading.name}")
 		_set(reading, state="Failed", tries=cint(reading.tries) + 1, error=str(raised)[:500])
 		tell.couldnt_read(reading, waiting=False)
 

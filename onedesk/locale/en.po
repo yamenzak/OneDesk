@@ -79,9 +79,6 @@ msgstr "OneDoc"
 msgid "One Mail"
 msgstr "OneMail"
 
-msgid "One Intake"
-msgstr "OneIntake"
-
 msgid "Trust Center"
 msgstr "TrustCenter"
 
