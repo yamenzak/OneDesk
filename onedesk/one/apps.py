@@ -192,10 +192,17 @@ def read() -> dict:
 @frappe.whitelist(methods=["POST"])
 def save(off: str | list) -> dict:
 	"""Turn these apps off and every other back on, for the whole workspace."""
-	from onedesk.one import companions, roles
+	from onedesk.one import roles
 
 	roles.require()
-	off = frappe.parse_json(off) if isinstance(off, str) else off
+	return switch(frappe.parse_json(off) if isinstance(off, str) else off)
+
+
+def switch(off: list | None) -> dict:
+	"""The rail rows turned off, every other on, for whoever may: People's
+	Apps screen (save) and the setup job (one/setup_job.py)."""
+	from onedesk.one import companions
+
 	off = list(off or [])
 	off += [one for one, needs in NEEDS.items() if needs in off and one not in off]
 	allowed = {one["name"] for one in offered() if not one.get("kept")}

@@ -33,6 +33,53 @@ ready.SHARED. The portal is OnePortal's (one_portal/AGENTS.md).
 
 ## Under the hood
 
+**The setup job** (`setup_job.py`, `setup_answers.py`; P4.5 of
+docs/run/RUN.md). One entry point, `setup_job.run(answers)`, takes a plain
+dict, the shape the wizard in OneAdmin sends and the Account Request keeps:
+
+    {
+        "owner": {"email", "first_name", "last_name", "password", "invite"},
+        "language": "en", "time_zone": "Asia/Dubai", "field": "contracting", "theme": "Light",
+        "companies": [{"name", "country", "currency", "abbr", "chart", "year_starts"}],
+        "working_day": {"starts": "08:00", "ends": "17:00", "days_off": ["Sunday"]},
+        "apps": {"one_crm": False},
+        "steps": {"one_mail": {"domains": {"domain": "example.com"}}},
+        "people": [{"email", "first_name", "last_name", "levels": {"one_book": "Manager"}, "admin"}],
+    }
+
+Only the owner, the language, the time zone and one company with its name
+and country are needed; an unknown key at any level is refused, and every
+problem is named in one `Invalid`. Apps, steps and levels are named by
+folder. The first company is the one frappe's wizard makes and the System
+Settings' country; a currency not said is its country's; `chart` is
+"Standard" (left empty, as erpnext fills it) or "Standard with Numbers",
+never a country's own (docs/ACCOUNTS.md). `year_starts` is MM-DD, the first
+of January when not said.
+
+The steps, in `ORDER`: `settings` (language, time zone, country, currency,
+and the country's date, time and number formats, set one by one, first,
+because frappe's wizard takes them back from System Settings when its own
+part counted as done on an earlier try), `wizard` (frappe's own
+`setup_complete`, which runs erpnext's, hrms's and One's stages; never given
+a user, so nobody gets System Manager), `owner` (account_center/owner.make:
+Desk User and Workspace Administrator, named, invited unless a password is
+given), `companies` (`setup_job.company`, which AccountCenter's Companies
+will call too), `apps` (apps.switch, the Apps screen's own), `steps` (each
+app's `setup.py` STEPS through setup_steps.save, a step done already left)
+and `people` (AccountCenter's invite, as the owner; one refused, as for
+seats, is logged and left for People). Which are done is the
+`one_setup_job` default; a failure is written there with its reason, and
+the next run starts at the step that failed.
+
+A new site runs it from its build: OneAdmin's `set_up` step, between
+`push_config` and `invite_owner`, posts `setup_job.wake` (guest, rate
+limited, takes nothing but `start`), and the site enqueues `from_admin`,
+which refreshes the account and asks `proxy.setup_answers` with its own
+token. OneAdmin builds those answers from the Tenant and Account Request
+(one_admin/answers.py): the workspace's name as the company, the country
+said or the one its time zone is in alone, English. A signup with no
+country to tell is left to frappe's wizard on the site.
+
 **Pictures** (`avatars.py`, One's settings › Pictures). The tab also switches
 Gravatar and Google's logos through `onedesk.trust.switch`, TrustCenter's own
 agreement, so a service is agreed to in one way wherever it is turned on; a

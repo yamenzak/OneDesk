@@ -46937,6 +46937,10 @@ msgstr ""
 msgid "Setting up the address"
 msgstr ""
 
+#: onedesk/one_admin/steps.py:51
+msgid "Setting up the workspace"
+msgstr ""
+
 #: onedesk/one/setup_wizard.py:14
 #, python-brace-format
 msgid "Setting up {0}"

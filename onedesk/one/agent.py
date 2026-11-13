@@ -13,6 +13,7 @@ from frappe import _lt
 REACH = {}
 
 NOT_FOR_AI = {
+	"setup_job.wake": "A new site's build asks it to set itself up from its signup, before anybody works in it.",
 	"company.use": "Which company a person works in is their own choice, from the frame.",
 	"unsubscribe.off": "A signed link in a mail, opened without signing in, while OneAI sets the same switch through NotificationCenter.",
 	"shortcut_center.save": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",

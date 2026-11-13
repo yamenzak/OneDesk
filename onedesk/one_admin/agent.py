@@ -38,6 +38,7 @@ NOT_FOR_AI = {
 	"proxy.mail_send": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.office_convert": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.oneos_start": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.setup_answers": "A new workspace's own server calls this with its token, while it is being built.",
 	"proxy.oneos_stop": "A workspace's own server calls this with its token, when a person there asks.",
 	"oneos.stop_session": "Stopping a session closes somebody's open file, so an operator presses it.",
 	"proxy.set_auto_topup": "A workspace's own server calls this with its token, when a person there asks.",

@@ -24,6 +24,7 @@ ORDER = (
 	"site_is_up",
 	"route_it",
 	"push_config",
+	"set_up",
 	"invite_owner",
 	"live",
 )
@@ -47,6 +48,7 @@ SAID = {
 	"site_is_up": _lt("Waiting for the server"),
 	"route_it": _lt("Setting up the address"),
 	"push_config": _lt("Configuring the site"),
+	"set_up": _lt("Setting up the workspace"),
 	"invite_owner": _lt("Inviting the owner"),
 	"live": _lt("Marking it live"),
 	"deactivate_site": _lt("Deactivating the site"),
@@ -273,6 +275,35 @@ def push_config(job, tenant) -> None:
 	)
 	tenant.db_set("backup_ready", 1)
 	cloudflare.mail_route(tenant.slug, cloudflare.mail_entry(tenant, mail_secret, [tenant.slug]))
+
+
+def set_up(job, tenant) -> str | None:
+	"""The new site sets itself up from the signup's answers
+	(one/setup_job.py), told to start here and asked again each minute until
+	done; it fetches the answers itself with its token (proxy.setup_answers).
+	A failure fails the job with the site's reason, and Resume carries on
+	from the step that failed. A signup with no country to set up in is
+	left to frappe's wizard on the site."""
+	from onedesk.one_admin import answers
+
+	if not answers.of(tenant):
+		return None
+	payload = frappe.parse_json(job.payload or "{}") or {}
+	start = not payload.get("setup_started")
+	try:
+		answer = requests.post(
+			f"https://{tenant.site}/api/method/onedesk.one.setup_job.wake", json={"start": int(start)}, timeout=30
+		)
+	except requests.RequestException as raised:
+		raise faults.Again(f"the site could not be reached: {raised}") from raised
+	if answer.status_code != 200:
+		raise faults.Again(f"the site answered {answer.status_code}")
+	said = answer.json().get("message") or {}
+	payload["setup_started"] = said.get("setup") != "failed"
+	job.db_set("payload", frappe.as_json(payload))
+	if said.get("setup") == "failed":
+		raise faults.Refused(f"the site could not set itself up: {said.get('why')}")
+	return None if said.get("setup") == "done" else WAIT
 
 
 def invite_owner(job, tenant) -> str | None:
