@@ -49,7 +49,7 @@ def test_the_role_is_not_frappes_own():
 def test_no_code_waits_for_system_manager():
 	waiting = [
 		path.relative_to(tree.ROOT)
-		for path in tree.APP.rglob("*.py")
+		for path in tree.scoped(tree.APP.rglob("*.py"))
 		if path not in READS_IT and "System Manager" in _code(path)
 	]
 	assert not waiting, f"{waiting} gate on a role nobody on a workspace holds"
@@ -58,7 +58,7 @@ def test_no_code_waits_for_system_manager():
 def test_no_screen_waits_for_system_manager():
 	waiting = [
 		path.relative_to(tree.ROOT)
-		for path in (tree.APP / "public" / "js").rglob("*")
+		for path in tree.scoped((tree.APP / "public" / "js").rglob("*"))
 		if path.suffix in (".js", ".vue") and 'has_role("System Manager")' in path.read_text(encoding="utf-8")
 	]
 	assert not waiting, f"{waiting} draw a control for a role nobody holds"
@@ -111,7 +111,7 @@ def test_nobody_on_a_workspace_is_given_frappes_flow_or_studio():
 	while none of One's files hands out their roles."""
 	given = [
 		path.relative_to(tree.APP)
-		for path in tree.APP.rglob("*")
+		for path in tree.scoped(tree.APP.rglob("*"))
 		if path.suffix in (".py", ".json")
 		and path.is_file()
 		and ('"Flow User"' in (text := path.read_text(encoding="utf-8", errors="ignore")) or '"Studio User"' in text)

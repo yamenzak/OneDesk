@@ -35,6 +35,38 @@ def _vendored_roots() -> tuple[str, ...]:
 	return tuple(str(root.resolve()) for root in VENDORED)
 
 
+CHANGED = "ONELINT_CHANGED"
+"""The variable scripts/lint.py gives a change-mode run: the changed files,
+relative to the repository, joined by os.pathsep."""
+
+
+@functools.cache
+def _changed(said: str | None) -> frozenset[str] | None:
+	if said is None:
+		return None
+	return frozenset(os.path.abspath(ROOT / one) for one in said.split(os.pathsep) if one)
+
+
+def whole() -> bool:
+	"""Whether this run reads the whole tree: `--all`, pytest alone, or a
+	change to the guards themselves. A rule that holds an allowance to what
+	the whole tree has (one that only falls) asks this before saying it is
+	stale, and leaves that to `--all` otherwise."""
+	return _changed(os.environ.get(CHANGED)) is None
+
+
+def judged(path: Path | str) -> bool:
+	"""Whether a guard that judges each file on its own reads this one:
+	every file in a whole run, only a changed one in a change-mode run."""
+	only = _changed(os.environ.get(CHANGED))
+	return only is None or os.path.abspath(path) in only
+
+
+def scoped(paths) -> list[Path]:
+	"""Those of `paths` a guard judging each file on its own reads (judged)."""
+	return [path for path in paths if judged(path)]
+
+
 def sources() -> list[Path]:
 	return [p for p in _walk() if p.suffix in SOURCE_SUFFIXES]
 
@@ -158,11 +190,16 @@ def granted() -> dict:
 	raise AssertionError("one/access.py has no ADMINISTRATOR")
 
 
-def suite() -> str:
-	"""The integration suite's source: one_demo/check.py, what its checks
-	share (checking.py) and each module's own checks.py, which it imports
+def suite_files() -> list[Path]:
+	"""The integration suite: one_demo/check.py, what its checks share
+	(checking.py) and each module's own checks.py, which it imports
 	(docs/READY.md, A module's folder)."""
-	return "\n".join(path.read_text(encoding="utf-8") for path in [APP / "one_demo" / "check.py", APP / "one_demo" / "checking.py", *sorted(APP.glob("*/checks.py"))])
+	return [APP / "one_demo" / "check.py", APP / "one_demo" / "checking.py", *sorted(APP.glob("*/checks.py"))]
+
+
+def suite() -> str:
+	"""The integration suite's source (suite_files)."""
+	return "\n".join(path.read_text(encoding="utf-8") for path in suite_files())
 
 
 def hooks() -> str:

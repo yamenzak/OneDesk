@@ -63,7 +63,7 @@ def _defines(module: str) -> frozenset[str]:
 
 
 def _imports():
-	for path in sorted((ROOT / "onedesk").rglob("*.py")):
+	for path in tree.scoped(sorted((ROOT / "onedesk").rglob("*.py"))):
 		for node in tree.walked(path):
 			if isinstance(node, ast.ImportFrom) and node.level == 0 and (node.module or "").split(".")[0] in UPSTREAM:
 				yield path, node.lineno, node.module, [alias.name for alias in node.names]

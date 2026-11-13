@@ -19,7 +19,7 @@ WRITERS = ("add_permission", "update_permission_property")
 
 
 def _python():
-	return [path for path in sorted(APP.rglob("*.py")) if path not in DOORS]
+	return [path for path in tree.scoped(sorted(APP.rglob("*.py"))) if path not in DOORS]
 
 
 def _calls(path: Path, owner: str, names: tuple[str, ...]) -> list[int]:

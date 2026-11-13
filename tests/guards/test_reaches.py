@@ -74,9 +74,12 @@ def missing_names(source: str) -> list[str]:
 
 def test_a_check_reads_only_names_that_are_there():
 	"""Checks run only on a demo site, never under pytest, so a helper moved
-	from under one breaks it unseen (P3.6 moved story.MONTHS and home.FEW)."""
+	from under one breaks it unseen (P3.6 moved story.MONTHS and home.FEW).
+	A change-mode run reads the checks changed or reading a changed module."""
 	found = {}
 	for path in [*APP.glob("*/checks.py"), APP / "one_demo" / "check.py"]:
+		if not tree.judged(path) and not any(tree.judged(one) for one in _aliases(tree.walked(path)).values()):
+			continue
 		wrong = missing_names(tree.text(path))
 		if wrong:
 			found[str(path.relative_to(ROOT))] = wrong

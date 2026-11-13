@@ -151,10 +151,9 @@ class Code:
 		self.imports: dict[str, dict[str, str]] = {}
 		self.trees: dict[str, ast.Module] = {}
 		for file, source in sources.items():
-			module = ".".join(("onedesk", *Path(file).with_suffix("").parts)).removesuffix(".__init__")
+			module, package = _module(file)
 			body = tree.syntax(source)
 			self.trees[file] = body
-			package = module if file.endswith("__init__.py") else module.rsplit(".", 1)[0]
 			walked = []
 			for node in body.body:
 				if isinstance(node, ast.FunctionDef):
@@ -176,13 +175,26 @@ class Code:
 	@classmethod
 	@functools.cache
 	def of_app(cls) -> "Code":
-		return cls(
-			{
-				str(path.relative_to(tree.APP)): tree.text(path)
-				for path in tree.python()
-				if "tests" not in path.relative_to(tree.APP).parts and not path.name.startswith("test_")
-			}
-		)
+		"""The app's Python, or in a change-mode run (scripts/tree.py) the
+		changed files and every file of ours they import, however deep, so
+		each of their calls resolves as it does in the whole app."""
+		files = {
+			str(path.relative_to(tree.APP)): path
+			for path in tree.python()
+			if "tests" not in path.relative_to(tree.APP).parts and not path.name.startswith("test_")
+		}
+		if tree.whole():
+			return cls({file: tree.text(path) for file, path in files.items()})
+		by_module = {_module(file)[0]: file for file in files}
+		todo = [file for file, path in files.items() if tree.judged(path)]
+		seen = set(todo)
+		while todo:
+			file = todo.pop()
+			for one in _imported(tree.text(files[file]), _module(file)[1]):
+				if by_module.get(one, file) not in seen:
+					seen.add(by_module[one])
+					todo.append(by_module[one])
+		return cls({file: tree.text(files[file]) for file in sorted(seen)})
 
 	@staticmethod
 	def _imports(nodes: list, package: str) -> dict[str, str]:
@@ -487,7 +499,8 @@ def _secret_sources() -> dict[str, str]:
 		for path in sorted(root.rglob("*")):
 			parts = path.parts[len(tree.ROOT.parts) :]
 			if (
-				path.is_file()
+				tree.judged(path)
+				and path.is_file()
 				and path.suffix in SECRET_SUFFIXES
 				and not any(part in tree.SKIP_DIRS or part == "tests" for part in parts)
 				and not path.name.startswith("test_")
@@ -582,7 +595,41 @@ def says_too_much(code: Code) -> set[str]:
 	}
 
 
-def _held(rule: str, found: set[str], allowance: dict[str, str], hint: str) -> None:
+def _module(file: str) -> tuple[str, str]:
+	"""The dotted module of a file under onedesk/, and the package its
+	relative imports start from."""
+	module = ".".join(("onedesk", *Path(file).with_suffix("").parts)).removesuffix(".__init__")
+	return module, module if file.endswith("__init__.py") else module.rsplit(".", 1)[0]
+
+
+IMPORT_FROM = re.compile(r"\bfrom\s+(\.*[\w.]*)\s+import\s+(\([^)]*\)|[^\n]*)")
+IMPORT = re.compile(r"^\s*import\s+([\w., ]+)", re.M)
+
+
+def _imported(source: str, package: str) -> set[str]:
+	"""Every dotted module a source may import, found by its text rather than
+	its tree, and so never fewer than it imports: each `from` base with each
+	name under it, relative ones resolved from `package`."""
+	found = set()
+	for base, names in IMPORT_FROM.findall(source):
+		dots = len(base) - len(base.lstrip("."))
+		if dots:
+			parts = package.split(".")
+			base = ".".join([*parts[: len(parts) - (dots - 1)], *([base[dots:]] if base[dots:] else [])])
+		found.add(base)
+		found.update(f"{base}.{name.split()[0]}" for name in names.strip("()").replace("\n", " ").split(",") if name.split())
+	for names in IMPORT.findall(source):
+		for name in names.split(","):
+			parts = name.split()[0].split(".") if name.split() else []
+			found.update(".".join(parts[:end]) for end in range(1, len(parts) + 1))
+	return found
+
+
+def _held(rule: str, found: set[str], allowance: dict[str, str], hint: str, base: Path = tree.APP) -> None:
+	"""Every finding allowed and every allowance found, of the files this run
+	judges (scripts/tree.py, judged): all of them under `--all`."""
+	found = {one for one in found if tree.judged(base / one.split(":")[0])}
+	allowance = {one: why for one, why in allowance.items() if tree.judged(base / one.split(":")[0])}
 	new = sorted(found - set(allowance))
 	gone = sorted(set(allowance) - found)
 	assert not new, f"{rule}: {new}. {hint}"
@@ -761,6 +808,7 @@ def test_no_secret_is_in_the_code():
 		allowed.SECRETS,
 		"A key or token is typed into the code (the line is named, never the value): move it to the site's config or a "
 		"Password field, read it with `frappe.conf` or `get_password`, and rotate it, since git keeps it.",
+		tree.ROOT,
 	)
 
 

@@ -65,11 +65,16 @@ def assets() -> list[str]:
 	return _strings(ASSET_HOOKS, lambda said: said.endswith((".js", ".css")))
 
 
-def missing_function(path: str) -> str | None:
+def _named(path: str) -> tuple[str, str, Path]:
+	"""A hook's dotted path as frappe reads it, its function and its file."""
 	for old, now in registry.moved().items():
 		path = path.replace(f"onedesk.{old}.", f"{now}.")
 	module, _, function = path.rpartition(".")
-	source = ROOT / Path(*module.split(".")).with_suffix(".py")
+	return path, function, ROOT / Path(*module.split(".")).with_suffix(".py")
+
+
+def missing_function(path: str) -> str | None:
+	path, function, source = _named(path)
 	if not source.exists():
 		return f"{path}: no module at {source.relative_to(ROOT)}"
 	defined = {
@@ -91,6 +96,8 @@ def missing_asset(said: str) -> str | None:
 def test_every_function_a_hook_names_exists():
 	paths = declared()
 	assert len(paths) >= 4, "the parser has stopped matching hooks.py"
+	if not tree.judged(APP / "hooks.py"):
+		paths = [one for one in paths if tree.judged(_named(one)[2])]
 	gone = [said for said in map(missing_function, paths) if said]
 	assert not gone, "\n".join(gone)
 

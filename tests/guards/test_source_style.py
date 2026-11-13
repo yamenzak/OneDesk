@@ -46,7 +46,7 @@ def _may_hold_a_block(text: str) -> bool:
 
 def test_no_comment_block_is_an_essay():
 	long_ones = []
-	for path in tree.python():
+	for path in tree.scoped(tree.python()):
 		if _may_hold_a_block(tree.text(path)) and max(_python_comment_runs(path), default=0) > LONGEST_BLOCK:
 			long_ones.append(str(path.relative_to(tree.ROOT)))
 	assert not long_ones, (
@@ -67,7 +67,7 @@ def _long_docstrings(path: Path) -> list[str]:
 
 def test_no_docstring_is_an_essay():
 	long_ones = [
-		f"{path.relative_to(tree.ROOT)}: {name}" for path in tree.python() for name in _long_docstrings(path)
+		f"{path.relative_to(tree.ROOT)}: {name}" for path in tree.scoped(tree.python()) for name in _long_docstrings(path)
 	]
 	assert not long_ones, (
 		f"docstrings over {LONGEST_DOCSTRING} lines in {long_ones}: say what it is for, "
@@ -77,7 +77,7 @@ def test_no_docstring_is_an_essay():
 
 def test_no_file_is_mostly_comment():
 	dense = []
-	for path in tree.python():
+	for path in tree.scoped(tree.python()):
 		lines = tree.text(path).splitlines()
 		comments = sum(1 for line in lines if line.lstrip().startswith("#"))
 		code = sum(1 for line in lines if line.strip() and not line.lstrip().startswith("#"))
@@ -89,7 +89,7 @@ def test_no_file_is_mostly_comment():
 def test_nothing_is_imported_and_unused():
 	"""Ruff's F401 is off for the app; this covers the scripts and tests."""
 	unused = []
-	for path in tree.python():
+	for path in tree.scoped(tree.python()):
 		text = tree.text(path)
 		nodes = tree.nodes(text)
 		imported = {
@@ -172,7 +172,7 @@ def test_every_desk_script_parses():
 	if not node:
 		pytest.skip("node isn't installed here")
 	skip = ("node_modules", "dist", "frontend")
-	scripts = [p for p in (tree.ROOT / "onedesk").rglob("*.js") if not set(p.parts) & set(skip)]
+	scripts = [p for p in tree.scoped((tree.ROOT / "onedesk").rglob("*.js")) if not set(p.parts) & set(skip)]
 	broken = [str(p.relative_to(tree.ROOT)) for p in _broken(node, scripts)]
 	assert not broken, broken
 

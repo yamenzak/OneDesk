@@ -70,7 +70,7 @@ def test_the_window_adds_to_frappes_head_and_moves_none_of_it():
 
 
 def test_only_the_window_styles_the_window():
-	for path in tree.APP.rglob("*.css"):
+	for path in tree.scoped(tree.APP.rglob("*.css")):
 		if "one_interface" in path.parent.parts[-1:] or "dist" in path.parts:
 			continue
 		for line in path.read_text(encoding="utf-8").splitlines():
@@ -193,7 +193,7 @@ def test_a_view_frappe_loads_late_is_waited_for():
 	# Everybody waits through when: a second hook of one's own on the class
 	# took the window's place, and the board lost its command row.
 	public = tree.APP / "public" / "js"
-	for path in public.rglob("*.js"):
+	for path in tree.scoped(public.rglob("*.js")):
 		if path.name != "frame.js":
 			assert 'defineProperty(frappe.views, "KanbanV2Page"' not in path.read_text(), path.name
 
@@ -371,7 +371,7 @@ def test_a_screen_with_a_tree_hands_its_rows_to_the_windows():
 	assert "interfaceTree(props.win" in mail and "interfaceTree(props.win" in CLOUD and "win.tree(" in lists
 	for gone in ("cloud/CloudTree.vue", "mail/MailBoxes.vue"):
 		assert not (tree.ROOT / "frontend" / "src" / gone).exists(), gone
-	for path in (tree.ROOT / "frontend" / "src").rglob("*.vue"):
+	for path in tree.scoped((tree.ROOT / "frontend" / "src").rglob("*.vue")):
 		assert 'role="tree"' not in path.read_text(encoding="utf-8"), path.name
 	assert "one-interface-nav-alone" in FRAME and ".sidebar-item-container.one-interface-nav-alone" in CSS
 
@@ -390,7 +390,7 @@ def test_the_interface_has_one_name():
 	that moves what was saved under the old name says it."""
 	found = []
 	for base in (tree.APP, tree.ROOT / "frontend" / "src", tree.ROOT / "tests"):
-		for path in base.rglob("*"):
+		for path in tree.scoped(base.rglob("*")):
 			if path.suffix not in (".js", ".vue", ".css", ".py", ".html", ".json") or not path.is_file():
 				continue
 			if {"dist", "frontend", "node_modules", "__pycache__", "patches"} & set(path.relative_to(tree.ROOT).parts[1:-1]) or path == Path(__file__):
