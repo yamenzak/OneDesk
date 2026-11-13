@@ -66,14 +66,20 @@ def test_an_unhandled_event_type_still_answers_yes():
 
 
 def test_the_request_exists_before_the_customer_is_sent_to_pay():
-	"""The other order leaves a paid customer whose request was never written."""
-	source = SIGNUP.read_text(encoding="utf-8")
-	start = source[source.index("def start("):]
-	assert start.index(".insert(") < start.index("stripe.checkout")
+	"""The other order leaves a paid customer whose request was never written:
+	the wizard pays only for a request it opened (wizard._open)."""
+	source = (tree.APP / "one_admin" / "wizard.py").read_text(encoding="utf-8")
+	pay = source[source.index("def pay("):source.index("def finish(")]
+	assert pay.index("_open(") < pay.index("stripe.checkout(asked.name)")
+	assert "def start(" not in SIGNUP.read_text(encoding="utf-8")
 
 
 def test_the_guest_endpoints_are_rate_limited():
-	tree_ = ast.parse(SIGNUP.read_text(encoding="utf-8"))
+	for path in (SIGNUP, tree.APP / "one_admin" / "wizard.py"):
+		_limited(ast.parse(path.read_text(encoding="utf-8")))
+
+
+def _limited(tree_) -> None:
 	for node in tree_.body:
 		if not isinstance(node, ast.FunctionDef):
 			continue

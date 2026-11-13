@@ -1,7 +1,8 @@
-"""A signup's setup answers (one/setup_answers.py), from what OneAdmin
-keeps of it: the workspace's name, the owner's address, the country and
-the time zone on its Tenant and Account Request. The wizard's own answers
-join these on the Account Request (docs/run/RUN.md P4.4)."""
+"""A signup's setup answers (one/setup_answers.py): those typed into the
+wizard (wizard.py), kept on its Account Request, or for a signup made
+before the wizard, what OneAdmin keeps of it: the workspace's name, the
+owner's address, the country and the time zone on its Tenant and Account
+Request."""
 
 import frappe
 
@@ -40,13 +41,44 @@ def zones() -> dict[str, str]:
 	return {zone: next(iter(countries)) for zone, countries in found.items() if len(countries) == 1}
 
 
+def from_wizard(said: dict, email: str) -> dict | None:
+	"""The wizard's answers with the owner's address the workspace's own,
+	whoever typed it; None while they can't be set up from. Pure."""
+	if not said:
+		return None
+	said = {**said, "owner": {**(said.get("owner") or {}), "email": email}}
+	try:
+		return setup_answers.check(said)
+	except setup_answers.Invalid:
+		return None
+
+
 def of(tenant) -> dict | None:
 	"""The answers OneAdmin holds for a tenant's signup."""
-	asked = frappe.db.get_value("Account Request", {"tenant": tenant.name}, ["country", "time_zone"], as_dict=True, order_by="creation desc") or {}
+	asked = frappe.db.get_value("Account Request", {"tenant": tenant.name}, ["country", "time_zone", "answers"], as_dict=True, order_by="creation desc") or {}
+	email = (tenant.owner_email or "").strip().lower()
+	wizard = from_wizard(frappe.parse_json(asked.get("answers") or "{}") or {}, email)
+	if wizard:
+		return wizard
 	return from_signup(
 		tenant.workspace_name,
-		(tenant.owner_email or "").strip().lower(),
+		email,
 		tenant.country or asked.get("country"),
 		tenant.time_zone or asked.get("time_zone"),
 		zones(),
 	)
+
+
+ANSWERING_MINUTES = 30
+
+
+def answering(tenant) -> bool:
+	"""Whether the owner is still answering the wizard's steps after
+	payment (wizard.py): steps.set_up waits for them, for at most
+	ANSWERING_MINUTES after payment, then sets up from what is there."""
+	from frappe.utils import now_datetime, time_diff_in_seconds
+
+	asked = frappe.db.get_value("Account Request", {"tenant": tenant.name}, ["answers", "answered_on"], as_dict=True, order_by="creation desc")
+	if not asked or not asked.answers or asked.answered_on:
+		return False
+	return time_diff_in_seconds(now_datetime(), tenant.creation) < ANSWERING_MINUTES * 60

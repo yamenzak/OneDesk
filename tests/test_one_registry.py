@@ -129,6 +129,7 @@ def test_the_dock_and_the_module_list_are_the_registrys():
 
 ALLOWED = {
 	"onedesk/one_admin/setup.py": "Cloudflare token names, which share apps' names",
+	"onedesk/one/registry/fields.py": "the apps each field starts with, the registry's one map of them until P7 puts each preset beside its demo company",
 	"onedesk/one_ai/groups.py": "the tool group of each app's records, until P8 gives each app its agent",
 	"onedesk/one_ai/yours.py": "the marks drawn beside a reading; P2.11 turns names into ids",
 }

@@ -519,7 +519,7 @@ def test_a_dialog_is_frappes():
 		assert not own_modal(path.read_text(encoding="utf-8")), f"{path.name} draws its own modal"
 
 
-NEVER_DRAWN = {"me.html", "projects.html"}
+NEVER_DRAWN = {"me.html", "projects.html", "start.html"}
 
 
 def off_the_portal(name: str, html: str, py: str) -> list[str]:
@@ -597,7 +597,7 @@ def test_the_frame_rules_catch_their_examples():
 	assert own_list("record_mail.js", "shell.list(") == [] and own_list("a.js", "shell.row({ label: x })") == []
 	assert own_modal('<div class="modal fade">') and own_modal('$d.modal("show")') and not own_modal("new frappe.ui.Dialog(")
 	portal = '{% extends "templates/web.html" %}<div class="one-portal">{%- block footer -%}{%- endblock -%}'
-	assert off_the_portal("start.html", portal, "") == []
-	assert off_the_portal("start.html", "<style>", "") == ["is not a web page", "is not in the portal's look", "keeps frappe's footer", "styles itself; portal.css does"]
+	assert off_the_portal("welcome.html", portal, "") == []
+	assert off_the_portal("welcome.html", "<style>", "") == ["is not a web page", "is not in the portal's look", "keeps frappe's footer", "styles itself; portal.css does"]
 	assert off_the_portal("me.html", "", "") == ["does not redirect"]
 	assert off_the_portal("login.html", '{% extends "frappe/www/login.html" %}', "raise frappe.Redirect") == []

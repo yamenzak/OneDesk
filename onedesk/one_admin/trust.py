@@ -140,6 +140,27 @@ clause(
 clause(
 	document="privacy",
 	section="modules",
+	key="oneadmin-setup-answers",
+	module=M,
+	body="""
+		Our signup asks about you and your company before you pay, and about your apps and people while the
+		workspace is built. We keep what you type there with the signup, whether or not you go on to pay.
+		Before payment, that is your name, each company's name, country, currency and field, the language,
+		the time zone, and the apps, plan and storage location you choose. After payment, it is the working
+		week, the answers to each app's questions and the people you invite. Each person you invite is kept as
+		their email address, name and level in each app. We do not write to them. Your workspace invites them
+		once it is ready. We use these answers to set up your workspace, and to follow up a signup that was
+		not finished. We also note when each question was shown, answered, skipped or left, so we can see
+		where people stop. We note it against the signup's lead and deal. This covers only what is typed into
+		the signup, never what is done in the workspace afterwards. It is kept with our sales records, as the
+		rest of the signup is.
+	""",
+)
+
+
+clause(
+	document="privacy",
+	section="modules",
 	key="oneadmin-account",
 	module=M,
 	body="""
@@ -161,7 +182,7 @@ clause(
 	module=M,
 	body="""
 		You first agree to these terms and the Privacy Policy when you continue
-		to payment on our signup page, where each is linked and can be read in full. The first time you sign
+		from the first page of our signup, where each is linked and can be read in full. The first time you sign
 		in to the workspace you are asked again, and that acceptance, with its date, version and account, is
 		the one recorded.
 	""",

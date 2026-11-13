@@ -19,12 +19,15 @@
           </div>
         </Section>
 
-        <Section v-if="said.funnel[0].signups" :title="__('Signups')" icon="lucide-user-plus" :action="{ text: true, label: __('All Signups'), onClick: () => go('/desk/account-request') }" data-cards>
+        <Section v-if="said.funnel.some((one) => one.signups)" :title="__('Signups')" icon="lucide-user-plus" :action="{ text: true, label: __('All Signups'), onClick: () => go('/desk/account-request') }" data-cards>
           <div class="grid gap-3 lg:grid-cols-3">
-            <ChartCard class="h-80">
-              <FunnelChart :title="__('Last 90 Days')" :data="said.funnel" category="stage" value="signups" :format="count" />
+            <ChartCard class="h-96 lg:col-span-2">
+              <FunnelChart :title="__('Setup, Last 90 Days')" :data="said.funnel" category="stage" value="signups" :format="count" />
             </ChartCard>
-            <ChartCard class="h-80 lg:col-span-2">
+            <ChartCard class="h-96">
+              <BarChart :title="__('Where Unpaid Signups Stop')" :data="said.stopped" x="stage" y="signups" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="{ signups: { label: __('Signups'), color: hue(1) } }" />
+            </ChartCard>
+            <ChartCard class="h-80 lg:col-span-3">
               <BarChart :title="__('Signups by Month')" :data="said.signups" x="month" :y="['started', 'paid']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="SIGNUPS" />
             </ChartCard>
           </div>

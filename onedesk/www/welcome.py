@@ -3,7 +3,8 @@
 The page tells the truth about what is known *now*, which for a fresh payment is
 usually "we have your money and the workspace is being built". The webhook is
 what actually provisions, and it may not have arrived yet — so this reads the
-request rather than assuming, and says so either way.
+request rather than assuming, and says so either way. A signup whose setup
+wizard is not answered yet goes back to it (one_admin/wizard.py).
 """
 
 from urllib.parse import urlencode
@@ -42,6 +43,10 @@ def get_context(context):
 	if context.cancelled:
 		signup.let_go(asked)
 		frappe.db.commit()
+	if asked and not context.cancelled and asked.answers and not asked.answered_on and asked.status in ("New", "Paying", "Paid", "Provisioning"):
+		said = {"request": asked.name, "key": asked.access_key, **({"paid": 1} if frappe.form_dict.get("outcome") == "done" else {})}
+		frappe.local.flags.redirect_location = f"/portal/start?{urlencode(said)}"
+		raise frappe.Redirect
 	context.asked = asked
 	trial = (
 		frappe.db.get_value("Offering", asked.offering, "trial_days")

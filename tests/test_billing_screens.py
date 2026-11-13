@@ -4,7 +4,7 @@ from types import SimpleNamespace as Row
 
 from frappe import _dict
 
-from onedesk.one_admin import console, earnings, rollout
+from onedesk.one_admin import console, earnings, rollout, wizard_answers
 
 
 def test_billing_adds_up_only_what_there_is():
@@ -67,13 +67,16 @@ def test_a_release_says_when_it_was_ready_and_how_long_it_took():
 
 
 def test_home_follows_each_signup_as_far_as_it_got():
-	"""Each stage counts those that reached it, and every month is drawn."""
+	"""Each stage of the wizard counts those that reached it or one after it,
+	and every month is drawn."""
 	asked = [
-		_dict(status="New", tenant=None, stripe_session=None, creation="2026-10-02"),
-		_dict(status="Abandoned", tenant=None, stripe_session="cs_1", creation="2026-11-02"),
-		_dict(status="Done", tenant="live", stripe_session="cs_2", creation="2026-11-03"),
-		_dict(status="Failed", tenant="gone", stripe_session="cs_3", creation="2026-11-04"),
+		_dict(name="a", status="New", tenant=None, stripe_session=None, creation="2026-10-02"),
+		_dict(name="b", status="Abandoned", tenant=None, stripe_session="cs_1", creation="2026-11-02"),
+		_dict(name="c", status="Done", tenant="live", stripe_session="cs_2", creation="2026-11-03"),
+		_dict(name="d", status="Failed", tenant="gone", stripe_session="cs_3", creation="2026-11-04"),
 	]
-	assert [one["signups"] for one in console.funnel(asked, {"live"})] == [4, 3, 2, 1]
+	steps = {"a": [{"step": "you", "event": "Reached"}, {"step": "company", "event": "Reached"}], "b": [{"step": "payment", "event": "Reached"}]}
+	funnel = {one["stage"]: one["signups"] for one in wizard_answers.funnel(console.signups(asked, steps, {"live"}))}
+	assert (funnel["you"], funnel["company"], funnel["payment"], funnel["paid"], funnel["live"]) == (4, 4, 3, 2, 1)
 	months = console.by_month(asked, ["2026-09-01", "2026-10-01", "2026-11-01"])
 	assert months == [{"month": "2026-09-01", "started": 0, "paid": 0}, {"month": "2026-10-01", "started": 1, "paid": 0}, {"month": "2026-11-01", "started": 3, "paid": 2}]
