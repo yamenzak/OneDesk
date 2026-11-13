@@ -84,10 +84,10 @@ onedesk.rail.launcher = () => {
 		})
 		.appendTo($foot);
 	if (frappe.boot.one_administers) {
-		$(frappe.ui.button.html({ label: __("Turn Apps On or Off"), icon: "toggle-right", variant: "ghost" }))
+		$(frappe.ui.button.html({ label: onedesk.names.of("one_marketplace"), icon: "store", variant: "ghost" }))
 			.on("click", () => {
 				dialog.hide();
-				onedesk.apps.configure();
+				frappe.set_route("marketplace");
 			})
 			.appendTo($foot);
 	}

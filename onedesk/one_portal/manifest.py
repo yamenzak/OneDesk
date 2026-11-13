@@ -9,6 +9,13 @@ APP = App(
 	module="One Portal",
 	ui="bespoke",
 	line=_lt("Let customers and suppliers sign in to see their quotes, orders and invoices, and answer them."),
+	pitch=_lt("{one_portal} lets customers and suppliers see their own records without being people in the workspace. They sign in to an account, or open a link to one record, and see their quotes, orders and invoices."),
+	brings=(
+		_lt("Accounts for customers and suppliers"),
+		_lt("A link to one record"),
+		_lt("Quotes and invoices answered"),
+		_lt("Only their own records"),
+	),
 	mark="oneportal",
 	rail=140,
 	sidebar="OnePortal",

@@ -39,6 +39,7 @@ UNLISTED = {
 	"workbook": "a workbook's editor, opened from its file",
 	"legal": "the agreements, opened from the links in the dialog that asks to agree to them",
 	"timers": "the running timers, opened from Timers on a phone, where the bar's popover has no room",
+	"marketplace": "every app and Install, opened from the foot of Apps for administrators",
 }
 
 

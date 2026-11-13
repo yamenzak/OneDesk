@@ -14,6 +14,13 @@ APP = App(
 		Region("page", "to-order", "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)"),
 	),
 	line=_lt("Know what's in stock, buy what runs low, and track what you sell."),
+	pitch=_lt("{one_inventory} is what the company holds: the goods it buys, sells and uses, and the equipment it keeps. Goods are received, delivered and moved between places here, and more is ordered when they run low."),
+	brings=(
+		_lt("Items with their stock in each place"),
+		_lt("Buying, receiving and delivering"),
+		_lt("Batches and quality checks"),
+		_lt("Equipment and its depreciation"),
+	),
 	mark="oneinventory",
 	owns=("Stock", "Buying", "Assets"),
 	rail=50,

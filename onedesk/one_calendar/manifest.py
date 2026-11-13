@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "onecalendar", "everybody's calendar (Event, and the dated records shown on it)"),
 	),
 	line=_lt("Meetings, leave and deadlines from every app, on one calendar."),
+	pitch=_lt("{one_calendar} shows everything dated in {one} on one calendar: meetings, tasks, deals' next steps, leave, interviews and holidays. Each kind is a calendar of its own, shown or hidden."),
+	brings=(
+		_lt("Meetings and events"),
+		_lt("Deadlines from every app"),
+		_lt("Holidays and who is off"),
+		_lt("A link for other calendar apps"),
+	),
 	mark="onecalendar",
 	rail=120,
 	sidebar="OneCalendar",

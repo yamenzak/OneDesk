@@ -23,6 +23,7 @@ class Named(NamedTuple):
 NAMED = (
 	Named("one_admin/page/oneadmin/oneadmin.json", "title", "one_admin"),
 	Named("one/page/one_hub/one_hub.json", "title", "one_hub"),
+	Named("one/page/marketplace/marketplace.json", "title", "one_marketplace"),
 	Named("one_book/page/books/books.json", "title", "one_book"),
 	Named("one_calendar/page/onecalendar/onecalendar.json", "title", "one_calendar"),
 	Named("one_chat/page/onechat/onechat.json", "title", "one_chat"),

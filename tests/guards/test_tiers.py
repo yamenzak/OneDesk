@@ -61,6 +61,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.stock": None,
 		"onedesk.one_home": None,
 		"onedesk.hub": None,
+		"onedesk.marketplace": None,
 		"onedesk.home": None,
 		"onedesk.books": None,
 		"onedesk.crm": None,

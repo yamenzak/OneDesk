@@ -21,4 +21,4 @@ sent and whether it is open, answered, expired or revoked.
 
 Nobody can sign up on their own, and somebody who signs in to your
 workspace signs in to {one}, not the portal. An administrator can turn the
-whole portal off in **Apps**.
+whole portal off in {one_marketplace}.

@@ -67,5 +67,5 @@ def test_setupcenter_is_on_ones_rail_and_getting_started_opens_it():
 	assert "/desk/one?center=setup" in {one.get("url") for one in rail}
 	kit = (tree.APP / "public" / "js" / "one_interface" / "centre.js").read_text()
 	assert 'onedesk.centers.open("setup", { at: module })' in kit and "getting_started = " not in kit
-	apps = (tree.APP / "public" / "js" / "apps.js").read_text()
-	assert "center=setup&at=" in apps
+	market = (tree.APP / "one" / "marketplace.py").read_text()
+	assert "center=setup&at=" in market, "Install in OneMarketplace lands on the app's steps"

@@ -12,7 +12,7 @@ import re
 from functools import cache
 from pathlib import Path
 
-from onedesk.one.registry import features
+from onedesk.one.registry import credits, features
 from onedesk.one.registry.model import CENTRE_KEYS, COUNTRY, KINDS, REGIONS, UI, App
 
 FOLDERS = Path(__file__).resolve().parents[2]
@@ -130,6 +130,7 @@ def _check(found: list[App]) -> None:
 				raise Invalid(f"{where}: needs itself")
 		if one.kept is not None:
 			_check_kept(one.kept, where)
+		_check_market(one, where, FOLDERS / one.id)
 		if features.unknown(one.plan):
 			raise Invalid(f"{where}: plan names {features.unknown(one.plan)[0]!r}, which is not one of {features.IDS}")
 		for country, state in one.countries.items():
@@ -160,6 +161,33 @@ def _check_kept(kept, where: str) -> None:
 		raise Invalid(f"{where}: kept says why the app can't be turned off")
 	if not isinstance(kept.when, tuple) or not all(isinstance(one, str) and one for one in kept.when):
 		raise Invalid(f"{where}: kept's when is a tuple of record types")
+
+
+MEDIA = (".png", ".webp", ".gif", ".mp4")
+"""What a picture (.png, .webp) or a clip (.gif, .mp4) in an app's media/ may be."""
+FEWEST_MEDIA, MOST_MEDIA = 3, 6
+
+
+def _check_market(one: App, where: str, folder: Path) -> None:
+	"""What OneMarketplace shows a buyer: a pitch in words, what it brings
+	as a few lines of words, the credits it uses by known kinds, and none or
+	3 to 6 pictures and clips that are in its folder's media/."""
+	if not isinstance(one.pitch, str):
+		raise Invalid(f"{where}: pitch is words")
+	if not isinstance(one.brings, tuple) or not all(isinstance(line, str) and line.strip() for line in one.brings):
+		raise Invalid(f"{where}: brings is a tuple of lines of words")
+	if not isinstance(one.credits, tuple) or credits.unknown(one.credits):
+		raise Invalid(f"{where}: credits names {credits.unknown(one.credits or ())[:1]}, which is not one of {credits.IDS}")
+	if not isinstance(one.media, tuple) or not all(isinstance(name, str) for name in one.media):
+		raise Invalid(f"{where}: media is a tuple of file names")
+	if one.media and not FEWEST_MEDIA <= len(one.media) <= MOST_MEDIA:
+		raise Invalid(f"{where}: media lists {len(one.media)}; an app shows {FEWEST_MEDIA} to {MOST_MEDIA} pictures and clips, or none")
+	for name in one.media:
+		if Path(name).suffix.lower() not in MEDIA or Path(name).name != name:
+			raise Invalid(f"{where}: media {name!r} is a file name ending in one of {MEDIA}")
+	for name in one.media:
+		if not (folder / "media" / name).is_file():
+			raise Invalid(f"{where}: media {name!r} is not in {one.id}/media/")
 
 
 def _check_parts(found: list, apps: tuple[App, ...]) -> None:

@@ -41,6 +41,8 @@ export const goToUrl = (url) => frappe().router.push_state(url);
 // the page opened again, for a change the island cannot redraw in place
 export const reloadPage = () => window.location.reload();
 
+export const leaveTo = (url) => window.location.assign(url);
+
 export const userSettings = {
 	get: (doctype) => frappe().model.user_settings.get(doctype),
 	save: (doctype, key, value) => frappe().model.user_settings.save(doctype, key, value),

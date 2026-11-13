@@ -43,7 +43,7 @@ names where it came from. When nothing covers the question, {one_ai} says so.
 | A new grievance | Summarised and categorised | Triage Grievances |
 
 Whether interviews may be recorded, and how long their audio is kept, are on
-the same page, under {one_hr}. With {one_ai} turned off in **Apps** none of the four
+the same page, under {one_hr}. With {one_ai} turned off in {one_marketplace} none of the four
 runs, and a grievance goes to HR as it was written.
 
 Each is one AI call per event and uses the workspace's AI credits. Comments

@@ -44,7 +44,8 @@ def test_turning_an_app_off_hides_and_never_refuses():
 	assert "row.get(\"link_to\") not in off" in companions, "the site's Dock layer hides them"
 	assert "onedesk.rail.launcher()" in JS and ".dock-user" in JS, "the Apps button is everybody's launcher"
 	launcher = (tree.APP / "public" / "js" / "one_interface" / "launcher.js").read_text()
-	assert "if (frappe.boot.one_administers) {" in launcher and "onedesk.apps.configure()" in launcher, "turning apps on or off stays an administrator's"
+	assert "if (frappe.boot.one_administers) {" in launcher and 'frappe.set_route("marketplace")' in launcher, "turning apps on or off stays an administrator's, in OneMarketplace"
+	assert "onedesk.apps.configure" not in JS, "OneMarketplace is the one way in"
 	assert "build_options" in JS and 'frappe.ui.form.on("*"' in JS
 
 
@@ -98,7 +99,8 @@ def test_oneai_off_refuses_every_model_call_and_oneintake_needs_it():
 	assert pipeline.count("apps.intake_on()") == 2, "pipeline.later and again"
 	switches = (tree.APP / "one_ai" / "reading" / "switches.py").read_text()
 	assert switches.count("_reading()") == 4
-	assert "data-needs" in JS and "is-locked" in JS
+	market = (tree.APP / "one" / "marketplace.py").read_text()
+	assert "apps.NEEDS.get(row) != one.sidebar" in market, "what was off only because OneAI was comes back with it"
 
 
 def test_reading_switches_live_in_one_not_in_onemail_or_onecloud():

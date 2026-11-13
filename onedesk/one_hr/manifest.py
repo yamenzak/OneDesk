@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "onehr", "OneHR's home: everybody's day, and for HR how the people are doing, and everything in it (Employee, Leave Application, Expense Claim, Salary Slip)"),
 	),
 	line=_lt("Contracts, leave, attendance, payroll and hiring for everyone who works with you."),
+	pitch=_lt("{one_hr} is HR for every company in the workspace: people, attendance, leave, pay, expenses and hiring. Each person checks in, requests leave and claims expenses from Home, on a phone too."),
+	brings=(
+		_lt("Employees and their papers"),
+		_lt("Attendance, leave and expenses"),
+		_lt("Payroll and salary slips"),
+		_lt("Hiring, appraisals, joining and leaving"),
+	),
 	mark="onehr",
 	owns=(
 		"HR Setup",

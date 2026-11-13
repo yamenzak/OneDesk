@@ -11,9 +11,9 @@ from pathlib import Path
 from onedesk.one.registry import Invalid, _check, apps
 from onedesk.one.registry.model import App, Kept, Roles
 
-SAYS = ("id", "name", "kind", "module", "line", "mark", "needs", "kept", "roles", "plan")
+SAYS = ("id", "name", "kind", "module", "line", "mark", "needs", "kept", "roles", "plan", "pitch", "brings")
 MADE = {"Kept": Kept, "Roles": Roles}
-TUPLES = ("needs", "plan")
+TUPLES = ("needs", "plan", "brings")
 
 
 def parsed(source: str, where: str = "manifest.py") -> App:
@@ -40,7 +40,7 @@ def parsed(source: str, where: str = "manifest.py") -> App:
 		raise Invalid(f"{where}: a private app says its id and its name")
 	if said.pop("kind", "app") != "app":
 		raise Invalid(f"{where}: a private app's kind is app")
-	for key in ("module", "line", "mark"):
+	for key in ("module", "line", "mark", "pitch"):
 		if not isinstance(said.get(key, ""), str):
 			raise Invalid(f"{where}: {key} is words")
 	if not isinstance(said.get("kept", Kept("")), Kept) or not isinstance(said.get("roles", Roles()), Roles):

@@ -388,6 +388,8 @@ No doctypes yet.
 * `onedesk.one.head.run`
 * `onedesk.one.home.read`
 * `onedesk.one.lists.kinds`
+* `onedesk.one.marketplace.read`
+* `onedesk.one.marketplace.turn`
 * `onedesk.one.media.picture`
 * `onedesk.one.news.adding.add`
 * `onedesk.one.news.adding.add_many`

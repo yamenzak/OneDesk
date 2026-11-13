@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 95 | 2 | 39 | 0 |
+| onedesk | 96 | 2 | 39 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -45,6 +45,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | stock (`frontend/src/inventory/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | one_home (`frontend/src/one/Home.vue`) | Email Account | – | – | – |
 | hub (`frontend/src/one/Hub.vue`) | – | – | – | – |
+| marketplace (`frontend/src/one/Marketplace.vue`) | – | – | – | – |
 | home (`frontend/src/inventory/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Material Request, Purchase Order, Purchase Receipt, Stock Ledger Entry, Warehouse | – | – | – |
 | head (`frontend/src/interface/RecordHead.vue`) | – | – | – | – |
 | books (`frontend/src/books/BooksHome.vue`) | Account, Bank Transaction, Employee Advance, Expense Claim, GL Entry, Payment Schedule | – | – | – |
@@ -931,7 +932,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 | Weather Place | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 
-Pages: one (on a rail or a home); one-hub (on a rail or a home).
+Pages: marketplace (opened by our screens); one (on a rail or a home); one-hub (on a rail or a home).
 
 ## onedesk / One AI
 

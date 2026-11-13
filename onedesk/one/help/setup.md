@@ -8,7 +8,7 @@ waits, or search for it.
 ## Overview
 
 **Overview** lists every app that has steps, with how many are done. An app
-with nothing left says **Done**. Apps turned off in **Apps** aren't listed.
+with nothing left says **Done**. Apps turned off in {one_marketplace} aren't listed.
 
 ## An App's Steps
 
@@ -28,8 +28,8 @@ somebody does it.
 
 ## After Turning an App On
 
-Turning an app on in **Turn Apps On or Off** opens {setup_center} on that app's steps, when it
-has any.
+**Install** on an app's page in {one_marketplace} opens {setup_center} on
+that app's steps, when it has any.
 
 ## Order of Apps
 

@@ -361,6 +361,41 @@ def one_onebook_is_kept_once_it_has_entries_onecrm_is_not():
 
 
 @check
+def one_marketplace_has_a_page_for_every_app_and_installs_into_setup():
+	"""OneMarketplace shows every app with its words, plan and credits, for
+	administrators only. OneBook can't be turned off there and says why;
+	OneCRM turns off and installs again, landing in SetupCenter when it has
+	steps; installing OneFactory with OneInventory off turns that on too."""
+	from onedesk.one import apps, marketplace, registry
+
+	with as_user("rania@one.test"):
+		try:
+			marketplace.read()
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("only a workspace administrator opens OneMarketplace")
+	with as_user(OWNER):
+		said = marketplace.read()
+		pages = {one["id"]: one for one in said["apps"]}
+		assert set(pages) == {one.id for one in registry.apps() if marketplace.shown(one)}, sorted(pages)
+		assert all(one["pitch"] and one["brings"] and isinstance(one["pitch"], str) for one in pages.values())
+		assert pages["one_book"]["kept"] and not pages["one_book"]["may_turn_off"], pages["one_book"]
+		assert pages["one_ai"]["credits"], "OneAI says the credits it uses"
+		try:
+			marketplace.turn("one_crm", 0)
+			assert registry.get("one_crm").sidebar in apps.hidden()
+			back = marketplace.turn("one_crm", 1)
+			has_steps = "one_crm" in marketplace._steps()
+			assert bool(back["landing"]) == has_steps and (not has_steps or "center=setup" in back["landing"]), back
+			frappe.db.set_default(apps.KEY, '["OneFactory", "OneInventory"]')
+			brought = marketplace.turn("one_factory", 1)["said"]
+			assert brought and registry.name("one_inventory") in brought[0], brought
+		finally:
+			apps.save([])
+
+
+@check
 def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 	"""OneAI off, in Apps, turns OneAI off with it: no model is asked
 	(`run.once`, a chat), nothing is queued to be read, no switch turns on,

@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "timers", "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)"),
 	),
 	line=_lt("Everybody's work in one list, with checklists, due dates and timers."),
+	pitch=_lt("{one_task} keeps the company's work as tasks: a to-do, a project's step or a milestone. Each person has a board of what is theirs, with checklists, due dates and timers."),
+	brings=(
+		_lt("My Tasks as a board"),
+		_lt("Checklists and due dates"),
+		_lt("Timers for the time spent"),
+		_lt("Repeating tasks"),
+	),
 	mark="onetask",
 	rail=100,
 	sidebar="OneTask",

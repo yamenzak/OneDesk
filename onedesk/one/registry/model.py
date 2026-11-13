@@ -134,3 +134,9 @@ class App:
 	agent: str = ""
 	agent_roles: tuple[str, ...] = ()
 	centre: Centre | None = None
+	pitch: str = ""
+	"""What OneMarketplace's page says to a buyer, with `brings`, `media` and
+	`credits` (one/AGENTS.md, marketplace.py)."""
+	brings: tuple[str, ...] = ()
+	media: tuple[str, ...] = ()
+	credits: tuple[str, ...] = ()

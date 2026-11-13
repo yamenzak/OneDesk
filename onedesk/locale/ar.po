@@ -804,6 +804,10 @@ msgstr "وصل مستند لـ {0}"
 msgid "A document is opened in Documents."
 msgstr "يُفتح مستند في المستندات."
 
+#: onedesk/one_doc/manifest.py:20
+msgid "A document kept on its record"
+msgstr "مستند محفوظ على سجله"
+
 #: frontend/src/cloud/OneCloud.vue:1104
 #, python-brace-format
 msgid "A document of {0}'s own from this file."
@@ -1140,6 +1144,10 @@ msgstr "خط بلون العلامة التجارية أسفل الترويسة.
 msgid "A line of an invoice or a receipt."
 msgstr "بند من فاتورة أو إيصال."
 
+#: onedesk/one_calendar/manifest.py:20
+msgid "A link for other calendar apps"
+msgstr "رابط لتطبيقات التقويم الأخرى"
+
 #: onedesk/one_portal/share.py:256
 msgid "A link needs an email address to go to."
 msgstr "يحتاج الرابط إلى عنوان بريد إلكتروني يُرسل إليه."
@@ -1152,6 +1160,10 @@ msgstr "رابط يُرسل إلى العميل للدفع عبر الإنترن
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:6
 msgid "A link to a file or folder in OneCloud for people outside the team."
 msgstr "رابط إلى ملف أو مجلد في OneCloud لأشخاص من خارج الفريق."
+
+#: onedesk/one_portal/manifest.py:15
+msgid "A link to one record"
+msgstr "رابط إلى سجل واحد"
 
 #: frontend/src/slide/shim/DataDialog.vue:40
 msgid "A list"
@@ -1410,6 +1422,10 @@ msgstr "صورة وعرض ورمز على شاشة عمودية."
 msgid "A picture, an offer, its price and a code."
 msgstr "صورة وعرض وسعره ورمز."
 
+#: onedesk/one_crm/manifest.py:18
+msgid "A pipeline by stage"
+msgstr "مسار مبيعات حسب المرحلة"
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:12
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
@@ -1530,6 +1546,10 @@ msgstr "نوع السجل المسمّى بسلسلة يحتاج إلى سلسل
 #: onedesk/one_studio/places.py:43
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr "يُرسم رأس السجل في نموذجه: في كل مرة يُفتح فيها السجل أو يُحفظ."
+
+#: onedesk/one_sheet/manifest.py:20
+msgid "A record's table as a sheet"
+msgstr "جدول السجل كورقة عمل"
 
 #: onedesk/one_cloud/opening.py:155 onedesk/one_sheet/excel.py:342
 #, python-brace-format
@@ -2479,6 +2499,10 @@ msgstr "منح الحسابات والصلاحيات"
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Accounts approved and signed"
 msgstr "اعتماد الحسابات وتوقيعها"
+
+#: onedesk/one_portal/manifest.py:14
+msgid "Accounts for customers and suppliers"
+msgstr "حسابات للعملاء والموردين"
 
 #. Label in the One Arrear print format
 #: onedesk/one_hr/print_format/one_arrear/one_arrear.json
@@ -4313,6 +4337,10 @@ msgstr "مضمّن دائمًا"
 msgid "Always mailed, so you can answer it by replying."
 msgstr "يُرسل بالبريد دائماً، لتتمكن من الرد عليه."
 
+#: frontend/src/one/MarketApp.vue:107
+msgid "Always on."
+msgstr "مفعّل دائمًا."
+
 #: frontend/src/cloud/cloud.js:14
 msgid "Amber"
 msgstr "كهرماني"
@@ -4497,6 +4525,10 @@ msgstr "الإضافة تضيف شيئًا واحدًا فقط."
 msgid "An add-on must be recurring."
 msgstr "يجب أن تكون الإضافة متكررة."
 
+#: onedesk/one_mail/manifest.py:17
+msgid "An address for the workspace and every person"
+msgstr "عنوان لمساحة العمل ولكل شخص"
+
 #: onedesk/one/lists.py:176
 #, python-brace-format
 msgid "An address has no field {0}."
@@ -4557,10 +4589,6 @@ msgstr "تطبيق لأجهزة iPhone وAndroid، من الفكرة إلى ال
 #: onedesk/one_admin/doctype/private_app/private_app.json:9
 msgid "An app made for some workspaces only. A workspace types its code into Apps, and the app is installed there for good."
 msgstr "تطبيق مصنوع لبعض مساحات العمل فقط. تكتب مساحة العمل رمزه في التطبيقات، فيُثبَّت فيها نهائيًا."
-
-#: onedesk/public/js/apps.js:54
-msgid "An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
-msgstr "يختفي التطبيق المُوقف من الشريط والبحث لدى الجميع. تبقى سجلاته، وتظل الروابط إليها تُفتح."
 
 #: onedesk/one_admin/doctype/private_app/private_app.py:15
 msgid "An app's name is lowercase letters, digits and underscores."
@@ -4772,6 +4800,10 @@ msgstr "لغة الإعلان"
 #: onedesk/public/js/one_interface/chrome.js:247
 msgid "Announcements"
 msgstr "الإعلانات"
+
+#: onedesk/one/manifest.py:22
+msgid "Announcements and the recycle bin"
+msgstr "الإعلانات وسلة المحذوفات"
 
 #: onedesk/one_display/starters.py:985 onedesk/one_display/starters.py:1029
 msgid "Annual Conference"
@@ -5416,10 +5448,6 @@ msgstr "تم ترتيب التطبيقات"
 #: onedesk/public/js/one_interface/arrange.js:98
 msgid "Apps reset"
 msgstr "تمت إعادة تعيين التطبيقات"
-
-#: onedesk/public/js/apps.js:76
-msgid "Apps saved"
-msgstr "تم حفظ التطبيقات"
 
 #: onedesk/one/tour.py:43
 msgid "Apps with a version you haven't opened yet, each saying what changed."
@@ -6349,6 +6377,10 @@ msgstr "الحضور في الموقع"
 msgid "Attendance will be written from check-ins on this shift from today onwards."
 msgstr "سيُسجَّل الحضور من تسجيلات الدخول على هذه المناوبة اعتباراً من اليوم."
 
+#: onedesk/one_hr/manifest.py:18
+msgid "Attendance, leave and expenses"
+msgstr "الحضور والإجازات والمصروفات"
+
 #. Label in the One Training Event print format
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 msgid "Attended"
@@ -6614,6 +6646,10 @@ msgstr "الأتمتة"
 #: onedesk/one/notifications.py
 msgid "Automations Failing"
 msgstr "أتمتة تفشل"
+
+#: onedesk/one_studio/manifest.py:16
+msgid "Automations and webhooks"
+msgstr "الأتمتة والويب هوكس"
 
 #. Subject of a notification
 #: onedesk/one/notifications.py
@@ -7076,6 +7112,10 @@ msgstr "قاعدة المعاملات البنكية"
 msgid "Bank and cash reconciled"
 msgstr "تسوية البنك والنقد"
 
+#: onedesk/one_book/manifest.py:18
+msgid "Bank matching"
+msgstr "مطابقة البنك"
+
 #: onedesk/one_book/ready.py:107 onedesk/one_book/ready.py:109
 msgid "Bank payments know which account"
 msgstr "المدفوعات البنكية تعرف أي حساب"
@@ -7199,6 +7239,10 @@ msgstr "أُنشئت الدفعة {0}"
 #: onedesk/one_inventory/home.py:140
 msgid "Batch-Wise Balance History"
 msgstr ""
+
+#: onedesk/one_inventory/manifest.py:21
+msgid "Batches and quality checks"
+msgstr "الدفعات وفحوص الجودة"
 
 #. Label of the one_becomes (Data) field in DocType 'Employee Promotion'
 #: onedesk/one_hr/custom/employee_promotion.json:7
@@ -7707,6 +7751,10 @@ msgstr "مالك الفوترة"
 msgid "Billing and Storage"
 msgstr "الفوترة والتخزين"
 
+#: onedesk/one_project/manifest.py:17
+msgid "Billing as the work is done"
+msgstr "الفوترة مع تقدم العمل"
+
 #: onedesk/public/js/account_center/account_center.js:1190
 #, python-brace-format
 msgid "Billing moved to {0}"
@@ -7746,6 +7794,10 @@ msgstr "الفواتير تسترد ضريبة القيمة المضافة"
 
 #: frontend/src/inventory/item/ItemMaking.vue:31
 msgid "Bills of Materials"
+msgstr "قوائم المواد"
+
+#: onedesk/one_factory/manifest.py:18
+msgid "Bills of materials"
 msgstr "قوائم المواد"
 
 #. Label of the 'bio' field in DocType 'Employee'
@@ -7886,6 +7938,10 @@ msgstr "اللوحات"
 #: onedesk/one_display/starters.py:35
 msgid "Boards and Rooms"
 msgstr "اللوحات والغرف"
+
+#: onedesk/one_display/manifest.py:21
+msgid "Boards changed from a phone"
+msgstr "لوحات تتغير من الهاتف"
 
 #. Label of the body (Code) field in DocType 'Stripe Webhook Event'
 #. Label of the body (Text Editor) field in DocType 'Employee Letter'
@@ -8381,6 +8437,10 @@ msgstr ""
 msgid "Buying, Selling and Stock"
 msgstr "الشراء والبيع والمخزون"
 
+#: onedesk/one_inventory/manifest.py:20
+msgid "Buying, receiving and delivering"
+msgstr "الشراء والاستلام والتسليم"
+
 #: onedesk/one/registry/fields.py:27
 msgid "Buys and sells goods."
 msgstr "تشتري البضائع وتبيعها."
@@ -8751,6 +8811,11 @@ msgstr "يمكنه العرض"
 msgid "Can't be turned off once it holds records."
 msgstr "لا يمكن إيقافه بعد أن يحتوي على سجلات."
 
+#: frontend/src/one/MarketApp.vue:108
+#, python-brace-format
+msgid "Can't be turned off. {0}"
+msgstr "لا يمكن إيقافه. {0}"
+
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/cloud/CloudViewer.vue:18
 #: frontend/src/inventory/item/ItemCustomers.vue:16
@@ -9038,6 +9103,10 @@ msgstr "في الوسط"
 msgid "Centred Title"
 msgstr "عنوان في المنتصف"
 
+#: onedesk/one/manifest.py:23
+msgid "Centres for settings, access, help and updates"
+msgstr "مراكز للإعدادات والصلاحيات والمساعدة والتحديثات"
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:236
 msgid "Certificate"
@@ -9263,6 +9332,14 @@ msgstr "جدول القناة"
 #: onedesk/public/js/one/notification_center.js:478
 msgid "Channels"
 msgstr "القنوات"
+
+#: onedesk/one_chat/manifest.py:17
+msgid "Channels and direct messages"
+msgstr "القنوات والرسائل المباشرة"
+
+#: onedesk/one_display/manifest.py:19
+msgid "Channels on a schedule"
+msgstr "قنوات وفق جدول"
 
 #: onedesk/one_chat/tour.py:11
 msgid "Channels, direct messages and your conversations with agents, with what you have not read in bold."
@@ -9687,6 +9764,10 @@ msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا ا�
 #: onedesk/one_task/custom/task.json:7 onedesk/one_task/heads.py:90
 msgid "Checklist"
 msgstr "قائمة التحقق"
+
+#: onedesk/one_task/manifest.py:18
+msgid "Checklists and due dates"
+msgstr "قوائم التحقق وتواريخ الاستحقاق"
 
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -11520,6 +11601,10 @@ msgstr "بطاقة جهة اتصال"
 msgid "Contacts"
 msgstr "جهات الاتصال"
 
+#: onedesk/one/manifest.py:21
+msgid "Contacts and addresses every app shares"
+msgstr "جهات الاتصال والعناوين التي تشترك فيها كل التطبيقات"
+
 #: onedesk/one/privacy_copy.py:18
 msgid "Contacts and addresses with your address"
 msgstr "جهات الاتصال والعناوين التي تحمل عنوانك"
@@ -11996,6 +12081,10 @@ msgstr "تحديث خطة التكلفة"
 msgid "Costs"
 msgstr "التكاليف"
 
+#: onedesk/one_project/manifest.py:16
+msgid "Costs against the budget"
+msgstr "التكاليف مقابل الميزانية"
+
 #. Name of a notification
 #: onedesk/one_hr/notifications.py
 msgid "Could Not Mark Left"
@@ -12129,9 +12218,9 @@ msgstr "تعذّر حفظ {0} في الملف: {1}"
 msgid "Couldn't Read"
 msgstr "تعذّرت القراءة"
 
-#: onedesk/public/js/apps.js:29
-msgid "Couldn't be installed. We've been told."
-msgstr "تعذّر التثبيت. تم إبلاغنا."
+#: frontend/src/one/Marketplace.vue:86
+msgid "Couldn't be installed"
+msgstr "تعذّر التثبيت"
 
 #: onedesk/public/js/account_center/account_center.js:1001
 #, python-brace-format
@@ -13041,6 +13130,10 @@ msgstr "تباعد مخصص"
 msgid "Custom colour"
 msgstr "لون مخصص"
 
+#: onedesk/one_studio/manifest.py:14
+msgid "Custom fields and record types"
+msgstr "الحقول المخصصة وأنواع السجلات"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:2456
 msgid "Custom format…"
 msgstr "تنسيق مخصص…"
@@ -13817,6 +13910,10 @@ msgstr "مهلة"
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json:48
 msgid "Deadlines"
 msgstr "المواعيد النهائية"
+
+#: onedesk/one_calendar/manifest.py:18
+msgid "Deadlines from every app"
+msgstr "المواعيد النهائية من كل التطبيقات"
 
 #: onedesk/one_book/notification/payment_reminder/payment_reminder.html:1
 #, python-brace-format
@@ -16205,6 +16302,10 @@ msgstr "مسودات قرأها OneAI من البريد والمستندات ا�
 msgid "Drafts Stay Drafts"
 msgstr "المسودات تبقى مسودات"
 
+#: onedesk/one_ai/manifest.py:18
+msgid "Drafts and summaries"
+msgstr "المسودات والملخصات"
+
 #: onedesk/one_task/tour.py:25
 msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
 msgstr "اسحب المهمة إلى «مكتمل» عند إنجازها، أو احسب وقتها بزر التشغيل على بطاقتها."
@@ -16562,6 +16663,10 @@ msgstr "يتلقى كل عنوان في سطر مستقل الرابط ورمز 
 msgid "Each agreement, the optional services, who receives data and what is changing."
 msgstr "كل اتفاقية، والخدمات الاختيارية، ومن يتلقى البيانات، وما الذي يتغير."
 
+#: onedesk/one/registry/credits.py:20
+msgid "Each answer, each document read and each piece of work done by an agent uses credits, by how much the model reads and writes."
+msgstr "كل إجابة وكل مستند يُقرأ وكل عمل ينجزه وكيل يستهلك رصيدًا، بحسب ما يقرؤه النموذج ويكتبه."
+
 #: onedesk/public/js/one_ai/ai_center.js:441
 msgid "Each app's agent works as its own user, for the people who may open that app."
 msgstr "يعمل وكيل كل تطبيق بصفته مستخدمًا خاصًا به، للأشخاص الذين يمكنهم فتح ذلك التطبيق."
@@ -16666,6 +16771,10 @@ msgstr "كل نوع إجازة وقواعده."
 #: onedesk/one_book/home.py:329
 msgid "Each line of the bank statement."
 msgstr "كل سطر في كشف الحساب البنكي."
+
+#: onedesk/one/registry/credits.py:23
+msgid "Each mail sent from a workspace address uses one credit."
+msgstr "كل رسالة تُرسل من عنوان في مساحة العمل تستهلك رصيدًا واحدًا."
 
 #: onedesk/one_inventory/home.py:148
 msgid "Each month's depreciation."
@@ -17657,6 +17766,10 @@ msgstr "نقل موظف"
 msgid "Employees"
 msgstr "الموظفون"
 
+#: onedesk/one_hr/manifest.py:17
+msgid "Employees and their papers"
+msgstr "الموظفون ووثائقهم"
+
 #: onedesk/one_hr/tour.py:13
 msgid "Employees, leave, attendance, payroll, expenses and hiring, each a row of its own."
 msgstr "الموظفون والإجازات والحضور والرواتب والمصروفات والتوظيف، لكلٍّ صف خاص به."
@@ -18016,6 +18129,10 @@ msgstr "تسليم معدات"
 msgid "Equipment Handover"
 msgstr "تسليم المعدات"
 
+#: onedesk/one_inventory/manifest.py:22
+msgid "Equipment and its depreciation"
+msgstr "المعدات وإهلاكها"
+
 #: onedesk/one_inventory/home.py:117
 msgid "Equipment handed to someone or moved."
 msgstr "معدات سُلّمت لأحد أو نُقلت."
@@ -18174,6 +18291,10 @@ msgstr "كل يوم"
 msgid "Every Few Minutes"
 msgstr "كل بضع دقائق"
 
+#: frontend/src/one/Marketplace.vue:12 frontend/src/one/Marketplace.vue:115
+msgid "Every Field"
+msgstr "كل المجالات"
+
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Every Hour"
@@ -18224,6 +18345,10 @@ msgstr "كل مسؤول، وكل من يحمل صندوق البريد"
 #: onedesk/one/manifest.py:14
 msgid "Every app stands on One's Home, centres and window."
 msgstr "يعتمد كل تطبيق على الصفحة الرئيسية لـ One ومراكزها ونافذتها."
+
+#: onedesk/one/manifest.py:78
+msgid "Every app, what it does, and Install."
+msgstr "كل تطبيق، وما يفعله، والتثبيت."
 
 #: onedesk/one_inventory/ready.py:215
 msgid "Every asset is kept at a location."
@@ -18469,6 +18594,10 @@ msgstr "كل فاتورة مبيعات مع ضرائبها، سطر لكل فا�
 #, python-brace-format
 msgid "Every screen shows “{message}” until somebody ends it."
 msgstr "تعرض كل الشاشات «{message}» حتى يُنهيه أحد."
+
+#: onedesk/one_display/manifest.py:18
+msgid "Every screen, and whether it is online"
+msgstr "كل شاشة، وهل هي متصلة"
 
 #: onedesk/one_inventory/home.py:138
 msgid "Every serial number in stock, and where."
@@ -18774,6 +18903,10 @@ msgstr "تبدأ الامتحانات بعد"
 #: onedesk/one_project/library/small_building_works.json
 msgid "Excavation"
 msgstr "الحفر"
+
+#: onedesk/one_sheet/manifest.py:18
+msgid "Excel and CSV in and out"
+msgstr "استيراد Excel وCSV وتصديرهما"
 
 #. Label in the One Detailed Tax Invoice print format
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -19778,6 +19911,11 @@ msgstr "حُفظ مع {0}"
 msgid "Files"
 msgstr "الملفات"
 
+#: onedesk/one_cloud/manifest.py:20
+#, python-brace-format
+msgid "Files a browser can't open, edited in {oneos}"
+msgstr "ملفات لا يفتحها المتصفح، تُحرَّر في {oneos}"
+
 #. Description of the 'Record' (Dynamic Link) field in DocType 'Cloud File
 #. Request'
 #: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:83
@@ -19803,6 +19941,11 @@ msgstr "الملفات المطلوبة"
 #: onedesk/one_admin/log.py:20
 msgid "Files deleted"
 msgstr "حُذفت الملفات"
+
+#: onedesk/one_chat/manifest.py:20
+#, python-brace-format
+msgid "Files from {one_cloud} or your computer"
+msgstr "ملفات من {one_cloud} أو من جهازك"
 
 #: onedesk/public/js/account_center/account_center.js:767
 #, python-brace-format
@@ -20849,6 +20992,10 @@ msgstr "التنسيق"
 #: onedesk/one_project/library/website.json
 msgid "Forms and integrations"
 msgstr "النماذج والتكاملات"
+
+#: onedesk/one_sheet/manifest.py:17
+msgid "Formulas, charts and pivot tables"
+msgstr "الصيغ والمخططات والجداول المحورية"
 
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
 #: frontend/src/cloud/OneCloud.vue:20
@@ -22918,6 +23065,10 @@ msgstr "مسار التوظيف"
 msgid "Hiring Pipeline"
 msgstr "مسار التوظيف"
 
+#: onedesk/one_hr/manifest.py:20
+msgid "Hiring, appraisals, joining and leaving"
+msgstr "التوظيف والتقييمات والانضمام والمغادرة"
+
 #. Label of the history (Check) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:178
 #: onedesk/one_display/starters.py:1047
@@ -23005,6 +23156,10 @@ msgstr "عطلات قادمة"
 msgid "Holidays Run Out Soon"
 msgstr "العطلات تنتهي قريبًا"
 
+#: onedesk/one_calendar/manifest.py:19
+msgid "Holidays and who is off"
+msgstr "العطلات ومن هو في إجازة"
+
 #: onedesk/one_ai/proposals.py:642
 #: onedesk/public/js/one_ai/panel/Record.vue:142
 #, python-brace-format
@@ -23024,6 +23179,14 @@ msgstr "العطلات في {0}"
 #: onedesk/one_quality/sidebar/onequality/onequality.json:21
 msgid "Home"
 msgstr "الرئيسية"
+
+#: onedesk/one/manifest.py:17
+msgid "Home, the address book and the centres every app opens in."
+msgstr "الرئيسية ودفتر العناوين والمراكز التي يُفتح فيها كل تطبيق."
+
+#: onedesk/one/manifest.py:20
+msgid "Home, with what waits for you in each app"
+msgstr "الرئيسية، مع ما ينتظرك في كل تطبيق"
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:9
 msgid "Horizontal"
@@ -24487,6 +24650,10 @@ msgstr ""
 msgid "Include Personal Networks and Locations"
 msgstr "تضمين الشبكات والمواقع الشخصية"
 
+#: frontend/src/one/MarketApp.vue:63
+msgid "Included in your plan"
+msgstr "مشمول في خطتك"
+
 #: onedesk/public/js/trust_center/privacy_copy.js:27
 msgid "Included unless unticked. Withhold only what is confidential to others or the company."
 msgstr "مضمّن ما لم تُلغِ تحديده. احجب فقط ما هو سري للآخرين أو للشركة."
@@ -24768,6 +24935,10 @@ msgstr "الفحص"
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Inspection before closing ceilings"
 msgstr "الفحص قبل إغلاق الأسقف"
+
+#: frontend/src/one/MarketApp.vue:13
+msgid "Install"
+msgstr "تثبيت"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
@@ -25362,6 +25533,10 @@ msgstr "الفواتير إلى مجلد"
 msgid "Invoices, Payments and the Bank"
 msgstr "الفواتير والمدفوعات والبنك"
 
+#: onedesk/one_book/manifest.py:17
+msgid "Invoices, bills and payments"
+msgstr "الفواتير وفواتير الموردين والمدفوعات"
+
 #: frontend/src/slide/shim/DataDialog.vue:113
 #: onedesk/public/js/doctype_settings.js:915
 msgid "Is"
@@ -25651,6 +25826,10 @@ msgstr "اليوم ذكرى انضمام {employee} للعمل"
 #, python-brace-format
 msgid "It is {state}. Open it to {actions}."
 msgstr "حالته {state}. افتحه لـ {actions}."
+
+#: frontend/src/one/MarketApp.vue:84
+msgid "It leaves the rail and search for everybody. Its records stay, and links to them still open."
+msgstr "يختفي من الشريط والبحث لدى الجميع. تبقى سجلاته، وتظل الروابط إليها تفتح."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:27
 msgid "It may have been deleted, or the link is wrong."
@@ -26123,6 +26302,10 @@ msgstr "أصناف مطلوبة بأكثر مما هو متوفر."
 #: onedesk/one_display/doctype/display_board/display_board.json:135
 msgid "Items whose state or value is updated by hand and shown on screens."
 msgstr "عناصر تُحدَّث حالتها أو قيمتها يدويًا وتُعرض على الشاشات."
+
+#: onedesk/one_inventory/manifest.py:19
+msgid "Items with their stock in each place"
+msgstr "الأصناف ومخزونها في كل مكان"
 
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
@@ -27330,6 +27513,10 @@ msgstr "يؤدي إلى"
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:82
 msgid "Leads Won (%)"
 msgstr "العملاء المكسوبون (%)"
+
+#: onedesk/one_crm/manifest.py:17
+msgid "Leads and their next step"
+msgstr "العملاء المحتملون وخطوتهم التالية"
 
 #: onedesk/one_crm/home.py:131
 msgid "Leads spoken to often that have not bought."
@@ -28928,6 +29115,11 @@ msgstr "أنشأه {0}. لم تتم مراجعته بعد."
 msgid "Made by {1} from {0}. Not checked yet."
 msgstr "أنشأه {1} من {0}. لم تتم مراجعته بعد."
 
+#: frontend/src/one/Marketplace.vue:40
+#, python-brace-format
+msgid "Made for {0}"
+msgstr "مصمم لـ {0}"
+
 #: onedesk/one_ai/reading/planning.py:110
 #, python-brace-format
 msgid "Made from {0}."
@@ -29059,6 +29251,10 @@ msgstr "قوالب البريد"
 msgid "Mail and Notes"
 msgstr "البريد والملاحظات"
 
+#: onedesk/one_ai/manifest.py:19
+msgid "Mail and files read and filed"
+msgstr "البريد والملفات تُقرأ وتُحفظ"
+
 #: onedesk/one/people.py:41 onedesk/public/js/one_ai/ai_center.js:108
 msgid "Mail and files read as they arrive, and filed on their record."
 msgstr "البريد والملفات تُقرأ عند وصولها وتُحفظ على سجلها."
@@ -29067,6 +29263,10 @@ msgstr "البريد والملفات تُقرأ عند وصولها وتُحف�
 #, python-brace-format
 msgid "Mail from {0}"
 msgstr "بريد من {0}"
+
+#: onedesk/one_mail/manifest.py:20
+msgid "Mail kept on its record"
+msgstr "البريد محفوظ على سجله"
 
 #: onedesk/one_crm/home.py:118
 msgid "Mail sent to a lead or a contact on a schedule."
@@ -30129,6 +30329,10 @@ msgstr "اجتماعات ما زالت مفتوحة"
 msgid "Meetings and Feedback"
 msgstr "الاجتماعات والملاحظات"
 
+#: onedesk/one_calendar/manifest.py:17
+msgid "Meetings and events"
+msgstr "الاجتماعات والفعاليات"
+
 #: onedesk/one_calendar/manifest.py:14
 msgid "Meetings, leave and deadlines from every app, on one calendar."
 msgstr "الاجتماعات والإجازات والمواعيد النهائية من كل تطبيق، في تقويم واحد."
@@ -31070,6 +31274,10 @@ msgstr "بكلماتي"
 msgid "My Tasks"
 msgstr "مهامي"
 
+#: onedesk/one_task/manifest.py:17
+msgid "My Tasks as a board"
+msgstr "مهامي كلوحة"
+
 #: onedesk/one_task/tour.py:13
 msgid "My Tasks is everything given to you, and Inbox is what has no project yet."
 msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما ليس له مشروع بعد."
@@ -31295,6 +31503,10 @@ msgstr "ممتلئ تقريبًا"
 msgid "Needed"
 msgstr "المطلوب"
 
+#: frontend/src/one/MarketApp.vue:77
+msgid "Needed By"
+msgstr "يحتاجه"
+
 #: onedesk/public/js/one_ai/ai_center.js:129
 msgid "Needed Review"
 msgstr "احتاج إلى مراجعة"
@@ -31304,10 +31516,10 @@ msgstr "احتاج إلى مراجعة"
 msgid "Needed by"
 msgstr "مطلوب بحلول"
 
-#: onedesk/public/js/apps.js:57
+#: frontend/src/one/MarketApp.vue:109
 #, python-brace-format
-msgid "Needed by {0}"
-msgstr "يحتاجه {0}"
+msgid "Needed by {0}, so it can't be turned off."
+msgstr "يحتاجه {0}، لذا لا يمكن إيقافه."
 
 #: frontend/src/inventory/item/ItemMaking.vue:28
 msgid "Needed for Making"
@@ -31351,6 +31563,11 @@ msgstr "يحتاج إلى مساحة أسماء KV أولًا."
 #: onedesk/one_admin/setup.py:862
 msgid "Needs the buckets and the storage token first."
 msgstr "يحتاج إلى الحاويات ورمز التخزين أولًا."
+
+#: frontend/src/one/MarketApp.vue:63 frontend/src/one/Marketplace.vue:119
+#, python-brace-format
+msgid "Needs the {0} plan"
+msgstr "يحتاج إلى خطة {0}"
 
 #: onedesk/public/js/apps.js:40
 #, python-brace-format
@@ -32564,6 +32781,10 @@ msgstr "لا توجد موافقات"
 #: frontend/portal/src/pages/Apps.vue:16
 msgid "No apps"
 msgstr "لا توجد تطبيقات"
+
+#: frontend/src/one/Marketplace.vue:18
+msgid "No apps match"
+msgstr "لا تطبيقات مطابقة"
 
 #: onedesk/public/js/one_interface/launcher.js:52
 msgid "No apps or pages found"
@@ -33833,6 +34054,10 @@ msgstr "لم يُسجَّل في السجل بعد: {0} خلايا تحتاج إ
 msgid "Not in use; new work orders cannot pick it."
 msgstr "غير مستخدمة؛ لا يمكن لأوامر العمل الجديدة اختيارها."
 
+#: frontend/src/one/MarketApp.vue:63 frontend/src/one/Marketplace.vue:119
+msgid "Not in your plan"
+msgstr "غير مشمول في خطتك"
+
 #: onedesk/public/js/one_admin/admin_control.js:244
 #, python-brace-format
 msgid "Not installed on {0}"
@@ -34589,6 +34814,10 @@ msgstr "الترقيم"
 #, python-brace-format
 msgid "Numbering of {0}"
 msgstr "ترقيم {0}"
+
+#: onedesk/one_studio/manifest.py:15
+msgid "Numbering, printing and approvals"
+msgstr "الترقيم والطباعة والاعتمادات"
 
 #. Label in the One Serial and Batch Bundle print format
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:65
@@ -36224,6 +36453,10 @@ msgstr "لا يمكن الإخفاء إلا عن جهات اتصال السجل 
 msgid "Only the workspace's administrators set who may do what."
 msgstr "لا يحدد من يفعل ماذا إلا مسؤولو مساحة العمل."
 
+#: onedesk/one_portal/manifest.py:17
+msgid "Only their own records"
+msgstr "سجلاتهم فقط"
+
 #. Description of the 'GitHub Token' (Password) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:318
@@ -36715,6 +36948,11 @@ msgstr "حالة الوظيفة الشاغرة"
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
 msgid "Opening Stock"
 msgstr "المخزون الافتتاحي"
+
+#: onedesk/one/registry/credits.py:21
+#, python-brace-format
+msgid "Opening a file in {oneos} uses credits for each minute it is open."
+msgstr "فتح ملف في {oneos} يستهلك رصيدًا عن كل دقيقة يبقى فيها مفتوحًا."
 
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
@@ -39104,6 +39342,10 @@ msgstr ""
 msgid "Payroll and people set up"
 msgstr "إعداد الرواتب والموظفين"
 
+#: onedesk/one_hr/manifest.py:19
+msgid "Payroll and salary slips"
+msgstr "الرواتب وقسائم الرواتب"
+
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:140
 msgid "Pays Now"
 msgstr "يدفع الآن"
@@ -40206,6 +40448,10 @@ msgstr "مُرحّل"
 msgid "Posting Date"
 msgstr ""
 
+#: onedesk/one_deck/manifest.py:19
+msgid "PowerPoint and PDF"
+msgstr "PowerPoint وPDF"
+
 #. Task in the Architectural Design Stages project template
 #: onedesk/one_project/library/architectural_design.json
 msgid "Practical completion inspection"
@@ -40413,6 +40659,10 @@ msgstr "لا يمكن إنشاء عروض تقديمية في محرك مُرك�
 #: frontend/src/slide/components/PresentButton.vue:43
 msgid "Presenter View"
 msgstr "عرض المقدّم"
+
+#: onedesk/one_deck/manifest.py:18
+msgid "Presenting by link"
+msgstr "العرض عبر رابط"
 
 #: frontend/src/slide/shim/live.js:17
 msgid "Presenting live: everyone with a link to this presentation follows your slides."
@@ -40741,10 +40991,6 @@ msgstr "المفتاح الخاص"
 msgid "Private Mailboxes"
 msgstr "صناديق البريد الخاصة"
 
-#: onedesk/public/js/apps.js:30
-msgid "Private app"
-msgstr "تطبيق خاص"
-
 #: onedesk/one_mail/connect.py:313
 msgid "Private mailboxes are disabled in this workspace."
 msgstr "صناديق البريد الخاصة معطلة في مساحة العمل هذه."
@@ -40770,6 +41016,10 @@ msgstr "المشكلة"
 msgid "Problems and Actions"
 msgstr "المشكلات والإجراءات"
 
+#: onedesk/one_quality/manifest.py:18
+msgid "Problems and the actions taken"
+msgstr "المشكلات والإجراءات المتخذة"
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Problems fixed"
@@ -40782,6 +41032,10 @@ msgstr ""
 
 #: onedesk/one_quality/home.py:17
 msgid "Procedures and Goals"
+msgstr "الإجراءات والأهداف"
+
+#: onedesk/one_quality/manifest.py:17
+msgid "Procedures and goals"
 msgstr "الإجراءات والأهداف"
 
 #: onedesk/one_quality/tour.py:11
@@ -41817,6 +42071,10 @@ msgstr "خطوة جودة متأخرة"
 msgid "Quality check {0}"
 msgstr "فحص الجودة {0}"
 
+#: onedesk/one_quality/manifest.py:19
+msgid "Quality meetings and feedback"
+msgstr "اجتماعات الجودة والملاحظات"
+
 #: onedesk/public/js/one_inventory/item_new.js:147
 msgid "Quantities per unit"
 msgstr "الكميات لكل وحدة"
@@ -41948,6 +42206,10 @@ msgstr ""
 msgid "Queues"
 msgstr ""
 
+#: onedesk/one_display/manifest.py:20
+msgid "Queues with tickets and counters"
+msgstr "طوابير بتذاكر ونوافذ خدمة"
+
 #: onedesk/one_ai/center.py:20
 msgid "Quick answers for everyday questions, at the lowest cost."
 msgstr "إجابات سريعة للأسئلة اليومية، بأقل تكلفة."
@@ -42038,6 +42300,10 @@ msgstr "عروض الأسعار"
 msgid "Quotations Expiring"
 msgstr "عروض أسعار تنتهي صلاحيتها"
 
+#: onedesk/one_crm/manifest.py:19
+msgid "Quotations and sales orders"
+msgstr "عروض الأسعار وأوامر البيع"
+
 #: onedesk/one_crm/home.py:135
 msgid "Quotations lost, and why."
 msgstr "عروض الأسعار الخاسرة، وسبب خسارتها."
@@ -42105,6 +42371,10 @@ msgstr "مُسعَّر، صالح حتى {0}"
 #: onedesk/one_portal/portal.py:23
 msgid "Quotes"
 msgstr "العروض"
+
+#: onedesk/one_portal/manifest.py:16
+msgid "Quotes and invoices answered"
+msgstr "الرد على عروض الأسعار والفواتير"
 
 #. Option for the 'Service' (Select) field in DocType 'Health Check'
 #: frontend/src/admin/AdminServers.vue:68
@@ -44091,6 +44361,10 @@ msgstr "مكرّر بالبريد"
 msgid "Repeating stopped."
 msgstr "تم إيقاف التكرار."
 
+#: onedesk/one_task/manifest.py:20
+msgid "Repeating tasks"
+msgstr "مهام متكررة"
+
 #. Label in the One Shift Schedule print format
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
 msgid "Repeats"
@@ -45534,6 +45808,10 @@ msgstr "تم تحديث القاعدة"
 msgid "Rules"
 msgstr "القواعد"
 
+#: onedesk/one_mail/manifest.py:19
+msgid "Rules and out of office"
+msgstr "القواعد والرد التلقائي عند الغياب"
+
 #: onedesk/public/js/one_ai/ai_center.js:457
 msgid "Rules for Every Agent"
 msgstr "قواعد لكل وكيل"
@@ -46529,6 +46807,10 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr "بحث"
+
+#: frontend/src/one/Marketplace.vue:7
+msgid "Search Apps"
+msgstr "بحث في التطبيقات"
 
 #: onedesk/public/js/one_interface/phone.js:126
 msgid "Search Apps and Pages"
@@ -47953,6 +48235,10 @@ msgstr "SetupCenter"
 msgid "Several Files"
 msgstr "عدة ملفات"
 
+#: onedesk/one_book/manifest.py:20
+msgid "Several currencies"
+msgstr "عملات متعددة"
+
 #: onedesk/one_display/starters.py:1161
 msgid "Several notices on a screen on its side."
 msgstr "عدة إعلانات على شاشة قائمة."
@@ -48101,6 +48387,10 @@ msgstr "مشارك معك"
 msgid "Shared by"
 msgstr "شاركه"
 
+#: onedesk/one_mail/manifest.py:18
+msgid "Shared mailboxes, assigned and marked done"
+msgstr "صناديق بريد مشتركة، تُسند وتُعلَّم كمنجزة"
+
 #: frontend/src/cloud/CloudPreview.vue:113
 msgid "Shared with"
 msgstr "مشارك مع"
@@ -48134,6 +48424,10 @@ msgstr "مشاركة…"
 #: onedesk/one/control.py:23
 msgid "Sharing"
 msgstr "المشاركة"
+
+#: onedesk/one_cloud/manifest.py:18
+msgid "Sharing with the team and by link"
+msgstr "المشاركة مع الفريق وعبر رابط"
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:165
 #, python-brace-format
@@ -49451,6 +49745,10 @@ msgstr "الشرائح"
 #, python-brace-format
 msgid "Slides {0} had parts that could not be brought in."
 msgstr "تضمنت الشرائح {0} أجزاء تعذّر نقلها."
+
+#: onedesk/one_display/manifest.py:15
+msgid "Slides, live widgets and queues on any screen with a browser."
+msgstr "شرائح وعناصر حية وطوابير على أي شاشة فيها متصفح."
 
 #. Description of a DocType
 #: onedesk/one_display/doctype/display_channel/display_channel.json:149
@@ -50786,6 +51084,10 @@ msgstr "خطوات متأخرة"
 msgid "Steps Running Now"
 msgstr "خطوات قيد التشغيل الآن"
 
+#: onedesk/one_quality/manifest.py:20
+msgid "Steps overdue and goals failing"
+msgstr "خطوات متأخرة وأهداف غير محققة"
+
 #. Label in the One Employee Advance print format
 #: onedesk/one_hr/print_format/one_employee_advance/one_employee_advance.json
 msgid "Still Out"
@@ -51965,6 +52267,10 @@ msgstr "طلبات الدعم"
 msgid "Support Settings"
 msgstr "إعدادات الدعم"
 
+#: onedesk/one_crm/manifest.py:20
+msgid "Support issues and appointments"
+msgstr "طلبات الدعم والمواعيد"
+
 #: frontend/src/mail/OneMail.vue:229
 msgid "Supports from:, to:, subject:, has:attachment, is:unread and is:starred"
 msgstr "يدعم from: وto: وsubject: وhas:attachment وis:unread وis:starred"
@@ -52354,6 +52660,10 @@ msgstr "المهام"
 msgid "Tasks From Mail"
 msgstr "مهام من البريد"
 
+#: onedesk/one_project/manifest.py:14
+msgid "Tasks and the schedule"
+msgstr "المهام والجدول الزمني"
+
 #. Label of the tax (Float) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
 #. Label in the One Detailed Tax Invoice print format
@@ -52659,6 +52969,10 @@ msgstr ""
 msgid "Tax Withholding Details"
 msgstr ""
 
+#: onedesk/one_book/manifest.py:19
+msgid "Tax and closing the year"
+msgstr "الضريبة وإقفال السنة"
+
 #: onedesk/one_book/report/tax_return/tax_return.py:69
 msgid "Tax charged on sales"
 msgstr "الضريبة المحتسبة على المبيعات"
@@ -52847,6 +53161,14 @@ msgstr "حُفظ القالب {0}."
 #: frontend/src/slide/shim/ScreenTemplates.vue:6
 msgid "Templates"
 msgstr ""
+
+#: onedesk/one_deck/manifest.py:17
+msgid "Templates and slides of any size"
+msgstr "قوالب وشرائح بأي حجم"
+
+#: onedesk/one_doc/manifest.py:18 onedesk/one_sheet/manifest.py:19
+msgid "Templates and the history of every change"
+msgstr "القوالب وسجل كل تغيير"
 
 #. Task in the Website project template
 #: onedesk/one_project/library/website.json
@@ -53624,6 +53946,10 @@ msgstr "الوكيل الذي تسأله هذه الرسالة."
 msgid "The agents have used their {0} credits for this month."
 msgstr "استخدم الوكلاء رصيدهم البالغ {0} لهذا الشهر."
 
+#: onedesk/one_chat/manifest.py:19
+msgid "The agents of your apps"
+msgstr "وكلاء تطبيقاتك"
+
 #: onedesk/one_ai/manifest.py:48
 msgid "The agents, what they may do and what they did."
 msgstr "الوكلاء، وما يُسمح لهم بفعله، وما فعلوه."
@@ -54240,6 +54566,10 @@ msgstr "المجموعات التي تُصنَّف فيها الأصناف."
 #: onedesk/one_inventory/home.py:161
 msgid "The groups suppliers are sorted into."
 msgstr "المجموعات التي يُصنَّف فيها الموردون."
+
+#: onedesk/one_deck/manifest.py:20
+msgid "The history of every change"
+msgstr "سجل كل تغيير"
 
 #. Subject of a notification
 #: onedesk/one/notifications.py
@@ -56758,6 +57088,10 @@ msgstr "فاصل الآلاف"
 msgid "Thread"
 msgstr "المحادثة"
 
+#: onedesk/one_chat/manifest.py:18
+msgid "Threads, mentions and reactions"
+msgstr "سلاسل الردود والإشارات والتفاعلات"
+
 #: onedesk/one_display/starters.py:1179
 msgid "Three columns of dishes and prices."
 msgstr "ثلاثة أعمدة من الأطباق والأسعار."
@@ -57007,6 +57341,10 @@ msgstr "الوقت واليوم"
 msgid "Time and Materials"
 msgstr "الوقت والمواد"
 
+#: onedesk/one_project/manifest.py:15
+msgid "Time and each person's workload"
+msgstr "الوقت وعبء عمل كل شخص"
+
 #. Name of a report
 #: onedesk/one_crm/home.py:126
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.json:19
@@ -57044,6 +57382,10 @@ msgstr "المهلة (بالثواني)"
 #: onedesk/public/js/one_interface/chrome.js:146
 msgid "Timers"
 msgstr "المؤقتات"
+
+#: onedesk/one_task/manifest.py:19
+msgid "Timers for the time spent"
+msgstr "مؤقتات للوقت المستغرق"
 
 #. Label of the fetch_at (Data) field in DocType 'News Source'
 #. Label of the at_times (Data) field in DocType 'Channel Ad'
@@ -58286,10 +58628,6 @@ msgstr "حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 msgid "Tuesday"
 msgstr "الثلاثاء"
 
-#: onedesk/public/js/apps.js:47 onedesk/public/js/one_interface/launcher.js:87
-msgid "Turn Apps On or Off"
-msgstr "تفعيل التطبيقات أو إيقافها"
-
 #: onedesk/one_display/doctype/display_screen/display_screen.js:6
 #: onedesk/one_studio/heads.py:88
 #: onedesk/public/js/one/notification_center.js:219
@@ -58300,6 +58638,11 @@ msgstr "إيقاف"
 #, python-brace-format
 msgid "Turn Off {0}"
 msgstr "إيقاف {0}"
+
+#: frontend/src/one/MarketApp.vue:83
+#, python-brace-format
+msgid "Turn Off {0}?"
+msgstr "إيقاف {0}؟"
 
 #: onedesk/one_display/doctype/display_screen/display_screen.js:7
 #: onedesk/one_studio/heads.py:76
@@ -58410,6 +58753,10 @@ msgstr "مفعّل لصندوق البريد هذا"
 #: onedesk/one_studio/heads.py:58
 msgid "Turned on."
 msgstr "شُغّلت."
+
+#: onedesk/one/registry/credits.py:22
+msgid "Turning a Word, Excel or PowerPoint file into a PDF uses credits for the seconds it takes."
+msgstr "تحويل ملف Word أو Excel أو PowerPoint إلى PDF يستهلك رصيدًا عن الثواني التي يستغرقها."
 
 #: onedesk/public/js/trust_center/trust_center.js:455
 msgid "Turning it on agrees to this for your whole workspace, and is recorded with your name."
@@ -59702,6 +60049,10 @@ msgstr "يرى المستخدمون الذين لديهم صلاحية هذا ا
 msgid "Uses 1 credit."
 msgstr "يستهلك رصيدًا واحدًا."
 
+#: frontend/src/one/MarketApp.vue:70
+msgid "Uses no credits"
+msgstr "لا يستهلك رصيدًا"
+
 #: onedesk/public/js/one_admin/admin_control.js:246
 msgid "Using the personal token"
 msgstr "يستخدم الرمز الشخصي"
@@ -59975,6 +60326,10 @@ msgstr "الإصدار {0}. باللغة الإنجليزية، وهي المر�
 #: frontend/src/cloud/CloudPreview.vue:28
 msgid "Versions"
 msgstr "الإصدارات"
+
+#: onedesk/one_cloud/manifest.py:19
+msgid "Versions and activity on every file"
+msgstr "الإصدارات والنشاط على كل ملف"
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:14
 msgid "Vertical"
@@ -60616,6 +60971,10 @@ msgstr "الموقع"
 #: onedesk/one_display/doctype/display_slide/display_slide.json:22
 msgid "Web Page"
 msgstr ""
+
+#: onedesk/one_ai/manifest.py:20
+msgid "Web search"
+msgstr "البحث في الويب"
 
 #: onedesk/one_ai/ai_web.py:27
 msgid "Web search is off for this workspace."
@@ -61274,6 +61633,10 @@ msgstr "ما يشمله"
 #: onedesk/public/js/trust_center/trust_center.js:146
 msgid "What is kept and for how long, and how to take everything with you."
 msgstr "ما يُحفظ ولأي مدة، وكيف تأخذ كل شيء معك."
+
+#: onedesk/one_factory/manifest.py:21
+msgid "What is late and what was made"
+msgstr "ما تأخر وما صُنع"
 
 #: onedesk/one_project/agent.py:64
 msgid "What is late?"
@@ -65067,6 +65430,10 @@ msgstr "رابحة."
 msgid "Word"
 msgstr "كلمة"
 
+#: onedesk/one_doc/manifest.py:19
+msgid "Word and PDF, printed or sent"
+msgstr "Word وPDF، للطباعة أو الإرسال"
+
 #: onedesk/one_studio/letter_heads.py:23
 msgid "Wordmark"
 msgstr "الاسم المميز"
@@ -65213,6 +65580,10 @@ msgstr "عمل أو رسوم، لا يُخزّن أبدًا."
 msgid "Work orders and material requests made at once from sales orders."
 msgstr "أوامر عمل وطلبات مواد تُنشأ دفعة واحدة من أوامر البيع."
 
+#: onedesk/one_factory/manifest.py:19
+msgid "Work orders and the shop floor"
+msgstr "أوامر العمل وأرضية المصنع"
+
 #: onedesk/one_factory/home.py:45
 msgid "Work orders opened and finished, month by month."
 msgstr "أوامر العمل المفتوحة والمنجزة، شهراً بشهر."
@@ -65229,6 +65600,10 @@ msgstr "الاتفاق على خطة العمل"
 #: onedesk/one_factory/home.py:35
 msgid "Work sent to a supplier, with the materials it takes."
 msgstr "عمل مرسل إلى مورد، مع المواد التي يحتاجها."
+
+#: onedesk/one_factory/manifest.py:20
+msgid "Work sent to suppliers"
+msgstr "أعمال مرسلة إلى الموردين"
 
 #. Description of the Onboarding Step 'Start a project'
 #: onedesk/one/onboarding_step/one_start_a_project/one_start_a_project.json:5
@@ -65993,6 +66368,10 @@ msgstr "كتابة"
 #: onedesk/one_hr/agent.py:229
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعليقاتي عند الانتهاء."
+
+#: onedesk/one_doc/manifest.py:17
+msgid "Writing together, with comments in the margin"
+msgstr "الكتابة معًا، مع تعليقات في الهامش"
 
 #: frontend/src/intake/IntakeExplain.vue:7
 #: onedesk/public/js/one_ai/oneai.js:191
@@ -66850,6 +67229,10 @@ msgstr "رأيك يساعدنا على التحسن."
 #, python-brace-format
 msgid "Your feedback on {applicant}'s interview is due"
 msgstr "تقييمك لمقابلة {applicant} مستحق"
+
+#: onedesk/one_cloud/manifest.py:17
+msgid "Your files, shared folders and every record's attachments"
+msgstr "ملفاتك والمجلدات المشتركة ومرفقات كل سجل"
 
 #: onedesk/one_admin/wizard.py:22
 msgid "Your first name is needed."
@@ -69328,6 +69711,16 @@ msgstr "{0} النسخة المصلحة في صفحتها؛ تستمر المف�
 msgid "{0} The fixed version was kept off: the review refused it. {1}"
 msgstr "{0} أُبقيت النسخة المُصلحة متوقفة: رفضتها المراجعة. {1}"
 
+#: frontend/src/one/Marketplace.vue:142
+#, python-brace-format
+msgid "{0} Turned Off"
+msgstr "تم إيقاف {0}"
+
+#: frontend/src/one/Marketplace.vue:142
+#, python-brace-format
+msgid "{0} Turned On"
+msgstr "تم تشغيل {0}"
+
 #: frontend/src/crm/CrmHome.vue:146
 #, python-brace-format
 msgid "{0} Unclaimed Leads"
@@ -69708,6 +70101,11 @@ msgstr "لا يمكن إيقاف {0}. الروابط المشتركة تعتمد
 #, python-brace-format
 msgid "{0} can't be turned off. {1}"
 msgstr "لا يمكن إيقاف {0}. {1}"
+
+#: onedesk/one/marketplace.py:179
+#, python-brace-format
+msgid "{0} can't be turned on or off."
+msgstr "لا يمكن تشغيل {0} أو إيقافه."
 
 #: onedesk/one_mail/addresses.py:160
 #, python-brace-format
@@ -70827,10 +71225,10 @@ msgstr "تمت استعادة {0}."
 msgid "{0} is behind on payment, so nothing more is charged until it is paid."
 msgstr "{0} متأخرة في الدفع، لذا لن يُحتسب أي شيء آخر حتى يتم الدفع."
 
-#: onedesk/public/js/apps.js:93
+#: frontend/src/one/Marketplace.vue:157
 #, python-brace-format
-msgid "{0} is being installed. It takes a few minutes, and appears in Apps and on the rail when it's ready."
-msgstr "يجري تثبيت {0}. يستغرق ذلك بضع دقائق، ويظهر في التطبيقات وعلى الشريط الجانبي عند جاهزيته."
+msgid "{0} is being installed. It takes a few minutes, and appears here and on the rail when it's ready."
+msgstr "جارٍ تثبيت {0}. يستغرق ذلك بضع دقائق، ويظهر هنا وعلى الشريط عندما يصبح جاهزًا."
 
 #: onedesk/one_ai/reading/drafts.py:62
 #, python-brace-format
@@ -72134,6 +72532,11 @@ msgstr "{0} قيد الطلب"
 msgid "{0} on the Portal"
 msgstr "{0} في البوابة"
 
+#: frontend/src/one/MarketApp.vue:29 frontend/src/one/MarketApp.vue:35
+#, python-brace-format
+msgid "{0} on the demo company"
+msgstr "{0} على شركة العرض التجريبي"
+
 #: onedesk/one_hr/heads.py:414
 #, python-brace-format
 msgid "{0} on the odometer since the last log, on {1} {2} costing {3}: {4} on the odometer per {2}."
@@ -73221,6 +73624,11 @@ msgstr "{0}، بدلًا من القاعدة السابقة"
 msgid "{0}, starting as {1}"
 msgstr "{0}، يبدأ كـ {1}"
 
+#: frontend/src/one/MarketApp.vue:74
+#, python-brace-format
+msgid "{0}, turned on with it"
+msgstr "{0}، ويُشغَّل معه"
+
 #: onedesk/public/js/one_admin/tenant.js:100
 #, python-brace-format
 msgid "{0}, unmetered"
@@ -74085,6 +74493,11 @@ msgstr "لن يعمل {one_ai} بعد الآن، وستنتظر المستندا
 msgid "{one_ai} has run out of credits"
 msgstr "نفدت أرصدة {one_ai}"
 
+#: onedesk/one_ai/manifest.py:15
+#, python-brace-format
+msgid "{one_ai} is the assistant in every part of {one}. Ask it about your work in your own words and language, and it answers from your records and {one}'s guides. It suggests a change on a card, and nothing changes until you approve it."
+msgstr "{one_ai} هو المساعد في كل جزء من {one}. اسأله عن عملك بكلماتك ولغتك، فيجيب من سجلاتك ومن أدلة {one}. يقترح التغيير على بطاقة، ولا يتغير شيء حتى تعتمده."
+
 #. Subject of a notification
 #: onedesk/one_studio/notifications.py
 #, python-brace-format
@@ -74096,6 +74509,101 @@ msgstr "فحص {one_ai} الإضافة {extension}"
 #, python-brace-format
 msgid "{one_ai} made it in the folder you asked from."
 msgstr "أنشأه {one_ai} في المجلد الذي طلبته منه."
+
+#: onedesk/one_book/manifest.py:15
+#, python-brace-format
+msgid "{one_book} keeps the company's money: the invoices it sends, the bills it gets, the payments either way and the bank. Tax returns and the reports an accountant asks for come from the same records."
+msgstr "{one_book} يحفظ أموال الشركة: الفواتير التي ترسلها، وفواتير الموردين التي تصلها، والمدفوعات في الاتجاهين، والبنك. الإقرارات الضريبية والتقارير التي يطلبها المحاسب تأتي من السجلات نفسها."
+
+#: onedesk/one_calendar/manifest.py:15
+#, python-brace-format
+msgid "{one_calendar} shows everything dated in {one} on one calendar: meetings, tasks, deals' next steps, leave, interviews and holidays. Each kind is a calendar of its own, shown or hidden."
+msgstr "{one_calendar} يعرض كل ما له تاريخ في {one} على تقويم واحد: الاجتماعات والمهام والخطوات التالية للصفقات والإجازات والمقابلات والعطلات. لكل نوع تقويمه الخاص، يُعرض أو يُخفى."
+
+#: onedesk/one_chat/manifest.py:15
+#, python-brace-format
+msgid "{one_chat} is where the team talks, in channels by department or project and in direct messages. Each app's agent is there too, to be asked and to report what it did. A conversation is read only by the people in it."
+msgstr "{one_chat} هو مكان حديث الفريق، في قنوات حسب القسم أو المشروع وفي رسائل مباشرة. ووكيل كل تطبيق موجود هناك أيضًا، ليُسأل ويخبر بما فعله. لا يقرأ المحادثة إلا المشاركون فيها."
+
+#: onedesk/one_cloud/manifest.py:15
+#, python-brace-format
+msgid "{one_cloud} keeps the company's files in one place: your own, your team's, and every file attached to a record. It works like the file explorer on your computer. Files are shared with the team, or by link with anyone outside."
+msgstr "{one_cloud} يحفظ ملفات الشركة في مكان واحد: ملفاتك، وملفات فريقك، وكل ملف مرفق بسجل. يعمل مثل مستكشف الملفات على جهازك. تُشارك الملفات مع الفريق، أو عبر رابط مع أي شخص من الخارج."
+
+#: onedesk/one_crm/manifest.py:15
+#, python-brace-format
+msgid "{one_crm} keeps the people and businesses the company sells to: who got in touch, what they might buy, what was said and what happens next. Quotations and sales orders are made from the same records."
+msgstr "{one_crm} يحفظ الأشخاص والشركات التي تبيع لها الشركة: من تواصل، وما قد يشتريه، وما قيل، وما يحدث بعد ذلك. تُنشأ عروض الأسعار وأوامر البيع من السجلات نفسها."
+
+#: onedesk/one_deck/manifest.py:15
+#, python-brace-format
+msgid "{one_deck} makes presentations, such as a tender pitch or a monthly review. Slides are made together, from a template, at any size. A presentation is shown by link and sent as PowerPoint or PDF."
+msgstr "{one_deck} يصنع العروض التقديمية، مثل عرض لمناقصة أو مراجعة شهرية. تُصنع الشرائح معًا، من قالب، وبأي حجم. يُعرض العرض التقديمي عبر رابط ويُرسل بصيغة PowerPoint أو PDF."
+
+#: onedesk/one_display/manifest.py:16
+#, python-brace-format
+msgid "{one_display} puts what the business wants people to see on any screen with a web browser, such as a TV in the lobby or a display behind a counter. Each screen plays a channel of slides, live widgets, music and spoken ads, on a schedule."
+msgstr "{one_display} يعرض ما تريد الشركة أن يراه الناس على أي شاشة فيها متصفح ويب، مثل تلفاز في الردهة أو شاشة خلف نافذة خدمة. كل شاشة تشغّل قناة من الشرائح والعناصر الحية والموسيقى والإعلانات المسموعة، وفق جدول."
+
+#: onedesk/one_doc/manifest.py:15
+#, python-brace-format
+msgid "{one_doc} writes the company's documents, such as a scope of works, a letter or the minutes of a meeting. People write in the same document at once and comment in the margin. Each document is a file in {one_cloud}, sent as Word or PDF."
+msgstr "{one_doc} يكتب مستندات الشركة، مثل نطاق الأعمال أو خطاب أو محضر اجتماع. يكتب الناس في المستند نفسه في الوقت نفسه ويعلّقون في الهامش. كل مستند ملف في {one_cloud}، يُرسل بصيغة Word أو PDF."
+
+#: onedesk/one_factory/manifest.py:16
+#, python-brace-format
+msgid "{one_factory} is where the company makes things: what each product is made from, the work orders that make it and the steps on the shop floor. What it uses and makes is stock in {one_inventory}."
+msgstr "{one_factory} هو مكان تصنيع الشركة: مما يُصنع كل منتج، وأوامر العمل التي تصنعه، والخطوات على أرضية المصنع. ما يستخدمه وما يصنعه مخزون في {one_inventory}."
+
+#: onedesk/one_hr/manifest.py:15
+#, python-brace-format
+msgid "{one_hr} is HR for every company in the workspace: people, attendance, leave, pay, expenses and hiring. Each person checks in, requests leave and claims expenses from Home, on a phone too."
+msgstr "{one_hr} هو الموارد البشرية لكل شركة في مساحة العمل: الأشخاص والحضور والإجازات والرواتب والمصروفات والتوظيف. يسجّل كل شخص حضوره ويطلب إجازته ويطالب بمصروفاته من الرئيسية، ومن الهاتف أيضًا."
+
+#: onedesk/one_inventory/manifest.py:17
+#, python-brace-format
+msgid "{one_inventory} is what the company holds: the goods it buys, sells and uses, and the equipment it keeps. Goods are received, delivered and moved between places here, and more is ordered when they run low."
+msgstr "{one_inventory} هو ما تملكه الشركة: البضائع التي تشتريها وتبيعها وتستخدمها، والمعدات التي تحتفظ بها. هنا تُستلم البضائع وتُسلَّم وتُنقل بين الأماكن، ويُطلب المزيد عندما تقل."
+
+#: onedesk/one_mail/manifest.py:15
+#, python-brace-format
+msgid "{one_mail} is the company's email. The workspace and each person in it get an address, and the mailboxes you already use can be connected. Each message can be linked to the customer, supplier or employee it is about."
+msgstr "{one_mail} هو البريد الإلكتروني للشركة. تحصل مساحة العمل وكل شخص فيها على عنوان، ويمكن ربط صناديق البريد التي تستخدمها بالفعل. يمكن ربط كل رسالة بالعميل أو المورد أو الموظف الذي تخصه."
+
+#: onedesk/one_portal/manifest.py:12
+#, python-brace-format
+msgid "{one_portal} lets customers and suppliers see their own records without being people in the workspace. They sign in to an account, or open a link to one record, and see their quotes, orders and invoices."
+msgstr "{one_portal} يتيح للعملاء والموردين رؤية سجلاتهم دون أن يكونوا أشخاصًا في مساحة العمل. يسجّلون الدخول إلى حساب، أو يفتحون رابطًا إلى سجل واحد، ويرون عروض أسعارهم وطلباتهم وفواتيرهم."
+
+#: onedesk/one_project/manifest.py:12
+#, python-brace-format
+msgid "{one_project} runs work bigger than a task, such as a villa's windows or an office move. A project holds its tasks, its time, its costs and what it is billed, and shows how each is going."
+msgstr "{one_project} يدير العمل الأكبر من مهمة، مثل نوافذ فيلا أو نقل مكتب. يضم المشروع مهامه ووقته وتكاليفه وما فُوتر عنه، ويُظهر سير كل منها."
+
+#: onedesk/one_quality/manifest.py:15
+#, python-brace-format
+msgid "{one_quality} keeps the company's work right: how each piece of work is done, the goals it is held to and what went wrong. Every problem is recorded, from a phone too, and followed until it is fixed."
+msgstr "{one_quality} يحافظ على صحة عمل الشركة: كيف يُنجز كل عمل، والأهداف التي يُقاس بها، وما حدث من خطأ. تُسجَّل كل مشكلة، ومن الهاتف أيضًا، وتُتابع حتى تُصلح."
+
+#: onedesk/one_sheet/manifest.py:15
+#, python-brace-format
+msgid "{one_sheet} is the company's spreadsheet, with formulas, charts, pivot tables and notes. A workbook is kept in {one_cloud} and opened by anybody it is shared with. Excel and CSV files open in it and are saved from it."
+msgstr "{one_sheet} هو جدول بيانات الشركة، بالصيغ والمخططات والجداول المحورية والملاحظات. يُحفظ المصنف في {one_cloud} ويفتحه كل من شوركه معه. تُفتح فيه ملفات Excel وCSV وتُحفظ منه."
+
+#: onedesk/one_studio/manifest.py:12
+#, python-brace-format
+msgid "{one_studio} is where administrators adapt {one} to the business: the fields a form has, what it checks, and the records no app came with. Describe what you want to {one_ai} and approve the card it makes."
+msgstr "{one_studio} هو المكان الذي يكيّف فيه المسؤولون {one} مع العمل: حقول النموذج، وما يتحقق منه، والسجلات التي لم يأتِ بها أي تطبيق. صِف ما تريده لـ {one_ai} واعتمد البطاقة التي ينشئها."
+
+#: onedesk/one_task/manifest.py:15
+#, python-brace-format
+msgid "{one_task} keeps the company's work as tasks: a to-do, a project's step or a milestone. Each person has a board of what is theirs, with checklists, due dates and timers."
+msgstr "{one_task} يحفظ عمل الشركة كمهام: مهمة شخصية، أو خطوة في مشروع، أو مرحلة رئيسية. لكل شخص لوحة بما يخصه، مع قوائم التحقق وتواريخ الاستحقاق والمؤقتات."
+
+#: onedesk/one/manifest.py:18
+#, python-brace-format
+msgid "{one} is the workspace itself: Home, the address book, announcements and the centres where the workspace is set up. Every app opens inside it, so it is always on."
+msgstr "{one} هو مساحة العمل نفسها: الرئيسية ودفتر العناوين والإعلانات والمراكز التي تُعدّ فيها مساحة العمل. يُفتح كل تطبيق داخله، لذا فهو مفعّل دائمًا."
 
 #. Subject of a notification
 #: onedesk/one_inventory/notifications.py

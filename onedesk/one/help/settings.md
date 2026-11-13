@@ -90,31 +90,39 @@ Customers, suppliers, items, employees, accounts and settings stay. It is a
 Transaction Deletion Record, which runs in the background; the page it opens
 shows how far it has got.
 
-## Turning an App Off
+## Installing and Turning Off Apps
 
-**Apps**, at the bottom of the rail above your picture, has **Turn Apps On or
-Off** at its foot for administrators. Click an app's card to turn it off for the whole workspace:
-it leaves everybody's rail, and the record types only it lists leave search,
-the record-type pickers of Dynamic Link fields, and forms, where an empty field
+**Apps**, at the bottom of the rail above your picture, has **{one_marketplace}**
+at its foot for administrators. It shows every app as a tile, with **On**
+when the workspace has it; search, pick a field, or choose **On** or **Off**
+to narrow them. An app's tile opens its page: what it does, pictures of it,
+what it brings, whether your plan includes it, the credits it uses and the
+apps it needs.
+
+**Install** turns an app on for the whole workspace, and opens
+{setup_center} on its steps when it has any. **Turn Off** takes it off
+everybody's rail, and the record types only it lists leave search, the
+record-type pickers of Dynamic Link fields, and forms, where an empty field
 linking to one is hidden. Nothing is deleted or locked. A link to one of its
-records still opens it, on Home; {one_ai} still files into it; turning it
-on again brings everything back. One itself can't be turned off.
+records still opens it, on Home; {one_ai} still files into it; installing it
+again brings everything back. {one} itself can't be turned off.
 
 Some apps can't be turned off once they hold records the law or another app
-needs, and their card says why: {one_book} once it has a ledger entry or a
+needs, and their page says why: {one_book} once it has a ledger entry or a
 submitted invoice, {one_inventory} once stock has moved, and {one_hr} once a
 salary slip is submitted. {one_crm} and the rest can always be turned off.
 
-A card that says **Needs** names the apps it can't run without: {one_factory}
-needs {one_inventory}, and {one_studio} needs {one_ai}. Turning it on turns
-those on too, and an app another one needs says **Needed by** and can't be
+**Needs** on an app's page names the apps it can't run without: {one_factory}
+needs {one_inventory}, and {one_studio} needs {one_ai}. Installing it turns
+those on too, and an app another one needs says **Needed By** and can't be
 turned off until that one is.
 
-**{one_ai}** and its **Reading** have cards there too. {one_ai} off means nobody can
+{one_ai} off means nobody can
 ask it anything: the {one_ai} button, the chat, the field explanations and the
 writing help go, and nothing in the workspace calls a model, {one_hr}'s
 screening and grievance triage included. Reading needs {one_ai}, so it goes
-off with it, and can't be turned on until {one_ai} is. Reading off stops
+off with it, and can't be turned on until {one_ai} is. Reading is turned on
+or off in {ai_center}. Reading off stops
 reading mail and files: its rows leave the bar and {one}'s panel, and its
 switches can't be turned on. What they read and filed before stays. A
 {one_studio} extension waits for {one_ai}'s review, so none can be turned on while
@@ -128,7 +136,9 @@ turned back on, they all work as they did.
 ## Private Apps
 
 **Private apps** are made for one customer. Somebody who administers the
-workspace types the code they were given at the bottom of **Turn Apps On or Off** and presses
-**Add**. The app is installed on the workspace, which takes a few minutes,
-and its card says *Installing…* until it is on the rail. A private app
+workspace types the code they were given at the bottom of
+**{one_marketplace}** and presses **Add**. The app is installed on the
+workspace, which takes a few minutes, and its tile says *Installing…* until
+it is on the rail. The workspace's private apps are listed there under its
+company's name. A private app
 can't be turned off, now or later.

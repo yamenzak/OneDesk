@@ -16,6 +16,7 @@ export const ISLANDS = {
 	"onedesk.stock": "src/islands/stock.js",
 	"onedesk.one_home": "src/islands/one_home.js",
 	"onedesk.hub": "src/islands/hub.js",
+	"onedesk.marketplace": "src/islands/marketplace.js",
 	"onedesk.home": "src/islands/home.js",
 	"onedesk.head": "src/islands/head.js",
 	"onedesk.books": "src/islands/books.js",

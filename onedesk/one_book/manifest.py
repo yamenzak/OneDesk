@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "books", "OneBook's home: how the money is doing, what needs somebody today, and everything in it (GL Entry, Sales Invoice, Purchase Invoice, Bank Transaction)"),
 	),
 	line=_lt("Send invoices, pay bills, match the bank and see where the money stands."),
+	pitch=_lt("{one_book} keeps the company's money: the invoices it sends, the bills it gets, the payments either way and the bank. Tax returns and the reports an accountant asks for come from the same records."),
+	brings=(
+		_lt("Invoices, bills and payments"),
+		_lt("Bank matching"),
+		_lt("Tax and closing the year"),
+		_lt("Several currencies"),
+	),
 	mark="onebook",
 	owns=("Accounts", "EDI", "ERPNext Integrations", "Regional"),
 	rail=40,

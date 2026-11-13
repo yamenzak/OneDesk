@@ -33,10 +33,21 @@ def _declared(app: str):
 
 
 def about(app: str) -> dict:
-	"""A private app's title, sentence and icon, from its manifest.py."""
-	card = manifest.card(_declared(app))
+	"""A private app's title, sentence and icon, from its manifest.py, and
+	what OneMarketplace says of it."""
+	declared = _declared(app)
+	card = manifest.card(declared)
 	line = card["said"]
-	return {"name": app, "title": card["title"], "said": _(line) if line else "", "icon": card["icon"] or "package"}
+	return {
+		"name": app,
+		"title": card["title"],
+		"said": _(line) if line else "",
+		"icon": card["icon"] or "package",
+		"pitch": _(declared.pitch) if declared.pitch else "",
+		"brings": [_(one) for one in declared.brings],
+		"needs": list(declared.needs),
+		"plan": list(declared.plan),
+	}
 
 
 def offered() -> list[dict]:

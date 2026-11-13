@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "onequality", "OneQuality's home: the problems still open, the steps overdue, the goals failing, and everything in it (Non Conformance, Quality Action, Quality Review)"),
 	),
 	line=_lt("Write how work is done, record what went wrong, and follow it until it is fixed."),
+	pitch=_lt("{one_quality} keeps the company's work right: how each piece of work is done, the goals it is held to and what went wrong. Every problem is recorded, from a phone too, and followed until it is fixed."),
+	brings=(
+		_lt("Procedures and goals"),
+		_lt("Problems and the actions taken"),
+		_lt("Quality meetings and feedback"),
+		_lt("Steps overdue and goals failing"),
+	),
 	mark="onequality",
 	owns=("Quality Management",),
 	rail=70,

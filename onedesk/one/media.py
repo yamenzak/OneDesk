@@ -1,5 +1,6 @@
-"""The pictures and clips in Help and What's New, written beside the page or
-version that shows them and read from R2 under the hash of what each holds,
+"""The pictures and clips in Help, What's New and OneMarketplace, written
+beside the page or version that shows them (an app's page's in its media/)
+and read from R2 under the hash of what each holds,
 so a picture has the same address on dev and in production (docs/READY.md,
 Pictures and clips). Until R2 has one, this site serves it (`picture`).
 """
@@ -19,7 +20,7 @@ from onedesk.one import ready
 # `docs_media`). A site may name another in `one_media`.
 DOMAIN = "media.4dl.app"
 PREFIX = "docs"
-KINDS = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".gif": "image/gif"}
+KINDS = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".gif": "image/gif", ".mp4": "video/mp4"}
 PICTURE = re.compile(r"!\[([^\]]*)\]\(([^)\s]+)\)")
 # A clip plays for at most this long, and no file is larger than this
 # (tests/guards/test_docs_media.py).
@@ -47,9 +48,10 @@ def files(module: str) -> list[Path]:
 	return sorted(path for folder in folders(module) for path in folder.rglob("*") if path.suffix.lower() in KINDS)
 
 
-def folders(module: str) -> tuple[Path, Path]:
-	"""Where a module's pictures sit: beside its Help pages and its versions."""
-	return ready.help_folder(module).resolve(), ready.changelog(module).resolve()
+def folders(module: str) -> tuple[Path, Path, Path]:
+	"""Where a module's pictures sit: beside its Help pages and its versions,
+	and in media/, its OneMarketplace page's."""
+	return ready.help_folder(module).resolve(), ready.changelog(module).resolve(), (ready.help_folder(module).parent / "media").resolve()
 
 
 def every() -> list[Path]:
@@ -101,7 +103,7 @@ def picture(module: str, path: str):
 def moved(path: str) -> str:
 	"""A picture's path as a page drawn before P2.10 held it, under docs/:
 	changelog/ is updates/ now and the rest is help/. Removed with D13."""
-	if path.startswith(("help/", "updates/")):
+	if path.startswith(("help/", "updates/", "media/")):
 		return path
 	return "updates/" + path.removeprefix("changelog/") if path.startswith("changelog/") else "help/" + path
 

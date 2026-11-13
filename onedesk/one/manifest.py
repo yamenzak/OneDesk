@@ -10,9 +10,18 @@ APP = App(
 	ui="mixed",
 	regions=(
 		Region("page", "one-hub", "every centre the reader may open as a tile, searchable, as a phone's Settings app: the centres are dialogs, so no list can hold them"),
+		Region("page", "marketplace", "OneMarketplace: every app as a store draws it, its page with pictures, what it brings, its plan and credits, and Install or Turn Off; tiles a buyer browses, which no list draws"),
 		Region("page", "one", "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)"),
 	),
 	kept=Kept(_lt("Every app stands on One's Home, centres and window.")),
+	line=_lt("Home, the address book and the centres every app opens in."),
+	pitch=_lt("{one} is the workspace itself: Home, the address book, announcements and the centres where the workspace is set up. Every app opens inside it, so it is always on."),
+	brings=(
+		_lt("Home, with what waits for you in each app"),
+		_lt("Contacts and addresses every app shares"),
+		_lt("Announcements and the recycle bin"),
+		_lt("Centres for settings, access, help and updates"),
+	),
 	mark="one",
 	rail=10,
 	sidebar="One",
@@ -66,6 +75,7 @@ APP = App(
 
 PARTS = (
 	App(id="one_hub", name="OneHub", kind="centre", module="", mark="one"),
+	App(id="one_marketplace", line=_lt("Every app, what it does, and Install."), name="OneMarketplace", kind="centre", module=""),
 	App(id="control_center", line=_lt("Each app's settings."), name="ControlCenter", kind="centre", module="", centre=Centre("settings", "settings")),
 	App(id="notification_center", line=_lt("What reaches whom, and how."), name="NotificationCenter", kind="centre", module="", centre=Centre("notifications", "bell")),
 	App(id="access_center", line=_lt("Who may open which app, and at what level."), name="AccessCenter", kind="centre", module="", centre=Centre("access", "key-round")),

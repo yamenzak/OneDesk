@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "onecrm", "OneCRM's home: how selling is going, what needs the reader today, and everything in it (Lead, Opportunity, Quotation, Sales Order)"),
 	),
 	line=_lt("Follow every lead from first call to signed quote, and keep each customer's story in one place."),
+	pitch=_lt("{one_crm} keeps the people and businesses the company sells to: who got in touch, what they might buy, what was said and what happens next. Quotations and sales orders are made from the same records."),
+	brings=(
+		_lt("Leads and their next step"),
+		_lt("A pipeline by stage"),
+		_lt("Quotations and sales orders"),
+		_lt("Support issues and appointments"),
+	),
 	mark="onecrm",
 	owns=("CRM", "Selling", "Support", "Maintenance", "Telephony", "Communication"),
 	rail=80,

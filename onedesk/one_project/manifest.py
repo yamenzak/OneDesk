@@ -9,6 +9,13 @@ APP = App(
 	module="One Project",
 	ui="mixed",
 	line=_lt("Plan each job, follow its time and costs, and bill it as the work gets done."),
+	pitch=_lt("{one_project} runs work bigger than a task, such as a villa's windows or an office move. A project holds its tasks, its time, its costs and what it is billed, and shows how each is going."),
+	brings=(
+		_lt("Tasks and the schedule"),
+		_lt("Time and each person's workload"),
+		_lt("Costs against the budget"),
+		_lt("Billing as the work is done"),
+	),
 	mark="oneproject",
 	owns=("Projects",),
 	rail=110,

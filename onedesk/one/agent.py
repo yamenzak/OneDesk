@@ -20,6 +20,7 @@ NOT_FOR_AI = {
 	"unsubscribe.off": "A signed link in a mail, opened without signing in, while OneAI sets the same switch through NotificationCenter.",
 	"setup_center.save": "A step's answers are the workspace's own setup, typed by whoever sets it up in SetupCenter.",
 	"setup_center.finish": "Marking a step done is the word of whoever did it, never OneAI's.",
+	"marketplace.turn": "Which apps the workspace has is an administrator's decision in OneMarketplace, never OneAI's.",
 	"rail.save_workspace": "The order of the apps on everybody's rail is an administrator's choice in SetupCenter, never OneAI's.",
 	"shortcut_center.save":"Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"shortcut_center.reset": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
@@ -568,6 +569,16 @@ def page(said: dict) -> str | None:
 			f"The reader is on {registry.name('one_hub')}: every centre they may open, a tile each with what it is for, "
 			"and a search over them. A tile opens its centre over the page; the arrow at the right of the top bar "
 			"lists the same centres from any screen."
+		)
+	if said.get("page") == "marketplace":
+		from onedesk.one import registry
+
+		return (
+			f"The reader administers this workspace and is on {registry.name('one_marketplace')}: every app as a tile, "
+			"searchable and filtered by field and by On or Off, and the private apps under the company's name. An app's "
+			"page says what it does, what it brings, whether the plan includes it, the credits it uses and what it needs; "
+			"Install turns it on and opens its steps in SetupCenter, Turn Off takes it off everybody's rail. How is in "
+			"One's Help under Settings (how_to)."
 		)
 	if said.get("page") == "one":
 		return (

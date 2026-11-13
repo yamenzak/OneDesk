@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "document", "a document from OneCloud, in OneDoc's editor (Writer Document)"),
 	),
 	line=_lt("Write documents together, from a template or a blank page, and send them as Word or PDF."),
+	pitch=_lt("{one_doc} writes the company's documents, such as a scope of works, a letter or the minutes of a meeting. People write in the same document at once and comment in the margin. Each document is a file in {one_cloud}, sent as Word or PDF."),
+	brings=(
+		_lt("Writing together, with comments in the margin"),
+		_lt("Templates and the history of every change"),
+		_lt("Word and PDF, printed or sent"),
+		_lt("A document kept on its record"),
+	),
 	mark="onedoc",
 	rail=22,
 	sidebar="OneDoc",

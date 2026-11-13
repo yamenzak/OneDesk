@@ -12,6 +12,13 @@ APP = App(
 		Region("page", "workbook", "a workbook from OneCloud, in OneSheet's editor (Workbook)"),
 	),
 	line=_lt("Work on spreadsheets together, with formulas and charts, and send them as Excel."),
+	pitch=_lt("{one_sheet} is the company's spreadsheet, with formulas, charts, pivot tables and notes. A workbook is kept in {one_cloud} and opened by anybody it is shared with. Excel and CSV files open in it and are saved from it."),
+	brings=(
+		_lt("Formulas, charts and pivot tables"),
+		_lt("Excel and CSV in and out"),
+		_lt("Templates and the history of every change"),
+		_lt("A record's table as a sheet"),
+	),
 	mark="onesheet",
 	rail=24,
 	sidebar="OneSheet",

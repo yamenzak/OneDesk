@@ -13,6 +13,13 @@ APP = App(
 		Region("page", "onefactory", "OneFactory's home: what needs somebody in the workshop today, and everything in it (Work Order, Job Card, Subcontracting Order)"),
 	),
 	line=_lt("Plan what you make, run it on the shop floor, and send work out to suppliers."),
+	pitch=_lt("{one_factory} is where the company makes things: what each product is made from, the work orders that make it and the steps on the shop floor. What it uses and makes is stock in {one_inventory}."),
+	brings=(
+		_lt("Bills of materials"),
+		_lt("Work orders and the shop floor"),
+		_lt("Work sent to suppliers"),
+		_lt("What is late and what was made"),
+	),
 	mark="onefactory",
 	owns=("Manufacturing", "Subcontracting"),
 	rail=60,
