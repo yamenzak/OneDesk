@@ -1410,8 +1410,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					render: (one) =>
 						`<div>${esc(one.name)}${one.default ? ` ${frappe.ui.badge.html({ label: __("Default"), theme: "gray" })}` : ""}</div><div class="one-shell-quiet">${esc(one.abbr || "")}</div>`,
 				},
-				{ label: __("Country"), render: (one) => esc(one.country ? __(one.country) : "-") },
-				{ label: __("Currency"), render: (one) => esc(one.default_currency || "-") },
+				{ label: __("Country"), render: (one) => `<div>${esc(one.country ? __(one.country) : "-")}</div><div class="one-shell-quiet">${esc(one.default_currency || "")}</div>` },
 			],
 		});
 	}
