@@ -533,6 +533,7 @@
 "Communication": [
 "All",
 "Inbox User",
+"OneMail Receptionist",
 "System Manager"
 ],
 "Communication Medium": [
@@ -587,6 +588,7 @@
 "All",
 "Maintenance Manager",
 "Maintenance User",
+"OneMail Receptionist",
 "Purchase Manager",
 "Purchase Master Manager",
 "Purchase User",
@@ -686,6 +688,7 @@
 "Customer": [
 "Accounts Manager",
 "Accounts User",
+"OneMail Receptionist",
 "Sales Manager",
 "Sales Master Manager",
 "Sales User",
@@ -744,6 +747,7 @@
 "Accounts User",
 "Delivery Manager",
 "Delivery User",
+"OneMail Receptionist",
 "Sales User",
 "Stock Manager",
 "Stock User"
@@ -898,6 +902,7 @@
 "Dunning": [
 "Accounts Manager",
 "Accounts User",
+"OneMail Receptionist",
 "System Manager"
 ],
 "Dunning Type": [
@@ -954,7 +959,8 @@
 "Employee",
 "Employee Self Service",
 "HR Manager",
-"HR User"
+"HR User",
+"OneMail Receptionist"
 ],
 "Employee Advance": [
 "Accounts Manager",
@@ -1138,7 +1144,8 @@
 "Employee Self Service",
 "Expense Approver",
 "HR Manager",
-"HR User"
+"HR User",
+"OneMail Receptionist"
 ],
 "Expense Claim Type": [
 "Employee",
@@ -1378,6 +1385,7 @@
 "HR Manager",
 "HR User",
 "Interviewer",
+"OneMail Receptionist",
 "System Manager"
 ],
 "Interview Feedback": [
@@ -1404,6 +1412,7 @@
 "Accounts Manager"
 ],
 "Issue": [
+"OneMail Receptionist",
 "Sales Manager",
 "Sales User",
 "Support Team"
@@ -1494,6 +1503,7 @@
 "Job Applicant": [
 "HR Manager",
 "HR User",
+"OneMail Receptionist",
 "System Manager"
 ],
 "Job Applicant Source": [
@@ -1509,6 +1519,7 @@
 "Job Offer": [
 "HR Manager",
 "HR User",
+"OneMail Receptionist",
 "System Manager"
 ],
 "Job Offer Term Template": [
@@ -1563,6 +1574,7 @@
 "System Manager"
 ],
 "Lead": [
+"OneMail Receptionist",
 "Sales Manager",
 "Sales User",
 "System Manager"
@@ -1580,7 +1592,8 @@
 "Employee Self Service",
 "HR Manager",
 "HR User",
-"Leave Approver"
+"Leave Approver",
+"OneMail Receptionist"
 ],
 "Leave Block List": [
 "HR Manager",
@@ -1728,6 +1741,7 @@
 ],
 "Material Request": [
 "Manufacturing Manager",
+"OneMail Receptionist",
 "Purchase Manager",
 "Purchase User",
 "Stock Manager",
@@ -1793,6 +1807,7 @@
 ],
 "Non Conformance": [
 "Employee",
+"OneMail Receptionist",
 "Quality Manager",
 "Quality User",
 "System Manager"
@@ -1866,6 +1881,7 @@
 "Manufacturing User"
 ],
 "Opportunity": [
+"OneMail Receptionist",
 "Sales Manager",
 "Sales User"
 ],
@@ -1968,7 +1984,8 @@
 ],
 "Payment Entry": [
 "Accounts Manager",
-"Accounts User"
+"Accounts User",
+"OneMail Receptionist"
 ],
 "Payment Gateway Account": [
 "Accounts Manager"
@@ -1988,7 +2005,8 @@
 ],
 "Payment Request": [
 "Accounts Manager",
-"Accounts User"
+"Accounts User",
+"OneMail Receptionist"
 ],
 "Payment Term": [
 "Accounts Manager",
@@ -2175,6 +2193,7 @@
 "Accounts User",
 "HR Manager",
 "HR User",
+"OneMail Receptionist",
 "Projects Manager",
 "Projects User"
 ],
@@ -2219,15 +2238,18 @@
 "Accounts Manager",
 "Accounts User",
 "Auditor",
+"OneMail Receptionist",
 "Purchase User"
 ],
 "Purchase Order": [
+"OneMail Receptionist",
 "Purchase Manager",
 "Purchase User",
 "Stock User"
 ],
 "Purchase Receipt": [
 "Accounts User",
+"OneMail Receptionist",
 "Purchase User",
 "Stock Manager",
 "Stock User"
@@ -2256,6 +2278,7 @@
 ],
 "Quality Action": [
 "Desk User",
+"OneMail Receptionist",
 "Quality Manager",
 "Quality User",
 "System Manager"
@@ -2338,6 +2361,7 @@
 "Quotation": [
 "Maintenance Manager",
 "Maintenance User",
+"OneMail Receptionist",
 "Sales Manager",
 "Sales User"
 ],
@@ -2407,6 +2431,7 @@
 ],
 "Request for Quotation": [
 "Manufacturing Manager",
+"OneMail Receptionist",
 "Purchase Manager",
 "Purchase User",
 "Stock User"
@@ -2479,11 +2504,13 @@
 ],
 "Sales Invoice": [
 "Accounts Manager",
-"Accounts User"
+"Accounts User",
+"OneMail Receptionist"
 ],
 "Sales Order": [
 "Accounts User",
 "Maintenance User",
+"OneMail Receptionist",
 "Sales Manager",
 "Sales User",
 "Stock User"
@@ -2763,6 +2790,7 @@
 "Subcontracting Order": [
 "Manufacturing Manager",
 "Manufacturing User",
+"OneMail Receptionist",
 "Purchase Manager",
 "Purchase User",
 "Stock User"
@@ -2800,6 +2828,7 @@
 "Supplier": [
 "Accounts Manager",
 "Accounts User",
+"OneMail Receptionist",
 "Purchase Manager",
 "Purchase Master Manager",
 "Purchase User",
@@ -2817,6 +2846,7 @@
 ],
 "Supplier Quotation": [
 "Manufacturing Manager",
+"OneMail Receptionist",
 "Purchase Manager",
 "Purchase User",
 "Stock User"
@@ -2871,6 +2901,7 @@
 "Desk User",
 "HR Manager",
 "HR User",
+"OneMail Receptionist",
 "Projects User"
 ],
 "Task Type": [
@@ -3178,6 +3209,7 @@
 ],
 "Work Order": [
 "Manufacturing User",
+"OneMail Receptionist",
 "Stock User"
 ],
 "Workbook": [
