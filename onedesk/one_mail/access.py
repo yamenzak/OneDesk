@@ -10,6 +10,7 @@ from frappe import _lt
 
 from onedesk.one import registry, rights, roles
 from onedesk.one.registry import agents
+from onedesk.one_mail import linking
 
 APP = registry.name("one_mail")
 
@@ -127,7 +128,9 @@ DEFAULTS = {
 
 RECEPTIONIST = "OneMail Receptionist"
 
-GIVEN = {"Communication": {RECEPTIONIST: ("read",)}}
+GIVEN = {doctype: {RECEPTIONIST: ("read",)} for doctype in ("Communication", *linking.LINKED)}
+"""The receptionist reads mail, and the records mail is linked to, which
+frappe asks of a linked mail before it opens it."""
 
 
 def settle() -> None:

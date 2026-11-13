@@ -354,6 +354,7 @@ registry.
 ## Decisions
 - 13 Nov, Yamen: the signup wizard's privacy clause and the Terms' agreeing on the first page are a new revision of OneAdmin's privacy policy and terms: everyone agrees again.
 - 13 Nov, Yamen: there is one OneAdmin, admin.4dl.app, for production and test workspaces; dev's is retired. P4's gate signs up there once arcs is released. Merging arcs into main is mine to do at the end of the run.
+- 13 Nov, Yamen: OneMail's receptionist reads the records mail is linked to (read only, the record types OneMail links mail to), so frappe's Communication permission lets it read a linked mail.
 
 - 12 Nov, Yamen: work on `arcs`, merged to `main` at gates; editors OneDoc,
   OneSheet, OneDeck; the product stays One; OneOS stays until OneGuard; the

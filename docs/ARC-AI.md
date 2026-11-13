@@ -48,7 +48,7 @@ What it writes goes where people already look: a **comment on the record** it to
 
 An agent is a real user of the workspace with only its department's roles, and it may do only what both it and the person who asked may do. Work it does on its own schedule runs on its own roles alone, inside the limits AICenter sets.
 
-Its roles are its app's User roles and, where those cannot reach what the agent is for, a role of its own that the manifest names in `agent_roles`: never a manager's role nor one that runs the workspace, never one a person holds (migrate takes it off anybody else, and the agents' check fails if a person has it). OneMail's receptionist holds OneMail Receptionist, which reads Communication; people read their mail through the mailboxes they hold, and the receptionist holds none, so OneMail's permission hook lets it open only the mail of a mailbox OneAI reads and no other Communication.
+Its roles are its app's User roles and, where those cannot reach what the agent is for, a role of its own that the manifest names in `agent_roles`: never a manager's role nor one that runs the workspace, never one a person holds (migrate takes it off anybody else, and the agents' check fails if a person has it). OneMail's receptionist holds OneMail Receptionist, which reads Communication and the record types OneMail links mail to (frappe opens a linked mail only to whoever reads its record); people read their mail through the mailboxes they hold, and the receptionist holds none, so OneMail's permission hook lets it open only the mail of a mailbox OneAI reads and no other Communication.
 
 Every action an agent has carries one of three levels, set per module in AICenter:
 

@@ -66,7 +66,10 @@ def test_an_agent_s_own_role_is_never_a_person_s():
 def test_the_receptionist_s_role_reads_mail_and_is_made_by_migrate():
 	from onedesk.one_mail import access
 
-	assert access.GIVEN == {"Communication": {"OneMail Receptionist": ("read",)}}
+	from onedesk.one_mail import linking
+
+	assert set(access.GIVEN) == {"Communication", *linking.LINKED}
+	assert all(by_role == {"OneMail Receptionist": ("read",)} for by_role in access.GIVEN.values())
 	settles = hooks.settles(install=False)
 	assert settles.index("onedesk.one_mail.access.settle") < settles.index("onedesk.one_ai.agents.users.ensure")
 	assert "rights.made(RECEPTIONIST, desk=False)" in (tree.APP / "one_mail" / "access.py").read_text()
