@@ -285,7 +285,7 @@ release through a thin module, removed in P2.9.
 - [ ] P4.10 OneAdmin again: its setup sessions (each signup's wizard as a record operators can follow, resume and help), the funnel analytics, and its own agent (OneAdmin's operator assistant, on the P8 foundation, with the same levels). — an operator sees each signup's place in the wizard and can ask the agent about the fleet.
 - [x] P4.11 The price calculator counts what agents cost: Durable Object requests, duration and storage, Workers, the Agents SDK's database, per agent per workspace; OneCredit's price reconsidered against it, with the margin kept (price_list.ONECREDIT, margins.py). — Plan Calculator and Price Check show agent cost; the decision on OneCredit's price is in Decisions. (13 Nov, an agent, 621bb585, and 328d79aa: one_admin/agent_costs.py from Cloudflare's prices read that day; an Agent Cost column in Price Check and Plan Calculator; a OneCredit stays AED 0.04 and the 20,000 pack is AED 769: Decisions.)
 - [x] P4.9 Private apps declared by their manifest (title, line, mark, needs, kept) instead of upload.py reading hooks with ast. — Rua's manifest drives its card. (13 Nov, an agent, 67645387: a private app is `APP = App(...)` in its manifest.py, read with ast by onedesk/one/registry/private.py, literals only, through registry._check; the build, upload and AccountCenter read it; upload.py's hooks reading gone with no fallback; Rua's card from private/rua/rua/manifest.py. Records already in OneAdmin keep their words until their next release.)
-- **Gate P4:** a signup on the dev OneAdmin lands configured on a box that is then dropped; the demo builds from scratch through the setup job; Release Server drilled.
+- **Gate P4:** a signup on admin.4dl.app (after arcs is released) lands configured on a box that is then dropped; the demo builds from scratch through the setup job; Release Server drilled.
 
 ### P5. OneHub and the centres
 
@@ -352,6 +352,8 @@ registry.
 - [ ] P11.3 The switchover items that were Yamen's (admin.4dl.dev retired, dev Cloudflare resources) prepared as a list for him.
 
 ## Decisions
+- 13 Nov, Yamen: the signup wizard's privacy clause and the Terms' agreeing on the first page are a new revision of OneAdmin's privacy policy and terms: everyone agrees again.
+- 13 Nov, Yamen: there is one OneAdmin, admin.4dl.app, for production and test workspaces; dev's is retired. P4's gate signs up there once arcs is released. Merging arcs into main is mine to do at the end of the run.
 
 - 12 Nov, Yamen: work on `arcs`, merged to `main` at gates; editors OneDoc,
   OneSheet, OneDeck; the product stays One; OneOS stays until OneGuard; the
@@ -394,9 +396,8 @@ registry.
   OneGuard is protection only (P9.4).
 
 ## Waiting for Yamen
+- 13 Nov, Yamen: run.localhost becomes a test workspace on admin.4dl.app (New Test Workspace, his); then gate.sh links it with deploy/local/link.sh instead of the retired admin.4dl.dev.
 - 13 Nov, P4.1's drill: the Oracle box is connected to production's OneAdmin (admin.4dl.app), so Release Server reaches it only after arcs is merged and released. Then: release it, run the line, Released; Connect Again, run the line, Oracle found.
-- 13 Nov, P4.3/P4.4 (branch worktree-agent-ac61b6705f5d6e694, 405245a3, not merged): the signup wizard stores what is typed into it, so OneAdmin's privacy policy gains a clause (`oneadmin-setup-answers`, one_admin/trust.py), and the terms clause `oneadmin-signup-agree` now says you agree on the first page, not at payment. The legal skill leaves it to you: a new revision (everyone agrees again) or the hash recorded. I'd make it a new revision of OneAdmin's privacy policy and terms, since it is a new use of data; nothing is sold yet.
-- 13 Nov, the P4 gate's signup: admin.4dl.dev is off the tunnel since dev's OneAdmin was retired. A drill needs it routed again for an afternoon (a line in ~/.cloudflared/config.yml and its DNS record), or the drill runs against production's OneAdmin with a test workspace. I'd route it again for the drill and take it off after.
 
 Only what needs his own hands:
 
