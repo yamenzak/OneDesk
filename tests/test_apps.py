@@ -39,7 +39,7 @@ def test_turning_an_app_off_hides_and_never_refuses():
 	assert '"frappe.desk.search.search_link": "onedesk.one.apps.search_link"' in HOOKS
 	assert '"/assets/onedesk/js/apps.js"' in HOOKS
 	assert "roles.require()" in source.split("def save(")[1].split("def ")[0], "a workspace administrator's"
-	assert 'KEPT = ("One", "OneAdmin", "One Admin")' in source, "One's own Home and the operators' never go"
+	assert "not app.kept.held" in source, "One's own Home and the operators' never go"
 	companions = (tree.APP / "one" / "companions.py").read_text()
 	assert "row.get(\"link_to\") not in off" in companions, "the site's Dock layer hides them"
 	assert 'frappe.user.has_role("Workspace Administrator")' in JS and ".dock-user" in JS

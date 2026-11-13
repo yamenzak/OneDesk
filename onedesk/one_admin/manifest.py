@@ -1,12 +1,13 @@
 """OneAdmin's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, _lt
+from onedesk.one.registry.model import App, Kept, Settle, _lt
 
 APP = App(
 	id="one_admin",
 	name="OneAdmin",
 	kind="app",
 	module="One Admin",
+	kept=Kept(_lt("Runs every workspace from the admin site.")),
 	mark="oneadmin",
 	rail=170,
 	sidebar="One Admin",

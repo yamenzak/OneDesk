@@ -9,7 +9,7 @@ import re
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import layer, roles, rules
+from onedesk.one import layer, registry, roles, rules
 
 LISTS = (
 	("Salutation", _lt("Salutations"), _lt("Salutation")),
@@ -26,15 +26,8 @@ COUNTED = {"Address Template": (_lt("1 country"), _lt("{0} countries"))}
 
 # The modules with lists, each with its folder, in the order a reader who
 # sees several meets them.
-HOMES = {
-	"One": "one",
-	"OneCRM": "one_crm",
-	"OneBook": "one_book",
-	"OneInventory": "one_inventory",
-	"OneProject": "one_project",
-	"OneHR": "one_hr",
-	"OneStudio": "one_studio",
-}
+HOMES = {app.name: app.id for app in registry.apps() if (registry.FOLDERS / app.id / "lists.py").exists()}
+"""The apps whose lists.py names lists that open on their own Home."""
 
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 

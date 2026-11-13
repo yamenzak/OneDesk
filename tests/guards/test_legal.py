@@ -171,10 +171,10 @@ def test_every_company_that_runs_a_model_is_a_declared_subprocessor():
 
 
 def test_every_modules_legal_file_is_assembled():
-	from onedesk.one_legal.assemble import MODULES
+	from onedesk.one_legal.assemble import places
 
 	found = {path.parent.name for path in tree.APP.glob("one*/legal.py") if path.parent.name != "one_legal"}
-	assert found <= set(MODULES), f"not in one_legal/assemble.py MODULES: {sorted(found - set(MODULES))}"
+	assert found <= set(places()), f"not a folder or part in the registry: {sorted(found - set(places()))}"
 
 
 def test_a_service_is_reached_only_through_services_call():

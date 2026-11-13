@@ -1,12 +1,13 @@
 """One's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle
+from onedesk.one.registry.model import App, Kept, Settle, _lt
 
 APP = App(
 	id="one",
 	name="One",
 	kind="app",
 	module="One",
+	kept=Kept(_lt("Every app stands on One's Home, centres and window.")),
 	mark="one",
 	rail=10,
 	sidebar="One",

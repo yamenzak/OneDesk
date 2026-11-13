@@ -20,10 +20,6 @@ def _tracked() -> list[str]:
 	return subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.split()
 
 
-def test_nothing_of_a_module_is_left_outside():
-	left = {module: files for module, files in ready.OUTSIDE.items() if files}
-	assert not left, f"move these into the module's places, then empty OUTSIDE: {left}"
-
 
 def test_nothing_outside_a_module_is_named_for_it():
 	tracked = _tracked()

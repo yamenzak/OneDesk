@@ -3,8 +3,7 @@
 
 A module's files are its folder, its static files under
 `public/js/<folder>/`, `public/css/<folder>/` and `public/images/<folder>/`, and its screens under
-`frontend/src/<screens>/`. OUTSIDE lists what still
-sits elsewhere until it moves in; it only shrinks.
+`frontend/src/<screens>/`.
 """
 
 import hashlib
@@ -63,7 +62,6 @@ POINTS = {
 	"home": {
 		"title": "One home",
 		"guards": (
-			READY + "test_nothing_of_a_module_is_left_outside",
 			READY + "test_nothing_outside_a_module_is_named_for_it",
 			READY + "test_a_module_writes_only_agents_scratchpad_and_docs",
 		),
@@ -288,34 +286,15 @@ def shared(path: str) -> bool:
 	return path in SHARED or any(key.endswith("/") and path.startswith(key) for key in SHARED)
 
 
-OUTSIDE = {
-	"OneInterface": [],
-	"OneCRM": [],
-	"OneHR": [],
-	"OneMail": [],
-	"One": [],
-	"OneAI": [],
-	"OneLegal": [],
-	"OneAccount": [],
-	"OnePortal": [],
-	"OneInventory": [],
-	"OneBook": [],
-	"OneDisplay": [],
-	"OneSlide": [],
-	"OneWriter": [],
-	"OneWorkbook": [],
-}
 
 
 def files(module: str) -> list[Path]:
-	"""Every file of a module: its folder, its static files, its screens, and
-	what still sits outside."""
+	"""Every file of a module: its folder, its static files and its screens."""
 	found = []
 	for root in places(module):
 		if root.exists():
 			found += [path for path in root.rglob("*") if path.is_file() and "__pycache__" not in path.parts]
 	found = [path for path in found if not shared(str(path.relative_to(ROOT)))]
-	found += [ROOT / one for one in OUTSIDE.get(module, [])]
 	return sorted(found)
 
 

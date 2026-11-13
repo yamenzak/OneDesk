@@ -32,8 +32,11 @@ def _regex():
 
 
 def _homes() -> dict[str, str]:
-	body = SOURCE.split("HOMES = ", 1)[1].split("\n}\n", 1)[0] + "\n}"
-	return ast.literal_eval(body)
+	"""lists.HOMES as it is built: each app in the registry with a lists.py."""
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one import registry
+
+	return {app.name: app.id for app in registry.apps() if (tree.APP / app.id / "lists.py").exists()}
 
 
 def _declared() -> dict[str, list[str]]:

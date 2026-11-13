@@ -8,32 +8,16 @@ import hashlib
 from .documents import DOCUMENTS, PARTY, SECTIONS
 from .registry import SERVICES, clauses_for, subprocessor_rows
 
-MODULES = (
-	"one",
-	"one_account",
-	"one_admin",
-	"one_ai",
-	"one_storage",
-	"one_mail",
-	"one_portal",
-	"one_ai.reading",
-	"one_hr",
-	"one_calendar",
-	"one_task",
-	"one_project",
-	"one_inventory",
-	"one_factory",
-	"one_quality",
-	"one_crm",
-	"one_book",
-	"one_studio",
-	"one_display",
-	"one_slide",
-	"one_doc",
-	"one_sheet",
-)
 
 _loaded = False
+
+
+def places() -> list[str]:
+	"""Every folder, and every part of one, whose legal.py may say something:
+	each app in the registry and its `parts`."""
+	from onedesk.one import registry
+
+	return [place for app in registry.apps() for place in (app.id, *(f"{app.id}.{part}" for part in app.parts))]
 
 
 def _load() -> None:
@@ -51,7 +35,7 @@ def _load() -> None:
 	import importlib
 
 	importlib.import_module("onedesk.one_legal.legal")
-	for module in MODULES:
+	for module in places():
 		try:
 			importlib.import_module(f"onedesk.{module}.legal")
 		except ModuleNotFoundError as missing:

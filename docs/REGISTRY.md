@@ -9,7 +9,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -38,7 +38,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -67,7 +67,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -96,7 +96,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -125,7 +125,7 @@ Not marked ready yet.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -154,7 +154,7 @@ Not marked ready yet.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -183,7 +183,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -212,7 +212,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -241,7 +241,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -270,7 +270,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -299,7 +299,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -328,7 +328,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -357,7 +357,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -386,7 +386,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -415,7 +415,7 @@ Not marked ready yet.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -444,7 +444,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -473,7 +473,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -502,7 +502,7 @@ Not marked ready yet.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -531,7 +531,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -560,7 +560,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
@@ -589,7 +589,7 @@ Ready.
 
 | Point | Held by | Last looked at |
 |---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| One home | `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |

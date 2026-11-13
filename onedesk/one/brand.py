@@ -6,6 +6,8 @@ the defaults a fresh site starts with and never touches them again.
 
 import frappe
 
+from onedesk.one import registry
+
 LOGO = "/assets/onedesk/images/one.svg"
 
 DEFAULTS = {
@@ -41,7 +43,8 @@ def quiet_errors() -> None:
 		frappe.db.set_single_value("System Settings", "allow_error_traceback", 0)
 
 
-MARK_OF = {"OneCloud": "onestorage", "OneWriter": "onedoc", "OneWorkbook": "onesheet"}
+MARK_OF = {app.name: app.mark for app in registry.apps() if app.mark and app.mark != app.name.lower()}
+"""An app whose mark is not its name in lower case, from its manifest."""
 
 
 def mark(app: str) -> str | None:

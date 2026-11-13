@@ -8,11 +8,14 @@ reading off with it; OnePortal off closes the portal (one_portal/gate.py). The r
 import json
 
 import frappe
+
+from onedesk.one import registry
 from frappe import _, _lt
 
 KEY = "one_hidden_apps"
 HOST = "onedesk"
-KEPT = ("One", "OneAdmin", "One Admin")
+KEPT = tuple(app.sidebar for app in registry.apps() if app.kept and not app.kept.held and app.sidebar)
+"""The rail rows never offered as a switch: apps kept whatever they hold."""
 AI = "OneAI"
 INTAKE = "Reading"
 NEEDS = {INTAKE: AI}

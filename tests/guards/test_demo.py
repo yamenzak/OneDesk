@@ -30,10 +30,12 @@ def test_every_step_is_built_and_written_down():
 
 
 def test_every_app_people_gives_is_given_to_somebody_in_the_demo():
-	source = (ROOT / "onedesk" / "one" / "people.py").read_text()
-	apps = set(re.findall(r'^\t\("(One\w+)", "one\w+",', source, flags=re.M))
-	people = ast.literal_eval(_assigned(DEMO / "people.py", "APPS"))
-	assert apps and apps <= set(people), sorted(apps - set(people))
+	from onedesk.one import registry
+
+	apps = {app.name for app in registry.apps() if app.roles.user}
+	source = (DEMO / "people.py").read_text()
+	assert apps and "APPS = tuple(app.name for app in registry.apps() if app.roles.user)" in source
+	assert "dict.fromkeys(APPS, \"Manager\")" in source, "the owner manages every app"
 
 
 def test_the_suite_checks_and_writes_nothing():

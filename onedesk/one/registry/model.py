@@ -28,12 +28,12 @@ class Roles:
 @dataclass(frozen=True)
 class Kept:
 	"""Why the app can't be turned off once it holds records, and the dotted
-	path of a function that says whether it holds them now. An app is kept
-	when other apps' records need its records, or the law needs them
-	reachable."""
+	path of a function that says whether it holds them now; none means it is
+	never offered as a switch at all. An app is kept when other apps' records
+	need its records, or the law needs them reachable."""
 
 	why: str
-	held: str
+	held: str = ""
 
 
 @dataclass(frozen=True)

@@ -446,14 +446,15 @@ ADMINISTRATOR = "Workspace Administrator"
 
 @cache
 def givable() -> dict:
-	"""{role: the app a workspace gives it with} (one/people.py APPS)."""
-	module = ast.parse((tree.APP / "one" / "people.py").read_text())
+	"""{role: the app a workspace gives it with}: each app's roles in its
+	manifest (onedesk/one/registry), as one/people.py APPS gives them."""
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one import registry
+
 	out = {role: "everybody" for role in EVERYBODY} | {ADMINISTRATOR: "the administrator"}
-	for node in module.body:
-		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "APPS":
-			for label, _code, users, managers in ast.literal_eval(node.value):
-				for role in (*users, *managers):
-					out.setdefault(role, label)
+	for app in registry.apps():
+		for role in (*app.roles.user, *app.roles.manager):
+			out.setdefault(role, app.name)
 	# A module everybody uses gives its User role to everybody and its Manager
 	# in AccessCenter (people.with_roles), both read off its abilities.py.
 	for path in sorted(tree.APP.glob("*/abilities.py")):

@@ -6,24 +6,12 @@ and AccessCenter set it; everything else reads it."""
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import roles, tell
+from onedesk.one import registry, roles, tell
 from onedesk.one.access import all_levels, companion
 
-APPS = [
-	("OneCRM", "onecrm", ("Sales User", "Support Team"), ("Sales Manager",)),
-	("OneBook", "onebook", ("Accounts User",), ("Accounts Manager",)),
-	(
-		"OneInventory",
-		"oneinventory",
-		("Stock User", "Purchase User"),
-		("Stock Manager", "Purchase Manager", "Item Manager"),
-	),
-	("OneFactory", "onefactory", ("Manufacturing User",), ("Manufacturing Manager",)),
-	("OneQuality", "onequality", ("Quality User",), ("Quality Manager",)),
-	("OneProject", "oneproject", ("Projects User",), ("Projects Manager",)),
-	("OneHR", "onehr", ("HR User",), ("HR Manager",)),
-	("OneMail", "onemail", ("OneMail User",), ("Mail Manager",)),
-]
+APPS = [(app.name, app.mark, app.roles.user, app.roles.manager) for app in registry.apps() if app.roles.user]
+"""The apps a person is given a level in, with the roles each level means,
+from each app's manifest (onedesk/one/registry)."""
 
 
 def with_roles() -> list[tuple]:
@@ -49,22 +37,11 @@ ALWAYS = ("OneMail",)
 
 
 APP_SAID = {
-	"OneCRM": _lt("Follow every lead from first call to signed quote, and keep each customer's story in one place."),
-	"OneBook": _lt("Send invoices, pay bills, match the bank and see where the money stands."),
-	"OneInventory": _lt("Know what's in stock, buy what runs low, and track what you sell."),
-	"OneFactory": _lt("Plan what you make, run it on the shop floor, and send work out to suppliers."),
-	"OneQuality": _lt("Write how work is done, record what went wrong, and follow it until it is fixed."),
-	"OneProject": _lt("Plan each job, follow its time and costs, and bill it as the work gets done."),
-	"OneHR": _lt("Contracts, leave, attendance, payroll and hiring for everyone who works with you."),
-	"OneCloud": _lt("Keep the company's files in one place and share them with anyone, inside or out."),
-	"OneMail": _lt("The company's email, each message kept on the customer, supplier or job it's about."),
-	"OneTask": _lt("Everybody's work in one list, with checklists, due dates and timers."),
-	"OneCalendar": _lt("Meetings, leave and deadlines from every app, on one calendar."),
-	"OnePortal": _lt("Let customers and suppliers sign in to see their quotes, orders and invoices, and answer them."),
-	"OneStudio": _lt("Shape One to the way you work with your own fields, record types and forms."),
-	"OneAI": _lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
+	**{app.name: _lt(app.line) for app in registry.apps() if app.line},
 	"Reading": _lt("Mail and files read as they arrive, and filed on their record."),
 }
+"""What each app is for, in one line, from its manifest; Reading is OneAI's
+own switch (one/apps.py) until P8.3 retires it."""
 
 
 LEVELS = ("None", "User", "Manager")

@@ -5,10 +5,12 @@ employee, office and workshop alike."""
 import frappe
 from frappe.utils.password import update_password
 
+from onedesk.one import registry
 from onedesk.one_demo.base import COMPANY, make, on, tag
 
 OWNER = "wsadmin@one.test"
-APPS = ("OneCRM", "OneBook", "OneInventory", "OneFactory", "OneQuality", "OneProject", "OneHR", "OneMail")
+APPS = tuple(app.name for app in registry.apps() if app.roles.user)
+"""Every app a person can be given a level in; the owner manages them all."""
 
 PEOPLE = (
 	("Layla", "Haddad", OWNER, "Management", "General Manager", "Female", (2019, 3, 1), 42000, None, dict.fromkeys(APPS, "Manager")),
