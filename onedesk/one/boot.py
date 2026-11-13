@@ -18,6 +18,7 @@ def boot_session(bootinfo) -> None:
 	bootinfo["one_names"] = {
 		one.id: {"name": one.name, "mark": one.mark, "sidebar": one.sidebar} for one in (*registry.apps(), *registry.parts())
 	}
+	bootinfo["one_centres"] = [{"key": one.centre.key, "id": one.id, "icon": one.centre.icon} for one in registry.centres()]
 
 	from frappe.model.utils.user_settings import get_user_settings
 

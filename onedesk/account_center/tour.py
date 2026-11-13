@@ -6,7 +6,7 @@ from frappe import _lt
 
 ACCOUNT = [
 	{
-		"target": "account-tabs",
+		"target": "centre-tree",
 		"side": "right",
 		"title": _lt("Yours, Then the Workspace's"),
 		"text": _lt("Your profile and how you sign in, and for administrators, the workspace's people, devices, plan and domains."),
@@ -19,4 +19,4 @@ ACCOUNT = [
 	},
 ]
 
-TOURS = [{"key": "account", "at": "account-tabs", "steps": ACCOUNT}]
+TOURS = [{"key": "account", "at": "centre-tree", "steps": ACCOUNT}]

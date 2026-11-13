@@ -1,8 +1,5 @@
-// One's ControlCenter (docs/ONE.md): the workspace's own settings, a tab
-// each, for its administrators (one/control.py). Each module's ControlCenter is
-// opened by name from links and the rail (`onedesk.control_centers`).
-frappe.provide("onedesk.one_control");
-frappe.provide("onedesk.control_centers");
+// One's ControlCenter (docs/ONE.md): the workspace's own settings, a
+// section each, for its administrators (one/control.py).
 
 onedesk.OneSection = class OneSection extends onedesk.CenterSection {
 	static API = "onedesk.one.control.";
@@ -276,29 +273,39 @@ onedesk.OneSection.prototype.draw_pictures = function (data) {
 	}
 };
 
-onedesk.one_control.open = async ({ at = null } = {}) => {
-	// Somebody who doesn't administer the workspace has their own account.
-	if (!frappe.boot.one_administers) return onedesk.account_center.open();
-	const said = await frappe.xcall(onedesk.OneSection.API + "sections_of");
-	const about = {
-		company: __("The company, how to reach it and its address."),
-		branding: __("The logo and colours on letter heads and around every screen."),
-		formats: __("Language, time zone, how dates and numbers read, and amounts."),
-		signin: __("How people sign in to the workspace, and for how long."),
-		sharing: __("What people may share outside their own access."),
-		pictures: __("Pictures of contacts, customers and others, from the web or drawn for those with none."),
-	};
-	const dialog = onedesk.module_settings.open({
-		module: "One",
-		tabs: [{ group: null, items: said.sections.map((one) => onedesk.center_section.tab(onedesk.OneSection, { id: one.key, label: one.label, icon: one.icon, about: about[one.key] })) }],
-		default_tab: at,
-		center: { center: "settings", label: __("Your Workspace"), icon: "building-2" },
-	});
-	dialog.show();
-	return dialog;
-};
+// ControlCenter: a module's own sections (its part, `onedesk.centers.part`),
+// then what every module's finds: its setup steps, its Lists and the
+// centres it is in. A module with lists and no part of its own has only
+// what it finds; any other has One's.
+onedesk.centers.declare("settings", {
+	part(ctx) {
+		const parts = onedesk.centers.parts.settings || {};
+		if (ctx.module && parts[ctx.module]) return parts[ctx.module];
+		if (ctx.module && ((frappe.boot.one_lists || {})[ctx.module] || []).length) return {};
+		ctx.module = "One";
+		return parts.One;
+	},
+	found: (ctx) => ctx.module,
+});
 
-onedesk.control_centers.One = onedesk.one_control.open;
+// One's own: the workspace's company, branding, formats, sign-in, sharing
+// and pictures, for its administrators; anybody else has their own account.
+onedesk.centers.part("settings", "One", {
+	instead: () => !frappe.boot.one_administers && (() => onedesk.centers.open("account")),
+	whose: () => ({ label: __("Your Workspace"), icon: "building-2" }),
+	async sections() {
+		const said = await frappe.xcall(onedesk.OneSection.API + "sections_of");
+		const about = {
+			company: __("The company, how to reach it and its address."),
+			branding: __("The logo and colours on letter heads and around every screen."),
+			formats: __("Language, time zone, how dates and numbers read, and amounts."),
+			signin: __("How people sign in to the workspace, and for how long."),
+			sharing: __("What people may share outside their own access."),
+			pictures: __("Pictures of contacts, customers and others, from the web or drawn for those with none."),
+		};
+		return [{ group: null, items: said.sections.map((one) => ({ id: one.key, label: one.label, icon: one.icon, description: about[one.key], section: onedesk.OneSection })) }];
+	},
+});
 
 // One's foot (docs/READY.md, mechanism 5): Settings, Help and the version
 // at the foot of One's rail, on whichever of its screens is open. They are
@@ -309,7 +316,7 @@ $(document).on("page-change", () =>
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one")) return;
-		win.module_foot({ module: "One", settings: () => onedesk.one_control.open() });
+		win.module_foot({ module: "One", settings: () => onedesk.centers.open("settings") });
 		onedesk.interface.nav.place();
 	}, 0)
 );

@@ -1,12 +1,13 @@
 """AccountCenter's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App
+from onedesk.one.registry.model import App, Centre
 
 APP = App(
 	id="account_center",
 	name="AccountCenter",
 	kind="centre",
 	module="Account Center",
+	centre=Centre("account", "user"),
 	screens="account",
 	names=("account_center", "accountcenter"),
 	help=(

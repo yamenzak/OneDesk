@@ -1,6 +1,6 @@
 """OneAI's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Region, Settle, _lt
+from onedesk.one.registry.model import App, Centre, Region, Settle, _lt
 
 APP = App(
 	id="one_ai",
@@ -45,5 +45,5 @@ APP = App(
 )
 
 PARTS = (
-	App(id="ai_center", name="AICenter", kind="centre", module=""),
+	App(id="ai_center", name="AICenter", kind="centre", module="", centre=Centre("ai", "oneai")),
 )

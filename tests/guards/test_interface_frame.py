@@ -18,7 +18,7 @@ FRAME_JS = tree.APP / "public" / "js" / "one_interface"
 FRAME_CSS = tree.APP / "public" / "css" / "one_interface"
 FRAME = (FRAME_JS / "frame.js").read_text(encoding="utf-8")
 CHROME = (FRAME_JS / "chrome.js").read_text(encoding="utf-8")
-ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in FRAME_JS.glob("*.js") if path.stem not in ("frame", "chrome", "phone", "nav_tree", "json_view", "look", "dialogs", "stamps", "star", "select", "keys", "views")}
+ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in FRAME_JS.glob("*.js") if path.stem not in ("frame", "chrome", "phone", "nav_tree", "json_view", "look", "dialogs", "stamps", "star", "select", "keys", "views", "centre", "tour")}
 JS = FRAME + "".join(ADAPTERS.values())
 CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(FRAME_CSS.glob("*.css")))
 HOOKS = tree.hooks()
@@ -78,14 +78,20 @@ def _method(source: str, name: str) -> str:
 	return source.split(f"\t{name}(", 1)[1].split("\n\t}\n", 1)[0]
 
 
+BEFORE_THE_SHELL = ("one_interface/centre.js", "one_interface/tour.js")
+"""The centre frame and the tours, loaded with the desk's first scripts: every
+centre declares itself to the frame as it loads, before the shell."""
+
+
 def _one_folder(t: dict) -> None:
 	scripts = re.findall(r'"/assets/onedesk/js/([\w./]+)"', t["hooks"])
 	assert scripts.index("one_interface/frame.js") > scripts.index("shell.js")
 	loaded = [one for one in scripts if one.startswith("one_interface/")]
-	assert loaded[:2] == ["one_interface/frame.js", "one_interface/chrome.js"]
+	assert [one for one in loaded if one not in BEFORE_THE_SHELL][:2] == ["one_interface/frame.js", "one_interface/chrome.js"]
+	assert all(scripts.index(one) < scripts.index("shell.js") for one in BEFORE_THE_SHELL)
 	assert sorted(loaded) == sorted(f"one_interface/{path.name}" for path in FRAME_JS.glob("*.js"))
 	styles = re.findall(r'"/assets/onedesk/css/(one_interface/[\w.]+)"', t["hooks"])
-	assert styles[:4] == ["one_interface/tokens.css", "one_interface/palettes.css", "one_interface/chrome.css", "one_interface/frame.css"]
+	assert [one for one in styles if one != "one_interface/centre.css"][:4] == ["one_interface/tokens.css", "one_interface/palettes.css", "one_interface/chrome.css", "one_interface/frame.css"]
 	assert sorted(styles) == sorted(f"one_interface/{path.name}" for path in FRAME_CSS.glob("*.css"))
 	assert {"page", "list", "board", "report", "tree", "form", "print", "workspace"} <= set(t["adapters"])
 
@@ -93,7 +99,7 @@ def _one_folder(t: dict) -> None:
 def test_the_interface_is_one_folder_loaded_after_the_shell():
 	"""The window is js/one_interface and css/one_interface: the frame first, then one
 	adapter per kind of view, every file of the folder loaded and nothing of
-	it anywhere else."""
+	it anywhere else; the centre frame and the tours load before the shell."""
 	_one_folder(TEXTS)
 	assert not (tree.APP / "public" / "js" / "window.js").exists()
 

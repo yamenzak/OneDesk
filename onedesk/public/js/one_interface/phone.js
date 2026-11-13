@@ -267,12 +267,13 @@ $.extend(onedesk.interface.phone, {
 		const said = (frappe.boot.one_versions || {})[module];
 		if (said) {
 			const $foot = $(`<div class="one-drawer-foot"></div>`).appendTo($body);
-			const settings = (onedesk.control_centers || {})[module];
-			if (settings) frappe.ui.button({ icon: "settings", label: __("Settings"), variant: "ghost", onclick: () => settings() }).appendTo($foot);
+			if ((onedesk.centers.parts.settings || {})[module] || onedesk.centers.FILES()[module]) {
+				frappe.ui.button({ icon: "settings", label: __("Settings"), variant: "ghost", onclick: () => onedesk.centers.open("settings", { module }) }).appendTo($foot);
+			}
 			frappe.ui.button({ icon: "circle-play", variant: "ghost", title: __("Take the Tour"), onclick: () => onedesk.tour.run(module) }).appendTo($foot);
-			frappe.ui.button({ icon: "circle-question-mark", variant: "ghost", title: __("Help"), onclick: () => onedesk.help.open(module) }).appendTo($foot);
+			frappe.ui.button({ icon: "circle-question-mark", variant: "ghost", title: __("Help"), onclick: () => onedesk.centers.open("help", { module }) }).appendTo($foot);
 			frappe.ui
-				.button({ label: said.version, variant: "ghost", title: __("What's New in {0}", [module]), css_class: `one-drawer-version${said.unseen ? " one-drawer-unseen" : ""}`, onclick: () => onedesk.whats_new.open(module) })
+				.button({ label: said.version, variant: "ghost", title: __("What's New in {0}", [module]), css_class: `one-drawer-version${said.unseen ? " one-drawer-unseen" : ""}`, onclick: () => onedesk.centers.open("updates", { module }) })
 				.appendTo($foot);
 		}
 		const shut = () => {

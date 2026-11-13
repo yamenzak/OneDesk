@@ -67,6 +67,23 @@ class Settle:
 
 
 @dataclass(frozen=True)
+class Centre:
+	"""What makes a centre open in OneInterface's frame
+	(public/js/one_interface/centre.js): `key`, the word its address and
+	`onedesk.centers.open` take (`?center=account`), never changing with its
+	name, and `icon`, the lucide icon its row and tile wear. Its sections
+	are declared in JS beside it, by `onedesk.centers.declare(key, ...)`."""
+
+	key: str
+	icon: str
+
+
+CENTRE_KEYS = ("help", "settings", "account", "updates", "trust", "access", "notifications", "ai", "shortcuts", "setup")
+"""Every centre's key, in the order One's rail and a module's ControlCenter
+offer them."""
+
+
+@dataclass(frozen=True)
 class App:
 	"""One folder of One: an app people use, a centre they open, or an engine
 	the others stand on. `id` is the folder and never changes; `name` is what
@@ -111,3 +128,4 @@ class App:
 	makes: tuple[str, ...] = ()
 	agent: str = ""
 	agent_roles: tuple[str, ...] = ()
+	centre: Centre | None = None

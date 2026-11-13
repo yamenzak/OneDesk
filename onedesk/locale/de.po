@@ -2700,10 +2700,10 @@ msgstr "Stempelung für andere Mitarbeitende hinzufügen"
 msgid "Add Collection"
 msgstr "Sammlung hinzufügen"
 
+#: frontend/portal/src/start/Companies.vue:11
 #: onedesk/public/js/account_center/account_center.js:1400
 #: onedesk/public/js/account_center/account_center.js:1423
 #: onedesk/public/js/account_center/account_center.js:1449
-#: frontend/portal/src/start/Companies.vue:11
 msgid "Add Company"
 msgstr "Unternehmen hinzufügen"
 
@@ -47372,14 +47372,14 @@ msgstr ""
 msgid "Setup hit a problem on our side. We're working on it."
 msgstr "Bei der Einrichtung ist bei uns ein Problem aufgetreten. Wir arbeiten daran."
 
+#: frontend/src/admin/AdminHome.vue:25
+msgid "Setup, Last 90 Days"
+msgstr "Einrichtung, letzte 90 Tage"
+
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json:198
 msgid "SetupCenter"
 msgstr "SetupCenter"
-
-#: frontend/src/admin/AdminHome.vue:25
-msgid "Setup, Last 90 Days"
-msgstr "Einrichtung, letzte 90 Tage"
 
 #. Label of the several (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:41
@@ -64604,10 +64604,6 @@ msgstr ""
 msgid "Workshop Time Is Costed"
 msgstr "Werkstattzeit wird verrechnet"
 
-#: onedesk/public/js/one_factory/factory_control.js:17
-msgid "Workshop saved."
-msgstr "Werkstatt gespeichert."
-
 #: onedesk/one_display/starters.py:997 onedesk/one_display/widgets.py:181
 msgid "Workshops"
 msgstr "Workshops"
@@ -71594,6 +71590,11 @@ msgstr "{0} wurde in {1} gespeichert, im selben Ordner wie dieses Dokument."
 #, python-brace-format
 msgid "{0} saved to {1}, in the same folder as this workbook."
 msgstr "{0} wurde in {1} im selben Ordner wie diese Arbeitsmappe gespeichert."
+
+#: onedesk/public/js/one_interface/centre.js:115
+#, python-brace-format
+msgid "{0} saved."
+msgstr "{0} gespeichert."
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:39
 #, python-brace-format

@@ -508,7 +508,7 @@ const seeing = (here) => {
 };
 
 function toMemory() {
-	onedesk.ai_center.open({ at: "yours" });
+	onedesk.centers.open("ai", { at: "yours" });
 }
 
 async function unremember(kept) {

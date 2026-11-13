@@ -8,260 +8,266 @@ frappe.provide("onedesk.access");
 
 onedesk.access.ROLE_FILES = ["/assets/onedesk/js/one/role_matrix.js", "/assets/onedesk/css/one/role_matrix.css"];
 
-onedesk.access.open = async ({ module = null, at = null, record = null } = {}) => {
-	if (!frappe.boot.one_administers) {
-		frappe.show_alert({ message: __("Only the workspace's administrators set who may do what."), indicator: "orange" });
-		return null;
-	}
-	const A = "onedesk.one.access_center.";
-	const kit = onedesk.module_settings.kit;
-	const esc = frappe.utils.escape_html;
-	await frappe.require(onedesk.access.ROLE_FILES);
-	const apps = module ? [module] : await frappe.xcall(A + "modules");
-	const named = onedesk.module_settings.named;
-	const app_icon = (app) => onedesk.module_settings.app_icon(app, "shield-check");
+onedesk.centers.declare("access", {
+	instead: () =>
+		!frappe.boot.one_administers &&
+		(() => {
+			frappe.show_alert({ message: __("Only the workspace's administrators set who may do what."), indicator: "orange" });
+			return null;
+		}),
+	files: onedesk.access.ROLE_FILES,
+	help: ["One", "access-and-the-audit-log"],
+	css: "one-access",
+	async sections(ctx) {
+		const { module, at, record } = ctx;
+		const A = "onedesk.one.access_center.";
+		const kit = onedesk.centers.kit;
+		const esc = frappe.utils.escape_html;
+		const apps = module ? [module] : await frappe.xcall(A + "modules");
+		const app_icon = (app) => onedesk.centers.app_icon(app, "shield-check");
 
-	const role_actions = (app) => [
-		{ label: __("Show Roles"), icon: "eye", click: (panel) => onedesk.roles.pick(panel, app) },
-		{ label: __("New Role"), icon: "plus", click: (panel) => onedesk.roles.create(panel, app) },
-	];
-	const roles_tab = (app) => ({
-		id: `${app}:roles`,
-		label: __("Roles"),
-		icon: "shield-check",
-		title: __("Roles"),
-		description: __("What each role can do in {0}.", [app]),
-		actions: role_actions(app),
-		render(panel) {
-			onedesk.roles.draw(panel, app);
-		},
-	});
-
-	// Everybody and their role in the app, changed in place as People
-	// changes it.
-	const people_tab = (app) => ({
-		id: `${app}:people`,
-		label: __("People"),
-		icon: "users",
-		title: __("People"),
-		description: __("Everybody's role in {0}.", [app]),
-		render: (panel) => people(app, panel.body.empty()),
-	});
-	const people = async (app, $body) => {
-			const said = await frappe.xcall(A + "people", { app });
-			const $list = $(`<div class="one-set-list one-access-people"></div>`).appendTo($body);
-			for (const one of said.people) {
-				const $row = kit
-					.row({ lead: frappe.avatar(null, "avatar-small", one.name, one.image || ""), title: one.name, sub: esc(one.user) })
-					.attr("data-find", `${one.name} ${one.user}`.toLowerCase())
-					.appendTo($list);
-				const control = frappe.ui.form.make_control({
-					df: { fieldtype: "Select", fieldname: "level", label: "", options: said.levels },
-					parent: $(`<span class="one-access-level"></span>`).appendTo($row.find(".one-set-end")),
-					render_input: true,
-					only_input: true,
-				});
-				control.set_value(one.level);
-				control.$input.attr("aria-label", __("{0}'s role in {1}", [one.name, app])).on("change", async () => {
-					const level = control.get_value();
-					try {
-						one.level = await frappe.xcall(A + "put", { app, user: one.user, level });
-						kit.saved();
-					} catch (e) {
-						control.set_value(one.level);
-					}
-				});
-			}
-	};
-
-	// What people were given on one record beyond their role (a shared
-	// mailbox's Users), each changed or taken away here as on the record.
-	const records_tab = (app) => ({
-		id: `${app}:records`,
-		label: __("On One Record"),
-		icon: "key-round",
-		title: __("On One Record"),
-		description: __("People given more than their role on one record, from that record's own screen."),
-		render: (panel) => records(app, panel.body.empty(), panel),
-	});
-	const records = async (app, $body, panel) => {
-			const said = await frappe.xcall(A + "records", { app });
-			const labelled = Object.fromEntries(said.abilities.map((one) => [one.key, one.label]));
-			if (!said.grants.length) {
-				return $(`<div class="one-shell-quiet"></div>`).text(__("Nobody has been given more than their role.")).appendTo($body);
-			}
-			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
-			for (const one of said.grants) {
-				const $row = kit
-					.row({
-						lead: frappe.ui.avatar.html({ label: one.name, size: "md" }),
-						title: one.name,
-						sub: esc(__("{0}: {1}", [one.title, one.given.map((key) => labelled[key]).join(", ")])),
-					})
-					.appendTo($list);
-				const $end = $row.find(".one-set-end");
-				kit.button({ label: __("Edit"), variant: "outline", size: "sm" })
-					.on("click", () => edit(app, said, one, panel))
-					.appendTo($end);
-				kit.remove(() =>
-					frappe.confirm(__("Take away what {0} was given on {1}?", [esc(one.name), esc(one.title)]), async () => {
-						await frappe.xcall(A + "give", { app, record: one.record, user: one.user, keys: [] });
-						panel.refresh();
-					})
-				).appendTo($end);
-			}
-	};
-
-	// The whole centre has one row per app, its Roles, People and, where
-	// the app gives access on one record, On One Record chosen in the head.
-	const SIDES = { roles: __("Roles"), people: __("People"), records: __("On One Record") };
-	const ABOUT = {
-		roles: (app) => __("What each role can do in {0}.", [named(app)]),
-		people: (app) => __("Everybody's role in {0}.", [named(app)]),
-		records: () => __("People given more than their role on one record, from that record's own screen."),
-	};
-	const app_tab = (app, sides, side) => ({
-		id: `app:${app}`,
-		label: named(app),
-		icon_html: app_icon(app),
-		title: named(app),
-		description: ABOUT[side](app),
-		render(panel) {
-			const $body = panel.body.empty();
-			const $tools = $(`<div class="one-access-tools"></div>`).appendTo($body);
-			const $at = $(`<div></div>`).appendTo($body);
-			// The role matrix draws into a panel's body; this one is the page's.
-			const part = Object.assign(Object.create(panel), { body: $at, shown: 0 });
-			const draw = (chosen) => {
-				panel.$header.find(".settings-dialog-panel-description").text(ABOUT[chosen](app));
-				$tools.empty();
-				if (chosen === "roles") {
-					for (const one of role_actions(app)) {
-						kit.button({ label: one.label, icon: one.icon, variant: "subtle" }).on("click", () => one.click(part)).appendTo($tools);
-					}
-					return onedesk.roles.draw(part, app);
-				}
-				return chosen === "people" ? people(app, $at.empty()) : records(app, $at.empty(), { refresh: () => draw("records") });
-			};
-			const tabs = new frappe.ui.TabButtons({
-				label: __("Show"),
-				options: sides.map((one) => ({ label: SIDES[one], value: one })),
-				value: side,
-				on_change: draw,
-			});
-			panel.$header.removeClass("hide").find(".settings-dialog-panel-actions").empty().append(tabs.$el);
-			draw(side);
-		},
-	});
-
-	const edit = (app, said, one, panel) => {
-		const dialog = new frappe.ui.Dialog({
-			title: __("Access for {0}", [one.name]),
-			fields: [
-				{ fieldname: "where", fieldtype: "HTML", options: `<p class="text-muted small">${esc(__("Only in {0}.", [one.title]))}</p>` },
-				{
-					fieldname: "keys",
-					fieldtype: "MultiCheck",
-					columns: 2,
-					options: said.abilities.map((ability) => ({ label: ability.label, value: ability.key, checked: one.given.includes(ability.key) })),
-				},
-			],
-			primary_action_label: __("Save"),
-			primary_action: async ({ keys }) => {
-				await frappe.xcall(A + "give", { app, record: one.record, user: one.user, keys: keys || [] });
-				dialog.hide();
-				kit.saved();
-				panel.refresh();
+		const role_actions = (app) => [
+			{ label: __("Show Roles"), icon: "eye", click: (panel) => onedesk.roles.pick(panel, app) },
+			{ label: __("New Role"), icon: "plus", click: (panel) => onedesk.roles.create(panel, app) },
+		];
+		const roles_tab = (app) => ({
+			id: `${app}:roles`,
+			label: __("Roles"),
+			icon: "shield-check",
+			title: __("Roles"),
+			description: __("What each role can do in {0}.", [app]),
+			actions: role_actions(app),
+			/** The role matrix: a switch for each role and ability (role_matrix.js),
+			 * which no declared kind draws. */
+			render(panel) {
+				onedesk.roles.draw(panel, app);
 			},
 		});
-		dialog.show();
-	};
 
-	// The whole starts with the workspace's own roles, profiles and groups,
-	// for every app that doesn't declare its abilities.
-	const across = module
-		? []
-		: [
-				{
-					group: null,
-					items: [
-						onedesk.center_section.tab(onedesk.AccessSection, {
-							id: "access",
-							label: __("Roles and Profiles"),
-							icon: "id-card",
-							about: __("Profiles give people their apps at once, groups share records, and custom roles sit between User and Manager."),
-							record: at === "access" ? record : null,
-						}),
-					],
-				},
-		  ];
-	// Who changed what, who signed in, and what left as a file or a print,
-	// newest first (one/audit.py `log`), each row opening frappe's record.
-	const audit_tab = {
-		id: "audit",
-		label: __("Audit Log"),
-		icon: "scroll-text",
-		title: __("Audit Log"),
-		description: __("Who changed what, who signed in, and what left the workspace as a file or a print."),
-		async render(panel) {
-			const kinds = [
-				["", __("Everything")],
-				["changes", __("Changes")],
-				["signins", __("Sign-ins")],
-				["exports", __("Exports and Prints")],
-			];
-			const glyphs = { changes: "pencil", signins: "log-in", exports: "file-down" };
-			const $body = panel.body.empty();
-			const $chips = $(`<div class="one-set-chips"></div>`).appendTo($body);
-			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
-			const draw = async (kind) => {
-				$chips.empty();
-				for (const [one, label] of kinds) {
-					kit.button({ label, variant: one === kind ? "solid" : "subtle", size: "sm" }).attr("data-kind", one).on("click", () => draw(one)).appendTo($chips);
+		// Everybody and their role in the app, changed in place as People
+		// changes it.
+		const people_tab = (app) => ({
+			id: `${app}:people`,
+			label: __("People"),
+			icon: "users",
+			title: __("People"),
+			description: __("Everybody's role in {0}.", [app]),
+			/** Each person with a picker of their role at the row's end, saved as
+			 * it changes and put back if refused: rows whose end is a control. */
+			render: (panel) => people(app, panel.body.empty()),
+		});
+		const people = async (app, $body) => {
+				const said = await frappe.xcall(A + "people", { app });
+				const $list = $(`<div class="one-set-list one-access-people"></div>`).appendTo($body);
+				for (const one of said.people) {
+					const $row = kit
+						.row({ lead: frappe.avatar(null, "avatar-small", one.name, one.image || ""), title: one.name, sub: esc(one.user) })
+						.attr("data-find", `${one.name} ${one.user}`.toLowerCase())
+						.appendTo($list);
+					const control = frappe.ui.form.make_control({
+						df: { fieldtype: "Select", fieldname: "level", label: "", options: said.levels },
+						parent: $(`<span class="one-access-level"></span>`).appendTo($row.find(".one-set-end")),
+						render_input: true,
+						only_input: true,
+					});
+					control.set_value(one.level);
+					control.$input.attr("aria-label", __("{0}'s role in {1}", [one.name, app])).on("change", async () => {
+						const level = control.get_value();
+						try {
+							one.level = await frappe.xcall(A + "put", { app, user: one.user, level });
+							kit.saved();
+						} catch (e) {
+							control.set_value(one.level);
+						}
+					});
 				}
-				const rows = await frappe.xcall(A.replace("access_center.", "audit.") + "log", { kind }, "GET");
-				$list.empty();
-				if (!rows.length) $list.append(kit.empty(__("Nothing yet.")));
-				for (const one of rows) {
-					kit.row({
-						lead: kit.glyph(glyphs[one.kind]),
-						title: [one.what, one.of].filter(Boolean).join(" "),
-						sub: esc([one.who, frappe.datetime.prettyDate(one.when), one.ip].filter(Boolean).join(" · ")),
-						open: () => (dialog.hide(), frappe.set_route("Form", one.doctype, one.name)),
-					}).appendTo($list);
+		};
+
+		// What people were given on one record beyond their role (a shared
+		// mailbox's Users), each changed or taken away here as on the record.
+		const records_tab = (app) => ({
+			id: `${app}:records`,
+			label: __("On One Record"),
+			icon: "key-round",
+			title: __("On One Record"),
+			description: __("People given more than their role on one record, from that record's own screen."),
+			/** Each grant with Edit and Remove at its end, and nothing to say
+			 * when there are none: rows with buttons of their own. */
+			render: (panel) => records(app, panel.body.empty(), panel),
+		});
+		const records = async (app, $body, panel) => {
+				const said = await frappe.xcall(A + "records", { app });
+				const labelled = Object.fromEntries(said.abilities.map((one) => [one.key, one.label]));
+				if (!said.grants.length) {
+					return $(`<div class="one-shell-quiet"></div>`).text(__("Nobody has been given more than their role.")).appendTo($body);
 				}
-			};
-			draw("");
-		},
-	};
-	if (across.length) across[0].items.push(audit_tab);
-	const shared = (frappe.boot.one_centers || {}).shared || [];
-	// OneMail:people and the like, as links into the whole centre still say.
-	const [at_app, at_side] = !module && at && at.includes(":") ? (at.startsWith("app:") ? [at.slice(4), null] : at.split(":")) : [null, null];
-	const sides_of = (app) => ["roles", "people", ...(shared.includes(app) ? ["records"] : [])];
-	const tabs = module
-		? [{ group: null, items: [roles_tab(module), people_tab(module), ...(shared.includes(module) ? [records_tab(module)] : [])] }]
-		: [
-				...across,
-				{
-					group: __("Apps"),
-					items: apps.map((app) => app_tab(app, sides_of(app), app === at_app && sides_of(app).includes(at_side) ? at_side : "roles")),
+				const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
+				for (const one of said.grants) {
+					const $row = kit
+						.row({
+							lead: frappe.ui.avatar.html({ label: one.name, size: "md" }),
+							title: one.name,
+							sub: esc(__("{0}: {1}", [one.title, one.given.map((key) => labelled[key]).join(", ")])),
+						})
+						.appendTo($list);
+					const $end = $row.find(".one-set-end");
+					kit.button({ label: __("Edit"), variant: "outline", size: "sm" })
+						.on("click", () => edit(app, said, one, panel))
+						.appendTo($end);
+					kit.remove(() =>
+						frappe.confirm(__("Take away what {0} was given on {1}?", [esc(one.name), esc(one.title)]), async () => {
+							await frappe.xcall(A + "give", { app, record: one.record, user: one.user, keys: [] });
+							panel.refresh();
+						})
+					).appendTo($end);
+				}
+		};
+
+		// The whole centre has one row per app, its Roles, People and, where
+		// the app gives access on one record, On One Record chosen in the head.
+		const SIDES = { roles: __("Roles"), people: __("People"), records: __("On One Record") };
+		const ABOUT = {
+			roles: (app) => __("What each role can do in {0}.", [app]),
+			people: (app) => __("Everybody's role in {0}.", [app]),
+			records: () => __("People given more than their role on one record, from that record's own screen."),
+		};
+		const app_tab = (app, sides, side) => ({
+			id: `app:${app}`,
+			label: app,
+			icon_html: app_icon(app),
+			title: app,
+			description: ABOUT[side](app),
+			/** Roles, People and On One Record for one app, chosen by TabButtons
+			 * in the head: three bodies behind one section. */
+			render(panel) {
+				const $body = panel.body.empty();
+				const $tools = $(`<div class="one-access-tools"></div>`).appendTo($body);
+				const $at = $(`<div></div>`).appendTo($body);
+				// The role matrix draws into a panel's body; this one is the page's.
+				const part = Object.assign(Object.create(panel), { body: $at, shown: 0 });
+				const draw = (chosen) => {
+					panel.$header.find(".settings-dialog-panel-description").text(ABOUT[chosen](app));
+					$tools.empty();
+					if (chosen === "roles") {
+						for (const one of role_actions(app)) {
+							kit.button({ label: one.label, icon: one.icon, variant: "subtle" }).on("click", () => one.click(part)).appendTo($tools);
+						}
+						return onedesk.roles.draw(part, app);
+					}
+					return chosen === "people" ? people(app, $at.empty()) : records(app, $at.empty(), { refresh: () => draw("records") });
+				};
+				const tabs = new frappe.ui.TabButtons({
+					label: __("Show"),
+					options: sides.map((one) => ({ label: SIDES[one], value: one })),
+					value: side,
+					on_change: draw,
+				});
+				panel.$header.removeClass("hide").find(".settings-dialog-panel-actions").empty().append(tabs.$el);
+				draw(side);
+			},
+		});
+
+		const edit = (app, said, one, panel) => {
+			const dialog = new frappe.ui.Dialog({
+				title: __("Access for {0}", [one.name]),
+				fields: [
+					{ fieldname: "where", fieldtype: "HTML", options: `<p class="text-muted small">${esc(__("Only in {0}.", [one.title]))}</p>` },
+					{
+						fieldname: "keys",
+						fieldtype: "MultiCheck",
+						columns: 2,
+						options: said.abilities.map((ability) => ({ label: ability.label, value: ability.key, checked: one.given.includes(ability.key) })),
+					},
+				],
+				primary_action_label: __("Save"),
+				primary_action: async ({ keys }) => {
+					await frappe.xcall(A + "give", { app, record: one.record, user: one.user, keys: keys || [] });
+					dialog.hide();
+					kit.saved();
+					panel.refresh();
 				},
-		  ];
-	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
-	const opening = at_app ? `app:${at_app}` : at;
-	const dialog = new onedesk.module_settings.Dialog({
-		title: "AccessCenter",
-		module,
-		center: "access",
-		tabs,
-		default_tab: ids.includes(opening) ? opening : ids[0],
-		help: ["One", "access-and-the-audit-log"],
-	});
-	dialog.$wrapper.addClass("one-set one-access");
-	dialog.show();
-	return dialog;
-};
+			});
+			dialog.show();
+		};
+
+		// The whole starts with the workspace's own roles, profiles and groups,
+		// for every app that doesn't declare its abilities.
+		const across = module
+			? []
+			: [
+					{
+						group: null,
+						items: [
+							{
+								id: "access",
+								label: __("Roles and Profiles"),
+								icon: "id-card",
+								description: __("Profiles give people their apps at once, groups share records, and custom roles sit between User and Manager."),
+								section: onedesk.AccessSection,
+								record: at === "access" ? record : null,
+							},
+						],
+					},
+			  ];
+		// Who changed what, who signed in, and what left as a file or a print,
+		// newest first (one/audit.py `log`), each row opening frappe's record.
+		const audit_tab = {
+			id: "audit",
+			label: __("Audit Log"),
+			icon: "scroll-text",
+			title: __("Audit Log"),
+			description: __("Who changed what, who signed in, and what left the workspace as a file or a print."),
+			/** A row of filters over the log, each loading it again: rows that
+			 * change with a choice above them. */
+			async render(panel) {
+				const kinds = [
+					["", __("Everything")],
+					["changes", __("Changes")],
+					["signins", __("Sign-ins")],
+					["exports", __("Exports and Prints")],
+				];
+				const glyphs = { changes: "pencil", signins: "log-in", exports: "file-down" };
+				const $body = panel.body.empty();
+				const $chips = $(`<div class="one-set-chips"></div>`).appendTo($body);
+				const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
+				const draw = async (kind) => {
+					$chips.empty();
+					for (const [one, label] of kinds) {
+						kit.button({ label, variant: one === kind ? "solid" : "subtle", size: "sm" }).attr("data-kind", one).on("click", () => draw(one)).appendTo($chips);
+					}
+					const rows = await frappe.xcall(A.replace("access_center.", "audit.") + "log", { kind }, "GET");
+					$list.empty();
+					if (!rows.length) $list.append(kit.empty(__("Nothing yet.")));
+					for (const one of rows) {
+						kit.row({
+							lead: kit.glyph(glyphs[one.kind]),
+							title: [one.what, one.of].filter(Boolean).join(" "),
+							sub: esc([one.who, frappe.datetime.prettyDate(one.when), one.ip].filter(Boolean).join(" · ")),
+							open: () => (ctx.centre.hide(), frappe.set_route("Form", one.doctype, one.name)),
+						}).appendTo($list);
+					}
+				};
+				draw("");
+			},
+		};
+		if (across.length) across[0].items.push(audit_tab);
+		const shared = (frappe.boot.one_centers || {}).shared || [];
+		// OneMail:people and the like, as links into the whole centre still say.
+		const [at_app, at_side] = !module && at && at.includes(":") ? (at.startsWith("app:") ? [at.slice(4), null] : at.split(":")) : [null, null];
+		const sides_of = (app) => ["roles", "people", ...(shared.includes(app) ? ["records"] : [])];
+		const tabs = module
+			? [{ group: null, items: [roles_tab(module), people_tab(module), ...(shared.includes(module) ? [records_tab(module)] : [])] }]
+			: [
+					...across,
+					{
+						group: __("Apps"),
+						items: apps.map((app) => app_tab(app, sides_of(app), app === at_app && sides_of(app).includes(at_side) ? at_side : "roles")),
+					},
+			  ];
+		ctx.at = at_app ? `app:${at_app}` : at;
+		return tabs;
+	},
+});
 
 // The workspace's own roles, profiles and groups, for the apps that don't
 // declare abilities (one/access_center.py `load`): a role, profile or group
@@ -272,7 +278,7 @@ onedesk.AccessSection = class AccessSection extends onedesk.CenterSection {
 	static LABEL = "AccessCenter";
 	// A role of a module that declares its abilities is that module's part.
 	static in_access = (app) => ((frappe.boot.one_centers || {}).access || []).includes(app);
-	static access = (app) => onedesk.access.open({ module: app, at: `${app}:roles` });
+	static access = (app) => onedesk.centers.open("access", { module: app, at: `${app}:roles` });
 
 	draw_access(data) {
 		if (data.level) return this.draw_level(data);

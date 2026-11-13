@@ -12,13 +12,13 @@ AGREEMENTS = [
 		"text": _lt("Whether you and your organisation agreed, with Agree here when it is owed."),
 	},
 	{
-		"target": "docs-tree",
+		"target": "centre-tree",
 		"side": "right",
 		"title": _lt("Everything in One Place"),
 		"text": _lt("Each agreement, the optional services, who receives data and what is changing."),
 	},
 	{
-		"target": "docs-search",
+		"target": "centre-search",
 		"side": "right",
 		"title": _lt("Find a Clause"),
 		"text": _lt("Search every agreement by a word in it."),

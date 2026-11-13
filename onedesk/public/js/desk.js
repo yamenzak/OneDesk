@@ -280,79 +280,9 @@ onedesk.dock.told = (done, ready) => {
 
 (() => {
 	const ours = (section) =>
-		section === "notifications" ? onedesk.notification_center.open() : onedesk.account_center.open({ at: "profile" });
+		section === "notifications" ? onedesk.centers.open("notifications") : onedesk.centers.open("account", { at: "profile" });
 	Object.defineProperty(frappe.ui, "show_user_settings", { get: () => ours, set: () => {}, configurable: true });
 })();
-
-// Every centre by its name (onedesk.CENTERS), and a centre opened from a
-// link in a mail or a notification: /desk/one?center=account&at=plan opens
-// AccountCenter on Plan and Credits over Home, and the address loses the
-// question so that going back does not open it again.
-frappe.provide("onedesk.centers");
-onedesk.centers.open = (center, { at = null, record = null, module = null } = {}) => {
-	const doors = {
-		account: () => onedesk.account_center.open({ at, record }),
-		// A module's ControlCenter (onedesk.control_centers), One's own when
-		// no module is named, its files loaded first where they are not
-		// loaded with the desk. A module with lists and no ControlCenter of
-		// its own has one of what every ControlCenter finds (lists.js).
-		settings: async () => {
-			await frappe.require(onedesk.centers.FILES[module] || []);
-			const open = onedesk.control_centers[module || "One"] || (module && onedesk.lists.center(module)) || onedesk.control_centers.One;
-			return open({ at, record });
-		},
-		access: () => onedesk.access.open({ module, at, record }),
-		notifications: () => onedesk.notification_center.open({ module, at }),
-		ai: () => onedesk.ai_center.open({ module, at }),
-		shortcuts: () => onedesk.shortcut_center.open({ module, at }),
-		setup: () => onedesk.setup_center.open({ at }),
-		trust: () => onedesk.trust.open({ module, at }),
-		help: () => onedesk.help.open(module),
-		updates: () => onedesk.whats_new.open(module),
-	};
-	return (doors[center] || doors.account)();
-};
-// Every centre on One's rail is found by Ctrl+K too, opened as its row opens it.
-if (frappe.search?.utils && !frappe.search.utils.one_centres) {
-	const utils = frappe.search.utils;
-	utils.one_centres = true;
-	const pages = utils.get_pages;
-	utils.get_pages = function (keywords) {
-		const rail = frappe.boot.module_sidebars?.[onedesk.names.sidebar("one")]?.items || [];
-		const centres = rail
-			.filter((one) => one.label && (one.url || "").includes("?center="))
-			.flatMap((one) => {
-				const found = this.fuzzy_search(keywords, one.label, true);
-				if (!found.score) return [];
-				const asked = Object.fromEntries(new URLSearchParams(one.url.split("?")[1]));
-				return [
-					{
-						type: "Page",
-						label: __("Open {0}", [found.marked_string || one.label]),
-						value: __("Open {0}", [one.label]),
-						match: one.label,
-						index: found.score,
-						onclick: () => onedesk.centers.open(asked.center, asked),
-					},
-				];
-			});
-		return pages.call(this, keywords).concat(centres);
-	};
-}
-
-onedesk.centers.FILES = {
-	OneMail: ["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"],
-};
-$(document).on("page-change", () => {
-	onedesk.centers.here = null;
-	const asked = frappe.utils.get_query_params();
-	if (!asked.center) return;
-	// frappe keeps the address's question as the next route's options, so
-	// the list opened from the centre would carry it, and open it again.
-	window.history.replaceState(null, "", window.location.pathname);
-	frappe.route_options = null;
-	onedesk.centers.open(asked.center, asked);
-});
 
 frappe.provide("onedesk.tenant");
 

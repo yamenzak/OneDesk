@@ -75,15 +75,15 @@ def test_lists_are_kept_by_administrators_and_each_apps_managers():
 
 
 def test_every_controlcenter_ends_with_lists():
-	settings = (tree.APP / "public" / "js" / "module_settings.js").read_text()
-	assert "...onedesk.lists.tab(module), ...onedesk.module_settings.centers(module)" in settings
+	frame = (tree.APP / "public" / "js" / "one_interface" / "centre.js").read_text()
+	assert "...onedesk.lists.tab(found), ...onedesk.centers.found(found)" in frame
 	assert 'bootinfo["one_lists"] = lists.listed()' in (tree.APP / "one" / "boot.py").read_text()
 	assert 'frappe.xcall("onedesk.one.lists.kinds", { module })' in JS and "frappe.router.shell_slug(module)" in JS
-	desk = (tree.APP / "public" / "js" / "desk.js").read_text()
-	assert "(module && onedesk.lists.center(module))" in desk
+	control = (tree.APP / "public" / "js" / "one" / "one_control.js").read_text()
+	assert "if (ctx.module && ((frappe.boot.one_lists || {})[ctx.module] || []).length) return {};" in control
 	hr = (tree.APP / "public" / "js" / "one_hr" / "hr_control.js").read_text()
 	# Everybody opens OneHR's settings; Holidays is the administrators' alone.
-	assert "frappe.boot.one_administers ? [{ group: null, items: [holidays] }] : []" in hr
+	assert "frappe.boot.one_administers\n\t\t\t? [" in hr and ": [],\n});" in hr
 
 
 def test_a_modules_lists_are_a_tree_beside_any_of_them():

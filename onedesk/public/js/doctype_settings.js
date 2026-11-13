@@ -226,7 +226,7 @@ onedesk.doctype_settings.adapt = () => {
 	});
 	const go = (panel, { rule = null, type = null, for: for_doctype = null } = {}) => {
 		panel.dialog.hide();
-		onedesk.notification_center.open({ at: "words", record: rule ? `rule:${rule}` : type, for_doctype });
+		onedesk.centers.open("notifications", { at: "words", record: rule ? `rule:${rule}` : type, for_doctype });
 	};
 	frappe.doctype_settings.register("notifications", (panel, doctype) =>
 		table(panel, {
@@ -253,7 +253,7 @@ onedesk.doctype_settings.adapt = () => {
 			({ select: __("Select"), read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
 		const level = (name) => {
 			panel.dialog.hide();
-			onedesk.access.open({ at: "access", record: name ? `level:${name}` : null });
+			onedesk.centers.open("access", { at: "access", record: name ? `level:${name}` : null });
 		};
 		table(panel, {
 			title: __("Access"),

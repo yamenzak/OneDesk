@@ -992,7 +992,7 @@ never draws parts of its own.
 | tell | `frappe.msgprint` | 420 | round mark (red for an error), the message, OK |
 | task | any other `frappe.ui.Dialog` | 580, 820 when frappe asks for large | title, Enlarge and Close, fields in one column, footer |
 | create | `onedesk.interface.create` (`one_kind: "create"`) | by its shape | the form's tabs as a rail, Save at the foot with what is missing |
-| centre | any other `SettingsDialog` | 1000 | rail, Help, Enlarge and Close in the corner, Back one page deep |
+| centre | `onedesk.centers.open` (`onedesk.Centre`, below) | 1000 | rail, Help, Enlarge and Close in the corner, Back one page deep |
 
 A new record's shape is `dialog.one_shape({ rail, small })`: with its
 rail it is 960 wide, so the form keeps two columns beside it; without, 720
@@ -1010,7 +1010,7 @@ no header, in `.one-dialog-controls` in its corner. In order:
 - **Close**.
 
 **Back**, `panel.one_back(go)`, before a panel's title once it has gone a
-page deep: a centre's view (`module_settings.kit.view`) and a record in a
+page deep: a centre's view (`onedesk.centers.kit.view`) and a record in a
 centre (`center_section.js` `as_record`) both ask the kit for it. frappe's
 `set_header` and `set_view` draw the title again, which takes it away.
 
@@ -1028,6 +1028,37 @@ message under a generic Confirm becomes the title.
 A toast is frappe's `show_alert`, an island's dialog is frappe-ui's, and
 the create dialog still keeps a foot of its own inside its panels; none
 is drawn to this anatomy yet (SCRATCHPAD).
+
+## Centres
+
+Every centre opens in one frame, `onedesk.Centre` in
+`public/js/one_interface/centre.js` (its CSS `css/one_interface/centre.css`),
+frappe's `SettingsDialog` underneath. `onedesk.centers.open(key, { at,
+record, module })` is the one way in, and `?center=key&at=…` the address;
+the keys are the registry's (`Centre(key, icon)` in a centre's manifest,
+`registry.centres()`, `frappe.boot.one_centres`).
+
+The frame draws, for every centre: one header atop the sections (the
+centre's name, and under it whose it is: the reader, the workspace, a
+module or one thing such as a mailbox; Help, Enlarge and Close in the
+corner), one search across every section (a page's sections where the
+centre gives them, else each section's name and what it is for), the
+sections as a list under group headings or as a tree, and a section's
+head with its title kept clear of the corner and its actions on the line
+under it. No section body is wider than the frame; a table folds
+(`onedesk.shell.fold`).
+
+A centre is a declaration beside its owner, `onedesk.centers.declare(key,
+{ sections(ctx), help, whose, at, css, tour, found, steps, instead,
+opened, follow })`; a module's part of one (its ControlCenter) is
+`onedesk.centers.part("settings", module, { sections, may, ... })`.
+`sections` returns groups of sections, or `{ groups, tree, index }` for
+pages to read. A section declares one body: `rows`, `fields` with `save`,
+`section` (a CenterSection), `page` with `before` and `after`, `opens`
+(another centre) or `go` (somewhere in this one). `render(panel)` draws
+one itself only where none fits, with a docstring saying why;
+`tests/guards/test_frame.py` fails a centre that draws its own dialog and
+a drawn section that says nothing.
 
 ## Stamps
 

@@ -38,45 +38,28 @@ onedesk.lists.counted = (count, words = null) => {
 };
 
 // What a module's ControlCenter ends with, found rather than drawn: Lists,
-// each opening its own list, for whoever keeps the module's lists.
+// each opening its own list in the module's own rail, wherever the centre
+// was opened, for whoever keeps the module's lists.
 onedesk.lists.tab = (module) => {
 	if (!((frappe.boot.one_lists || {})[module] || []).length) return [];
-	const kit = onedesk.module_settings.kit;
+	const kit = onedesk.centers.kit;
 	const item = {
 		id: "lists",
 		label: __("Lists"),
 		icon: "tags",
 		title: __("Lists"),
 		description: __("The values {0}'s records pick from, each opening as its own list.", [module]),
-		async render(panel) {
-			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-			const kinds = await frappe.xcall("onedesk.one.lists.kinds", { module });
-			for (const one of kinds) {
-				kit.row({
-					lead: kit.glyph(one.icon || "tags"),
-					title: one.label,
-					sub: frappe.utils.escape_html(onedesk.lists.counted(one.count, one.counted)),
-					end: kit.chevron(),
-					// In the module's own rail, wherever the centre was opened.
-					open: () => {
-						panel.dialog.hide();
-						frappe.set_route(`/desk/${frappe.router.shell_slug(module)}/${frappe.router.slug(one.doctype)}`);
-					},
-				}).appendTo($list);
-			}
-		},
+		rows: async (panel) =>
+			(await frappe.xcall("onedesk.one.lists.kinds", { module })).map((one) => ({
+				lead: kit.glyph(one.icon || "tags"),
+				title: one.label,
+				sub: frappe.utils.escape_html(onedesk.lists.counted(one.count, one.counted)),
+				end: kit.chevron(),
+				open: () => {
+					panel.dialog.hide();
+					frappe.set_route(`/desk/${frappe.router.shell_slug(module)}/${frappe.router.slug(one.doctype)}`);
+				},
+			})),
 	};
 	return [{ group: null, items: [item] }];
-};
-
-// A module with lists and no ControlCenter of its own opens one with what
-// every ControlCenter finds: its Lists and the centres it is in. None for
-// whoever doesn't keep its lists.
-onedesk.lists.center = (module) => {
-	if (!((frappe.boot.one_lists || {})[module] || []).length) return null;
-	return ({ at = null } = {}) => {
-		const dialog = onedesk.module_settings.open({ module, tabs: [], default_tab: at });
-		dialog.show();
-		return dialog;
-	};
 };

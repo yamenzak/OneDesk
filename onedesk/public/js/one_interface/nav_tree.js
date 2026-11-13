@@ -220,7 +220,7 @@ onedesk.interface.Frame.prototype.head_action = function ({ icon, title, click }
 // { icon, label, click }.
 // `version` puts the module's Help and its version at the row's end, the
 // version with a dot until its reader has seen it, opening What's New
-// (public/js/module_docs.js).
+// (UpdateCenter, public/js/one/help_center.js).
 onedesk.interface.Frame.prototype.foot_action = function ({ icon, label, click, version = null }) {
 	if (!this.$foot_action) {
 		const esc = frappe.utils.escape_html;
@@ -261,12 +261,12 @@ onedesk.interface.Frame.prototype.foot_version = function ({ module }) {
 	$(`<button type="button" class="one-interface-foot-help"></button>`)
 		.attr({ title: __("Help"), "aria-label": __("{0} Help", [module]) })
 		.html(frappe.utils.icon("circle-question-mark", "sm"))
-		.on("click", () => onedesk.help.open(module))
+		.on("click", () => onedesk.centers.open("help", { module }))
 		.appendTo($row);
 	const $chip = $(`<button type="button" class="one-interface-foot-version"></button>`)
 		.attr({ title: __("What's New"), "aria-label": __("What's New in {0}", [module]) })
 		.text(said.version)
-		.on("click", () => onedesk.whats_new.open(module))
+		.on("click", () => onedesk.centers.open("updates", { module }))
 		.appendTo($row);
 	const dot = () => $chip.toggleClass("one-interface-foot-version--unseen", !!said.unseen);
 	dot();

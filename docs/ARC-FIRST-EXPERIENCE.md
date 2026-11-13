@@ -40,7 +40,7 @@ What a manifest declares:
 | Identity | Id, name, one line, mark, kind (app, centre, engine), rail position | `ready.MODULES` names, `people.APPS`, the Dock rows |
 | Needs and kept | Apps it cannot run without; when it can never be turned off | `apps.NEEDS`, nothing for kept |
 | Setup | Its steps: settings, masters, people, in order, each with what it asks and what it makes | `setup_steps.STEPS` (three apps today) |
-| Centres | Which centres it has a part in, and the part | `module_settings.centers`, each centre's own list |
+| Centres | Which centres it has a part in, and the part | `onedesk.centers.found`, each centre's own list |
 | Roles and agent | Its roles and levels for AccessCenter; its agent and that agent's tools | `one_abilities`, `one_ai_*` hooks |
 | Jurisdictions | Countries it is built for, ready for, or not checked in: tax, papers, payroll, holidays | `one/countries.py` and scattered `if country == UAE` |
 | Marketing | Its Marketplace page: paragraphs, pictures, clips, price notes | nothing |

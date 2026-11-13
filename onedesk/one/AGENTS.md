@@ -571,7 +571,7 @@ System Manager (`settle`), so frappe's "Create a new" under a field works for
 them too.
 
 **There is no screen of lists.** Every module's ControlCenter ends with
-Lists (public/js/one/lists.js, added by `module_settings.open` as the centres
+Lists (public/js/one/lists.js, added by the centre frame as the centres
 are), one row per list with its count, each opening frappe's list; the
 module's other lists are a tree in the window's nav pane beside it (through
 `onedesk.interface.trees`). A module with lists and no ControlCenter of its own

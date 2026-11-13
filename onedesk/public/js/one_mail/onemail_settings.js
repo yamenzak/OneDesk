@@ -1,7 +1,7 @@
 frappe.provide("onedesk.mail");
 
-// OneMail's settings, in frappe's own settings dialog (frappe.ui.SettingsDialog),
-// opened from Settings at the foot of OneMail's rail. Mailboxes is everyone's:
+// OneMail's part of ControlCenter (one_interface/centre.js), opened from
+// Settings at the foot of OneMail's rail. Mailboxes is everyone's:
 // each mailbox they hold, opened into its own tabs (signature, out-of-office
 // reply, users, connection, rules). Setup, Shared Mailboxes, System Mailboxes,
 // Organization Mailboxes, Private Mailboxes and Mail Templates are a Workspace
@@ -13,10 +13,11 @@ frappe.provide("onedesk.mail");
 // AccessCenter's and NotificationCenter's, which ControlCenter offers at the
 // end of the sidebar on its own. Wording follows docs/WORDING.md. Every change is
 // a call to one_mail/holders.py, connect.py and rules.py, or one_mail/mail_templates.py.
-onedesk.mail.settings = (tab) => {
+onedesk.mail.sections = (ctx) => {
+	const tab = ctx.at;
 	const H = "onedesk.one_mail.holders.";
 	const { esc, saved, heading, heading_with, row, glyph, chevron, empty, fields, button, buttons, remove, view, track, header_switch, switched } =
-		onedesk.module_settings.kit;
+		onedesk.centers.kit;
 	// What the reader's role lets them do across the workspace's mail
 	// (one/boot.py `one_mail_may`, one_mail/access.py).
 	const can = frappe.boot.one_mail_may || {};
@@ -56,6 +57,7 @@ onedesk.mail.settings = (tab) => {
 				click: (panel) => connect(panel),
 			},
 		],
+		/** Each mailbox the reader holds, opening into its own sections, and Connect: rows that open views of their own. */
 		async render(panel) {
 			const was = panel.shown;
 			const boxes = (await frappe.xcall(H + "mailboxes")) || [];
@@ -221,6 +223,7 @@ onedesk.mail.settings = (tab) => {
 						},
 				  ]
 				: [],
+			/** The signature beside how a mail client shows it, saved once something changed: an editor with a picture of its result. */
 			async render(panel) {
 				if (!box.may_sign && !box.sends) return;
 				const view = panel.shown;
@@ -326,6 +329,7 @@ onedesk.mail.settings = (tab) => {
 						},
 				  ]
 				: [],
+			/** An out-of-office reply, its dates and its words, behind a switch in the head: a form a switch shows. */
 			async render(panel) {
 				const view = panel.shown;
 				const away = (await frappe.xcall(R + "away_of", { account: box.name })) || {};
@@ -469,6 +473,7 @@ onedesk.mail.settings = (tab) => {
 					},
 			  ]
 			: [],
+		/** How far OneAI reads this mailbox, one choice among several, with what each stops: a choice no declared kind asks. */
 		async render(panel) {
 			const said = (panel.said = await frappe.xcall(G + "settings_of", { account: box.name }));
 			if (!said.ai) {
@@ -586,6 +591,7 @@ onedesk.mail.settings = (tab) => {
 		label: __("Users"),
 		icon: "users",
 		title: __("Users"),
+		/** Who reads and sends from a shared mailbox, each with what they may do and Remove: rows whose end is controls. */
 		async render(panel) {
 			const said = await frappe.xcall(H + "shared");
 			const one_box = (said.mailboxes || []).find((one) => one.name === box.name);
@@ -694,6 +700,7 @@ onedesk.mail.settings = (tab) => {
 			{ label: __("Disconnect"), theme: "red", click: () => disconnect(box.name, box.email, () => home(from)) },
 			{ label: __("Reconnect"), variant: "solid", click: () => reconnect(box, from) },
 		],
+		/** The mailbox's server and password, tried before they are kept: a form that checks before it saves. */
 		async render(panel) {
 			const said = await frappe.xcall("onedesk.one_mail.connect.connection_of", { account: box.name });
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
@@ -748,6 +755,7 @@ onedesk.mail.settings = (tab) => {
 						},
 				  ]
 				: [],
+		/** The mailbox's rules in order, each opening its builder: rows that open views of their own. */
 		async render(panel) {
 			const was = panel.shown;
 			const said = await frappe.xcall(R + "rules_of_mailbox", { account: box.name });
@@ -803,7 +811,7 @@ onedesk.mail.settings = (tab) => {
 			people: said.people || [],
 			ai: !!said.ai,
 			reads: !!said.reads,
-			to_oneai: box.may.ai ? () => dialog.activate("oneai") : null,
+			to_oneai: box.may.ai ? () => ctx.centre.activate("oneai") : null,
 		};
 	};
 
@@ -889,19 +897,15 @@ onedesk.mail.settings = (tab) => {
 		if (box.connected && box.may_reconnect) items.push(connection_tab(box, from));
 		items.push(rules_tab(box));
 		// One mailbox is OneMail's ControlCenter, its address under the name.
-		dialog.center = { center: "settings", label: box.email, icon: icon_of(box) };
-		dialog.reset(
-			[{ items: [{ id: "back", label: __("All Mailboxes"), icon: "arrow-left", render() {} }] }, { items }],
+		ctx.centre.whose = { key: "settings", label: box.email, icon: icon_of(box) };
+		ctx.centre.reset(
+			[{ items: [{ id: "back", label: __("All Mailboxes"), icon: "arrow-left", go: () => home(from) }] }, { items: items.map(onedesk.centers.body) }],
 			items.some((one) => one.id === focus) ? focus : items[0].id
 		);
-		dialog.$wrapper
-			.find('.settings-dialog-tab-item[data-tab-id="back"]')
-			.off("click")
-			.on("click", () => home(from));
 	};
 	const home = (tab) => {
-		dialog.center = null;
-		dialog.reset(dialog.home, tab);
+		ctx.centre.whose = null;
+		ctx.centre.reset(ctx.centre.home, tab);
 	};
 
 	// What a person may connect, from Private Mailboxes (boot.one_mail_private).
@@ -931,7 +935,7 @@ onedesk.mail.settings = (tab) => {
 							const account = await frappe.xcall("onedesk.one_mail.connect.connect", { ...values, shared: shared ? 1 : 0 });
 							frappe.show_alert({ message: __("Mailbox connected"), indicator: "green" });
 							if (shared) return open(account, "shared", "users");
-							dialog.hide();
+							ctx.centre.hide();
 							frappe.set_route("onemail", { box: account });
 						} finally {
 							$go.prop("disabled", false);
@@ -1028,6 +1032,7 @@ onedesk.mail.settings = (tab) => {
 		label: __("Setup"),
 		icon: "sliders-horizontal",
 		title: __("Setup"),
+		/** The company's domains and the default mailboxes, each with its control: several lists under headings. */
 		async render(panel) {
 			const was_shown = panel.shown;
 			const [said, domains] = await Promise.all([frappe.xcall(H + "shared"), frappe.xcall(C + "domains")]);
@@ -1167,6 +1172,7 @@ onedesk.mail.settings = (tab) => {
 					},
 			  ]
 			: [],
+		/** The workspace's shared mailboxes, each opening into its own sections, and Connect: rows that open views of their own. */
 		async render(panel) {
 			const was = panel.shown;
 			const said = await frappe.xcall(H + "shared");
@@ -1218,6 +1224,7 @@ onedesk.mail.settings = (tab) => {
 		icon: "at-sign",
 		title: __("System Mailboxes"),
 		description: __("Addresses the workspace gives each person."),
+		/** The address the workspace gives each person and whether it sends: rows whose end is a control. */
 		async render(panel) {
 			const was = panel.shown;
 			const [said, listed] = await Promise.all([
@@ -1270,6 +1277,7 @@ onedesk.mail.settings = (tab) => {
 		actions: can.policy
 			? [{ label: __("Connect Organization Mailbox"), icon: "plus", click: (panel) => connect_for(panel) }]
 			: [],
+		/** Everybody's mailboxes at the company's domains, each opening into its own sections: rows that open views of their own. */
 		async render(panel) {
 			const was = panel.shown;
 			const listed = (await frappe.xcall(H + "addresses_of_people")) || [];
@@ -1290,6 +1298,7 @@ onedesk.mail.settings = (tab) => {
 		icon: "lock",
 		title: __("Private Mailboxes"),
 		description: __("Mailboxes people connect at any other domain, such as Gmail, which only the person who connected one can open."),
+		/** Whether people may connect private mailboxes, and from which domains: a switch over a list. */
 		async render(panel) {
 			const was = panel.shown;
 			const said = await frappe.xcall(H + "shared");
@@ -1369,6 +1378,7 @@ onedesk.mail.settings = (tab) => {
 		title: __("Mail Templates"),
 		description: __("Emails people start from when they write."),
 		actions: [{ label: __("New Mail Template"), icon: "plus", click: (panel) => template(panel, null) }],
+		/** The mail templates under a search, each opening to be edited: a searched list of rows that open views. */
 		async render(panel) {
 			const was = panel.shown;
 			const rows = (await frappe.xcall("onedesk.one_mail.mail_templates.templates")) || [];
@@ -1412,7 +1422,7 @@ onedesk.mail.settings = (tab) => {
 
 
 	// Each workspace tab asks what the reader's role allows
-	// (onedesk.module_settings.open leaves out what it doesn't).
+	// (the centre frame leaves out what it doesn't).
 	setup.needs = "policy";
 	shared.needs = ["connect_shared", "holders", "others"];
 	system.needs = ["policy", "others"];
@@ -1427,15 +1437,19 @@ onedesk.mail.settings = (tab) => {
 	// `mailbox:<name>[:signature|away]` on one mailbox.
 	const [opening, named, focus] = String(tab || "").split(":");
 	const joining = { connect: "mailboxes", "connect-shared": can.connect_shared ? "shared" : "mailboxes", mailbox: "mailboxes" }[opening];
-	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_mail"), may: can, tabs, default_tab: joining || tab });
-	dialog.$wrapper.addClass("oms");
-	dialog.show();
-	if (opening === "mailbox") open(named, "mailboxes", focus);
-	else if (joining) connect(dialog.get_panel(joining), { shared: joining === "shared" });
-	return dialog;
+	ctx.at = joining || tab;
+	ctx.opened = () => {
+		if (opening === "mailbox") open(named, "mailboxes", focus);
+		else if (joining) connect(ctx.centre.get_panel(joining), { shared: joining === "shared" });
+	};
+	return tabs;
 };
 
-// OneMail's ControlCenter by name, for links and the rail (desk.js
-// `onedesk.centers.open`).
-frappe.provide("onedesk.control_centers");
-onedesk.control_centers.OneMail = ({ at = null } = {}) => onedesk.mail.settings(at);
+// OneMail's part of ControlCenter. `at` opens a section, or `connect`,
+// `connect-shared` and `mailbox:<name>[:signature|away]` a view in one.
+onedesk.centers.part("settings", onedesk.names.of("one_mail"), {
+	may: () => frappe.boot.one_mail_may || {},
+	css: "oms",
+	sections: onedesk.mail.sections,
+	opened: (_centre, ctx) => ctx.opened(),
+});

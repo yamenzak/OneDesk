@@ -5,5 +5,5 @@ frappe.pages["legal"].on_page_show = () => {
 	const query = frappe.utils.get_query_params();
 	frappe.route_flags.replace_route = true;
 	frappe.set_route("");
-	onedesk.trust.open({ at: query.document ? `doc:${query.document}` : query.at || null });
+	onedesk.centers.open("trust", { at: query.document ? `doc:${query.document}` : query.at || null });
 };

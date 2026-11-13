@@ -2,7 +2,6 @@
 // holidays and weekly days off, for the workspace's administrators
 // (one_hr/control.py, one_hr/holidays.py), and OneHR's Lists (lists.js).
 // A holiday list other than the one in force opens as the record the tab is on.
-frappe.provide("onedesk.hr_control");
 
 onedesk.HRSection = class HRSection extends onedesk.CenterSection {
 	static API = "onedesk.one_hr.control.";
@@ -128,26 +127,27 @@ onedesk.HRSection = class HRSection extends onedesk.CenterSection {
 };
 
 // Holidays are the administrators'; everybody else has what every module's
-// settings find (its lists, notifications and agreements).
-onedesk.hr_control.open = ({ at = null, record = null } = {}) => {
-	const holidays = onedesk.center_section.tab(onedesk.HRSection, {
-		id: "holidays",
-		label: __("Holidays"),
-		icon: "calendar-days",
-		about: __("The public holidays and weekly days off leave and attendance count around."),
-		record: at === "holidays" ? record : null,
-	});
-	const dialog = onedesk.module_settings.open({
-		module: onedesk.names.of("one_hr"),
-		tabs: frappe.boot.one_administers ? [{ group: null, items: [holidays] }] : [],
-		default_tab: at,
-	});
-	dialog.show();
-	return dialog;
-};
-
-frappe.provide("onedesk.control_centers");
-onedesk.control_centers.OneHR = onedesk.hr_control.open;
+// ControlCenter finds (its lists, notifications and agreements).
+onedesk.centers.part("settings", onedesk.names.of("one_hr"), {
+	sections: ({ at, record }) =>
+		frappe.boot.one_administers
+			? [
+					{
+						group: null,
+						items: [
+							{
+								id: "holidays",
+								label: __("Holidays"),
+								icon: "calendar-days",
+								description: __("The public holidays and weekly days off leave and attendance count around."),
+								section: onedesk.HRSection,
+								record: at === "holidays" ? record : null,
+							},
+						],
+					},
+			  ]
+			: [],
+});
 
 // Its foot: Settings, the tour, Help and the version at the foot of its rail,
 // drawn by the window under whichever of its screens is open (module_foot).
@@ -156,7 +156,7 @@ $(document).on("page-change", () =>
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_hr")) return;
-		win.module_foot({ module: onedesk.names.of("one_hr"), settings: () => onedesk.hr_control.open() });
+		win.module_foot({ module: onedesk.names.of("one_hr"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_hr") }) });
 		onedesk.interface.nav.place();
 	}, 0)
 );

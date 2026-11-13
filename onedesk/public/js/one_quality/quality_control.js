@@ -1,19 +1,12 @@
 frappe.provide("onedesk.quality");
-onedesk.quality.settings = ({ at = null } = {}) => {
-	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_quality"), tabs: [], default_tab: at });
-	dialog.show();
-	return dialog;
-};
-
-frappe.provide("onedesk.control_centers");
-onedesk.control_centers.OneQuality = onedesk.quality.settings;
+onedesk.centers.part("settings", onedesk.names.of("one_quality"));
 
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_quality")) return;
-		win.module_foot({ module: onedesk.names.of("one_quality"), settings: () => onedesk.quality.settings() });
+		win.module_foot({ module: onedesk.names.of("one_quality"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_quality") }) });
 		onedesk.interface.nav.place();
 	}, 0)
 );

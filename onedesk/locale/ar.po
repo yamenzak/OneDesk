@@ -2700,10 +2700,10 @@ msgstr "إضافة تسجيل حضور لموظف آخر"
 msgid "Add Collection"
 msgstr "إضافة مجموعة"
 
+#: frontend/portal/src/start/Companies.vue:11
 #: onedesk/public/js/account_center/account_center.js:1400
 #: onedesk/public/js/account_center/account_center.js:1423
 #: onedesk/public/js/account_center/account_center.js:1449
-#: frontend/portal/src/start/Companies.vue:11
 msgid "Add Company"
 msgstr "إضافة شركة"
 
@@ -47372,14 +47372,14 @@ msgstr ""
 msgid "Setup hit a problem on our side. We're working on it."
 msgstr "واجه الإعداد مشكلة من جهتنا. نحن نعمل على حلها."
 
+#: frontend/src/admin/AdminHome.vue:25
+msgid "Setup, Last 90 Days"
+msgstr "الإعداد، آخر 90 يومًا"
+
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json:198
 msgid "SetupCenter"
 msgstr "SetupCenter"
-
-#: frontend/src/admin/AdminHome.vue:25
-msgid "Setup, Last 90 Days"
-msgstr "الإعداد، آخر 90 يومًا"
 
 #. Label of the several (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:41
@@ -64604,10 +64604,6 @@ msgstr ""
 msgid "Workshop Time Is Costed"
 msgstr "احتساب تكلفة وقت الورشة"
 
-#: onedesk/public/js/one_factory/factory_control.js:17
-msgid "Workshop saved."
-msgstr "تم حفظ الورشة."
-
 #: onedesk/one_display/starters.py:997 onedesk/one_display/widgets.py:181
 msgid "Workshops"
 msgstr "ورش العمل"
@@ -71594,6 +71590,11 @@ msgstr "حُفظ {0} في {1}، في المجلد نفسه الذي فيه هذ�
 #, python-brace-format
 msgid "{0} saved to {1}, in the same folder as this workbook."
 msgstr "حُفظ {0} في {1} في المجلد نفسه الذي يوجد فيه هذا المصنف."
+
+#: onedesk/public/js/one_interface/centre.js:115
+#, python-brace-format
+msgid "{0} saved."
+msgstr "تم حفظ {0}."
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:39
 #, python-brace-format

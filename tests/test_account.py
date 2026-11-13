@@ -123,6 +123,6 @@ def test_hr_hears_of_a_new_address_or_emergency_contact_and_a_contact_is_whole()
 
 
 def test_a_link_opens_a_centre_on_a_section():
-	desk = (tree.APP / "public" / "js" / "desk.js").read_text()
+	desk = (tree.APP / "public" / "js" / "one_interface" / "centre.js").read_text()
 	assert "onedesk.centers.open(asked.center, asked)" in desk
 	assert "window.history.replaceState(null, \"\", window.location.pathname)" in desk

@@ -140,7 +140,7 @@ frappe.provide("onedesk.shortcuts");
 
 	// frappe's own list of shortcuts (Shift+/ and the user menu) is
 	// ShortcutCenter, which shows what every key does and lets it move.
-	frappe.ui.keys.show_keyboard_shortcut_dialog = () => onedesk.shortcut_center.open();
+	frappe.ui.keys.show_keyboard_shortcut_dialog = () => onedesk.centers.open("shortcuts");
 
 	// The words for a key: the reader's own keyboard's letter where the
 	// browser says it, the key's name otherwise.
@@ -221,7 +221,7 @@ frappe.provide("onedesk.shortcuts");
 	};
 
 	// One's own: the centres and the shell.
-	S.does("one.shortcuts", () => onedesk.shortcut_center && onedesk.shortcut_center.open());
+	S.does("one.shortcuts", () => onedesk.centers.open("shortcuts"));
 	S.does("one.home", () => frappe.set_route("one"));
 	S.does("one.notifications", () => frappe.ui.sidebar_panels && frappe.ui.sidebar_panels.toggle("notifications"));
 	S.does("one.theme", () => {

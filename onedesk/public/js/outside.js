@@ -125,7 +125,7 @@ onedesk.outside.instead = (sub_path) => {
 	switch (doctype) {
 		case "notification-settings":
 			// The bell's gear opens NotificationCenter where the reader is.
-			onedesk.notification_center.open();
+			onedesk.centers.open("notifications");
 			return frappe.get_route();
 		case "profile":
 			return ["one", { center: "account", at: "profile" }];

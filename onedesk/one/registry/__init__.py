@@ -2,7 +2,7 @@
 manifest.py in its own folder (docs/run/RUN.md, OneRegistry). Pure, so
 hooks.py, the guards and the scripts read it without a site.
 
-`apps()` in the rail's order, `parts()` (centres inside another's folder),
+`apps()` in the rail's order, `parts()` (centres inside another's folder), `centres()`,
 `get(id)`, `name(id)`, `names()`, `filled(text)` for `{one_doc}`,
 `by_name(name)`, `of_module(module)`, and `moved()`, renamed folders."""
 
@@ -13,7 +13,7 @@ from functools import cache
 from pathlib import Path
 
 from onedesk.one.registry import features
-from onedesk.one.registry.model import COUNTRY, KINDS, REGIONS, UI, App
+from onedesk.one.registry.model import CENTRE_KEYS, COUNTRY, KINDS, REGIONS, UI, App
 
 FOLDERS = Path(__file__).resolve().parents[2]
 
@@ -157,3 +157,12 @@ def _check_parts(found: list, apps: tuple[App, ...]) -> None:
 		if one.id in taken or one.name in taken.values():
 			raise Invalid(f"the part {one.id} ({one.name}) has the id or the name of another")
 		taken[one.id] = one.name
+	keys = [one.centre.key for one in (*apps, *found) if one.centre]
+	if sorted(keys) != sorted(CENTRE_KEYS):
+		raise Invalid(f"the centres' keys are {sorted(keys)}, not {sorted(CENTRE_KEYS)}")
+
+
+def centres() -> tuple[App, ...]:
+	"""Every centre that opens in OneInterface's frame, in CENTRE_KEYS' order."""
+	found = {one.centre.key: one for one in (*apps(), *parts()) if one.centre}
+	return tuple(found[key] for key in CENTRE_KEYS)

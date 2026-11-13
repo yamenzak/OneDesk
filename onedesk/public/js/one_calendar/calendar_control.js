@@ -1,7 +1,6 @@
 // OneCalendar's ControlCenter (docs/ONE.md): Your Calendar Link, the
 // private address another calendar app subscribes to, for everybody
 // (one_calendar/control.py, one_calendar/feed.py).
-frappe.provide("onedesk.calendar_control");
 
 onedesk.CalendarSection = class CalendarSection extends onedesk.CenterSection {
 	static API = "onedesk.one_calendar.control.";
@@ -28,30 +27,22 @@ onedesk.CalendarSection = class CalendarSection extends onedesk.CenterSection {
 	}
 };
 
-onedesk.calendar_control.open = ({ at = null } = {}) => {
-	const dialog = onedesk.module_settings.open({
-		module: onedesk.names.of("one_calendar"),
-		tabs: [
-			{
-				group: null,
-				items: [
-					onedesk.center_section.tab(onedesk.CalendarSection, {
-						id: "link",
-						label: __("Your Calendar Link"),
-						icon: "link",
-						about: __("Your {0} in Google Calendar, Apple Calendar or Outlook, through a private link.", [onedesk.names.of("one_calendar")]),
-					}),
-				],
-			},
-		],
-		default_tab: at,
-	});
-	dialog.show();
-	return dialog;
-};
-
-frappe.provide("onedesk.control_centers");
-onedesk.control_centers.OneCalendar = onedesk.calendar_control.open;
+onedesk.centers.part("settings", onedesk.names.of("one_calendar"), {
+	sections: () => [
+		{
+			group: null,
+			items: [
+				{
+					id: "link",
+					label: __("Your Calendar Link"),
+					icon: "link",
+					description: __("Your {0} in Google Calendar, Apple Calendar or Outlook, through a private link.", [onedesk.names.of("one_calendar")]),
+					section: onedesk.CalendarSection,
+				},
+			],
+		},
+	],
+});
 
 // Its foot (docs/READY.md, mechanism 5): Settings, the tour, Help and the
 // version at the foot of its rail, on whichever of its screens is open. The
@@ -61,7 +52,7 @@ $(document).on("page-change", () =>
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_calendar")) return;
-		win.module_foot({ module: onedesk.names.of("one_calendar"), settings: () => onedesk.calendar_control.open() });
+		win.module_foot({ module: onedesk.names.of("one_calendar"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_calendar") }) });
 		onedesk.interface.nav.place();
 	}, 0)
 );

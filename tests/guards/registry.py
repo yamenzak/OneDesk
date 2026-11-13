@@ -139,6 +139,13 @@ GUARDS = [
 		"tests/guards/test_frame.py::test_the_frame_rules_catch_their_examples",
 	),
 	Guard(
+		"centre-frame",
+		7,
+		"a centre drawing its own dialog, or a section its own body without saying why",
+		"tests/guards/test_frame.py::test_every_centre_opens_in_the_frame",
+		"tests/guards/test_frame.py::test_the_frame_rules_catch_their_examples",
+	),
+	Guard(
 		"portal-look",
 		7,
 		"a page outside the desk without the portal",

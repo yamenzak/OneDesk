@@ -7,262 +7,255 @@
 // email on or off, push in this browser), then each module, then, for
 // administrators, Words and Rules: what every notification says and the
 // workspace's own rules.
-frappe.provide("onedesk.notification_center");
 
-onedesk.notification_center.open = async ({ module = null, at = null, record = null, for_doctype = null } = {}) => {
-	const N = "onedesk.one.notification_center.";
-	const kit = onedesk.module_settings.kit;
-	const esc = frappe.utils.escape_html;
-	const admin = !!frappe.boot.one_administers;
-	const modules = module ? [module] : (frappe.boot.one_centers || {}).notifications || [];
+onedesk.centers.declare("notifications", {
+	help: ["One", "notifications"],
+	css: "one-notify",
+	async sections(ctx) {
+		const { module, at, record } = ctx;
+		const N = "onedesk.one.notification_center.";
+		const kit = onedesk.centers.kit;
+		const esc = frappe.utils.escape_html;
+		const admin = !!frappe.boot.one_administers;
+		const modules = module ? [module] : (frappe.boot.one_centers || {}).notifications || [];
 
-	// A switch at a row's end, saved as it changes; put back if refused.
-	const toggle = ($end, { value, label, disabled = false, change }) => {
-		const control = frappe.ui.form.make_control({
-			df: { fieldtype: "Switch", fieldname: "on", label: "" },
-			parent: $(`<span class="one-set-switch"></span>`).appendTo($end),
-			render_input: true,
-		});
-		control.set_value(value ? 1 : 0);
-		control.$input.attr("aria-label", label).prop("disabled", disabled);
-		control.$input.on("change", async () => {
-			const on = control.get_value() ? 1 : 0;
-			try {
-				await change(on);
-				kit.saved();
-			} catch (e) {
-				control.set_value(on ? 0 : 1);
-			}
-		});
-		return control;
-	};
-	const named = onedesk.module_settings.named;
-	const app_icon = (app) => onedesk.module_settings.app_icon(app);
-	const columns = (words) => `<div class="one-notify-columns">${words.map((word) => `<span>${esc(word)}</span>`).join("")}</div>`;
-
-	// The reader's own: Email and Push for each type of one module, or of
-	// what no module sends ("").
-	const yours = async (app, $body) => {
-			const said = await frappe.xcall(N + "yours", { module: app }, "GET");
-			const types = said.types.filter((one) => one.app === app);
-			if (!said.enabled) $body.append(frappe.ui.alert.html({ title: __("Your notifications are off."), theme: "orange" }));
-			if (!types.length) return $body.append(kit.empty(__("Nothing to choose here.")));
-			$body.append(columns([__("Email"), __("Push")]));
-			const $list = $(`<div class="one-set-list one-notify-list"></div>`).appendTo($body);
-			for (const one of types) {
-				const $row = kit.row({ lead: "", title: one.label, sub: esc([one.about, one.why].filter(Boolean).join(" ")) }).appendTo($list);
-				if (one.oneai) $row.find(".one-set-title").append(" ", onedesk.oneai.tag(onedesk.names.of("one_ai")));
-				const $end = $row.find(".one-set-end");
-				for (const channel of ["email", "push"]) {
-					toggle($end, {
-						value: one[channel],
-						label: `${channel === "email" ? __("Email") : __("Push")}: ${one.label}`,
-						disabled: !one[`may_${channel}`] || (channel === "email" && !said.email),
-						change: (on) => frappe.xcall(N + "choose", { name: one.name, channel, on }),
-					});
+		// A switch at a row's end, saved as it changes; put back if refused.
+		const toggle = ($end, { value, label, disabled = false, change }) => {
+			const control = frappe.ui.form.make_control({
+				df: { fieldtype: "Switch", fieldname: "on", label: "" },
+				parent: $(`<span class="one-set-switch"></span>`).appendTo($end),
+				render_input: true,
+			});
+			control.set_value(value ? 1 : 0);
+			control.$input.attr("aria-label", label).prop("disabled", disabled);
+			control.$input.on("change", async () => {
+				const on = control.get_value() ? 1 : 0;
+				try {
+					await change(on);
+					kit.saved();
+				} catch (e) {
+					control.set_value(on ? 0 : 1);
 				}
-			}
-	};
-	const yours_tab = (app) => ({
-		id: `yours:${app}`,
-		label: __("Yours"),
-		icon: "user",
-		title: __("Yours"),
-		description: __("What {0} tells you, and how.", [app]),
-		render: (panel) => yours(app, panel.body.empty()),
-	});
-
-	// The workspace's: for each type a module sends, Send, then whether
-	// people may have it by email and by push.
-	const workspace = async (app, $body) => {
-			const types = await frappe.xcall(N + "workspace", { module: app }, "GET");
-			if (!types.length) return $body.append(kit.empty(__("Nothing to set here.")));
-			$body.append(columns([__("Send"), __("Email"), __("Push")]));
-			const $list = $(`<div class="one-set-list one-notify-list"></div>`).appendTo($body);
-			const set = (one, field, on) => frappe.xcall(N + "set_type", { name: one.name, field, value: on }).then(() => (one[field] = on));
-			// A type opens as its record in Words and Rules, which says who it
-			// goes to.
-			const words = (one) => {
-				dialog.hide();
-				onedesk.notification_center.open({ at: "words", record: one.name });
-			};
-			for (const one of types) {
-				const $row = kit
-					.row({ lead: "", title: one.label, sub: esc(one.about || ""), open: one.words ? () => words(one) : null })
-					.appendTo($list);
-				const $end = $row.find(".one-set-end");
-				toggle($end, { value: one.enabled, label: `${__("Send")}: ${one.label}`, disabled: !!one.fixed, change: (on) => set(one, "enabled", on) });
-				for (const field of ["one_allow_email", "one_allow_push"]) {
-					const email = field.includes("email");
-					toggle($end, {
-						value: one[field],
-						label: `${email ? __("Email") : __("Push")}: ${one.label}`,
-						disabled: !one.channels || (email && !!one.always),
-						change: (on) => set(one, field, on),
-					});
-				}
-			}
-	};
-	const workspace_tab = (app) => ({
-		id: `workspace:${app}`,
-		label: __("Workspace"),
-		icon: "building",
-		title: __("Workspace"),
-		description: __("What {0} sends in this workspace, and the channels people may choose.", [app]),
-		render: (panel) => workspace(app, panel.body.empty()),
-	});
-
-	// The whole centre has one row per app: what it tells the reader, and
-	// for an administrator, by the switch in its head, what it sends in the
-	// workspace. What no app sends (the workspace's rules) is Other.
-	const app_tab = (app) => ({
-		id: `app:${app}`,
-		label: app ? named(app) : __("Other"),
-		icon: app ? null : "bell",
-		icon_html: app ? app_icon(app) : null,
-		title: app ? named(app) : __("Other"),
-		description: app ? __("What {0} tells you, and how.", [named(app)]) : __("What the workspace's own rules tell you."),
-		render(panel) {
-			const $body = panel.body.empty();
-			const $at = $(`<div></div>`).appendTo($body);
-			const draw = (side) => (side === "workspace" ? workspace(app, $at.empty()) : yours(app, $at.empty()));
-			const whose = at && at.startsWith("workspace:") && at === `workspace:${app}` ? "workspace" : "yours";
-			if (admin && app) {
-				const say = (side) =>
-					panel.$header.find(".settings-dialog-panel-description").text(
-						side === "workspace"
-							? __("What {0} sends in this workspace, and the channels people may choose.", [named(app)])
-							: __("What {0} tells you, and how.", [named(app)])
-					);
-				const tabs = new frappe.ui.TabButtons({
-					label: __("Whose"),
-					options: [
-						{ label: __("Yours"), value: "yours" },
-						{ label: __("Workspace"), value: "workspace" },
-					],
-					value: whose,
-					on_change: (side) => {
-						say(side);
-						draw(side);
-					},
-				});
-				panel.$header.removeClass("hide").find(".settings-dialog-panel-actions").empty().append(tabs.$el);
-				say(whose);
-			}
-			draw(whose);
-		},
-	});
-
-	// The reader's switches over everything, and push in this browser.
-	const everything = {
-		id: "everything",
-		label: __("Everything"),
-		icon: "bell-ring",
-		title: __("Everything"),
-		description: __("Whether you're told at all, by email, and on this device."),
-		async render(panel) {
-			const said = await frappe.xcall(N + "yours", { module: "" }, "GET");
-			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-			for (const [key, field, glyph, title, sub] of [
-				["enabled", "enabled", "bell", __("Notifications"), __("Turn off to stop all notifications.")],
-				["email", "enable_email_notifications", "mail", __("Also by Email"), __("Emails you the notifications turned on for email.")],
-				["threads", "enable_email_threads_on_assigned_document", "mails", __("Mail About What Is Assigned to You"), __("Mails you each new mail on a record you were given to do.")],
-			]) {
-				const $row = kit.row({ lead: kit.glyph(glyph), title, sub: esc(sub) }).appendTo($list);
-				toggle($row.find(".one-set-end"), {
-					value: said[key],
-					label: title,
-					change: (on) => frappe.xcall(N + "switch", { field, on }),
-				});
-			}
-			push($list);
-		},
-	};
-
-	const push = async ($list) => {
-		await frappe.require("/assets/onedesk/js/one/push.js");
-		const here = await onedesk.push.state();
-		const [label, theme] = {
-			on: [__("On in this browser"), "green"],
-			off: [__("Off in this browser"), "gray"],
-			blocked: [__("Blocked in this browser"), "orange"],
-			unsupported: [__("Not supported in this browser"), "gray"],
-		}[here.state];
-		const sub = here.state === "blocked" ? esc(__("Allow notifications for this site in your browser settings.")) : frappe.ui.badge.html({ label, theme });
-		const $row = kit.row({ lead: kit.glyph("smartphone"), title: __("Push"), sub }).appendTo($list);
-		const again = () => {
-			$row.remove();
-			push($list);
+			});
+			return control;
 		};
-		const $end = $row.find(".one-set-end");
-		if (here.state === "off") {
-			kit.button({ label: __("Turn On Push"), variant: "outline" })
-				.on("click", async () => {
-					const said = await frappe.xcall("onedesk.one.push.devices");
-					let on = false;
-					try {
-						on = await onedesk.push.on(said.key);
-					} catch (e) {
-						on = false;
-					}
-					if (!on) frappe.show_alert({ message: __("Couldn't turn on push. Private windows don't support it."), indicator: "orange" });
-					again();
-				})
-				.appendTo($end);
-		} else if (here.state === "on") {
-			kit.button({ label: __("Send Test"), variant: "outline" })
-				.on("click", async () => {
-					const said = await frappe.xcall("onedesk.one.push.test");
-					frappe.show_alert({ message: said.sent ? __("Test sent") : __("Couldn't send test"), indicator: said.sent ? "green" : "orange" });
-				})
-				.appendTo($end);
-			kit.button({ label: __("Turn Off"), variant: "ghost" })
-				.on("click", async () => {
-					await onedesk.push.off();
-					again();
-				})
-				.appendTo($end);
-		}
-	};
+		const app_icon = (app) => onedesk.centers.app_icon(app);
+		const columns = (words) => `<div class="one-notify-columns">${words.map((word) => `<span>${esc(word)}</span>`).join("")}</div>`;
 
-	// What each notification says and the workspace's rules, a type or a
-	// rule opening as the tab's record.
-	const words_tab = {
-		...onedesk.center_section.tab(onedesk.WordsSection, {
+		// The reader's own: Email and Push for each type of one module, or of
+		// what no module sends ("").
+		const yours = async (app, $body) => {
+				const said = await frappe.xcall(N + "yours", { module: app }, "GET");
+				const types = said.types.filter((one) => one.app === app);
+				if (!said.enabled) $body.append(frappe.ui.alert.html({ title: __("Your notifications are off."), theme: "orange" }));
+				if (!types.length) return $body.append(kit.empty(__("Nothing to choose here.")));
+				$body.append(columns([__("Email"), __("Push")]));
+				const $list = $(`<div class="one-set-list one-notify-list"></div>`).appendTo($body);
+				for (const one of types) {
+					const $row = kit.row({ lead: "", title: one.label, sub: esc([one.about, one.why].filter(Boolean).join(" ")) }).appendTo($list);
+					if (one.oneai) $row.find(".one-set-title").append(" ", onedesk.oneai.tag(onedesk.names.of("one_ai")));
+					const $end = $row.find(".one-set-end");
+					for (const channel of ["email", "push"]) {
+						toggle($end, {
+							value: one[channel],
+							label: `${channel === "email" ? __("Email") : __("Push")}: ${one.label}`,
+							disabled: !one[`may_${channel}`] || (channel === "email" && !said.email),
+							change: (on) => frappe.xcall(N + "choose", { name: one.name, channel, on }),
+						});
+					}
+				}
+		};
+		const yours_tab = (app) => ({
+			id: `yours:${app}`,
+			label: __("Yours"),
+			icon: "user",
+			title: __("Yours"),
+			description: __("What {0} tells you, and how.", [app]),
+			/** Email and Push switches at each type's end, under a line naming the
+			 * columns: rows whose end is two controls. */
+			render: (panel) => yours(app, panel.body.empty()),
+		});
+
+		// The workspace's: for each type a module sends, Send, then whether
+		// people may have it by email and by push.
+		const workspace = async (app, $body) => {
+				const types = await frappe.xcall(N + "workspace", { module: app }, "GET");
+				if (!types.length) return $body.append(kit.empty(__("Nothing to set here.")));
+				$body.append(columns([__("Send"), __("Email"), __("Push")]));
+				const $list = $(`<div class="one-set-list one-notify-list"></div>`).appendTo($body);
+				const set = (one, field, on) => frappe.xcall(N + "set_type", { name: one.name, field, value: on }).then(() => (one[field] = on));
+				// A type opens as its record in Words and Rules, which says who it
+				// goes to.
+				const words = (one) => {
+					ctx.centre.hide();
+					onedesk.centers.open("notifications", { at: "words", record: one.name });
+				};
+				for (const one of types) {
+					const $row = kit
+						.row({ lead: "", title: one.label, sub: esc(one.about || ""), open: one.words ? () => words(one) : null })
+						.appendTo($list);
+					const $end = $row.find(".one-set-end");
+					toggle($end, { value: one.enabled, label: `${__("Send")}: ${one.label}`, disabled: !!one.fixed, change: (on) => set(one, "enabled", on) });
+					for (const field of ["one_allow_email", "one_allow_push"]) {
+						const email = field.includes("email");
+						toggle($end, {
+							value: one[field],
+							label: `${email ? __("Email") : __("Push")}: ${one.label}`,
+							disabled: !one.channels || (email && !!one.always),
+							change: (on) => set(one, field, on),
+						});
+					}
+				}
+		};
+		const workspace_tab = (app) => ({
+			id: `workspace:${app}`,
+			label: __("Workspace"),
+			icon: "building",
+			title: __("Workspace"),
+			description: __("What {0} sends in this workspace, and the channels people may choose.", [app]),
+			/** Send, Email and Push switches at each type's end, under a line
+			 * naming the columns: rows whose end is three controls. */
+			render: (panel) => workspace(app, panel.body.empty()),
+		});
+
+		// The whole centre has one row per app: what it tells the reader, and
+		// for an administrator, by the switch in its head, what it sends in the
+		// workspace. What no app sends (the workspace's rules) is Other.
+		const app_tab = (app) => ({
+			id: `app:${app}`,
+			label: app ? app : __("Other"),
+			icon: app ? null : "bell",
+			icon_html: app ? app_icon(app) : null,
+			title: app ? app : __("Other"),
+			description: app ? __("What {0} tells you, and how.", [app]) : __("What the workspace's own rules tell you."),
+			/** Yours and, for an administrator, the workspace's, chosen by
+			 * TabButtons in the head: two bodies behind one section. */
+			render(panel) {
+				const $body = panel.body.empty();
+				const $at = $(`<div></div>`).appendTo($body);
+				const draw = (side) => (side === "workspace" ? workspace(app, $at.empty()) : yours(app, $at.empty()));
+				const whose = at && at.startsWith("workspace:") && at === `workspace:${app}` ? "workspace" : "yours";
+				if (admin && app) {
+					const say = (side) =>
+						panel.$header.find(".settings-dialog-panel-description").text(
+							side === "workspace"
+								? __("What {0} sends in this workspace, and the channels people may choose.", [app])
+								: __("What {0} tells you, and how.", [app])
+						);
+					const tabs = new frappe.ui.TabButtons({
+						label: __("Whose"),
+						options: [
+							{ label: __("Yours"), value: "yours" },
+							{ label: __("Workspace"), value: "workspace" },
+						],
+						value: whose,
+						on_change: (side) => {
+							say(side);
+							draw(side);
+						},
+					});
+					panel.$header.removeClass("hide").find(".settings-dialog-panel-actions").empty().append(tabs.$el);
+					say(whose);
+				}
+				draw(whose);
+			},
+		});
+
+		// The reader's switches over everything, and push in this browser.
+		const everything = {
+			id: "everything",
+			label: __("Everything"),
+			icon: "bell-ring",
+			title: __("Everything"),
+			description: __("Whether you're told at all, by email, and on this device."),
+			/** Switches saved as they change, and push asked of this browser: rows
+			 * whose end is a control. */
+			async render(panel) {
+				const said = await frappe.xcall(N + "yours", { module: "" }, "GET");
+				const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
+				for (const [key, field, glyph, title, sub] of [
+					["enabled", "enabled", "bell", __("Notifications"), __("Turn off to stop all notifications.")],
+					["email", "enable_email_notifications", "mail", __("Also by Email"), __("Emails you the notifications turned on for email.")],
+					["threads", "enable_email_threads_on_assigned_document", "mails", __("Mail About What Is Assigned to You"), __("Mails you each new mail on a record you were given to do.")],
+				]) {
+					const $row = kit.row({ lead: kit.glyph(glyph), title, sub: esc(sub) }).appendTo($list);
+					toggle($row.find(".one-set-end"), {
+						value: said[key],
+						label: title,
+						change: (on) => frappe.xcall(N + "switch", { field, on }),
+					});
+				}
+				push($list);
+			},
+		};
+
+		const push = async ($list) => {
+			await frappe.require("/assets/onedesk/js/one/push.js");
+			const here = await onedesk.push.state();
+			const [label, theme] = {
+				on: [__("On in this browser"), "green"],
+				off: [__("Off in this browser"), "gray"],
+				blocked: [__("Blocked in this browser"), "orange"],
+				unsupported: [__("Not supported in this browser"), "gray"],
+			}[here.state];
+			const sub = here.state === "blocked" ? esc(__("Allow notifications for this site in your browser settings.")) : frappe.ui.badge.html({ label, theme });
+			const $row = kit.row({ lead: kit.glyph("smartphone"), title: __("Push"), sub }).appendTo($list);
+			const again = () => {
+				$row.remove();
+				push($list);
+			};
+			const $end = $row.find(".one-set-end");
+			if (here.state === "off") {
+				kit.button({ label: __("Turn On Push"), variant: "outline" })
+					.on("click", async () => {
+						const said = await frappe.xcall("onedesk.one.push.devices");
+						let on = false;
+						try {
+							on = await onedesk.push.on(said.key);
+						} catch (e) {
+							on = false;
+						}
+						if (!on) frappe.show_alert({ message: __("Couldn't turn on push. Private windows don't support it."), indicator: "orange" });
+						again();
+					})
+					.appendTo($end);
+			} else if (here.state === "on") {
+				kit.button({ label: __("Send Test"), variant: "outline" })
+					.on("click", async () => {
+						const said = await frappe.xcall("onedesk.one.push.test");
+						frappe.show_alert({ message: said.sent ? __("Test sent") : __("Couldn't send test"), indicator: said.sent ? "green" : "orange" });
+					})
+					.appendTo($end);
+				kit.button({ label: __("Turn Off"), variant: "ghost" })
+					.on("click", async () => {
+						await onedesk.push.off();
+						again();
+					})
+					.appendTo($end);
+			}
+		};
+
+		// What each notification says and the workspace's rules, a type or a
+		// rule opening as the tab's record.
+		const words_tab = {
 			id: "words",
 			label: __("Words and Rules"),
 			icon: "bell-ring",
-			about: __("What each notification says, the channels it may use, and the workspace's own rules."),
+			description: __("What each notification says, the channels it may use, and the workspace's own rules."),
+			section: onedesk.WordsSection,
 			record: at === "words" ? record : null,
-		}),
-	};
-	const words_render = words_tab.render;
-	words_tab.render = (panel) => {
-		words_render(panel);
-		panel.section.for_doctype = for_doctype;
-	};
-	const tabs = module
-		? [{ items: [yours_tab(module), ...(admin ? [workspace_tab(module)] : [])] }]
-		: [
-				{ items: [everything] },
-				{ group: __("Apps"), items: [...modules.map(app_tab), app_tab("")] },
-				...(admin ? [{ group: __("Workspace"), items: [words_tab] }] : []),
-		  ];
-	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
-	// yours:OneHR and workspace:OneHR, as links into the whole centre still say.
-	const app_at = !module && at && /^(yours|workspace):/.test(at) ? `app:${at.split(":")[1]}` : at;
-	const dialog = new onedesk.module_settings.Dialog({
-		title: "NotificationCenter",
-		module,
-		center: "notifications",
-		tabs,
-		default_tab: ids.includes(app_at) ? app_at : ids[0],
-		help: ["One", "notifications"],
-	});
-	dialog.$wrapper.addClass("one-set one-notify");
-	dialog.show();
-	return dialog;
-};
+		};
+		const tabs = module
+			? [{ items: [yours_tab(module), ...(admin ? [workspace_tab(module)] : [])] }]
+			: [
+					{ items: [everything] },
+					{ group: __("Apps"), items: [...modules.map(app_tab), app_tab("")] },
+					...(admin ? [{ group: __("Workspace"), items: [words_tab] }] : []),
+			  ];
+		ctx.at = !module && at && /^(yours|workspace):/.test(at) ? `app:${at.split(":")[1]}` : at;
+		return tabs;
+	},
+});
 
 // Words and Rules, for administrators: what each notification says and which
 // channels it may use, and the workspace's own rules (one/notification_words.py).
@@ -274,7 +267,8 @@ onedesk.WordsSection = class WordsSection extends onedesk.CenterSection {
 
 	// A new rule opened from a record type's settings starts on that type.
 	loaded(data) {
-		if (this.record === "rule:new" && this.for_doctype && data.values) data.values.document_type = this.for_doctype;
+		const for_doctype = this.panel.dialog.ctx.for_doctype;
+		if (this.record === "rule:new" && for_doctype && data.values) data.values.document_type = for_doctype;
 	}
 
 	draw_words(data) {

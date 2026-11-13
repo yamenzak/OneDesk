@@ -715,7 +715,7 @@ OneCloud's in each:
   previews and OneOS.
 - `public/js/one_cloud/cloud_control.js` — Settings, which has no tabs of
   its own yet and ends with the centres every module's does
-  (`onedesk.module_settings.open`); the explorer draws the foot with
+  (`onedesk.centers.part("settings", …)`); the explorer draws the foot with
   `interfaceModuleFoot`.
 - `public/js/one_cloud/record_files.js` and `public/js/one_cloud/record_activity.js` are
   OneCloud's too: the Files and Activity tabs on every record.
