@@ -8,7 +8,6 @@
 ["ar", "Add a task…"],
 ["ar", "Add a warehouse first."],
 ["ar", "Add several at once"],
-["ar", "Add to OneBook"],
 ["ar", "Add to the Slide"],
 ["ar", "Add to {0}"],
 ["ar", "Approval Answered"],
@@ -122,7 +121,6 @@
 ["ar", "{0} Approval"],
 ["ar", "{0} is a retainer. Invoice it by the month."],
 ["ar", "{0} is in Presentation Templates."],
-["ar", "{0}. The OneAdmin token needs Zone Settings: Edit."],
 ["de", "AI Credits"],
 ["de", "Activity Cost per Employee"],
 ["de", "Add Credits"],
@@ -253,9 +251,7 @@
 ["de", "Workspace Field"],
 ["de", "Write an Item"],
 ["de", "You have unsaved changes. Leave anyway?"],
-["de", "Your OneCalendar in Google Calendar, Apple Calendar or Outlook, through a private link."],
 ["de", "Your Update"],
 ["de", "{0} Approval"],
-["de", "{0} is a retainer. Invoice it by the month."],
-["de", "{0}. The OneAdmin token needs Zone Settings: Edit."]
+["de", "{0} is a retainer. Invoice it by the month."]
 ]
