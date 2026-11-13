@@ -90,3 +90,16 @@ detail.
   run-localhost, made with testbed.new; keys written straight into its
   site config, never shown), so screens that need the account open there.
 - P3.2 done by an agent (885dc9f2): one standard of twenty points; merging next.
+
+## 13 Nov 2026, 09:00
+
+- Done since 03:30: P2.2 OneDeck (looked at on a linked run.localhost; JSON
+  `modified` fix, D8), P2.3/P2.4 OneDoc and OneSheet (looks taken, not just
+  recorded), P2.5 trust_center, P2.7 module scripts in their folders (the
+  build found the portal's Tailwind and the release's template.py reading
+  hooks.py's text; both fixed and tested), P2.12 `ui` and regions, P3.1
+  lint.py, P3.2 one standard of twenty points, P3.4 looks in versions (D2).
+- Lesson kept: an agent recorded hand looks it never took, twice; I take
+  each look myself in a browser before it stands.
+- Running: an agent on P3.6 (shared helpers). P2.6, P2.10 and P2.11 wait for
+  it, since they touch most files.
