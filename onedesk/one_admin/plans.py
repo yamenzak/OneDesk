@@ -6,6 +6,7 @@ all hand it plain rows.
 plan with add-ons for what a customer needs.
 """
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from itertools import pairwise
 from math import ceil
@@ -35,6 +36,9 @@ class Costs:
 	backups_kept: int = 0
 	credit: float = 0.0
 	margin: float = 2.0
+	agents: Callable[[float], float] | None = None
+	agent_seat: float = 0.0
+	agent_credit: float = 0.0
 
 
 @dataclass
@@ -91,17 +95,29 @@ class Option:
 		return round(self.plan.price + sum(one.price * count for one, count in self.extras), 2)
 
 
+def agents(offer: Offer, costs: Costs) -> float:
+	"""What the agents cost us on Cloudflare for an offering: a plan's
+	workspace with every seat working, an add-on's seats each, and a pack's
+	credits each spent on an agent's message. Pure."""
+	if offer.kind == "Plan":
+		return round(costs.agents(offer.seats), 4) if costs.agents else 0.0
+	if offer.kind == "Credit Pack":
+		return round(offer.credits * costs.agent_credit, 4)
+	return round(offer.seats * costs.agent_seat, 4)
+
+
 def cost(offer: Offer, costs: Costs) -> float:
 	"""What an offering costs us a month; a pack's once."""
 	if offer.kind == "Credit Pack":
-		return round(offer.credits * costs.credit, 4)
+		return round(offer.credits * costs.credit + agents(offer, costs), 4)
 	database = costs.database_gb + costs.backup_gb * costs.backups_kept
 	return round(
 		(costs.workspace if offer.kind == "Plan" else 0)
 		+ offer.seats * costs.seat
 		+ offer.storage_gb * costs.storage_gb
 		+ offer.database_gb * database
-		+ offer.credits_a_month * costs.credit,
+		+ offer.credits_a_month * costs.credit
+		+ agents(offer, costs),
 		4,
 	)
 

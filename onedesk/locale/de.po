@@ -3707,6 +3707,11 @@ msgstr "Zu {invoice}. Die Zahlung ist erfasst, es ist nichts zu tun."
 msgid "Ageing"
 msgstr "Altersstruktur"
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
+#: onedesk/one_admin/report/price_check/price_check.py
+msgid "Agent Cost"
+msgstr "Agentenkosten"
+
 #: onedesk/one_deck/decks.py:23 onedesk/one_deck/decks.py:176
 #: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
 msgid "Agenda"

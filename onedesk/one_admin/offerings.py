@@ -9,6 +9,7 @@ from frappe import _, _lt
 from frappe.utils import flt
 
 from onedesk.one import registry
+from onedesk.one_admin import agent_costs
 from onedesk.one_admin import costs as ours
 from onedesk.one_admin import features, plans, price_list, site
 
@@ -102,15 +103,20 @@ def listed(including_off: bool = False) -> tuple[list, list, "plans.Costs"]:
 
 
 def costs() -> "plans.Costs":
-	"""What each thing costs us a month, from costs.py, as plans.py reads
-	them; the margin is the price list's floor as a multiple of cost."""
+	"""What each thing costs us a month, from costs.py and agent_costs.py, as
+	plans.py reads them; the margin is the price list's floor as a multiple
+	of cost."""
+	credit = price_list.ONECREDIT / min(price_list.MARKUP.values())
 	return plans.Costs(
 		workspace=ours.COST["server_workspace"] + ours.COST["cloudflare_fixed"],
 		seat=ours.COST["server_seat"],
 		storage_gb=ours.COST["storage_gb"],
 		database_gb=ours.COST["database_gb"],
-		credit=price_list.ONECREDIT / min(price_list.MARKUP.values()),
+		credit=credit,
 		margin=round(1 / (1 - price_list.MARGIN_FLOOR), 4),
+		agents=agent_costs.total,
+		agent_seat=agent_costs.seat(),
+		agent_credit=agent_costs.per_credit(price_list.ONECREDIT / price_list.MARKUP["ai"]),
 	)
 
 
