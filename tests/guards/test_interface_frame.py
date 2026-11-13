@@ -367,7 +367,7 @@ def test_a_screen_with_a_tree_hands_its_rows_to_the_windows():
 	assert 'class="standard-sidebar-item' in nav and "active-sidebar" in nav and "one-interface-count" in nav
 	assert HOOKS.index('"/assets/onedesk/js/one_interface/frame.js"') < HOOKS.index('"/assets/onedesk/js/one_interface/nav_tree.js"')
 	mail = (tree.ROOT / "frontend" / "src" / "mail" / "OneMail.vue").read_text(encoding="utf-8")
-	lists = (tree.APP / "public" / "js" / "lists.js").read_text(encoding="utf-8")
+	lists = (tree.APP / "public" / "js" / "one" / "lists.js").read_text(encoding="utf-8")
 	assert "interfaceTree(props.win" in mail and "interfaceTree(props.win" in CLOUD and "win.tree(" in lists
 	for gone in ("cloud/CloudTree.vue", "mail/MailBoxes.vue"):
 		assert not (tree.ROOT / "frontend" / "src" / gone).exists(), gone

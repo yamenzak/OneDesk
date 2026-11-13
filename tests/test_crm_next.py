@@ -47,7 +47,7 @@ def test_both_records_carry_the_step_and_remind():
 
 
 def test_the_form_offers_a_next_step_where_the_server_reminds():
-	source = (tree.APP / "public" / "js" / "next_step.js").read_text(encoding="utf-8")
+	source = (tree.APP / "public" / "js" / "one_crm" / "next_step.js").read_text(encoding="utf-8")
 	for doctype, statuses in _constant("OPEN").items():
 		said = re.search(rf"{doctype}: (\[[^\]]*\])", source).group(1)
 		assert tuple(json.loads(said)) == statuses, doctype
@@ -57,6 +57,6 @@ def test_the_lists_open_on_what_is_still_worked():
 	"""A lead's and an opportunity's list open filtered to the statuses whose
 	next step is reminded, the same list."""
 	for doctype, statuses in _constant("OPEN").items():
-		source = (tree.APP / "public" / "js" / f"{doctype.lower()}_list.js").read_text(encoding="utf-8")
+		source = (tree.APP / "public" / "js" / "one_crm" / f"{doctype.lower()}_list.js").read_text(encoding="utf-8")
 		said = re.search(r'settings\.filters = \[\["status", "in", (\[[^\]]*\])\]\]', source).group(1)
 		assert tuple(json.loads(said)) == statuses, doctype

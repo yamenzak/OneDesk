@@ -139,8 +139,8 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onecalendar.event": (APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
 		"onecloud.file": (ROOT / "frontend" / "src" / "cloud" / "CloudPreview.vue").read_text(),
 		"intake.reading": (ROOT / "frontend" / "src" / "intake" / "IntakeReading.vue").read_text(),
-		"onecrm.board": (public / "opportunity_list.js").read_text(),
-		"space.home": (public / "places.js").read_text(),
+		"onecrm.board": (public / "one_crm" / "opportunity_list.js").read_text(),
+		"space.home": (public / "one_studio" / "places.js").read_text(),
 		**{
 			f"oneproject.{view}": (ROOT / "frontend" / "src" / "project" / f"{name}.vue").read_text()
 			for view, name in (
@@ -171,14 +171,14 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onebook_home.shown": (ROOT / "frontend" / "src" / "books" / "BooksHome.vue").read_text(),
 		"oneinventory_order.shown": (ROOT / "frontend" / "src" / "inventory" / "to_order" / "ToOrderPage.vue").read_text(),
 		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
-		"oneproject_list.projects": (APP / "public" / "js" / "project_list.js").read_text(),
+		"oneproject_list.projects": (APP / "public" / "js" / "one_project" / "project_list.js").read_text(),
 	}
 	assert set(fired) == set(places.keys())
 	for key, source in fired.items():
 		assert f'"{key}"' in source, key
-	runtime = (public / "places.js").read_text()
+	runtime = (public / "one_studio" / "places.js").read_text()
 	assert "JSON.parse(JSON.stringify(data" in runtime, "an extension sees a copy, never the page's own"
 	assert "onedesk.places.tripped" in runtime
-	assert "/assets/onedesk/js/places.js" in tree.hooks()
+	assert "/assets/onedesk/js/one_studio/places.js" in tree.hooks()
 
 

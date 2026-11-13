@@ -271,7 +271,7 @@ def line_quantity(item_code: str, measured_by: str, uom: str, pieces=None, lengt
 
 def for_boot() -> dict:
 	"""Which tables of which records carry a size, for the forms
-	(public/js/measure.js)."""
+	(public/js/one_inventory/measure.js)."""
 	found = {}
 	for doctype in ("DocField", "Custom Field"):
 		parent = "parent" if doctype == "DocField" else "dt"

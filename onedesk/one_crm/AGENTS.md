@@ -77,11 +77,11 @@ none edits erpnext.
    from one to the next, each column showing its count, its value and its
    weighted value. Opportunity was called Deal by Translation rows until
    OneCRM was held to ERPNext's names (`patches/opportunity_again`).
-3. **The next step.** *Done* — `next.py`, `public/js/next_step.js`. Every
+3. **The next step.** *Done* — `next.py`, `public/js/one_crm/next_step.js`. Every
    open lead and opportunity carries what happens next and when. Home is *my day*:
    what is due, and what has no next step at all.
 4. **The record answers first.** *Done* — `record.py`, and the band and
-   Take This Lead as a Record Head (`heads.py`); `public/js/crm_record.js`
+   Take This Lead as a Record Head (`heads.py`); `public/js/one_crm/crm_record.js`
    keeps Log a Call and the duplicate. A lead and an opportunity open on what people
    open them for — value, stage and how long it has been there, the last
    contact, the next step, where it came from — with notes, calls written down
@@ -178,7 +178,7 @@ screen (a Prospect is one, and not every party is a business).
 
 ERPNext's own list read **Draft** for an unsigned contract, since a draft is
 never asked its status, and showed each contract's whole wording.
-`public/js/contract_list.js` extends ERPNext's list settings: a draft shows
+`public/js/one_crm/contract_list.js` extends ERPNext's list settings: a draft shows
 its status, a cancelled one says so, and the project a contract is for reads
 by its name. `custom/contract.json` shows the end date in place of the
 wording, the fulfilment status and the time it was signed. No grant is
@@ -468,5 +468,5 @@ quotation's timeline says who answered.
   step it suggests is a card of its own (plan_next_step).
 - **Its foot and settings** are `public/js/one_crm/crm_control.js`; the
   record pages' own scripts (`crm_record.js`, `lead.js`, `lead_list.js`,
-  `next_step.js`) are still in `public/js`.
+  `next_step.js`) are beside them in `public/js/one_crm/`.
 - **Its screens** are `frontend/src/crm/`, and **its checks** `checks.py`.

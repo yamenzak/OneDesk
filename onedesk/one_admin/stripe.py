@@ -34,7 +34,7 @@ HOOK_ID = "stripe_webhook_id"
 def embedded(made: dict) -> dict:
 	"""What a page needs to draw a Checkout session inside itself (ui_mode
 	"embedded"): the session's client secret and the publishable key. The
-	page loads Stripe.js and mounts it (public/js/one_pay.js); nobody leaves
+	page loads Stripe.js and mounts it (public/js/one_admin/one_pay.js); nobody leaves
 	One to pay."""
 	return {"client_secret": made.get("client_secret"), "key": _publishable()}
 

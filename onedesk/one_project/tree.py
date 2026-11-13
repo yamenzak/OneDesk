@@ -224,7 +224,7 @@ def nodes(
 	**filters,
 ) -> list[dict]:
 	"""The projects directly under one, for the Projects list's Tree view
-	(frappe's treeview, public/js/project_tree.js): under the root, those at
+	(frappe's treeview, public/js/one_project/project_tree.js): under the root, those at
 	the top. Read as the reader reads projects, so a project whose parent they
 	may not see is at the top. Finished ones only when `closed` is ticked."""
 	from onedesk.one_hr.lifecycle import BOARDING

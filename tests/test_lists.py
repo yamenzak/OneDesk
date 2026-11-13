@@ -1,7 +1,7 @@
 """Lists, the short lists a module's records pick from (one/lists.py): each
 module declares its own in its `lists.py`, its ControlCenter ends with
 Lists, each is frappe's own list and form with the module's other lists in
-the nav pane beside it (public/js/lists.js); and the Address Book in One's
+the nav pane beside it (public/js/one/lists.js); and the Address Book in One's
 rail."""
 
 import ast
@@ -17,7 +17,7 @@ import tree
 
 SOURCE = (tree.APP / "one" / "lists.py").read_text()
 HOOKS = tree.hooks()
-JS = (tree.APP / "public" / "js" / "lists.js").read_text()
+JS = (tree.APP / "public" / "js" / "one" / "lists.js").read_text()
 
 
 def _regex():
@@ -88,7 +88,7 @@ def test_every_controlcenter_ends_with_lists():
 
 def test_a_modules_lists_are_a_tree_beside_any_of_them():
 	assert "onedesk.interface.trees.push({ covers: (doctype) => !!onedesk.lists.module_of(doctype), draw: onedesk.lists.draw })" in JS
-	assert '"/assets/onedesk/js/lists.js"' in HOOKS
+	assert '"/assets/onedesk/js/one/lists.js"' in HOOKS
 	assert "win.tree({" in JS and "count:" in JS and "active:" in JS
 	homes = SOURCE.split("def homes(", 1)[1].split("\ndef ", 1)[0]
 	assert "center=settings&module={module}&at=lists" in homes and "f\"/desk/{doctype.lower()" in homes

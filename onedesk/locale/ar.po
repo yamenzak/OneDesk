@@ -216,7 +216,7 @@ msgstr "طلب واحد"
 msgid "1 cost"
 msgstr "تكلفة واحدة"
 
-#: onedesk/public/js/project_actions.js:97
+#: onedesk/public/js/one_project/project_actions.js:97
 #, python-brace-format
 msgid "1 cost, {0}"
 msgstr "تكلفة واحدة، {0}"
@@ -229,7 +229,7 @@ msgstr "بلد واحد"
 #: frontend/src/template/Tasks.vue:126 onedesk/one/control.py:314
 #: onedesk/one/stages.py:33 onedesk/one_hr/heads.py:28
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/heads.py:234
-#: onedesk/public/js/project_template_list.js:4
+#: onedesk/public/js/one_project/project_template_list.js:4
 msgid "1 day"
 msgstr "يوم واحد"
 
@@ -315,11 +315,11 @@ msgstr "دقيقة واحدة"
 msgid "1 month"
 msgstr "شهر واحد"
 
-#: onedesk/public/js/project.js:192
+#: onedesk/public/js/one_project/project.js:192
 msgid "1 open sub-project"
 msgstr "مشروع فرعي واحد مفتوح"
 
-#: onedesk/public/js/project.js:191
+#: onedesk/public/js/one_project/project.js:191
 msgid "1 open task"
 msgstr "مهمة واحدة مفتوحة"
 
@@ -339,7 +339,7 @@ msgstr "شخص واحد"
 msgid "1 person over capacity"
 msgstr "شخص واحد فوق طاقته"
 
-#: onedesk/public/js/project_template_list.js:5
+#: onedesk/public/js/one_project/project_template_list.js:5
 msgid "1 project"
 msgstr "مشروع واحد"
 
@@ -365,7 +365,7 @@ msgstr "مشروع فرعي واحد"
 
 #: frontend/src/project/Overview.vue:100
 #: frontend/src/workload/WorkloadList.vue:29
-#: onedesk/public/js/project_template_list.js:3
+#: onedesk/public/js/one_project/project_template_list.js:3
 msgid "1 task"
 msgstr "مهمة واحدة"
 
@@ -373,7 +373,7 @@ msgstr "مهمة واحدة"
 msgid "1 transaction"
 msgstr "معاملة واحدة"
 
-#: onedesk/public/js/lists.js:37
+#: onedesk/public/js/one/lists.js:37
 msgid "1 value"
 msgstr "قيمة واحدة"
 
@@ -584,7 +584,7 @@ msgstr "فاتورة أو كشف حساب للدفع."
 msgid "A bonus paid for staying until a date."
 msgstr "مكافأة تُدفع للبقاء حتى تاريخ معيّن."
 
-#: onedesk/one/push.py:96 onedesk/public/js/push.js:39
+#: onedesk/one/push.py:96 onedesk/public/js/one/push.js:39
 msgid "A browser"
 msgstr "متصفح"
 
@@ -812,7 +812,7 @@ msgstr "محتوى مستند، خلف الملف الذي يضعه في OneClou
 msgid "A domain is at most {0} characters."
 msgstr "النطاق لا يتجاوز {0} حرفًا."
 
-#: onedesk/public/js/quotes_actions.js:75
+#: onedesk/public/js/one_inventory/quotes_actions.js:75
 msgid "A draft purchase order is made to each supplier for the lines they are cheapest on. Nothing is sent."
 msgstr "تُنشأ مسودة أمر شراء لكل مورد بالبنود التي يقدّم فيها أقل سعر. لا يُرسل شيء."
 
@@ -1224,7 +1224,7 @@ msgstr "راتب شهر، بندًا بندًا."
 msgid "A month's payroll run, and its slips."
 msgstr "مسير رواتب شهر وقسائمه."
 
-#: onedesk/public/js/project_new.js:27
+#: onedesk/public/js/one_project/project_new.js:27
 msgid "A monthly fee for a set number of hours."
 msgstr "رسوم شهرية مقابل عدد محدد من الساعات."
 
@@ -1463,7 +1463,7 @@ msgstr "عند فتح عرض الوقت لمشروع، وفي كل مرة تتغ
 msgid "A promotion with tiers of discount or free items."
 msgstr "عرض ترويجي بشرائح خصم أو أصناف مجانية."
 
-#: onedesk/public/js/webhook.js:10
+#: onedesk/public/js/one_studio/webhook.js:10
 msgid "A public HTTPS URL. To filter records, use an automation with a Call Webhook step."
 msgstr "رابط HTTPS عام. لتصفية السجلات، استخدم أتمتة بخطوة Call Webhook."
 
@@ -1712,7 +1712,7 @@ msgstr "يمكن جلب المصدر {0} مرات في اليوم كحد أقص�
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr "تُفتح الصفحة الرئيسية لمساحة: One وOneCRM وOneHR وOneBook وكل مساحة أخرى."
 
-#: onedesk/public/js/item_new.js:281
+#: onedesk/public/js/one_inventory/item_new.js:281
 msgid "A spreadsheet or CSV file"
 msgstr "جدول بيانات أو ملف CSV"
 
@@ -1726,7 +1726,7 @@ msgstr "محتوى جدول البيانات، خلف الملف الذي يضع
 msgid "A square mark, the logo without its words. Screens show it between headlines and where the logo is too wide."
 msgstr "علامة مربعة، وهي الشعار دون كلماته. تعرضها الشاشات بين العناوين وحيث يكون الشعار أعرض من اللازم."
 
-#: onedesk/public/js/overtime.js:100
+#: onedesk/public/js/one_hr/overtime.js:100
 #, python-brace-format
 msgid "A standard day is {0} hours. Time beyond that is overtime."
 msgstr "اليوم القياسي {0} ساعات. ما يزيد على ذلك عمل إضافي."
@@ -2008,7 +2008,7 @@ msgstr "لمسة الذكاء الاصطناعي"
 #: frontend/src/admin/AdminHome.vue:44 frontend/src/admin/BillingHome.vue:37
 #: onedesk/one_admin/report/ai_usage/ai_usage.json:19
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:283
-#: onedesk/public/js/credit_ledger_entry.js:15 onedesk/public/js/tenant.js:21
+#: onedesk/public/js/one_admin/credit_ledger_entry.js:15 onedesk/public/js/one_admin/tenant.js:21
 msgid "AI Usage"
 msgstr "استخدام الذكاء الاصطناعي"
 
@@ -2318,7 +2318,7 @@ msgstr "الحساب"
 msgid "Account Deleted"
 msgstr "تم حذف الحساب"
 
-#: onedesk/public/js/privacy_request_list.js:13
+#: onedesk/public/js/trust_center/privacy_request_list.js:13
 msgid "Account Deletions"
 msgstr "حذف الحسابات"
 
@@ -2526,10 +2526,10 @@ msgstr "إجراء"
 #: onedesk/public/js/one_account/account_center.js:523
 #: onedesk/public/js/one_ai/ai_center.js:277
 #: onedesk/public/js/one_mail/onemail_settings.js:402
-#: onedesk/public/js/project.js:36 onedesk/public/js/project.js:48
-#: onedesk/public/js/project.js:52 onedesk/public/js/project.js:55
-#: onedesk/public/js/project.js:58 onedesk/public/js/project.js:244
-#: onedesk/public/js/task.js:32
+#: onedesk/public/js/one_project/project.js:36 onedesk/public/js/one_project/project.js:48
+#: onedesk/public/js/one_project/project.js:52 onedesk/public/js/one_project/project.js:55
+#: onedesk/public/js/one_project/project.js:58 onedesk/public/js/one_project/project.js:244
+#: onedesk/public/js/one_task/task.js:32
 msgid "Actions"
 msgstr "الإجراءات"
 
@@ -2582,7 +2582,7 @@ msgstr "الخلية النشطة {0}"
 #: onedesk/one_project/ai.py:649
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/one_interface/form.js:152
-#: onedesk/public/js/project_actions.js:360
+#: onedesk/public/js/one_project/project_actions.js:360
 msgid "Activity"
 msgstr "النشاط"
 
@@ -2590,14 +2590,14 @@ msgstr "النشاط"
 msgid "Activity Cost"
 msgstr ""
 
-#: onedesk/public/js/activity_type.js:3
+#: onedesk/public/js/one_project/activity_type.js:3
 msgid "Activity Cost per Employee"
 msgstr "تكلفة النشاط لكل موظف"
 
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json:105
-#: onedesk/one_project/rates.py:18 onedesk/public/js/project_list.js:68
-#: onedesk/public/js/timesheet.js:36
+#: onedesk/one_project/rates.py:18 onedesk/public/js/one_project/project_list.js:68
+#: onedesk/public/js/one_hr/timesheet.js:36
 msgid "Activity Type"
 msgstr ""
 
@@ -2668,7 +2668,7 @@ msgstr "إضافة عنوان"
 msgid "Add Bank Account"
 msgstr "إضافة حساب بنكي"
 
-#: onedesk/public/js/checkin_list.js:48
+#: onedesk/public/js/one_hr/checkin_list.js:48
 msgid "Add Checkin for Another Employee"
 msgstr "إضافة تسجيل حضور لموظف آخر"
 
@@ -2676,17 +2676,17 @@ msgstr "إضافة تسجيل حضور لموظف آخر"
 msgid "Add Collection"
 msgstr "إضافة مجموعة"
 
-#: frontend/src/project/Team.vue:59 onedesk/public/js/project_actions.js:431
-#: onedesk/public/js/project_actions.js:452
+#: frontend/src/project/Team.vue:59 onedesk/public/js/one_project/project_actions.js:431
+#: onedesk/public/js/one_project/project_actions.js:452
 msgid "Add Contact"
 msgstr "إضافة جهة اتصال"
 
-#: onedesk/public/js/project.js:175 onedesk/public/js/project_actions.js:185
-#: onedesk/public/js/project_actions.js:240
+#: onedesk/public/js/one_project/project.js:175 onedesk/public/js/one_project/project_actions.js:185
+#: onedesk/public/js/one_project/project_actions.js:240
 msgid "Add Contract"
 msgstr "إضافة عقد"
 
-#: frontend/src/project/Money.vue:28 onedesk/public/js/project_actions.js:306
+#: frontend/src/project/Money.vue:28 onedesk/public/js/one_project/project_actions.js:306
 msgid "Add Cost Type"
 msgstr "إضافة نوع تكلفة"
 
@@ -2727,7 +2727,7 @@ msgstr "إضافة ملفات"
 msgid "Add Folder"
 msgstr "إضافة مجلد"
 
-#: onedesk/public/js/item_new.js:326
+#: onedesk/public/js/one_inventory/item_new.js:326
 msgid "Add Item"
 msgstr ""
 
@@ -2745,8 +2745,8 @@ msgid "Add Memory"
 msgstr "إضافة ذكرى"
 
 #: frontend/src/project/Overview.vue:36 frontend/src/project/Overview.vue:57
-#: onedesk/public/js/project_actions.js:566
-#: onedesk/public/js/project_actions.js:587
+#: onedesk/public/js/one_project/project_actions.js:566
+#: onedesk/public/js/one_project/project_actions.js:587
 msgid "Add Milestone"
 msgstr "إضافة مرحلة"
 
@@ -2820,7 +2820,7 @@ msgid "Add Supplier"
 msgstr "إضافة مورد"
 
 #: frontend/src/template/Tasks.vue:98 frontend/src/template/TemplatePart.vue:58
-#: onedesk/public/js/task_new.js:43
+#: onedesk/public/js/one_task/task_new.js:43
 msgid "Add Task"
 msgstr "إضافة مهمة"
 
@@ -2829,13 +2829,13 @@ msgstr "إضافة مهمة"
 msgid "Add Task Under"
 msgstr "إضافة مهمة تحتها"
 
-#: onedesk/public/js/project_actions.js:72
+#: onedesk/public/js/one_project/project_actions.js:72
 msgid "Add Tasks"
 msgstr "إضافة المهام"
 
-#: frontend/src/project/Team.vue:10 onedesk/public/js/project_actions.js:406
-#: onedesk/public/js/project_actions.js:417
-#: onedesk/public/js/project_actions.js:661
+#: frontend/src/project/Team.vue:10 onedesk/public/js/one_project/project_actions.js:406
+#: onedesk/public/js/one_project/project_actions.js:417
+#: onedesk/public/js/one_project/project_actions.js:661
 msgid "Add User"
 msgstr "إضافة مستخدم"
 
@@ -2844,7 +2844,7 @@ msgstr "إضافة مستخدم"
 msgid "Add User Permission"
 msgstr "إضافة صلاحية مستخدم"
 
-#: onedesk/public/js/item_actions.js:91 onedesk/public/js/item_actions.js:93
+#: onedesk/public/js/one_inventory/item_actions.js:91 onedesk/public/js/one_inventory/item_actions.js:93
 #: onedesk/public/js/one_inventory/item.js:30
 msgid "Add Variant"
 msgstr "إضافة متغير"
@@ -3016,11 +3016,11 @@ msgstr "إضافة موصل"
 msgid "Add field"
 msgstr "إضافة حقل"
 
-#: onedesk/public/js/project.js:52 onedesk/public/js/project_actions.js:66
+#: onedesk/public/js/one_project/project.js:52 onedesk/public/js/one_project/project_actions.js:66
 msgid "Add from Template"
 msgstr "إضافة من قالب"
 
-#: onedesk/public/js/item_new.js:169 onedesk/public/js/item_new.js:278
+#: onedesk/public/js/one_inventory/item_new.js:169 onedesk/public/js/one_inventory/item_new.js:278
 msgid "Add from a List"
 msgstr "إضافة من قائمة"
 
@@ -3099,7 +3099,7 @@ msgstr "أضف إلى OneBook"
 msgid "Add to Plan"
 msgstr "إضافة إلى الخطة"
 
-#: onedesk/public/js/project.js:212
+#: onedesk/public/js/one_project/project.js:212
 msgid "Add to Project"
 msgstr "إضافة إلى المشروع"
 
@@ -3120,12 +3120,12 @@ msgstr "أضف إلى الشريحة"
 msgid "Add to {0}"
 msgstr "أضف إلى {0}"
 
-#: onedesk/one_mail/ai.py:1113 onedesk/public/js/project_tree.js:28
+#: onedesk/one_mail/ai.py:1113 onedesk/public/js/one_project/project_tree.js:28
 #, python-brace-format
 msgid "Add {0}"
 msgstr "إضافة {0}"
 
-#: onedesk/public/js/item_new.js:275
+#: onedesk/public/js/one_inventory/item_new.js:275
 #, python-brace-format
 msgid "Add {0} Parts"
 msgstr "إضافة {0} قطع"
@@ -3176,7 +3176,7 @@ msgstr "الإضافات"
 msgid "Added"
 msgstr "أُضيف"
 
-#: onedesk/public/js/project_actions.js:80
+#: onedesk/public/js/one_project/project_actions.js:80
 msgid "Added 1 task"
 msgstr "تمت إضافة مهمة واحدة"
 
@@ -3242,7 +3242,7 @@ msgstr "مجموع الصفوف أدناه."
 msgid "Added {0}"
 msgstr "أُضيف {0}"
 
-#: onedesk/public/js/project_actions.js:80
+#: onedesk/public/js/one_project/project_actions.js:80
 #, python-brace-format
 msgid "Added {0} tasks"
 msgstr "تمت إضافة {0} مهام"
@@ -3868,7 +3868,7 @@ msgstr "كل صناديق البريد"
 msgid "All Other Accounts"
 msgstr "جميع الحسابات الأخرى"
 
-#: onedesk/public/js/project_tree.js:4
+#: onedesk/public/js/one_project/project_tree.js:4
 msgid "All Projects"
 msgstr "كل المشاريع"
 
@@ -4109,7 +4109,7 @@ msgstr "السماح أيضاً بتسجيل الحضور من"
 msgid "Also Leads and Job Applicants, for unknown senders."
 msgstr "وكذلك العملاء المحتملون والمتقدمون للوظائف، للمرسلين غير المعروفين."
 
-#: onedesk/public/js/project_actions.js:29
+#: onedesk/public/js/one_project/project_actions.js:29
 msgid "Also Move"
 msgstr "نقل أيضاً"
 
@@ -4168,7 +4168,7 @@ msgstr ""
 msgid "Always Emailed"
 msgstr "يُرسل بالبريد دائمًا"
 
-#: onedesk/public/js/privacy_copy.js:24
+#: onedesk/public/js/trust_center/privacy_copy.js:24
 msgid "Always included"
 msgstr "مضمّن دائمًا"
 
@@ -4389,11 +4389,11 @@ msgstr "يراجع أحد المسؤولين الطلب. بعد ذلك يتم ت
 msgid "An administrator reviews the request. Then you're signed out, and your OneAI chats, memory, notifications and devices are deleted."
 msgstr "يراجع مسؤول الطلب. بعدها يُسجَّل خروجك وتُحذف محادثاتك مع OneAI وذاكرته وإشعاراتك وأجهزتك."
 
-#: onedesk/public/js/project_new.js:24
+#: onedesk/public/js/one_project/project_new.js:24
 msgid "An agreed price, billed as the work gets done. Subcontracts and a budget."
 msgstr "سعر متفق عليه يُفوتر مع تقدم العمل. عقود من الباطن وميزانية."
 
-#: onedesk/public/js/project_new.js:23
+#: onedesk/public/js/one_project/project_new.js:23
 msgid "An agreed price, billed as the work gets done. Subcontracts, retention and a budget."
 msgstr "سعر متفق عليه يُفوتر مع تقدم العمل. عقود من الباطن ومحتجزات وميزانية."
 
@@ -4622,7 +4622,7 @@ msgstr "لغة الإعلان"
 
 #. Label of a Sidebar Item
 #: frontend/src/one/Home.vue:28 onedesk/one/sidebar/one/one.json:25
-#: onedesk/one/tour.py:36 onedesk/public/js/note_list.js:12
+#: onedesk/one/tour.py:36 onedesk/public/js/one/note_list.js:12
 #: onedesk/public/js/one_interface/chrome.js:59
 #: onedesk/public/js/one_interface/chrome.js:247
 msgid "Announcements"
@@ -4686,7 +4686,7 @@ msgid "Answer the quote request"
 msgstr "الرد على طلب عرض السعر"
 
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:11
-#: onedesk/public/js/crm_record.js:81
+#: onedesk/public/js/one_crm/crm_record.js:81
 msgid "Answered"
 msgstr "تم الرد"
 
@@ -4759,7 +4759,7 @@ msgstr "أي شخص لديه الرابط"
 msgid "Anyone with the link can open this file"
 msgstr "يمكن لأي شخص لديه الرابط فتح هذا الملف"
 
-#: onedesk/public/js/calendar_link.js:21
+#: onedesk/public/js/one_calendar/calendar_link.js:21
 msgid "Anyone with the link can read your calendar."
 msgstr "يمكن لأي شخص لديه الرابط قراءة تقويمك."
 
@@ -4817,7 +4817,7 @@ msgstr "شاشات التطبيق"
 msgid "Appearance"
 msgstr "المظهر"
 
-#: onedesk/public/js/calendar_link.js:15
+#: onedesk/public/js/one_calendar/calendar_link.js:15
 msgid "Apple Calendar"
 msgstr "تقويم Apple"
 
@@ -5064,7 +5064,7 @@ msgstr "اعتماد"
 msgid "Approve All ({0})"
 msgstr "الموافقة على الكل ({0})"
 
-#: onedesk/public/js/privacy_request.js:13
+#: onedesk/public/js/trust_center/privacy_request.js:13
 msgid "Approve and Delete"
 msgstr "الموافقة والحذف"
 
@@ -5191,7 +5191,7 @@ msgstr "معتمد ومتاح"
 msgid "Approved by {0}"
 msgstr "وافق عليه {0}"
 
-#: onedesk/public/js/privacy_copy.js:8
+#: onedesk/public/js/trust_center/privacy_copy.js:8
 #, python-brace-format
 msgid "Approved. The copy will be sent to {0} when it's ready."
 msgstr "تمت الموافقة. ستُرسل النسخة إلى {0} عندما تجهز."
@@ -5332,7 +5332,7 @@ msgstr "هل نحن على أرخص خطة؟"
 
 #. Option for the 'Sold by Size' (Select) field in DocType 'Item'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:220
-#: onedesk/one_inventory/custom/item.json:8 onedesk/public/js/item_new.js:51
+#: onedesk/one_inventory/custom/item.json:8 onedesk/public/js/one_inventory/item_new.js:51
 msgid "Area"
 msgstr "المساحة"
 
@@ -5402,7 +5402,7 @@ msgstr "بصفة"
 msgid "As Cloudflare reports it, checked each night until it works."
 msgstr "كما تبلغ عنه Cloudflare، ويُفحص كل ليلة حتى يعمل."
 
-#: onedesk/public/js/table_workbook.js:42
+#: onedesk/public/js/one_sheet/table_workbook.js:42
 msgid "As It Was Made"
 msgstr "كما صُنع"
 
@@ -5454,7 +5454,7 @@ msgstr "كما كُتب"
 msgid "As {0} names it now"
 msgstr "كما يسمّيه {0} الآن"
 
-#: onedesk/public/js/quotes_actions.js:36
+#: onedesk/public/js/one_inventory/quotes_actions.js:36
 msgid "Ask"
 msgstr "اطلب"
 
@@ -5541,11 +5541,11 @@ msgstr "اسأل عند الكاونتر عن التفاصيل."
 msgid "Ask for Approval"
 msgstr "طلب الموافقة"
 
-#: frontend/src/project/Suppliers.vue:124 onedesk/public/js/quotes_actions.js:8
+#: frontend/src/project/Suppliers.vue:124 onedesk/public/js/one_inventory/quotes_actions.js:8
 msgid "Ask for Prices"
 msgstr "طلب الأسعار"
 
-#: onedesk/public/js/project.js:58 onedesk/public/js/project_actions.js:621
+#: onedesk/public/js/one_project/project.js:58 onedesk/public/js/one_project/project_actions.js:621
 msgid "Ask for Updates"
 msgstr "طلب التحديثات"
 
@@ -5684,7 +5684,7 @@ msgstr "يُطلب مرتين يوميًا"
 msgid "Asked {0}"
 msgstr "طُلب {0}"
 
-#: onedesk/public/js/quotes_actions.js:46
+#: onedesk/public/js/one_inventory/quotes_actions.js:46
 #, python-brace-format
 msgid "Asked {0} for prices"
 msgstr "طُلبت الأسعار من {0}"
@@ -5751,7 +5751,7 @@ msgstr "رسملة الأصول"
 msgid "Asset Card"
 msgstr "بطاقة الأصل"
 
-#: onedesk/one_inventory/home.py:164 onedesk/public/js/item_new.js:115
+#: onedesk/one_inventory/home.py:164 onedesk/public/js/one_inventory/item_new.js:115
 msgid "Asset Category"
 msgstr "فئة الأصل"
 
@@ -6132,7 +6132,7 @@ msgstr "الحضور حسب المناوبة"
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json:98
 #: onedesk/one_project/custom/projects_settings.json:44
-#: onedesk/public/js/project_new.js:154
+#: onedesk/public/js/one_project/project_new.js:154
 msgid "Attendance on Site"
 msgstr "الحضور في الموقع"
 
@@ -6371,7 +6371,7 @@ msgid "Automatic colour"
 msgstr "لون تلقائي"
 
 #: frontend/src/inventory/item/ItemStock.vue:111
-#: onedesk/public/js/lots_actions.js:29
+#: onedesk/public/js/one_inventory/lots_actions.js:29
 msgid "Automatically Create New Batch"
 msgstr ""
 
@@ -6596,7 +6596,7 @@ msgstr "رجوع"
 msgid "Back From Supplier Late"
 msgstr "تأخّر الإرجاع من المورّد"
 
-#: onedesk/public/js/item_actions.js:230
+#: onedesk/public/js/one_inventory/item_actions.js:230
 #, python-brace-format
 msgid "Back in {0}"
 msgstr "عاد إلى {0}"
@@ -6626,7 +6626,7 @@ msgid "Back to your account"
 msgstr "العودة إلى حسابك"
 
 #: onedesk/public/js/one/shortcut_center.js:248
-#: onedesk/public/js/one_hr/hr_control.js:64 onedesk/public/js/workbooks.js:87
+#: onedesk/public/js/one_hr/hr_control.js:64 onedesk/public/js/one_sheet/workbooks.js:87
 #, python-brace-format
 msgid "Back to {0}"
 msgstr "العودة إلى {0}"
@@ -6669,7 +6669,7 @@ msgstr "تنسخ نفسها احتياطيًا"
 msgid "Backspace"
 msgstr "مسح للخلف"
 
-#: onedesk/public/js/tenant.js:123
+#: onedesk/public/js/one_admin/tenant.js:123
 msgid "Backup"
 msgstr "نسخة احتياطية"
 
@@ -6685,7 +6685,7 @@ msgstr "حاوية النسخ الاحتياطية"
 
 #. Option for the 'Service' (Select) field in DocType 'Health Check'
 #: onedesk/one_admin/doctype/health_check/health_check.json:24
-#: onedesk/public/js/tenant.js:26 onedesk/public/js/tenant.js:121
+#: onedesk/public/js/one_admin/tenant.js:26 onedesk/public/js/one_admin/tenant.js:121
 msgid "Backups"
 msgstr ""
 
@@ -6954,7 +6954,7 @@ msgstr "الراتب الأساسي"
 msgid "Batch"
 msgstr ""
 
-#: onedesk/public/js/lots_actions.js:93
+#: onedesk/public/js/one_inventory/lots_actions.js:93
 msgid "Batch ID"
 msgstr "رقم الدفعة"
 
@@ -6967,7 +6967,7 @@ msgid "Batch No"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:112
-#: onedesk/public/js/lots_actions.js:33
+#: onedesk/public/js/one_inventory/lots_actions.js:33
 msgid "Batch Number Series"
 msgstr ""
 
@@ -6979,7 +6979,7 @@ msgstr ""
 msgid "Batch and Serial No"
 msgstr ""
 
-#: onedesk/public/js/lots_actions.js:119
+#: onedesk/public/js/one_inventory/lots_actions.js:119
 #, python-brace-format
 msgid "Batch {0} made"
 msgstr "أُنشئت الدفعة {0}"
@@ -7280,16 +7280,16 @@ msgstr "رقم كبير"
 msgid "Bill"
 msgstr "فاتورة"
 
-#: onedesk/public/js/project_actions.js:192
-#: onedesk/public/js/project_new.js:105
+#: onedesk/public/js/one_project/project_actions.js:192
+#: onedesk/public/js/one_project/project_new.js:105
 msgid "Bill As"
 msgstr "الفوترة كـ"
 
-#: onedesk/public/js/project_actions.js:112
+#: onedesk/public/js/one_project/project_actions.js:112
 msgid "Bill Costs"
 msgstr "فوترة التكاليف"
 
-#: onedesk/public/js/project_actions.js:116
+#: onedesk/public/js/one_project/project_actions.js:116
 msgid "Bill Costs As"
 msgstr "فوترة التكاليف باسم"
 
@@ -7303,13 +7303,13 @@ msgstr "فاتورة مورد مستحقة"
 msgid "Bill From"
 msgstr "الفاتورة من"
 
-#: onedesk/public/js/project_actions.js:502
+#: onedesk/public/js/one_project/project_actions.js:502
 msgid "Bill Overage Hours"
 msgstr "فوترة الساعات الزائدة"
 
 #: frontend/src/project/Overview.vue:20 frontend/src/project/Suppliers.vue:65
-#: onedesk/public/js/progress.js:30 onedesk/public/js/progress.js:40
-#: onedesk/public/js/project.js:177 onedesk/public/js/project_actions.js:541
+#: onedesk/public/js/one_project/progress.js:30 onedesk/public/js/one_project/progress.js:40
+#: onedesk/public/js/one_project/project.js:177 onedesk/public/js/one_project/project_actions.js:541
 msgid "Bill Progress"
 msgstr "فوترة التقدم"
 
@@ -7362,11 +7362,11 @@ msgstr "قائمة المواد"
 
 #. Label of the one_bill_share (Percent) field in DocType 'Task'
 #: onedesk/one_project/ai.py:604 onedesk/one_project/custom/task.json:6
-#: onedesk/public/js/project_actions.js:582
+#: onedesk/public/js/one_project/project_actions.js:582
 msgid "Bill on Completion"
 msgstr "الفوترة عند الإنجاز"
 
-#: onedesk/public/js/project_actions.js:526
+#: onedesk/public/js/one_project/project_actions.js:526
 #, python-brace-format
 msgid "Bill the {0} h over, {1}"
 msgstr "فوترة {0} س الزائدة، {1}"
@@ -7379,7 +7379,7 @@ msgstr "فوتر {share}."
 
 #. Label in the One Timesheet print format
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/public/js/project_actions.js:391
+#: onedesk/public/js/one_project/project_actions.js:391
 msgid "Billable"
 msgstr "قابل للفوترة"
 
@@ -7422,7 +7422,7 @@ msgstr "المفوتر سابقًا"
 msgid "Billed Hours"
 msgstr "الساعات المفوترة"
 
-#: onedesk/public/js/progress.js:52 onedesk/public/js/progress.js:76
+#: onedesk/public/js/one_project/progress.js:52 onedesk/public/js/one_project/progress.js:76
 msgid "Billed So Far"
 msgstr "المفوتر حتى الآن"
 
@@ -7435,7 +7435,7 @@ msgstr "الفاتورة باسم"
 msgid "Billed and paid as the payments made against it say, red once a part is late."
 msgstr "مفوترة ومدفوعة كما تقول الدفعات المقابلة لها، وتصبح حمراء عند تأخر أي جزء."
 
-#: onedesk/public/js/project_new.js:26
+#: onedesk/public/js/one_project/project_new.js:26
 msgid "Billed by the hour at agreed rates, plus what's bought for it."
 msgstr "يُفوتر بالساعة بأسعار متفق عليها، إضافة إلى ما يُشترى له."
 
@@ -7473,7 +7473,7 @@ msgstr "مفوتر: {0} من وقت {1}."
 #: onedesk/one_admin/page/oneadmin_billing/oneadmin_billing.js:2
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:157
 #: onedesk/one_project/custom/projects_settings.json:6
-#: onedesk/public/js/tenant.js:6
+#: onedesk/public/js/one_admin/tenant.js:6
 msgid "Billing"
 msgstr "الفوترة"
 
@@ -7632,7 +7632,7 @@ msgstr "تمويه"
 #: onedesk/one_display/doctype/display_source/display_source.json:52
 #: onedesk/one_display/doctype/display_source/display_source.json:78
 #: onedesk/one_display/doctype/display_widget/display_widget.json:28
-#: onedesk/one_display/widgets.py:125 onedesk/public/js/project.js:28
+#: onedesk/one_display/widgets.py:125 onedesk/public/js/one_project/project.js:28
 msgid "Board"
 msgstr "اللوحة"
 
@@ -7800,7 +7800,7 @@ msgstr "فاتورة الشراء"
 msgid "Bought by Supplier"
 msgstr "المشتريات حسب المورد"
 
-#: onedesk/public/js/item_new.js:96
+#: onedesk/public/js/one_inventory/item_new.js:96
 msgid "Bought from Suppliers"
 msgstr "يُشترى من الموردين"
 
@@ -7932,8 +7932,8 @@ msgstr "متصفحات سجّل أحدهم الدخول منها ولم يسمّ
 #: frontend/src/project/Money.vue:34 frontend/src/project/Overview.vue:29
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
-#: onedesk/one_project/ai.py:701 onedesk/public/js/project_actions.js:282
-#: onedesk/public/js/project_actions.js:318
+#: onedesk/one_project/ai.py:701 onedesk/public/js/one_project/project_actions.js:282
+#: onedesk/public/js/one_project/project_actions.js:318
 msgid "Budget"
 msgstr "الميزانية"
 
@@ -8060,7 +8060,7 @@ msgstr "رقم الحزمة"
 msgid "Business"
 msgstr "أعمال"
 
-#: onedesk/public/js/crm_record.js:83
+#: onedesk/public/js/one_crm/crm_record.js:83
 msgid "Busy"
 msgstr ""
 
@@ -8117,7 +8117,7 @@ msgstr "شراء {0} رصيد"
 #: frontend/src/project/Suppliers.vue:119 onedesk/one_inventory/home.py:15
 #: onedesk/one_inventory/home.py:61
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:145
-#: onedesk/public/js/item_new.js:237
+#: onedesk/public/js/one_inventory/item_new.js:237
 msgid "Buying"
 msgstr "الشراء"
 
@@ -8126,7 +8126,7 @@ msgstr "الشراء"
 msgid "Buying Overview"
 msgstr "نظرة عامة على المشتريات"
 
-#: onedesk/public/js/item_new.js:97
+#: onedesk/public/js/one_inventory/item_new.js:97
 msgid "Buying Price"
 msgstr "سعر الشراء"
 
@@ -8138,7 +8138,7 @@ msgstr "أسعار الشراء"
 msgid "Buying Settings"
 msgstr "إعدادات الشراء"
 
-#: onedesk/public/js/item_new.js:95 onedesk/public/js/item_new.js:237
+#: onedesk/public/js/one_inventory/item_new.js:95 onedesk/public/js/one_inventory/item_new.js:237
 msgid "Buying and Making"
 msgstr "الشراء والتصنيع"
 
@@ -8146,7 +8146,7 @@ msgstr "الشراء والتصنيع"
 msgid "Buying and Selling"
 msgstr ""
 
-#: onedesk/public/js/item_new.js:200
+#: onedesk/public/js/one_inventory/item_new.js:200
 msgid "Buying, Selling and Stock"
 msgstr "الشراء والبيع والمخزون"
 
@@ -8183,7 +8183,7 @@ msgstr "حسب"
 msgid "By Activity"
 msgstr "حسب النشاط"
 
-#: onedesk/public/js/lots_actions.js:22
+#: onedesk/public/js/one_inventory/lots_actions.js:22
 msgid "By Batch"
 msgstr "حسب الدفعة"
 
@@ -8201,7 +8201,7 @@ msgstr "«حسب الفئة» يُبقي عناوين كل فئة معاً."
 msgid "By Item Group"
 msgstr "حسب مجموعة الأصناف"
 
-#: onedesk/public/js/progress.js:62
+#: onedesk/public/js/one_project/progress.js:62
 msgid "By Line"
 msgstr "حسب البند"
 
@@ -8213,7 +8213,7 @@ msgstr "حسب النموذج، آخر 30 يومًا"
 msgid "By Person"
 msgstr "حسب الشخص"
 
-#: onedesk/public/js/lots_actions.js:23
+#: onedesk/public/js/one_inventory/lots_actions.js:23
 msgid "By Serial No"
 msgstr "حسب الرقم التسلسلي"
 
@@ -8354,7 +8354,7 @@ msgstr "روابط التقويم متوقفة في مساحة العمل هذه
 msgid "Calendars"
 msgstr "التقاويم"
 
-#: onedesk/public/js/crm_record.js:69
+#: onedesk/public/js/one_crm/crm_record.js:69
 msgid "Call"
 msgstr ""
 
@@ -8379,7 +8379,7 @@ msgstr "نوع المكالمة"
 msgid "Call Webhook"
 msgstr "استدعاء Webhook"
 
-#: onedesk/public/js/crm_record.js:105
+#: onedesk/public/js/one_crm/crm_record.js:105
 msgid "Call logged"
 msgstr "تم تسجيل المكالمة"
 
@@ -8556,7 +8556,7 @@ msgstr "إلغاء الحذف"
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: onedesk/one_admin/accounts.py:226 onedesk/one_calendar/tell.py:168
 #: onedesk/one_project/status.py:17 onedesk/one_task/custom/task.json:87
-#: onedesk/public/js/contract_list.js:8
+#: onedesk/public/js/one_crm/contract_list.js:8
 msgid "Cancelled"
 msgstr "أُلغي"
 
@@ -8576,7 +8576,7 @@ msgstr "المرشح"
 msgid "Candidate Consent"
 msgstr "موافقة المرشح"
 
-#: onedesk/public/js/hiring.js:38
+#: onedesk/public/js/one_hr/hiring.js:38
 msgid "Candidate Consented to Recording"
 msgstr "وافق المرشح على التسجيل"
 
@@ -8665,7 +8665,7 @@ msgstr "المرحّل"
 msgid "Carrier"
 msgstr "الناقل"
 
-#: onedesk/public/js/floor_actions.js:78
+#: onedesk/public/js/one_factory/floor_actions.js:78
 msgid "Carry On Later"
 msgstr "المتابعة لاحقاً"
 
@@ -8871,7 +8871,7 @@ msgstr "تغيير سمة العرض التقديمي"
 msgid "Change slide"
 msgstr "تغيير الشريحة"
 
-#: onedesk/public/js/attendance.js:7
+#: onedesk/public/js/one_hr/attendance.js:7
 msgid "Change the Overtime"
 msgstr "تعديل العمل الإضافي"
 
@@ -8963,7 +8963,7 @@ msgstr "تم التغيير: {what}. إن لم تكن تتوقع هذا، فرا
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:103
 #: onedesk/one_hr/print_format/one_promotion_letter/one_promotion_letter.json
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
-#: onedesk/public/js/audit_list.js:20
+#: onedesk/public/js/one/audit_list.js:20
 #: onedesk/public/js/one/access_center.js:209
 #: onedesk/public/js/trust_center/trust_center.js:167
 #: onedesk/public/js/trust_center/trust_center.js:169
@@ -9143,7 +9143,7 @@ msgstr "التحقق من الربط"
 
 #. The button on a notification's mail
 #: frontend/src/hr/HrHome.vue:244 onedesk/one_hr/notifications.py
-#: onedesk/public/js/checkin_list.js:18 onedesk/public/js/desk.js:106
+#: onedesk/public/js/one_hr/checkin_list.js:18 onedesk/public/js/desk.js:106
 #: onedesk/public/js/desk.js:199 onedesk/public/js/desk.js:210
 #: onedesk/public/js/desk.js:215 onedesk/public/js/one_interface/chrome.js:136
 msgid "Check In"
@@ -9167,8 +9167,8 @@ msgstr "التحقق من الموقع"
 msgid "Check Network"
 msgstr "التحقق من الشبكة"
 
-#: frontend/src/hr/HrHome.vue:241 onedesk/public/js/checkin_list.js:18
-#: onedesk/public/js/clock.js:60
+#: frontend/src/hr/HrHome.vue:241 onedesk/public/js/one_hr/checkin_list.js:18
+#: onedesk/public/js/one_hr/clock.js:60
 msgid "Check Out"
 msgstr "تسجيل الانصراف"
 
@@ -9227,7 +9227,7 @@ msgstr "تحقق من بريدك الإلكتروني لتأكيد حذف حسا
 msgid "Check your email to confirm."
 msgstr "تحقق من بريدك الإلكتروني للتأكيد."
 
-#: onedesk/public/js/floor_actions.js:114
+#: onedesk/public/js/one_factory/floor_actions.js:114
 #, python-brace-format
 msgid "Check {0}"
 msgstr "فحص {0}"
@@ -9275,12 +9275,12 @@ msgstr "تسجيلات الحضور"
 msgid "Check-ins Flagged"
 msgstr "تسجيلات حضور عليها علامة"
 
-#: onedesk/public/js/learned.js:9
+#: onedesk/public/js/one_hr/learned.js:9
 #, python-brace-format
 msgid "Check-ins from {0} will be allowed."
 msgstr "سيُسمح بتسجيل الحضور من {0}."
 
-#: onedesk/public/js/learned.js:18
+#: onedesk/public/js/one_hr/learned.js:18
 #, python-brace-format
 msgid "Check-ins from {0} will be refused and it won't be suggested again."
 msgstr "سيُرفض تسجيل الحضور من {0} ولن يُقترح مرة أخرى."
@@ -9515,7 +9515,7 @@ msgstr "اختر نوع المصدر."
 msgid "Choose a workspace to copy."
 msgstr "اختر مساحة العمل المراد نسخها."
 
-#: onedesk/public/js/overtime_slip.js:26
+#: onedesk/public/js/one_hr/overtime_slip.js:26
 msgid "Choose an employee and a posting date first."
 msgstr "اختر الموظف وتاريخ القيد أولاً."
 
@@ -9919,8 +9919,8 @@ msgstr "الساعة والطقس"
 #: onedesk/public/js/module_docs.js:492
 #: onedesk/public/js/one_ai/panel/Panel.vue:38
 #: onedesk/public/js/one_interface/dialogs.js:42
-#: onedesk/public/js/opportunity.js:12 onedesk/public/js/tenant.js:146
-#: onedesk/public/js/workbooks.js:122 onedesk/www/s.html:122
+#: onedesk/public/js/one_crm/opportunity.js:12 onedesk/public/js/one_admin/tenant.js:146
+#: onedesk/public/js/one_sheet/workbooks.js:122 onedesk/www/s.html:122
 msgid "Close"
 msgstr "إغلاق"
 
@@ -9929,7 +9929,7 @@ msgid "Close Calls"
 msgstr "قريبة من الحد"
 
 #: frontend/src/factory/floor/FloorSteps.vue:100
-#: onedesk/public/js/floor_actions.js:66
+#: onedesk/public/js/one_factory/floor_actions.js:66
 msgid "Close Operation"
 msgstr "إغلاق العملية"
 
@@ -9954,12 +9954,12 @@ msgstr "إغلاق الطلب"
 msgid "Close the Year"
 msgstr "إقفال السنة"
 
-#: onedesk/public/js/workbooks.js:91 onedesk/public/js/workbooks.js:98
+#: onedesk/public/js/one_sheet/workbooks.js:91 onedesk/public/js/one_sheet/workbooks.js:98
 #, python-brace-format
 msgid "Close {0}"
 msgstr "إغلاق {0}"
 
-#: onedesk/public/js/floor_actions.js:137
+#: onedesk/public/js/one_factory/floor_actions.js:137
 #, python-brace-format
 msgid "Close {0}? Nothing more can be recorded on it."
 msgstr "إغلاق {0}؟ لن يمكن تسجيل أي شيء آخر عليها."
@@ -10188,7 +10188,7 @@ msgstr "العنقود"
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:11
 #: onedesk/one_display/widgets.py:201
 #: onedesk/one_studio/doctype/extension/extension.json:157
-#: onedesk/public/js/apps.js:63 onedesk/public/js/item_new.js:38
+#: onedesk/public/js/apps.js:63 onedesk/public/js/one_inventory/item_new.js:38
 msgid "Code"
 msgstr "شيفرة"
 
@@ -10229,7 +10229,7 @@ msgstr "الرمز المرسل إلى {0}"
 msgid "Code with Caption Beside"
 msgstr "رمز بجانبه تعليق"
 
-#: onedesk/public/js/item_new.js:282
+#: onedesk/public/js/one_inventory/item_new.js:282
 msgid "Code, name, quantity and unit, one part per row"
 msgstr "الرمز والاسم والكمية والوحدة، قطعة واحدة في كل سطر"
 
@@ -10429,7 +10429,7 @@ msgid "Come on in"
 msgstr "تفضّل بالدخول"
 
 #: frontend/src/slide/shim/MotionSection.vue:4
-#: onedesk/public/js/item_new.js:120
+#: onedesk/public/js/one_inventory/item_new.js:120
 msgid "Comes In"
 msgstr "يأتي بـ"
 
@@ -10482,7 +10482,7 @@ msgstr "وقت إرسال الأمر"
 msgid "Comment"
 msgstr "تعليق"
 
-#: onedesk/public/js/project.js:212
+#: onedesk/public/js/one_project/project.js:212
 msgid "Comment Only"
 msgstr "تعليق فقط"
 
@@ -10594,7 +10594,7 @@ msgstr "الشركات التي تتلقى البيانات"
 #: onedesk/one_studio/letter_heads.py:586
 #: onedesk/public/js/one/one_control.js:20
 #: onedesk/public/js/one/one_control.js:29
-#: onedesk/public/js/project_actions.js:445
+#: onedesk/public/js/one_project/project_actions.js:445
 msgid "Company"
 msgstr "الشركة"
 
@@ -10688,7 +10688,7 @@ msgstr "شكوى"
 #: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
 #: onedesk/one_deck/decks.py:245
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:475
-#: onedesk/public/js/timesheet.js:67
+#: onedesk/public/js/one_hr/timesheet.js:67
 msgid "Complete"
 msgstr "إكمال"
 
@@ -10700,7 +10700,7 @@ msgstr "إكمال المهمة"
 #: frontend/src/factory/floor/ShopFloor.vue:120
 #: frontend/src/project/Overview.vue:259 onedesk/one_factory/heads.py:239
 #: onedesk/one_project/status.py:16 onedesk/one_task/custom/task.json:87
-#: onedesk/public/js/project.js:107
+#: onedesk/public/js/one_project/project.js:107
 msgid "Completed"
 msgstr "مكتمل"
 
@@ -10709,7 +10709,7 @@ msgstr "مكتمل"
 msgid "Completed On"
 msgstr ""
 
-#: onedesk/public/js/floor_actions.js:62
+#: onedesk/public/js/one_factory/floor_actions.js:62
 msgid "Completed Qty"
 msgstr ""
 
@@ -10803,7 +10803,7 @@ msgstr "مفتاح نسخ الإعدادات"
 msgid "Configuring the site"
 msgstr "تهيئة الموقع"
 
-#: onedesk/public/js/learned.js:8
+#: onedesk/public/js/one_hr/learned.js:8
 msgid "Confirm"
 msgstr ""
 
@@ -10855,12 +10855,12 @@ msgstr "تأكّد أولًا"
 msgid "Confirm that you understand first."
 msgstr "أكّد أنك تفهم أولًا."
 
-#: onedesk/public/js/hiring.js:39
+#: onedesk/public/js/one_hr/hiring.js:39
 #, python-brace-format
 msgid "Confirm that {0} agreed before you start."
 msgstr "تأكّد من موافقة {0} قبل البدء."
 
-#: onedesk/public/js/hiring.js:51
+#: onedesk/public/js/one_hr/hiring.js:51
 msgid "Confirm the candidate's consent to start recording."
 msgstr "أكّد موافقة المرشح لبدء التسجيل."
 
@@ -11173,7 +11173,7 @@ msgstr "التنسيق مع الاستشاريين"
 #: onedesk/one_studio/letter_heads.py:371
 #: onedesk/one_studio/letter_heads.py:588
 #: onedesk/public/js/one/one_control.js:31
-#: onedesk/public/js/project_actions.js:449
+#: onedesk/public/js/one_project/project_actions.js:449
 msgid "Contact"
 msgstr "جهة الاتصال"
 
@@ -11310,12 +11310,12 @@ msgstr "رقم العقد"
 msgid "Contract Statement"
 msgstr "كشف العقد"
 
-#: onedesk/public/js/project_actions.js:166
+#: onedesk/public/js/one_project/project_actions.js:166
 msgid "Contract Template"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:188
-#: onedesk/public/js/project_new.js:101
+#: onedesk/public/js/one_project/project_actions.js:188
+#: onedesk/public/js/one_project/project_new.js:101
 msgid "Contract Value"
 msgstr "قيمة العقد"
 
@@ -11477,7 +11477,7 @@ msgid "Copy Command"
 msgstr "نسخ الأمر"
 
 #: frontend/src/doc/components/ToC.vue:363
-#: onedesk/public/js/calendar_link.js:17
+#: onedesk/public/js/one_calendar/calendar_link.js:17
 #: onedesk/public/js/one_calendar/calendar_control.js:25
 msgid "Copy Link"
 msgstr ""
@@ -11491,7 +11491,7 @@ msgstr "نسخة من"
 msgid "Copy Site Config"
 msgstr "نسخ إعدادات الموقع"
 
-#: onedesk/public/js/project_template_list.js:13
+#: onedesk/public/js/one_project/project_template_list.js:13
 msgid "Copy Template"
 msgstr "نسخ القالب"
 
@@ -11520,7 +11520,7 @@ msgstr "انسخها الآن. لن تظهر مرة أخرى."
 msgid "Copy link"
 msgstr "نسخ الرابط"
 
-#: onedesk/public/js/privacy_copy.js:45
+#: onedesk/public/js/trust_center/privacy_copy.js:45
 #, python-brace-format
 msgid "Copy of Data for {0}"
 msgstr "نسخة بيانات {0}"
@@ -11627,7 +11627,7 @@ msgid "Cost No"
 msgstr "رقم التكلفة"
 
 #: frontend/src/project/Money.vue:33 onedesk/one_project/ai.py:700
-#: onedesk/public/js/project_actions.js:311
+#: onedesk/public/js/one_project/project_actions.js:311
 msgid "Cost Type"
 msgstr "نوع التكلفة"
 
@@ -11837,7 +11837,7 @@ msgstr "تعذّر إرسال عرض السعر."
 msgid "Couldn't send through {0}. {1} Fill in Server, or turn off Enable Outgoing."
 msgstr "تعذّر الإرسال عبر {0}. {1} املأ قسم الخادم، أو أوقف تفعيل البريد الصادر."
 
-#: onedesk/public/js/hiring.js:57
+#: onedesk/public/js/one_hr/hiring.js:57
 #, python-brace-format
 msgid "Couldn't start recording. {0}"
 msgstr "تعذّر بدء التسجيل. {0}"
@@ -11934,7 +11934,7 @@ msgstr "عد تنازلي"
 
 #. Label in the One Stock Reconciliation print format
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
-#: onedesk/public/js/checkin_list.js:32
+#: onedesk/public/js/one_hr/checkin_list.js:32
 msgid "Counted"
 msgstr "محتسب"
 
@@ -11955,7 +11955,7 @@ msgstr "يُحتسب من"
 msgid "Counted in Absent Days, by the rule in HR Settings."
 msgstr "محسوبة ضمن أيام الغياب، حسب القاعدة في إعدادات الموارد البشرية."
 
-#: onedesk/public/js/item_new.js:4
+#: onedesk/public/js/one_inventory/item_new.js:4
 msgid "Counted in a warehouse."
 msgstr "يُعدّ في مستودع."
 
@@ -12079,7 +12079,7 @@ msgstr "يغطي حتى {0}"
 #: onedesk/one_project/library/marketing_campaign.json
 #: onedesk/public/js/doctype_settings.js:253
 #: onedesk/public/js/doctype_settings.js:715
-#: onedesk/public/js/lots_actions.js:106
+#: onedesk/public/js/one_inventory/lots_actions.js:106
 #: onedesk/public/js/one/access_center.js:286
 #: onedesk/public/js/one/access_center.js:390
 #: onedesk/public/js/one/role_matrix.js:123
@@ -12091,11 +12091,11 @@ msgstr "يغطي حتى {0}"
 #: onedesk/public/js/one_inventory/item.js:29
 #: onedesk/public/js/one_inventory/request_for_quotation.js:15
 #: onedesk/public/js/one_studio/studio_control.js:187
-#: onedesk/public/js/opportunity.js:14 onedesk/public/js/opportunity.js:15
-#: onedesk/public/js/progress.js:30 onedesk/public/js/progress.js:81
-#: onedesk/public/js/project_actions.js:34
-#: onedesk/public/js/project_actions.js:124
-#: onedesk/public/js/project_actions.js:504
+#: onedesk/public/js/one_crm/opportunity.js:14 onedesk/public/js/one_crm/opportunity.js:15
+#: onedesk/public/js/one_project/progress.js:30 onedesk/public/js/one_project/progress.js:81
+#: onedesk/public/js/one_project/project_actions.js:34
+#: onedesk/public/js/one_project/project_actions.js:124
+#: onedesk/public/js/one_project/project_actions.js:504
 msgid "Create"
 msgstr "إنشاء"
 
@@ -12146,11 +12146,11 @@ msgstr ""
 msgid "Create Next Year's List"
 msgstr "إنشاء قائمة العام القادم"
 
-#: onedesk/public/js/passkey.js:129
+#: onedesk/public/js/one_hr/passkey.js:129
 msgid "Create Passkey"
 msgstr "إنشاء مفتاح مرور"
 
-#: onedesk/public/js/project_new.js:250
+#: onedesk/public/js/one_project/project_new.js:250
 msgid "Create Project"
 msgstr "إنشاء المشروع"
 
@@ -12179,7 +12179,7 @@ msgstr "إنشاء سجل"
 msgid "Create a new document."
 msgstr "ينشئ سجلًا جديدًا."
 
-#: onedesk/public/js/calendar_link.js:39
+#: onedesk/public/js/one_calendar/calendar_link.js:39
 msgid "Create a new link? The old one stops working in every app that uses it."
 msgstr "إنشاء رابط جديد؟ سيتوقف الرابط القديم عن العمل في كل تطبيق يستخدمه."
 
@@ -12231,7 +12231,7 @@ msgstr ""
 msgid "Created By"
 msgstr "أنشأه"
 
-#: onedesk/public/js/project.js:96
+#: onedesk/public/js/one_project/project.js:96
 msgid "Created On"
 msgstr ""
 
@@ -12285,7 +12285,7 @@ msgstr "دائن"
 msgid "Credit Entry"
 msgstr "قيد دائن"
 
-#: onedesk/public/js/tenant.js:16
+#: onedesk/public/js/one_admin/tenant.js:16
 msgid "Credit Ledger"
 msgstr "دفتر الأرصدة"
 
@@ -12401,7 +12401,7 @@ msgstr "مقيد لصالح"
 #: onedesk/one_ai/sidebar/oneai/oneai.json:101
 #: onedesk/public/js/one_ai/ai_center.js:78
 #: onedesk/public/js/one_mail/onemail_settings.js:545
-#: onedesk/public/js/tenant.js:55
+#: onedesk/public/js/one_admin/tenant.js:55
 msgid "Credits"
 msgstr "الرصيد"
 
@@ -12482,7 +12482,7 @@ msgstr ""
 msgid "Crop image"
 msgstr "قص الصورة"
 
-#: onedesk/public/js/item_new.js:74
+#: onedesk/public/js/one_inventory/item_new.js:74
 msgid "Cubic Metres in One Unit"
 msgstr "الأمتار المكعبة في الوحدة الواحدة"
 
@@ -12597,11 +12597,11 @@ msgstr "في المرحلة حالياً"
 #: onedesk/public/js/doctype_settings.js:272
 #: onedesk/public/js/one/access_center.js:349
 #: onedesk/public/js/one_mail/onemail_settings.js:168
-#: onedesk/public/js/table_workbook.js:44
+#: onedesk/public/js/one_sheet/table_workbook.js:44
 msgid "Custom"
 msgstr "مخصص"
 
-#: onedesk/public/js/deleted_document_list.js:12
+#: onedesk/public/js/one/deleted_document_list.js:12
 msgid "Custom Collection"
 msgstr "مجموعة مخصصة"
 
@@ -12761,7 +12761,7 @@ msgstr "دور مخصص في {0}"
 #: onedesk/one_project/ai.py:955 onedesk/one_project/manifest.py:51
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_project/tree.py:197 onedesk/one_studio/print_blocks.py:129
-#: onedesk/public/js/project_new.js:79
+#: onedesk/public/js/one_project/project_new.js:79
 msgid "Customer"
 msgstr "العميل"
 
@@ -12935,7 +12935,7 @@ msgstr "متقطع"
 msgid "Data"
 msgstr ""
 
-#: onedesk/public/js/privacy_copy_list.js:11
+#: onedesk/public/js/trust_center/privacy_copy_list.js:11
 msgid "Data Copies"
 msgstr "نسخ البيانات"
 
@@ -13230,7 +13230,7 @@ msgstr "قاعدة البيانات المستخدمة"
 #: onedesk/public/js/one_account/account_center.js:897
 #: onedesk/public/js/one_account/account_center.js:1106
 #: onedesk/public/js/one_mail/mail_compose.js:179
-#: onedesk/public/js/overtime.js:21 onedesk/public/js/project_actions.js:357
+#: onedesk/public/js/one_hr/overtime.js:21 onedesk/public/js/one_project/project_actions.js:357
 msgid "Date"
 msgstr "التاريخ"
 
@@ -13949,7 +13949,7 @@ msgstr "حذف {0} عناصر نهائيًا؟ لا يمكن التراجع عن
 msgid "Delete {0} permanently? This can't be undone."
 msgstr "حذف {0} نهائيًا؟ لا يمكن التراجع عن ذلك."
 
-#: onedesk/public/js/privacy_request.js:14
+#: onedesk/public/js/trust_center/privacy_request.js:14
 #, python-brace-format
 msgid "Delete {0}'s account? This can't be undone."
 msgstr "حذف حساب {0}؟ لا يمكن التراجع عن ذلك."
@@ -13998,8 +13998,8 @@ msgstr "حذف {0}؟ سيؤدي ذلك إلى إزالة صلاحياته."
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:43
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:15
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
-#: onedesk/public/js/deleted_document_list.js:14
-#: onedesk/public/js/privacy_request_list.js:10
+#: onedesk/public/js/one/deleted_document_list.js:14
+#: onedesk/public/js/trust_center/privacy_request_list.js:10
 msgid "Deleted"
 msgstr "تاريخ الحذف"
 
@@ -14020,7 +14020,7 @@ msgstr "تاريخ الحذف"
 msgid "Deleted While Open"
 msgstr "حُذف وهو مفتوح"
 
-#: onedesk/public/js/privacy_request.js:8
+#: onedesk/public/js/trust_center/privacy_request.js:8
 msgid "Deleted. The account is disabled and its personal data erased."
 msgstr "تم الحذف. الحساب معطّل وبياناته الشخصية ممحوة."
 
@@ -14421,7 +14421,7 @@ msgstr "طب الأسنان"
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:76
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/public/js/leave_control_panel.js:12
+#: onedesk/public/js/one_hr/leave_control_panel.js:12
 msgid "Department"
 msgstr ""
 
@@ -14614,11 +14614,11 @@ msgstr "صِف ما يجب أن يصنعه OneAI."
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_studio/ai.py:473 onedesk/one_studio/automations.py:126
 #: onedesk/one_studio/doctype/record_type/record_type.json:45
-#: onedesk/public/js/item_new.js:80
+#: onedesk/public/js/one_inventory/item_new.js:80
 #: onedesk/public/js/one/notification_center.js:314
 #: onedesk/public/js/one/notification_center.js:460
 #: onedesk/public/js/one_account/account_center.js:898
-#: onedesk/public/js/project_actions.js:390 onedesk/public/js/task_new.js:41
+#: onedesk/public/js/one_project/project_actions.js:390 onedesk/public/js/one_task/task_new.js:41
 msgid "Description"
 msgstr "الوصف"
 
@@ -14775,10 +14775,10 @@ msgstr "التفصيل"
 #: onedesk/one_ai/doctype/reading/reading.json:493
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:94
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
-#: onedesk/public/js/item_new.js:184
+#: onedesk/public/js/one_inventory/item_new.js:184
 #: onedesk/public/js/one_admin/admin_control.js:26
 #: onedesk/public/js/one_interface/form.js:478
-#: onedesk/public/js/project_new.js:180
+#: onedesk/public/js/one_project/project_new.js:180
 msgid "Details"
 msgstr "التفاصيل"
 
@@ -15308,7 +15308,7 @@ msgstr "منشئ السجل"
 #: onedesk/one_book/print_format/one_repost_payment_ledger/one_repost_payment_ledger.json
 #: onedesk/public/js/desk.js:114 onedesk/public/js/desk.js:184
 #: onedesk/public/js/one_interface/chrome.js:108
-#: onedesk/public/js/print_documents.js:14
+#: onedesk/public/js/one_doc/print_documents.js:14
 msgid "Documents"
 msgstr "المستندات"
 
@@ -15427,11 +15427,11 @@ msgstr "نطاقات قيد الانتظار"
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_project/portal.py:16
 #: onedesk/one_task/doctype/task_step/task_step.json:28
-#: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:491
+#: onedesk/public/js/one_hr/learned.js:31 onedesk/public/js/module_docs.js:491
 #: onedesk/public/js/module_settings.js:129
 #: onedesk/public/js/one_mail/rule_builder.js:248
 #: onedesk/public/js/one_mail/rule_builder.js:318
-#: onedesk/public/js/progress.js:46 onedesk/public/js/progress.js:77
+#: onedesk/public/js/one_project/progress.js:46 onedesk/public/js/one_project/progress.js:77
 msgid "Done"
 msgstr "المُنجز"
 
@@ -15609,7 +15609,7 @@ msgstr "مسودات الفواتير والطلبات والمدفوعات"
 msgid "Draft No"
 msgstr "رقم المسودة"
 
-#: onedesk/public/js/quotes_actions.js:76
+#: onedesk/public/js/one_inventory/quotes_actions.js:76
 msgid "Draft Orders"
 msgstr "إنشاء مسودات الأوامر"
 
@@ -15770,8 +15770,8 @@ msgid "Drag to resize, click to fold"
 msgstr "اسحب لتغيير الحجم، وانقر للطي"
 
 #: frontend/src/project/Overview.vue:79
-#: onedesk/public/js/project_actions.js:152
-#: onedesk/public/js/project_actions.js:172
+#: onedesk/public/js/one_project/project_actions.js:152
+#: onedesk/public/js/one_project/project_actions.js:172
 msgid "Draw Up Contract"
 msgstr "إعداد العقد"
 
@@ -15921,7 +15921,7 @@ msgstr "الاستحقاق"
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_project/ai.py:601 onedesk/one_studio/print_blocks.py:49
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:346
-#: onedesk/public/js/project_actions.js:578
+#: onedesk/public/js/one_project/project_actions.js:578
 msgid "Due Date"
 msgstr "تاريخ الاستحقاق"
 
@@ -16016,7 +16016,7 @@ msgstr ""
 
 #: frontend/src/slide/components/ElementContextMenu.vue:139
 #: frontend/src/slide/components/PresentationPreview.vue:136
-#: frontend/src/slide/utils/slideMenu.js:14 onedesk/public/js/crm_record.js:38
+#: frontend/src/slide/utils/slideMenu.js:14 onedesk/public/js/one_crm/crm_record.js:38
 #: onedesk/public/js/record.js:155
 msgid "Duplicate"
 msgstr ""
@@ -16040,7 +16040,7 @@ msgstr ""
 msgid "Duration (Days)"
 msgstr "المدة (أيام)"
 
-#: onedesk/public/js/crm_record.js:91
+#: onedesk/public/js/one_crm/crm_record.js:91
 msgid "Duration (Minutes)"
 msgstr "المدة (بالدقائق)"
 
@@ -16114,7 +16114,7 @@ msgstr "يُرحّل إهلاك كل أصل إلى الدفاتر عند است�
 msgid "Each clock-in and clock-out."
 msgstr "كل تسجيل دخول وخروج."
 
-#: onedesk/public/js/item_new.js:120
+#: onedesk/public/js/one_inventory/item_new.js:120
 msgid "Each combination becomes its own item."
 msgstr "تصبح كل تركيبة صنفًا مستقلًا."
 
@@ -16411,7 +16411,7 @@ msgstr "تعديل قبل الإرسال"
 msgid "Edit Device"
 msgstr "تعديل الجهاز"
 
-#: onedesk/public/js/task_new.js:56
+#: onedesk/public/js/one_task/task_new.js:56
 msgid "Edit Full Form"
 msgstr ""
 
@@ -16791,7 +16791,7 @@ msgstr "تسجيل الدخول برابط البريد الإلكتروني"
 msgid "Email Sign-in Link"
 msgstr "رابط تسجيل الدخول بالبريد"
 
-#: onedesk/public/js/quotes_actions.js:34
+#: onedesk/public/js/one_inventory/quotes_actions.js:34
 msgid "Email Suppliers Now"
 msgstr "مراسلة الموردين الآن"
 
@@ -17002,8 +17002,8 @@ msgstr "الهوية الإماراتية"
 #: onedesk/one_inventory/heads.py:1198
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/print_blocks.py:122
-#: onedesk/one_studio/print_blocks.py:125 onedesk/public/js/floor_actions.js:26
-#: onedesk/public/js/leave_control_panel.js:10 onedesk/public/js/overtime.js:10
+#: onedesk/one_studio/print_blocks.py:125 onedesk/public/js/one_factory/floor_actions.js:26
+#: onedesk/public/js/one_hr/leave_control_panel.js:10 onedesk/public/js/one_hr/overtime.js:10
 msgid "Employee"
 msgstr "الموظف"
 
@@ -17166,7 +17166,7 @@ msgstr "نقل موظف"
 #. Label of the voters (Int) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:125
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:148
-#: onedesk/public/js/floor_actions.js:22
+#: onedesk/public/js/one_factory/floor_actions.js:22
 msgid "Employees"
 msgstr "الموظفون"
 
@@ -17208,7 +17208,7 @@ msgstr "إفراغ سلة المحذوفات؟ سيُحذف كل ما فيها �
 msgid "Empty for everything."
 msgstr "اتركه فارغًا ليشمل كل شيء."
 
-#: onedesk/public/js/item_actions.js:208
+#: onedesk/public/js/one_inventory/item_actions.js:208
 msgid "Empty is the item's own unit."
 msgstr "إن تُرك فارغًا فهو وحدة الصنف نفسها."
 
@@ -17283,7 +17283,7 @@ msgstr "إنهاء العرض"
 #: frontend/src/inventory/lots/SerialRows.vue:29
 #: frontend/src/project/Overview.vue:302 onedesk/one/custom/note.json:8
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:85
-#: onedesk/public/js/note_list.js:9 onedesk/public/js/one_hr/hr_control.js:83
+#: onedesk/public/js/one/note_list.js:9 onedesk/public/js/one_hr/hr_control.js:83
 msgid "Ended"
 msgstr "انتهت"
 
@@ -17291,7 +17291,7 @@ msgstr "انتهت"
 msgid "Ended 1 day ago"
 msgstr "انتهى منذ يوم واحد"
 
-#: onedesk/public/js/floor_actions.js:64
+#: onedesk/public/js/one_factory/floor_actions.js:64
 msgid "Ended At"
 msgstr "انتهى في"
 
@@ -17509,7 +17509,7 @@ msgstr "يساوي"
 #: frontend/src/inventory/home/InventoryStory.vue:68
 #: onedesk/one_hr/heads.py:743 onedesk/one_inventory/manifest.py:82
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
-#: onedesk/public/js/item_new.js:6
+#: onedesk/public/js/one_inventory/item_new.js:6
 msgid "Equipment"
 msgstr "معدات"
 
@@ -17546,7 +17546,7 @@ msgstr "المعدات التي تحتاج صيانة لها جدول"
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:36
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:151
 #: onedesk/one_ai/doctype/reading/reading.json:214
-#: onedesk/public/js/extension_errors.js:22
+#: onedesk/public/js/one_studio/extension_errors.js:22
 msgid "Error"
 msgstr "خطأ"
 
@@ -17577,8 +17577,8 @@ msgstr "إسبريسو"
 msgid "Espresso, latte or flat white"
 msgstr "إسبريسو أو لاتيه أو فلات وايت"
 
-#: frontend/src/project/Money.vue:104 onedesk/public/js/project_actions.js:284
-#: onedesk/public/js/project_new.js:127
+#: frontend/src/project/Money.vue:104 onedesk/public/js/one_project/project_actions.js:284
+#: onedesk/public/js/one_project/project_new.js:127
 msgid "Estimated Cost"
 msgstr ""
 
@@ -17860,7 +17860,7 @@ msgstr "كل صندوق بريد يمكنك قراءته موجود هنا، و�
 msgid "Every month"
 msgstr "كل شهر"
 
-#: onedesk/public/js/project_actions.js:475
+#: onedesk/public/js/one_project/project_actions.js:475
 #, python-brace-format
 msgid "Every month of {0} is invoiced."
 msgstr "كل أشهر {0} مفوترة."
@@ -18219,7 +18219,7 @@ msgstr "أُنجز كل ما فيه."
 msgid "Everything on {0} is ordered already."
 msgstr "كل ما في {0} مطلوب بالفعل."
 
-#: onedesk/public/js/crm_record.js:47
+#: onedesk/public/js/one_crm/crm_record.js:47
 #, python-brace-format
 msgid "Everything on {0} moves to {1}, and {0} is deleted."
 msgstr "ينتقل كل ما في {0} إلى {1}، ويُحذف {0}."
@@ -18399,19 +18399,19 @@ msgstr "النهاية المتوقعة"
 
 #: onedesk/one_project/heads.py:276 onedesk/one_task/heads.py:89
 #: onedesk/public/js/one_task/task_kanban.js:53
-#: onedesk/public/js/project_new.js:143 onedesk/public/js/task_new.js:37
+#: onedesk/public/js/one_project/project_new.js:143 onedesk/public/js/one_task/task_new.js:37
 msgid "Expected End Date"
 msgstr ""
 
-#: onedesk/public/js/timesheet.js:45
+#: onedesk/public/js/one_hr/timesheet.js:45
 msgid "Expected Hrs"
 msgstr ""
 
-#: onedesk/public/js/project_new.js:137 onedesk/public/js/task_new.js:35
+#: onedesk/public/js/one_project/project_new.js:137 onedesk/public/js/one_task/task_new.js:35
 msgid "Expected Start Date"
 msgstr ""
 
-#: frontend/src/template/Tasks.vue:77 onedesk/public/js/task_new.js:39
+#: frontend/src/template/Tasks.vue:77 onedesk/public/js/one_task/task_new.js:39
 msgid "Expected Time"
 msgstr "الوقت المتوقع"
 
@@ -18506,7 +18506,7 @@ msgstr "شهادة خبرة"
 
 #: frontend/src/inventory/lots/LotRows.vue:72
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:10
-#: onedesk/public/js/credit_ledger_entry_list.js:11
+#: onedesk/public/js/one_admin/credit_ledger_entry_list.js:11
 msgid "Expired"
 msgstr "منتهي الصلاحية"
 
@@ -18541,7 +18541,7 @@ msgstr "تنتهي بعد"
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:81
 #: onedesk/one_hr/doctype/employee_document/employee_document.json:41
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:79
-#: onedesk/public/js/tenant.js:59
+#: onedesk/public/js/one_admin/tenant.js:59
 msgid "Expires On"
 msgstr "ينتهي في"
 
@@ -18596,7 +18596,7 @@ msgid "Expiring {0}"
 msgstr "تنتهي في {0}"
 
 #: frontend/src/inventory/lots/LotRows.vue:8
-#: onedesk/one_inventory/heads.py:1338 onedesk/public/js/lots_actions.js:101
+#: onedesk/one_inventory/heads.py:1338 onedesk/public/js/one_inventory/lots_actions.js:101
 msgid "Expiry Date"
 msgstr ""
 
@@ -18661,7 +18661,7 @@ msgstr "تصدير بتنسيق XLSX"
 msgid "Exported"
 msgstr "صُدّر"
 
-#: onedesk/public/js/audit_list.js:41
+#: onedesk/public/js/one/audit_list.js:41
 #: onedesk/public/js/one/access_center.js:211
 msgid "Exports and Prints"
 msgstr "التصدير والطباعة"
@@ -19019,7 +19019,7 @@ msgstr "الجلب"
 msgid "Fetch Now"
 msgstr "اجلب الآن"
 
-#: onedesk/public/js/overtime_slip.js:7
+#: onedesk/public/js/one_hr/overtime_slip.js:7
 msgid "Fetch Overtime Details"
 msgstr "جلب تفاصيل العمل الإضافي"
 
@@ -19263,7 +19263,7 @@ msgstr "حُفظ مع {0}"
 #: onedesk/one_cloud/namespace.py:15
 #: onedesk/one_cloud/sidebar/onecloud/onecloud.json:15
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:352
-#: onedesk/public/js/record_files.js:25
+#: onedesk/public/js/one_cloud/record_files.js:25
 msgid "Files"
 msgstr "الملفات"
 
@@ -19302,7 +19302,7 @@ msgstr "الملفات في OneCloud وعلى السجلات."
 msgid "Files not meant for a record land here, in a folder per person when several are asked."
 msgstr "الملفات غير المخصصة لسجل تصل إلى هنا، في مجلد لكل شخص عند الطلب من عدة أشخاص."
 
-#: onedesk/public/js/record_files.js:52
+#: onedesk/public/js/one_cloud/record_files.js:52
 #, python-brace-format
 msgid "Files of {0}"
 msgstr "ملفات {0}"
@@ -19554,7 +19554,7 @@ msgstr "البصمة"
 #: frontend/src/factory/floor/ShopFloor.vue:22
 #: frontend/src/inventory/item/ItemMaking.vue:94
 #: onedesk/one_project/library/year_end_audit.json
-#: onedesk/public/js/item_actions.js:69
+#: onedesk/public/js/one_inventory/item_actions.js:69
 msgid "Finish"
 msgstr ""
 
@@ -19568,7 +19568,7 @@ msgstr "إكمال التسجيل"
 msgid "Finish signing up"
 msgstr "إكمال التسجيل"
 
-#: onedesk/public/js/item_actions.js:68
+#: onedesk/public/js/one_inventory/item_actions.js:68
 #, python-brace-format
 msgid "Finish {0}"
 msgstr "إنهاء {0}"
@@ -19775,7 +19775,7 @@ msgstr "الإشارة عند درجة أقل من"
 
 #. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:89
-#: onedesk/public/js/checkin_list.js:35
+#: onedesk/public/js/one_hr/checkin_list.js:35
 msgid "Flagged"
 msgstr "مُشار إليه"
 
@@ -20075,13 +20075,13 @@ msgstr "لكل مقاول من الباطن في هذا المشروع: المت
 msgid "For everyone who hasn't chosen their own in Profile."
 msgstr "لكل من لم يختر إعداده الخاص في الملف الشخصي."
 
-#: onedesk/public/js/lots_actions.js:34
+#: onedesk/public/js/one_inventory/lots_actions.js:34
 msgid "For example LOT-.YYYY.-.####"
 msgstr "مثلًا LOT-.YYYY.-.####"
 
-#: onedesk/public/js/lots_actions.js:49
-msgid "For example SN-.#####. Left empty, each number is typed in."
-msgstr "مثلًا SN-.#####. إن تُرك فارغًا يُكتب كل رقم يدويًا."
+#: onedesk/public/js/one_inventory/lots_actions.js:49
+msgid "A pattern such as SN-.#####, or empty to type each number in."
+msgstr "نمط مثل SN-.#####، أو فارغ ليُكتب كل رقم يدويًا."
 
 #: onedesk/public/js/doctype_settings.js:343
 #: onedesk/public/js/doctype_settings.js:376
@@ -20167,9 +20167,9 @@ msgstr "لنفسه، الإصدار {0}"
 msgid "For this, a record to show while you work."
 msgstr "لهذا الخيار، سجل يُعرض أثناء العمل."
 
-#: onedesk/public/js/hiring.js:45
-msgid "For video calls. The browser asks which tab to share."
-msgstr "لمكالمات الفيديو. يسأل المتصفح عن علامة التبويب المراد مشاركتها."
+#: onedesk/public/js/one_hr/hiring.js:45
+msgid "For video calls, where the browser asks which tab to share."
+msgstr "لمكالمات الفيديو، حيث يسأل المتصفح عن علامة التبويب المراد مشاركتها."
 
 #: onedesk/public/js/trust_center/legal.js:31
 msgid "For you"
@@ -20661,8 +20661,8 @@ msgstr "ودودون وسريعون. سأعود مجدداً."
 #: onedesk/one_mail/ai.py:864 onedesk/one_mail/flow.py:283
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/print_blocks.py:58 onedesk/one_studio/print_blocks.py:62
-#: onedesk/one_studio/print_blocks.py:77 onedesk/public/js/item_actions.js:117
-#: onedesk/public/js/item_actions.js:164
+#: onedesk/one_studio/print_blocks.py:77 onedesk/public/js/one_inventory/item_actions.js:117
+#: onedesk/public/js/one_inventory/item_actions.js:164
 #: onedesk/public/js/one_mail/mail_compose.js:179
 #: onedesk/public/js/one_mail/onemail_settings.js:339
 msgid "From"
@@ -20701,9 +20701,9 @@ msgstr "من الموظف"
 msgid "From File"
 msgstr "من الملف"
 
-#: onedesk/public/js/project_actions.js:69 onedesk/public/js/project_new.js:74
-#: onedesk/public/js/project_template_list.js:9
-#: onedesk/public/js/project_template_list.js:11
+#: onedesk/public/js/one_project/project_actions.js:69 onedesk/public/js/one_project/project_new.js:74
+#: onedesk/public/js/one_project/project_template_list.js:9
+#: onedesk/public/js/one_project/project_template_list.js:11
 msgid "From Library"
 msgstr "من المكتبة"
 
@@ -20729,7 +20729,7 @@ msgstr "من One، الفاتورة {0}. دُفعت بالبطاقة عبر Stri
 msgid "From Outside the Workspace"
 msgstr "من خارج مساحة العمل"
 
-#: onedesk/public/js/item_actions.js:216
+#: onedesk/public/js/one_inventory/item_actions.js:216
 msgid "From Project"
 msgstr "من المشروع"
 
@@ -20848,12 +20848,12 @@ msgid "From {0} suppliers"
 msgstr "من {0} موردين"
 
 #: frontend/src/admin/ReleasesHome.vue:51
-#: onedesk/public/js/floor_actions.js:110
+#: onedesk/public/js/one_factory/floor_actions.js:110
 #, python-brace-format
 msgid "From {0} to {1}"
 msgstr "من {0} إلى {1}"
 
-#: onedesk/public/js/item_actions.js:86
+#: onedesk/public/js/one_inventory/item_actions.js:86
 #, python-brace-format
 msgid "From {0} to {1}, in steps of {2}"
 msgstr "من {0} إلى {1}، بخطوات قدرها {2}"
@@ -20967,7 +20967,7 @@ msgstr "غيغابايت"
 msgid "Gain or Loss"
 msgstr "الربح أو الخسارة"
 
-#: onedesk/public/js/project.js:32
+#: onedesk/public/js/one_project/project.js:32
 msgid "Gantt Chart"
 msgstr ""
 
@@ -21116,8 +21116,8 @@ msgstr "رفض GitHub إنشاء التطبيق: {0}"
 msgid "Give"
 msgstr "امنح"
 
-#: onedesk/public/js/tenant.js:14 onedesk/public/js/tenant.js:45
-#: onedesk/public/js/tenant.js:64
+#: onedesk/public/js/one_admin/tenant.js:14 onedesk/public/js/one_admin/tenant.js:45
+#: onedesk/public/js/one_admin/tenant.js:64
 msgid "Give Credits"
 msgstr "منح أرصدة"
 
@@ -21337,7 +21337,7 @@ msgstr "راجع ملفي الشخصي معي: ما فائدة كل جزء، و�
 msgid "Go through these settings with me: which ones matter for a company like ours, what each is set to now, and what you would change. Suggest the changes."
 msgstr "راجع معي هذه الإعدادات: أيها مهم لشركة مثل شركتنا، وما قيمة كل منها الآن، وما الذي ستغيّره. اقترح التغييرات."
 
-#: onedesk/public/js/account_tree.js:15 onedesk/public/js/crumb_switch.js:128
+#: onedesk/public/js/one_book/account_tree.js:15 onedesk/public/js/crumb_switch.js:128
 msgid "Go to"
 msgstr "انتقل إلى"
 
@@ -21459,7 +21459,7 @@ msgstr "بضائع استُلمت من الموردين."
 msgid "Goods {0} sent back."
 msgstr "بضائع أعادها {0}."
 
-#: onedesk/public/js/calendar_link.js:14
+#: onedesk/public/js/one_calendar/calendar_link.js:14
 msgid "Google Calendar"
 msgstr "تقويم Google"
 
@@ -21522,7 +21522,7 @@ msgstr "منحة"
 msgid "Grant Commission"
 msgstr ""
 
-#: onedesk/public/js/credit_ledger_entry_list.js:12
+#: onedesk/public/js/one_admin/credit_ledger_entry_list.js:12
 msgid "Granted"
 msgstr "مُنح"
 
@@ -21674,7 +21674,7 @@ msgstr "أعمال الأرض والهيكل"
 #. Label of the rail_group (Data) field in DocType 'Record Type'
 #: onedesk/one_studio/doctype/record_type/record_type.json:38
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:70
-#: onedesk/public/js/item_new.js:42 onedesk/public/js/one/access_center.js:334
+#: onedesk/public/js/one_inventory/item_new.js:42 onedesk/public/js/one/access_center.js:334
 #: onedesk/public/js/one/access_center.js:512
 #: onedesk/public/js/one_mail/rule_builder.js:191
 msgid "Group"
@@ -21686,7 +21686,7 @@ msgstr "المجموعة"
 msgid "Group By"
 msgstr "التجميع حسب"
 
-#: onedesk/public/js/project.js:36 onedesk/public/js/project_actions.js:23
+#: onedesk/public/js/one_project/project.js:36 onedesk/public/js/one_project/project_actions.js:23
 msgid "Group Under New Project"
 msgstr "تجميع تحت مشروع جديد"
 
@@ -21922,7 +21922,7 @@ msgid "Has Batch No"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:113
-#: onedesk/public/js/lots_actions.js:37
+#: onedesk/public/js/one_inventory/lots_actions.js:37
 msgid "Has Expiry Date"
 msgstr ""
 
@@ -22154,7 +22154,7 @@ msgstr "استمع إلى خطة الربع القادم واطرح أسئلتك
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:55
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:55
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/public/js/table_workbook.js:49
+#: onedesk/public/js/one_sheet/table_workbook.js:49
 msgid "Height"
 msgstr "الارتفاع"
 
@@ -22365,12 +22365,12 @@ msgstr "مسار التوظيف"
 msgid "History"
 msgstr "السجل"
 
-#: onedesk/public/js/privacy_request.js:21
-#: onedesk/public/js/privacy_request.js:33
+#: onedesk/public/js/trust_center/privacy_request.js:21
+#: onedesk/public/js/trust_center/privacy_request.js:33
 msgid "Hold"
 msgstr ""
 
-#: onedesk/public/js/privacy_request.js:23
+#: onedesk/public/js/trust_center/privacy_request.js:23
 msgid "Hold Request"
 msgstr "تعليق الطلب"
 
@@ -22506,7 +22506,7 @@ msgstr ""
 #: onedesk/one_project/ai.py:648 onedesk/one_project/portal.py:344
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/print_blocks.py:90
-#: onedesk/public/js/project_actions.js:358
+#: onedesk/public/js/one_project/project_actions.js:358
 msgid "Hours"
 msgstr "الساعات"
 
@@ -22541,7 +22541,7 @@ msgstr "الساعات لكل يوم من الأسبوع، مع تمييز ال�
 msgid "Hours over the {0} h a month"
 msgstr "الساعات الزائدة عن {0} س شهريًا"
 
-#: onedesk/public/js/overtime.js:43
+#: onedesk/public/js/one_hr/overtime.js:43
 msgid "Hours worked beyond the standard day."
 msgstr "الساعات التي تتجاوز يوم العمل القياسي."
 
@@ -22558,7 +22558,7 @@ msgstr "أسرة"
 msgid "How Long"
 msgstr "المدة"
 
-#: onedesk/public/js/item_actions.js:58
+#: onedesk/public/js/one_inventory/item_actions.js:58
 msgid "How Many Made"
 msgstr "كم صُنع"
 
@@ -23180,7 +23180,7 @@ msgstr "أنا في إجازة وأعود في {0}. سأرد حينها."
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
-#: onedesk/one_studio/print_blocks.py:844 onedesk/public/js/crm_record.js:33
+#: onedesk/one_studio/print_blocks.py:844 onedesk/public/js/one_crm/crm_record.js:33
 msgid "IBAN"
 msgstr "رقم الآيبان"
 
@@ -23601,7 +23601,7 @@ msgstr "في تطبيق الملفات، اختر مواقع أخرى والصق
 msgid "In Finder, choose Go › Connect to Server and paste the address."
 msgstr "في Finder، اختر «انتقال › الاتصال بالخادم» والصق العنوان."
 
-#: onedesk/public/js/item_new.js:266
+#: onedesk/public/js/one_inventory/item_new.js:266
 msgid "In Items"
 msgstr "في الأصناف"
 
@@ -23835,7 +23835,7 @@ msgstr "قيد الاستخدام، لكن أوامر العمل الجديدة 
 msgid "In use."
 msgstr "قيد الاستخدام."
 
-#: onedesk/public/js/project_new.js:9
+#: onedesk/public/js/one_project/project_new.js:9
 msgid "In your templates"
 msgstr "ضمن قوالبك"
 
@@ -23892,7 +23892,7 @@ msgstr "مستخدم صندوق الوارد"
 msgid "Incentive"
 msgstr "الحافز"
 
-#: onedesk/public/js/hiring.js:44
+#: onedesk/public/js/one_hr/hiring.js:44
 msgid "Include Audio From Another Tab"
 msgstr "تضمين الصوت من علامة تبويب أخرى"
 
@@ -23909,13 +23909,13 @@ msgstr ""
 msgid "Include Personal Networks and Locations"
 msgstr "تضمين الشبكات والمواقع الشخصية"
 
-#: onedesk/public/js/privacy_copy.js:27
+#: onedesk/public/js/trust_center/privacy_copy.js:27
 msgid "Included unless unticked. Withhold only what is confidential to others or the company."
 msgstr "مضمّن ما لم تُلغِ تحديده. احجب فقط ما هو سري للآخرين أو للشركة."
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:158
 #: onedesk/one_admin/report/price_check/price_check.py:102
-#: onedesk/public/js/calendar_link.js:19
+#: onedesk/public/js/one_calendar/calendar_link.js:19
 msgid "Includes"
 msgstr "يتضمن"
 
@@ -23972,7 +23972,7 @@ msgstr "الإيرادات والمصروفات حسب مركز التكلفة �
 msgid "Income less expenses, month by month or year by year."
 msgstr "الإيرادات ناقص المصروفات، شهرًا بشهر أو سنة بسنة."
 
-#: onedesk/one_mail/ai.py:1115 onedesk/public/js/crm_record.js:72
+#: onedesk/one_mail/ai.py:1115 onedesk/public/js/one_crm/crm_record.js:72
 msgid "Incoming"
 msgstr ""
 
@@ -24609,7 +24609,7 @@ msgid "Invoice Discounting"
 msgstr "خصم الفواتير"
 
 #: frontend/src/project/Invoices.vue:11 frontend/src/project/Months.vue:16
-#: onedesk/public/js/project.js:179 onedesk/public/js/project_actions.js:482
+#: onedesk/public/js/one_project/project.js:179 onedesk/public/js/one_project/project_actions.js:482
 msgid "Invoice Month"
 msgstr "فوترة الشهر"
 
@@ -24686,7 +24686,7 @@ msgid "Invoice Portion"
 msgstr "جزء الفاتورة"
 
 #: frontend/src/project/Overview.vue:46 frontend/src/project/Time.vue:198
-#: onedesk/public/js/project.js:178 onedesk/public/js/project_actions.js:100
+#: onedesk/public/js/one_project/project.js:178 onedesk/public/js/one_project/project_actions.js:100
 msgid "Invoice Time"
 msgstr "فوترة الوقت"
 
@@ -24732,7 +24732,7 @@ msgstr "مفوتر {0}"
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 #: onedesk/one_studio/print_blocks.py:700
 #: onedesk/public/js/one_account/account_center.js:828
-#: onedesk/public/js/one_mail/rule_builder.js:567 onedesk/public/js/tenant.js:9
+#: onedesk/public/js/one_mail/rule_builder.js:567 onedesk/public/js/one_admin/tenant.js:9
 #: onedesk/templates/includes/admin_account_tabs.html:3
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
 msgid "Invoices"
@@ -24886,8 +24886,8 @@ msgstr "أولوية البلاغ"
 msgid "Issue Request"
 msgstr "طلب صرف"
 
-#: frontend/src/project/Money.vue:7 onedesk/public/js/item_actions.js:161
-#: onedesk/public/js/item_actions.js:182
+#: frontend/src/project/Money.vue:7 onedesk/public/js/one_inventory/item_actions.js:161
+#: onedesk/public/js/one_inventory/item_actions.js:182
 msgid "Issue Stock"
 msgstr "صرف مخزون"
 
@@ -24930,7 +24930,7 @@ msgstr "أصدره"
 msgid "Issued On"
 msgstr "تاريخ الإصدار"
 
-#: onedesk/public/js/item_actions.js:188
+#: onedesk/public/js/one_inventory/item_actions.js:188
 #, python-brace-format
 msgid "Issued from {0}"
 msgstr "صُرف من {0}"
@@ -25250,10 +25250,10 @@ msgstr "مائل (Ctrl+I)"
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
 #: onedesk/one_inventory/print_format/one_stock_reservation_entry/one_stock_reservation_entry.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:41
-#: onedesk/public/js/item_actions.js:129 onedesk/public/js/item_actions.js:206
-#: onedesk/public/js/lots_actions.js:10 onedesk/public/js/lots_actions.js:83
-#: onedesk/public/js/progress.js:74 onedesk/public/js/project_actions.js:106
-#: onedesk/public/js/project_actions.js:496
+#: onedesk/public/js/one_inventory/item_actions.js:129 onedesk/public/js/one_inventory/item_actions.js:206
+#: onedesk/public/js/one_inventory/lots_actions.js:10 onedesk/public/js/one_inventory/lots_actions.js:83
+#: onedesk/public/js/one_project/progress.js:74 onedesk/public/js/one_project/project_actions.js:106
+#: onedesk/public/js/one_project/project_actions.js:496
 msgid "Item"
 msgstr "الصنف"
 
@@ -25501,8 +25501,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/public/js/item_actions.js:124 onedesk/public/js/item_actions.js:171
-#: onedesk/public/js/item_actions.js:220
+#: onedesk/public/js/one_inventory/item_actions.js:124 onedesk/public/js/one_inventory/item_actions.js:171
+#: onedesk/public/js/one_inventory/item_actions.js:220
 msgid "Items"
 msgstr "الأصناف"
 
@@ -25823,7 +25823,7 @@ msgstr "ضبط"
 msgid "KB"
 msgstr "كيلوبايت"
 
-#: onedesk/public/js/project.js:27
+#: onedesk/public/js/one_project/project.js:27
 msgid "Kanban Board"
 msgstr ""
 
@@ -25887,7 +25887,7 @@ msgstr "محفوظ في"
 msgid "Kept By"
 msgstr "العهدة لدى"
 
-#: onedesk/public/js/item_new.js:108
+#: onedesk/public/js/one_inventory/item_new.js:108
 msgid "Kept In"
 msgstr "يُحفظ في"
 
@@ -25899,7 +25899,7 @@ msgstr "يظهر أعلى السجل ويُعاد كتابته مرة في ال�
 msgid "Kept by Law"
 msgstr "محفوظ بموجب القانون"
 
-#: onedesk/one_inventory/manifest.py:79 onedesk/public/js/item_new.js:4
+#: onedesk/one_inventory/manifest.py:79 onedesk/public/js/one_inventory/item_new.js:4
 msgid "Kept in Stock"
 msgstr "محفوظ في المخزون"
 
@@ -26022,8 +26022,8 @@ msgstr "ورشة الانطلاق"
 #: onedesk/one_project/ai.py:954 onedesk/one_project/custom/project.json:53
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:46
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:39
-#: onedesk/public/js/item_new.js:181 onedesk/public/js/item_new.js:343
-#: onedesk/public/js/project_new.js:177 onedesk/public/js/project_new.js:267
+#: onedesk/public/js/one_inventory/item_new.js:181 onedesk/public/js/one_inventory/item_new.js:343
+#: onedesk/public/js/one_project/project_new.js:177 onedesk/public/js/one_project/project_new.js:267
 msgid "Kind"
 msgstr "النوع"
 
@@ -26192,7 +26192,7 @@ msgstr "أكبر"
 msgid "Largest Video"
 msgstr "أكبر فيديو"
 
-#: onedesk/public/js/extension_errors.js:9
+#: onedesk/public/js/one_studio/extension_errors.js:9
 msgid "Last 14 days"
 msgstr "آخر 14 يومًا"
 
@@ -26432,7 +26432,7 @@ msgstr "آخر إعداد"
 msgid "Last Stock Entry"
 msgstr "آخر قيد مخزون"
 
-#: onedesk/public/js/project.js:97
+#: onedesk/public/js/one_project/project.js:97
 msgid "Last Updated On"
 msgstr ""
 
@@ -26491,7 +26491,7 @@ msgstr "آخر سعر مدفوع {0} في {1}"
 msgid "Last sold at {0} on {1}"
 msgstr "آخر بيع بسعر {0} في {1}"
 
-#: onedesk/public/js/calendar_link.js:11
+#: onedesk/public/js/one_calendar/calendar_link.js:11
 #, python-brace-format
 msgid "Last synced {0}."
 msgstr "آخر مزامنة {0}."
@@ -26504,7 +26504,7 @@ msgstr "آخر {0} يومًا. يُستهلك الرصيد الشهري أولً
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:178
 #: onedesk/one_project/report/workload/workload.py:181
 #: onedesk/public/js/band.js:161 onedesk/public/js/desk.js:199
-#: onedesk/public/js/project.js:155 onedesk/public/js/work_order_list.js:10
+#: onedesk/public/js/one_project/project.js:155 onedesk/public/js/one_factory/work_order_list.js:10
 msgid "Late"
 msgstr "متأخر"
 
@@ -26540,7 +26540,7 @@ msgstr "أوامر العمل المتأخرة"
 msgid "Late since {0}"
 msgstr "متأخر منذ {0}"
 
-#: onedesk/one_task/mine.py:19 onedesk/public/js/project.js:155
+#: onedesk/one_task/mine.py:19 onedesk/public/js/one_project/project.js:155
 msgid "Later"
 msgstr "لاحقًا"
 
@@ -26937,7 +26937,7 @@ msgstr "اتركه فارغاً للمستندات التي لا تنتهي. م�
 msgid "Leave empty for no color."
 msgstr "اتركه فارغًا لعدم استخدام لون."
 
-#: onedesk/public/js/tenant.js:60
+#: onedesk/public/js/one_admin/tenant.js:60
 msgid "Leave empty for no expiry."
 msgstr "اتركه فارغًا لعدم الانتهاء."
 
@@ -27007,7 +27007,7 @@ msgstr "اتركه فارغًا لاستخدام عنوان البريد الإ�
 msgid "Leave empty to use the screen's built-in voice."
 msgstr "اتركه فارغًا لاستخدام الصوت المدمج في الشاشة."
 
-#: onedesk/public/js/project_actions.js:169
+#: onedesk/public/js/one_project/project_actions.js:169
 #, python-brace-format
 msgid "Leave empty to use {0} with the customer."
 msgstr "اتركه فارغًا لاستخدام {0} مع العميل."
@@ -27141,15 +27141,15 @@ msgstr "الحد الأيسر"
 msgid "Left empty, the advance account falls back to the company’s and the cost centre to the department’s."
 msgstr "إذا تُرك فارغاً، يُستخدم حساب السلف الخاص بالشركة ومركز التكلفة الخاص بالقسم."
 
-#: onedesk/public/js/lots_actions.js:95
+#: onedesk/public/js/one_inventory/lots_actions.js:95
 msgid "Left empty, the next number is given."
 msgstr "إن تُرك فارغًا يُعطى الرقم التالي."
 
-#: onedesk/public/js/quotes_actions.js:33
+#: onedesk/public/js/one_inventory/quotes_actions.js:33
 msgid "Left empty, the usual message is sent."
 msgstr "إن تُرك فارغًا تُرسل الرسالة المعتادة."
 
-#: onedesk/public/js/lots_actions.js:102
+#: onedesk/public/js/one_inventory/lots_actions.js:102
 msgid "Left empty, worked out from how long the item keeps."
 msgstr "إن تُرك فارغًا يُحسب من مدة صلاحية الصنف."
 
@@ -27247,7 +27247,7 @@ msgstr "إصدار مستند قانوني"
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:31
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:31
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/public/js/item_new.js:50
+#: onedesk/public/js/one_inventory/item_new.js:50
 msgid "Length"
 msgstr "الطول"
 
@@ -27305,7 +27305,7 @@ msgstr "اسمح للعملاء والموردين بتسجيل الدخول ل�
 msgid "Let in {0}"
 msgstr "سُمح له {0}"
 
-#: onedesk/public/js/lots_actions.js:127
+#: onedesk/public/js/one_inventory/lots_actions.js:127
 msgid "Let items be kept in batches or by Serial No?"
 msgstr "السماح بحفظ الأصناف في دفعات أو بالرقم التسلسلي؟"
 
@@ -27489,7 +27489,7 @@ msgstr "تباعد الأسطر"
 #. Label of the lines (Table) field in DocType 'Reading'
 #: frontend/src/slide/components/Toolbar.vue:23
 #: onedesk/one_ai/doctype/reading/reading.json:519
-#: onedesk/public/js/progress.js:66
+#: onedesk/public/js/one_project/progress.js:66
 msgid "Lines"
 msgstr "البنود"
 
@@ -27549,7 +27549,7 @@ msgstr "الرابط لا يعمل"
 msgid "Link sent"
 msgstr "تم إرسال الرابط"
 
-#: onedesk/public/js/calendar_link.js:47
+#: onedesk/public/js/one_calendar/calendar_link.js:47
 msgid "Link switched off"
 msgstr "تم إيقاف الرابط"
 
@@ -27724,8 +27724,8 @@ msgstr "استماع"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:300
 #: onedesk/one_project/sidebar/oneproject/oneproject.json:142
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:121
-#: onedesk/public/js/lists.js:15 onedesk/public/js/lists.js:47
-#: onedesk/public/js/lists.js:49
+#: onedesk/public/js/one/lists.js:15 onedesk/public/js/one/lists.js:47
+#: onedesk/public/js/one/lists.js:49
 msgid "Lists"
 msgstr "القوائم"
 
@@ -27879,8 +27879,8 @@ msgstr ""
 msgid "Log No"
 msgstr "رقم السجل"
 
-#: frontend/src/project/Time.vue:15 onedesk/public/js/project_actions.js:355
-#: onedesk/public/js/project_actions.js:393
+#: frontend/src/project/Time.vue:15 onedesk/public/js/one_project/project_actions.js:355
+#: onedesk/public/js/one_project/project_actions.js:393
 msgid "Log Time"
 msgstr "تسجيل الوقت"
 
@@ -27889,7 +27889,7 @@ msgstr "تسجيل الوقت"
 msgid "Log Type"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:19 onedesk/public/js/crm_record.js:64
+#: onedesk/public/js/one_crm/crm_record.js:19 onedesk/public/js/one_crm/crm_record.js:64
 msgid "Log a Call"
 msgstr "تسجيل مكالمة"
 
@@ -28117,14 +28117,14 @@ msgstr "دفعات بضائع تنتهي صلاحيتها، مع تواريخه�
 
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json:42
-#: onedesk/public/js/project.js:151
+#: onedesk/public/js/one_project/project.js:151
 msgid "Low"
 msgstr "منخفض"
 
 #: frontend/src/inventory/item/ItemPlaces.vue:11
 #: frontend/src/inventory/stock/StockOnHand.vue:87
 #: frontend/src/inventory/stock/StockOnHand.vue:154
-#: onedesk/public/js/item_list.js:14
+#: onedesk/public/js/one_inventory/item_list.js:14
 msgctxt "Stock"
 msgid "Low"
 msgstr "منخفض"
@@ -28192,7 +28192,7 @@ msgid "Made For"
 msgstr "مصنوع لـ"
 
 #: frontend/src/inventory/item/ItemMaking.vue:6
-#: onedesk/public/js/item_new.js:126
+#: onedesk/public/js/one_inventory/item_new.js:126
 msgid "Made From"
 msgstr "مصنوع من"
 
@@ -28296,7 +28296,7 @@ msgstr "أُنشئ من {0}."
 msgid "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
 msgstr "يُنشأ في Cloudflare من قالب Create Additional Tokens. يستخدمه إعداد Cloudflare فقط لإنشاء رموز One الخاصة."
 
-#: onedesk/public/js/item_new.js:99
+#: onedesk/public/js/one_inventory/item_new.js:99
 msgid "Made in Our Workshop"
 msgstr "يُصنع في ورشتنا"
 
@@ -28667,7 +28667,7 @@ msgstr "إنشاء عرض لكل سجل…"
 
 #: frontend/src/inventory/item/ItemBuying.vue:106
 #: frontend/src/inventory/item/ItemSelling.vue:85
-#: onedesk/public/js/project.js:174
+#: onedesk/public/js/one_project/project.js:174
 msgid "Make Order"
 msgstr "إنشاء أمر بيع"
 
@@ -28884,7 +28884,7 @@ msgstr "الرد على خطاب الإدارة"
 #: onedesk/one_hr/custom/employee_grievance.json:31
 #: onedesk/public/js/one/access_center.js:300
 #: onedesk/public/js/one/access_center.js:361
-#: onedesk/public/js/project_new.js:138
+#: onedesk/public/js/one_project/project_new.js:138
 msgid "Manager"
 msgstr "المدير"
 
@@ -28913,7 +28913,7 @@ msgid "Manufacturers"
 msgstr "الشركات المصنّعة"
 
 #: frontend/src/inventory/lots/LotRows.vue:7
-#: onedesk/one_inventory/heads.py:1337 onedesk/public/js/lots_actions.js:97
+#: onedesk/one_inventory/heads.py:1337 onedesk/public/js/one_inventory/lots_actions.js:97
 msgid "Manufacturing Date"
 msgstr ""
 
@@ -28970,7 +28970,7 @@ msgstr "التسجيل كـ"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:79 onedesk/one_hr/sidebar/onehr/onehr.json:115
-#: onedesk/public/js/attendance_tool.js:54
+#: onedesk/public/js/one_hr/attendance_tool.js:54
 msgid "Mark Attendance"
 msgstr ""
 
@@ -29111,7 +29111,7 @@ msgstr "تعليمها معلّقة"
 
 #. Label of the one_markup (Percent) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json:86
-#: onedesk/public/js/project_new.js:129
+#: onedesk/public/js/one_project/project_new.js:129
 msgid "Markup on Costs"
 msgstr "هامش الربح على التكاليف"
 
@@ -29218,7 +29218,7 @@ msgstr "يُنقل البريد المطابق أيضًا"
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_factory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
-#: onedesk/public/js/item_new.js:136
+#: onedesk/public/js/one_inventory/item_new.js:136
 msgid "Material"
 msgstr ""
 
@@ -29232,7 +29232,7 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:1395 onedesk/one_inventory/home.py:107
 #: onedesk/one_inventory/print_format/one_material_request/one_material_request.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:180
-#: onedesk/public/js/quotes_actions.js:13
+#: onedesk/public/js/one_inventory/quotes_actions.js:13
 msgid "Material Request"
 msgstr "طلب مواد"
 
@@ -29288,7 +29288,7 @@ msgstr ""
 #: onedesk/one_factory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
-#: onedesk/public/js/item_new.js:132
+#: onedesk/public/js/one_inventory/item_new.js:132
 msgid "Materials"
 msgstr "المواد"
 
@@ -29526,7 +29526,7 @@ msgstr "دمج الخلايا / إلغاء دمجها"
 msgid "Merge Duplicate Leads"
 msgstr "دمج العملاء المحتملين المكررين"
 
-#: onedesk/public/js/crm_record.js:45
+#: onedesk/public/js/one_crm/crm_record.js:45
 #, python-brace-format
 msgid "Merge Into {0}"
 msgstr "دمج في {0}"
@@ -29569,7 +29569,7 @@ msgstr "دمج الخلايا"
 #: onedesk/public/js/one_mail/mail_templates.js:37
 #: onedesk/public/js/one_mail/onemail_settings.js:355
 #: onedesk/public/js/one_mail/rule_builder.js:226
-#: onedesk/public/js/quotes_actions.js:33 onedesk/www/message.html:2
+#: onedesk/public/js/one_inventory/quotes_actions.js:33 onedesk/www/message.html:2
 msgid "Message"
 msgstr "الرسالة"
 
@@ -29595,7 +29595,7 @@ msgstr "رسائل تتغير ورمز لمشاركة الرأي."
 msgid "Method"
 msgstr ""
 
-#: onedesk/public/js/item_new.js:60
+#: onedesk/public/js/one_inventory/item_new.js:60
 msgid "Metres in One Unit"
 msgstr "عدد الأمتار في الوحدة"
 
@@ -29635,8 +29635,8 @@ msgstr "النقر بالزر الأوسط"
 
 #: frontend/src/sheet/services/versions.js:60
 #: frontend/src/template/Tasks.vue:22 frontend/src/template/Tasks.vue:26
-#: onedesk/one_project/ai.py:600 onedesk/public/js/project.js:95
-#: onedesk/public/js/project_actions.js:568
+#: onedesk/one_project/ai.py:600 onedesk/public/js/one_project/project.js:95
+#: onedesk/public/js/one_project/project_actions.js:568
 msgid "Milestone"
 msgstr "مرحلة رئيسية"
 
@@ -29816,7 +29816,7 @@ msgstr ""
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:22
 #: onedesk/one_interface/shortcuts.py:35
-#: onedesk/public/js/project_actions.js:487
+#: onedesk/public/js/one_project/project_actions.js:487
 msgid "Month"
 msgstr "الشهر"
 
@@ -29869,13 +29869,13 @@ msgstr "الرصيد الشهري"
 #. Label of the one_monthly_fee (Currency) field in DocType 'Project'
 #: frontend/src/project/Money.vue:161 onedesk/one_project/ai.py:972
 #: onedesk/one_project/custom/project.json:66
-#: onedesk/public/js/project_new.js:131
+#: onedesk/public/js/one_project/project_new.js:131
 msgid "Monthly Fee"
 msgstr "الرسوم الشهرية"
 
 #. Label of the one_monthly_hours (Float) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json:76
-#: onedesk/public/js/project_new.js:133
+#: onedesk/public/js/one_project/project_new.js:133
 msgid "Monthly Hours"
 msgstr "الساعات الشهرية"
 
@@ -30063,7 +30063,7 @@ msgstr "نقل البريد المزعج والتصيد"
 msgid "Move Newsletters and Ads"
 msgstr "نقل النشرات والإعلانات"
 
-#: onedesk/public/js/tenant.js:135 onedesk/public/js/tenant.js:141
+#: onedesk/public/js/one_admin/tenant.js:135 onedesk/public/js/one_admin/tenant.js:141
 msgid "Move Server"
 msgstr "نقل الخادم"
 
@@ -30164,7 +30164,7 @@ msgstr "عطلة الانتقال"
 msgid "Move {0}"
 msgstr "نقل {0}"
 
-#: onedesk/public/js/tenant.js:138
+#: onedesk/public/js/one_admin/tenant.js:138
 #, python-brace-format
 msgid "Move {0} to another server from this backup? What changed since is lost."
 msgstr "هل تريد نقل {0} إلى خادم آخر من هذه النسخة الاحتياطية؟ ستفقد ما تغيّر منذ ذلك الحين."
@@ -30204,7 +30204,7 @@ msgstr "يُنقل إلى إعدادات الموقع عند الحفظ."
 
 #: onedesk/one_ai/reading/panel.py:218 onedesk/one_ai/reading/panel.py:219
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:76
-#: onedesk/public/js/item_actions.js:144
+#: onedesk/public/js/one_inventory/item_actions.js:144
 #, python-brace-format
 msgid "Moved to {0}"
 msgstr "نُقل إلى {0}"
@@ -30416,9 +30416,9 @@ msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما
 #: onedesk/one_project/report/workload/workload.py:174
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:47
 #: onedesk/one_studio/letter_heads.py:53
-#: onedesk/public/js/doctype_settings.js:705 onedesk/public/js/item_new.js:34
-#: onedesk/public/js/item_new.js:273
-#: onedesk/public/js/leave_control_panel.js:11
+#: onedesk/public/js/doctype_settings.js:705 onedesk/public/js/one_inventory/item_new.js:34
+#: onedesk/public/js/one_inventory/item_new.js:273
+#: onedesk/public/js/one_hr/leave_control_panel.js:11
 #: onedesk/public/js/one/access_center.js:285
 #: onedesk/public/js/one/access_center.js:366
 #: onedesk/public/js/one/news_add.js:63
@@ -30434,7 +30434,7 @@ msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما
 #: onedesk/public/js/one_mail/rule_builder.js:430
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/one_studio/studio_control.js:181
-#: onedesk/public/js/project_new.js:72
+#: onedesk/public/js/one_project/project_new.js:72
 msgid "Name"
 msgstr "الاسم"
 
@@ -30752,7 +30752,7 @@ msgstr "لم تُستخدم"
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
-#: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
+#: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/one_inventory/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
 #: onedesk/public/js/one_interface/look.js:808
 #: onedesk/public/js/one_interface/look.js:810
@@ -30790,7 +30790,7 @@ msgid "New BOM"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:42
-#: onedesk/public/js/lots_actions.js:78
+#: onedesk/public/js/one_inventory/lots_actions.js:78
 msgid "New Batch"
 msgstr "دفعة جديدة"
 
@@ -30884,7 +30884,7 @@ msgid "New Invoice"
 msgstr "فاتورة جديدة"
 
 #: frontend/src/inventory/home/InventoryHome.vue:299
-#: onedesk/public/js/item_new.js:16
+#: onedesk/public/js/one_inventory/item_new.js:16
 msgid "New Item"
 msgstr "صنف جديد"
 
@@ -30924,7 +30924,7 @@ msgstr ""
 msgid "New Letter Head"
 msgstr "ترويسة رسائل جديدة"
 
-#: onedesk/public/js/calendar_link.js:24
+#: onedesk/public/js/one_calendar/calendar_link.js:24
 msgid "New Link"
 msgstr "رابط جديد"
 
@@ -30998,7 +30998,7 @@ msgstr "خطة إنتاج جديدة"
 msgid "New Profile"
 msgstr "ملف وظيفي جديد"
 
-#: onedesk/public/js/project_new.js:63 onedesk/public/js/project_template.js:15
+#: onedesk/public/js/one_project/project_new.js:63 onedesk/public/js/one_project/project_template.js:15
 msgid "New Project"
 msgstr "مشروع جديد"
 
@@ -31085,11 +31085,11 @@ msgstr "مصدر جديد"
 msgid "New Stock Entry"
 msgstr "قيد مخزون جديد"
 
-#: onedesk/public/js/project_new.js:63
+#: onedesk/public/js/one_project/project_new.js:63
 msgid "New Sub-project"
 msgstr "مشروع فرعي جديد"
 
-#: onedesk/public/js/task_new.js:7
+#: onedesk/public/js/one_task/task_new.js:7
 msgid "New Task"
 msgstr "مهمة جديدة"
 
@@ -31205,7 +31205,7 @@ msgstr "مكتبة جديدة"
 msgid "New line in cell"
 msgstr "سطر جديد في الخلية"
 
-#: onedesk/public/js/calendar_link.js:41
+#: onedesk/public/js/one_calendar/calendar_link.js:41
 msgid "New link created"
 msgstr "تم إنشاء رابط جديد"
 
@@ -31369,11 +31369,11 @@ msgstr "النشرات إلى مجلد"
 #: frontend/src/slide/shim/WidgetMock.vue:206
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:158
 #: onedesk/one_deck/decks.py:64 onedesk/one_studio/print_blocks.py:687
-#: onedesk/public/js/doctype_settings.js:326 onedesk/public/js/item_new.js:326
+#: onedesk/public/js/doctype_settings.js:326 onedesk/public/js/one_inventory/item_new.js:326
 #: onedesk/public/js/module_docs.js:489
 #: onedesk/public/js/one_studio/studio_control.js:52
-#: onedesk/public/js/project_actions.js:555
-#: onedesk/public/js/project_new.js:250 onedesk/www/s.html:127
+#: onedesk/public/js/one_project/project_actions.js:555
+#: onedesk/public/js/one_project/project_new.js:250 onedesk/www/s.html:127
 #: onedesk/www/slide-remote.html:24 onedesk/www/tv.py:57
 msgid "Next"
 msgstr "التالي"
@@ -31382,7 +31382,7 @@ msgstr "التالي"
 msgid "Next 2 weeks"
 msgstr "الأسبوعان القادمان"
 
-#: onedesk/one_task/mine.py:18 onedesk/public/js/project.js:155
+#: onedesk/one_task/mine.py:18 onedesk/public/js/one_project/project.js:155
 msgid "Next 7 Days"
 msgstr "الأيام السبعة القادمة"
 
@@ -31442,11 +31442,11 @@ msgstr "الحالة التالية"
 #: onedesk/one_crm/custom/lead.json:7 onedesk/one_crm/custom/opportunity.json:7
 #: onedesk/one_crm/heads.py:220 onedesk/one_crm/heads.py:221
 #: onedesk/one_crm/heads.py:373 onedesk/one_crm/heads.py:454
-#: onedesk/one_crm/tell.py:49 onedesk/public/js/next_step.js:19
+#: onedesk/one_crm/tell.py:49 onedesk/public/js/one_crm/next_step.js:19
 msgid "Next Step"
 msgstr "الخطوة التالية"
 
-#: onedesk/public/js/next_step.js:11
+#: onedesk/public/js/one_crm/next_step.js:11
 msgid "Next Step Done"
 msgstr "تمت الخطوة التالية"
 
@@ -31455,7 +31455,7 @@ msgstr "تمت الخطوة التالية"
 #. Label of the one_next_on (Datetime) field in DocType 'Opportunity'
 #: onedesk/one_crm/custom/lead.json:16
 #: onedesk/one_crm/custom/opportunity.json:16 onedesk/one_crm/notifications.py
-#: onedesk/public/js/next_step.js:23
+#: onedesk/public/js/one_crm/next_step.js:23
 msgid "Next Step Due"
 msgstr "موعد الخطوة التالية"
 
@@ -31507,7 +31507,7 @@ msgstr "التالي في {0}"
 msgid "Next step"
 msgstr "الخطوة التالية"
 
-#: onedesk/public/js/passkey.js:124
+#: onedesk/public/js/one_hr/passkey.js:124
 msgid "Next time, sign in with your face, fingerprint or screen lock instead of typing your password. It takes a few seconds to set up."
 msgstr "في المرة القادمة، سجّل الدخول بوجهك أو بصمتك أو قفل الشاشة بدلاً من كتابة كلمة المرور. يستغرق إعداده بضع ثوانٍ."
 
@@ -31707,12 +31707,12 @@ msgstr "إعادة التحميل الليلية."
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
 #: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
 #: onedesk/one_studio/print_blocks.py:427 onedesk/one_task/abilities.py:20
-#: onedesk/public/js/item_new.js:49
+#: onedesk/public/js/one_inventory/item_new.js:49
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "No"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:82
+#: onedesk/public/js/one_crm/crm_record.js:82
 msgid "No Answer"
 msgstr ""
 
@@ -31741,7 +31741,7 @@ msgstr "لا يوجد رصيد"
 msgid "No Due Date"
 msgstr "بلا تاريخ استحقاق"
 
-#: onedesk/public/js/project.js:153
+#: onedesk/public/js/one_project/project.js:153
 msgid "No End Date"
 msgstr "بلا تاريخ انتهاء"
 
@@ -31836,7 +31836,7 @@ msgstr "لا يوجد أصل مُعلَّم بأنه يحتاج صيانة."
 msgid "No automations"
 msgstr "لا توجد أتمتة"
 
-#: onedesk/public/js/tenant.js:118
+#: onedesk/public/js/one_admin/tenant.js:118
 #, python-brace-format
 msgid "No backups are kept for {0} yet."
 msgstr "لا توجد نسخ احتياطية محفوظة لـ {0} بعد."
@@ -31845,7 +31845,7 @@ msgstr "لا توجد نسخ احتياطية محفوظة لـ {0} بعد."
 msgid "No bill of materials"
 msgstr "لا قائمة مواد"
 
-#: onedesk/public/js/project_actions.js:92
+#: onedesk/public/js/one_project/project_actions.js:92
 #, python-brace-format
 msgid "No billable time on {0} is waiting to be invoiced."
 msgstr "لا يوجد في {0} وقت قابل للفوترة بانتظار الفاتورة."
@@ -31937,7 +31937,7 @@ msgstr "لا توجد تكاليف بعد"
 msgid "No credit packs available"
 msgstr "لا توجد باقات رصيد متاحة"
 
-#: onedesk/public/js/project_new.js:28
+#: onedesk/public/js/one_project/project_new.js:28
 msgid "No customer. A budget and the work."
 msgstr "بلا عميل. ميزانية والعمل."
 
@@ -32000,7 +32000,7 @@ msgstr "لا توجد رسائل"
 msgid "No empty cells in the selection to fill."
 msgstr "لا توجد خلايا فارغة في التحديد لتعبئتها."
 
-#: onedesk/public/js/extension_errors.js:12
+#: onedesk/public/js/one_studio/extension_errors.js:12
 msgid "No errors"
 msgstr "لا توجد أخطاء"
 
@@ -32080,7 +32080,7 @@ msgstr "لا فواتير بعد. الخطة التي تتضمن فترة تجر
 msgid "No item has a reorder level yet. Set one on an item's Stock view."
 msgstr "لا يوجد صنف له حد إعادة طلب بعد. اضبطه من عرض المخزون في صفحة الصنف."
 
-#: onedesk/public/js/offering.js:18
+#: onedesk/public/js/one_admin/offering.js:18
 msgid "No item yet"
 msgstr "لا يوجد صنف بعد"
 
@@ -32209,7 +32209,7 @@ msgstr "لا توجد إصدارات مسمّاة بعد."
 msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from OneMail › Settings › Mailboxes."
 msgstr "لا يُقرأ بريد جديد من <b>{mailbox}</b> حتى يُوصل من جديد. أعد وصله من OneMail › الإعدادات › صناديق البريد."
 
-#: onedesk/public/js/task.js:24
+#: onedesk/public/js/one_task/task.js:24
 msgid "No new task is made from it. This one stays as it is."
 msgstr "لن تُنشأ منها مهمة جديدة. تبقى هذه المهمة كما هي."
 
@@ -32272,7 +32272,7 @@ msgstr "لا خدمات اختيارية"
 msgid "No organization mailboxes"
 msgstr "لا توجد صناديق بريد للمؤسسة"
 
-#: onedesk/public/js/overtime_slip.js:41
+#: onedesk/public/js/one_hr/overtime_slip.js:41
 #, python-brace-format
 msgid "No overtime was recorded on any attendance between {0} and {1}."
 msgstr "لم يُسجَّل أي عمل إضافي في أي حضور بين {0} و{1}."
@@ -32456,7 +32456,7 @@ msgstr "لا يوجد توقيع"
 msgid "No slides of this kind yet. A manager adds one with Save to Library on a slide's menu."
 msgstr "لا توجد شرائح من هذا النوع بعد. يضيف المدير شريحة عبر «حفظ في المكتبة» من قائمة الشريحة."
 
-#: onedesk/public/js/hiring.js:168
+#: onedesk/public/js/one_hr/hiring.js:168
 msgid "No sound. Check the microphone."
 msgstr "لا يوجد صوت. تحقّق من الميكروفون."
 
@@ -32549,7 +32549,7 @@ msgstr "لا توجد صلاحيات مستخدم"
 msgid "No users"
 msgstr "لا يوجد مستخدمون"
 
-#: onedesk/public/js/lists.js:36
+#: onedesk/public/js/one/lists.js:36
 msgid "No values"
 msgstr "لا توجد قيم"
 
@@ -32654,7 +32654,7 @@ msgstr "لا أحد يُذكَّر بفاتورة غير مدفوعة. الإص�
 msgid "Nobody on it yet"
 msgstr "لا أحد عليها بعد"
 
-#: onedesk/public/js/attendance_tool.js:40
+#: onedesk/public/js/one_hr/attendance_tool.js:40
 msgid "Nobody on this list checked in"
 msgstr "لم يسجّل أحد في هذه القائمة حضوره"
 
@@ -32847,7 +32847,7 @@ msgstr "لم يصنعه OneAI"
 msgid "Not Matched"
 msgstr "غير مطابق"
 
-#: onedesk/public/js/desk.js:260 onedesk/public/js/passkey.js:141
+#: onedesk/public/js/desk.js:260 onedesk/public/js/one_hr/passkey.js:141
 msgid "Not Now"
 msgstr "ليس الآن"
 
@@ -32898,7 +32898,7 @@ msgstr "غير موقّع"
 
 #. Option for the 'Stop Reason' (Select) field in DocType 'OneOS Session'
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:85
-#: onedesk/public/js/work_order_list.js:11
+#: onedesk/public/js/one_factory/work_order_list.js:11
 msgid "Not Started"
 msgstr "لم يبدأ"
 
@@ -32906,7 +32906,7 @@ msgstr "لم يبدأ"
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json:98
 #: onedesk/one_project/custom/projects_settings.json:44
-#: onedesk/public/js/project_new.js:155
+#: onedesk/public/js/one_project/project_new.js:155
 msgid "Not Tracked"
 msgstr "لا يُتتبَّع"
 
@@ -32918,7 +32918,7 @@ msgstr "غير مستخدم في مساحة العمل هذه"
 msgid "Not Yet Due"
 msgstr "غير مستحق بعد"
 
-#: onedesk/public/js/crm_record.js:51
+#: onedesk/public/js/one_crm/crm_record.js:51
 msgid "Not a Duplicate"
 msgstr "ليس مكرراً"
 
@@ -32990,7 +32990,7 @@ msgstr "لم تُغلق"
 msgid "Not connected to its account. Last heard {0}. Seats, storage and credits can be bought once it's connected."
 msgstr "غير متصلة بحسابها. آخر اتصال {0}. يمكن شراء المقاعد والتخزين والرصيد بعد الاتصال."
 
-#: onedesk/public/js/checkin_list.js:37
+#: onedesk/public/js/one_hr/checkin_list.js:37
 msgid "Not counted yet"
 msgstr "لم يُحتسب بعد"
 
@@ -33206,7 +33206,7 @@ msgstr "غير مدعوم في هذا المتصفح"
 msgid "Not synced yet"
 msgstr "لم تتم المزامنة بعد"
 
-#: onedesk/public/js/calendar_link.js:12
+#: onedesk/public/js/one_calendar/calendar_link.js:12
 msgid "Not synced yet."
 msgstr "لم تتم المزامنة بعد."
 
@@ -33255,7 +33255,7 @@ msgstr "ليس بعد"
 #: onedesk/one_project/ai.py:761
 #: onedesk/one_project/doctype/project_contact/project_contact.json:70
 #: onedesk/public/js/one_studio/studio_control.js:243
-#: onedesk/public/js/project_actions.js:450 onedesk/public/js/tenant.js:62
+#: onedesk/public/js/one_project/project_actions.js:450 onedesk/public/js/one_admin/tenant.js:62
 msgid "Note"
 msgstr "ملاحظة"
 
@@ -34068,17 +34068,17 @@ msgstr "المناوبون اليوم"
 msgid "On Everyone's Calendar"
 msgstr "في تقويم الجميع"
 
-#: onedesk/one_inventory/manifest.py:76 onedesk/public/js/item_list.js:22
+#: onedesk/one_inventory/manifest.py:76 onedesk/public/js/one_inventory/item_list.js:22
 msgid "On Hand"
 msgstr "في المخزون"
 
-#: onedesk/public/js/item_new.js:110
+#: onedesk/public/js/one_inventory/item_new.js:110
 msgid "On Hand Now"
 msgstr "المتوفر الآن"
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
 #: onedesk/one_crm/custom/sales_stage.json:28
-#: onedesk/public/js/privacy_request_list.js:9
+#: onedesk/public/js/trust_center/privacy_request_list.js:9
 msgid "On Hold"
 msgstr ""
 
@@ -34190,7 +34190,7 @@ msgstr "معلّق"
 msgid "On hold, out of the pipeline until it moves again."
 msgstr "معلّقة، خارج خط المبيعات حتى تتحرك من جديد."
 
-#: onedesk/public/js/privacy_request.js:7
+#: onedesk/public/js/trust_center/privacy_request.js:7
 #, python-brace-format
 msgid "On hold. {0} was notified of the reason."
 msgstr "معلّق. تم إبلاغ {0} بالسبب."
@@ -34583,7 +34583,7 @@ msgstr "خبر واحد مع صورة."
 msgid "One place is free. Each extra place uses 5 credits a day."
 msgstr "مكان واحد مجاني. كل مكان إضافي يستهلك 5 أرصدة يومياً."
 
-#: onedesk/public/js/item_new.js:7
+#: onedesk/public/js/one_inventory/item_new.js:7
 msgid "One product in several versions."
 msgstr "منتج واحد بعدة نسخ."
 
@@ -35745,10 +35745,10 @@ msgstr "العتامة"
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:12
 #: onedesk/one_project/status.py:14 onedesk/one_task/custom/task.json:87
-#: onedesk/public/js/audit_list.js:6 onedesk/public/js/doctype_settings.js:731
+#: onedesk/public/js/one/audit_list.js:6 onedesk/public/js/doctype_settings.js:731
 #: onedesk/public/js/one_ai/panel/Record.vue:15
-#: onedesk/public/js/project.js:150 onedesk/public/js/project_actions.js:56
-#: onedesk/public/js/project_tree.js:19 onedesk/public/js/table_workbook.js:55
+#: onedesk/public/js/one_project/project.js:150 onedesk/public/js/one_project/project_actions.js:56
+#: onedesk/public/js/one_project/project_tree.js:19 onedesk/public/js/one_sheet/table_workbook.js:55
 #: onedesk/www/account.html:31 onedesk/www/s.html:48 onedesk/www/s.html:56
 msgid "Open"
 msgstr "مفتوح"
@@ -35812,11 +35812,11 @@ msgstr "فتح الإضافة"
 msgid "Open Extensions"
 msgstr "فتح الإضافات"
 
-#: onedesk/public/js/workbooks.js:109
+#: onedesk/public/js/one_sheet/workbooks.js:109
 msgid "Open Files"
 msgstr "الملفات المفتوحة"
 
-#: onedesk/public/js/item_actions.js:149 onedesk/public/js/item_actions.js:194
+#: onedesk/public/js/one_inventory/item_actions.js:149 onedesk/public/js/one_inventory/item_actions.js:194
 msgid "Open Full Form"
 msgstr "فتح النموذج الكامل"
 
@@ -35887,7 +35887,7 @@ msgstr ""
 msgid "Open People"
 msgstr "فتح الأشخاص"
 
-#: onedesk/public/js/credit_ledger_entry.js:7
+#: onedesk/public/js/one_admin/credit_ledger_entry.js:7
 msgid "Open Plan"
 msgstr "فتح الخطة"
 
@@ -35912,7 +35912,7 @@ msgstr "فتح طلبات الخصوصية"
 
 #. Label of a number card
 #: onedesk/one_project/number_card/projects_under_way/projects_under_way.json
-#: onedesk/public/js/project_places.js:7
+#: onedesk/public/js/one_project/project_places.js:7
 msgid "Open Projects"
 msgstr "المشاريع المفتوحة"
 
@@ -35951,7 +35951,7 @@ msgstr "فتح Webhooks"
 msgid "Open Work Orders"
 msgstr "أوامر العمل المفتوحة"
 
-#: onedesk/public/js/account_request.js:6
+#: onedesk/public/js/one_admin/account_request.js:6
 msgid "Open Workspace"
 msgstr "افتح مساحة العمل"
 
@@ -36000,16 +36000,16 @@ msgstr "افتح في OneCloud"
 msgid "Open in OneOS"
 msgstr "فتح في OneOS"
 
-#: onedesk/public/js/table_workbook.js:97
+#: onedesk/public/js/one_sheet/table_workbook.js:97
 msgid "Open in OneSheet"
 msgstr "فتح في OneSheet"
 
-#: onedesk/public/js/text_writer.js:24
+#: onedesk/public/js/one_doc/text_writer.js:24
 msgid "Open in OneDoc"
 msgstr "فتح في OneDoc"
 
-#: onedesk/public/js/account_request.js:11
-#: onedesk/public/js/credit_ledger_entry.js:11
+#: onedesk/public/js/one_admin/account_request.js:11
+#: onedesk/public/js/one_admin/credit_ledger_entry.js:11
 msgid "Open in Stripe"
 msgstr "فتح في Stripe"
 
@@ -36072,7 +36072,7 @@ msgstr "فتح حسابك في One"
 
 #: onedesk/one/notify.py:764
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:293
-#: onedesk/one_portal/share.py:355 onedesk/public/js/audit_list.js:7
+#: onedesk/one_portal/share.py:355 onedesk/public/js/one/audit_list.js:7
 #: onedesk/www/s.html:147
 #, python-brace-format
 msgid "Open {0}"
@@ -36347,9 +36347,9 @@ msgstr "اختياري، ويساعد OneAI على تمييزه."
 msgid "Optional. The person who asked will see it."
 msgstr "اختياري. وسيراه مقدّم الطلب."
 
-#: onedesk/public/js/timesheet.js:46
-msgid "Optional. The timer says so when it runs past this."
-msgstr "اختياري. ينبّه المؤقّت عند تجاوزها."
+#: onedesk/public/js/one_hr/timesheet.js:46
+msgid "The timer says so when it runs past this, if it is set."
+msgstr "ينبّه المؤقّت عند تجاوزها، إن حُدّدت."
 
 #: onedesk/public/js/one/news_add.js:221
 msgid "Optional. Used instead of the topic."
@@ -36370,7 +36370,7 @@ msgstr "الخيارات مأخوذة من سبب التسجيل."
 msgid "Options sketched"
 msgstr "رسم الخيارات"
 
-#: onedesk/public/js/item_new.js:282
+#: onedesk/public/js/one_inventory/item_new.js:282
 msgid "Or Paste List"
 msgstr "أو الصق القائمة"
 
@@ -36419,7 +36419,7 @@ msgstr "برتقال أو مانجو أو مشكّل"
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:40
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:35
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:34
-#: onedesk/public/js/project_actions.js:546
+#: onedesk/public/js/one_project/project_actions.js:546
 msgid "Order"
 msgstr "اطلب"
 
@@ -36451,11 +36451,11 @@ msgstr "أمر شراء متأخر"
 msgid "Order More"
 msgstr "طلب المزيد"
 
-#: onedesk/public/js/item_new.js:104
+#: onedesk/public/js/one_inventory/item_new.js:104
 msgid "Order More Below"
 msgstr "اطلب المزيد عند أقل من"
 
-#: onedesk/public/js/item_new.js:101
+#: onedesk/public/js/one_inventory/item_new.js:101
 msgid "Order More When Low"
 msgstr "اطلب المزيد عند الانخفاض"
 
@@ -36547,7 +36547,7 @@ msgstr "طلب أعمال النجارة والأثاث"
 msgid "Order long-lead items"
 msgstr "طلب المواد طويلة التوريد"
 
-#: onedesk/public/js/quotes_actions.js:74
+#: onedesk/public/js/one_inventory/quotes_actions.js:74
 msgid "Order the cheapest quote on each line?"
 msgstr "هل تطلب أرخص عرض سعر لكل بند؟"
 
@@ -36571,7 +36571,7 @@ msgstr "اطلب {0}"
 #: onedesk/one_inventory/portal.py:34
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
 #: onedesk/one_project/money.py:168 onedesk/one_project/money.py:183
-#: onedesk/public/js/progress.js:75
+#: onedesk/public/js/one_project/progress.js:75
 msgid "Ordered"
 msgstr "تم الطلب"
 
@@ -36912,7 +36912,7 @@ msgstr "ردود الغياب"
 msgid "Out of Office until {0}"
 msgstr "خارج المكتب حتى {0}"
 
-#: onedesk/public/js/asset_list.js:6
+#: onedesk/public/js/one_inventory/asset_list.js:6
 msgid "Out of Order"
 msgstr "معطل"
 
@@ -36956,7 +36956,7 @@ msgstr "لدى الموردين"
 #: onedesk/one_hr/custom/employee_checkin.json:42
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:88
 #: onedesk/one_hr/print_format/one_exit_interview/one_exit_interview.json
-#: onedesk/public/js/crm_record.js:79
+#: onedesk/public/js/one_crm/crm_record.js:79
 msgid "Outcome"
 msgstr "النتيجة"
 
@@ -36969,7 +36969,7 @@ msgstr "قديم"
 msgid "Outflow"
 msgstr "التدفق الخارج"
 
-#: onedesk/one_mail/ai.py:1116 onedesk/public/js/crm_record.js:71
+#: onedesk/one_mail/ai.py:1116 onedesk/public/js/one_crm/crm_record.js:71
 msgid "Outgoing"
 msgstr ""
 
@@ -36981,7 +36981,7 @@ msgstr "خادم الصادر"
 msgid "Outline"
 msgstr "إطار"
 
-#: onedesk/public/js/calendar_link.js:16
+#: onedesk/public/js/one_calendar/calendar_link.js:16
 msgid "Outlook"
 msgstr "Outlook"
 
@@ -37026,7 +37026,7 @@ msgstr "سماح الفوترة الزائدة (%)"
 
 #. Name of a notification
 #: onedesk/one_project/notifications.py
-#: onedesk/public/js/project_actions.js:322
+#: onedesk/public/js/one_project/project_actions.js:322
 msgid "Over Budget"
 msgstr "عند تجاوز الميزانية"
 
@@ -37114,7 +37114,7 @@ msgstr "تجاوز"
 msgid "Overtime"
 msgstr "العمل الإضافي"
 
-#: onedesk/public/js/overtime.js:40
+#: onedesk/public/js/one_hr/overtime.js:40
 msgid "Overtime Hours"
 msgstr "ساعات العمل الإضافي"
 
@@ -37138,7 +37138,7 @@ msgstr "قسيمة عمل إضافي"
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/home.py:493
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json:116
-#: onedesk/public/js/overtime.js:32
+#: onedesk/public/js/one_hr/overtime.js:32
 msgid "Overtime Type"
 msgstr "نوع العمل الإضافي"
 
@@ -37213,7 +37213,7 @@ msgstr "عليها مستحقات"
 msgid "Own Mailboxes"
 msgstr "صناديق البريد الخاصة"
 
-#: onedesk/public/js/item_new.js:6
+#: onedesk/public/js/one_inventory/item_new.js:6
 msgid "Owned and used, like a van or a laptop."
 msgstr "مملوك ومُستخدم، مثل شاحنة أو حاسوب محمول."
 
@@ -37224,7 +37224,7 @@ msgstr "مملوك ومُستخدم، مثل شاحنة أو حاسوب محمو
 #: onedesk/one_admin/doctype/tenant/tenant.json:102
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:65
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:206
-#: onedesk/public/js/task_new.js:32
+#: onedesk/public/js/one_task/task_new.js:32
 msgid "Owner"
 msgstr "المالك"
 
@@ -37633,7 +37633,7 @@ msgstr "المواقف"
 #: onedesk/one_ai/doctype/reading/reading.json:154
 #: onedesk/one_factory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
-#: onedesk/public/js/item_new.js:273
+#: onedesk/public/js/one_inventory/item_new.js:273
 msgid "Part"
 msgstr "جزء"
 
@@ -37647,7 +37647,7 @@ msgstr "رقم القطعة"
 
 #. Label of the part_of (Link) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:146
-#: onedesk/public/js/task_new.js:27
+#: onedesk/public/js/one_task/task_new.js:27
 msgid "Part Of"
 msgstr "جزء من"
 
@@ -37721,7 +37721,7 @@ msgstr "طُلب جزئيًا"
 msgid "Parts"
 msgstr "الأجزاء"
 
-#: onedesk/public/js/item_new.js:281
+#: onedesk/public/js/one_inventory/item_new.js:281
 msgid "Parts List"
 msgstr "قائمة القطع"
 
@@ -37842,7 +37842,7 @@ msgstr "تسجيل الدخول بمفتاح المرور"
 msgid "Passkey Turned Off"
 msgstr "إيقاف مفتاح المرور"
 
-#: onedesk/public/js/passkey.js:136
+#: onedesk/public/js/one_hr/passkey.js:136
 msgid "Passkey created. Use it next time you sign in."
 msgstr "تم إنشاء مفتاح المرور. استخدمه في المرة القادمة التي تسجّل فيها الدخول."
 
@@ -37850,7 +37850,7 @@ msgstr "تم إنشاء مفتاح المرور. استخدمه في المرة 
 msgid "Passkey removed"
 msgstr "تمت إزالة مفتاح المرور"
 
-#: onedesk/public/js/employee.js:14
+#: onedesk/public/js/one_hr/employee.js:14
 msgid "Passkey reset"
 msgstr "أُعيد تعيين مفتاح المرور"
 
@@ -37948,7 +37948,7 @@ msgstr "تجاوز وقته"
 msgid "Past Work"
 msgstr "الخبرات السابقة"
 
-#: onedesk/public/js/timesheet.js:96
+#: onedesk/public/js/one_hr/timesheet.js:96
 msgid "Past the expected hours."
 msgstr "تجاوزت الساعات المتوقعة."
 
@@ -38364,7 +38364,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_project/custom/project.json:150
 #: onedesk/one_project/custom/project_template.json:65
-#: onedesk/public/js/project_actions.js:226 onedesk/public/js/project_new.js:88
+#: onedesk/public/js/one_project/project_actions.js:226 onedesk/public/js/one_project/project_new.js:88
 msgid "Payment Terms"
 msgstr ""
 
@@ -38964,7 +38964,7 @@ msgstr "اختر اسماً وخطة. وتُنشأ مساحة العمل فور 
 msgid "Pick a series to see a preview"
 msgstr "اختر سلسلة لرؤية معاينة"
 
-#: onedesk/one_project/templates.py:127 onedesk/public/js/project_actions.js:75
+#: onedesk/one_project/templates.py:127 onedesk/public/js/one_project/project_actions.js:75
 msgid "Pick a template."
 msgstr "اختر قالبًا."
 
@@ -38977,7 +38977,7 @@ msgstr "اختر بلدة أو مدينة أثناء الكتابة، أو اس�
 msgid "Pick a warehouse, search by name or code, or show only what is low, short or out of stock."
 msgstr "اختر مستودعًا، أو ابحث بالاسم أو الرمز، أو اعرض فقط ما هو منخفض أو ناقص أو نفد من المخزون."
 
-#: onedesk/public/js/item_new.js:378
+#: onedesk/public/js/one_inventory/item_new.js:378
 msgid "Pick at least one size or colour."
 msgstr "اختر مقاسًا أو لونًا واحدًا على الأقل."
 
@@ -39062,7 +39062,7 @@ msgstr "التقطها"
 #: frontend/src/slide/shim/LayersPanel.vue:112
 #: frontend/src/slide/shim/WidgetSection.vue:61
 #: onedesk/one_display/playlist.py:42 onedesk/one_display/widgets.py:155
-#: onedesk/public/js/item_new.js:79
+#: onedesk/public/js/one_inventory/item_new.js:79
 msgid "Picture"
 msgstr "الصورة"
 
@@ -39294,7 +39294,7 @@ msgstr "نص عادي"
 #: onedesk/one_project/library/office_move.json
 #: onedesk/public/js/one_account/account_center.js:821
 #: onedesk/public/js/one_account/account_center.js:1209
-#: onedesk/public/js/project_new.js:219 onedesk/www/start.html:58
+#: onedesk/public/js/one_project/project_new.js:219 onedesk/www/start.html:58
 msgid "Plan"
 msgstr "الخطة"
 
@@ -39378,7 +39378,7 @@ msgstr "المخطط (ساعات)"
 
 #. Label of the one_hours_planned (Float) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json:181
-#: onedesk/public/js/project_actions.js:286
+#: onedesk/public/js/one_project/project_actions.js:286
 msgid "Planned Hours"
 msgstr "الساعات المخططة"
 
@@ -39583,7 +39583,7 @@ msgstr "نوع التكرار المحتمل"
 msgid "Possible duplicate of {0}."
 msgstr "تكرار محتمل لـ {0}."
 
-#: onedesk/public/js/project_actions.js:274
+#: onedesk/public/js/one_project/project_actions.js:274
 msgid "Post"
 msgstr "نشر"
 
@@ -39591,8 +39591,8 @@ msgstr "نشر"
 msgid "Post Site Logs"
 msgstr "نشر سجلات الموقع"
 
-#: frontend/src/project/Updates.vue:22 onedesk/public/js/project.js:242
-#: onedesk/public/js/project.js:244 onedesk/public/js/project_actions.js:273
+#: frontend/src/project/Updates.vue:22 onedesk/public/js/one_project/project.js:242
+#: onedesk/public/js/one_project/project.js:244 onedesk/public/js/one_project/project_actions.js:273
 msgid "Post Update"
 msgstr "نشر تحديث"
 
@@ -39711,7 +39711,7 @@ msgstr "أُعدّ لـ"
 
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:372
-#: onedesk/public/js/privacy_copy_list.js:8
+#: onedesk/public/js/trust_center/privacy_copy_list.js:8
 msgid "Preparing"
 msgstr "قيد الإعداد"
 
@@ -39727,7 +39727,7 @@ msgstr "جارٍ تجهيز ملف PDF…"
 msgid "Preparing the PowerPoint file…"
 msgstr "جارٍ تجهيز ملف PowerPoint…"
 
-#: onedesk/public/js/privacy_copy.js:52
+#: onedesk/public/js/trust_center/privacy_copy.js:52
 #, python-brace-format
 msgid "Preparing the copy for {0}."
 msgstr "جارٍ تجهيز النسخة لـ {0}."
@@ -39878,8 +39878,8 @@ msgstr "معاينة"
 #: frontend/portal/src/parts/Gallery.vue:9
 #: frontend/src/cloud/CloudViewer.vue:24
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:157
-#: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:490
-#: onedesk/public/js/project_new.js:238
+#: onedesk/public/js/one_inventory/item_new.js:217 onedesk/public/js/module_docs.js:490
+#: onedesk/public/js/one_project/project_new.js:238
 msgid "Previous"
 msgstr "السابق"
 
@@ -40083,13 +40083,13 @@ msgid "Prints With"
 msgstr "يُطبع بـ"
 
 #: onedesk/one_project/report/project_progress/project_progress.js:12
-#: onedesk/public/js/doctype_settings.js:919 onedesk/public/js/task_new.js:33
+#: onedesk/public/js/doctype_settings.js:919 onedesk/public/js/one_task/task_new.js:33
 msgid "Priority"
 msgstr "الأولوية"
 
 #: frontend/portal/src/pages/Menu.vue:24
 #: frontend/portal/src/parts/PortalSidebar.vue:39 onedesk/trust_center/gate.py:21
-#: onedesk/public/js/login.js:74 onedesk/www/start.html:74
+#: onedesk/public/js/one_hr/login.js:74 onedesk/www/start.html:74
 #: onedesk/www/your_data.html:43
 msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
@@ -40105,7 +40105,7 @@ msgstr "طلبات خصوصية بالانتظار"
 msgid "Privacy requests are waiting: {count}"
 msgstr "طلبات خصوصية تنتظر: {count}"
 
-#: onedesk/public/js/note_list.js:8
+#: onedesk/public/js/one/note_list.js:8
 #: onedesk/public/js/one_account/account_center.js:99
 #: onedesk/public/js/one_mail/onemail_settings.js:35
 msgid "Private"
@@ -40189,7 +40189,7 @@ msgstr "الإجراءات والمشكلات والحلول"
 msgid "Process Deferred Accounting"
 msgstr "معالجة المحاسبة المؤجلة"
 
-#: onedesk/public/js/floor_actions.js:63
+#: onedesk/public/js/one_factory/floor_actions.js:63
 msgid "Process Loss Qty"
 msgstr ""
 
@@ -40486,11 +40486,11 @@ msgstr "التقدم…"
 #: onedesk/one_project/report/workload/workload.js:70
 #: onedesk/one_project/sidebar/oneproject/oneproject.json:22
 #: onedesk/one_studio/print_blocks.py:35 onedesk/one_studio/print_blocks.py:636
-#: onedesk/public/js/item_actions.js:134 onedesk/public/js/item_actions.js:166
-#: onedesk/public/js/project_actions.js:375
-#: onedesk/public/js/project_actions.js:572
-#: onedesk/public/js/project_list.js:169 onedesk/public/js/project_tree.js:28
-#: onedesk/public/js/task_new.js:15 onedesk/public/js/timesheet.js:40
+#: onedesk/public/js/one_inventory/item_actions.js:134 onedesk/public/js/one_inventory/item_actions.js:166
+#: onedesk/public/js/one_project/project_actions.js:375
+#: onedesk/public/js/one_project/project_actions.js:572
+#: onedesk/public/js/one_project/project_list.js:169 onedesk/public/js/one_project/project_tree.js:28
+#: onedesk/public/js/one_task/task_new.js:15 onedesk/public/js/one_hr/timesheet.js:40
 msgid "Project"
 msgstr "المشروع"
 
@@ -40519,7 +40519,7 @@ msgstr "حالة المشروع"
 msgid "Project Manager"
 msgstr "مدير المشروع"
 
-#: onedesk/public/js/project_actions.js:25
+#: onedesk/public/js/one_project/project_actions.js:25
 msgid "Project Name"
 msgstr "اسم المشروع"
 
@@ -40570,7 +40570,7 @@ msgstr "أنواع المشاريع"
 #. Label in the One Project Update print format
 #: onedesk/one_deck/decks.py:39
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
-#: onedesk/public/js/project_list.js:71
+#: onedesk/public/js/one_project/project_list.js:71
 msgid "Project Update"
 msgstr "تحديث المشروع"
 
@@ -40586,11 +40586,11 @@ msgstr "تحديث المشروع"
 #. Label of the one_projects (Int) field in DocType 'Project Template'
 #: frontend/portal/src/pages/Project.vue:140
 #: onedesk/one_project/custom/project_template.json:33
-#: onedesk/one_project/heads.py:291 onedesk/public/js/project_tree.js:5
+#: onedesk/one_project/heads.py:291 onedesk/public/js/one_project/project_tree.js:5
 msgid "Projects"
 msgstr "المشاريع"
 
-#: onedesk/public/js/project_list.js:74
+#: onedesk/public/js/one_project/project_list.js:74
 msgid "Projects Settings"
 msgstr "إعدادات المشاريع"
 
@@ -41205,11 +41205,11 @@ msgstr "خطوة جودة متأخرة"
 msgid "Quality check {0}"
 msgstr "فحص الجودة {0}"
 
-#: onedesk/public/js/item_new.js:147
+#: onedesk/public/js/one_inventory/item_new.js:147
 msgid "Quantities per unit"
 msgstr "الكميات لكل وحدة"
 
-#: onedesk/public/js/item_new.js:147
+#: onedesk/public/js/one_inventory/item_new.js:147
 #, python-brace-format
 msgid "Quantities per {0}"
 msgstr "الكميات لكل {0}"
@@ -41234,14 +41234,14 @@ msgstr "الكميات لكل {0}"
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_inventory/print_format/one_serial_and_batch_bundle/one_serial_and_batch_bundle.json
-#: onedesk/public/js/item_actions.js:130 onedesk/public/js/item_actions.js:207
-#: onedesk/public/js/item_new.js:137 onedesk/public/js/item_new.js:273
+#: onedesk/public/js/one_inventory/item_actions.js:130 onedesk/public/js/one_inventory/item_actions.js:207
+#: onedesk/public/js/one_inventory/item_new.js:137 onedesk/public/js/one_inventory/item_new.js:273
 #: onedesk/public/js/one_account/account_center.js:1281
 msgid "Quantity"
 msgstr "الكمية"
 
-#: onedesk/public/js/floor_actions.js:68 onedesk/public/js/floor_actions.js:82
-#: onedesk/public/js/item_actions.js:61
+#: onedesk/public/js/one_factory/floor_actions.js:68 onedesk/public/js/one_factory/floor_actions.js:82
+#: onedesk/public/js/one_inventory/item_actions.js:61
 msgid "Quantity must be greater than zero."
 msgstr "يجب أن تكون الكمية أكبر من صفر."
 
@@ -41431,7 +41431,7 @@ msgstr "عروض الأسعار الخاسرة، وسبب خسارتها."
 msgid "Quote"
 msgstr "عرض سعر"
 
-#: frontend/src/project/Overview.vue:281 onedesk/public/js/project.js:40
+#: frontend/src/project/Overview.vue:281 onedesk/public/js/one_project/project.js:40
 msgid "Quote Extra Work"
 msgstr "عرض سعر لأعمال إضافية"
 
@@ -41694,7 +41694,7 @@ msgstr "قُرئ بصفته"
 msgid "Read Attachments"
 msgstr "قراءة المرفقات"
 
-#: onedesk/public/js/overtime_slip.js:9
+#: onedesk/public/js/one_hr/overtime_slip.js:9
 msgid "Read Attendance"
 msgstr "قراءة الحضور"
 
@@ -41721,7 +41721,7 @@ msgstr "قراءة التعليمات"
 msgid "Read It"
 msgstr "اقرأه"
 
-#: onedesk/public/js/item_new.js:285
+#: onedesk/public/js/one_inventory/item_new.js:285
 msgid "Read List"
 msgstr "قراءة القائمة"
 
@@ -41932,7 +41932,7 @@ msgstr "القراءة متوقفة في مساحة العمل هذه."
 msgid "Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."
 msgstr "أقرأ السيرة الذاتية من جديد. سيظهر التقييم والترتيب وتعليق على هذا المتقدم عند الانتهاء."
 
-#: onedesk/public/js/attendance_tool.js:26
+#: onedesk/public/js/one_hr/attendance_tool.js:26
 msgid "Reading the check-ins"
 msgstr "قراءة تسجيلات الحضور"
 
@@ -41994,7 +41994,7 @@ msgstr "جاهز للاستلام"
 #: onedesk/one_hr/print_format/one_leave_adjustment/one_leave_adjustment.json
 #: onedesk/one_hr/print_format/one_leave_application/one_leave_application.json
 #: onedesk/one_hr/print_format/one_salary_withholding/one_salary_withholding.json
-#: onedesk/public/js/clock.js:54 onedesk/public/js/privacy_request.js:28
+#: onedesk/public/js/one_hr/clock.js:54 onedesk/public/js/trust_center/privacy_request.js:28
 msgid "Reason"
 msgstr "السبب"
 
@@ -42008,7 +42008,7 @@ msgstr "السبب المعروض"
 msgid "Reason for No Figure"
 msgstr "سبب عدم وجود رقم"
 
-#: onedesk/public/js/privacy_copy.js:32
+#: onedesk/public/js/trust_center/privacy_copy.js:32
 msgid "Reason for Withholding"
 msgstr "سبب الحجب"
 
@@ -42019,11 +42019,11 @@ msgstr "الأسباب المعروضة على الموظفين عند تسجي�
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
-#: onedesk/public/js/tenant.js:119
+#: onedesk/public/js/one_admin/tenant.js:119
 msgid "Rebuild"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:130
+#: onedesk/public/js/one_admin/tenant.js:130
 msgid "Rebuild makes a new site from this backup. Billing is set up again separately."
 msgstr "تُنشئ إعادة البناء موقعًا جديدًا من هذه النسخة. تتم تهيئة الفوترة مجددًا بشكل منفصل."
 
@@ -42103,7 +42103,7 @@ msgstr "استلام المواد وفحصها"
 msgid "Receive this order"
 msgstr "استلم هذا الأمر"
 
-#: onedesk/public/js/floor_actions.js:92
+#: onedesk/public/js/one_factory/floor_actions.js:92
 #, python-brace-format
 msgid "Receive what {0} made into stock?"
 msgstr "استلام ما صنعته {0} إلى المخزون؟"
@@ -42301,12 +42301,12 @@ msgstr "إعادة ربط {0}"
 #: onedesk/one_sheet/doctype/workbook/workbook.json:72
 #: onedesk/one_studio/ai.py:393
 #: onedesk/one_studio/doctype/extension/extension.json:66
-#: onedesk/public/js/extension_errors.js:16 onedesk/public/js/hiring.js:8
+#: onedesk/public/js/one_studio/extension_errors.js:16 onedesk/public/js/one_hr/hiring.js:8
 #: onedesk/public/js/one_account/account_center.js:604
 #: onedesk/public/js/one_account/account_center.js:629
 #: onedesk/public/js/one_ai/ai_center.js:397
 #: onedesk/public/js/one_mail/mail_templates.js:284
-#: onedesk/public/js/overtime.js:46
+#: onedesk/public/js/one_hr/overtime.js:46
 msgid "Record"
 msgstr "تسجيل"
 
@@ -42319,7 +42319,7 @@ msgstr "السجل كما كان في"
 msgid "Record Bill"
 msgstr "تسجيل فاتورة"
 
-#: onedesk/public/js/floor_actions.js:116
+#: onedesk/public/js/one_factory/floor_actions.js:116
 msgid "Record Check"
 msgstr "تسجيل الفحص"
 
@@ -42374,8 +42374,8 @@ msgstr "تسجيل المقاطع الناقصة"
 msgid "Record No"
 msgstr "رقم السجل"
 
-#: onedesk/public/js/attendance.js:7 onedesk/public/js/employee.js:27
-#: onedesk/public/js/overtime.js:6
+#: onedesk/public/js/one_hr/attendance.js:7 onedesk/public/js/one_hr/employee.js:27
+#: onedesk/public/js/one_hr/overtime.js:6
 msgid "Record Overtime"
 msgstr "تسجيل عمل إضافي"
 
@@ -42436,7 +42436,7 @@ msgstr "سجّل جرد مخزون لهذا المستودع. سأذكر ما ع
 msgid "Record it done on the service once it is done, and the next one is set from that day."
 msgstr "سجّلها منجزة في الصيانة بعد إنجازها، فيُحدَّد موعد التالية من ذلك اليوم."
 
-#: onedesk/public/js/hiring.js:33
+#: onedesk/public/js/one_hr/hiring.js:33
 msgid "Record this interview"
 msgstr "تسجيل هذه المقابلة"
 
@@ -42444,7 +42444,7 @@ msgstr "تسجيل هذه المقابلة"
 msgid "Record type"
 msgstr "نوع السجل"
 
-#: onedesk/public/js/floor_actions.js:60
+#: onedesk/public/js/one_factory/floor_actions.js:60
 #, python-brace-format
 msgid "Record {0}"
 msgstr "تسجيل {0}"
@@ -42464,7 +42464,7 @@ msgstr "سجّله"
 msgid "Recorded letters, numbers and words that calls are assembled from."
 msgstr "حروف وأرقام وكلمات مسجّلة تُركّب منها النداءات."
 
-#: onedesk/public/js/overtime.js:64
+#: onedesk/public/js/one_hr/overtime.js:64
 #, python-brace-format
 msgid "Recorded on {0}"
 msgstr "تم التسجيل في {0}"
@@ -42477,16 +42477,16 @@ msgstr "تم التسجيل في {0}"
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json:63
 #: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json:40
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json:62
-#: onedesk/public/js/hiring.js:168 onedesk/public/js/hiring.js:263
+#: onedesk/public/js/one_hr/hiring.js:168 onedesk/public/js/one_hr/hiring.js:263
 msgid "Recording"
 msgstr "جارٍ التسجيل"
 
-#: onedesk/public/js/hiring.js:228
+#: onedesk/public/js/one_hr/hiring.js:228
 #, python-brace-format
 msgid "Recording saved, but {0} part(s) did not upload."
 msgstr "حُفظ التسجيل، لكن لم يُرفع {0} جزء."
 
-#: onedesk/public/js/hiring.js:229
+#: onedesk/public/js/one_hr/hiring.js:229
 msgid "Recording saved. OneAI writes it down and remarks on it on the interview."
 msgstr "حُفظ التسجيل. سيفرّغه OneAI كتابيًا ويعلّق عليه في المقابلة."
 
@@ -42500,7 +42500,7 @@ msgstr "لا يبدأ التسجيل إلا بعد أن يؤكد المُحاو�
 msgid "Recording the latest backup"
 msgstr "تسجيل أحدث نسخة احتياطية"
 
-#: onedesk/public/js/overtime.js:58
+#: onedesk/public/js/one_hr/overtime.js:58
 msgid "Recording the overtime"
 msgstr "جارٍ تسجيل العمل الإضافي"
 
@@ -42515,7 +42515,7 @@ msgstr "جارٍ تسجيل {0} مقطعًا."
 msgid "Recordings are written out and OneAI comments on the interview."
 msgstr "تُفرَّغ التسجيلات نصًا ويعلّق OneAI على المقابلة."
 
-#: onedesk/public/js/hiring.js:8
+#: onedesk/public/js/one_hr/hiring.js:8
 msgid "Recording…"
 msgstr "جارٍ التسجيل…"
 
@@ -42574,7 +42574,7 @@ msgstr "متكرر"
 
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json:38 onedesk/one_cloud/namespace.py:407
-#: onedesk/public/js/deleted_document_list.js:16
+#: onedesk/public/js/one/deleted_document_list.js:16
 msgid "Recycle Bin"
 msgstr "سلة المحذوفات"
 
@@ -42721,7 +42721,7 @@ msgstr "تحديث البيانات"
 msgid "Refund"
 msgstr "استرداد"
 
-#: onedesk/one/account.py:301 onedesk/public/js/credit_ledger_entry_list.js:14
+#: onedesk/one/account.py:301 onedesk/public/js/one_admin/credit_ledger_entry_list.js:14
 msgid "Refunded"
 msgstr "مُسترد"
 
@@ -42796,7 +42796,7 @@ msgstr "سجّل هذا الجهاز"
 msgid "Register a Passkey"
 msgstr "تسجيل مفتاح مرور"
 
-#: onedesk/public/js/clock.js:13
+#: onedesk/public/js/one_hr/clock.js:13
 msgid "Register a passkey before checking in."
 msgstr "سجّل مفتاح مرور قبل تسجيل الحضور."
 
@@ -42830,7 +42830,7 @@ msgid "Rehearsal"
 msgstr "البروفة"
 
 #: onedesk/one_hr/heads.py:185 onedesk/one_hr/heads.py:660
-#: onedesk/public/js/learned.js:14
+#: onedesk/public/js/one_hr/learned.js:14
 msgid "Reject"
 msgstr "رفض"
 
@@ -42856,7 +42856,7 @@ msgstr "رفض الإدخال"
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:47
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
-#: onedesk/public/js/checkin_list.js:29
+#: onedesk/public/js/one_hr/checkin_list.js:29
 msgid "Rejected"
 msgstr "مرفوض"
 
@@ -42907,8 +42907,8 @@ msgstr "مُفرج عنه"
 #: onedesk/one_project/custom/project_template.json:103
 #: onedesk/one_project/custom/purchase_order.json:31
 #: onedesk/one_project/custom/sales_order.json:42
-#: onedesk/public/js/project_actions.js:217
-#: onedesk/public/js/project_new.js:122
+#: onedesk/public/js/one_project/project_actions.js:217
+#: onedesk/public/js/one_project/project_new.js:122
 msgid "Released at Handover"
 msgstr "يُفرج عنه عند التسليم"
 
@@ -42975,8 +42975,8 @@ msgstr "ملاحظة"
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
-#: onedesk/public/js/item_actions.js:136 onedesk/public/js/item_actions.js:180
-#: onedesk/public/js/item_actions.js:222
+#: onedesk/public/js/one_inventory/item_actions.js:136 onedesk/public/js/one_inventory/item_actions.js:180
+#: onedesk/public/js/one_inventory/item_actions.js:222
 msgid "Remarks"
 msgstr ""
 
@@ -43099,8 +43099,8 @@ msgstr "الصور الخارجية مخفية."
 #: onedesk/public/js/one_mail/mail_compose.js:26
 #: onedesk/public/js/one_mail/rule_builder.js:117
 #: onedesk/public/js/one_mail/rule_builder.js:325
-#: onedesk/public/js/project_actions.js:336
-#: onedesk/public/js/project_actions.js:458
+#: onedesk/public/js/one_project/project_actions.js:336
+#: onedesk/public/js/one_project/project_actions.js:458
 msgid "Remove"
 msgstr "إزالة"
 
@@ -43180,7 +43180,7 @@ msgstr "إزالة {0} ملفات من سجلاتها؟ لا يمكن الترا
 msgid "Remove {0} from its record? This can't be undone."
 msgstr "إزالة {0} من سجله؟ لا يمكن التراجع عن ذلك."
 
-#: frontend/src/project/Team.vue:168 onedesk/public/js/project_actions.js:461
+#: frontend/src/project/Team.vue:168 onedesk/public/js/one_project/project_actions.js:461
 #, python-brace-format
 msgid "Remove {0} from the project?"
 msgstr "إزالة {0} من المشروع؟"
@@ -43190,7 +43190,7 @@ msgstr "إزالة {0} من المشروع؟"
 msgid "Remove {0} from {1}?"
 msgstr "إزالة {0} من {1}؟"
 
-#: onedesk/public/js/project_actions.js:339
+#: onedesk/public/js/one_project/project_actions.js:339
 #, python-brace-format
 msgid "Remove {0}?"
 msgstr "إزالة {0}؟"
@@ -43299,7 +43299,7 @@ msgstr "يتجدد في {0}"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1101
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:502
-#: onedesk/public/js/opportunity.js:13
+#: onedesk/public/js/one_crm/opportunity.js:13
 msgid "Reopen"
 msgstr ""
 
@@ -43316,7 +43316,7 @@ msgstr "إعادة الطلب"
 msgid "Reorder Level"
 msgstr ""
 
-#: onedesk/public/js/item_new.js:106
+#: onedesk/public/js/one_inventory/item_new.js:106
 msgid "Reorder Quantity"
 msgstr "كمية إعادة الطلب"
 
@@ -43387,7 +43387,7 @@ msgstr "تكرار آخر إجراء"
 msgid "Repeated by Mail"
 msgstr "مكرّر بالبريد"
 
-#: onedesk/public/js/task.js:29
+#: onedesk/public/js/one_task/task.js:29
 msgid "Repeating stopped."
 msgstr "تم إيقاف التكرار."
 
@@ -43631,7 +43631,7 @@ msgstr "تم تأكيد الطلب"
 msgid "Request Deletion"
 msgstr "طلب الحذف"
 
-#: onedesk/public/js/opportunity.js:15
+#: onedesk/public/js/one_crm/opportunity.js:15
 msgid "Request For Quotation"
 msgstr ""
 
@@ -43863,7 +43863,7 @@ msgstr ""
 msgid "Reset All"
 msgstr "إعادة تعيين الكل"
 
-#: onedesk/public/js/employee.js:5
+#: onedesk/public/js/one_hr/employee.js:5
 msgid "Reset Passkey"
 msgstr "إعادة تعيين مفتاح المرور"
 
@@ -43981,10 +43981,10 @@ msgstr "المطعم"
 #: frontend/src/doc/components/VersionsSidebar.vue:29
 #: frontend/src/doc/components/VersionsSidebar.vue:300
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
-#: onedesk/one_admin/heads.py:492 onedesk/public/js/deleted_document.js:3
-#: onedesk/public/js/deleted_document.js:5
-#: onedesk/public/js/deleted_document.js:11
-#: onedesk/public/js/deleted_document_list.js:17
+#: onedesk/one_admin/heads.py:492 onedesk/public/js/one/deleted_document.js:3
+#: onedesk/public/js/one/deleted_document.js:5
+#: onedesk/public/js/one/deleted_document.js:11
+#: onedesk/public/js/one/deleted_document_list.js:17
 #: onedesk/public/js/one_portal/portal.js:133
 msgid "Restore"
 msgstr ""
@@ -44010,7 +44010,7 @@ msgstr "استعادة هذا الإصدار؟ سيُنشأ إصدار جديد 
 
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:33
-#: onedesk/public/js/deleted_document_list.js:14
+#: onedesk/public/js/one/deleted_document_list.js:14
 msgid "Restored"
 msgstr "مستعاد"
 
@@ -44088,12 +44088,12 @@ msgstr "النتائج في {0}"
 
 #: frontend/src/factory/floor/FloorSteps.vue:99
 #: frontend/src/slide/shim/PresenterView.vue:12 onedesk/one_admin/heads.py:512
-#: onedesk/one_admin/home.py:118 onedesk/public/js/timesheet.js:66
+#: onedesk/one_admin/home.py:118 onedesk/public/js/one_hr/timesheet.js:66
 msgid "Resume"
 msgstr "استئناف"
 
-#: frontend/src/task/TimerList.vue:27 onedesk/public/js/timesheet.js:6
-#: onedesk/public/js/timesheet.js:10 onedesk/public/js/timesheet.js:31
+#: frontend/src/task/TimerList.vue:27 onedesk/public/js/one_hr/timesheet.js:6
+#: onedesk/public/js/one_hr/timesheet.js:10 onedesk/public/js/one_hr/timesheet.js:31
 msgid "Resume Timer"
 msgstr ""
 
@@ -44141,8 +44141,8 @@ msgstr "شهر اشتراك للفوترة"
 #: onedesk/one_project/custom/sales_invoice_item.json:20
 #: onedesk/one_project/custom/sales_order.json:17
 #: onedesk/one_project/progress.py:206 onedesk/one_project/progress.py:257
-#: onedesk/public/js/progress.js:56 onedesk/public/js/project_actions.js:202
-#: onedesk/public/js/project_new.js:111
+#: onedesk/public/js/one_project/progress.js:56 onedesk/public/js/one_project/project_actions.js:202
+#: onedesk/public/js/one_project/project_new.js:111
 msgid "Retention"
 msgstr "المحتجز"
 
@@ -44166,8 +44166,8 @@ msgstr "مكافأة الاستبقاء"
 #: onedesk/one_project/custom/sales_invoice_item.json:31
 #: onedesk/one_project/custom/sales_order.json:29
 #: onedesk/one_project/notifications.py
-#: onedesk/public/js/project_actions.js:209
-#: onedesk/public/js/project_new.js:115
+#: onedesk/public/js/one_project/project_actions.js:209
+#: onedesk/public/js/one_project/project_new.js:115
 msgid "Retention Due"
 msgstr "موعد استحقاق المحتجز"
 
@@ -44274,8 +44274,8 @@ msgstr ""
 msgid "Return Against Purchase Invoice"
 msgstr ""
 
-#: frontend/src/project/Money.vue:8 onedesk/public/js/item_actions.js:213
-#: onedesk/public/js/item_actions.js:224
+#: frontend/src/project/Money.vue:8 onedesk/public/js/one_inventory/item_actions.js:213
+#: onedesk/public/js/one_inventory/item_actions.js:224
 msgid "Return to Store"
 msgstr "إرجاع إلى المخزن"
 
@@ -44356,7 +44356,7 @@ msgstr "ملاحظة المراجعة"
 msgid "Review an Extension"
 msgstr "مراجعة إضافة"
 
-#: onedesk/public/js/privacy_copy.js:14
+#: onedesk/public/js/trust_center/privacy_copy.js:14
 msgid "Review and Send"
 msgstr "المراجعة والإرسال"
 
@@ -44441,7 +44441,7 @@ msgstr "سحب الأرصدة المتبقية ({0})؟"
 #: onedesk/one_portal/custom/contact.json:9
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:84
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:8
-#: onedesk/public/js/credit_ledger_entry_list.js:15
+#: onedesk/public/js/one_admin/credit_ledger_entry_list.js:15
 msgid "Revoked"
 msgstr "مسحوب"
 
@@ -44513,7 +44513,7 @@ msgstr "سبب الخطر"
 #: onedesk/public/js/doctype_settings.js:271
 #: onedesk/public/js/one/access_center.js:348
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:221
-#: onedesk/public/js/project_actions.js:436
+#: onedesk/public/js/one_project/project_actions.js:436
 msgid "Role"
 msgstr "الدور"
 
@@ -44544,11 +44544,11 @@ msgstr "الأدوار والملفات"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
-#: onedesk/public/js/tenant.js:119
+#: onedesk/public/js/one_admin/tenant.js:119
 msgid "Roll Back"
 msgstr "إرجاع"
 
-#: onedesk/public/js/tenant.js:128
+#: onedesk/public/js/one_admin/tenant.js:128
 msgid "Roll Back puts the site back to this backup. What changed since is lost."
 msgstr "يُرجع الإرجاع الموقع إلى هذه النسخة. يُفقد ما تغيّر بعدها."
 
@@ -45224,8 +45224,8 @@ msgstr "السبت"
 #: onedesk/one_book/report/books_check/books_check.js:40
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:395
 #: onedesk/one_interface/shortcuts.py:26 onedesk/public/js/apps.js:68
-#: onedesk/public/js/crm_record.js:97 onedesk/public/js/lots_actions.js:53
-#: onedesk/public/js/next_step.js:27 onedesk/public/js/one/access_center.js:169
+#: onedesk/public/js/one_crm/crm_record.js:97 onedesk/public/js/one_inventory/lots_actions.js:53
+#: onedesk/public/js/one_crm/next_step.js:27 onedesk/public/js/one/access_center.js:169
 #: onedesk/public/js/one/role_matrix.js:144
 #: onedesk/public/js/one_account/account_center.js:935
 #: onedesk/public/js/one_account/account_center.js:971
@@ -45246,11 +45246,11 @@ msgstr "السبت"
 #: onedesk/public/js/one_mail/onemail_settings.js:853
 #: onedesk/public/js/one_mail/onemail_settings.js:1073
 #: onedesk/public/js/one_mail/onemail_settings.js:1345
-#: onedesk/public/js/project_actions.js:60
-#: onedesk/public/js/project_actions.js:288
-#: onedesk/public/js/project_actions.js:330
-#: onedesk/public/js/project_actions.js:452
-#: onedesk/public/js/project_actions.js:625 onedesk/public/js/reports.js:297
+#: onedesk/public/js/one_project/project_actions.js:60
+#: onedesk/public/js/one_project/project_actions.js:288
+#: onedesk/public/js/one_project/project_actions.js:330
+#: onedesk/public/js/one_project/project_actions.js:452
+#: onedesk/public/js/one_project/project_actions.js:625 onedesk/public/js/reports.js:297
 #: onedesk/public/js/shell.js:361 onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr "حفظ"
@@ -45299,7 +45299,7 @@ msgstr "حفظ كنسخة"
 #: frontend/src/doc/DocumentPage.vue:310
 #: frontend/src/doc/shim/SaveTemplateDialog.vue:3
 #: frontend/src/doc/shim/SaveTemplateDialog.vue:15
-#: onedesk/public/js/project.js:55 onedesk/public/js/project_actions.js:59
+#: onedesk/public/js/one_project/project.js:55 onedesk/public/js/one_project/project_actions.js:59
 msgid "Save as Template"
 msgstr "حفظ كقالب"
 
@@ -45320,11 +45320,11 @@ msgstr "احفظ قبل تسجيل الدخول إلى Cloudflare."
 msgid "Save the date"
 msgstr "احفظ الموعد"
 
-#: onedesk/public/js/table_workbook.js:79
+#: onedesk/public/js/one_sheet/table_workbook.js:79
 msgid "Save the record before opening its table in a workbook."
 msgstr "احفظ السجل قبل فتح جدوله في مصنف."
 
-#: onedesk/public/js/text_writer.js:8
+#: onedesk/public/js/one_doc/text_writer.js:8
 msgid "Save the record before opening its text in a document."
 msgstr "احفظ السجل قبل فتح نصه في مستند."
 
@@ -45436,7 +45436,7 @@ msgstr "الحفظ يحدّث كل من لديه هذا الملف."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:61
 #: frontend/src/slide/shim/EditorNavbar.vue:89
-#: frontend/src/doc/DocumentPage.vue:201 onedesk/public/js/hiring.js:215
+#: frontend/src/doc/DocumentPage.vue:201 onedesk/public/js/one_hr/hiring.js:215
 msgid "Saving…"
 msgstr "جارٍ الحفظ…"
 
@@ -45568,7 +45568,7 @@ msgstr "مبعثر"
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
 #: onedesk/one_inventory/print_format/one_asset_shift_allocation/one_asset_shift_allocation.json
 #: onedesk/one_studio/doctype/extension/extension.json:101
-#: onedesk/public/js/project.js:33
+#: onedesk/public/js/one_project/project.js:33
 msgid "Schedule"
 msgstr "الجدول الزمني"
 
@@ -46105,7 +46105,7 @@ msgstr "التقييم الذاتي"
 #: frontend/src/crm/CrmStory.vue:9 onedesk/one_crm/home.py:23
 #: onedesk/one_crm/home.py:32 onedesk/one_crm/home.py:66
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json:112
-#: onedesk/public/js/item_new.js:92
+#: onedesk/public/js/one_inventory/item_new.js:92
 msgid "Selling"
 msgstr "البيع"
 
@@ -46114,7 +46114,7 @@ msgstr "البيع"
 msgid "Selling Overview"
 msgstr "نظرة عامة على المبيعات"
 
-#: onedesk/public/js/item_new.js:94
+#: onedesk/public/js/one_inventory/item_new.js:94
 msgid "Selling Price"
 msgstr "سعر البيع"
 
@@ -46144,7 +46144,7 @@ msgstr "فاصلة منقوطة"
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:422
 #: onedesk/public/js/one_mail/onemail_settings.js:664
 #: onedesk/public/js/one_mail/onemail_settings.js:1248
-#: onedesk/public/js/privacy_copy.js:47 onedesk/www/r.html:65
+#: onedesk/public/js/trust_center/privacy_copy.js:47 onedesk/www/r.html:65
 #: onedesk/www/s.html:107
 msgid "Send"
 msgstr "إرسال"
@@ -46355,7 +46355,7 @@ msgstr "الحساسية"
 #: onedesk/one_inventory/portal.py:35 onedesk/one_inventory/portal.py:84
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:54
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:428
-#: onedesk/public/js/privacy_copy_list.js:9
+#: onedesk/public/js/trust_center/privacy_copy_list.js:9
 msgid "Sent"
 msgstr "المرسلة"
 
@@ -46410,15 +46410,15 @@ msgstr "يُرسل إلى شركة أخرى فقط بعد أن يشغّله مس
 msgid "Sent to anyone who emails you while you're on leave. Leave empty for the standard message."
 msgstr "يُرسل لكل من يراسلك أثناء إجازتك. اتركه فارغاً للرسالة المعتادة."
 
-#: onedesk/public/js/privacy_copy.js:41
+#: onedesk/public/js/trust_center/privacy_copy.js:41
 #, python-brace-format
 msgid "Sent to {0}."
 msgstr "يُرسل إلى {0}."
 
-#: onedesk/public/js/privacy_request.js:30
+#: onedesk/public/js/trust_center/privacy_request.js:30
 #, python-brace-format
-msgid "Sent to {0}. For example, payroll for the month has to close first."
-msgstr "يُرسل إلى {0}. مثلًا، يجب إغلاق رواتب الشهر أولًا."
+msgid "What {0} is told, such as that payroll for the month has to close first."
+msgstr "ما يُبلَّغ به {0}، مثل أن رواتب الشهر يجب أن تُغلق أولًا."
 
 #: onedesk/www/s.py:40
 #, python-brace-format
@@ -46439,7 +46439,7 @@ msgstr "أُرسل {0} إلى المقاول من الباطن"
 msgid "Sent."
 msgstr "تم الإرسال."
 
-#: onedesk/public/js/privacy_copy.js:9
+#: onedesk/public/js/trust_center/privacy_copy.js:9
 #, python-brace-format
 msgid "Sent. {0} can download it from their profile."
 msgstr "تم الإرسال. يمكن لـ {0} تنزيلها من ملفه الشخصي."
@@ -46512,7 +46512,7 @@ msgid "Serial No Ledger"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:116
-#: onedesk/public/js/lots_actions.js:48
+#: onedesk/public/js/one_inventory/lots_actions.js:48
 msgid "Serial Number Series"
 msgstr ""
 
@@ -46681,7 +46681,7 @@ msgstr "لا تستطيع الخوادم قراءة الشيفرة"
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/public/js/item_new.js:5
+#: onedesk/public/js/one_inventory/item_new.js:5
 msgid "Service"
 msgstr "خدمة"
 
@@ -46804,7 +46804,7 @@ msgstr "تعيين قيمة حقل"
 msgid "Set New Mail to Not Read? {0} will stop running."
 msgstr "ضبط البريد الجديد على لا يُقرأ؟ ستتوقف {0} عن العمل."
 
-#: onedesk/public/js/next_step.js:11 onedesk/public/js/next_step.js:17
+#: onedesk/public/js/one_crm/next_step.js:11 onedesk/public/js/one_crm/next_step.js:17
 msgid "Set Next Step"
 msgstr "تحديد الخطوة التالية"
 
@@ -46943,7 +46943,7 @@ msgstr "أعد إعداده في المرة القادمة التي تسجّل �
 msgid "Set on the company: {0}."
 msgstr "حدّدها في الشركة: {0}."
 
-#: onedesk/public/js/offering.js:29
+#: onedesk/public/js/one_admin/offering.js:29
 msgid "Set only what this add-on adds."
 msgstr "حدّد فقط ما تضيفه هذه الإضافة."
 
@@ -47214,7 +47214,7 @@ msgstr "نسبة الفحوصات الفاشلة"
 
 #. Description of the 'Bill on Completion' (Percent) field in DocType 'Task'
 #: onedesk/one_project/custom/task.json:13
-#: onedesk/public/js/project_actions.js:583
+#: onedesk/public/js/one_project/project_actions.js:583
 msgid "Share of the contract"
 msgstr "حصة من العقد"
 
@@ -47226,8 +47226,8 @@ msgstr "حصة من العقد"
 #: onedesk/one_project/custom/project_template.json:108
 #: onedesk/one_project/custom/purchase_order.json:38
 #: onedesk/one_project/custom/sales_order.json:49
-#: onedesk/public/js/project_actions.js:218
-#: onedesk/public/js/project_new.js:123
+#: onedesk/public/js/one_project/project_actions.js:218
+#: onedesk/public/js/one_project/project_new.js:123
 msgid "Share of the retention"
 msgstr "حصة من المحتجز"
 
@@ -47350,7 +47350,7 @@ msgid "Sheets"
 msgstr "الأوراق"
 
 #: frontend/src/inventory/item/ItemStock.vue:114
-#: onedesk/public/js/lots_actions.js:41
+#: onedesk/public/js/one_inventory/lots_actions.js:41
 msgid "Shelf Life In Days"
 msgstr ""
 
@@ -47589,11 +47589,11 @@ msgstr "عرض الكل"
 msgid "Show Announcements"
 msgstr "عرض الإعلانات"
 
-#: onedesk/public/js/project_tree.js:8
+#: onedesk/public/js/one_project/project_tree.js:8
 msgid "Show Completed"
 msgstr "إظهار المكتملة"
 
-#: onedesk/public/js/project.js:109
+#: onedesk/public/js/one_project/project.js:109
 msgid "Show Completed Tasks"
 msgstr "إظهار المهام المكتملة"
 
@@ -47792,7 +47792,7 @@ msgid "Show {0} more"
 msgstr "عرض {0} إضافية"
 
 #. Option for the 'Status' (Select) field in DocType 'Note'
-#: onedesk/one/custom/note.json:8 onedesk/public/js/note_list.js:9
+#: onedesk/one/custom/note.json:8 onedesk/public/js/one/note_list.js:9
 msgid "Showing"
 msgstr "معروض"
 
@@ -47923,7 +47923,7 @@ msgstr "تسجيل الدخول"
 msgid "Sign In to Cloudflare"
 msgstr "تسجيل الدخول إلى Cloudflare"
 
-#: onedesk/public/js/passkey.js:120
+#: onedesk/public/js/one_hr/passkey.js:120
 msgid "Sign In with a Passkey"
 msgstr "تسجيل الدخول بمفتاح مرور"
 
@@ -47977,7 +47977,7 @@ msgstr "تسجيل الدخول إلى حسابك في One"
 msgid "Sign in to your One account first."
 msgstr "سجّل الدخول إلى حسابك في One أولًا."
 
-#: onedesk/public/js/login.js:55
+#: onedesk/public/js/one_hr/login.js:55
 msgid "Sign in with a Passkey"
 msgstr "تسجيل الدخول بمفتاح المرور"
 
@@ -48051,7 +48051,7 @@ msgstr "روابط تسجيل الدخول والاشتراكات والإشعا
 msgid "Sign-in, invitations and every link in mail now use it."
 msgstr "يستخدمه الآن تسجيل الدخول والدعوات وكل رابط في البريد."
 
-#: onedesk/public/js/audit_list.js:26
+#: onedesk/public/js/one/audit_list.js:26
 #: onedesk/public/js/one/access_center.js:210
 msgid "Sign-ins"
 msgstr "تسجيلات الدخول"
@@ -48226,7 +48226,7 @@ msgstr "جانب واحد"
 #: onedesk/one_admin/doctype/tenant/tenant.json:210
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:113
 #: onedesk/one_project/custom/project.json:106
-#: onedesk/public/js/project_new.js:163
+#: onedesk/public/js/one_project/project_new.js:163
 msgid "Site"
 msgstr "الموقع"
 
@@ -48452,7 +48452,7 @@ msgstr "ستة أماكن لشعارات رعاتك."
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json:52
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:63
-#: onedesk/public/js/table_workbook.js:39
+#: onedesk/public/js/one_sheet/table_workbook.js:39
 msgid "Size"
 msgstr "الحجم"
 
@@ -48528,7 +48528,7 @@ msgstr "وحدة المقاس"
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr "لا يمكن كتابة المقاسات بوحدة {0}. اختر وحدة طول: مليمتر، سنتيمتر، بوصة."
 
-#: onedesk/one_inventory/manifest.py:83 onedesk/public/js/item_new.js:7
+#: onedesk/one_inventory/manifest.py:83 onedesk/public/js/one_inventory/item_new.js:7
 msgid "Sizes or Colours"
 msgstr "مقاسات أو ألوان"
 
@@ -48876,7 +48876,7 @@ msgstr "بيع بسعر {0} إلى {1} في {2}"
 #: onedesk/one_inventory/custom/stock_entry_detail.json:6
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:6
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:6
-#: onedesk/public/js/item_new.js:47
+#: onedesk/public/js/one_inventory/item_new.js:47
 msgid "Sold by Size"
 msgstr "يُباع بالمقاس"
 
@@ -48885,7 +48885,7 @@ msgstr "يُباع بالمقاس"
 msgid "Sold on {0}."
 msgstr "بيع في {0}."
 
-#: onedesk/public/js/item_new.js:93
+#: onedesk/public/js/one_inventory/item_new.js:93
 msgid "Sold to Customers"
 msgstr "يُباع للعملاء"
 
@@ -48900,7 +48900,7 @@ msgstr "بِيع {0}"
 msgid "Solid"
 msgstr ""
 
-#: onedesk/public/js/overtime_slip.js:72
+#: onedesk/public/js/one_hr/overtime_slip.js:72
 msgid "Some Days Were Trimmed"
 msgstr "اقتُطعت بعض الأيام"
 
@@ -49246,7 +49246,7 @@ msgstr "الإنفاق"
 #: onedesk/one_ai/report/spending/spending.py:32
 #: onedesk/one_hr/print_format/one_employee_advance/one_employee_advance.json
 #: onedesk/one_hr/print_format/one_employee_tax_exemption_proof_submission/one_employee_tax_exemption_proof_submission.json
-#: onedesk/public/js/credit_ledger_entry_list.js:16
+#: onedesk/public/js/one_admin/credit_ledger_entry_list.js:16
 msgid "Spent"
 msgstr "مُنفَق"
 
@@ -49314,7 +49314,7 @@ msgstr "جدول بيانات"
 msgid "Square"
 msgstr "مربع"
 
-#: onedesk/public/js/item_new.js:67
+#: onedesk/public/js/one_inventory/item_new.js:67
 msgid "Square Metres in One Unit"
 msgstr "عدد الأمتار المربعة في الوحدة"
 
@@ -49441,8 +49441,8 @@ msgstr "المميّزة بنجمة"
 #: frontend/src/admin/AdminSessions.vue:107
 #: frontend/src/factory/floor/FloorSteps.vue:97
 #: frontend/src/slide/composables/useShortcuts.js:475
-#: onedesk/one_deck/decks.py:225 onedesk/public/js/floor_actions.js:29
-#: onedesk/public/js/timesheet.js:66
+#: onedesk/one_deck/decks.py:225 onedesk/public/js/one_factory/floor_actions.js:29
+#: onedesk/public/js/one_hr/timesheet.js:66
 msgid "Start"
 msgstr ""
 
@@ -49456,7 +49456,7 @@ msgid "Start Date"
 msgstr "تاريخ البدء"
 
 #: onedesk/public/js/doctype_settings.js:709
-#: onedesk/public/js/table_workbook.js:53
+#: onedesk/public/js/one_sheet/table_workbook.js:53
 msgid "Start From"
 msgstr "البدء من"
 
@@ -49471,9 +49471,9 @@ msgstr "بدء الجلسة"
 
 #: onedesk/public/js/one_task/task_kanban.js:87
 #: onedesk/public/js/one_task/task_kanban.js:101
-#: onedesk/public/js/one_task/task_kanban.js:109 onedesk/public/js/task.js:8
-#: onedesk/public/js/timesheet.js:5 onedesk/public/js/timesheet.js:10
-#: onedesk/public/js/timesheet.js:31
+#: onedesk/public/js/one_task/task_kanban.js:109 onedesk/public/js/one_task/task.js:8
+#: onedesk/public/js/one_hr/timesheet.js:5 onedesk/public/js/one_hr/timesheet.js:10
+#: onedesk/public/js/one_hr/timesheet.js:31
 msgid "Start Timer"
 msgstr "تشغيل المؤقت"
 
@@ -49522,7 +49522,7 @@ msgstr "ابدأ من أحد هذه، وغيّر ما تشاء."
 msgid "Start one from a task with its play button. It keeps running when you leave the page."
 msgstr "ابدأ واحدًا من مهمة بزر التشغيل. يبقى يعمل حين تغادر الصفحة."
 
-#: onedesk/public/js/hiring.js:48
+#: onedesk/public/js/one_hr/hiring.js:48
 msgid "Start recording"
 msgstr "بدء التسجيل"
 
@@ -49530,7 +49530,7 @@ msgstr "بدء التسجيل"
 msgid "Start thinking..."
 msgstr "ابدأ الكتابة..."
 
-#: onedesk/public/js/floor_actions.js:16
+#: onedesk/public/js/one_factory/floor_actions.js:16
 #, python-brace-format
 msgid "Start {0}"
 msgstr "بدء {0}"
@@ -49544,7 +49544,7 @@ msgstr "بدء بريد {0} بـ {1}"
 msgid "Started"
 msgstr "بدأ"
 
-#: onedesk/public/js/floor_actions.js:18
+#: onedesk/public/js/one_factory/floor_actions.js:18
 msgid "Started At"
 msgstr "بدأ في"
 
@@ -49592,7 +49592,7 @@ msgstr "يبدأ قريبًا"
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_production_plan/one_production_plan.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_project/ai.py:956 onedesk/public/js/project_actions.js:70
+#: onedesk/one_project/ai.py:956 onedesk/public/js/one_project/project_actions.js:70
 msgid "Starts"
 msgstr "يبدأ"
 
@@ -50213,8 +50213,8 @@ msgstr "قيمة المخزون مقابل الحسابات."
 msgid "Stock, Buying and Equipment"
 msgstr "المخزون والمشتريات والمعدات"
 
-#: frontend/src/admin/AdminSessions.vue:106 onedesk/public/js/hiring.js:260
-#: onedesk/public/js/project_actions.js:325
+#: frontend/src/admin/AdminSessions.vue:106 onedesk/public/js/one_hr/hiring.js:260
+#: onedesk/public/js/one_project/project_actions.js:325
 msgid "Stop"
 msgstr "إيقاف"
 
@@ -50241,7 +50241,7 @@ msgstr "إيقاف العرض المباشر"
 msgid "Stop Reason"
 msgstr ""
 
-#: onedesk/public/js/task.js:20 onedesk/public/js/task.js:25
+#: onedesk/public/js/one_task/task.js:20 onedesk/public/js/one_task/task.js:25
 msgid "Stop Repeating"
 msgstr "إيقاف التكرار"
 
@@ -50255,7 +50255,7 @@ msgstr "إيقاف الجلسة"
 msgid "Stop Sharing {0} with {1}"
 msgstr "إيقاف مشاركة {0} مع {1}"
 
-#: onedesk/public/js/note.js:12 onedesk/public/js/note_list.js:14
+#: onedesk/public/js/one/note.js:12 onedesk/public/js/one/note_list.js:14
 msgid "Stop Showing"
 msgstr "إيقاف العرض"
 
@@ -50266,7 +50266,7 @@ msgstr "إيقاف العرض"
 msgid "Stop Timer"
 msgstr "إيقاف المؤقت"
 
-#: onedesk/public/js/task.js:8
+#: onedesk/public/js/one_task/task.js:8
 #, python-brace-format
 msgid "Stop Timer (since {0})"
 msgstr "إيقاف المؤقت (منذ {0})"
@@ -50284,7 +50284,7 @@ msgstr "التوقف عن السؤال عن هذا الحقل"
 msgid "Stop listening"
 msgstr "إيقاف الاستماع"
 
-#: onedesk/public/js/task.js:23
+#: onedesk/public/js/one_task/task.js:23
 #, python-brace-format
 msgid "Stop repeating {0}?"
 msgstr "إيقاف تكرار {0}؟"
@@ -50897,7 +50897,7 @@ msgstr "تاريخ التلخيص"
 #: onedesk/one_hr/print_format/one_interview/one_interview.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:67
 #: onedesk/one_studio/doctype/extension/extension.json:35
-#: onedesk/public/js/crm_record.js:95
+#: onedesk/public/js/one_crm/crm_record.js:95
 msgid "Summary"
 msgstr "الملخص"
 
@@ -50966,8 +50966,8 @@ msgstr "المشرف"
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:216
 #: onedesk/one_project/doctype/project_contact/project_contact.json:22
 #: onedesk/one_project/doctype/project_contact/project_contact.json:30
-#: onedesk/one_studio/print_blocks.py:112 onedesk/public/js/lots_actions.js:104
-#: onedesk/public/js/project_actions.js:441
+#: onedesk/one_studio/print_blocks.py:112 onedesk/public/js/one_inventory/lots_actions.js:104
+#: onedesk/public/js/one_project/project_actions.js:441
 msgid "Supplier"
 msgstr "المورّد"
 
@@ -51013,7 +51013,7 @@ msgstr "رقم قطعة المورد {0}"
 #. Label in the One Supplier Quotation print format
 #: onedesk/one_inventory/home.py:109
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/public/js/opportunity.js:14
+#: onedesk/public/js/one_crm/opportunity.js:14
 msgid "Supplier Quotation"
 msgstr "عرض سعر المورد"
 
@@ -51065,7 +51065,7 @@ msgstr "رقم عرض سعر المورد"
 #: frontend/src/project/Overview.vue:71 frontend/src/project/Suppliers.vue:5
 #: onedesk/one_inventory/story.py:425
 #: onedesk/one_project/custom/project.json:255 onedesk/one_project/tree.py:199
-#: onedesk/public/js/quotes_actions.js:29
+#: onedesk/public/js/one_inventory/quotes_actions.js:29
 msgid "Suppliers"
 msgstr "الموردون"
 
@@ -51168,11 +51168,11 @@ msgstr "إيقاف {0} متوقف"
 msgid "Swap"
 msgstr "ذاكرة التبديل"
 
-#: onedesk/public/js/calendar_link.js:25
+#: onedesk/public/js/one_calendar/calendar_link.js:25
 msgid "Switch Off"
 msgstr "إيقاف"
 
-#: onedesk/public/js/calendar_link.js:45
+#: onedesk/public/js/one_calendar/calendar_link.js:45
 msgid "Switch off the link? Calendars that use it stop updating."
 msgstr "إيقاف الرابط؟ ستتوقف التقويمات التي تستخدمه عن التحديث."
 
@@ -51425,8 +51425,8 @@ msgstr ""
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_task/ai.py:295 onedesk/one_task/sidebar/onetask/onetask.json:48
 #: onedesk/public/js/one_mail/rule_builder.js:652
-#: onedesk/public/js/project_actions.js:364 onedesk/public/js/task_new.js:10
-#: onedesk/public/js/timesheet.js:41
+#: onedesk/public/js/one_project/project_actions.js:364 onedesk/public/js/one_task/task_new.js:10
+#: onedesk/public/js/one_hr/timesheet.js:41
 msgid "Task"
 msgstr "المهمة"
 
@@ -51957,14 +51957,14 @@ msgstr "إبلاغ {0}"
 #: frontend/src/sheet/components/SheetEditor/index.vue:1960
 #: onedesk/one_project/ai.py:958 onedesk/one_task/custom/task.json:87
 #: onedesk/public/js/doctype_settings.js:137
-#: onedesk/public/js/project_actions.js:68 onedesk/public/js/project_new.js:73
-#: onedesk/public/js/project_template_list.js:12
-#: onedesk/public/js/table_workbook.js:29
+#: onedesk/public/js/one_project/project_actions.js:68 onedesk/public/js/one_project/project_new.js:73
+#: onedesk/public/js/one_project/project_template_list.js:12
+#: onedesk/public/js/one_sheet/table_workbook.js:29
 msgid "Template"
 msgstr "قالب"
 
 #: frontend/src/slide/shim/EditorNavbar.vue:310
-#: onedesk/public/js/project_actions.js:50
+#: onedesk/public/js/one_project/project_actions.js:50
 msgid "Template Name"
 msgstr "اسم القالب"
 
@@ -52140,7 +52140,7 @@ msgstr "الشروط"
 #. Label of the one_terms (Link) field in DocType 'Project Template'
 #: onedesk/one_crm/home.py:169 onedesk/one_project/custom/project.json:160
 #: onedesk/one_project/custom/project_template.json:75
-#: onedesk/public/js/project_actions.js:234 onedesk/public/js/project_new.js:95
+#: onedesk/public/js/one_project/project_actions.js:234 onedesk/public/js/one_project/project_new.js:95
 msgid "Terms and Conditions"
 msgstr ""
 
@@ -52430,7 +52430,7 @@ msgstr "هذه الخطة لم تعد معروضة. ابدأ من جديد."
 msgid "That rule is not in this mailbox."
 msgstr "هذه القاعدة ليست في صندوق البريد هذا."
 
-#: onedesk/public/js/hiring.js:80
+#: onedesk/public/js/one_hr/hiring.js:80
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr "لم تشارك علامة التبويب أي صوت، لذا يُسجَّل الميكروفون فقط."
 
@@ -52858,7 +52858,7 @@ msgstr "لا يحتوي دليل الحسابات على حساب حقوق مل�
 msgid "The chart of accounts has no group for bank accounts. Add one under Current Assets with the type Bank."
 msgstr "لا يحتوي دليل الحسابات على مجموعة للحسابات البنكية. أضف واحدة تحت الأصول المتداولة بنوع بنك."
 
-#: onedesk/public/js/floor_actions.js:125
+#: onedesk/public/js/one_factory/floor_actions.js:125
 msgid "The check was rejected, so the operation stays open."
 msgstr "رُفض الفحص، لذا تبقى العملية مفتوحة."
 
@@ -54030,7 +54030,7 @@ msgstr "مدير المشروع، ما لم يكن هو من حفظها"
 msgid "The project's people"
 msgstr "فريق المشروع"
 
-#: onedesk/public/js/quotes_actions.js:16
+#: onedesk/public/js/one_inventory/quotes_actions.js:16
 msgid "The project's requests still to order"
 msgstr "طلبات المشروع التي لم تُطلب بعد"
 
@@ -54448,10 +54448,10 @@ msgstr "كلمتا المرور غير متطابقتين."
 msgid "The upload failed. Try again."
 msgstr "فشل الرفع. حاول مرة أخرى."
 
-#: onedesk/public/js/lists.js:50
+#: onedesk/public/js/one/lists.js:50
 #, python-brace-format
-msgid "The values {0}'s records pick from. Each opens as its own list."
-msgstr "القيم التي تختار منها سجلات {0}. تُفتح كل منها قائمةً مستقلة."
+msgid "The values {0}'s records pick from, each opening as its own list."
+msgstr "القيم التي تختار منها سجلات {0}، وتُفتح كل منها قائمةً مستقلة."
 
 #. Description of the 'Editor Would Drop For' (Data) field in DocType 'File'
 #: onedesk/one_cloud/custom/file.json:187
@@ -54937,7 +54937,7 @@ msgstr "لا يوجد سعر صرف من {0} إلى {1}. أضفه في تصري�
 msgid "These automations failed: {automations}. Open each run to see the step that stopped."
 msgstr "فشلت هذه العمليات: {automations}. افتح كل تشغيل لترى الخطوة التي توقفت."
 
-#: onedesk/public/js/overtime_slip.js:73
+#: onedesk/public/js/one_hr/overtime_slip.js:73
 msgid "These days go past the overtime type's daily maximum. Only the hours up to it are paid."
 msgstr "تتجاوز هذه الأيام الحد اليومي الأقصى لنوع العمل الإضافي. ولا يُدفع إلا حتى ذلك الحد."
 
@@ -55107,7 +55107,7 @@ msgstr "هذا الحساب لا يخص شخصاً."
 msgid "This attempt was already reviewed."
 msgstr "سبق أن روجعت هذه المحاولة."
 
-#: onedesk/public/js/hiring.js:28
+#: onedesk/public/js/one_hr/hiring.js:28
 msgid "This browser cannot record sound."
 msgstr "لا يستطيع هذا المتصفح تسجيل الصوت."
 
@@ -55366,7 +55366,7 @@ msgstr "هذا الرابط لم يعد يعمل"
 msgid "This link no longer works. Ask whoever sent it for a new one."
 msgstr "لم يعد هذا الرابط يعمل. اطلب رابطاً جديداً ممن أرسله."
 
-#: onedesk/public/js/crm_record.js:37
+#: onedesk/public/js/one_crm/crm_record.js:37
 #, python-brace-format
 msgid "This may be {0} {1}: the same {2}."
 msgstr "قد يكون هذا {0} {1}: نفس {2}."
@@ -55824,7 +55824,7 @@ msgstr "حدّد المسودات الجاهزة لتقديمها"
 msgid "Ticked when the timer finished this block, or by hand. An unticked row with no To Time is the one the timer resumes."
 msgstr "يُؤشَّر عليه عندما ينهي المؤقّت هذه المدة، أو يدوياً. والصف غير المؤشَّر عليه وبلا وقت انتهاء هو ما يستأنفه المؤقّت."
 
-#: onedesk/public/js/attendance_tool.js:39
+#: onedesk/public/js/one_hr/attendance_tool.js:39
 #, python-brace-format
 msgid "Ticked {0} of {1}"
 msgstr "تم تحديد {0} من {1}"
@@ -55938,7 +55938,7 @@ msgstr "نقطة البيع"
 #: onedesk/one_project/portal.py:206
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/one_project/tell.py:344 onedesk/public/js/project_new.js:151
+#: onedesk/one_project/tell.py:344 onedesk/public/js/one_project/project_new.js:151
 msgid "Time"
 msgstr "الوقت"
 
@@ -55957,7 +55957,7 @@ msgstr "الوقت المفوتر"
 
 #. Label of the one_time_budget (Currency) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json:170
-#: onedesk/public/js/project_actions.js:285
+#: onedesk/public/js/one_project/project_actions.js:285
 msgid "Time Budget"
 msgstr "ميزانية الوقت"
 
@@ -56019,7 +56019,7 @@ msgstr "الوقت والمواد"
 msgid "Time in Sales Stage"
 msgstr "المدة في مرحلة المبيعات"
 
-#: onedesk/public/js/project_actions.js:397
+#: onedesk/public/js/one_project/project_actions.js:397
 msgid "Time logged"
 msgstr "تم تسجيل الوقت"
 
@@ -56113,7 +56113,7 @@ msgstr "رقم سجل الدوام"
 #. Option for the 'Count Time By' (Select) field in DocType 'Projects Settings'
 #: onedesk/one_project/custom/project.json:98
 #: onedesk/one_project/custom/projects_settings.json:44
-#: onedesk/public/js/project_new.js:153
+#: onedesk/public/js/one_project/project_new.js:153
 msgid "Timesheets"
 msgstr "سجلات الدوام"
 
@@ -56271,8 +56271,8 @@ msgstr "مُسمّاة"
 #: onedesk/one_mail/flow.py:284
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/ai_setup.py:412 onedesk/one_studio/print_blocks.py:63
-#: onedesk/one_studio/print_blocks.py:77 onedesk/public/js/item_actions.js:119
-#: onedesk/public/js/item_actions.js:218
+#: onedesk/one_studio/print_blocks.py:77 onedesk/public/js/one_inventory/item_actions.js:119
+#: onedesk/public/js/one_inventory/item_actions.js:218
 #: onedesk/public/js/trust_center/trust_center.js:287
 #: onedesk/public/js/one_mail/mail_compose.js:181
 msgid "To"
@@ -56899,7 +56899,7 @@ msgstr "الإجماليات بالحروف"
 msgid "Town Hall"
 msgstr "الاجتماع العام"
 
-#: onedesk/public/js/lots_actions.js:5
+#: onedesk/public/js/one_inventory/lots_actions.js:5
 msgid "Track Batches"
 msgstr "تتبع الدفعات"
 
@@ -56907,7 +56907,7 @@ msgstr "تتبع الدفعات"
 msgid "Track by Batch or Serial No"
 msgstr "التتبع بالدفعة أو الرقم التسلسلي"
 
-#: onedesk/public/js/lots_actions.js:20
+#: onedesk/public/js/one_inventory/lots_actions.js:20
 msgid "Tracking"
 msgstr "التتبع"
 
@@ -57110,7 +57110,7 @@ msgstr "طلب تحويل"
 
 #: frontend/src/inventory/item/ItemPlaces.vue:72
 #: frontend/src/inventory/stock/StockOnHand.vue:166
-#: onedesk/public/js/item_actions.js:114 onedesk/public/js/item_actions.js:138
+#: onedesk/public/js/one_inventory/item_actions.js:114 onedesk/public/js/one_inventory/item_actions.js:138
 #: onedesk/public/js/one_inventory/item.js:28
 msgid "Transfer Stock"
 msgstr "نقل المخزون"
@@ -57691,11 +57691,11 @@ msgstr ""
 msgid "Unclaimed Leads"
 msgstr "عملاء محتملون بلا مسؤول"
 
-#: onedesk/public/js/privacy_request_list.js:7
+#: onedesk/public/js/trust_center/privacy_request_list.js:7
 msgid "Unconfirmed"
 msgstr "غير مؤكد"
 
-#: onedesk/public/js/task_timer.js:7
+#: onedesk/public/js/one_task/task_timer.js:7
 msgid "Under a minute. Nothing added."
 msgstr "أقل من دقيقة. لم يُضف شيء."
 
@@ -57840,8 +57840,8 @@ msgstr "مفتاح فريد يمنع تنفيذ الإجراء نفسه مرتي
 #: onedesk/one_inventory/print_format/one_stock_reservation_entry/one_stock_reservation_entry.json
 #: onedesk/public/js/doctype_settings.js:538
 #: onedesk/public/js/doctype_settings.js:550
-#: onedesk/public/js/item_actions.js:208 onedesk/public/js/item_new.js:43
-#: onedesk/public/js/item_new.js:138 onedesk/public/js/item_new.js:273
+#: onedesk/public/js/one_inventory/item_actions.js:208 onedesk/public/js/one_inventory/item_new.js:43
+#: onedesk/public/js/one_inventory/item_new.js:138 onedesk/public/js/one_inventory/item_new.js:273
 msgid "Unit"
 msgstr "الوحدة"
 
@@ -58088,7 +58088,7 @@ msgstr "بلا عنوان"
 
 #: frontend/src/doc/DocumentPage.vue:266
 #: frontend/src/doc/components/CoreEditor.vue:369 onedesk/one_doc/api.py:81
-#: onedesk/public/js/workbooks.js:17
+#: onedesk/public/js/one_sheet/workbooks.js:17
 msgid "Untitled Document"
 msgstr "مستند بلا عنوان"
 
@@ -58112,7 +58112,7 @@ msgstr "جدول بلا عنوان"
 msgid "Untitled Template"
 msgstr "قالب بلا عنوان"
 
-#: onedesk/one_sheet/api.py:60 onedesk/public/js/workbooks.js:16
+#: onedesk/one_sheet/api.py:60 onedesk/public/js/one_sheet/workbooks.js:16
 msgid "Untitled Workbook"
 msgstr "مصنف بلا عنوان"
 
@@ -58161,7 +58161,7 @@ msgstr "حتى 30 يومًا"
 msgid "Up to fifty percent off selected items"
 msgstr "خصم حتى خمسين بالمئة على منتجات مختارة"
 
-#: onedesk/public/js/item_actions.js:58
+#: onedesk/public/js/one_inventory/item_actions.js:58
 #, python-brace-format
 msgid "Up to {0}"
 msgstr "حتى {0}"
@@ -58212,7 +58212,7 @@ msgstr "رقم التحديث"
 
 #: onedesk/public/js/one_account/account_center.js:950
 #: onedesk/public/js/one_account/account_center.js:979
-#: onedesk/public/js/tenant.js:28
+#: onedesk/public/js/one_admin/tenant.js:28
 msgid "Update Now"
 msgstr "التحديث الآن"
 
@@ -58242,7 +58242,7 @@ msgid "Update pivot"
 msgstr "تحديث الجدول المحوري"
 
 #: onedesk/public/js/one_account/account_center.js:983
-#: onedesk/public/js/tenant.js:30
+#: onedesk/public/js/one_admin/tenant.js:30
 msgid "Update started."
 msgstr "بدأ التحديث."
 
@@ -58298,7 +58298,7 @@ msgstr "رفع خط"
 msgid "Upload a font file of your own. Everyone in the workspace can use it."
 msgstr "ارفع ملف خط خاصاً بك. يمكن لكل من في مساحة العمل استخدامه."
 
-#: onedesk/public/js/item_new.js:257
+#: onedesk/public/js/one_inventory/item_new.js:257
 msgid "Upload a list or paste one."
 msgstr "ارفع قائمة أو الصقها."
 
@@ -58577,7 +58577,7 @@ msgstr "استُخدم {0} في {1}"
 #: onedesk/public/js/one/access_center.js:300
 #: onedesk/public/js/one/access_center.js:359
 #: onedesk/public/js/one_mail/onemail_settings.js:1001
-#: onedesk/public/js/project_actions.js:411
+#: onedesk/public/js/one_project/project_actions.js:411
 msgid "User"
 msgstr "المستخدم"
 
@@ -58621,7 +58621,7 @@ msgstr "قصص المستخدم"
 #: onedesk/public/js/one_mail/onemail_settings.js:586
 #: onedesk/public/js/one_mail/onemail_settings.js:588
 #: onedesk/public/js/one_mail/onemail_settings.js:594
-#: onedesk/public/js/project_actions.js:660
+#: onedesk/public/js/one_project/project_actions.js:660
 msgid "Users"
 msgstr ""
 
@@ -58646,7 +58646,7 @@ msgstr "يستخدم الرمز الشخصي"
 msgid "Usual Days"
 msgstr "المدة المعتادة بالأيام"
 
-#: onedesk/public/js/item_new.js:98
+#: onedesk/public/js/one_inventory/item_new.js:98
 msgid "Usual Supplier"
 msgstr "المورد المعتاد"
 
@@ -58663,7 +58663,7 @@ msgstr "تقرير تدقيق ضريبة القيمة المضافة"
 #. Label of the vat_id (Data) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/identifier/identifier.json:23
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:82
-#: onedesk/one_ai/reading/panel.py:123 onedesk/public/js/crm_record.js:31
+#: onedesk/one_ai/reading/panel.py:123 onedesk/public/js/one_crm/crm_record.js:31
 msgid "VAT ID"
 msgstr "رقم ضريبة القيمة المضافة"
 
@@ -58948,15 +58948,15 @@ msgstr "فيديو بواسطة OneAI…"
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:100
 #: onedesk/one_inventory/portal.py:110
 #: onedesk/one_studio/doctype/extension/extension.json:77
-#: onedesk/public/js/account_tree.js:14
+#: onedesk/public/js/one_book/account_tree.js:14
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:37
 #: onedesk/public/js/one_interface/frame.js:798
-#: onedesk/public/js/one_interface/look.js:774 onedesk/public/js/project.js:27
-#: onedesk/public/js/project.js:32 onedesk/www/account_invoices.html:39
+#: onedesk/public/js/one_interface/look.js:774 onedesk/public/js/one_project/project.js:27
+#: onedesk/public/js/one_project/project.js:32 onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr "عرض"
 
-#: onedesk/public/js/offering.js:16
+#: onedesk/public/js/one_admin/offering.js:16
 msgid "View Item"
 msgstr "عرض الصنف"
 
@@ -58972,7 +58972,7 @@ msgstr "عرض للقراءة فقط"
 msgid "View Signup Page"
 msgstr "عرض صفحة التسجيل"
 
-#: onedesk/public/js/offering.js:8
+#: onedesk/public/js/one_admin/offering.js:8
 msgid "View Workspaces"
 msgstr "عرض مساحات العمل"
 
@@ -59090,7 +59090,7 @@ msgstr "ملغاة"
 #. Label of the volume (Percent) field in DocType 'Music Playlist'
 #. Option for the 'Sold by Size' (Select) field in DocType 'Item'
 #: onedesk/one_display/doctype/music_playlist/music_playlist.json:22
-#: onedesk/one_inventory/custom/item.json:8 onedesk/public/js/item_new.js:52
+#: onedesk/one_inventory/custom/item.json:8 onedesk/public/js/one_inventory/item_new.js:52
 msgid "Volume"
 msgstr "الحجم"
 
@@ -59202,8 +59202,8 @@ msgstr "انتظار القرص"
 msgid "Waiting for Terms"
 msgstr "بانتظار الشروط"
 
-#: frontend/src/hr/HrHome.vue:222 onedesk/public/js/privacy_copy_list.js:7
-#: onedesk/public/js/privacy_request_list.js:8
+#: frontend/src/hr/HrHome.vue:222 onedesk/public/js/trust_center/privacy_copy_list.js:7
+#: onedesk/public/js/trust_center/privacy_request_list.js:8
 msgid "Waiting for You"
 msgstr "بانتظارك"
 
@@ -59342,7 +59342,7 @@ msgstr ""
 msgid "Warehouse wise Item Balance Age and Value"
 msgstr ""
 
-#: onedesk/public/js/project_actions.js:324
+#: onedesk/public/js/one_project/project_actions.js:324
 msgid "Warn"
 msgstr "تنبيه"
 
@@ -59368,7 +59368,7 @@ msgid "Warranty Expiry Date"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:117
-#: onedesk/public/js/lots_actions.js:51
+#: onedesk/public/js/one_inventory/lots_actions.js:51
 msgid "Warranty Period (in days)"
 msgstr ""
 
@@ -59762,7 +59762,7 @@ msgstr "ما تقوله Cloudflare عمّا يمنع النطاق، بكلمات
 msgid "What Cloudflare says is stopping the domain."
 msgstr "ما تقوله Cloudflare عمّا يمنع النطاق."
 
-#: onedesk/public/js/next_step.js:17
+#: onedesk/public/js/one_crm/next_step.js:17
 msgid "What Comes Next?"
 msgstr "ما الخطوة التالية؟"
 
@@ -60770,7 +60770,7 @@ msgstr "ما الذي حُذف مؤخرًا؟"
 msgid "What was done about it?"
 msgstr "ماذا فُعل بشأنه؟"
 
-#: onedesk/public/js/project_actions.js:266
+#: onedesk/public/js/one_project/project_actions.js:266
 msgid "What was done, what comes next, and anything in the way."
 msgstr "ما أُنجز، وما التالي، وأي عائق."
 
@@ -60986,7 +60986,7 @@ msgstr "ما لم يُصرف ولم يُعَد يُخصم من راتبي."
 #: onedesk/public/js/doctype_settings.js:247
 #: onedesk/public/js/doctype_settings.js:882
 #: onedesk/public/js/doctype_settings.js:909
-#: onedesk/public/js/extension_errors.js:14
+#: onedesk/public/js/one_studio/extension_errors.js:14
 #: onedesk/public/js/one/notification_center.js:412
 #: onedesk/public/js/one_account/account_center.js:386
 msgid "When"
@@ -63673,7 +63673,7 @@ msgstr "الأدوات"
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:43
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:43
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/public/js/table_workbook.js:48
+#: onedesk/public/js/one_sheet/table_workbook.js:48
 msgid "Width"
 msgstr "العرض"
 
@@ -63716,7 +63716,7 @@ msgstr "نوافذ وأبواب وواجهات زجاجية وتزجيج، من 
 msgid "Wish them a happy birthday."
 msgstr "تمنّ له عيد ميلاد سعيداً."
 
-#: onedesk/public/js/project_actions.js:157
+#: onedesk/public/js/one_project/project_actions.js:157
 msgid "With"
 msgstr "مع"
 
@@ -63993,7 +63993,7 @@ msgstr "العمل والفوترة"
 msgid "Work done {0}%"
 msgstr "العمل المنجز {0}%"
 
-#: onedesk/public/js/item_new.js:5
+#: onedesk/public/js/one_inventory/item_new.js:5
 msgid "Work or a charge, never stocked."
 msgstr "عمل أو رسوم، لا يُخزّن أبدًا."
 
@@ -64898,7 +64898,7 @@ msgstr "سنوات الخدمة"
 #: onedesk/one_mail/ai.py:1014 onedesk/one_mail/ai.py:1064
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
 #: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
-#: onedesk/one_task/abilities.py:20 onedesk/public/js/bom_list.js:5
+#: onedesk/one_task/abilities.py:20 onedesk/public/js/one_factory/bom_list.js:5
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "Yes"
 msgstr ""
@@ -65327,7 +65327,7 @@ msgid "Your Conversations"
 msgstr "محادثاتك"
 
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one_portal/portal.py:30
-#: onedesk/public/js/login.js:73 onedesk/public/js/module_settings.js:175
+#: onedesk/public/js/one_hr/login.js:73 onedesk/public/js/module_settings.js:175
 #: onedesk/public/js/one_account/account_center.js:61
 #: onedesk/public/js/trust_center/trust_center.js:143
 #: onedesk/public/js/trust_center/trust_center.js:145
@@ -65475,7 +65475,7 @@ msgstr "شرائحك"
 msgid "Your Tasks and Inbox"
 msgstr "مهامك والوارد"
 
-#: onedesk/public/js/project_actions.js:264
+#: onedesk/public/js/one_project/project_actions.js:264
 msgid "Your Update"
 msgstr "تحديثك"
 
@@ -65935,11 +65935,11 @@ msgstr "قد تُفقد تغييراتك غير المحفوظة."
 msgid "Your update is due today"
 msgstr "تحديثك مستحق اليوم"
 
-#: onedesk/public/js/project_actions.js:270
+#: onedesk/public/js/one_project/project_actions.js:270
 msgid "Your update is on the project."
 msgstr "تحديثك الآن في المشروع."
 
-#: onedesk/public/js/project.js:240
+#: onedesk/public/js/one_project/project.js:240
 msgid "Your update on this project is asked for today."
 msgstr "مطلوب منك اليوم تحديث عن هذا المشروع."
 
@@ -66007,7 +66007,7 @@ msgstr "الصفر يعني بلا تجربة. وتُؤخذ البطاقة عن�
 #. Description of the 'Storage (GB)' (Int) field in DocType 'Offering'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:157
 #: onedesk/one_admin/doctype/offering/offering.json:128
-#: onedesk/public/js/offering.js:29
+#: onedesk/public/js/one_admin/offering.js:29
 msgid "Zero means unlimited."
 msgstr "الصفر يعني بلا حد."
 
@@ -66256,7 +66256,7 @@ msgstr "بين {0} و{1}"
 msgid "blue"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:29
+#: onedesk/public/js/one_crm/crm_record.js:29
 msgid "business name"
 msgstr "اسم النشاط"
 
@@ -66409,7 +66409,7 @@ msgstr "نُشر"
 msgid "document"
 msgstr "مستند"
 
-#: onedesk/public/js/crm_record.js:35
+#: onedesk/public/js/one_crm/crm_record.js:35
 msgid "document number"
 msgstr "رقم الوثيقة"
 
@@ -66474,7 +66474,7 @@ msgstr "تعديلات"
 msgid "education"
 msgstr "التعليم"
 
-#: onedesk/public/js/crm_record.js:27 onedesk/public/js/crm_record.js:30
+#: onedesk/public/js/one_crm/crm_record.js:27 onedesk/public/js/one_crm/crm_record.js:30
 msgid "email"
 msgstr ""
 
@@ -67148,7 +67148,7 @@ msgstr "أو أفلته هنا"
 msgid "or drop them here"
 msgstr "أو أفلتها هنا"
 
-#: onedesk/public/js/login.js:59
+#: onedesk/public/js/one_hr/login.js:59
 msgid "or use your password"
 msgstr "أو استخدم كلمة المرور"
 
@@ -67193,7 +67193,7 @@ msgstr "نسبة مئوية"
 msgid "permanent address"
 msgstr "العنوان الدائم"
 
-#: onedesk/public/js/crm_record.js:28
+#: onedesk/public/js/one_crm/crm_record.js:28
 msgid "phone"
 msgstr "الهاتف"
 
@@ -67246,7 +67246,7 @@ msgstr "مع قراءة سجلاتهم"
 msgid "red"
 msgstr ""
 
-#: onedesk/public/js/crm_record.js:34
+#: onedesk/public/js/one_crm/crm_record.js:34
 msgid "register number"
 msgstr "رقم السجل التجاري"
 
@@ -67422,7 +67422,7 @@ msgstr "الجداول"
 msgid "task"
 msgstr "مهمة"
 
-#: onedesk/public/js/crm_record.js:32
+#: onedesk/public/js/one_crm/crm_record.js:32
 msgid "tax number"
 msgstr "الرقم الضريبي"
 
@@ -67787,7 +67787,7 @@ msgstr "{0} (في البريد)"
 msgid "{0} (new folder)"
 msgstr "{0} (مجلد جديد)"
 
-#: onedesk/public/js/privacy_copy.js:22
+#: onedesk/public/js/trust_center/privacy_copy.js:22
 #, python-brace-format
 msgid "{0} (none)"
 msgstr "{0} (لا شيء)"
@@ -67797,7 +67797,7 @@ msgstr "{0} (لا شيء)"
 msgid "{0} (snapshot)"
 msgstr "{0} (لقطة)"
 
-#: onedesk/public/js/project_actions.js:150
+#: onedesk/public/js/one_project/project_actions.js:150
 #, python-brace-format
 msgid "{0} (supplier)"
 msgstr "{0} (مورّد)"
@@ -67814,7 +67814,7 @@ msgid "{0} ({1}'s copy)"
 msgstr "{0} (نسخة {1})"
 
 #: onedesk/one/tell.py:532 onedesk/one/tell.py:673
-#: onedesk/one_studio/extensions.py:516 onedesk/public/js/privacy_copy.js:22
+#: onedesk/one_studio/extensions.py:516 onedesk/public/js/trust_center/privacy_copy.js:22
 #, python-brace-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
@@ -67933,7 +67933,7 @@ msgstr "{0} طلبات متأخرة"
 msgid "{0} Left"
 msgstr "المتبقي من {0}"
 
-#: onedesk/public/js/lists.js:14
+#: onedesk/public/js/one/lists.js:14
 #, python-brace-format
 msgid "{0} Lists"
 msgstr "قوائم {0}"
@@ -68102,7 +68102,7 @@ msgstr "{0} إجراءات"
 msgid "{0} add-ons"
 msgstr "{0} إضافات"
 
-#: onedesk/public/js/item_new.js:385 onedesk/public/js/task_new.js:49
+#: onedesk/public/js/one_inventory/item_new.js:385 onedesk/public/js/one_task/task_new.js:49
 #, python-brace-format
 msgid "{0} added"
 msgstr "تمت إضافة {0}"
@@ -68113,7 +68113,7 @@ msgstr "تمت إضافة {0}"
 msgid "{0} added to the workspace's fonts."
 msgstr "أُضيف {0} إلى خطوط مساحة العمل."
 
-#: onedesk/public/js/task_timer.js:6
+#: onedesk/public/js/one_task/task_timer.js:6
 #, python-brace-format
 msgid "{0} added to your timesheet."
 msgstr "أُضيف {0} إلى جدول ساعاتك."
@@ -68223,7 +68223,7 @@ msgstr "{0} كمستخدم"
 msgid "{0} as {1}"
 msgstr "{0} بصفة {1}"
 
-#: onedesk/public/js/privacy_copy.js:7
+#: onedesk/public/js/trust_center/privacy_copy.js:7
 #, python-brace-format
 msgid "{0} asked for a copy of their data. Send it within one month."
 msgstr "طلب {0} نسخة من بياناته. أرسلها خلال شهر واحد."
@@ -68233,7 +68233,7 @@ msgstr "طلب {0} نسخة من بياناته. أرسلها خلال شهر و
 msgid "{0} asked for this rule, which runs once approved."
 msgstr "طلب {0} هذه القاعدة، وتعمل بعد الموافقة عليها."
 
-#: onedesk/public/js/privacy_request.js:6
+#: onedesk/public/js/trust_center/privacy_request.js:6
 #, python-brace-format
 msgid "{0} asked to delete their account. Approving signs them out and erases their data. Kept records are anonymised."
 msgstr "طلب {0} حذف حسابه. الموافقة تسجّل خروجه وتمحو بياناته. السجلات المحفوظة تصبح مجهولة الهوية."
@@ -68379,7 +68379,7 @@ msgstr "لا يمكن إيقاف {0}. الروابط المشتركة تعتمد
 msgid "{0} can't be used in an address. Use letters, digits, - and _."
 msgstr "لا يمكن استخدام {0} في عنوان. استخدم الحروف والأرقام و- و_."
 
-#: onedesk/public/js/project.js:212
+#: onedesk/public/js/one_project/project.js:212
 #, python-brace-format
 msgid "{0} can't see this project. Add them to it?"
 msgstr "لا يستطيع {0} رؤية هذا المشروع. هل تريد إضافته إليه؟"
@@ -68467,7 +68467,7 @@ msgstr "تغيّر {0} بعد اقتراح هذا، فلم يعد ينطبق."
 msgid "{0} changed in this save. Save it first, then edit what it links to."
 msgstr "تغيّر {0} في هذا الحفظ. احفظه أولًا، ثم حرر ما يرتبط به."
 
-#: onedesk/public/js/audit_list.js:16
+#: onedesk/public/js/one/audit_list.js:16
 #, python-brace-format
 msgid "{0} changed {1}"
 msgstr "{0} غيّر {1}"
@@ -68550,7 +68550,7 @@ msgstr "{0} أنواع تكاليف"
 msgid "{0} costs"
 msgstr "{0} تكاليف"
 
-#: onedesk/public/js/project_actions.js:97
+#: onedesk/public/js/one_project/project_actions.js:97
 #, python-brace-format
 msgid "{0} costs, {1}"
 msgstr "{0} تكاليف، {1}"
@@ -68560,7 +68560,7 @@ msgstr "{0} تكاليف، {1}"
 msgid "{0} could not be registered; each says why on its page."
 msgstr "تعذّر تسجيل {0}؛ كلٌّ منها يذكر السبب في صفحته."
 
-#: onedesk/public/js/deleted_document_list.js:24
+#: onedesk/public/js/one/deleted_document_list.js:24
 #, python-brace-format
 msgid "{0} couldn't be restored."
 msgstr "تعذّرت استعادة {0}."
@@ -68576,7 +68576,7 @@ msgid "{0} counts nothing."
 msgstr "{0} لا يعدّ شيئًا."
 
 #: onedesk/public/js/one_hr/hr_control.js:39
-#: onedesk/public/js/project_new.js:301
+#: onedesk/public/js/one_project/project_new.js:301
 #, python-brace-format
 msgid "{0} created"
 msgstr "تم إنشاء {0}"
@@ -68602,7 +68602,7 @@ msgstr "{0} رصيد"
 msgid "{0} credits in this conversation"
 msgstr "{0} رصيد في هذه المحادثة"
 
-#: onedesk/public/js/tenant.js:76
+#: onedesk/public/js/one_admin/tenant.js:76
 #, python-brace-format
 msgid "{0} credits left"
 msgstr "{0} رصيد متبقٍ"
@@ -68635,7 +68635,7 @@ msgstr "{0} قاعدة بيانات"
 #: onedesk/one_hr/heads.py:28 onedesk/one_hr/heads.py:680
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/ai.py:865
 #: onedesk/one_project/heads.py:234
-#: onedesk/public/js/project_template_list.js:4
+#: onedesk/public/js/one_project/project_template_list.js:4
 #, python-brace-format
 msgid "{0} days"
 msgstr "{0} أيام"
@@ -68698,7 +68698,7 @@ msgstr "متأخر {0} أيام"
 msgid "{0} days past"
 msgstr "مضت {0} أيام"
 
-#: onedesk/public/js/overtime_slip.js:54
+#: onedesk/public/js/one_hr/overtime_slip.js:54
 #, python-brace-format
 msgid "{0} days read. Save to keep them."
 msgstr "قُرئ {0} يوماً. احفظ للإبقاء عليها."
@@ -68749,7 +68749,7 @@ msgstr "{0} لا يستخدم صندوق البريد هذا."
 msgid "{0} done"
 msgstr "{0} منجز"
 
-#: onedesk/public/js/quotes_actions.js:81
+#: onedesk/public/js/one_inventory/quotes_actions.js:81
 #, python-brace-format
 msgid "{0} draft orders made."
 msgstr "تم إنشاء {0} من مسودات الأوامر."
@@ -68777,7 +68777,7 @@ msgstr "{0} عناصر"
 msgid "{0} expire on {1}"
 msgstr "{0} تنتهي في {1}"
 
-#: onedesk/public/js/audit_list.js:37
+#: onedesk/public/js/one/audit_list.js:37
 #, python-brace-format
 msgid "{0} exported {1}"
 msgstr "{0} صدّر {1}"
@@ -68802,7 +68802,7 @@ msgstr "حقل {0}"
 msgid "{0} file"
 msgstr "ملف {0}"
 
-#: onedesk/public/js/workbooks.js:88
+#: onedesk/public/js/one_sheet/workbooks.js:88
 #, python-brace-format
 msgid "{0} files"
 msgstr "{0} ملفات"
@@ -68812,7 +68812,7 @@ msgstr "{0} ملفات"
 msgid "{0} files could not be read and are listed in it."
 msgstr "تعذّرت قراءة {0} ملفات وهي مدرجة فيه."
 
-#: onedesk/public/js/workbooks.js:87
+#: onedesk/public/js/one_sheet/workbooks.js:87
 #, python-brace-format
 msgid "{0} files open"
 msgstr "{0} ملفات مفتوحة"
@@ -68882,12 +68882,12 @@ msgstr "يصل {0} إلى {1} فعلًا، لذا يمكن نقله إلى {1} �
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:202
 #: onedesk/one_project/activity.py:354 onedesk/one_project/billing.py:427
 #: onedesk/one_project/heads.py:186 onedesk/one_project/portal.py:298
-#: onedesk/one_project/view.py:476 onedesk/public/js/timesheet_list.js:3
+#: onedesk/one_project/view.py:476 onedesk/public/js/one_hr/timesheet_list.js:3
 #, python-brace-format
 msgid "{0} h"
 msgstr "{0} س"
 
-#: onedesk/public/js/project_actions.js:520
+#: onedesk/public/js/one_project/project_actions.js:520
 #, python-brace-format
 msgid "{0} h are on timesheets not submitted yet."
 msgstr "{0} س في جداول زمنية لم تُقدَّم بعد."
@@ -68907,7 +68907,7 @@ msgstr "{0} ساعة من الوقت"
 msgid "{0} h of time and costs"
 msgstr "{0} ساعة من الوقت والتكاليف"
 
-#: onedesk/public/js/project_actions.js:519
+#: onedesk/public/js/one_project/project_actions.js:519
 #, python-brace-format
 msgid "{0} h used of {1} h."
 msgstr "{0} س مستخدمة من {1} س."
@@ -69097,7 +69097,7 @@ msgstr "وصلت {0} إلى {1}. لا يمكن إلا أن تزيد: الرقم 
 msgid "{0} has run into no errors, so there is nothing to fix."
 msgstr "لم تقع {0} في أي خطأ، فلا شيء لإصلاحه."
 
-#: onedesk/public/js/tenant.js:50
+#: onedesk/public/js/one_admin/tenant.js:50
 #, python-brace-format
 msgid "{0} has {1} credits ({2} on hold)."
 msgstr "لدى {0} عدد {1} من الأرصدة ({2} محجوزة)."
@@ -69140,7 +69140,7 @@ msgstr "{0} ساعة"
 msgid "{0} hours in 12 weeks"
 msgstr "{0} ساعة في 12 أسبوعًا"
 
-#: onedesk/public/js/project_actions.js:96
+#: onedesk/public/js/one_project/project_actions.js:96
 #, python-brace-format
 msgid "{0} hours, {1}"
 msgstr "{0} ساعة، {1}"
@@ -69261,7 +69261,7 @@ msgstr "أصبح {0} مشروعًا فرعيًا من {1}."
 msgid "{0} is a table: give it its columns"
 msgstr "{0} جدول: حدّد أعمدته"
 
-#: onedesk/public/js/project_actions.js:54
+#: onedesk/public/js/one_project/project_actions.js:54
 #, python-brace-format
 msgid "{0} is a template."
 msgstr "أصبح {0} قالبًا."
@@ -69351,7 +69351,7 @@ msgstr "{0} مستخدم بالفعل. اختر اسمًا آخر."
 msgid "{0} is already the site of {1}."
 msgstr "{0} هو موقع {1} بالفعل."
 
-#: onedesk/public/js/item_actions.js:98
+#: onedesk/public/js/one_inventory/item_actions.js:98
 #, python-brace-format
 msgid "{0} is already this variant."
 msgstr "{0} هو هذا المتغير بالفعل."
@@ -69486,7 +69486,7 @@ msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
 msgid "{0} is invoiced already."
 msgstr "{0} مفوتر بالفعل."
 
-#: onedesk/public/js/lots_actions.js:67
+#: onedesk/public/js/one_inventory/lots_actions.js:67
 #, python-brace-format
 msgid "{0} is kept by Serial No"
 msgstr "يُحفظ {0} بالرقم التسلسلي"
@@ -69496,7 +69496,7 @@ msgstr "يُحفظ {0} بالرقم التسلسلي"
 msgid "{0} is kept for saved reports and dashboards. Choose another group."
 msgstr "{0} مخصصة للتقارير المحفوظة ولوحات المعلومات. اختر مجموعة أخرى."
 
-#: onedesk/public/js/lots_actions.js:67
+#: onedesk/public/js/one_inventory/lots_actions.js:67
 #, python-brace-format
 msgid "{0} is kept in batches"
 msgstr "يُحفظ {0} في دفعات"
@@ -69516,7 +69516,7 @@ msgstr "{0} مدرج مرتين."
 msgid "{0} is locked with a password."
 msgstr "{0} محمي بكلمة مرور."
 
-#: onedesk/public/js/next_step.js:44
+#: onedesk/public/js/one_crm/next_step.js:44
 #, python-brace-format
 msgid "{0} is marked done. Leave empty if nothing comes next."
 msgstr "سيُعلَّم {0} كمنجز. اتركه فارغًا إن لم تكن هناك خطوة تالية."
@@ -69957,7 +69957,7 @@ msgstr "{0} يطلب هذه الملفات."
 msgid "{0} is required, so it cannot be hidden."
 msgstr "{0} إلزامي، فلا يمكن إخفاؤه."
 
-#: onedesk/public/js/privacy_request.js:16
+#: onedesk/public/js/trust_center/privacy_request.js:16
 #, python-brace-format
 msgid "{0} is signed out. Their data is being erased."
 msgstr "سُجّل خروج {0}. يجري محو بياناته."
@@ -70116,7 +70116,7 @@ msgid "{0} late. {2} still to pay {1}."
 msgstr "متأخر {0}. لا يزال {2} مستحق الدفع إلى {1}."
 
 #: frontend/src/project/Overview.vue:318 onedesk/one_hr/heads.py:86
-#: onedesk/one_inventory/heads.py:551 onedesk/public/js/project_actions.js:550
+#: onedesk/one_inventory/heads.py:551 onedesk/public/js/one_project/project_actions.js:550
 #, python-brace-format
 msgid "{0} left"
 msgstr "متبقٍ {0}"
@@ -70324,7 +70324,7 @@ msgstr "{0} غير موجود"
 msgid "{0} not found: {1}"
 msgstr "لم يُعثر على {0}: {1}"
 
-#: onedesk/public/js/project_actions.js:102
+#: onedesk/public/js/one_project/project_actions.js:102
 #, python-brace-format
 msgid "{0} not invoiced yet."
 msgstr "{0} لم تُفوتر بعد."
@@ -70389,17 +70389,17 @@ msgstr "منها {0} تعمل."
 #: onedesk/one_inventory/heads.py:852 onedesk/one_inventory/heads.py:861
 #: onedesk/one_inventory/heads.py:928 onedesk/one_project/view.py:570
 #: onedesk/one_quality/heads.py:43 onedesk/one_quality/heads.py:52
-#: onedesk/one_task/heads.py:63 onedesk/public/js/work_order_list.js:16
+#: onedesk/one_task/heads.py:63 onedesk/public/js/one_factory/work_order_list.js:16
 #, python-brace-format
 msgid "{0} of {1}"
 msgstr "{0} من {1}"
 
-#: onedesk/public/js/tenant.js:98
+#: onedesk/public/js/one_admin/tenant.js:98
 #, python-brace-format
 msgid "{0} of {1} ({2}%)"
 msgstr "{0} من {1} ({2}%)"
 
-#: onedesk/public/js/request_for_quotation_list.js:9
+#: onedesk/public/js/one_inventory/request_for_quotation_list.js:9
 #, python-brace-format
 msgid "{0} of {1} Answered"
 msgstr "أجاب {0} من {1}"
@@ -70512,7 +70512,7 @@ msgstr "{0} من {1} مقاعد مستخدمة."
 msgid "{0} of {1} steps"
 msgstr "{0} من {1} خطوات"
 
-#: onedesk/public/js/floor_actions.js:62
+#: onedesk/public/js/one_factory/floor_actions.js:62
 #, python-brace-format
 msgid "{0} of {1} still to make"
 msgstr "{0} من {1} ما زالت للصنع"
@@ -70588,7 +70588,7 @@ msgstr "{0} على عدّاد المسافة منذ السجل السابق."
 
 #: onedesk/one_account/center.py:264 onedesk/one_account/signin.py:40
 #: onedesk/one_ai/proposals.py:660 onedesk/one_quality/heads.py:61
-#: onedesk/public/js/deleted_document_list.js:10 onedesk/public/js/push.js:41
+#: onedesk/public/js/one/deleted_document_list.js:10 onedesk/public/js/one/push.js:41
 #, python-brace-format
 msgid "{0} on {1}"
 msgstr "{0} على {1}"
@@ -70608,12 +70608,12 @@ msgstr "{0} مفتوحة من {1}"
 msgid "{0} open quotes"
 msgstr "{0} عروض أسعار مفتوحة"
 
-#: onedesk/public/js/project.js:192
+#: onedesk/public/js/one_project/project.js:192
 #, python-brace-format
 msgid "{0} open sub-projects"
 msgstr "{0} مشاريع فرعية مفتوحة"
 
-#: onedesk/public/js/project.js:191
+#: onedesk/public/js/one_project/project.js:191
 #, python-brace-format
 msgid "{0} open tasks"
 msgstr "{0} مهام مفتوحة"
@@ -70695,17 +70695,17 @@ msgstr "{0} مدفوعة مقدمًا"
 msgid "{0} paid to {1}."
 msgstr "دُفع {0} إلى {1}."
 
-#: onedesk/public/js/item_new.js:253
+#: onedesk/public/js/one_inventory/item_new.js:253
 #, python-brace-format
 msgid "{0} parts added"
 msgstr "أُضيفت {0} قطع"
 
-#: onedesk/public/js/item_new.js:272
+#: onedesk/public/js/one_inventory/item_new.js:272
 #, python-brace-format
 msgid "{0} parts, none new"
 msgstr "{0} قطع، لا جديد منها"
 
-#: onedesk/public/js/item_new.js:272
+#: onedesk/public/js/one_inventory/item_new.js:272
 #, python-brace-format
 msgid "{0} parts, {1} new"
 msgstr "{0} قطع، منها {1} جديدة"
@@ -70720,7 +70720,7 @@ msgstr "توقفت {0} من مفاتيح المرور عليه عن العمل"
 msgid "{0} paused timers"
 msgstr "{0} مؤقتات متوقفة مؤقتًا"
 
-#: onedesk/public/js/tenant.js:104
+#: onedesk/public/js/one_admin/tenant.js:104
 #, python-brace-format
 msgid "{0} pending"
 msgstr "{0} قيد الانتظار"
@@ -70772,12 +70772,12 @@ msgstr "نشر {0} تحديثًا"
 msgid "{0} presentations filed, one on each {1}."
 msgstr "تم حفظ {0} عروض، واحد على كل {1}."
 
-#: onedesk/public/js/audit_list.js:36
+#: onedesk/public/js/one/audit_list.js:36
 #, python-brace-format
 msgid "{0} printed {1}"
 msgstr "{0} طبع {1}"
 
-#: onedesk/public/js/project_template_list.js:5
+#: onedesk/public/js/one_project/project_template_list.js:5
 #, python-brace-format
 msgid "{0} projects"
 msgstr "{0} مشاريع"
@@ -70827,7 +70827,7 @@ msgstr "{0} محجوز"
 msgid "{0} reset"
 msgstr "أُعيد تعيين {0}"
 
-#: onedesk/public/js/deleted_document_list.js:22
+#: onedesk/public/js/one/deleted_document_list.js:22
 #, python-brace-format
 msgid "{0} restored."
 msgstr "استُعيد {0}."
@@ -70981,7 +70981,7 @@ msgstr "تُجلب مصادر {0} كل {1} دقيقة على الأكثر. تم 
 msgid "{0} spent"
 msgstr "{0} مصروف"
 
-#: onedesk/public/js/tenant.js:141 onedesk/public/js/tenant.js:154
+#: onedesk/public/js/one_admin/tenant.js:141 onedesk/public/js/one_admin/tenant.js:154
 #, python-brace-format
 msgid "{0} started."
 msgstr "بدأ {0}."
@@ -71006,12 +71006,12 @@ msgstr "لا يزال في {0} عمل مفتوح."
 msgid "{0} still has records. Delete them first."
 msgstr "لا تزال {0} تحتوي على سجلات. احذفها أولًا."
 
-#: onedesk/public/js/project.js:195
+#: onedesk/public/js/one_project/project.js:195
 #, python-brace-format
 msgid "{0} still has {1}. Cancel them too?"
 msgstr "لا يزال في {0} {1}. هل تلغيها أيضاً؟"
 
-#: onedesk/public/js/project.js:195
+#: onedesk/public/js/one_project/project.js:195
 #, python-brace-format
 msgid "{0} still has {1}. Complete them too?"
 msgstr "لا يزال في {0} {1}. هل تكملها أيضاً؟"
@@ -71084,12 +71084,12 @@ msgstr "{0} لا يقبل إلا {1}."
 
 #: frontend/src/project/Overview.vue:100
 #: frontend/src/workload/WorkloadList.vue:29
-#: onedesk/public/js/project_template_list.js:3
+#: onedesk/public/js/one_project/project_template_list.js:3
 #, python-brace-format
 msgid "{0} tasks"
 msgstr "{0} مهام"
 
-#: onedesk/public/js/project_new.js:9
+#: onedesk/public/js/one_project/project_new.js:9
 #, python-brace-format
 msgid "{0} tasks, {1} days"
 msgstr "{0} مهام، {1} أيام"
@@ -71189,7 +71189,7 @@ msgstr "{0} مستخدم في آخر 30 يومًا"
 msgid "{0} users"
 msgstr "مستخدمو {0}"
 
-#: onedesk/public/js/lists.js:37
+#: onedesk/public/js/one/lists.js:37
 #, python-brace-format
 msgid "{0} values"
 msgstr "{0} قيم"
@@ -71271,7 +71271,7 @@ msgstr "أخذ شخص آخر {0} بعد التخلي عن هذا التسجيل.
 msgid "{0} weeks"
 msgstr "{0} أسابيع"
 
-#: onedesk/public/js/deleted_document_list.js:23
+#: onedesk/public/js/one/deleted_document_list.js:23
 #, python-brace-format
 msgid "{0} were already restored."
 msgstr "استُعيد {0} من قبل."
@@ -71281,7 +71281,7 @@ msgstr "استُعيد {0} من قبل."
 msgid "{0} will answer by email within a month."
 msgstr "سيرد {0} عبر البريد الإلكتروني خلال شهر."
 
-#: onedesk/public/js/task_new.js:66
+#: onedesk/public/js/one_task/task_new.js:66
 #, python-brace-format
 msgid "{0} will be added to the project."
 msgstr "ستتم إضافة {0} إلى المشروع."
@@ -71297,7 +71297,7 @@ msgid "{0} will not be able to check in or register another passkey."
 msgstr "لن يتمكن {0} من تسجيل الحضور أو تسجيل مفتاح مرور آخر."
 
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:10
-#: onedesk/public/js/employee.js:7
+#: onedesk/public/js/one_hr/employee.js:7
 #, python-brace-format
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حضوره التالي. ويُسحب المفتاح القديم من الخدمة ولا يُحذف."
@@ -71317,7 +71317,7 @@ msgstr "{0} بعدد {1} أرقام"
 msgid "{0} work orders"
 msgstr "{0} أوامر عمل"
 
-#: onedesk/public/js/overtime_slip.js:65
+#: onedesk/public/js/one_hr/overtime_slip.js:65
 #, python-brace-format
 msgid "{0} worked, {1} paid"
 msgstr "عُمل {0}، ودُفع {1}"
@@ -71408,7 +71408,7 @@ msgstr "{0} · {1} شهريًا"
 msgid "{0} · {1} slides"
 msgstr "{0} · {1} شرائح"
 
-#: onedesk/public/js/opportunity_list.js:32
+#: onedesk/public/js/one_crm/opportunity_list.js:32
 #, python-brace-format
 msgid "{0} · {1} weighted"
 msgstr "{0} · {1} مرجّحة"
@@ -71438,8 +71438,8 @@ msgid "{0}% billed"
 msgstr "{0}% مفوتر"
 
 #: frontend/src/project/Overview.vue:336 onedesk/one_project/view.py:794
-#: onedesk/one_studio/print_blocks.py:693 onedesk/public/js/project_list.js:79
-#: onedesk/public/js/project_tree.js:14
+#: onedesk/one_studio/print_blocks.py:693 onedesk/public/js/one_project/project_list.js:79
+#: onedesk/public/js/one_project/project_tree.js:14
 #, python-brace-format, python-format
 msgid "{0}% done"
 msgstr "{0}% منجز"
@@ -71565,7 +71565,7 @@ msgstr "{0}، بدلًا من القاعدة السابقة"
 msgid "{0}, starting as {1}"
 msgstr "{0}، يبدأ كـ {1}"
 
-#: onedesk/public/js/tenant.js:100
+#: onedesk/public/js/one_admin/tenant.js:100
 #, python-brace-format
 msgid "{0}, unmetered"
 msgstr "{0}، بلا حد"

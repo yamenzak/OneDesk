@@ -47,7 +47,7 @@ onedesk.lists.tab = (module) => {
 		label: __("Lists"),
 		icon: "tags",
 		title: __("Lists"),
-		description: __("The values {0}'s records pick from. Each opens as its own list.", [module]),
+		description: __("The values {0}'s records pick from, each opening as its own list.", [module]),
 		async render(panel) {
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			const kinds = await frappe.xcall("onedesk.one.lists.kinds", { module });

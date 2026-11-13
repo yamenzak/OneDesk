@@ -64,7 +64,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   On Track, At Risk and Off Track, made once by `settle` so the Kanban view
   opens on it rather than on a dialog asking which field to group by.
 
-  The list is public/js/project_list.js. Each time it is drawn it tells
+  The list is public/js/one_project/project_list.js. Each time it is drawn it tells
   OneStudio's extensions the projects it shows (`oneproject_list.projects`,
   one_studio/places.py), with a spot above the rows for what they add. In
   Report view, Health is blank on a completed or cancelled project, as the
@@ -147,7 +147,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   Somebody who can't open a project joins it (`join`) when given one of its
   tasks (`assigned`, ToDo after_insert; New Task asks `joins` first), when
   it's shared with them (`shared`, DocShare after_insert, the sidebar's
-  Members on the page and the form, `public/js/project_actions.js`), and
+  Members on the page and the form, `public/js/one_project/project_actions.js`), and
   when a comment mentions them and the writer agrees (`unseen`, `let_in`,
   through the composer's `vet`). ERPNext shares the project with a new member
   as whoever saves it, so when OneAI or Intake gives the task without the
@@ -326,7 +326,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   several at once, takes the project they all name (`paid_for`). A new
   quotation, order, delivery or invoice for a customer with one open project
   names it on insert (`customers_one`), and the form fills it as the customer
-  is picked (`customer_project`, public/js/customer_project.js).
+  is picked (`customer_project`, public/js/one_project/customer_project.js).
 - `heads.py` — `project.of`: the project a document is for, by name, opening
   its page, in the head of every document a project hands on. A contract's is
   its reference, and a deal's is the project its quote went to, else the
@@ -369,7 +369,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   `sales_order`. `fill` gives a project made elsewhere the kind its records
   say (`guess`, pure); `patches/kinds.py` did it for the projects before.
   `settle` makes the **Contract Work** item, in Lump Sum.
-  `public/js/project_new.js` is frappe's quick entry for Project
+  `public/js/one_project/project_new.js` is frappe's quick entry for Project
   (`ProjectQuickEntryForm`): the kinds as cards, then the kind's fields. Its
   fieldnames are its own, since a quick entry takes a field's label and
   whether it's hidden from the doctype when the names match.
@@ -403,7 +403,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   after ERPNext's own split so it's the share of the work billed, not of
   what's left after advances (`retained`, `split`, `spread`). Set to 0, the
   terms go. A new Retention Due moves it on the order's invoices (`release`).
-  `public/js/progress.js` is the dialog; `money._suppliers` is the Suppliers
+  `public/js/one_project/progress.js` is the dialog; `money._suppliers` is the Suppliers
   table.
 
   A **subcontract** is a Purchase Order on the project, one per supplier per
@@ -439,7 +439,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   (`sides`), Needs You's asks (`asks`), handover falling due when a project
   is completed (`handed_over`), and the daily Retention Due (`due`). A
   customer order on a project starts with the project's retention
-  (`ordered`, Sales Order before_insert, and `public/js/progress.js` on the
+  (`ordered`, Sales Order before_insert, and `public/js/one_project/progress.js` on the
   form); the project's own is `one_retention`, `one_retention_due` and
   `one_retention_handover` (custom/project.json). Release Retention and Pay
   Retention are `release`: ERPNext's `get_payment_entry` for the party, its
@@ -481,9 +481,9 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   `group_under` puts a new project above one. `path` is where a task is, for My
   Tasks and a parent's calendar. Sub-projects are a connection on the page
   (`dashboard`). The Projects list's Tree view is frappe's treeview over
-  `nodes` (`public/js/project_tree.js`, `under` is pure), and its Gantt view
+  `nodes` (`public/js/one_project/project_tree.js`, `under` is pure), and its Gantt view
   is frappe's over the project's dates, with `milestones` added as rows of
-  their own that can't be dragged (`public/js/project_calendar.js`).
+  their own that can't be dragged (`public/js/one_project/project_calendar.js`).
 
   ERPNext keeps a project's money per project — its one Sales Order, its
   timesheets, its costs, what it has billed and its margin — and has no
@@ -520,7 +520,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
 - `plan.py` — a slip moves the dependants in the rest of the tree, which
   ERPNext's own pass never looks at (`reschedule`, `moved_after` is pure). The
   schedule is frappe's Gantt over Task, filtered to the tree
-  (`public/js/project.js`); `public/js/task_list.js` draws a task with only a
+  (`public/js/one_project/project.js`); `public/js/one_task/task_list.js` draws a task with only a
   due date and lights the view mode the chart is in, and `public/css/desk.css`
   lets it scroll.
 
@@ -536,10 +536,10 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   moved because of theirs, and a plan that holds only where the mover is a
   member is not a plan.
 
-  **The plan is frappe's Gantt** over the tree's tasks (public/js/project.js,
+  **The plan is frappe's Gantt** over the tree's tasks (public/js/one_project/project.js,
   Schedule): bars, milestones, the dependency arrows, and dragging a bar moves
   the task. A task with a due date and no start is drawn as a day on its due
-  date (public/js/task_list.js).
+  date (public/js/one_task/task_list.js).
 - `billing.py` — money on ERPNext's own records. Pricing is theirs
   (Activity Cost, then Activity Type, in `TimesheetDetail.update_cost`).
   **Invoice Time** (`invoice_time`, opened through
@@ -554,8 +554,8 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   field on Quotation and Sales Order so their mapping carries it) makes the
   submitted order a sub-project of its project through their own
   `make_project` (`ordered`, named by `title`, pure), and moves the order and
-  its lines onto it. **Quote Extra Work** (`public/js/project.js`) starts
-  such a quotation, and `public/js/quotation.js` gives it the project's
+  its lines onto it. **Quote Extra Work** (`public/js/one_project/project.js`) starts
+  such a quotation, and `public/js/one_project/quotation.js` gives it the project's
   customer.
 
   **Time is priced by ERPNext.** A timesheet row takes its costing and billing
@@ -773,7 +773,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   naming rule is written when the project is, not after (naming.py).
 - `template_view.py` — a template's tasks, drawn in its form (the
   onedesk.template_part island in frontend/src/template, mounted by
-  public/js/project_template.js in the one_tasks_part field; the Tasks table
+  public/js/one_project/project_template.js in the one_tasks_part field; the Tasks table
   shows only on a new template). The form's head has its Tasks, Duration and
   Projects (heads.py, template.*). `read` gives its tasks
   in the template's order with their depth and what each waits on, leaving
@@ -939,7 +939,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   (`frappe.client.set_value`, `insert`, `assign_to`), and the views follow
   the Task list through desk's `list_update`. Desk keeps its head through
   `onedesk.island_page`, and the island reports the name, the status and the
-  actions. `public/js/project_new.js` hands `/desk/project/<name>` to the
+  actions. `public/js/one_project/project_new.js` hands `/desk/project/<name>` to the
   page; the form is the same address with `?edit=1`, and a new project's form
   stays. The page follows the record through the kit (`follow`, desk's
   `doc_subscribe` and `doc_update`) and its money through `one_project_money`.
@@ -956,10 +956,10 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   (tasks, dates, hours), money.py (both sides), budget.py (cost types),
   billing.py (time not invoiced) and tree.py (sub-projects). It reads as the
   person asking and checks they may read the project.
-- `public/js/project_actions.js` — Board, Schedule, Group Under New Project,
+- `public/js/one_project/project_actions.js` — Board, Schedule, Group Under New Project,
   Save as Template, Invoice Time and Post Update, for the page and the form
-  alike. `public/js/project.js` is the form: those as its buttons, and
-  Calendar; `public/js/project_template.js` is a template's New Project.
+  alike. `public/js/one_project/project.js` is the form: those as its buttons, and
+  Calendar; `public/js/one_project/project_template.js` is a template's New Project.
 
 ### What OneTask has to keep doing for projects
 

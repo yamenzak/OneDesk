@@ -102,7 +102,7 @@ def test_frappes_error_pages_are_ones():
 	assert '"/desk/one?center=account&at=profile"' in me and '"/account"' in me and "/portal/profile" in me
 	assert (
 		'".for-login:not(.one-your-data) .page-card-body"'
-		in (tree.APP / "public" / "js" / "login.js").read_text()
+		in (tree.APP / "public" / "js" / "one_hr" / "login.js").read_text()
 	)
 
 

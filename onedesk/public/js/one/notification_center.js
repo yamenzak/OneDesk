@@ -180,7 +180,7 @@ onedesk.notification_center.open = async ({ module = null, at = null, record = n
 	};
 
 	const push = async ($list) => {
-		await frappe.require("/assets/onedesk/js/push.js");
+		await frappe.require("/assets/onedesk/js/one/push.js");
 		const here = await onedesk.push.state();
 		const [label, theme] = {
 			on: [__("On in this browser"), "green"],

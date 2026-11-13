@@ -608,7 +608,7 @@ Windows' drive and LibreOffice save; an app that saves by writing a new
 file and swapping it in leaves a plain Excel file beside the workbook,
 which goes to the Recycle Bin.
 
-### Back to a workbook, `public/js/workbooks.js`
+### Back to a workbook, `public/js/one_sheet/workbooks.js`
 
 OneSheet has no sidebar of its own: frappe would make one listing
 Workbook, Workbook Change and Workbook Version raw, so `outside.UNSHELLED`

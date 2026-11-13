@@ -91,9 +91,9 @@ const share = (part, whole) => (whole ? Math.max(0, Math.min(100, Math.round((10
 const percent = (part, whole) => (whole ? Math.round((100 * part) / whole) : null);
 const frm = () => ({ doctype: "Project", doc: { name: props.said.name } });
 const issueStock = () =>
-  requires(["/assets/onedesk/js/item_actions.js"]).then(() => onedesk().stock.issue({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
+  requires(["/assets/onedesk/js/one_inventory/item_actions.js"]).then(() => onedesk().stock.issue({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
 const returnStock = () =>
-  requires(["/assets/onedesk/js/item_actions.js"]).then(() => onedesk().stock.give_back({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
+  requires(["/assets/onedesk/js/one_inventory/item_actions.js"]).then(() => onedesk().stock.give_back({ project: props.said.name, title: props.said.title, done: () => emit("changed") }));
 
 const selling = computed(() => Boolean(props.said.customer || cash.value.contract));
 const kind = computed(() => cash.value.kind);

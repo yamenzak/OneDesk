@@ -1,5 +1,5 @@
 """New Item, by kind: what a person picks first, and the ERPNext fields each
-kind sets so nobody has to know them (public/js/item_new.js)."""
+kind sets so nobody has to know them (public/js/one_inventory/item_new.js)."""
 
 import re
 

@@ -145,7 +145,7 @@ def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
 	js = APP / "public" / "js"
 	patched = [
 		path.name
-		for path in [*js.glob("*.js"), *js.glob("one_*/*.js"), *js.glob("*_center/*.js")]
+		for path in [*js.glob("*.js"), *js.glob("*/*.js")]
 		if "Layout.prototype.get_doctype_fields" in path.read_text(encoding="utf-8")
 	]
 	assert sorted(patched) == ["head.js", "record_tabs.js"], patched
@@ -154,8 +154,8 @@ def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
 		assert declared in hooks, declared
 	for name, script in (
 		("mail", "one_mail/record_mail.js"),
-		("files", "record_files.js"),
-		("activity", "record_activity.js"),
+		("files", "one_cloud/record_files.js"),
+		("activity", "one_cloud/record_activity.js"),
 	):
 		assert f'onedesk.record_tabs.register("{name}"' in (js / script).read_text(encoding="utf-8"), name
 	assert HOOKS.index("record_tabs.js") < HOOKS.index("record_files.js")

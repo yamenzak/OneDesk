@@ -308,8 +308,8 @@ def test_mending_reads_the_code_on_the_server_and_answers_only_the_diagnosis():
 def test_the_errors_are_a_tab_on_the_extension_and_mending_a_verb_at_its_top():
 	source = (STUDIO / "mend.py").read_text()
 	assert '"doctypes": ("Extension",)' in source and '"onedesk.one_studio.mend.TABS"' in HOOKS
-	assert "/assets/onedesk/js/extension_errors.js" in HOOKS
-	tab = (tree.APP / "public" / "js" / "extension_errors.js").read_text()
+	assert "/assets/onedesk/js/one_studio/extension_errors.js" in HOOKS
+	tab = (tree.APP / "public" / "js" / "one_studio" / "extension_errors.js").read_text()
 	assert 'onedesk.record_tabs.register("errors"' in tab and "onedesk.one_studio.mend.listed" in tab
 	heads = (STUDIO / "heads.py").read_text()
 	assert '"extension.mend"' in heads and '_lt("Errors in the Last 7 Days")' in heads

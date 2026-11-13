@@ -59,7 +59,7 @@ heir of ERPNext's Manufacturing and Subcontracting.
   Import, OneAI or a script had none and made no job cards; `steps`
   (before_validate) fills them.
 - `floor.py`, `page/floor`, `frontend/src/factory/floor` and
-  `public/js/floor_actions.js` — the Shop Floor, kept as an island
+  `public/js/one_factory/floor_actions.js` — the Shop Floor, kept as an island
   (`tiers`). `read` reads through ERPNext's own Shop Floor
   (`manufacturing/page/shop_floor`): its `get_work_orders` for the board and
   its count, and its `get_data` for a work order's or a workstation's job

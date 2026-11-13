@@ -526,7 +526,7 @@ def changes() -> dict:
 		row["setters"] = row.get("setters", 0) + len(data.get("property_setters") or [])
 	for doctype, said in _hooked().items():
 		out.setdefault(doctype, {}).setdefault("hooks", set()).update(said)
-	for path in [*(tree.APP / "public" / "js").glob("*.js"), *(tree.APP / "public" / "js").glob("one_*/*.js"), *(tree.APP / "public" / "js").glob("*_center/*.js")]:
+	for path in [*(tree.APP / "public" / "js").glob("*.js"), *(tree.APP / "public" / "js").glob("*/*.js")]:
 		for doctype in _FORM_ON.findall(path.read_text()):
 			out.setdefault(doctype, {}).setdefault("hooks", set()).add("form script")
 	tiers_ = ast.parse((tree.APP / "one" / "tiers.py").read_text())

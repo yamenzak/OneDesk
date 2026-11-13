@@ -209,7 +209,7 @@ moves its version.
 5. **Masters go home.** Built. Each module declares its lists as `LISTS` in
    its `lists.py`, and `one/lists.py` is the engine (`HOMES`, `listed`,
    `kinds`, `homes`, `place`). Every ControlCenter ends with Lists
-   (`public/js/lists.js`, found by `module_settings.open` as the centres
+   (`public/js/one/lists.js`, found by `module_settings.open` as the centres
    are), one row per list with its count, each opening frappe's list in the
    module's own rail with the module's other lists beside it. Salutation,
    Gender and Address Template are One's (Address Book › Lists), Print

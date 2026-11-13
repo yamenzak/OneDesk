@@ -1,5 +1,5 @@
 """Add from a List: a parts list pasted or uploaded in New Item's Made From step
-(public/js/item_new.js), read into rows matched to the workspace's items by
+(public/js/one_inventory/item_new.js), read into rows matched to the workspace's items by
 code, supplier's part number or name, and the missing ones added as stock
 items once the person says so."""
 

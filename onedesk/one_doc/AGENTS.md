@@ -269,7 +269,7 @@ its permlevel prints nothing; with no record, the label in brackets.
 `fields_of` offers every field that holds a value or rows, hidden ones
 included, since a quotation's customer sits in a field its own print hides.
 
-The record's print page (Frappe's `print` page) gets `public/js/print_documents.js`
+The record's print page (Frappe's `print` page) gets `public/js/one_doc/print_documents.js`
 through `page_js`; it wraps `PrintView.show` to list `on_record`'s documents
 under the letter head.
 

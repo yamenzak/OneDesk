@@ -2864,7 +2864,7 @@ save writing `requests.post` is a dependency to keep current forever.
 **Nobody leaves One to pay, wherever Stripe allows it.** Every Checkout
 session is made with `ui_mode: "embedded"` and handed back as its client
 secret and the publishable key (`embedded`), and the page draws it with
-Stripe.js (`public/js/one_pay.js`): the signup page in place of its form, the
+Stripe.js (`public/js/one_admin/one_pay.js`): the signup page in place of its form, the
 welcome page's Pay again, credit packs and Payment Method in a dialog in Plan
 and Credits, and Update card in the account's invoices page. It is still
 Stripe's form in Stripe's frame, so the card never touches us and PCI stays

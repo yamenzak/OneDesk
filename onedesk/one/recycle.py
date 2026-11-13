@@ -3,7 +3,7 @@
 Everybody puts back what they deleted, and whoever holds Everyone's
 Deletions what anybody deleted of the kinds they may read, by frappe's own
 restore. The bin is frappe's own Deleted Document list
-(public/js/deleted_document_list.js).
+(public/js/one/deleted_document_list.js).
 """
 
 import json

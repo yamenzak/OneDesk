@@ -515,7 +515,7 @@ def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
 	assert any("{note}" in one.get("message", "") for one in tree.notifications().values())
 	heads = (ADMIN / "heads.py").read_text()
 	assert '"credit.said": credit_said' in heads and '"credit.take_back": {' in heads
-	listed = (tree.APP / "public" / "js" / "credit_ledger_entry_list.js").read_text()
+	listed = (tree.APP / "public" / "js" / "one_admin" / "credit_ledger_entry_list.js").read_text()
 	assert 'filters: [["source", "!=", "Run"]]' in listed and "hide_name_filter: true" in listed
 	entry = json.loads((ADMIN / "doctype" / "credit_ledger_entry" / "credit_ledger_entry.json").read_text())
 	assert not entry["permissions"][0]["share"] and entry["title_field"] == "tenant"

@@ -147,7 +147,7 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 	assert '"to_time": ["is", "not set"]' in source, "running is a start with no end, as on the Timesheet form"
 	assert "now_datetime()" in source and "pause()" in source.split("def start(", 1)[1].split("\ndef ", 1)[0]
 	assert '"one_timers"' in source and "set_user_default" in source, "the paused are the person's own, and every screen hears"
-	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
+	assert '"/assets/onedesk/js/one_task/task_timer.js"' in HOOKS and '"Task": "public/js/one_task/task.js"' in HOOKS
 	board = (tree.APP / "public" / "js" / "one_task" / "task_kanban.js").read_text()
 	assert 'frappe.model.can_create("Timesheet")' in board and '"onedesk.one_task.timer.start"' in board
 
@@ -204,7 +204,7 @@ def test_a_tasks_due_date_is_in_sight_and_the_list_has_room_for_its_subject():
 	assert setters[("sb_timeline", "collapsible")] == "0"
 	assert setters[("company", "hidden")] == "1"
 	assert setters[("is_group", "in_list_view")] == "0" and setters[("exp_end_date", "in_list_view")] == "1"
-	assert "hide_name_column = true" in (tree.APP / "public" / "js" / "task_list.js").read_text()
+	assert "hide_name_column = true" in (tree.APP / "public" / "js" / "one_task" / "task_list.js").read_text()
 
 
 def test_a_step_does_not_say_whose_it_is_beside_whose_it_is():

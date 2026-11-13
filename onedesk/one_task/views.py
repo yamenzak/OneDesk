@@ -1,5 +1,5 @@
 """Task's collection views as frappe draws them, with what OneTask changes:
-the Calendar (public/js/task_calendar.js) and the Tree (public/js/task_tree.js)
+the Calendar (public/js/one_task/task_calendar.js) and the Tree (public/js/one_task/task_tree.js)
 read here, leaving a template's tasks out, as the list and the boards do."""
 
 from datetime import time

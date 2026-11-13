@@ -38,6 +38,18 @@ def test_nothing_outside_a_module_is_named_for_it():
 	assert not stray, "Move it into the module's places, or say in ready.SHARED why it is shared:\n" + "\n".join(stray)
 
 
+def test_the_top_of_public_holds_only_what_is_shared():
+	"""A module's scripts and styles are in its public/js/<folder>/ and
+	public/css/<folder>/; the top of each holds only the desk's own, each
+	in ready.SHARED with why (docs/run/RUN.md, Folders)."""
+	stray = [
+		path
+		for path in _tracked()
+		if re.fullmatch(r"onedesk/public/(js|css)/[^/]+\.(js|css)", path) and not ready.shared(path)
+	]
+	assert not stray, "Move it into its module's folder under public/, or say in ready.SHARED why it is shared:\n  " + "\n  ".join(stray)
+
+
 WRITTEN = {"AGENTS.md", "SCRATCHPAD.md"}
 
 

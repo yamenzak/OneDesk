@@ -43,8 +43,8 @@ def test_both_pages_say_it_through_their_record_head():
 	"""The band and Take This Lead are Record Head rows (one_crm/heads.py);
 	the pages' own script keeps the sidebar's calls and the duplicate."""
 	for script in ("lead.js", "opportunity.js"):
-		assert "onedesk.crm_record.refresh(frm)" in (tree.APP / "public" / "js" / script).read_text()
-	page = (tree.APP / "public" / "js" / "crm_record.js").read_text()
+		assert "onedesk.crm_record.refresh(frm)" in (tree.APP / "public" / "js" / "one_crm" / script).read_text()
+	page = (tree.APP / "public" / "js" / "one_crm" / "crm_record.js").read_text()
 	assert "onedesk.band" not in page and "overview" not in page and "capture.take" not in page
 	heads = (tree.APP / "one_crm" / "heads.py").read_text()
 	assert '"doctype": "Opportunity"' in heads and '"doctype": "Lead"' in heads

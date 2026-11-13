@@ -310,7 +310,7 @@ def of_file(file: str) -> str | None:
 @frappe.read_only()
 def titles(names: str | list) -> dict:
 	"""The titles of the workbooks named that the reader may still open, for
-	the bar's way back to them (public/js/workbooks.js)."""
+	the bar's way back to them (public/js/one_sheet/workbooks.js)."""
 	said = frappe.parse_json(names) if isinstance(names, str) else names
 	out = {}
 	for name in (said or [])[:MOST_TITLES]:

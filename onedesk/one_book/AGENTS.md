@@ -152,7 +152,7 @@ of its own, and frappe's builder can't add one up. ERPNext's six
   journal entry nobody titled takes the asset it depreciates, the payroll's
   period, its remark or what it references. Two patches retitle the old
   ones.
-- `public/js/bank.js` — the Bank Reconciliation Tool and a new Bank
+- `public/js/one_book/bank.js` — the Bank Reconciliation Tool and a new Bank
   Statement Import start on the company's default or only bank account;
   ERPNext leaves both empty, and the tool draws nothing until one is
   picked. The tool's intro advertised ERPNext's separate Banking app, which

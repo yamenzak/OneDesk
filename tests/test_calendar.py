@@ -286,7 +286,7 @@ def test_a_deal_a_lead_and_an_employee_have_calendars_of_their_own():
 	assert crm.count('"only_about": True') == 2 and '"only_about": True' in hr
 	helper = (tree.APP / "public" / "js" / "record_calendar.js").read_text()
 	assert 'frappe.set_route("onecalendar", { doctype: frm.doctype, name: frm.doc.name })' in helper
-	for script in ("opportunity.js", "lead.js", "employee.js", "project.js"):
+	for script in ("one_crm/opportunity.js", "one_crm/lead.js", "one_hr/employee.js", "one_project/project.js"):
 		assert "onedesk.record_calendar(frm)" in (tree.APP / "public" / "js" / script).read_text(), script
 	assert '"/assets/onedesk/js/record_calendar.js"' in HOOKS
 

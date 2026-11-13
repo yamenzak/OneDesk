@@ -23,10 +23,6 @@ Known issues and plans, kept short. Something done leaves it.
 - **The drive's upload is read whole.** frappe can now stream a request
   (`streaming_request_paths`, since the 2026-11-03 checkpoint); a drive PUT
   is still read into memory. (From docs/BACKLOG.md.)
-- **Two files outside its places.** `public/js/record_files.js` (the Files
-  tab) and `public/js/record_activity.js` (the Activity tab) are OneCloud's
-  but sit at the top of `public/js/`, and no name of OneCloud's marks them.
-  They move with the rename to one_cloud (RUN.md P2.1).
 - **Help has no pictures yet.** What OneCloud Is, Using the Explorer,
   Sharing Outside the Team and Asking for Files each want one, taken on the
   demo workspace.

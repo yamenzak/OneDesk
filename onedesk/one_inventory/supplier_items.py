@@ -1,5 +1,5 @@
 """What a supplier's Items tab lists in place of ERPNext's Frequently Bought
-(public/js/supplier_items.js, frontend/src/inventory/supplier): what is bought
+(public/js/one_inventory/supplier_items.js, frontend/src/inventory/supplier): what is bought
 from them and quoted, item by item, the way an item's Buying tab says who it
 is bought from. How each column is read is in AGENTS.md.
 """

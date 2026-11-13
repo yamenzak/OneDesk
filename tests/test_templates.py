@@ -160,9 +160,9 @@ def test_a_preset_copied_in_brings_its_terms():
 
 
 def test_the_library_is_offered_where_a_template_is_picked():
-	new = (APP / "public" / "js" / "project_new.js").read_text()
-	actions = (APP / "public" / "js" / "project_actions.js").read_text()
-	listed = (APP / "public" / "js" / "project_template_list.js").read_text()
+	new = (APP / "public" / "js" / "one_project" / "project_new.js").read_text()
+	actions = (APP / "public" / "js" / "one_project" / "project_actions.js").read_text()
+	listed = (APP / "public" / "js" / "one_project" / "project_template_list.js").read_text()
 	for source in (new, actions, listed):
 		assert "onedesk.project.library(" in source
 	assert '"onedesk.one_project.library.presets"' in new
@@ -171,7 +171,7 @@ def test_the_library_is_offered_where_a_template_is_picked():
 		"template = template or (library and copy(library))"
 		in (APP / "one_project" / "templates.py").read_text()
 	)
-	assert '"Project Template": "public/js/project_template_list.js"' in HOOKS
+	assert '"Project Template": "public/js/one_project/project_template_list.js"' in HOOKS
 
 
 def test_a_template_opens_on_its_form_and_every_change_saves_it():
@@ -181,7 +181,7 @@ def test_a_template_opens_on_its_form_and_every_change_saves_it():
 	assert view.count("_saved(doc)") >= 5, "every change saves the template, so its checks run"
 	assert 'frappe.has_permission("Project Template", "write", template, throw=True)' in view
 	assert '"onedesk.template_part": "src/islands/template_part.js"' in (ROOT / "frontend" / "build-islands.mjs").read_text()
-	form = (APP / "public" / "js" / "project_template.js").read_text()
+	form = (APP / "public" / "js" / "one_project" / "project_template.js").read_text()
 	assert 'frappe.ui.mount_island("onedesk.template_part"' in form
 	assert 'frm.toggle_display("tasks", frm.is_new())' in form, "a new template takes its first tasks in the table"
 	assert '"onedesk.one_project.templates.days_kept"' in HOOKS

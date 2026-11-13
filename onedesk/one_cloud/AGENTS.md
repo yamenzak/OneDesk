@@ -383,7 +383,7 @@ not a second R2 integration.
   redraw on any change, at most once a second or so. Sending after the
   commit means nobody re-reads a folder before the change is in it.
 
-- `public/js/record_files.js` — the Files tab on every record, declared as
+- `public/js/one_cloud/record_files.js` — the Files tab on every record, declared as
   `TABS` in `namespace.py` and added to the form by `record_tabs.js`, as
   every record tab is (one/tabs.py). So the tab is on every doctype,
   erpnext's and hrms's included, and no field is written to any of them.
@@ -397,7 +397,7 @@ not a second R2 integration.
   row, Files and the count, that opens the tab. Its list, Show All and its
   uploader are hidden (desk.css).
 
-- `public/js/record_activity.js` — the Activity tab, last, on every record
+- `public/js/one_cloud/record_activity.js` — the Activity tab, last, on every record
   that has Files. Comments, mail, changes, assignments and shares used to
   sit under every tab; under Mail and Files they repeated what the tab
   showed, and on a long form nobody scrolled to them. The tab holds
@@ -717,8 +717,8 @@ OneCloud's in each:
   its own yet and ends with the centres every module's does
   (`onedesk.module_settings.open`); the explorer draws the foot with
   `interfaceModuleFoot`.
-- `public/js/record_files.js` and `public/js/record_activity.js` are
-  OneCloud's too, still at the top of `public/js/` (SCRATCHPAD.md).
+- `public/js/one_cloud/record_files.js` and `public/js/one_cloud/record_activity.js` are
+  OneCloud's too: the Files and Activity tabs on every record.
 
 ### ai.py
 

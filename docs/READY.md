@@ -147,7 +147,8 @@ product's mark is drawn into one sprite; and
 **Guards.** `tests/guards/test_ready.py` fails on anything left in `OUTSIDE`
 and on any tracked file named for the module outside its places. The guards
 that read the suite read every module's `checks.py` (`tree.suite()`), and the
-ones that read only the top of `public/js` or `public/css` also read `one_*/`.
+ones that read `public/js` or `public/css` read every folder in it: the top of
+each holds only the desk's own scripts and styles, each in `ready.SHARED`.
 
 ### 3. Versions and What's New
 

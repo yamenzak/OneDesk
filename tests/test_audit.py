@@ -65,6 +65,6 @@ def test_accesscenter_reads_the_three_as_one_log():
 	assert 'id: "audit"' in centre and 'audit." + "log"' in centre.replace('A.replace("access_center.", "audit.")', 'audit."')
 	sidebar = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	assert not {"Version", "Activity Log", "Access Log"} & {one.get("link_to") for one in sidebar["items"]}
-	lists = (tree.APP / "public" / "js" / "audit_list.js").read_text()
+	lists = (tree.APP / "public" / "js" / "one" / "audit_list.js").read_text()
 	for title in ("Changes", "Sign-ins", "Exports and Prints"):
 		assert f'headed(__("{title}"))' in lists, title

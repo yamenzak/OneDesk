@@ -127,9 +127,9 @@ is:
   The sub-tasks are on the task's page as a connection (`dashboard`), so its
   + makes one with the parent filled in, which is frappe's own way of doing
   it.
-- `public/js/task_list.js` — a due date read as a day, red once passed, and
+- `public/js/one_task/task_list.js` — a due date read as a day, red once passed, and
   a start date read as a day.
-- `views.py`, `public/js/task_calendar.js` and `public/js/task_tree.js` —
+- `views.py`, `public/js/one_task/task_calendar.js` and `public/js/one_task/task_tree.js` —
   All Tasks on frappe's Calendar and Tree, ERPNext's own settings read
   through `events` and `children`, which leave a template's tasks out. A task
   planned by the day is a day on the calendar, since ERPNext keeps a task's
@@ -138,7 +138,7 @@ is:
 - `timer.py` — the timer, as a row on the person's draft timesheet for the
   week; a row with a start and no end is the running one, the same rule as the
   Timesheet form's own timer, so either stops what the other started.
-  `public/js/task.js` and `task_timer.js` are its buttons and what they say.
+  `public/js/one_task/task.js` and `task_timer.js` are its buttons and what they say.
   A pause ends the line and keeps the task in a user default (`PAUSED`), so
   `timers` lists the one running and the ones paused; every change tells the
   person's screens (`one_timers`). The rail's Timers tile is in
@@ -152,7 +152,7 @@ is:
   person's draft timesheet for the week — made if there is none — with the
   task, its project and a start. **Stop** gives the row its end, and ERPNext
   works out the hours. One timer runs at a time: starting another stops the
-  first. The Timesheet form's own timer is public/js/timesheet.js. Every
+  first. The Timesheet form's own timer is public/js/one_hr/timesheet.js. Every
   stamp is `now_datetime`, the site's clock, for the reason given there. A
   timer stopped within a minute of starting was a slip, and its row is taken
   out rather than left at nought hours to be refused on submit.

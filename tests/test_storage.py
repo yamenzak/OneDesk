@@ -540,7 +540,7 @@ def test_a_search_can_be_widened_and_a_result_found_where_it_lives():
 	assert 'ctrl && event.shiftKey && k.toLowerCase() === "f"' in js
 
 
-RECORD_FILES = tree.APP / "public" / "js" / "record_files.js"
+RECORD_FILES = tree.APP / "public" / "js" / "one_cloud" / "record_files.js"
 
 
 def test_every_record_has_a_files_tab_on_its_own_room():
@@ -555,7 +555,7 @@ def test_every_record_has_a_files_tab_on_its_own_room():
 	assert '"onedesk.one_cloud.namespace.TABS"' in HOOKS
 	assert "`@records/${frm.doctype}/${frm.doc.name}`" in js
 	assert 'onedesk.record_tabs.register("files"' in js
-	assert "/assets/onedesk/js/record_files.js" in HOOKS
+	assert "/assets/onedesk/js/one_cloud/record_files.js" in HOOKS
 
 
 def test_the_explorer_is_one_island_for_every_host():

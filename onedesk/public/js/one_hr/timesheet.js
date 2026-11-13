@@ -43,7 +43,7 @@ onedesk.timesheet.timer = (frm, row) => {
 				fieldtype: "Float",
 				fieldname: "expected_hours",
 				label: __("Expected Hrs"),
-				description: __("Optional. The timer says so when it runs past this."),
+				description: __("The timer says so when it runs past this, if it is set."),
 			},
 			{ fieldtype: "Section Break" },
 			{ fieldtype: "HTML", fieldname: "clock" },

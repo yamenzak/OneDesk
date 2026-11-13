@@ -235,6 +235,7 @@ A module is held to it before it is marked ready.
 - `selectors-cheap`: a :has() selector that restyles the whole page on any change (`tests/guards/test_selectors.py::test_no_rule_of_ours_restyles_the_page`)
 - `hooks-exist`: a hook naming a function or asset that does not exist (`tests/guards/test_hooks.py::test_the_function_exists`)
 - `module-named-outside`: a file named for a module outside its places that ready.SHARED does not explain (`tests/guards/test_ready.py::test_nothing_outside_a_module_is_named_for_it`)
+- `module-static-in-folder`: a script or stylesheet at the top of public/js or public/css that ready.SHARED does not explain (`tests/guards/test_ready.py::test_the_top_of_public_holds_only_what_is_shared`)
 - `module-markdown`: a module on its way to ready with Markdown other than AGENTS.md, SCRATCHPAD.md and docs/ (`tests/guards/test_ready.py::test_a_module_writes_only_agents_scratchpad_and_docs`)
 - `lints-clean`: what ruff catches, in a module the closing passover finished (`tests/guards/test_source_style.py::test_a_closed_module_lints_clean`)
 - `comments-short`: a comment block over 3 lines; the long form goes in the module's README (`tests/guards/test_source_style.py::test_no_comment_block_is_an_essay`)

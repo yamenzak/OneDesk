@@ -143,7 +143,7 @@ def test_somebody_who_is_not_a_user_can_find_the_page():
 	brand = (tree.APP / "one" / "brand.py").read_text()
 	assert '{"label": "Your Data", "url": "/your-data"}' in brand
 	assert '"footer_powered": " "' in brand, "an empty one draws erpnext's line"
-	login = (tree.APP / "public" / "js" / "login.js").read_text()
+	login = (tree.APP / "public" / "js" / "one_hr" / "login.js").read_text()
 	assert '["/your-data", __("Your Data")]' in login and "frappe._translations_loaded" in login
 	assert "onedesk.one.patches.your_data_footer" in (tree.APP / "patches.txt").read_text()
 
@@ -157,7 +157,7 @@ def test_the_public_page_is_frappes_sign_in_card():
 	assert "new frappe.ui.TabButtons(" in guest and 'class="es-button w-full" data-variant="solid"' in guest
 	for hand_drawn in ("one-go", "one-choice", "one-field", "<fieldset"):
 		assert hand_drawn not in guest, hand_drawn
-	login = (tree.APP / "public" / "js" / "login.js").read_text()
+	login = (tree.APP / "public" / "js" / "one_hr" / "login.js").read_text()
 	assert login.count(".for-login:not(.one-your-data)") == 2, "the passkey and the footnote stay on sign-in"
 	context = (tree.APP / "www" / "your_data.py").read_text()
 	assert "raise frappe.Redirect" in context and "privacy.where(frappe.session.user)" in context

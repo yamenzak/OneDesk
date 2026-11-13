@@ -11,7 +11,7 @@ frappe.ui.form.on("Request for Quotation", {
 		if (!quoted.length) return;
 		frm.add_custom_button(
 			__("Order Cheapest"),
-			() => frappe.require("/assets/onedesk/js/quotes_actions.js").then(() => onedesk.quotes.order_cheapest(frm.doc.name, () => frm.reload_doc())),
+			() => frappe.require("/assets/onedesk/js/one_inventory/quotes_actions.js").then(() => onedesk.quotes.order_cheapest(frm.doc.name, () => frm.reload_doc())),
 			__("Create")
 		);
 	},

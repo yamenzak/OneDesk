@@ -46,7 +46,7 @@ the books by itself every day, and the asset reports are OneBook's to read as
 well. The product line has no mark for a separate assets app, and an app with
 a register and a movement form in it would be a rail with five rows.
 
-- `kinds.py` and `public/js/item_new.js` — New Item. `KINDS` sets the
+- `kinds.py` and `public/js/one_inventory/item_new.js` — New Item. `KINDS` sets the
   ERPNext fields each kind needs (is_stock_item, is_fixed_asset,
   has_variants), and `make` saves the item as ERPNext's form would: its item
   defaults, reorder level, opening stock, attributes and versions, prices on
@@ -60,7 +60,7 @@ a register and a movement form in it would be a rail with five rows.
   there is one; `read` matches each part by code, a supplier's part number
   (Item Supplier) or name; `add` makes the missing parts stock items in Raw
   Material, bought and not sold.
-- `measure.py` and `public/js/measure.js` — selling by size. Item's
+- `measure.py` and `public/js/one_inventory/measure.js` — selling by size. Item's
   `one_measured_by` (Sold by Size: No, Piece, Length, Area or Volume), set by
   `follows_unit` before_validate from ERPNext's UOM Conversion Factor
   category when the item is made or its unit changes, and on every table in
@@ -115,7 +115,7 @@ a register and a movement form in it would be a rail with five rows.
   what it is for, shown only when the reader may open it (a doctype's read
   permission, a report's or page's own roles). The rail's Reports and Setup
   are Page links to it with a route (`/desk/inventory/reports`).
-- `lots.py`, `frontend/src/inventory/lots` and `public/js/lots_actions.js`
+- `lots.py`, `frontend/src/inventory/lots` and `public/js/one_inventory/lots_actions.js`
   — what is kept in lots and by number. Batch and Serial No are frappe's
   own lists and forms (the Lots page went in November 2026; `/desk/lots`
   leads to Batch). `lots` gives Batch with something left, sorted by expiry
@@ -130,7 +130,7 @@ a register and a movement form in it would be a rail with five rows.
   picker is `can_be_tracked`, items with no stock ledger entry. New Batch
   inserts a Batch with `frappe.client.insert`, and ERPNext numbers it and
   works out its expiry. OneAI's `lots_and_numbers` reads the same.
-- `quotes.py`, `public/js/quotes_actions.js` and
+- `quotes.py`, `public/js/one_inventory/quotes_actions.js` and
   `public/js/one_inventory/request_for_quotation.js` — asking for prices.
   Request for Quotation and Supplier Quotation are frappe's own lists and
   forms (the Quotes page went in November 2026; `/desk/quotes` leads to the
@@ -147,7 +147,7 @@ a register and a movement form in it would be a rail with five rows.
   Cheapest, once a quote is submitted) runs
   `supplier_quotation.mapper.make_purchase_order` per supplier with
   `filtered_children` for the lines they are cheapest on, leaving drafts.
-- `supplier_items.py`, `public/js/supplier_items.js` and
+- `supplier_items.py`, `public/js/one_inventory/supplier_items.js` and
   `frontend/src/inventory/supplier` — a supplier's Items tab. ERPNext's own
   Items tab (October 2026) lists Frequently Bought and the party's specific
   items; `supplier_items.js` wraps `erpnext.PartyItems.make_frequent_list`
@@ -204,10 +204,10 @@ a register and a movement form in it would be a rail with five rows.
   warehouse's reorder level). The page follows the stock ledger and the Bins,
   and is a place for OneStudio (`oneinventory_stock.on_hand`). A warehouse's
   head is in `heads.py`, and a group's figures cover the warehouses under it.
-- `public/js/warehouse_tree.js` — the warehouse tree without ERPNext's Company
+- `public/js/one_inventory/warehouse_tree.js` — the warehouse tree without ERPNext's Company
   filter, opened all the way down once.
 - `heads.py` (Purchase Receipt), `print_format/one_purchase_receipt`,
-  `public/js/purchase_receipt_list.js` and `public/js/rate_note.js` —
+  `public/js/one_inventory/purchase_receipt_list.js` and `public/js/one_inventory/rate_note.js` —
   receiving. The receipt's head reads its lines: their orders, what they were
   valued at once received (landed costs included), and what was rejected. The
   goods received note is laid out in frappe's builder from One's print blocks
@@ -215,9 +215,9 @@ a register and a movement form in it would be a rail with five rows.
   document's exchange rate, where ERPNext writes "[?]". `access.py` lets the
   accountant add landed costs.
 - `heads.py` (Delivery Note), `print_format/one_pick_list`,
-  `print_format/one_packing_slip`, `public/js/delivery_note_list.js`,
+  `print_format/one_packing_slip`, `public/js/one_inventory/delivery_note_list.js`,
   `custom/delivery_note.json`, `custom/driver.json`, `trips.py` and
-  `public/js/delivery_trip.js` — delivering. The delivery's head reads its
+  `public/js/one_inventory/delivery_trip.js` — delivering. The delivery's head reads its
   lines' orders and the trip stop that names it. The two prints are laid out
   in frappe's builder from One's print blocks, the packing slip's party read
   from its delivery. A driver shows by name in a trip, through frappe's
@@ -229,7 +229,7 @@ a register and a movement form in it would be a rail with five rows.
   OneCRM's `access.py` lets the selling, stores, accounts and projects people
   read Selling Settings, which ERPNext's sales order form reads on opening.
 - `heads.py` (Stock Entry, Stock Reconciliation), `print_format/one_stock_entry`,
-  `public/js/stock_entry_list.js`, `custom/stock_entry.json` and
+  `public/js/one_inventory/stock_entry_list.js`, `custom/stock_entry.json` and
   `custom/stock_reconciliation.json` — moving and counting. A movement's head
   reads its lines' warehouses, and what it is worth by what it did. The
   transfer note is laid out in frappe's builder from One's print blocks, its

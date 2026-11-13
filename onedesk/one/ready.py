@@ -66,6 +66,7 @@ is marked ready, and again after a version that adds to it."""
 # its version moves only with what is its own.
 _ENGINE = "an engine every module uses, kept in One's folder"
 _RAN = "OnePortal's, a patch that has run, kept at the path frappe recorded it under"
+_DESK = "the desk's, shared by every module"
 SHARED = {
 	"brand/onemail.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/oneadmin.svg": "every product's mark is drawn in brand/, into one sprite",
@@ -196,6 +197,38 @@ SHARED = {
 	"onedesk/one/webhooks.py": "OneStudio's Webhooks, to move into one_studio",
 	"brand/onestudio.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/one/patches/holiday_names.py": "OneHR's holidays, a patch that has run",
+	"onedesk/public/js/apps.js": _DESK + ": the apps a workspace turned off, which every rail, search and link asks",
+	"onedesk/public/js/band.js": _DESK + ": the band every record head draws its numbers and charts in",
+	"onedesk/public/js/brand.js": _DESK + ": every product's name drawn as its mark",
+	"onedesk/public/js/center_section.js": _DESK + ": a centre's section, which every centre draws",
+	"onedesk/public/css/center_section.css": _DESK + ": a centre's section, which every centre draws",
+	"onedesk/public/js/chart_colors.js": _DESK + ": every chart's colours",
+	"onedesk/public/js/check.js": _DESK + ": the check page OneBook's and OneInventory's checks both draw",
+	"onedesk/public/js/crumb_switch.js": _DESK + ": every crumb's switcher",
+	"onedesk/public/js/desk.js": _DESK + ": the desk itself",
+	"onedesk/public/css/desk.css": _DESK + ": the desk itself",
+	"onedesk/public/js/doctype_settings.js": _DESK + ": numbering, printing, approvals and automations on every record type",
+	"onedesk/public/js/head.js": _DESK + ": the record head every module's records wear",
+	"onedesk/public/js/island_page.js": _DESK + ": the page every module's screens are mounted in",
+	"onedesk/public/js/list_names.js": _DESK + ": every list's titles",
+	"onedesk/public/css/lost.css": _DESK + ": the page for what is not there, on the desk and the web",
+	"onedesk/public/js/module_docs.js": _DESK + ": every module's Help and What's New",
+	"onedesk/public/css/module_docs.css": _DESK + ": every module's Help and What's New",
+	"onedesk/public/js/module_settings.js": _DESK + ": every module's settings",
+	"onedesk/public/css/module_settings.css": _DESK + ": every module's settings",
+	"onedesk/public/js/outside.js": _DESK + ": what every module leaves out of frappe's, erpnext's and hrms's pages",
+	"onedesk/public/js/panel_menu.js": _DESK + ": the menu every place's crumb lists",
+	"onedesk/public/js/phone_head.js": _DESK + ": every page's head on a phone",
+	"onedesk/public/js/record.js": _DESK + ": the record frame every module's records open in",
+	"onedesk/public/js/record_calendar.js": _DESK + ": the Calendar button on a lead, a deal, an employee or a project",
+	"onedesk/public/js/record_tabs.js": _DESK + ": the tabs after every record's fields",
+	"onedesk/public/js/reports.js": _DESK + ": every report",
+	"onedesk/public/js/setup_wizard.js": _DESK + ": the first run, which every module adds its steps to",
+	"onedesk/public/js/shell.js": _DESK + ": the shell every page is drawn in",
+	"onedesk/public/css/shell.css": _DESK + ": the shell every page is drawn in",
+	"onedesk/public/js/size.js": _DESK + ": a file's size in words, on the desk and OneCloud's guest pages",
+	"onedesk/public/js/theme.js": _DESK + ": the theme, and every script's address",
+	"onedesk/public/css/theme.css": _DESK + ": the theme",
 }
 
 

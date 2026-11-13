@@ -323,6 +323,12 @@ GUARDS = [
 		"tests/guards/test_ready.py::test_nothing_outside_a_module_is_named_for_it",
 	),
 	Guard(
+		"module-static-in-folder",
+		20,
+		"a script or stylesheet at the top of public/js or public/css that ready.SHARED does not explain",
+		"tests/guards/test_ready.py::test_the_top_of_public_holds_only_what_is_shared",
+	),
+	Guard(
 		"module-markdown",
 		20,
 		"a module on its way to ready with Markdown other than AGENTS.md, SCRATCHPAD.md and docs/",

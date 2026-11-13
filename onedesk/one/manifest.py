@@ -12,7 +12,6 @@ APP = App(
 	rail=10,
 	sidebar="One",
 	screens="one",
-	names=("one_control", "access_center", "notification_center", "role_matrix"),
 	help=(
 		("overview", "info"),
 		("home", "house"),

@@ -1143,10 +1143,10 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		);
 	}
 
-	// Stripe's Checkout drawn in a dialog (public/js/one_pay.js): nobody
+	// Stripe's Checkout drawn in a dialog (public/js/one_admin/one_pay.js): nobody
 	// leaves One to pay. `done` runs once Stripe says it is paid or saved.
 	async pay(checkout, title, done) {
-		await frappe.require("/assets/onedesk/js/one_pay.js");
+		await frappe.require("/assets/onedesk/js/one_admin/one_pay.js");
 		const dialog = new frappe.ui.Dialog({ title, size: "large", fields: [{ fieldtype: "HTML", fieldname: "pay" }] });
 		const $at = dialog.fields_dict.pay.$wrapper.addClass("os-pay");
 		$at.html(`<div class="one-shell-quiet">${frappe.utils.escape_html(__("Loading…"))}</div>`);

@@ -39,7 +39,7 @@ role and frappe's System Manager their permissions in their own JSON.
 |---|---|
 | `extensions.py` | The Extension record's rules, and frappe's Client Script or Server Script made from it as Administrator. |
 | `guard.py` | Pure. Reads an extension's code before it is kept and refuses what reaches past the administrator. |
-| `places.py` | One's own pages an extension can run on (OneMail, OneCalendar, OneTask, OneCloud, OneAI, the pipeline board, a project's page, every space's home, a record's head): each one's events, what it gives, and what it may do. `../public/js/places.js` runs them. |
+| `places.py` | One's own pages an extension can run on (OneMail, OneCalendar, OneTask, OneCloud, OneAI, the pipeline board, a project's page, every space's home, a record's head): each one's events, what it gives, and what it may do. `../public/js/one_studio/places.js` runs them. |
 | `checks.py` | Pure. Whether an extension's code would work: the field and handler names it uses against the record's own, and its length. |
 | `trial.py` | Tries an extension before it is kept: node parses screen code; server code runs once on a real record, undone after. |
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
@@ -267,7 +267,7 @@ events), what each event tells the extension (`gives`), and the few things
 the extension may do there (`may`).
 
 This is the whole contract. The browser runs only these events with only
-these powers (`public/js/places.js`); `guard.py` refuses code that listens for
+these powers (`public/js/one_studio/places.js`); `guard.py` refuses code that listens for
 an event the page does not have; and OneAI reads it to know what each page
 allows (`ai.py` `extension_places`), so what it writes and what runs are the
 same list.

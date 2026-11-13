@@ -27,7 +27,7 @@ frappe.ui.form.on("Personal Data Deletion Request", {
 							fieldtype: "Small Text",
 							label: __("Reason"),
 							reqd: 1,
-							description: __("Sent to {0}. For example, payroll for the month has to close first.", [who]),
+							description: __("What {0} is told, such as that payroll for the month has to close first.", [who]),
 						},
 					],
 					primary_action_label: __("Hold"),

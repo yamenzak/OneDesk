@@ -17,7 +17,7 @@ onedesk.item.parts = (frm) => {
 };
 
 onedesk.item.verbs = async (frm) => {
-	await frappe.require(["/assets/onedesk/js/project_actions.js", "/assets/onedesk/js/item_actions.js", "/assets/onedesk/js/lots_actions.js"]);
+	await frappe.require(["/assets/onedesk/js/one_project/project_actions.js", "/assets/onedesk/js/one_inventory/item_actions.js", "/assets/onedesk/js/one_inventory/lots_actions.js"]);
 	const doc = frm.doc;
 	const usable = !doc.disabled && !doc.has_variants;
 	const can = (doctype) => frappe.model.can_create(doctype);

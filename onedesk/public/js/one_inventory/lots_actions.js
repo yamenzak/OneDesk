@@ -46,7 +46,7 @@ onedesk.lots.track = (item, done) => {
 				fieldtype: "Data",
 				fieldname: "serial_series",
 				label: __("Serial Number Series"),
-				description: __("For example SN-.#####. Left empty, each number is typed in."),
+				description: __("A pattern such as SN-.#####, or empty to type each number in."),
 			},
 			{ fieldtype: "Int", fieldname: "warranty", label: __("Warranty Period (in days)") },
 		],

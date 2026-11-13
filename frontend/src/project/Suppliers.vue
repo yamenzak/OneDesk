@@ -254,7 +254,7 @@ const PAPER = {
 };
 const slug = (doctype) => doctype.toLowerCase().replaceAll(" ", "-");
 const askPrices = () =>
-  requires(["/assets/onedesk/js/quotes_actions.js"]).then(() => onedesk().quotes.ask(load, { project: props.said.name }));
+  requires(["/assets/onedesk/js/one_inventory/quotes_actions.js"]).then(() => onedesk().quotes.ask(load, { project: props.said.name }));
 const received = (item) =>
   item.received === null || item.received === undefined ? "" : [__("{0}% received", [Math.round(item.received)]), __("{0}% billed", [Math.round(item.billed)])].join(" · ");
 const ahead = (item) => item.billed > item.received;

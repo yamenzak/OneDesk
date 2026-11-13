@@ -1,6 +1,6 @@
 """Lists: the short lists records pick their values from, each declared by
 its module as `LISTS` in its `lists.py` (One's here, the Address Book's) and
-kept at the end of the module's ControlCenter (public/js/lists.js). How it
+kept at the end of the module's ControlCenter (public/js/one/lists.js). How it
 works is in One's AGENTS.md, under lists.py."""
 
 import importlib

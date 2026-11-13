@@ -42,7 +42,7 @@ onedesk.hiring.recorder = {
 					fieldname: "call",
 					fieldtype: "Check",
 					label: __("Include Audio From Another Tab"),
-					description: __("For video calls. The browser asks which tab to share."),
+					description: __("For video calls, where the browser asks which tab to share."),
 				},
 			],
 			primary_action_label: __("Start recording"),

@@ -56,12 +56,12 @@ the settings and DiceBear's own `<metadata>` inside every SVG.
 | `sidebar/one/one.json` | One's sidebar, with a link per section |
 | `ai.py` | What OneAI offers on these pages, what it is told about where the reader is, and its suggestion tools: a notification rule, its text, and a form customized (`customize`) |
 | `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `onedesk/notifications/README.md` |
-| `push.py`, `doctype/push_device`, `../public/js/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
+| `push.py`, `doctype/push_device`, `../public/js/one/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
 | `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |
 | `custom/notification_type.json` | What a Notification Type carries here: its app, text and channels |
 | `head.py`, `figures.py`, `doctype/record_head*`, `../public/js/head.js`, `../public/js/band.js` | What a record's form says above its fields, as rows, and the band that draws its numbers and charts: see below |
 | `linked.py` | Fields of a linked record, edited on the form and saved in its save |
-| `tabs.py`, `../public/js/record_tabs.js`, `../public/js/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
+| `tabs.py`, `../public/js/record_tabs.js`, `../public/js/one_cloud/record_activity.js` | The tabs after a record's fields (Mail, Files, Activity), each declared by its module under `one_record_tabs` and added to the form in one place; Activity is One's own |
 | `../public/js/crumb_switch.js`, `../public/js/panel_menu.js` | Every crumb with somewhere to go is a switcher: a frappe.ui.Popover with a search box over frappe's menu rows, as frappe-ui's Combobox draws one with `trigger="button"`. The place's crumb lists the panel's rows (`onedesk.panel.options`), a record's crumb (a form's last, or the one `shell.trail` marks `one_record`) searches its doctype with `frappe.desk.search.search_link`, with `onedesk.crumbs.suggest[doctype]` before anything is typed (a project's: the reader's open projects), and a crumb a page gave a `menu` filters that. **All …** stays pinned under the rows |
 | `../public/js/phone_head.js` | Below 768 wide the page head is two bars, each its own height with a line under it (desk.css), and the trail splits over them: the place stays in the first with the panel's button and search, and phone_head.js moves the page's buttons there too, before search; crumb_switch.js draws the record's crumb and any after it (a project's All Work) as buttons in the second, beside the status and the view switch. The head is marked `one-head-actions` when it has any, its height is set as `--page-head-height` for frappe's sticky parts, and the status pill moves to the second row with its word, which frappe shrinks to a dot on a phone |
 | `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search, pickers of record types and reports, and global search offer only what One shows (`shown.json`); frappe's documentation links are dropped. A page not found or not permitted keeps the rail. Search, Check In, OneAI, Timers and Notifications are frappe's own buttons in the bar across the top of the shell (`desk.js` `bar`, Discord's and Slack's title bar), since a page with a sidebar of its own hides the panel's band they were in; frappe's full-height boxes are each the window less the bar (`desk.css`), beside the bar the band is hidden, the bar and the pinned rail are one frame with the rest inset in it, its first panel's corner rounded, and on a phone there is no bar and the band keeps them |
@@ -295,7 +295,7 @@ One adds five things:
   each chose (Announcement), not only at their next sign-in.
 - **The administrators see who has read it,** frappe's own Seen By, and
   OneAI answers who has not.
-- **It is frappe's Note list** (`public/js/note_list.js`), titled
+- **It is frappe's Note list** (`public/js/one/note_list.js`), titled
   Announcements and opening on what is showing: Status (`one_status`,
   Showing or Ended) is a standard filter, administrators get Stop Showing
   in its actions, and `stop` ends one at once by setting its Show Until to
@@ -523,7 +523,7 @@ System Manager (`settle`), so frappe's "Create a new" under a field works for
 them too.
 
 **There is no screen of lists.** Every module's ControlCenter ends with
-Lists (public/js/lists.js, added by `module_settings.open` as the centres
+Lists (public/js/one/lists.js, added by `module_settings.open` as the centres
 are), one row per list with its count, each opening frappe's list; the
 module's other lists are a tree in the window's nav pane beside it (through
 `onedesk.interface.trees`). A module with lists and no ControlCenter of its own
@@ -841,7 +841,7 @@ workspace has, so nobody here could see or undo a deletion. Now:
 - what is not a record somebody made is never shown: tables, frappe's own
   machinery (permission rows, property setters) and the platform's records.
 
-It is frappe's Deleted Document list (`public/js/deleted_document_list.js`),
+It is frappe's Deleted Document list (`public/js/one/deleted_document_list.js`),
 each row titled by what it was (`one_title`, set as it is deleted) and
 narrowed to what the reader may see by `query` and `has_permission`;
 `restore` and `bulk_restore` put back one or many ticked and stamp the time.
