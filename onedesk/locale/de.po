@@ -46917,7 +46917,7 @@ msgstr "Zeitbudget festlegen"
 #: onedesk/one_project/library/erp_rollout.json
 #: onedesk/public/js/module_settings.js:132
 msgid "Set Up"
-msgstr "Einrichtung"
+msgstr "Einrichten"
 
 #: onedesk/public/js/one_admin/admin_control.js:217
 msgid "Set Up Again"
