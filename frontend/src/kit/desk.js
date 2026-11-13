@@ -6,6 +6,8 @@ export function __(text, args, context) {
 	return String(text).replace(/\{(\d+)\}/g, (_, i) => (args || [])[Number(i)] ?? "");
 }
 
+export const name = (id) => frappe()?.boot?.one_names?.[id]?.name || id;
+
 export const call = (method, args = {}) => frappe().xcall(method, args);
 
 // A method that answers GET only (frappe.whitelist(methods=["GET"])).

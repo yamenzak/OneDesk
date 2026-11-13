@@ -32,6 +32,10 @@ when it needs a picture or a clip, and how it links to What's New.
 
 ## Where what a page says comes from
 
+An app's name is written by its id in braces, `{one_cloud}`, `{one}` for One
+itself, and filled in from its manifest when the page is shown, so a
+rename reaches every page (tests/guards/test_names.py).
+
 frappe, ERPNext and HRMS already explain most of what their records do:
 docs.frappe.io/erpnext and docs.frappe.io/hr. Read them for what is true
 (what a record is for, what each field does, how a flow runs), then write

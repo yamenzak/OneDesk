@@ -93,6 +93,26 @@ def declared_notifications() -> list[tuple[str, Path]]:
 	return found
 
 
+def literal(node):
+	"""`ast.literal_eval` of a node that may name an app as
+	`registry.name("one_doc")`, read as the name the registry gives it."""
+	import ast
+	import copy
+	import sys
+
+	if str(ROOT) not in sys.path:
+		sys.path.insert(0, str(ROOT))
+	from onedesk.one import registry
+
+	class Named(ast.NodeTransformer):
+		def visit_Call(self, call):
+			if ast.unparse(call.func) == "registry.name" and len(call.args) == 1 and isinstance(call.args[0], ast.Constant):
+				return ast.copy_location(ast.Constant(registry.name(call.args[0].value)), call)
+			return self.generic_visit(call)
+
+	return ast.literal_eval(Named().visit(copy.deepcopy(node)))
+
+
 def granted() -> dict:
 	"""What one/access.py gives the workspace administrator, by doctype."""
 	import ast

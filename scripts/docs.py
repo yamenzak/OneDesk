@@ -7,6 +7,7 @@ worth documenting that this cannot reach is a fact that belongs in a docstring.
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -17,6 +18,7 @@ import tree
 sys.path.insert(0, str(tree.ROOT))
 
 from onedesk.one import ready, registry, standard  # noqa: E402
+from onedesk.one.registry import labels  # noqa: E402
 from tests.guards.registry import GUARDS, PLANNED  # noqa: E402
 
 DOCS = tree.ROOT / "docs"
@@ -239,17 +241,49 @@ def upstream_page() -> str:
 	return "".join(out)
 
 
+def _now() -> str:
+	return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+
 def dock_fixture() -> str:
 	"""The Dock One ships: a row for each app with a place on the rail, in the
-	rail's order, from the manifests (onedesk/one/registry)."""
+	rail's order, from the manifests (onedesk/one/registry). Its `modified`
+	moves when its rows do, so a migrate takes them."""
 	path = tree.APP / "dock" / "onedesk" / "onedesk.json"
 	shipped = json.loads(path.read_text())
-	shipped["items"] = [
+	rows = [
 		{"added": 0, "hidden": 0, "icon": app.mark, "link_to": app.sidebar, "link_type": "Sidebar", "title": app.name}
 		for app in registry.apps()
 		if app.rail is not None
 	]
+	if shipped["items"] != rows:
+		shipped["items"], shipped["modified"] = rows, _now()
 	return json.dumps(shipped, indent=1, sort_keys=True, ensure_ascii=False) + "\n"
+
+
+def named_fixture(path: Path):
+	"""A synced record with its labels that are an app's name written from
+	the registry (onedesk/one/registry/labels.py), in place, and its
+	`modified` moved when one changed."""
+	mine = [one for one in labels.named(tree.APP) if tree.APP / one.file == path]
+
+	def build() -> str:
+		text = path.read_text(encoding="utf-8")
+		record = json.loads(text)
+		moved = False
+		for one in mine:
+			was, want = labels.holder(record, one).get(one.field), labels.wanted(one)
+			if was == want:
+				continue
+			said = f'"{one.field}": {json.dumps(was, ensure_ascii=False)}'
+			if text.count(said) != 1:
+				raise ValueError(f"{one.file}: {said} is there {text.count(said)} times, not once")
+			text, moved = text.replace(said, f'"{one.field}": {json.dumps(want, ensure_ascii=False)}'), True
+		if moved:
+			text = text.replace(f'"modified": "{record["modified"]}"', f'"modified": "{_now()}"', 1)
+		return text
+
+	return build
 
 
 def modules_txt() -> str:
@@ -266,6 +300,7 @@ PAGES = {
 	DOCS / "STANDARD-RULES.md": standard_rules_page,
 	DOCS / "ATLAS.md": atlas.page,
 	atlas.SHOWN: atlas.shown_json,
+	**{tree.APP / file: named_fixture(tree.APP / file) for file in dict.fromkeys(one.file for one in labels.named(tree.APP))},
 }
 
 

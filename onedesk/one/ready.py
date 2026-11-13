@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 from onedesk.one import registry, standard
+from onedesk.one.registry import filled
 
 APP = Path(__file__).resolve().parents[1]
 ROOT = APP.parent
@@ -312,7 +313,9 @@ def versions(module: str) -> list[dict]:
 			raise ValueError(f"{path} has no front matter")
 		said = dict(line.split(": ", 1) for line in head.group(1).splitlines())
 		said["docs"] = [one.strip() for one in said.get("docs", "").split(",") if one.strip()]
-		found.append({**said, "version": path.stem, "body": text[head.end() :].strip(), "path": path})
+		if "title" in said:
+			said["title"] = filled(said["title"])
+		found.append({**said, "version": path.stem, "body": filled(text[head.end() :].strip()), "path": path})
 	return sorted(found, key=lambda one: number(one["version"]), reverse=True)
 
 
@@ -342,7 +345,7 @@ def help_pages(module: str) -> list[dict]:
 	folder = help_folder(module)
 	found = []
 	for page, icon in MODULES[module].get("help", ()):
-		text = (folder / f"{page}.md").read_text(encoding="utf-8")
+		text = filled((folder / f"{page}.md").read_text(encoding="utf-8"))
 		title, _, body = text.partition("\n")
 		found.append(
 			{"id": page, "icon": icon, "title": title.lstrip("# ").strip(), "body": body.strip(), "path": folder / f"{page}.md"}

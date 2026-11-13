@@ -387,7 +387,7 @@ def paged() -> frozenset:
 	tree_ = ast.parse((tree.APP / "one" / "tiers.py").read_text())
 	for node in tree_.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "PAGES":
-			return frozenset(ast.literal_eval(node.value))
+			return frozenset(tree.literal(node.value))
 	return frozenset()
 
 
@@ -421,9 +421,9 @@ def answers() -> dict:
 			said = {}
 			for key, value in zip(node.value.keys, node.value.values, strict=True):
 				kind = value.elts[0]
-				said[ast.literal_eval(key)] = (
+				said[tree.literal(key)] = (
 					names[kind.id] if isinstance(kind, ast.Name) else kind.value,
-					names[value.elts[1].id] if isinstance(value.elts[1], ast.Name) else ast.literal_eval(value.elts[1]),
+					names[value.elts[1].id] if isinstance(value.elts[1], ast.Name) else tree.literal(value.elts[1]),
 				)
 			return said
 	return {}
@@ -465,9 +465,9 @@ def givable() -> dict:
 		}
 		if "EVERYONE" not in said or "APP" not in said:
 			continue
-		everyone, app = ast.literal_eval(said["EVERYONE"]), ast.literal_eval(said["APP"])
+		everyone, app = tree.literal(said["EVERYONE"]), tree.literal(said["APP"])
 		out.setdefault(everyone, "everybody")
-		for role in ast.literal_eval(said["DEFAULTS"]) if "DEFAULTS" in said else ():
+		for role in tree.literal(said["DEFAULTS"]) if "DEFAULTS" in said else ():
 			out.setdefault(role, app)
 	return out
 
@@ -532,7 +532,7 @@ def changes() -> dict:
 	tiers_ = ast.parse((tree.APP / "one" / "tiers.py").read_text())
 	for node in tiers_.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "HEADS":
-			for doctype in ast.literal_eval(node.value):
+			for doctype in tree.literal(node.value):
 				out.setdefault(doctype, {})["head"] = True
 	for doctype in paged():
 		out.setdefault(doctype, {})["page"] = True
@@ -559,7 +559,7 @@ def _refused_modules() -> tuple:
 	module = ast.parse((tree.APP / "one_studio" / "customize.py").read_text())
 	for node in module.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "REFUSED_MODULES":
-			return ast.literal_eval(node.value)
+			return tree.literal(node.value)
 	return ()
 
 
@@ -1035,7 +1035,7 @@ def _module_dict(name: str) -> dict:
 	module = ast.parse((tree.APP / "one" / "atlas.py").read_text())
 	for node in module.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == name:
-			return ast.literal_eval(node.value)
+			return tree.literal(node.value)
 	return {}
 
 
