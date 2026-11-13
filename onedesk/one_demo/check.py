@@ -1556,9 +1556,10 @@ def onecloud_a_document_of_ones_own_is_edited_in_oneos():
 			try:
 				_asked(data=sent)
 				assert oneos.save(**up) == {"saved": False}, "the file as it was sent is not a save"
-				_asked(data=note("Keys on Friday."))
+				friday = note("Keys on Friday.")
+				_asked(data=friday)
 				assert oneos.save(**up) == {"saved": True}
-				_asked(data=note("Keys on Friday."))
+				_asked(data=friday)
 				assert oneos.save(**up) == {"saved": False}, "the same save twice is one"
 			finally:
 				_unasked()
