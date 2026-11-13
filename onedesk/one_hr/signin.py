@@ -28,7 +28,7 @@ def begin() -> dict:
 	return frappe.parse_json(webauthn.options_to_json(options))
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(limit=10, seconds=60)
 def finish(credential: str) -> dict:
 	"""Verify the signature, find whose it is, and let frappe do the rest."""

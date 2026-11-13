@@ -516,7 +516,7 @@ def waiting() -> list[dict]:
 	return proposals.mine()
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def apply(proposal: str) -> dict:
 	"""Do what was suggested, as the person pressing the button."""
 	from onedesk.one_ai import proposals
@@ -533,14 +533,14 @@ def apply_all(proposals: list | str) -> list[dict]:
 	return suggested.apply_all([str(one) for one in named or []][:50])
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def refuse(proposal: str) -> dict:
 	from onedesk.one_ai import proposals
 
 	return proposals.refuse(proposal)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def took(proposal: str) -> dict:
 	"""A suggested change applied into the open form, for the person to save."""
 	from onedesk.one_ai import touch
@@ -548,7 +548,7 @@ def took(proposal: str) -> dict:
 	return touch.took(proposal)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def landed(proposal: str, record: str) -> dict:
 	"""A change taken into a new document, now that the document has a name."""
 	from onedesk.one_ai import touch

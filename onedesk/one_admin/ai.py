@@ -12,6 +12,10 @@ from frappe import _lt
 from onedesk.one_admin import ledger
 
 NOT_FOR_AI = {
+	"operator.give_credits": "Credits are money, given by an operator who answers for it.",
+	"operator.take_back_credits": "Credits are money, taken back by an operator who answers for it.",
+	"operator.resume": "Restarting a failed job on a workspace is an operator's call after reading why it failed.",
+	"operator.retry_signup": "Building a workspace again is an operator's call after reading why it failed.",
 	"accounts.pay": "A payment is made by the account holder on Stripe's own page.",
 	"accounts.card": "A card is changed by the account holder on Stripe's own page.",
 	"accounts.save_name": "An account holder changes their own name on their account page, where OneAI isn't.",

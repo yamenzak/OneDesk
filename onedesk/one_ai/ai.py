@@ -7,6 +7,13 @@ tools for everything else are in tools.py, ai_web.py and reading/ai.py."""
 REACH = {}
 
 NOT_FOR_AI = {
+	"chat.start": "A conversation with OneAI is started by the person who talks in it.",
+	"chat.say": "What is said to OneAI is the person's own words.",
+	"chat.rename": "A conversation is named by the person it belongs to.",
+	"run.apply": "Applying a suggestion is the person answering OneAI's card.",
+	"run.refuse": "Refusing a suggestion is the person answering OneAI's card.",
+	"run.took": "This records that the person took a suggestion into a form.",
+	"run.landed": "This records that the person took a suggestion into a document.",
 	"actions.switch": "Which OneAI actions a workspace offers is an administrator's choice in AICenter, never OneAI's.",
 	"brief.switch": "Which records get a summary costs credits, so an administrator chooses it in AICenter, never OneAI.",
 	"center.set_on": "OneAI is turned on and off by an administrator, never by OneAI itself.",

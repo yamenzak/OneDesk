@@ -79,7 +79,7 @@ def opened(chat: str | None = None) -> dict:
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def start() -> dict:
 	"""An empty conversation, so a file has something to be attached to.
 
@@ -93,7 +93,7 @@ def start() -> dict:
 	return {"name": doc.name, "title": doc.title, "said": [], "spent": 0.0}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def say(
 	text: str,
 	chat: str | None = None,
@@ -433,7 +433,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 		frappe.throw(frappe.utils.strip_html(str(raised)), title=frappe._("Not answered"))
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def rename(chat: str, title: str) -> dict:
 	doc = frappe.get_doc("AI Chat", chat)
 	doc.check_permission("write")

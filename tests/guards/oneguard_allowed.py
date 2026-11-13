@@ -10,7 +10,6 @@ UNCHECKED = {
 	"one_calendar/layers.py:days_off": "safe: the company's holidays, shown to every desk user on purpose (its docstring)",
 	"one_cloud/api.py:capacity": "safe: the workspace's total file and database size, drawn under OneCloud's rail for everybody",
 	"one_doc/api.py:people": "safe: names and pictures of enabled staff, who anybody may mention; the desk shows them to all",
-	"one_hr/shift.py:approvers": "to fix: reads any employee's department approvers past permissions; check the reader may make that employee's Shift Request",
 	"one_hr/shift.py:hours": "safe: a shift type's start and end times",
 	"one_inventory/kinds.py:defaults": "safe: Stock Settings defaults, store warehouse and item group names the New Item steps start from",
 	"one_inventory/measure.py:unit_is": "safe: which kind of measure a unit is, from ERPNext's unit table",
@@ -58,19 +57,6 @@ GET_WRITES = {
 	"one_mail/holders.py:mailbox": "safe: a read; the workspace's shared mailbox is made the first time anything asks",
 	"one_mail/holders.py:mailboxes": "safe: a read; the workspace's shared mailbox is made the first time anything asks",
 	"one_mail/holders.py:shared": "safe: a read; the workspace's shared mailbox is made the first time anything asks",
-	"one_admin/operator.py:give_credits": "to fix: gives credits; a link opened by an operator does it",
-	"one_admin/operator.py:take_back_credits": "to fix: takes credits back; a link opened by an operator does it",
-	"one_admin/operator.py:resume": "to fix: restarts a failed job; a link opened by an operator does it",
-	"one_admin/operator.py:retry_signup": "to fix: builds a workspace; a link opened by an operator does it",
-	"one_ai/chat.py:rename": "to fix: renames a conversation",
-	"one_ai/chat.py:say": "to fix: says something in a conversation and starts a OneAI run, which costs credits",
-	"one_ai/chat.py:start": "to fix: makes a conversation",
-	"one_ai/run.py:apply": "to fix: does what OneAI suggested, as the reader",
-	"one_ai/run.py:landed": "to fix: records a suggestion as taken into a document",
-	"one_ai/run.py:refuse": "to fix: refuses a suggestion",
-	"one_ai/run.py:took": "to fix: records a suggestion as applied into a form",
-	"one_hr/passkey.py:retire": "to fix: blocks an employee's passkey",
-	"one_hr/signin.py:finish": "to fix: signs a person in; the challenge keeps a link from it, but a sign-in is a POST",
 }
 
 SQL_FROM_INPUT = {

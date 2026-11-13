@@ -15,6 +15,8 @@ from onedesk.one_hr import own
 REACH = {}
 
 NOT_FOR_AI = {
+	"passkey.retire": "Blocking a passkey keeps a lost phone out of the workspace, so a person decides.",
+	"signin.finish": "Signing in is a person proving who they are, with their own passkey.",
 	"clock.punch": "Checking in is the employee's own word that they are at work, given in person.",
 	"control.save": "Holidays are set for the whole workspace by its administrator.",
 	"expense.approve": "Approving an expense owes an employee money, so their approver decides.",

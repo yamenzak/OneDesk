@@ -421,7 +421,7 @@ def block(employee: str) -> int:
 	return len(found)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def retire(employee: str) -> int:
 	"""HR's other click: block instead of reset.
 

@@ -52,6 +52,8 @@ def approvers(employee: str) -> list[str]:
 	"""
 	if not employee:
 		return []
+	if not frappe.has_permission("Employee", "read", employee):
+		raise frappe.PermissionError
 
 	department, own = frappe.db.get_value(
 		"Employee", employee, ["department", "shift_request_approver"]

@@ -171,7 +171,7 @@ def refresh_domains(tenant: str) -> list:
 	return domains.refresh(frappe.get_doc("Tenant", tenant))
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def resume(job: str) -> str:
 	"""Give a failed job another go, from the step it stopped on.
 
@@ -243,7 +243,7 @@ def walk(job: str) -> dict:
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def retry_signup(request: str) -> dict:
 	"""Build the workspace a paid signup never got.
 
@@ -320,7 +320,7 @@ def try_the_gateway(prompt: str) -> dict:
 	return {"model": model, "said": words}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def give_credits(tenant: str, credits: float, why: str, expires_on: str | None = None) -> dict:
 	"""Credit an operator adds by hand — goodwill, a correction, a trial.
 
@@ -341,7 +341,7 @@ def give_credits(tenant: str, credits: float, why: str, expires_on: str | None =
 	return {"entry": entry, "standing": ledger.standing(tenant)}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def take_back_credits(entry: str, why: str) -> dict:
 	"""What is left of credits an operator gave, taken back (ledger.take_back)."""
 	_may()
