@@ -1,6 +1,6 @@
 # Settings
 
-The cog at the foot of the rail opens {one_factory}'s settings.
+**{one_factory} Settings**, first under the arrow at the right of the top bar, opens {one_factory}'s settings.
 
 | You see | What it is |
 | --- | --- |

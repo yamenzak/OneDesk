@@ -18,7 +18,7 @@ at the same moment.
 | **Counter** | Where whoever serves a queue calls the next ticket. See [Queues and Tickets](queues). |
 | **Content** | The slides, widget layouts, music and spoken ads a channel plays, and the sources that fill widgets with your records. |
 | **Queues** | Each queue with its services and counters, and every ticket taken. |
-| **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and {one_display}'s version, which opens What's New. |
+| **The foot** | The question mark that opens this Help, the play button that takes the tour, and {one_display}'s version, which opens What's New. |
 
 ## What a Screen Needs
 

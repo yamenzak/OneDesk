@@ -560,6 +560,14 @@ def page(said: dict) -> str | None:
 			"add seats, storage, database or credits from the button on each one's tile; how is in AccountCenter's Help under Plan and "
 			"Credits (how_to)."
 		)
+	if said.get("page") == "one-hub":
+		from onedesk.one import registry
+
+		return (
+			f"The reader is on {registry.name('one_hub')}: every centre they may open, a tile each with what it is for, "
+			"and a search over them. A tile opens its centre over the page; the arrow at the right of the top bar "
+			"lists the same centres from any screen."
+		)
 	if said.get("page") == "one":
 		return (
 			"The reader is on One's Home: what waits for their approval in every app (leave, expense claims and "

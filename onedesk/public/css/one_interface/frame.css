@@ -984,8 +984,8 @@ body.one-interface-dragging .sidebar-panel {
 	font-size: var(--text-xs);
 }
 
-/* A view's own row at the foot of the nav pane (win.foot_action): its
-   settings, drawn as the rail's own rows are. */
+/* A module's foot at the bottom of the nav pane (nav_tree.js
+   onedesk.interface.foot), drawn as the rail's own rows are. */
 /* It is as tall as the rail's own foot, the person's picture, and sits as
    far from the bottom, so the two read as one row across the frame. */
 body.one-barred .body-sidebar-bottom {
@@ -1020,7 +1020,7 @@ body.one-barred .body-sidebar-bottom {
 	min-width: 0;
 }
 
-/* A module's foot (win.module_foot) is icons, Settings among them, and its
+/* A module's foot is icons, Help and the tour, and its
    version at the end. */
 .one-interface-foot-action--icons .standard-sidebar-item .sidebar-item-label {
 	display: none;

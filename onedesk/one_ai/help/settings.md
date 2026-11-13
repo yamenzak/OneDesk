@@ -1,8 +1,8 @@
 # {ai_center}
 
 Everything about {one_ai} that can be set is in **{ai_center}**, opened from its
-row on {one}'s rail, from **{one_ai}** in a module's settings, and from the cog
-at the foot of Documents.
+row on {one}'s rail, from **{one_ai}** in a module's settings, and from the arrow
+at the right of the top bar.
 
 ![{ai_center} on its {one_ai} tab](settings/aicenter.png)
 

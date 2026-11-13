@@ -36,13 +36,3 @@ onedesk.centers.part("settings", onedesk.names.of("one_factory"), {
 		},
 	],
 });
-
-$(document).on("page-change", () =>
-	setTimeout(() => {
-		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_factory")) return;
-		win.module_foot({ module: onedesk.names.of("one_factory"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_factory") }) });
-		onedesk.interface.nav.place();
-	}, 0)
-);

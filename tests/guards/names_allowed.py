@@ -44,7 +44,7 @@ ALLOWED = {
 	"one_admin/setup.py": 6,
 	"one_admin/sidebar/one_admin/one_admin.json": 1,
 	"one_admin/testbed.py": 2,
-	"one_admin/tour.py": 2,
+	"one_admin/tour.py": 1,
 	"one_admin/workspace/one_admin/one_admin.json": 2,
 	"one_ai/access.py": 2,
 	"one_ai/custom/customer.json": 2,

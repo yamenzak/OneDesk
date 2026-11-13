@@ -3,6 +3,7 @@ const PROJECT_PLACES = ["Projects", "Workload", "Timesheet", "Templates"];
 
 export const SCREENS = [
 	{ who: "samir@one.test", path: "/desk/one", page: "one", sees: ["Your Tasks", "Tasks Due or Late", "Meetings Today"] },
+	{ who: "samir@one.test", path: "/desk/one-hub", page: "one-hub", sees: ["Help for the apps that are on.", "What changed and what is coming."] },
 	{ who: "wsadmin@one.test", path: "/desk/address-book", page: "address-book", sees: ["Address Book", "Contacts", "Addresses"] },
 	{ who: "samir@one.test", path: "/desk/announcements", page: "announcements", sees: ["Announcements", "Office closed on National Day"] },
 	{ who: "wsadmin@one.test", path: "/desk/recycle-bin", page: "recycle-bin", sees: ["Recycle Bin", "Deleted", "Put Back"] },

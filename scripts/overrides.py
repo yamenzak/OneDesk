@@ -2113,6 +2113,13 @@ OVERRIDES = [
 		"show_message(html, color, permanent = false) {",
 	),
 	(
+		"The mark at the top of the rail opens OneHub",
+		"their render_logo points the dock's logo at the apps screen (/desk) and names it All apps; one_interface/chrome.js wraps it and points it at OneHub, named for it",
+		"onedesk/public/js/one_interface/chrome.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
+		'this.$header.attr("aria-label", __("All apps"));',
+	),
+	(
 		"On a workspace's colour the rail shows each app's flat mark",
 		"their dock draws every entry's icon as it is; one_interface/chrome.js wraps Dock.make_dock_item and adds the mark's flat twin beside it, which chrome.css shows on a workspace's frame colour",
 		"onedesk/public/js/one_interface/chrome.js",

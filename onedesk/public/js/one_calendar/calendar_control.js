@@ -43,16 +43,3 @@ onedesk.centers.part("settings", onedesk.names.of("one_calendar"), {
 		},
 	],
 });
-
-// Its foot (docs/READY.md, mechanism 5): Settings, the tour, Help and the
-// version at the foot of its rail, on whichever of its screens is open. The
-// calendar is a desk page, so the window draws it (module_foot).
-$(document).on("page-change", () =>
-	setTimeout(() => {
-		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_calendar")) return;
-		win.module_foot({ module: onedesk.names.of("one_calendar"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_calendar") }) });
-		onedesk.interface.nav.place();
-	}, 0)
-);

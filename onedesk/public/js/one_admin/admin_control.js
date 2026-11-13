@@ -103,16 +103,6 @@ onedesk.centers.part("settings", onedesk.names.of("one_admin"), {
 	},
 });
 
-$(document).on("page-change", () =>
-	setTimeout(() => {
-		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "One Admin") return;
-		win.module_foot({ module: onedesk.names.of("one_admin"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_admin") }) });
-		onedesk.interface.nav.place();
-	}, 0)
-);
-
 onedesk.admin.drawOperators = async ($into, said = null) => {
 	const people = said || (await frappe.xcall("onedesk.one_admin.site.operators"));
 	const esc = frappe.utils.escape_html;

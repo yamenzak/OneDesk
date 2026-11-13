@@ -173,7 +173,6 @@ import {
   interfaceHandles,
   interfaceHeading,
   interfaceMeters,
-  interfaceModuleFoot,
   interfaceSearch,
   interfaceStatus,
   interfaceTree,
@@ -468,7 +467,6 @@ async function measure() {
   if (props.win) interfaceMeters(props.win, await get(API + "capacity"));
 }
 measure();
-interfaceModuleFoot(props.win, { module: appName("one_cloud"), onSettings: () => onedesk().centers.open("settings", { module: appName("one_cloud") }) });
 
 async function drawTree() {
   if (!kids["@root"]) kids["@root"] = await call(API + "folders", { node: "@root" });

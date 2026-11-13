@@ -11,7 +11,7 @@ on the admin site.
 | --- | --- |
 | **The rail**, on the left | **Home**, **Workspaces**, **Servers** and **Status** (whether every service is working, with its history), then **Activity** (jobs, the log, domains, the files open in {oneos}), **Billing** (the price list, signups, credits) and **{one_ai}** (what AI costs). |
 | **Home** | The figures for the business with their charts (revenue, signups, workspaces, {one_ai}, servers, health and releases), and what needs you, most pressing first. |
-| **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and {one_admin}'s version, which opens What's New. |
+| **The foot** | The question mark that opens this Help, the play button that takes the tour, and {one_admin}'s version, which opens What's New. |
 
 See [Workspaces](workspaces) for what happens to one, and [Settings](settings)
 for what {one_admin} runs on.

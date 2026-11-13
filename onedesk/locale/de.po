@@ -3827,6 +3827,10 @@ msgstr "Vereinbarungen geändert"
 msgid "Agreements not agreed to yet, and every change to them, with the day it takes effect."
 msgstr "Noch nicht zugestimmte Vereinbarungen und jede Änderung daran, mit dem Tag, an dem sie gilt."
 
+#: onedesk/trust_center/manifest.py:10
+msgid "Agreements, and the companies that receive your data."
+msgstr "Vereinbarungen und die Unternehmen, die Ihre Daten erhalten."
+
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Akamai"
@@ -16314,6 +16318,14 @@ msgstr "Jede Adresse in einer eigenen Zeile erhält den Link und einen Anmeldeco
 msgid "Each agreement, the optional services, who receives data and what is changing."
 msgstr "Jede Vereinbarung, die optionalen Dienste, wer Daten erhält und was sich ändert."
 
+#: onedesk/one/manifest.py:68
+msgid "Each app's settings."
+msgstr "Die Einstellungen jeder App."
+
+#: onedesk/one/manifest.py:74
+msgid "Each app's setup steps, done and waiting."
+msgstr "Die Einrichtungsschritte jeder App, erledigt und offen."
+
 #: onedesk/one_hr/home.py:465
 msgid "Each appraisal's scores, cycle by cycle."
 msgstr "Die Ergebnisse jeder Beurteilung, Zyklus für Zyklus."
@@ -22472,6 +22484,30 @@ msgstr "Hallo {0}"
 #: onedesk/public/js/one_interface/phone.js:273
 msgid "Help"
 msgstr "Hilfe"
+
+#: onedesk/one_admin/tour.py:16 onedesk/one_book/tour.py:30
+#: onedesk/one_calendar/tour.py:36 onedesk/one_cloud/tour.py:42
+#: onedesk/one_crm/tour.py:30 onedesk/one_display/tour.py:30
+#: onedesk/one_factory/tour.py:29 onedesk/one_hr/tour.py:30
+#: onedesk/one_inventory/tour.py:30 onedesk/one_mail/tour.py:42
+#: onedesk/one_project/tour.py:31 onedesk/one_quality/tour.py:17
+#: onedesk/one_studio/tour.py:17 onedesk/one_task/tour.py:30
+msgid "Help and Tours"
+msgstr "Hilfe und Touren"
+
+#: onedesk/one/manifest.py:72
+msgid "Help for the apps that are on."
+msgstr "Hilfe zu den aktivierten Apps."
+
+#: onedesk/one_admin/tour.py:17 onedesk/one_book/tour.py:31
+#: onedesk/one_calendar/tour.py:37 onedesk/one_cloud/tour.py:43
+#: onedesk/one_crm/tour.py:31 onedesk/one_display/tour.py:31
+#: onedesk/one_factory/tour.py:30 onedesk/one_hr/tour.py:31
+#: onedesk/one_inventory/tour.py:31 onedesk/one_mail/tour.py:43
+#: onedesk/one_project/tour.py:32 onedesk/one_quality/tour.py:18
+#: onedesk/one_studio/tour.py:18 onedesk/one_task/tour.py:31
+msgid "Help is the question mark and the tour is the button beside it, with Settings under the arrow at the end of the top bar."
+msgstr "Hilfe ist das Fragezeichen und die Tour die Schaltfläche daneben, die Einstellungen liegen unter dem Pfeil am Ende der oberen Leiste."
 
 #: onedesk/one_hr/agent.py:83 onedesk/one_hr/agent.py:302
 msgid "Help me book time off."
@@ -35276,6 +35312,11 @@ msgstr "OneHR-Einrichtung"
 msgid "OneHR's Home is opened, and each time a request, a flagged check-in or an interview changes."
 msgstr "Die Startseite von OneHR wird geöffnet, und jedes Mal, wenn sich ein Antrag, ein markierter Check-in oder ein Gespräch ändert."
 
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json:167
+msgid "OneHub"
+msgstr "OneHub"
+
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: frontend/src/inventory/home/InventoryHome.vue:295
@@ -36134,10 +36175,6 @@ msgstr "Kalender öffnen"
 #: onedesk/one_display/tour.py:25
 msgid "Open the TV address on the screen, then type the code it shows here and choose its channel."
 msgstr "Öffnen Sie die TV-Adresse auf dem Bildschirm, geben Sie hier den angezeigten Code ein und wählen Sie seinen Kanal."
-
-#: onedesk/one_cloud/tour.py:43
-msgid "Open the settings from the cog, and take the tour of any screen again from the button beside it."
-msgstr "Die Einstellungen über das Zahnrad öffnen und die Tour jeder Ansicht über die Schaltfläche daneben erneut starten."
 
 #: onedesk/one_display/starters.py:715
 msgid "Open today"
@@ -47220,10 +47257,6 @@ msgstr "Location aufbauen"
 msgid "Set up two-factor again on a new phone? Your old phone's codes stop working, and you scan a new code the next time you sign in."
 msgstr "Zwei-Faktor auf einem neuen Telefon neu einrichten? Die Codes Ihres alten Telefons funktionieren nicht mehr, und Sie scannen bei der nächsten Anmeldung einen neuen Code."
 
-#: onedesk/one_mail/tour.py:43
-msgid "Set up your mailboxes from the cog, and take the tour of any screen again from the button beside it."
-msgstr "Richten Sie Ihre Postfächer über das Zahnrad ein, und starten Sie den Rundgang durch jeden Bildschirm erneut mit der Schaltfläche daneben."
-
 #: onedesk/one_studio/automations.py:111
 msgid "Set value of document fields."
 msgstr "Setzt Werte von Feldern des Datensatzes."
@@ -47293,28 +47326,10 @@ msgstr "Einstellungen"
 msgid "Settings Changed"
 msgstr "Einstellungen geändert"
 
-#: onedesk/one_admin/tour.py:16 onedesk/one_book/tour.py:30
-#: onedesk/one_calendar/tour.py:36 onedesk/one_cloud/tour.py:42
-#: onedesk/one_crm/tour.py:30 onedesk/one_display/tour.py:30
-#: onedesk/one_factory/tour.py:29 onedesk/one_hr/tour.py:30
-#: onedesk/one_inventory/tour.py:30 onedesk/one_mail/tour.py:42
-#: onedesk/one_project/tour.py:31 onedesk/one_quality/tour.py:17
-#: onedesk/one_studio/tour.py:17 onedesk/one_task/tour.py:30
-msgid "Settings and Tours"
-msgstr "Einstellungen und Rundgänge"
-
 #. Description of a DocType
 #: onedesk/one_display/doctype/display_settings/display_settings.json:67
 msgid "Settings for all screens."
 msgstr "Einstellungen für alle Bildschirme."
-
-#: onedesk/one_book/tour.py:31 onedesk/one_crm/tour.py:31
-#: onedesk/one_display/tour.py:31 onedesk/one_factory/tour.py:30
-#: onedesk/one_hr/tour.py:31 onedesk/one_inventory/tour.py:31
-#: onedesk/one_project/tour.py:32 onedesk/one_quality/tour.py:18
-#: onedesk/one_studio/tour.py:18 onedesk/one_task/tour.py:31
-msgid "Settings is the cog, and the tour runs again from the button beside it."
-msgstr "Die Einstellungen sind das Zahnrad, und die Tour startet erneut über die Schaltfläche daneben."
 
 #: onedesk/one_interface/tour.py:23
 msgid "Settings, Tour and Help"
@@ -53026,6 +53041,10 @@ msgstr "Die Adressen, unter denen der Workspace erreichbar ist."
 msgid "The agenda and the minutes of a quality meeting."
 msgstr "Tagesordnung und Protokoll einer Qualitätsbesprechung."
 
+#: onedesk/one_ai/manifest.py:48
+msgid "The agents, what they may do and what they did."
+msgstr "Die Agenten, was sie tun dürfen und was sie getan haben."
+
 #: onedesk/trust_center/gate.py:18
 msgid "The agreement between your organisation and Four Degree Labs for the use of One."
 msgstr "Die Vereinbarung zwischen deiner Organisation und Four Degree Labs über die Nutzung von One."
@@ -53179,10 +53198,6 @@ msgstr "Die Abrechnung wird geschlossen und nichts wird gebucht."
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json:35
 msgid "The code's last four characters, to tell codes apart. The code itself is shown once, when it is made."
 msgstr "Die letzten vier Zeichen des Codes, um Codes zu unterscheiden. Der Code selbst wird einmal angezeigt, wenn er erstellt wird."
-
-#: onedesk/one_admin/tour.py:17
-msgid "The cog holds what OneAdmin runs on, and the tour runs again from the button beside it."
-msgstr "Das Zahnrad enthält, worauf OneAdmin läuft, und die Tour startet über die Schaltfläche daneben erneut."
 
 #. Description of the 'Folder Color' (Select) field in DocType 'File'
 #: onedesk/one_cloud/custom/file.json:87
@@ -53734,6 +53749,10 @@ msgstr "Der Auftrag, für den diese Credits reserviert wurden. Wird dem Arbeitsb
 #: onedesk/public/js/one_admin/admin_control.js:100
 msgid "The key that fetches the forecast on Home."
 msgstr "Der Schlüssel für die Wettervorhersage auf der Startseite."
+
+#: onedesk/one/manifest.py:71
+msgid "The keys for what you do most."
+msgstr "Die Tasten für das, was Sie am häufigsten tun."
 
 #: onedesk/public/js/one_admin/admin_control.js:96
 msgid "The keys that order servers and read the code."
@@ -60394,6 +60413,10 @@ msgstr "Was kann ich abrechnen?"
 msgid "What can One tell me about, and which of those do I also get by email?"
 msgstr "Worüber kann One mich informieren, und was davon bekomme ich auch per E-Mail?"
 
+#: onedesk/one/manifest.py:73
+msgid "What changed and what is coming."
+msgstr "Was sich geändert hat und was kommt."
+
 #: onedesk/one_hr/agent.py:242
 msgid "What changed since last month?"
 msgstr "Was hat sich seit letztem Monat geändert?"
@@ -60767,6 +60790,10 @@ msgstr "Was unsere Kundschaft sagt"
 #: onedesk/public/js/one/one_control.js:288
 msgid "What people may share outside their own access."
 msgstr "Was Personen über ihren eigenen Zugriff hinaus teilen dürfen."
+
+#: onedesk/one/manifest.py:69
+msgid "What reaches whom, and how."
+msgstr "Was wen erreicht, und wie."
 
 #: onedesk/one/agent.py:204
 msgid "What runs by itself?"
@@ -63597,6 +63624,10 @@ msgstr "Wen es betrifft"
 msgid "Who left, when and why."
 msgstr "Wer gegangen ist, wann und warum."
 
+#: onedesk/one/manifest.py:70
+msgid "Who may open which app, and at what level."
+msgstr "Wer welche App öffnen darf, und auf welcher Stufe."
+
 #. Description of the 'Operators' (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:84
@@ -66012,10 +66043,6 @@ msgstr "Ihre Beurteilung für {cycle} hat begonnen"
 msgid "Your bank statement matched to what is in the books."
 msgstr "Ihr Kontoauszug, abgeglichen mit den Büchern."
 
-#: onedesk/one_calendar/tour.py:37
-msgid "Your calendar link is in the settings from the cog, and the tour runs again from the button beside it."
-msgstr "Ihr Kalenderlink ist in den Einstellungen hinter dem Zahnrad, und die Tour startet erneut über die Schaltfläche daneben."
-
 #. Message of a notification
 #: onedesk/one_admin/notifications.py
 #, python-brace-format
@@ -66266,6 +66293,10 @@ msgstr "Passwort, Passkey und wo Sie angemeldet sind."
 #: onedesk/trust_center/services.py:122
 msgid "Your plan doesn't include this service."
 msgstr "Ihr Tarif enthält diesen Dienst nicht."
+
+#: onedesk/account_center/manifest.py:10
+msgid "Your plan, credits, invoices and companies."
+msgstr "Ihr Tarif, Ihre Credits, Rechnungen und Unternehmen."
 
 #: onedesk/account_center/tour.py:12
 msgid "Your profile and how you sign in, and for administrators, the workspace's people, devices, plan and domains."

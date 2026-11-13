@@ -100,7 +100,6 @@ import {
   interfaceSearch,
   interfaceStatus,
   interfaceHeading,
-  interfaceModuleFoot,
   interfaceHeadAction,
   interfaceTree,
   name as appName,
@@ -302,7 +301,6 @@ interfaceHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onC
 function settings(tab) {
   onedesk().centers.open("settings", { module: appName("one_mail"), at: tab || null });
 }
-interfaceModuleFoot(props.win, { module: appName("one_mail"), onSettings: () => settings() });
 
 const tree = interfaceTree(props.win, {
   label: __("Mailboxes"),

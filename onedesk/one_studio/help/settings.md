@@ -1,6 +1,6 @@
 # Settings
 
-The cog at the foot of the rail opens {one_studio}'s settings. Only the
+**{one_studio} Settings**, first under the arrow at the right of the top bar, opens {one_studio}'s settings. Only the
 workspace's administrators open them.
 
 | You see | What it is |

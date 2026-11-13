@@ -41,6 +41,46 @@ onedesk.centers.part = (key, module, declaration = {}) => {
 onedesk.centers.of = (key) => (frappe.boot.one_centres || []).find((one) => one.key === key) || { key, id: key, icon: "circle" };
 onedesk.centers.name = (key) => onedesk.names.of(onedesk.centers.of(key).id);
 
+/** The centres the reader may open, in the registry's order, each with its
+ * name and what its row asks of it: those One's rail opens for them
+ * (one/reach.py leaves out the rest). OneHub's tiles, the tray and Ctrl+K
+ * offer these. */
+onedesk.centers.reachable = () => {
+	const rail = frappe.boot.module_sidebars?.[onedesk.names.sidebar("one")]?.items || [];
+	const asked = {};
+	for (const row of rail) {
+		if (!(row.url || "").includes("?center=")) continue;
+		const said = Object.fromEntries(new URLSearchParams(row.url.split("?")[1]));
+		asked[said.center] = asked[said.center] || said;
+	}
+	return (frappe.boot.one_centres || []).filter((one) => asked[one.key]).map((one) => ({ ...one, name: onedesk.names.of(one.id), asked: asked[one.key] }));
+};
+
+/** OneHub, the window every centre is a tile in (one/page/one_hub). */
+onedesk.centers.hub = () => frappe.set_route("one-hub");
+
+/** What the top bar's tray offers: the current screen's own centre first
+ * (its app's part of ControlCenter, or the whole of it on One's own
+ * screens), then every other centre the reader may open, then OneHub. On
+ * a phone the tray sits in the menu's sheet, which a pick closes. */
+onedesk.centers.tray = () => {
+	const module = onedesk.interface.foot.module();
+	const reach = onedesk.centers.reachable();
+	const picked = (go) => () => {
+		frappe.ui.mobile_nav?.close_sheet?.();
+		go();
+	};
+	const row = (one) => ({ label: one.name, icon: one.icon, onclick: picked(() => onedesk.centers.open(one.key, one.asked)) });
+	const apps = module && module !== onedesk.names.of("one");
+	const own = apps ? [{ label: __("{0} Settings", [module]), icon: "settings", onclick: picked(() => onedesk.centers.open("settings", { module })) }] : reach.filter((one) => one.key === "settings").map(row);
+	const rest = reach.filter((one) => apps || one.key !== "settings").map(row);
+	return [
+		{ group: "", options: own },
+		{ group: "", options: rest },
+		{ group: "", options: [{ label: onedesk.names.of("one_hub"), icon: "one", onclick: picked(onedesk.centers.hub) }] },
+	];
+};
+
 /** The centre a module is, where a list of apps holds one (AccountCenter,
  * TrustCenter): drawn as the centre, as One's rail draws it. */
 onedesk.centers.as_centre = (app) => (frappe.boot.one_centres || []).find((one) => onedesk.names.of(one.id) === app) || null;
@@ -357,6 +397,7 @@ onedesk.Centre = class Centre extends frappe.ui.SettingsDialog {
 		for (const group of this.tabs) for (const item of group.items || []) this._items[item.id] = item;
 		this._items[onedesk.centers.SEARCH] = this.search_item();
 		onedesk.centers.head(this.$sidebar, this.whose || this.first_whose);
+		this.one_up();
 		if (this.help) {
 			this.one_help(() => {
 				const [module, page] = typeof this.help === "function" ? this.help(this.active_tab || "") : this.help;
@@ -384,6 +425,20 @@ onedesk.Centre = class Centre extends frappe.ui.SettingsDialog {
 			if (node.heading) $(`<div class="settings-dialog-group-header"><span></span></div>`).find("span").text(node.heading).end().appendTo(this.$tree);
 			else this.$tree.append(this.make_node(node, 0));
 		}
+	}
+
+	/** The way up to OneHub, over the header: a centre opened from a screen
+	 * stays a sheet over it, and this goes to every centre. */
+	one_up() {
+		const hub = onedesk.names.of("one_hub");
+		$(`<button type="button" class="one-centre-up"></button>`)
+			.attr({ title: hub, "aria-label": __("Go to {0}", [hub]) })
+			.append(frappe.utils.icon("chevron-left", "xs"), $(`<span></span>`).text(hub))
+			.on("click", () => {
+				this.hide();
+				onedesk.centers.hub();
+			})
+			.prependTo(this.$sidebar);
 	}
 
 	make_node(node, depth) {
@@ -569,7 +624,7 @@ onedesk.Centre = class Centre extends frappe.ui.SettingsDialog {
 };
 
 /** Opens a centre: the one way in, from a rail row, a link, an address
- * (`?center=`), a module's foot or another centre. `at` is a section, and
+ * (`?center=`), a OneHub tile, the tray or another centre. `at` is a section, and
  * `record` one record in it; `module` opens a module's part. */
 onedesk.centers.open = async (key, { at = null, record = null, module = null, ...rest } = {}) => {
 	if (!onedesk.centers.declared[key]) key = "account";
@@ -632,30 +687,26 @@ onedesk.centers.open = async (key, { at = null, record = null, module = null, ..
 	return centre;
 };
 
-// Every centre on One's rail is found by Ctrl+K too, opened as its row opens it.
+// Every centre the reader may open is found by Ctrl+K too, opened as its row opens it.
 if (frappe.search?.utils && !frappe.search.utils.one_centres) {
 	const utils = frappe.search.utils;
 	utils.one_centres = true;
 	const pages = utils.get_pages;
 	utils.get_pages = function (keywords) {
-		const rail = frappe.boot.module_sidebars?.[onedesk.names.sidebar("one")]?.items || [];
-		const centres = rail
-			.filter((one) => one.label && (one.url || "").includes("?center="))
-			.flatMap((one) => {
-				const found = this.fuzzy_search(keywords, one.label, true);
-				if (!found.score) return [];
-				const asked = Object.fromEntries(new URLSearchParams(one.url.split("?")[1]));
-				return [
-					{
-						type: "Page",
-						label: __("Open {0}", [found.marked_string || one.label]),
-						value: __("Open {0}", [one.label]),
-						match: one.label,
-						index: found.score,
-						onclick: () => onedesk.centers.open(asked.center, asked),
-					},
-				];
-			});
+		const centres = onedesk.centers.reachable().flatMap((one) => {
+			const found = this.fuzzy_search(keywords, one.name, true);
+			if (!found.score) return [];
+			return [
+				{
+					type: "Page",
+					label: __("Open {0}", [found.marked_string || one.name]),
+					value: __("Open {0}", [one.name]),
+					match: one.name,
+					index: found.score,
+					onclick: () => onedesk.centers.open(one.key, one.asked),
+				},
+			];
+		});
 		return pages.call(this, keywords).concat(centres);
 	};
 }

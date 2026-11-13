@@ -21,8 +21,8 @@ before it:
 2. **One home per module.** Everything else is a file in that home.
 3. **Versions and What's New.**
 4. **Docs and Help.**
-5. **The module's foot: Settings, the tour, Help, TrustCenter, version.** One settings dialog per
-   module, role-aware.
+5. **The module's foot: Help, the tour, version; its settings in the tray.** One settings
+   dialog per module, role-aware.
 6. **Legal in the module.** What the module adds to the agreements, shown in
    its settings dialog.
 7. **Roles that ship.**
@@ -169,8 +169,8 @@ each holds only the desk's own scripts and styles, each in `ready.SHARED`.
   the reader last saw, which opening them moves on (a user default per
   module). `frappe.boot.one_versions` carries each module's version and
   whether it is unseen.
-- The version sits at the end of the module's foot row (`win.foot_action`
-  with `version`), with a dot until seen, beside a Help button.
+- The version sits at the end of the module's foot row (`onedesk.interface.foot`),
+  with a dot until seen, beside Help and the tour.
 - What's New (`public/js/one/help_center.js`, `onedesk.centers.open("updates")`) is a
   OneInterface settings dialog whose sidebar is the module's own: its mark,
   a search, and a tree with each fix under the minor it fixes and each
@@ -295,16 +295,19 @@ leaves out what the role doesn't allow and drops a group left empty.
 heading with a control at its end, a switch after a section's title, Back
 before a view's title, a Save that shows once something changed; its
 classes are `one-set-*` in `public/css/one_interface/centre.css`, and a module's
-own stylesheet keeps only what is its own. The foot is
-`win.module_foot({ module, settings })`, `interfaceModuleFoot` in an island:
-a row of icons: Settings (the cog), the tour of the area on screen and Help,
-then the version at the row's end (mechanism 18 for where every other
-centre opens). A centre's Help, Enlarge and Close, and Back a page deep,
+own stylesheet keeps only what is its own. The foot is drawn in one
+place, `onedesk.interface.foot` (`public/js/one_interface/nav_tree.js`),
+under every module's rail (its manifest's `sidebar`) and at the end of the
+rail's drawer on a phone: Help, the tour of the area on screen, then the
+version at the row's end. A module draws none of its own. Its settings are
+the first row of the top bar's tray (`onedesk.centers.tray`), "{Module}
+Settings", above every other centre the reader may open and OneHub
+(mechanism 18 for where every other centre opens). A centre's Help, Enlarge and Close, and Back a page deep,
 are OneInterface's dialog kit's (`one_interface/AGENTS.md`, Dialogs); a
 centre asks for Help with `dialog.one_help` and draws no control of its
 own. `test_ready.py` fails on a
-module that draws its own settings dialog or its own foot. OneMail is on
-both.
+module that draws its own settings dialog or its own foot, and on a foot
+drawn anywhere but `onedesk.interface.foot`.
 
 **A module with no window.** A module whose only screen is a center other
 modules open, such as TrustCenter, has no rail, so no foot and
@@ -752,7 +755,16 @@ files rather than drawing one: its settings and Lists (ControlCenter), its
 (ShortcutCenter), `docs/` (HelpCenter) and
 `updates/` (UpdateCenter). AccountCenter is One's alone.
 
-**Two ways in, and no third.**
+**OneHub, and the ways in.** OneHub (`/desk/one-hub`, `one/page/one_hub`,
+the island `src/one/Hub.vue`) is a window of its own with every centre the
+reader may open as a tile, its icon, name and line (the manifest's `line`),
+and one search over them; the One mark at the top of the rail opens it. Its
+tiles, the top bar's tray and Ctrl+K all read `onedesk.centers.reachable`:
+the registry's centres (`frappe.boot.one_centres`) that One's rail opens for
+the reader. A centre opened anywhere is the frame over the screen, with a
+way up to OneHub over its name.
+
+**The ways in.**
 
 - **The whole, from One's rail.** One's rail ends with **Centers**, a row
   for each, opening it over One for every module
@@ -760,16 +772,20 @@ files rather than drawing one: its settings and Lists (ControlCenter), its
   module, and One's own part is a group called One like any other. A row a
   reader can't open is not on their rail: AccessCenter is an
   administrator's, AICenter goes when OneAI is off (`apps.trim`).
-- **A module's part, from the module.** Its foot has Settings, the tour,
-  Help (HelpCenter on the module) and the version (UpdateCenter on it).
-  ControlCenter, its Settings, ends with a row per centre it has a part in,
+- **A module's part, from the module.** Its foot has Help (HelpCenter on
+  the module), the tour and the version (UpdateCenter on it); its Settings
+  lead the top bar's tray. ControlCenter, its Settings, ends with a row per centre it has a part in,
   each opening that centre on the module: Roles and Access, Notifications,
   OneAI, Keyboard Shortcuts, and Your Data, which every module has
   (`onedesk.centers.found`).
 
-Nothing else opens a centre: the frame's bars carry what is used every day
-(search, the bell, OneAI, Check In, timers) and no centre, and AccountCenter
-holds its own tabs only.
+- **Any of them, from the top bar.** The arrow at the right of the top bar
+  is the tray (`onedesk.centers.tray`): the screen's own centre first (its
+  module's part of ControlCenter, or all of it on One's screens), then every
+  centre the reader may open, then OneHub; a sheet on a phone.
+
+The frame's bars carry what is used every day (search, the bell, OneAI,
+Check In, timers) and the tray, and AccountCenter holds its own tabs only.
 
 **One owner, one dialog deep.** A thing lives in one centre, the one of the
 module it belongs to, and anywhere else shows that centre's own control or

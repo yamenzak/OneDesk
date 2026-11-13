@@ -60,6 +60,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.template_part": None,
 		"onedesk.stock": None,
 		"onedesk.one_home": None,
+		"onedesk.hub": None,
 		"onedesk.home": None,
 		"onedesk.books": None,
 		"onedesk.crm": None,

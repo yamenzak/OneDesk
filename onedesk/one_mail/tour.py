@@ -39,8 +39,8 @@ MAILBOX = [
 	{
 		"target": "interface-tour",
 		"side": "top",
-		"title": _lt("Settings and Tours"),
-		"text": _lt("Set up your mailboxes from the cog, and take the tour of any screen again from the button beside it."),
+		"title": _lt("Help and Tours"),
+		"text": _lt("Help is the question mark and the tour is the button beside it, with Settings under the arrow at the end of the top bar."),
 	},
 ]
 

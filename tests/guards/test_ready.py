@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from onedesk.one import ready, standard  # noqa: E402
+from onedesk.one import ready, registry, standard  # noqa: E402
 from onedesk.one.registry.model import CENTRE_KEYS  # noqa: E402
 from tests.guards.registry import GUARDS  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
@@ -237,38 +237,61 @@ def test_a_help_page_is_headed_pictured_and_linked_soundly():
 	assert not wrong, wrong
 
 
-def own_settings(module: str, spec: dict, code: dict) -> list[str]:
-	"""A module drawing its own settings dialog or foot, or without either;
-	an island draws its foot with interfaceModuleFoot, frappe's desk pages
-	through the window's own module_foot. One with no window says why in a
-	sentence. `code` is its scripts' text by name. Pure."""
+FOOT = ("module_foot(", "foot_action(", "interfaceModuleFoot(", "interfaceFootAction(", "$foot_action =", "class=\"one-interface-foot-action", "class=\"one-drawer-foot")
+"""What drawing a module's foot looks like, which only
+one_interface/nav_tree.js does."""
+
+
+def own_settings(module: str, spec: dict, code: dict, rail: str | None) -> list[str]:
+	"""A module drawing its own settings dialog or foot, or without either:
+	its foot is drawn under its rail (its manifest's `sidebar`) by
+	one_interface/nav_tree.js and nothing else. One with no window says why
+	in a sentence. `code` is its scripts' text by name. Pure."""
 	if spec.get("windowless"):
 		return [] if _one_sentence(spec["windowless"]) else [f"{module}: why it has no window, in one sentence"]
 	wrong = []
 	own = [name for name, text in code.items() if "new frappe.ui.SettingsDialog" in text or "new onedesk.Centre(" in text]
 	if own:
 		wrong.append(f"{module} draws its own settings dialog in {own}; declare its part with onedesk.centers.part")
-	loose = [name for name, text in code.items() if "interfaceFootAction(" in text]
+	loose = [name for name, text in code.items() if any(one in text for one in FOOT)]
 	if loose:
-		wrong.append(f"{module} draws its own foot in {loose}; use interfaceModuleFoot")
+		wrong.append(f"{module} draws its own foot in {loose}; one_interface/nav_tree.js draws every module's")
 	if not any('onedesk.centers.part("settings"' in text or "onedesk.centers.declare(" in text for text in code.values()):
 		wrong.append(f"{module} has no settings dialog")
-	if not any("interfaceModuleFoot(" in text or ".module_foot({ module:" in text for text in code.values()):
-		wrong.append(f"{module} has no foot")
+	if not rail:
+		wrong.append(f"{module} has no rail, so no foot")
 	return wrong
+
+
+def feet_drawn(sources: dict[str, str]) -> list[str]:
+	"""The scripts, by name, that draw a module's foot besides
+	one_interface/nav_tree.js; frame.js only places it. Pure."""
+	return sorted(name for name, text in sources.items() if not name.endswith(("one_interface/nav_tree.js", "one_interface/frame.js")) and any(one in text for one in FOOT))
+
+
+def test_one_place_draws_the_foot():
+	"""docs/READY.md, mechanism 5: every module's foot (Help, the tour and
+	its version) is drawn by onedesk.interface.foot, on the rail and in a
+	phone's drawer alike, so no copy of it drifts."""
+	js = ROOT / "onedesk" / "public" / "js"
+	src = ROOT / "frontend" / "src"
+	sources = {str(path.relative_to(ROOT)): path.read_text(encoding="utf-8") for path in [*js.rglob("*.js"), *src.rglob("*.js"), *src.rglob("*.vue")] if "node_modules" not in path.parts}
+	found = feet_drawn(sources)
+	assert not found, found
 
 
 def test_a_module_has_one_settings_dialog_and_one_foot():
 	"""Every module's settings are its part of ControlCenter, in the centre
-	frame (one_interface/centre.js), and its
-	foot by interfaceModuleFoot (docs/READY.md, mechanism 5), so they look and
-	behave alike: the mark and Help atop the settings, tabs left out by role,
-	and Settings, Help and the version at the foot. A module with no window,
+	frame (one_interface/centre.js), opened from the top bar's tray, and its
+	foot is drawn under its rail by one_interface/nav_tree.js (docs/READY.md,
+	mechanism 5), so they look and behave alike: the mark and Help atop the
+	settings, tabs left out by role, and Help, the tour and the version at
+	the foot. A module with no window,
 	whose screen is a centre the others open, says why instead."""
 	wrong = []
 	for module, spec in ready.MODULES.items():
 		code = {} if spec.get("windowless") else {str(path.relative_to(ROOT)): path.read_text(encoding="utf-8") for path in ready.files(module) if path.suffix in (".js", ".vue")}
-		wrong += own_settings(module, spec, code)
+		wrong += own_settings(module, spec, code, registry.get(spec["folder"]).sidebar)
 	assert not wrong, wrong
 
 
@@ -286,7 +309,7 @@ def centres_misplaced(keys: tuple[str, ...], centre: str, rail: list[dict], fram
 		wrong.append(f"One's rail opens {sorted(opened)}, not {sorted(keys)}")
 	found = centre.split("onedesk.centers.found = ", 1)[1].split("\n};", 1)[0]
 	wrong += [f"a module's ControlCenter doesn't find {one}" for one in FOUND if f'opens("{one}")' not in found]
-	return wrong + [f"the window opens {one}: centres open from One's rail and Settings" for one in ("access", "trust", "ai") if f'onedesk.centers.open("{one}"' in frame]
+	return wrong + [f"the window opens {one} by name: the tray offers every centre from the registry" for one in ("access", "trust", "ai") if f'onedesk.centers.open("{one}"' in frame]
 
 
 def test_every_centre_opens_from_ones_rail_and_from_each_modules_settings():
@@ -300,7 +323,35 @@ def test_every_centre_opens_from_ones_rail_and_from_each_modules_settings():
 	assert not wrong, wrong
 
 
-AGREEMENTS = re.compile(r"\bagree|\bpolicy\b|\bterms\b|\baddendum\b|\bsubprocessors?\b", re.I)
+def centres_typed(sources: dict[str, str], keys, readers: dict[str, str]) -> list[str]:
+	"""The scripts, by name, that type a list of centres (three of their keys
+	or more in one list) rather than reading the registry, and the readers
+	(OneHub's tiles, the tray) that do not take them from
+	onedesk.centers.reachable. Pure."""
+	out = []
+	for name, text in sources.items():
+		if any(len(set(re.findall(r'"(\w+)"', listed)) & set(keys)) >= 3 for listed in re.findall(r"\[([^\[\]]*)\]", text)):
+			out.append(name)
+	return sorted(out) + [f"{name} does not take the centres from onedesk.centers.reachable" for name, text in readers.items() if "centers.reachable()" not in text]
+
+
+def test_onehub_and_the_tray_offer_the_registrys_centres():
+	"""OneHub's tiles, the top bar's tray and Ctrl+K offer the centres the
+	registry declares (frappe.boot.one_centres) that One's rail opens for the
+	reader, so a new centre needs no list to be added to."""
+	js = ROOT / "onedesk" / "public" / "js"
+	src = ROOT / "frontend" / "src"
+	sources = {str(path.relative_to(ROOT)): path.read_text(encoding="utf-8") for path in [*js.rglob("*.js"), *src.rglob("*.js"), *src.rglob("*.vue")] if "node_modules" not in path.parts}
+	centre = (js / "one_interface" / "centre.js").read_text(encoding="utf-8")
+	readers = {
+		"one/Hub.vue": (src / "one" / "Hub.vue").read_text(encoding="utf-8"),
+		"onedesk.centers.tray": centre.split("onedesk.centers.tray = ", 1)[1].split("\n};", 1)[0],
+	}
+	found = centres_typed(sources, CENTRE_KEYS, readers)
+	assert not found, found
+
+
+AGREEMENTS =re.compile(r"\bagree|\bpolicy\b|\bterms\b|\baddendum\b|\bsubprocessors?\b", re.I)
 
 
 def legal_unsaid(module: str, folder: str, found: list[dict], legal: str) -> list[str]:
@@ -803,14 +854,21 @@ def test_the_folder_and_version_rules_catch_their_examples():
 
 
 def test_the_declaration_rules_catch_their_examples():
-	code = {"a.js": 'onedesk.centers.part("settings", "OneHR"); interfaceModuleFoot();'}
-	assert own_settings("OneHR", {}, code) == []
-	assert own_settings("OneHR", {}, {"a.js": "new frappe.ui.SettingsDialog()"}) == [
+	code = {"a.js": 'onedesk.centers.part("settings", "OneHR");'}
+	assert own_settings("OneHR", {}, code, "OneHR") == []
+	assert own_settings("OneHR", {}, {"a.js": "new frappe.ui.SettingsDialog(); win.module_foot({ module })"}, None) == [
 		"OneHR draws its own settings dialog in ['a.js']; declare its part with onedesk.centers.part",
+		"OneHR draws its own foot in ['a.js']; one_interface/nav_tree.js draws every module's",
 		"OneHR has no settings dialog",
-		"OneHR has no foot",
+		"OneHR has no rail, so no foot",
 	]
-	assert own_settings("OneHR", {"windowless": "It has none. Truly."}, {}) == ["OneHR: why it has no window, in one sentence"]
+	assert own_settings("OneHR", {"windowless": "It has none. Truly."}, {}, None) == ["OneHR: why it has no window, in one sentence"]
+	assert feet_drawn({"public/js/one_interface/nav_tree.js": "win.$foot_action = 1", "public/js/one_hr/hr.js": "win.module_foot({})", "a.vue": "x"}) == ["public/js/one_hr/hr.js"]
+	keys = ("help", "settings", "account")
+	assert centres_typed({"a.js": 'open(["help", "account"])', "b.vue": 'const TILES = ["help", "settings", "account"];'}, keys, {"Hub.vue": "centers.reachable()", "tray": "boot.one_centres"}) == [
+		"b.vue",
+		"tray does not take the centres from onedesk.centers.reachable",
+	]
 	names = tuple(f"c{n}" for n in range(10))
 	centre = "onedesk.centers.found = (module) => {" + " ".join(f'opens("{one}")' for one in FOUND) + "\n};"
 	rail = [{"url": f"/app/one?center={name}"} for name in names]
@@ -818,7 +876,7 @@ def test_the_declaration_rules_catch_their_examples():
 	assert centres_misplaced(names, centre.replace('opens("ai")', ""), rail[1:], 'onedesk.centers.open("trust", {})') == [
 		f"One's rail opens {sorted(names[1:])}, not {sorted(names)}",
 		"a module's ControlCenter doesn't find ai",
-		"the window opens trust: centres open from One's rail and Settings",
+		"the window opens trust by name: the tray offers every centre from the registry",
 	]
 	assert centres_unoffered('opens("access")') and not centres_unoffered('opens("access") opens("notifications")')
 	access = 'APP = "OneHR"\nABILITIES = [{"key": "approve", "label": _("Approve")}]\nEVERYONE = "Employee"\nDEFAULTS = {"Employee": {"approve": 0, "pay": 1}}\n'

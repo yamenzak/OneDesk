@@ -1,6 +1,6 @@
 # Settings
 
-The cog at the foot of the rail holds what {one_admin} runs on, a tab each.
+**{one_admin} Settings**, first under the arrow at the right of the top bar, holds what {one_admin} runs on, a tab each.
 
 | Tab | What it holds |
 | --- | --- |

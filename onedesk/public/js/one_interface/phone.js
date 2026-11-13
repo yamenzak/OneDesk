@@ -8,7 +8,7 @@
 frappe.provide("onedesk.interface.phone");
 
 $.extend(onedesk.interface.phone, {
-	TOOLS: '.one-bar [data-group="day"], .one-bar [data-group="ai"], .one-bar [data-group="waiting"], .one-bar [data-group="open"]',
+	TOOLS: '.one-bar [data-group="day"], .one-bar [data-group="ai"], .one-bar [data-group="waiting"], .one-bar [data-group="tray"], .one-bar [data-group="open"]',
 
 	/** Every row of every app's rail a person can open, in the dock's order,
 	 * with the app it is in: what the sheet's search looks through. */
@@ -166,7 +166,7 @@ $.extend(onedesk.interface.phone, {
 			nav.one_tools.unshift({ tool: company, group: company.parentElement });
 			$tools.prepend(company);
 		}
-		$tools.on("click", "button:not(.one-bar-company)", () => setTimeout(() => nav.close_sheet()));
+		$tools.on("click", "button:not(.one-bar-company):not(.one-tray)", () => setTimeout(() => nav.close_sheet()));
 		nav.$one_heading = $(`<div class="one-phone-heading"></div>`).text(title).insertAfter($body.find(".desk-mobile-sheet-dock"));
 		const $found = $(`<div class="one-phone-found hide" role="list"></div>`).appendTo($body);
 		let pages = null;
@@ -263,19 +263,8 @@ $.extend(onedesk.interface.phone, {
 		document.body.classList.add("one-drawer-open");
 		const $rail = $(`<div class="body-sidebar desk-mobile-sheet-sidebar one-drawer-rail"></div>`).appendTo($body);
 		sidebar.$items_container.appendTo($rail);
-		const module = sidebar.current_module;
-		const said = (frappe.boot.one_versions || {})[module];
-		if (said) {
-			const $foot = $(`<div class="one-drawer-foot"></div>`).appendTo($body);
-			if ((onedesk.centers.parts.settings || {})[module] || onedesk.centers.FILES()[module]) {
-				frappe.ui.button({ icon: "settings", label: __("Settings"), variant: "ghost", onclick: () => onedesk.centers.open("settings", { module }) }).appendTo($foot);
-			}
-			frappe.ui.button({ icon: "circle-play", variant: "ghost", title: __("Take the Tour"), onclick: () => onedesk.tour.run(module) }).appendTo($foot);
-			frappe.ui.button({ icon: "circle-question-mark", variant: "ghost", title: __("Help"), onclick: () => onedesk.centers.open("help", { module }) }).appendTo($foot);
-			frappe.ui
-				.button({ label: said.version, variant: "ghost", title: __("What's New in {0}", [module]), css_class: `one-drawer-version${said.unseen ? " one-drawer-unseen" : ""}`, onclick: () => onedesk.centers.open("updates", { module }) })
-				.appendTo($foot);
-		}
+		const module = onedesk.interface.foot.module();
+		if (module) onedesk.interface.foot.drawer($body, module);
 		const shut = () => {
 			if (!$drawer.parent().length) return;
 			sidebar.$items_container.appendTo(home);

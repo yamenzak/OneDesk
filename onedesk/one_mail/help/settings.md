@@ -1,6 +1,6 @@
 # Settings
 
-**Settings**, at the foot of {one_mail}'s rail, holds everything about your
+**{one_mail} Settings**, first under the arrow at the right of the top bar, holds everything about your
 mailboxes and, for administrators, the workspace's mail. Each tab has its own
 **Save**, and the question mark at the top opens this Help.
 
