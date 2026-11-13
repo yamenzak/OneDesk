@@ -41,3 +41,13 @@ detail.
   from nothing, atlas, every check) into /tmp/gate.log. P0 closes when it is
   green. Meanwhile P1.4 is built in the worktree ~/arcs-work (branch
   arcs-p1) so the build never imports half-made code.
+
+## 13 Nov 2026, 00:10 — P0 gate passed
+
+- ~/arcs-tools/gate.sh: run.localhost dropped and made again, the demo built
+  from nothing in 13 minutes (two hours before e5ffc9f2's queue fix), 313 of
+  314 checks; the atlas check fails only inside a full run (D3).
+- The merge to main was refused by the permission check: merges wait for
+  Yamen ("Waiting for Yamen" lists P0 as ready). The run goes on on arcs.
+- P1.4 is built and committed on arcs-p1 (fdfdaf84) in ~/arcs-work; it
+  joins arcs after its own site test.

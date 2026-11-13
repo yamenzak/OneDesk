@@ -29,7 +29,9 @@ reads the ledger and says where the run stands and what is next.
 
 - **Branch.** Work happens on `arcs`, pushed to `upstream arcs` at least
   daily as a backup. `main` gets the run only at a phase's gate (below), by
-  merge, with every gate green. A fix production needs now is made on
+  merge, with every gate green, and only by Yamen: a merge moves
+  production, and the permission check refuses it unattended. A passed
+  gate goes on "Waiting for Yamen" as ready to merge. A fix production needs now is made on
   `main` alone, with the gates, and merged back into `arcs`.
 - **Production.** A merge to `main` builds a release and admin.4dl.app moves
   itself onto it. Nothing else of the run reaches production. Never order a
@@ -218,8 +220,8 @@ Status: `[ ]` open, `[~]` in progress, `[x]` done (hash), `[!]` blocked
 - [x] P0.2 Wake-ups: a scheduled task that resumes this session every two hours and a daily push. — both listed; the first fires. (Scheduled tasks "Continue the arc run" trig_01DL2h4LWAuQwsMzDFAnnstx, :26 every two hours, and "Daily run update for Yamen" trig_018Xn5EaZuKLDJvx5apAD8rf, 18:17 UTC; delete both when the run ends.)
 - [x] P0.3 Prune `.claude/worktrees` whose branches are merged or empty; list the rest in LOG. — `git worktree list` shows only live ones. (29 removed 12 Nov; two left, see D1.)
 - [x] P0.4 A run site `run.localhost` (not on the domain) for from-scratch demo builds at every gate, so one.4dl.dev keeps its data. — demo builds there from nothing and its checks run. (13 Nov: built from nothing, 310 of 314 on its first run.)
-- [ ] P0.5 The 12 demo checks failing on 12 Nov, each fixed where it is made or written down with a reason: intake samples, OneStudio record types and extensions, settings Audit Log kinds, atlas --site, the workspace's promises, OneMail's tour, OneInventory's stock bands, OneFactory making, the UAE tax invoice print, OneCRM late first answer, deleted records, Cloudflare from a master token. — `check.run` all green on run.localhost.
-- [ ] P0.6 Dead code from SURVEY §3: one/_tmp_q.py, the four writer components, TaskWaits.vue, one/privacy_copy.py if nothing imports it. — files gone, gates green.
+- [x] P0.5 The 12 demo checks failing on 12 Nov, each fixed where it is made or written down with a reason: intake samples, OneStudio record types and extensions, settings Audit Log kinds, atlas --site, the workspace's promises, OneMail's tour, OneInventory's stock bands, OneFactory making, the UAE tax invoice print, OneCRM late first answer, deleted records, Cloudflare from a master token. — `check.run` all green on run.localhost. (13 Nov: 313 of 314 on a site built from nothing; the atlas check fails only inside a full run, D3.)
+- [x] P0.6 Dead code from SURVEY §3: one/_tmp_q.py, the four writer components, TaskWaits.vue, one/privacy_copy.py if nothing imports it. — files gone, gates green. (privacy_copy.py serves download requests and stays; its copied helpers are P3.6's.)
 
 ### P1. OneRegistry (foundation)
 
@@ -375,12 +377,19 @@ registry.
 
 Only what needs his own hands:
 
+- **Merging `arcs` into `main`.** A merge moves production, and the
+  permission check refuses it unattended (13 Nov). Each passed gate is
+  listed here, ready to merge; until then everything lives on `arcs`,
+  pushed daily. Ready: **P0** (gate passed 13 Nov 00:03, 313 of 314; the
+  merge brings the queue fix that matters most to every workspace's
+  migrate).
 - The real-use gates of P8.1 and P8.2 (50 real invoices; a week on OneChat).
 
 ## Deferred
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
 
+- [ ] D3 Two demo checks pass alone and fail inside a full run (one_atlas_knows_who_may_open_what, onecloud_a_document_of_ones_own_is_edited_in_oneos): an earlier check leaves state a rollback doesn't undo (frappe's SQLite logs, or a commit inside a check); find which and make each check leave the site as it found it — at P3.3: the checks are reworked there.
 - [ ] D2 A manifest's shipped fields (interface, help, roles, companies) count toward its module's fingerprint again; manifest.py is left out while P1 moves ready.MODULES into manifests, since that moved no module's version before — at P3.4: readiness is reworked there.
 - [ ] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it.
 
