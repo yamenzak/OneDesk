@@ -1,5 +1,5 @@
 """What OneGuard's rules (test_oneguard.py) found when each arrived, 13
-November 2026: each case as `folder/file.py:function` (a secret as
+November 2026: each case as `folder/file.py:function` (a secret too, or as
 `file:line`), with why it is safe or "to fix". A case fixed leaves; nothing
 joins. The count only falls."""
 
@@ -69,7 +69,7 @@ SQL_FROM_INPUT = {
 }
 
 SECRETS = {
-	"onedesk/one_demo/check.py:3762": "safe: a made-up passphrase in a demo check, on a mocked call",
+	"onedesk/one_demo/check.py:push_reaches_a_persons_own_browsers": "safe: a made-up passphrase in a demo check, on a mocked call",
 }
 
 GUEST_WHOLE: dict[str, str] = {}

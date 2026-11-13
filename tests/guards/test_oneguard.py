@@ -450,13 +450,30 @@ def _looks_secret(value) -> bool:
 def secrets(sources: dict[str, str]) -> set[str]:
 	"""Rule 4: a key or token typed into the code, by its known shape or as a
 	high-entropy literal given to a name that says secret. Answers
-	`file:line`, never the value."""
+	`file:function` (or `file:line` outside any function, or where the file is
+	not Python), never the value."""
 	found = set()
 	for file, source in sources.items():
 		for match in (*SECRET_SHAPES.finditer(source), *SECRET_GIVEN.finditer(source)):
 			if match.re is SECRET_SHAPES or _looks_secret(match.group("value")):
-				found.add(f"{file}:{source.count(chr(10), 0, match.start()) + 1}")
+				line = source.count(chr(10), 0, match.start()) + 1
+				found.add(f"{file}:{_function_at(file, source, line) or line}")
 	return found
+
+
+def _function_at(file: str, source: str, line: int) -> str | None:
+	"""The innermost function a line of a Python file sits in, or None."""
+	if not file.endswith(".py"):
+		return None
+	try:
+		parsed = ast.parse(source)
+	except SyntaxError:
+		return None
+	held = [
+		node for node in ast.walk(parsed)
+		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef) and node.lineno <= line <= (node.end_lineno or node.lineno)
+	]
+	return max(held, key=lambda node: node.lineno).name if held else None
 
 
 def _secret_sources() -> dict[str, str]:
