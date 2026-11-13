@@ -51,3 +51,16 @@ detail.
   Yamen ("Waiting for Yamen" lists P0 as ready). The run goes on on arcs.
 - P1.4 is built and committed on arcs-p1 (fdfdaf84) in ~/arcs-work; it
   joins arcs after its own site test.
+
+## 13 Nov 2026, 02:00
+
+- P1.4 tested on a migrated run.localhost: 313 of 314, as before (D3).
+- P1.5-P1.9 done (d7849f0e, 89db29cd, cdde5121, 12cad130, c77f7c6b): one
+  module map; the app list, kept, marks, homes and legal places from the
+  registry; the Dock and modules.txt generated; AICenter's parts declared;
+  one_makes_records in manifests (`makes`); a guard against typed app lists.
+  A version kind `internal` (numbered as a fix, never in What's New) for
+  changes nobody using a module can see.
+- Running: two agents in worktrees give OneCloud and OneStudio the module
+  layout (P1.10); the gate on arcs as it stands (fresh install, modules.txt
+  in the rail's order) into /tmp/gate.log.
