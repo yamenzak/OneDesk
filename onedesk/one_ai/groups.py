@@ -110,7 +110,7 @@ GROUPS = {
 		),
 	},
 	"presentations": {
-		"about": "presentations in OneSlide: read one, write a whole deck, rewrite, shorten or translate a slide, make a slide a timeline or figures",
+		"about": "presentations in OneDeck: read one, write a whole deck, rewrite, shorten or translate a slide, make a slide a timeline or figures",
 		"tools": ("read_presentation", "draft_deck", "write_slide", "remake_slide"),
 		"words": (
 			"presentation", "deck", "slide", "pitch", "timeline", "präsentation", "folie", "vortrag",

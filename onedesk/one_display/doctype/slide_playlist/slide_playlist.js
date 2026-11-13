@@ -1,6 +1,6 @@
 // A slide playlist plays presentations from OneCloud and web pages. A row
 // picks a presentation its maker may open; New Presentation makes one on
-// this playlist and opens it in OneSlide; Open Presentation goes back to one.
+// this playlist and opens it in OneDeck; Open Presentation goes back to one.
 // Pictures and videos added or dropped on the form each become a presentation
 // of one slide (one_display/playlist.py).
 function addMedia(frm, files) {
@@ -28,7 +28,7 @@ function addMedia(frm, files) {
 
 frappe.ui.form.on("Slide Playlist", {
 	setup(frm) {
-		frm.set_query("presentation", "slides", () => ({ query: "onedesk.one_slide.api.search" }));
+		frm.set_query("presentation", "slides", () => ({ query: "onedesk.one_deck.api.search" }));
 	},
 	onload_post_render(frm) {
 		frm.wrapper.addEventListener("dragover", (event) => event.dataTransfer?.types?.includes("Files") && event.preventDefault());
@@ -46,7 +46,7 @@ frappe.ui.form.on("Slide Playlist", {
 			frappe.prompt(
 				[{ fieldname: "title", fieldtype: "Data", label: __("Title"), reqd: 1 }],
 				async ({ title }) => {
-					const made = await frappe.xcall("onedesk.one_slide.api.make", { parent: `@records/Slide Playlist/${frm.doc.name}`, title });
+					const made = await frappe.xcall("onedesk.one_deck.api.make", { parent: `@records/Slide Playlist/${frm.doc.name}`, title });
 					frm.add_child("slides", { kind: "Presentation", presentation: made.id, title });
 					await frm.save();
 					frappe.set_route("presentation", made.presentation);

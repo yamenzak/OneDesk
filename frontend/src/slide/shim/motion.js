@@ -1,10 +1,10 @@
 // How an element comes and goes in the slideshow: the same track the
-// player draws on a screen and a shared link (public/js/one_slide/play.js,
-// motion), read from the one table both use (one_slide/motion.json). One's
+// player draws on a screen and a shared link (public/js/one_deck/play.js,
+// motion), read from the one table both use (one_deck/motion.json). One's
 // own; VENDORED.md.
 import { ref, watch } from "vue";
 
-import table from "../../../../onedesk/one_slide/motion.json";
+import table from "../../../../onedesk/one_deck/motion.json";
 import { slideIndex } from "../stores/slide";
 
 // how many of this slide's click entrances have been clicked in

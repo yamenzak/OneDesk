@@ -1,7 +1,7 @@
 // Elements drawn for one frame, redrawn for another: a theme's layouts are
 // 960 by 540, and a presentation may be any size. Every position and size
 // follows its own axis; type, borders and corners follow the smaller of the
-// two, so words never grow past their box. one_slide/resize.py is the same
+// two, so words never grow past their box. one_deck/resize.py is the same
 // rule on the server.
 import { frame } from "./frame.js";
 

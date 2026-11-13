@@ -1,4 +1,4 @@
-<!-- A widget on a screen's canvas (stage 7 of docs/ONESLIDE.md): drawn as it
+<!-- A widget on a screen's canvas (stage 7 of docs/ONEDECK.md): drawn as it
      will look, in its look, with example words where its rows will be, and
      its kind and source named underneath. Preview plays the real thing.
      One's own; VENDORED.md. -->

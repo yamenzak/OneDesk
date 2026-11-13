@@ -1,4 +1,4 @@
-<!-- The chosen widget's own settings, in the panel under Frame and Arrange: where it reads from, which fields it shows, a peek at what it shows now, and its kind's settings. Moved from OneDisplay's layout editor (stage 7 of docs/ONESLIDE.md). One's own; VENDORED.md. -->
+<!-- The chosen widget's own settings, in the panel under Frame and Arrange: where it reads from, which fields it shows, a peek at what it shows now, and its kind's settings. Moved from OneDisplay's layout editor (stage 7 of docs/ONEDECK.md). One's own; VENDORED.md. -->
 <template>
 	<Section :label="kind?.label || __('Widget')">
 		<div class="flex flex-col gap-3" @keydown.stop>

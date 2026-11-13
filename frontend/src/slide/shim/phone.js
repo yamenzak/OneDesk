@@ -1,5 +1,5 @@
-// The presenter view's half of a phone remote (one_slide/remote.py; the
-// phone's half is public/js/one_slide/remote.js). Pairing asks for a token and
+// The presenter view's half of a phone remote (one_deck/remote.py; the
+// phone's half is public/js/one_deck/remote.js). Pairing asks for a token and
 // the QR code that carries it; then this tab and the phone meet in the
 // token's socket room on the desk's own socket: the phone says go and point,
 // this tab says which slide is showing and its notes. Unpairing kills the
@@ -28,7 +28,7 @@ function received(message) {
 
 export async function pairPhone(name, onSaid) {
 	heard = onSaid;
-	if (!paired.value) paired.value = await call("onedesk.one_slide.remote.pair", { name });
+	if (!paired.value) paired.value = await call("onedesk.one_deck.remote.pair", { name });
 	if (socket) return;
 	socket = deskSession().socket;
 	if (!socket) return;
@@ -45,7 +45,7 @@ export function unpairPhone() {
 		socket.off("onedesk_remote", received);
 		socket.off("connect", join);
 	}
-	if (paired.value) call("onedesk.one_slide.remote.unpair", { token: paired.value.token, screen: paired.value.screen });
+	if (paired.value) call("onedesk.one_deck.remote.unpair", { token: paired.value.token, screen: paired.value.screen });
 	socket = null;
 	paired.value = null;
 	connected.value = false;

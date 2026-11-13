@@ -1,6 +1,6 @@
 """Premade screens: a layout to start from, its words, shapes and widgets
 already placed (one_display/AGENTS.md, Premade screens). Each is built here
-rather than stored, as OneSlide's decks are, so it comes in the reader's
+rather than stored, as OneDeck's decks are, so it comes in the reader's
 language, the business's colour and logo, and the shape of the screen it is
 for. Choosing one in the editor puts it on the canvas as one step that
 undoes; nothing is saved until the editor saves."""
@@ -93,7 +93,7 @@ class Canvas:
 		return f"s{uuid.uuid4().hex[:10]}"
 
 	def text(self, x, y, w, words, size=24, colour=WHITE, bold=False, align="left", italic=False, layer=3):
-		from onedesk.one_slide import decks
+		from onedesk.one_deck import decks
 
 		one = decks._text(self._id(), self._x(x), self._y(y), self._x(w), words, round(size * self.unit), colour, bold, align, italic)
 		one["zIndex"] = layer
@@ -102,7 +102,7 @@ class Canvas:
 	def box(self, x, y, w, h, fill, corner=0, stroke=None, shape="rectangle", layer=1, square=False, words=None, size=20, ink=WHITE):
 		"""A shape, with words in its middle if given; `square` keeps it as
 		tall as it is wide, for a circle."""
-		from onedesk.one_slide import decks
+		from onedesk.one_deck import decks
 
 		width = self._x(w)
 		one = decks._box(self._id(), self._x(x), self._y(y), width, width if square else self._y(h), fill, shape, round(corner * self.unit), stroke, words, round(size * self.unit), ink)
@@ -1214,7 +1214,7 @@ def _first(kind: str) -> str:
 
 def build(key: str, wide: int, high: int, brand: dict | None = None, company: str = "") -> dict:
 	"""A starter on a frame: its background and its elements, widgets among them."""
-	from onedesk.one_slide import decks
+	from onedesk.one_deck import decks
 
 	builder = STARTERS[key][0]
 	canvas = Canvas(wide, high, brand or decks.brand(), company or frappe.defaults.get_global_default("company") or "")
@@ -1253,7 +1253,7 @@ def apply(collection: str, starter: str) -> None:
 	backdrop slide takes the words and shapes, its rows the widgets."""
 	import json
 
-	from onedesk.one_slide import api
+	from onedesk.one_deck import api
 
 	doc = frappe.get_doc("Widget Collection", collection)
 	doc.check_permission("write")

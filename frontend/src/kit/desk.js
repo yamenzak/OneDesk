@@ -213,7 +213,7 @@ export const csrf = () => window.csrf_token || frappe().csrf_token || "";
 
 export const openTab = (url = "") => window.open(url, "_blank");
 
-// a window of its own, to drag onto another screen (OneSlide's audience)
+// a window of its own, to drag onto another screen (OneDeck's audience)
 export const openPopup = (url, name) => window.open(url, name, "popup,width=1280,height=760");
 
 // this window closed, when it was opened to be closed again

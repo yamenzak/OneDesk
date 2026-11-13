@@ -1,4 +1,4 @@
-// The workspace's fonts as the font picker offers them (one_slide/fonts.py):
+// The workspace's fonts as the font picker offers them (one_deck/fonts.py):
 // the ones One ships, by group, and the workspace's own. Their faces are the
 // page's: slide/fonts.css and the workspace's stylesheet, loaded once.
 import { computed, ref } from "vue";
@@ -6,7 +6,7 @@ import { call } from "../../kit/desk";
 import { __ } from "./words.js";
 
 export const SHIPPED_CSS = "/assets/onedesk/slide/fonts.css";
-export const OWN_CSS = "/api/method/onedesk.one_slide.fonts.css";
+export const OWN_CSS = "/api/method/onedesk.one_deck.fonts.css";
 
 export const library = ref({ shipped: [], yours: [], may_add: false, google: false });
 
@@ -22,7 +22,7 @@ const GROUPS = () => ({
 export const ARABIC_SAMPLE = "أبجد";
 
 export async function loadFonts() {
-	library.value = await call("onedesk.one_slide.fonts.library");
+	library.value = await call("onedesk.one_deck.fonts.library");
 }
 
 // the workspace's stylesheet again, after a font is added, so the new face draws at once

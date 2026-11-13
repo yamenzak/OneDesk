@@ -38,9 +38,9 @@ IRREGULAR = (
 	"one_homes",
 	"one_record_tabs",
 	"one_record_notices",
-	"one_slide_loaded",
-	"one_slide_saving",
-	"one_slide_rows",
+	"one_deck_loaded",
+	"one_deck_saving",
+	"one_deck_rows",
 )
 """Hooks one app or a few fill, each named in that app's manifest `hooks`."""
 

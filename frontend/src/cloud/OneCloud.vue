@@ -1019,7 +1019,7 @@ function openItems(list) {
 const NATIVE = {
   workbook: (one) => call("onedesk.one_sheet.api.open_file", { file: one.id }).then((made) => goTo("workbook", made.workbook)),
   document: (one) => call("onedesk.one_doc.word.open_file", { file: one.id }).then((made) => goTo("document", made.document)),
-  presentation: (one) => call("onedesk.one_slide.from_powerpoint.open_file", { file: one.id }).then((made) => openedDeck({ ...made, name: one.name })),
+  presentation: (one) => call("onedesk.one_deck.from_powerpoint.open_file", { file: one.id }).then((made) => openedDeck({ ...made, name: one.name })),
 };
 const APPS = { workbook: "OneWorkbook", document: "OneWriter" };
 
@@ -1056,7 +1056,7 @@ async function oneCopy(one) {
 const OWN = {
   workbook: { app: "OneWorkbook", suffix: ".xlsx", download: () => __("Download as Excel") },
   document: { app: "OneWriter", suffix: ".docx", download: () => __("Download as Word") },
-  presentation: { app: "OneSlide", suffix: ".pptx", download: () => __("Download as PowerPoint") },
+  presentation: { app: "OneDeck", suffix: ".pptx", download: () => __("Download as PowerPoint") },
 };
 const ownKind = (one) => (one && !one.folder ? Object.keys(OWN).find((kind) => one[kind]) : null);
 
@@ -1089,7 +1089,7 @@ function editChoices(one) {
       label: __("Make a Presentation"),
       short: __("Make a Presentation"),
       icon: "lucide-presentation",
-      description: __("A new OneSlide presentation, with the file kept as it is."),
+      description: __("A new OneDeck presentation, with the file kept as it is."),
       onClick: () => NATIVE.presentation(one),
     });
   }
@@ -1162,14 +1162,14 @@ async function newFrom(templates, blank, make, route) {
   goTo(route, made[route]);
 }
 
-// a presentation is asked its size as well as its template (one_slide/resize.py)
+// a presentation is asked its size as well as its template (one_deck/resize.py)
 async function newPresentation() {
   const sizes = slideSizes();
-  const said = await onedesk().table_workbook.pick(await call("onedesk.one_slide.api.listed"), __("Blank Presentation"), sizes);
+  const said = await onedesk().table_workbook.pick(await call("onedesk.one_deck.api.listed"), __("Blank Presentation"), sizes);
   if (!said) return;
   // "As It Was Made" has no size: sent empty, the server refuses it as a number
   const size = said.width && said.height ? { width: said.width, height: said.height } : {};
-  const made = await call("onedesk.one_slide.api.make", { parent: node.value, template: said.template || null, ...size });
+  const made = await call("onedesk.one_deck.api.make", { parent: node.value, template: said.template || null, ...size });
   forget(node.value);
   goTo("presentation", made.presentation);
 }

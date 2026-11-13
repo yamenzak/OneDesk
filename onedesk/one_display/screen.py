@@ -1,9 +1,9 @@
-"""The channel builder (stage 7 of docs/ONESLIDE.md): a widget collection
-edited in OneSlide's editor. Its backdrop is a one-slide presentation kept on
+"""The channel builder (stage 7 of docs/ONEDECK.md): a widget collection
+edited in OneDeck's editor. Its backdrop is a one-slide presentation kept on
 the collection; when the editor loads it, the collection's widgets join that
 slide as `widget` elements, and when it saves, they leave it again as the
-collection's rows. Called through the one_slide_loaded and one_slide_saving
-hooks, so OneSlide knows nothing of widgets."""
+collection's rows. Called through the one_deck_loaded and one_deck_saving
+hooks, so OneDeck knows nothing of widgets."""
 
 import json
 from typing import Annotated
@@ -28,7 +28,7 @@ def frame(collection) -> tuple[int, int]:
 @frappe.whitelist(methods=["POST"])
 def backdrop(collection: Annotated[str, "The widget collection."]) -> dict:
 	"""The presentation a collection is edited as, made the first time."""
-	from onedesk.one_slide import api
+	from onedesk.one_deck import api
 
 	doc = frappe.get_doc(DOCTYPE, collection)
 	doc.check_permission("write")
@@ -47,7 +47,7 @@ def _of(item: dict):
 
 
 def loaded(doc: dict, item: dict) -> None:
-	"""one_slide_loaded: a backdrop's one slide, with the widgets on it."""
+	"""one_deck_loaded: a backdrop's one slide, with the widgets on it."""
 	collection = _of(item)
 	if not collection:
 		return
@@ -85,7 +85,7 @@ def element(row: dict, wide: int, high: int) -> dict:
 
 
 def saving(name: str, item: dict, slides: list) -> list:
-	"""one_slide_saving: the widgets written to the collection, and the
+	"""one_deck_saving: the widgets written to the collection, and the
 	backdrop's one slide without them."""
 	collection = _of(item)
 	if not collection or not slides:
@@ -121,7 +121,7 @@ def saving(name: str, item: dict, slides: list) -> list:
 
 def _brand() -> str:
 	"""The business's colour, which an empty background shows on a screen."""
-	from onedesk.one_slide import convert
+	from onedesk.one_deck import convert
 
 	company = frappe.db.get_default("company")
 	return convert.colour(frappe.db.get_value("Company", company, "one_brand_colour") if company else "")
@@ -152,7 +152,7 @@ def _parsed(value) -> list:
 
 
 def rows(one: dict) -> list | None:
-	"""one_slide_rows: a presentation's `rows` source, a Display Source's rows
+	"""one_deck_rows: a presentation's `rows` source, a Display Source's rows
 	as words, for chips on a screen's backdrop; None for a source not ours."""
 	from onedesk.one_display import sources
 
@@ -168,7 +168,7 @@ def rows(one: dict) -> list | None:
 def drawn(collection, edge: int | None = None) -> dict | None:
 	"""The backdrop as a screen draws it under the widgets: its one slide's
 	elements, media sealed and nothing hidden, on the screen's own frame."""
-	from onedesk.one_slide import api, play
+	from onedesk.one_deck import api, play
 
 	url = collection.backdrop and frappe.db.get_value("File", collection.backdrop, "file_url")
 	name = url and api.presentation_of(url)

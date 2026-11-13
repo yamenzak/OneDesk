@@ -345,11 +345,11 @@ def _children(node_id: str) -> list[dict]:
 def _as_file(node: dict) -> dict:
 	"""A workbook made in OneWorkbook is an Excel file on the drive
 	(one_sheet/excel.py), a document made in OneWriter a Word file
-	(one_doc/word.py), and a presentation made in OneSlide a PowerPoint file
-	(one_slide/drive.py)."""
+	(one_doc/word.py), and a presentation made in OneDeck a PowerPoint file
+	(one_deck/drive.py)."""
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_slide import drive
+	from onedesk.one_deck import drive
 
 	if node.get("folder"):
 		return node
@@ -399,7 +399,7 @@ def _stored(item: dict, name: str) -> str:
 	"""The name a drive name is kept under: One's own without its suffix."""
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_slide import drive
+	from onedesk.one_deck import drive
 
 	for key, suffix in (("workbook", excel.SUFFIX), ("document", word.SUFFIX), ("presentation", drive.SUFFIX)):
 		if item.get(key) and name.lower().endswith(suffix):
@@ -526,12 +526,12 @@ class Document(_DAVNonCollection):
 		return excel.xlsx(self.item["workbook"])
 
 	def _deck(self, made: bool = True) -> bytes | None:
-		from onedesk.one_slide import drive
+		from onedesk.one_deck import drive
 
 		return drive.pptx(self.item["presentation"]) if made else drive.held(self.item["presentation"])
 
 	def _deck_stamp(self) -> float | None:
-		from onedesk.one_slide import drive
+		from onedesk.one_deck import drive
 
 		if "deck_stamp" not in self.item:
 			self.item["deck_stamp"] = _stamp(drive.stamp(self.item["presentation"]))
@@ -664,7 +664,7 @@ def write_own(item: dict, content: bytes) -> None:
 	presentation read back from the file the app wrote."""
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_slide import drive
+	from onedesk.one_deck import drive
 
 	if not content:
 		return

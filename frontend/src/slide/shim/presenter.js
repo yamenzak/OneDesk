@@ -18,7 +18,7 @@ let channel = null;
 
 export function link(id, heard) {
 	unlink();
-	channel = new BroadcastChannel(`oneslide:${id}`);
+	channel = new BroadcastChannel(`onedeck:${id}`);
 	channel.onmessage = (event) => heard(event.data || {});
 }
 
@@ -32,5 +32,5 @@ export function unlink() {
 // the presenter view here, and the slideshow in a window of its own
 export function startPresenter(id, index) {
 	presenting.value = true;
-	openPopup(`/desk/presentation/${encodeURIComponent(id)}?audience=1&slide=${index + 1}`, `oneslide-audience-${id}`);
+	openPopup(`/desk/presentation/${encodeURIComponent(id)}?audience=1&slide=${index + 1}`, `onedeck-audience-${id}`);
 }

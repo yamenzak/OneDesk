@@ -72,11 +72,11 @@ Turning an app off hides it and stops new records being made in it; the code, th
 
 What each app declares in OneRegistry:
 
-- **Needs:** apps it cannot run without. OneFactory needs OneInventory (a work order's materials are stock); OneDisplay needs OneSlide (a playlist plays a presentation); a private app such as Rua needs whatever its hooks use. Turning an app on turns on what it needs, and says so; turning off something another app needs is refused, naming that app. Today only "Reading needs OneAI" is written down.
+- **Needs:** apps it cannot run without. OneFactory needs OneInventory (a work order's materials are stock); OneDisplay needs OneDeck (a playlist plays a presentation); a private app such as Rua needs whatever its hooks use. Turning an app on turns on what it needs, and says so; turning off something another app needs is refused, naming that app. Today only "Reading needs OneAI" is written down.
 - **Kept:** apps that cannot be turned off once they hold records: OneBook once there is a submitted entry, OneInventory once there is stock, OneHR once there is an employee. They can be hidden from the rail for people who don't use them, never switched off for the workspace.
 - **Private:** a private app is never uninstalled once claimed, because it may have changed record types and fields. It can be hidden; removing it is a support job, not a switch.
 
-**The editors become apps of their own.** OneWriter, OneWorkbook and OneSlide are already full modules (`one_doc`, `one_sheet`, `one_slide`), reached only through OneCloud. They get their own entries in the Marketplace and rail. Off means nobody can make a new document of that kind; existing ones still open, read-only, so a file never becomes unreadable. Their names are part of the naming decision below.
+**The editors become apps of their own.** OneWriter, OneWorkbook and OneDeck are already full modules (`one_doc`, `one_sheet`, `one_deck`), reached only through OneCloud. They get their own entries in the Marketplace and rail. Off means nobody can make a new document of that kind; existing ones still open, read-only, so a file never becomes unreadable. Their names are part of the naming decision below.
 
 ERPNext and HRMS stay required underneath (`required_apps`), invisible: One's apps are how people reach them.
 

@@ -1,6 +1,6 @@
 <!-- A presentation in the desk: Suite's slides editor, opened on the presentation the route names, under a head that leads back to where it belongs (shim/EditorNavbar.vue). -->
 <template>
-	<div ref="pageEl" data-tour="oneslide-editor" class="one-presentation relative h-full w-full overflow-hidden bg-surface-base">
+	<div ref="pageEl" data-tour="onedeck-editor" class="one-presentation relative h-full w-full overflow-hidden bg-surface-base">
 		<div ref="shelfEl" class="pointer-events-none invisible fixed left-0 top-0 h-0 w-screen" aria-hidden="true" />
 		<div v-if="failed" class="flex h-full items-center justify-center text-base text-ink-gray-6">{{ failed }}</div>
 		<router-view v-else-if="rooted" v-slot="{ Component }">
@@ -44,7 +44,7 @@ function fonts() {
 async function open(name) {
 	if (!name) return;
 	failed.value = "";
-	const said = await call("onedesk.one_slide.api.get_editor_access", { presentation_id: name });
+	const said = await call("onedesk.one_deck.api.get_editor_access", { presentation_id: name });
 	if (said === "none") {
 		failed.value = __("You do not have permission to open this presentation.");
 		return;

@@ -1,5 +1,5 @@
 // Suite's editor asks Suite's server by Suite's names. Every request a vendored
-// file makes comes through here and is answered by one_slide/api.py, so the
+// file makes comes through here and is answered by one_deck/api.py, so the
 // vendored files keep Suite's names and a refresh is a copy. VENDORED.md.
 import { toValue } from "vue";
 import {
@@ -14,7 +14,7 @@ import { slideRoot } from "./root.js";
 
 export * from "frappe-ui";
 
-const API = "onedesk.one_slide.api.";
+const API = "onedesk.one_deck.api.";
 const SUITE = ["suite.slides.doctype.presentation.presentation.", "suite.slides.api.slides.", "suite.slides.api.presentation."];
 
 export function moved(url, params) {

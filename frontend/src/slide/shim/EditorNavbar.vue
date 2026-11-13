@@ -1,6 +1,6 @@
 <!-- Suite's editor head, drawn as One's: the way back to where the presentation belongs, its title, whether it is saved, and Theme, Export and Present (Suite's EditorNavbar.vue, which this stands in for). -->
 <template>
-	<div data-tour="oneslide-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 bg-surface-base px-4">
+	<div data-tour="onedeck-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 bg-surface-base px-4">
 		<button class="flex size-6 shrink-0 items-center justify-center [&_svg]:size-full" :title="__('Back')" @click="goBack" v-html="oneMark" />
 		<Breadcrumbs class="min-w-0 overflow-hidden [&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" v-if="!renaming" :items="crumbs">
 			<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
@@ -68,8 +68,8 @@ import { sources } from "./data.js";
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
 const ONE = "One"; // a name, not a word to translate
 const ONEAI = "OneAI"; // a name too
-// a screen's editor belongs to OneDisplay, a presentation's to OneSlide
-const oneMark = computed(() => mark(screen.value ? "onedisplay" : "oneslide"));
+// a screen's editor belongs to OneDisplay, a presentation's to OneDeck
+const oneMark = computed(() => mark(screen.value ? "onedisplay" : "onedeck"));
 const inReadonlyMode = inject("inReadonlyMode", ref(false));
 const renaming = ref(false);
 const title = ref("");
@@ -179,10 +179,10 @@ const fileMenu = computed(() => [
 ]);
 
 // The master opens in this same editor, on a presentation of its own
-// (one_slide/master.py); Done comes back.
+// (one_deck/master.py); Done comes back.
 async function openMaster() {
 	await saveWithoutDelay();
-	const name = await call("onedesk.one_slide.master.edit", { name: presentationDoc.value.name });
+	const name = await call("onedesk.one_deck.master.edit", { name: presentationDoc.value.name });
 	goToUrl(`/desk/presentation/${name}`);
 }
 
@@ -199,15 +199,15 @@ function addField(field) {
 }
 
 // Every slide that came from a layout takes its layout's look again, keeping
-// its words (one_slide/layouts.py); what it was is a version.
+// its words (one_deck/layouts.py); what it was is a version.
 async function restyle() {
 	await saveWithoutDelay();
-	const { restyled } = await call("onedesk.one_slide.layouts.restyle", { name: presentationDoc.value.name });
+	const { restyled } = await call("onedesk.one_deck.layouts.restyle", { name: presentationDoc.value.name });
 	if (!restyled) return alert(__("Every slide already looks like its layout."));
 	reloadPage();
 }
 
-// Every slide made another size, its contents redrawn to fit (one_slide/resize.py).
+// Every slide made another size, its contents redrawn to fit (one_deck/resize.py).
 // The editor's canvas is laid out for one size, so it opens again at the new one.
 function slideSize() {
 	const offered = sizes();
@@ -227,7 +227,7 @@ function slideSize() {
 		async ({ size, width, height }) => {
 			const preset = offered.find((one) => one.key === size);
 			await saveWithoutDelay();
-			await call("onedesk.one_slide.resize.resize", { name: presentationDoc.value.name, width: preset ? preset.w : width, height: preset ? preset.h : height });
+			await call("onedesk.one_deck.resize.resize", { name: presentationDoc.value.name, width: preset ? preset.w : width, height: preset ? preset.h : height });
 			reloadPage();
 		},
 		__("Slide Size"),
@@ -237,14 +237,14 @@ function slideSize() {
 
 // Every slide photographed as the editor draws it, then made a PDF beside
 // the presentation in OneCloud, and opened: the slides alone, or each above
-// its speaker notes (one_slide/paper.py).
+// its speaker notes (one_deck/paper.py).
 async function exportPdf(notes) {
 	if (printing.value) return;
 	printing.value = __("Preparing the PDF…");
 	try {
 		const pictures = await camera.value.shoot(slides.value, (done, all) => (printing.value = __("Drawing slide {0} of {1}…", [done, all])));
 		await saveWithoutDelay();
-		const made = await call("onedesk.one_slide.paper.pdf", { name: presentationDoc.value.name, pictures: JSON.stringify(pictures), notes: notes ? 1 : 0 });
+		const made = await call("onedesk.one_deck.paper.pdf", { name: presentationDoc.value.name, pictures: JSON.stringify(pictures), notes: notes ? 1 : 0 });
 		alert(__("Saved {0} to OneCloud.", [made.file_name]));
 		openTab(made.url);
 	} finally {
@@ -253,13 +253,13 @@ async function exportPdf(notes) {
 }
 
 // The presentation as a .pptx beside it, made of PowerPoint's own pieces
-// (one_slide/powerpoint.py); a slide with something PowerPoint has nothing like is named.
+// (one_deck/powerpoint.py); a slide with something PowerPoint has nothing like is named.
 async function exportPowerPoint() {
 	if (printing.value) return;
 	printing.value = __("Preparing the PowerPoint file…");
 	try {
 		await saveWithoutDelay();
-		const made = await call("onedesk.one_slide.powerpoint.export", { name: presentationDoc.value.name });
+		const made = await call("onedesk.one_deck.powerpoint.export", { name: presentationDoc.value.name });
 		alert(made.lost.length ? __("Saved {0} to OneCloud. Slides {1} lost an effect PowerPoint does not have.", [made.file_name, made.lost.join(", ")]) : __("Saved {0} to OneCloud.", [made.file_name]), made.lost.length ? "yellow" : "green");
 		openTab(made.url);
 	} finally {
@@ -267,19 +267,19 @@ async function exportPowerPoint() {
 	}
 }
 
-// Every chip written in as it reads now, for good (one_slide/data.py freeze);
+// Every chip written in as it reads now, for good (one_deck/data.py freeze);
 // what it was is kept as a version.
 function freezeData() {
 	confirm(__("Write in what the data says now? The slides stop following the records. What they were is kept in Version History."), async () => {
 		await saveWithoutDelay();
-		await call("onedesk.one_slide.data.freeze", { name: presentationDoc.value.name });
+		await call("onedesk.one_deck.data.freeze", { name: presentationDoc.value.name });
 		await reload();
 		alert(__("The data is written in."));
 	});
 }
 
 // A copy of this presentation filed on each record picked, made in the
-// background; each reads its own record as `this` (one_slide/data.py for_each).
+// background; each reads its own record as `this` (one_deck/data.py for_each).
 function makeForEach() {
 	const doctype = sources.value.find((one) => one.kind === "this").doctype;
 	prompt(
@@ -294,7 +294,7 @@ function makeForEach() {
 		],
 		async ({ names }) => {
 			await saveWithoutDelay();
-			const { queued } = await call("onedesk.one_slide.data.for_each", { name: presentationDoc.value.name, names });
+			const { queued } = await call("onedesk.one_deck.data.for_each", { name: presentationDoc.value.name, names });
 			alert(__("Making {0} presentations. You will be told when they are filed.", [queued]));
 		},
 		__("Make One for Each {0}", [__(doctype)]),
@@ -302,14 +302,14 @@ function makeForEach() {
 	);
 }
 
-const unheard = listen("one_slide_for_each", ({ made, doctype }) => alert(__("{0} presentations filed, one on each {1}.", [made, __(doctype)]), "green"));
+const unheard = listen("one_deck_for_each", ({ made, doctype }) => alert(__("{0} presentations filed, one on each {1}.", [made, __(doctype)]), "green"));
 onBeforeUnmount(unheard);
 
 function saveAsTemplate() {
 	prompt(
 		[{ fieldname: "title", fieldtype: "Data", label: __("Template Name"), reqd: 1, default: presentationDoc.value.title }],
 		async ({ title }) => {
-			const made = await call("onedesk.one_slide.templates.save_as", { name: presentationDoc.value.name, title });
+			const made = await call("onedesk.one_deck.templates.save_as", { name: presentationDoc.value.name, title });
 			alert(__("{0} is in Presentation Templates.", [made.title]));
 		},
 		__("Save as Template"),
@@ -317,7 +317,7 @@ function saveAsTemplate() {
 	);
 }
 
-// What OneAI makes here (onedesk/one_slide/ai.py): a slide after this one, a
+// What OneAI makes here (onedesk/one_deck/ai.py): a slide after this one, a
 // picture on this one, or a video that arrives later on a slide of its own.
 const making = ref("");
 const aiMenu = computed(() => [
@@ -330,7 +330,7 @@ const aiMenu = computed(() => [
 			...(screen.value ? [] : [{ label: __("Make a Video"), icon: "lucide-film", onClick: makeVideo }]),
 		],
 	},
-	// in OneAI's panel, as cards to approve (one_slide/ai.py draft_deck, write_slide, remake_slide)
+	// in OneAI's panel, as cards to approve (one_deck/ai.py draft_deck, write_slide, remake_slide)
 	...(screen.value ? [] : [{
 		group: __("In the OneAI Panel"),
 		options: [
@@ -360,7 +360,7 @@ watch(
 onBeforeUnmount(() => aiSees(null));
 
 // a card approved in OneAI's panel changed the slides: open them as they are now
-const unwritten = listen("one_slide_written", (said) => said?.presentation === presentationDoc.value?.name && reload());
+const unwritten = listen("one_deck_written", (said) => said?.presentation === presentationDoc.value?.name && reload());
 onBeforeUnmount(unwritten);
 const showWidgets = ref(false);
 // an empty screen opens on its templates, which is where most start
@@ -391,7 +391,7 @@ async function asking(saying, method, description) {
 
 function designSlide() {
 	described(__("Design a Slide"), __("Design"), async (description) => {
-		const made = await asking(__("OneAI is designing the slide…"), "onedesk.one_slide.ai.design", description);
+		const made = await asking(__("OneAI is designing the slide…"), "onedesk.one_deck.ai.design", description);
 		const at = slideIndex.value;
 		insertSlide(getNewSlide(false, { background: made.background, elements: made.elements }), at);
 		changeSlide(at + 1);
@@ -401,7 +401,7 @@ function designSlide() {
 function makePicture() {
 	const slide = currentSlide.value;
 	described(__("Make a Picture"), __("Make"), async (description) => {
-		const made = await asking(__("OneAI is making the picture…"), "onedesk.one_slide.ai.picture", description);
+		const made = await asking(__("OneAI is making the picture…"), "onedesk.one_deck.ai.picture", description);
 		await addMediaElement(made, "image", slide);
 	});
 }
@@ -409,7 +409,7 @@ function makePicture() {
 function makeVideo() {
 	described(__("Make a Video"), __("Make"), async (description) => {
 		await saveWithoutDelay();
-		await asking(__("OneAI is starting the video…"), "onedesk.one_slide.ai.video", description);
+		await asking(__("OneAI is starting the video…"), "onedesk.one_deck.ai.video", description);
 		alert(__("OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."));
 	});
 }

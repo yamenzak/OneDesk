@@ -496,7 +496,7 @@
 		var s = size();
 		var layout = channel.layout || { widgets: [] };
 		$("frame").style.background = layout.background ? onedesk.play.background(layout.background) : brand.colour || "";
-		// the words and pictures a screen's editor put behind the widgets (stage 7 of docs/ONESLIDE.md)
+		// the words and pictures a screen's editor put behind the widgets (stage 7 of docs/ONEDECK.md)
 		behind = null;
 		drawnBackdrop = "";
 		if (layout.backdrop) {
@@ -639,7 +639,7 @@
 		}
 		if (item.kind === "Slide" && window.onedesk && onedesk.play) {
 			// A presentation's slide, drawn in the page from what the server
-			// cleaned (public/js/one_slide/play.js); its videos join the
+			// cleaned (public/js/one_deck/play.js); its videos join the
 			// shared clock where the slide is.
 			holder.appendChild(node);
 			onedesk.play.draw(item.slide, node, true);

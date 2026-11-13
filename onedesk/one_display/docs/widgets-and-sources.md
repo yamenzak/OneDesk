@@ -1,7 +1,7 @@
 # Widgets and Sources
 
 A widget collection is a layout of widgets on the screen. **Edit Layout** on a
-collection opens it in OneSlide's editor, at the screen's own shape; a new
+collection opens it in OneDeck's editor, at the screen's own shape; a new
 one opens on its [Templates](templates). **Add a Widget** shows every widget
 and its ready-made versions, drawn as they will look, and puts the one you
 choose in the middle; drag it into place, pull its handles to size it, and

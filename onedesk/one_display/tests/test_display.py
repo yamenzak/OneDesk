@@ -253,7 +253,7 @@ def test_the_player_runs_on_an_old_tvs_browser():
 	acorn = ROOT / "frontend" / "node_modules" / "acorn"
 	if not acorn.exists():
 		pytest.skip("acorn is not installed")
-	for path in ("onedesk/public/js/one_display/tv.js", "onedesk/public/js/one_display/worker.js", "onedesk/public/js/one_slide/play.js"):
+	for path in ("onedesk/public/js/one_display/tv.js", "onedesk/public/js/one_display/worker.js", "onedesk/public/js/one_deck/play.js"):
 		parsed = subprocess.run(
 			["node", "-e", f"require({json.dumps(str(acorn))}).parse(require('fs').readFileSync({json.dumps(str(ROOT / path))}, 'utf8'), {{ecmaVersion: 5}})"],
 			capture_output=True,
@@ -285,11 +285,11 @@ def test_a_songs_length_is_read_from_its_file():
 
 @pytest.mark.skipif(not shutil.which("node"), reason="no node to run the renderer with")
 def test_a_slide_is_drawn_safely_for_an_old_tv():
-	"""The screen's renderer of a presentation's slide (public/js/one_slide/
+	"""The screen's renderer of a presentation's slide (public/js/one_deck/
 	play.js): an 8-digit colour becomes rgba() for Chromium 53, a fade and a
 	star are drawn as SVG, an attribute cannot be broken out of, an address
 	that is not ours is dropped, and a hidden element is not drawn."""
-	renderer = ROOT / "onedesk/public/js/one_slide/play.js"
+	renderer = ROOT / "onedesk/public/js/one_deck/play.js"
 	slide = {
 		"background": "linear-gradient(90deg, #102030FF, #405060FF)",
 		"elements": [
@@ -314,15 +314,15 @@ def test_a_slide_is_drawn_safely_for_an_old_tv():
 	assert "rotate(5deg)" in drawn and "never drawn" not in drawn
 
 
-MOTION_TABLE = json.loads((ROOT / "onedesk/one_slide/motion.json").read_text())
-CLEANED = _load(ROOT / "onedesk/one_slide/play.py", ("motion",), MOTION=MOTION_TABLE)
+MOTION_TABLE = json.loads((ROOT / "onedesk/one_deck/motion.json").read_text())
+CLEANED = _load(ROOT / "onedesk/one_deck/play.py", ("motion",), MOTION=MOTION_TABLE)
 
 
 def test_the_player_moves_things_as_the_editor_does():
-	"""play.js carries a copy of one_slide/motion.json, which the editor and
+	"""play.js carries a copy of one_deck/motion.json, which the editor and
 	the server read; the copy is the table, and a motion keeps only what the
 	table names."""
-	player = (ROOT / "onedesk/public/js/one_slide/play.js").read_text()
+	player = (ROOT / "onedesk/public/js/one_deck/play.js").read_text()
 	copied = re.search(r"/\* motion \*/ (.*?) /\* end motion \*/", player).group(1)
 	assert json.loads(copied) == MOTION_TABLE
 	motion = CLEANED["motion"]

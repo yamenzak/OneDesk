@@ -744,7 +744,7 @@ def apply(changes: dict) -> str:
 
 		return doc_ai.approved(changes)
 	if what in ("deck", "slide", "remake"):
-		from onedesk.one_slide import ai as slide_ai
+		from onedesk.one_deck import ai as slide_ai
 
 		return slide_ai.approved(changes)
 	if what == "assign":

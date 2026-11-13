@@ -125,7 +125,7 @@ def own_of(item: dict) -> tuple[str, str] | None:
 def _suffix(kind: str) -> str:
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_slide import drive
+	from onedesk.one_deck import drive
 
 	return {"workbook": excel.SUFFIX, "document": word.SUFFIX, "presentation": drive.SUFFIX}[kind]
 
@@ -141,7 +141,7 @@ def exported(kind: str, name: str) -> bytes:
 	"""One's own as the drive serves it, for the reader."""
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_slide import drive
+	from onedesk.one_deck import drive
 
 	return {"workbook": excel.xlsx, "document": word.docx, "presentation": drive.pptx}[kind](name)
 
@@ -157,10 +157,10 @@ def kept_inside(kind: str, name: str) -> str | None:
 		if held.bound_doctype or 'data-field="' in (held.html or ""):
 			return _("A document with a record's fields in it can only be edited in OneWriter.")
 	if kind == "presentation":
-		from onedesk.one_slide import data
+		from onedesk.one_deck import data
 
 		if data.cleaned(frappe.db.get_value("Presentation", name, "sources")):
-			return _("A presentation with words from records can only be edited in OneSlide.")
+			return _("A presentation with words from records can only be edited in OneDeck.")
 	return None
 
 

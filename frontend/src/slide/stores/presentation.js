@@ -348,7 +348,7 @@ const toSlideRow = (slide) => ({
 	advance_after: slide.advanceAfter,
 	notes: slide.notes || '', // One: speaker notes (VENDORED.md)
 	hide_master: slide.hideMaster ? 1 : 0, // One: the master
-	layout: slide.layout || '', // One: the layout it came from, one_slide/layouts.py
+	layout: slide.layout || '', // One: the layout it came from, one_deck/layouts.py
 })
 
 // what a push sends, as the server stores and returns it: Data comes back as strings, Check as 0/1

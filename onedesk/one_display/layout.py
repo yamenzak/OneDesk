@@ -1,4 +1,4 @@
-"""A widget collection for the channel builder (screen.py, which OneSlide's
+"""A widget collection for the channel builder (screen.py, which OneDeck's
 editor reaches through its hooks): its widgets, the kinds and sources it may
 use, and saving them back. Nothing is written that the collection's own
 validation would refuse (doctype/widget_collection)."""
@@ -27,7 +27,7 @@ NEWS = {
 @frappe.whitelist()
 def get(collection: Annotated[str, "The widget collection."]) -> dict:
 	"""A collection, what it may hold and where the rows can come from."""
-	from onedesk.one_slide import decks
+	from onedesk.one_deck import decks
 
 	doc = frappe.get_doc(DOCTYPE, collection)
 	doc.check_permission("read")

@@ -5,7 +5,7 @@
    What a screen asks the server is never kept: its last answer is in the
    page's own storage (tv.js). */
 var CACHE = "one-tv-3";
-var SHELL = ["/tv", "/assets/onedesk/js/one_slide/play.js", "/assets/frappe/css/fonts/inter/inter.css", "/assets/onedesk/slide/fonts.css", "/api/method/onedesk.one_slide.fonts.css", "/assets/onedesk/js/one_display/tv.js"];
+var SHELL = ["/tv", "/assets/onedesk/js/one_deck/play.js", "/assets/frappe/css/fonts/inter/inter.css", "/assets/onedesk/slide/fonts.css", "/api/method/onedesk.one_deck.fonts.css", "/assets/onedesk/js/one_display/tv.js"];
 
 self.addEventListener("install", function (event) {
 	event.waitUntil(
@@ -32,7 +32,7 @@ self.addEventListener("activate", function (event) {
 });
 
 // what never changes at its address: files, a slide's pictures and videos, and font faces
-var KEPT = ["/files/", "/assets/onedesk/slide/fonts/", "/assets/frappe/css/fonts/", "/api/method/onedesk.one_slide.api.shown", "/api/method/onedesk.one_slide.fonts.face"];
+var KEPT = ["/files/", "/assets/onedesk/slide/fonts/", "/assets/frappe/css/fonts/", "/api/method/onedesk.one_deck.api.shown", "/api/method/onedesk.one_deck.fonts.face"];
 
 function media(url) {
 	return KEPT.some(function (start) {

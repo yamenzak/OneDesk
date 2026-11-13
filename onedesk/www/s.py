@@ -52,11 +52,11 @@ def get_context(context):
 		context.items = [{**one, **_urls(token, one["id"])} for one in links.contents(link, here.name)]
 		context.trail = _trail(link, here)
 		return context
-	from onedesk.one_slide import api as slides
-	from onedesk.one_slide import shared
+	from onedesk.one_deck import api as slides
+	from onedesk.one_deck import shared
 
 	if held := slides.presentation_of(here.file_url):
-		# a presentation is played here, as the TV draws it (one_slide/shared.py)
+		# a presentation is played here, as the TV draws it (one_deck/shared.py)
 		shown = shared.page(link, here, held)
 		context.presentation = json.dumps(
 			{

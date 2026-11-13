@@ -23,7 +23,7 @@ def add_media(
 	"""Each picture or video a presentation of its own, played by a new row,
 	the uploaded file kept only inside it."""
 	from onedesk.one_display.patches.presentations_on_screens import slide
-	from onedesk.one_slide import api, play
+	from onedesk.one_deck import api, play
 
 	doc = frappe.get_doc(DOCTYPE, playlist)
 	doc.check_permission("write")

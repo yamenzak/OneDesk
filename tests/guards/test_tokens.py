@@ -23,7 +23,7 @@ FRONTEND = tree.ROOT / "frontend" / "src"
 # player and the designed slides it draws, which load no stylesheet of
 # frappe's to fit an old TV's memory (one_display/AGENTS.md).
 # A palette is the one place colours are chosen (test_palettes.py holds it to every role).
-NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails", "www/tv.html", "one_slide/play.js", "one_interface/palettes.css")
+NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails", "www/tv.html", "one_deck/play.js", "one_interface/palettes.css")
 
 SANDBOXED = {
 	"frontend/src/mail/mail.js": "a received mail, in a frame",

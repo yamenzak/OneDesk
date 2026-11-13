@@ -1,4 +1,4 @@
-<!-- The slide library inside Add Slide (one_slide/library.py): a slide of
+<!-- The slide library inside Add Slide (one_deck/library.py): a slide of
      every kind from the decks One ships, and the company's own, by kind.
      Choosing one inserts it like a layout. One's own; VENDORED.md. -->
 <template>
@@ -47,8 +47,8 @@ const shown = computed(() =>
 );
 
 async function forget(item) {
-	said.value = await call("onedesk.one_slide.library.forget", { client_id: item.client_id });
+	said.value = await call("onedesk.one_deck.library.forget", { client_id: item.client_id });
 }
 
-call("onedesk.one_slide.library.shelves").then((answer) => (said.value = answer));
+call("onedesk.one_deck.library.shelves").then((answer) => (said.value = answer));
 </script>

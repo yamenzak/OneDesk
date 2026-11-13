@@ -1,4 +1,4 @@
-"""A slide playlist plays presentations (stage 5 of docs/ONESLIDE.md). Each
+"""A slide playlist plays presentations (stage 5 of docs/ONEDECK.md). Each
 picture, video and designed slide a playlist held becomes a one-slide
 presentation filed on the playlist in OneCloud, and the row plays it."""
 
@@ -24,7 +24,7 @@ def execute():
 
 def presentation(row) -> str:
 	"""The row's slide, as a presentation of one slide on its playlist."""
-	from onedesk.one_slide import api
+	from onedesk.one_deck import api
 
 	return api.make_with(f"@records/Slide Playlist/{row.parent}", row.title or row.kind, [slide(row)])
 
@@ -33,7 +33,7 @@ def slide(row) -> dict:
 	"""One playlist row as one Suite slide. Pure but for the converter's QR."""
 	from frappe.utils.html_utils import sanitize_html
 
-	from onedesk.one_slide import convert
+	from onedesk.one_deck import convert
 
 	whole = {"id": "whole", "left": 0, "top": 0, "width": convert.WIDE, "height": convert.HIGH, "zIndex": 1, "opacity": 100}
 	if row.kind == "Image":

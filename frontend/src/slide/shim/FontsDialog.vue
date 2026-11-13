@@ -1,4 +1,4 @@
-<!-- Adding a font to the workspace (one_slide/fonts.py): a file of the
+<!-- Adding a font to the workspace (one_deck/fonts.py): a file of the
      company's own, or a family from Google's catalogue while the workspace
      has Fonts from Google on. One's own; VENDORED.md. -->
 <template>
@@ -51,7 +51,7 @@ function search() {
 	timer = setTimeout(async () => {
 		looking.value = true;
 		try {
-			found.value = await call("onedesk.one_slide.fonts.google_search", { q: query.value });
+			found.value = await call("onedesk.one_deck.fonts.google_search", { q: query.value });
 		} finally {
 			looking.value = false;
 		}
@@ -61,7 +61,7 @@ function search() {
 async function add(family) {
 	adding.value = family;
 	try {
-		library.value = await call("onedesk.one_slide.fonts.google_add", { family });
+		library.value = await call("onedesk.one_deck.fonts.google_add", { family });
 		added.value = new Set([...added.value, family]);
 		refreshFaces(picker.value.ownerDocument);
 		alert(__("{0} added to the workspace's fonts.", [family]));
@@ -78,7 +78,7 @@ async function uploaded(event) {
 	try {
 		const form = new FormData();
 		form.append("file", file);
-		const answer = await fetch("/api/method/onedesk.one_slide.fonts.upload", { method: "POST", body: form, headers: { "X-Frappe-CSRF-Token": csrf() } });
+		const answer = await fetch("/api/method/onedesk.one_deck.fonts.upload", { method: "POST", body: form, headers: { "X-Frappe-CSRF-Token": csrf() } });
 		const said = await answer.json();
 		if (!answer.ok) throw new Error(said?._server_messages || said?.exception || answer.statusText);
 		library.value = said.message;

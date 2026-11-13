@@ -904,7 +904,7 @@ msgstr "معلومة طلب مستخدم من OneAI تذكّرها. لا يرا�
 msgid "A feed, Google News, OneAI or news you write yourself. Items appear on the top bar and on screens."
 msgstr "خلاصة أو أخبار Google أو OneAI أو أخبار تكتبها بنفسك. تظهر العناصر في الشريط العلوي وعلى الشاشات."
 
-#: onedesk/one_slide/decks.py:196
+#: onedesk/one_deck/decks.py:196
 msgid ""
 "A few words on this side.\n"
 "Keep it to three lines."
@@ -1034,7 +1034,7 @@ msgstr "تضم المجموعة أشخاصًا من مساحة العمل."
 msgid "A group's name is 2 to 40 letters, numbers and spaces."
 msgstr "اسم المجموعة من 2 إلى 40 حرفًا ورقمًا ومسافة."
 
-#: onedesk/one_slide/decks.py:195
+#: onedesk/one_deck/decks.py:195
 msgid "A heading"
 msgstr "عنوان"
 
@@ -1241,8 +1241,8 @@ msgid "A network belongs to a Shift Location or to one employee, not to both."
 msgstr "تنتمي الشبكة إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
 #: frontend/src/cloud/OneCloud.vue:1092
-msgid "A new OneSlide presentation, with the file kept as it is."
-msgstr "عرض تقديمي جديد في OneSlide، مع إبقاء الملف كما هو."
+msgid "A new OneDeck presentation, with the file kept as it is."
+msgstr "عرض تقديمي جديد في OneDeck، مع إبقاء الملف كما هو."
 
 #. What a project template is for
 #: onedesk/one_project/library/client_onboarding.json
@@ -1262,7 +1262,7 @@ msgstr "ليس للصنف الجديد مستودع، فيطلب كل استلا
 msgid "A new item is kept in {0} unless it says otherwise."
 msgstr "يُحفظ الصنف الجديد في {0} ما لم يُذكر غير ذلك."
 
-#: onedesk/one_slide/decks.py:187
+#: onedesk/one_deck/decks.py:187
 msgid "A new part"
 msgstr "جزء جديد"
 
@@ -1306,7 +1306,7 @@ msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "رقم يشير إليه مستند: فاتورة أو طلب أو قضية."
 
 #. Description of the 'Session' (Data) field in DocType 'Presentation View'
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:67
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:67
 msgid "A number the page made when it opened, so one look is one row."
 msgstr "رقم أنشأته الصفحة عند فتحها، لتكون كل مشاهدة صفاً واحداً."
 
@@ -1398,14 +1398,14 @@ msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظ�
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr "مكان يُعرض طقسه على الشاشات وبجانب الساعة. مكان واحد مجاني، وكل مكان إضافي يستهلك 5 أرصدة يومياً."
 
-#: onedesk/one_slide/drive.py:63 onedesk/one_cloud/opening.py:163
-msgid "A presentation with words from records can only be edited in OneSlide."
-msgstr "لا يمكن تحرير عرض تقديمي يحتوي على كلمات من السجلات إلا في OneSlide."
+#: onedesk/one_deck/drive.py:63 onedesk/one_cloud/opening.py:163
+msgid "A presentation with words from records can only be edited in OneDeck."
+msgstr "لا يمكن تحرير عرض تقديمي يحتوي على كلمات من السجلات إلا في OneDeck."
 
 #. Description of a DocType
-#: onedesk/one_slide/doctype/presentation/presentation.json:21
-msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
-msgstr "شرائح العرض التقديمي، خلف الملف الذي يضعه في OneCloud. يُفتح ويُحفظ فقط عبر one_slide/api.py، الذي يسأل OneCloud إن كان القارئ يملك الإذن."
+#: onedesk/one_deck/doctype/presentation/presentation.json:21
+msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_deck/api.py, which asks OneCloud whether the reader may."
+msgstr "شرائح العرض التقديمي، خلف الملف الذي يضعه في OneCloud. يُفتح ويُحفظ فقط عبر one_deck/api.py، الذي يسأل OneCloud إن كان القارئ يملك الإذن."
 
 #: frontend/src/cloud/CloudViewer.vue:75
 msgid "A preview. Edit ▾ to change it."
@@ -1830,7 +1830,7 @@ msgstr "جولة توصيل لشاحنة."
 msgid "A verb a module registered by name. It says itself when it can be done and what it asks."
 msgstr "إجراء سجّلته وحدة باسمه. يحدد بنفسه متى يمكن تنفيذه وما يطلبه."
 
-#: onedesk/one_slide/versions.py:62
+#: onedesk/one_deck/versions.py:62
 msgid "A version needs a name."
 msgstr "تحتاج النسخة إلى اسم."
 
@@ -2946,7 +2946,7 @@ msgstr "أضف سببًا."
 msgid "Add a sheet with the plus, and right-click a sheet's name to rename, copy, colour or hide it."
 msgstr "أضف ورقة بعلامة الزائد، وانقر بزر الفأرة الأيمن على اسم الورقة لإعادة تسميتها أو نسخها أو تلوينها أو إخفائها."
 
-#: onedesk/one_slide/data.py:305
+#: onedesk/one_deck/data.py:305
 msgid "Add a source for the record this is for first."
 msgstr "أضف أولاً مصدراً للسجل الذي يخصه هذا العرض."
 
@@ -3111,7 +3111,7 @@ msgstr "إضافة إلى الشريط الجانبي"
 msgid "Add to Users"
 msgstr "إضافة إلى المستخدمين"
 
-#: onedesk/one_slide/tour.py:17
+#: onedesk/one_deck/tour.py:17
 msgid "Add to the Slide"
 msgstr "أضف إلى الشريحة"
 
@@ -3493,7 +3493,7 @@ msgid "Advance"
 msgstr "الدفعة المقدمة"
 
 #. Label of the advance_after (Data) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:61
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:61
 msgid "Advance After"
 msgstr "الانتقال بعد"
 
@@ -3681,7 +3681,7 @@ msgid "Ageing"
 msgstr "أعمار الديون"
 
 #: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
-#: onedesk/one_slide/decks.py:23 onedesk/one_slide/decks.py:176
+#: onedesk/one_deck/decks.py:23 onedesk/one_deck/decks.py:176
 msgid "Agenda"
 msgstr ""
 
@@ -4751,7 +4751,7 @@ msgstr "أي شخص لديه الرابط"
 msgid "Anyone who can open the record can open this file."
 msgstr "يمكن لكل من يستطيع فتح السجل فتح هذا الملف."
 
-#: onedesk/one_slide/shared.py:175
+#: onedesk/one_deck/shared.py:175
 msgid "Anyone with the link"
 msgstr "أي شخص لديه الرابط"
 
@@ -5483,7 +5483,7 @@ msgstr "اطلب من شؤون الموظفين إعادة تعيين مفتاح
 msgid "Ask OneAI"
 msgstr "اسأل OneAI"
 
-#: onedesk/one_slide/tour.py:30
+#: onedesk/one_deck/tour.py:30
 msgid "Ask OneAI for a slide, a picture or a video, keep versions and print from File, and play the presentation."
 msgstr "اطلب من OneAI شريحة أو صورة أو فيديو، واحفظ النسخ واطبع من الملف، وشغّل العرض التقديمي."
 
@@ -6468,7 +6468,7 @@ msgstr "متوسط الانتظار اليوم: نحو 15 دقيقة"
 msgid "Avg: {0}"
 msgstr "المتوسط: {0}"
 
-#: onedesk/one_slide/decks.py:89
+#: onedesk/one_deck/decks.py:89
 msgid "Avoid"
 msgstr "تجنّب"
 
@@ -6652,7 +6652,7 @@ msgstr "الخادم والبيانات"
 #: frontend/src/slide/components/BackgroundSection.vue:3
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:47
 #: onedesk/one_hr/custom/employee.json:231
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:31
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:31
 msgid "Background"
 msgstr "الخلفية"
 
@@ -6920,7 +6920,7 @@ msgstr "النطاق الأساسي لعناوين مساحات العمل. مث
 msgid "Based On"
 msgstr ""
 
-#: onedesk/one_display/starters.py:626 onedesk/one_slide/decks.py:245
+#: onedesk/one_display/starters.py:626 onedesk/one_deck/decks.py:245
 msgid "Basic"
 msgstr ""
 
@@ -7024,7 +7024,7 @@ msgstr "قبل كل مجموعة"
 msgid "Before Insert"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:422
+#: onedesk/one_deck/ai.py:422
 msgid "Before OneAI wrote slides"
 msgstr "قبل أن يكتب OneAI الشرائح"
 
@@ -7070,7 +7070,7 @@ msgstr "قبل موعد طلب الملفات، أو عندما يرسل صاح�
 msgid "Before a new {0} is saved for the first time"
 msgstr "قبل حفظ {0} جديد لأول مرة"
 
-#: onedesk/one_slide/drive.py:75
+#: onedesk/one_deck/drive.py:75
 msgid "Before a save from the drive"
 msgstr "قبل حفظ من محرك الأقراص"
 
@@ -7098,19 +7098,19 @@ msgstr "قبل اعتماد {0}"
 msgid "Before an Excel save"
 msgstr "قبل حفظ من Excel"
 
-#: onedesk/one_slide/resize.py:93
+#: onedesk/one_deck/resize.py:93
 msgid "Before changing the size"
 msgstr "قبل تغيير الحجم"
 
-#: onedesk/one_slide/data.py:283
+#: onedesk/one_deck/data.py:283
 msgid "Before freezing the data"
 msgstr "قبل تثبيت البيانات"
 
-#: onedesk/one_slide/versions.py:92
+#: onedesk/one_deck/versions.py:92
 msgid "Before going back"
 msgstr "قبل الرجوع"
 
-#: onedesk/one_slide/layouts.py:108
+#: onedesk/one_deck/layouts.py:108
 msgid "Before restyling from layouts"
 msgstr "قبل إعادة التنسيق من التخطيطات"
 
@@ -7964,7 +7964,7 @@ msgstr "إصلاح الأخطاء"
 #. Task in the Mobile App project template
 #. Task in the Website project template
 #: onedesk/one_project/library/mobile_app.json
-#: onedesk/one_project/library/website.json onedesk/one_slide/decks.py:225
+#: onedesk/one_project/library/website.json onedesk/one_deck/decks.py:225
 msgid "Build"
 msgstr ""
 
@@ -9782,7 +9782,7 @@ msgstr "سماء صافية"
 msgid "Cleared On"
 msgstr "تاريخ التسوية"
 
-#: onedesk/one_slide/tour.py:12
+#: onedesk/one_deck/tour.py:12
 msgid "Click a slide to work on it, drag to reorder, and add one from the theme's layouts."
 msgstr "انقر شريحة للعمل عليها، واسحبها لتغيير ترتيبها، وأضف شريحة من تخطيطات السمة."
 
@@ -9800,7 +9800,7 @@ msgid "Clickable prototype tested with users"
 msgstr "اختبار نموذج تفاعلي مع المستخدمين"
 
 #. Label of the client_id (Data) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:26
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:26
 msgid "Client ID"
 msgstr ""
 
@@ -10685,7 +10685,7 @@ msgstr "شكوى"
 
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
-#: onedesk/one_slide/decks.py:245
+#: onedesk/one_deck/decks.py:245
 #: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:475
 #: onedesk/public/js/timesheet.js:67
@@ -11671,19 +11671,19 @@ msgstr "تعذّر فتح هذا"
 msgid "Could not add the font."
 msgstr "تعذّرت إضافة الخط."
 
-#: onedesk/one_slide/fonts.py:306
+#: onedesk/one_deck/fonts.py:306
 msgid "Could not add the font: Google Fonts is off for this workspace."
 msgstr "تعذّرت إضافة الخط: خطوط Google متوقفة في مساحة العمل هذه."
 
-#: onedesk/one_slide/fonts.py:248
+#: onedesk/one_deck/fonts.py:248
 msgid "Could not add the font: choose a .ttf, .otf, .woff or .woff2 file."
 msgstr "تعذّرت إضافة الخط: اختر ملفاً بصيغة .ttf أو .otf أو .woff أو .woff2."
 
-#: onedesk/one_slide/fonts.py:251
+#: onedesk/one_deck/fonts.py:251
 msgid "Could not add the font: it is larger than 8 MB."
 msgstr "تعذّرت إضافة الخط: حجمه أكبر من 8 ميغابايت."
 
-#: onedesk/one_slide/fonts.py:302
+#: onedesk/one_deck/fonts.py:302
 #, python-brace-format
 msgid "Could not add the font: {0} is not in Google's catalogue."
 msgstr "تعذّرت إضافة الخط: {0} ليس في فهرس Google."
@@ -11692,7 +11692,7 @@ msgstr "تعذّرت إضافة الخط: {0} ليس في فهرس Google."
 msgid "Could not add the sheets."
 msgstr "تعذرت إضافة الأوراق."
 
-#: onedesk/one_slide/ai.py:433
+#: onedesk/one_deck/ai.py:433
 msgid "Could not change the slide: it is no longer in the presentation."
 msgstr "تعذّر تغيير الشريحة: لم تعد موجودة في العرض."
 
@@ -11708,7 +11708,7 @@ msgstr "تعذر إنشاء السجل."
 msgid "Could not enter fullscreen mode"
 msgstr "تعذّر الدخول إلى وضع ملء الشاشة"
 
-#: onedesk/one_slide/library.py:97
+#: onedesk/one_deck/library.py:97
 msgid "Could not keep the slide: save the presentation first."
 msgstr "تعذّر حفظ الشريحة: احفظ العرض أولاً."
 
@@ -11716,11 +11716,11 @@ msgstr "تعذّر حفظ الشريحة: احفظ العرض أولاً."
 msgid "Could not load the templates."
 msgstr "تعذر تحميل القوالب."
 
-#: onedesk/one_slide/data.py:309
+#: onedesk/one_deck/data.py:309
 msgid "Could not make presentations: there are no records you may file one on."
 msgstr "تعذّر إنشاء العروض: لا توجد سجلات يمكنك حفظ عرض عليها."
 
-#: onedesk/one_slide/master.py:98
+#: onedesk/one_deck/master.py:98
 msgid "Could not open a master: this presentation is already one."
 msgstr "تعذّر فتح قالب رئيسي: هذا العرض قالب رئيسي بالفعل."
 
@@ -11758,7 +11758,7 @@ msgstr "تعذّر الوصول إلى {0}: {1}"
 msgid "Could not read range."
 msgstr "تعذّرت قراءة النطاق."
 
-#: onedesk/one_slide/from_powerpoint.py:319 onedesk/one_cloud/pdf.py:102
+#: onedesk/one_deck/from_powerpoint.py:319 onedesk/one_cloud/pdf.py:102
 #, python-brace-format
 msgid "Could not read {0}."
 msgstr "تعذّرت قراءة {0}."
@@ -14640,7 +14640,7 @@ msgstr "إلغاء تحديد الظاهر"
 #: frontend/src/slide/components/PropertiesPanel.vue:153
 #: frontend/src/slide/shim/EditorNavbar.vue:393
 #: onedesk/one_project/library/mobile_app.json
-#: onedesk/one_project/library/website.json onedesk/one_slide/decks.py:225
+#: onedesk/one_project/library/website.json onedesk/one_deck/decks.py:225
 msgid "Design"
 msgstr "التصميم"
 
@@ -14670,7 +14670,7 @@ msgstr "صمّم ترويسة من بياناتنا"
 msgid "Design a letter head in HTML from the company's details in One's ControlCenter (Company and Branding): the name and logo in the header, the address, phone and email in the footer, each after its icon."
 msgstr "صمّم ترويسة بلغة HTML من بيانات الشركة في ControlCenter الخاص بـ One (الشركة والهوية): الاسم والشعار في الرأس، والعنوان والهاتف والبريد الإلكتروني في التذييل، كل منها بعد أيقونته."
 
-#: onedesk/one_slide/tour.py:23
+#: onedesk/one_deck/tour.py:23
 msgid "Design and Layers"
 msgstr "التصميم والطبقات"
 
@@ -15206,7 +15206,7 @@ msgstr "عدد الموظفين المختلفين، وقد تم التحقق م
 msgid "Distribute columns"
 msgstr "توزيع الأعمدة"
 
-#: onedesk/one_slide/decks.py:89 onedesk/public/js/one_mail/rule_builder.js:419
+#: onedesk/one_deck/decks.py:89 onedesk/public/js/one_mail/rule_builder.js:419
 msgid "Do"
 msgstr "نفّذ"
 
@@ -15424,8 +15424,8 @@ msgstr "نطاقات قيد الانتظار"
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
-#: onedesk/one_project/portal.py:16 onedesk/one_slide/decks.py:64
-#: onedesk/one_slide/decks.py:236
+#: onedesk/one_project/portal.py:16 onedesk/one_deck/decks.py:64
+#: onedesk/one_deck/decks.py:236
 #: onedesk/one_task/doctype/task_step/task_step.json:28
 #: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:491
 #: onedesk/public/js/module_settings.js:129
@@ -16627,7 +16627,7 @@ msgid "Elbow connector"
 msgstr "موصل مرفقي"
 
 #. Label of the elements (JSON) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:36
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:36
 msgid "Elements"
 msgstr "العناصر"
 
@@ -18174,7 +18174,7 @@ msgstr "محذوفات الجميع"
 msgid "Everything"
 msgstr "كل شيء"
 
-#: onedesk/one_slide/tour.py:24
+#: onedesk/one_deck/tour.py:24
 msgid "Everything about what you chose is here, and Layers lists what is on the slide to name, hide or lock."
 msgstr "كل ما يخص ما اخترته هنا، وتعرض الطبقات ما على الشريحة لتسميته أو إخفائه أو قفله."
 
@@ -18793,7 +18793,7 @@ msgstr "التدرج إلى"
 
 #. Label of the fade_unmatched_elements (Check) field in DocType 'Presentation
 #. Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:56
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:56
 msgid "Fade Unmatched Elements"
 msgstr "تلاشي العناصر غير المتطابقة"
 
@@ -19107,7 +19107,7 @@ msgstr "العمل الميداني"
 msgid "Figure"
 msgstr "البند"
 
-#: onedesk/one_display/starters.py:1155 onedesk/one_slide/decks.py:30
+#: onedesk/one_display/starters.py:1155 onedesk/one_deck/decks.py:30
 msgid "Figures"
 msgstr "الأرقام"
 
@@ -19132,7 +19132,7 @@ msgstr "الأرقام"
 #: onedesk/one_display/doctype/display_track/display_track.json:16
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:39
 #: onedesk/one_sheet/doctype/workbook/workbook.json:39
-#: onedesk/one_slide/doctype/presentation/presentation.json:48
+#: onedesk/one_deck/doctype/presentation/presentation.json:48
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:20
 #: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:24
 #: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:23
@@ -20698,7 +20698,7 @@ msgid "From Employee"
 msgstr "من الموظف"
 
 #. Label of the from_file (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:56
+#: onedesk/one_deck/doctype/presentation/presentation.json:56
 msgid "From File"
 msgstr "من الملف"
 
@@ -21751,7 +21751,7 @@ msgstr "الضيوف"
 
 #. Label of the guides (Long Text) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:172
-#: onedesk/one_slide/doctype/presentation/presentation.json:91
+#: onedesk/one_deck/doctype/presentation/presentation.json:91
 msgid "Guides"
 msgstr "الأدلة"
 
@@ -21849,7 +21849,7 @@ msgstr "تسليم إلى شخص آخر"
 msgid "Hand To…"
 msgstr "تسليم إلى…"
 
-#: onedesk/one_slide/decks.py:225
+#: onedesk/one_deck/decks.py:225
 msgid "Hand over"
 msgstr "التسليم"
 
@@ -22153,8 +22153,8 @@ msgstr "استمع إلى خطة الربع القادم واطرح أسئلتك
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:55
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:55
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:84
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:61
+#: onedesk/one_deck/doctype/presentation/presentation.json:84
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:61
 #: onedesk/public/js/table_workbook.js:49
 msgid "Height"
 msgstr "الارتفاع"
@@ -22294,7 +22294,7 @@ msgid "Hide Headline"
 msgstr "إخفاء العنوان"
 
 #. Label of the hide_master (Check) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:77
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:77
 msgid "Hide Master"
 msgstr "إخفاء القالب الرئيسي"
 
@@ -23053,7 +23053,7 @@ msgstr "مدى إلحاح البلاغ."
 msgid "How we handle personal data your organisation is responsible for, under the Terms of Service."
 msgstr "كيف نتعامل مع البيانات الشخصية التي تتحمل مؤسستك مسؤوليتها، بموجب شروط الخدمة."
 
-#: onedesk/one_slide/decks.py:71 onedesk/one_slide/decks.py:177
+#: onedesk/one_deck/decks.py:71 onedesk/one_deck/decks.py:177
 msgid "How we will do it"
 msgstr "كيف سننجزه"
 
@@ -23191,7 +23191,7 @@ msgid "IBAN to Pay"
 msgstr "IBAN للدفع"
 
 #: onedesk/one_display/sources.py:288 onedesk/one_doc/paper.py:270
-#: onedesk/one_mail/mail_templates.py:208 onedesk/one_slide/data.py:267
+#: onedesk/one_mail/mail_templates.py:208 onedesk/one_deck/data.py:267
 msgid "ID"
 msgstr "المعرّف"
 
@@ -23754,7 +23754,7 @@ msgstr "بالبايت. الصفر يعني بلا حد."
 msgid "In every warehouse"
 msgstr "في كل المستودعات"
 
-#: onedesk/one_slide/decks.py:235
+#: onedesk/one_deck/decks.py:235
 msgid "In figures"
 msgstr "بالأرقام"
 
@@ -24796,7 +24796,7 @@ msgstr "مجلد"
 #. Label of the is_template (Check) field in DocType 'Presentation'
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:97
 #: onedesk/one_sheet/doctype/workbook/workbook.json:97
-#: onedesk/one_slide/doctype/presentation/presentation.json:124
+#: onedesk/one_deck/doctype/presentation/presentation.json:124
 msgid "Is Template"
 msgstr "قالب"
 
@@ -25019,7 +25019,7 @@ msgid "It is no longer in {app}."
 msgstr "لم تعد موجودة في {app}."
 
 #. Message of a notification
-#: onedesk/one_slide/notifications.py
+#: onedesk/one_deck/notifications.py
 msgid "It is on a new slide at the end. Look at it before you show it."
 msgstr "إنه على شريحة جديدة في النهاية. ألقِ نظرة عليه قبل عرضه."
 
@@ -25834,7 +25834,7 @@ msgid "Keep"
 msgstr "أبقِه"
 
 #: onedesk/one_doc/abilities.py:28 onedesk/one_sheet/abilities.py:28
-#: onedesk/one_slide/abilities.py:28
+#: onedesk/one_deck/abilities.py:28
 msgid "Keep Company Templates"
 msgstr "حفظ قوالب الشركة"
 
@@ -26020,7 +26020,7 @@ msgstr "ورشة الانطلاق"
 #: onedesk/one_project/ai.py:954 onedesk/one_project/custom/project.json:53
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:46
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:39
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:91
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:91
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:61
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:39
 #: onedesk/public/js/item_new.js:181 onedesk/public/js/item_new.js:343
@@ -26407,7 +26407,7 @@ msgstr "آخر حفظ"
 #: onedesk/one_display/doctype/display_screen/display_screen.json:108
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:106
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:129
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:78
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:78
 #: onedesk/public/js/one_account/account_center.js:1431
 #: onedesk/public/js/one_account/account_center.js:1443
 msgid "Last Seen"
@@ -26620,7 +26620,7 @@ msgstr "الطبقات"
 #: onedesk/one_display/widgets.py:107 onedesk/one_display/widgets.py:119
 #: onedesk/one_display/widgets.py:130 onedesk/one_display/widgets.py:166
 #: onedesk/one_display/widgets.py:180 onedesk/one_display/widgets.py:191
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:84
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:84
 msgid "Layout"
 msgstr "التخطيط"
 
@@ -27042,7 +27042,7 @@ msgstr "تاريخ المغادرة"
 
 #. Description of the 'Hide Master' (Check) field in DocType 'Presentation
 #. Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:79
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:79
 msgid "Leaves out what the presentation's master draws under every slide."
 msgstr "يستبعد ما يرسمه القالب الرئيسي للعرض تحت كل شريحة."
 
@@ -27511,7 +27511,7 @@ msgstr "البنود المنتقاة"
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 #: onedesk/one_book/print_format/one_payment_request/one_payment_request.json
 #: onedesk/one_display/layout.py:22
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:51
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:51
 msgid "Link"
 msgstr ""
 
@@ -28809,7 +28809,7 @@ msgstr "اختصره"
 msgid "Make it smaller"
 msgstr "تصغير اللوحة"
 
-#: onedesk/one_slide/ai.py:386
+#: onedesk/one_deck/ai.py:386
 #, python-brace-format
 msgid "Make slide {0} a {1}"
 msgstr "تحويل الشريحة {0} إلى {1}"
@@ -29122,12 +29122,12 @@ msgid "Massing and plans"
 msgstr "الكتلة والمساقط"
 
 #: frontend/src/slide/shim/EditorNavbar.vue:137
-#: frontend/src/slide/shim/MasterSection.vue:4 onedesk/one_slide/master.py:106
+#: frontend/src/slide/shim/MasterSection.vue:4 onedesk/one_deck/master.py:106
 msgid "Master"
 msgstr ""
 
 #. Label of the master_of (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:106
+#: onedesk/one_deck/doctype/presentation/presentation.json:106
 msgid "Master Of"
 msgstr "القالب الرئيسي لـ"
 
@@ -29143,7 +29143,7 @@ msgstr ""
 msgid "Master Token"
 msgstr "الرمز الرئيسي"
 
-#: onedesk/one_slide/api.py:274
+#: onedesk/one_deck/api.py:274
 #, python-brace-format
 msgid "Master of {0}"
 msgstr "القالب الرئيسي لـ {0}"
@@ -29911,7 +29911,7 @@ msgstr "الإيرادات الشهرية"
 msgid "Monthly Revenue by Plan"
 msgstr "الإيراد الشهري حسب الخطة"
 
-#: onedesk/one_slide/decks.py:41
+#: onedesk/one_deck/decks.py:41
 msgid "Monthly Review"
 msgstr "المراجعة الشهرية"
 
@@ -29937,7 +29937,7 @@ msgstr "يُستهلك الرصيد الشهري أولًا. يبقى الرصي
 msgid "Monthly limit saved."
 msgstr "تم حفظ الحد الشهري."
 
-#: onedesk/one_slide/decks.py:78
+#: onedesk/one_deck/decks.py:78
 msgid "Monthly review"
 msgstr "مراجعة شهرية"
 
@@ -30412,7 +30412,7 @@ msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:51
 #: onedesk/one_project/report/workload/workload.py:174
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:47
-#: onedesk/one_slide/decks.py:212
+#: onedesk/one_deck/decks.py:212
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:43
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:31
 #: onedesk/one_studio/letter_heads.py:53
@@ -30501,7 +30501,7 @@ msgstr "تسمية هذا الإصدار"
 msgid "Name version"
 msgstr "تسمية الإصدار"
 
-#: onedesk/one_slide/decks.py:208
+#: onedesk/one_deck/decks.py:208
 msgid "Name, Company"
 msgstr "الاسم، الشركة"
 
@@ -31368,7 +31368,7 @@ msgstr "النشرات إلى مجلد"
 #: frontend/src/slide/shim/WidgetMock.vue:198
 #: frontend/src/slide/shim/WidgetMock.vue:206
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:158
-#: onedesk/one_slide/decks.py:64 onedesk/one_studio/print_blocks.py:687
+#: onedesk/one_deck/decks.py:64 onedesk/one_studio/print_blocks.py:687
 #: onedesk/public/js/doctype_settings.js:326 onedesk/public/js/item_new.js:326
 #: onedesk/public/js/module_docs.js:489
 #: onedesk/public/js/one_studio/studio_control.js:52
@@ -31488,7 +31488,7 @@ msgstr "قائمة العام القادم"
 msgid "Next change"
 msgstr "التغيير التالي"
 
-#: onedesk/one_slide/decks.py:81
+#: onedesk/one_deck/decks.py:81
 msgid "Next month"
 msgstr "الشهر القادم"
 
@@ -31706,7 +31706,7 @@ msgstr "إعادة التحميل الليلية."
 #: onedesk/one_mail/ai.py:1014 onedesk/one_mail/ai.py:1064
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
 #: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
-#: onedesk/one_slide/abilities.py:22 onedesk/one_studio/print_blocks.py:427
+#: onedesk/one_deck/abilities.py:22 onedesk/one_studio/print_blocks.py:427
 #: onedesk/one_task/abilities.py:20 onedesk/public/js/item_new.js:49
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "No"
@@ -32028,7 +32028,7 @@ msgstr "لا يوجد حقل مطابق."
 msgid "No file requests"
 msgstr "لا توجد طلبات ملفات"
 
-#: onedesk/one_doc/api.py:274 onedesk/one_slide/api.py:522
+#: onedesk/one_doc/api.py:274 onedesk/one_deck/api.py:522
 msgid "No file was sent."
 msgstr "لم يُرسل أي ملف."
 
@@ -32789,7 +32789,7 @@ msgid "Not Booked"
 msgstr "غير مسجّل"
 
 #. Label of the lost (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:64
+#: onedesk/one_deck/doctype/presentation/presentation.json:64
 msgid "Not Brought In"
 msgstr "لم يُنقل"
 
@@ -33498,7 +33498,7 @@ msgid "Nothing was added to {playlist}. Try again, or describe it differently."
 msgstr "لم يُضف شيء إلى {playlist}. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
 #. Message of a notification
-#: onedesk/one_slide/notifications.py
+#: onedesk/one_deck/notifications.py
 #, python-brace-format
 msgid "Nothing was added to {presentation}. Try again, or describe it differently."
 msgstr "لم يُضف شيء إلى {presentation}. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
@@ -34212,7 +34212,7 @@ msgstr "بتكرار"
 msgid "On printed and sent invoices, quotes and orders."
 msgstr "على الفواتير وعروض الأسعار والطلبات المطبوعة والمرسلة."
 
-#: onedesk/one_slide/decks.py:65
+#: onedesk/one_deck/decks.py:65
 msgid "On site"
 msgstr "في الموقع"
 
@@ -34522,7 +34522,7 @@ msgstr "ملف واحد يضم قاعدة البيانات وكل سجل كجد�
 msgid "One folder of a mailbox, and how far it has been read."
 msgstr "مجلد واحد من صندوق بريد، وإلى أي حد قُرئ."
 
-#: onedesk/one_slide/decks.py:172
+#: onedesk/one_deck/decks.py:172
 msgid "One line on what it is about"
 msgstr "سطر واحد عن الموضوع"
 
@@ -34536,7 +34536,7 @@ msgid "One line. {{ doc.field }} puts a field of the record in."
 msgstr "سطر واحد. {{ doc.field }} يضع حقلاً من السجل."
 
 #. Description of a DocType
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:23
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:23
 msgid "One look at a presentation through a OneCloud link: when, by whom if they were invited, and how long each slide was on screen. Shown on the presentation as Views."
 msgstr "مشاهدة واحدة لعرض عبر رابط OneCloud: متى، ومن شاهده إن كان مدعواً، وكم بقيت كل شريحة على الشاشة. تظهر في العرض ضمن المشاهدات."
 
@@ -34610,7 +34610,7 @@ msgid "One short fact, in a sentence. OneAI reads the newest ones in every conve
 msgstr "معلومة قصيرة في جملة واحدة. يقرأ OneAI أحدثها في كل محادثة."
 
 #. Description of a DocType
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:20
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:20
 msgid "One slide of a Presentation: its background, its elements as Suite's editor writes them, and how it leaves."
 msgstr "شريحة واحدة من عرض تقديمي: خلفيتها، وعناصرها كما يكتبها محرر Suite، وطريقة انتقالها."
 
@@ -34762,7 +34762,7 @@ msgstr "تعذّر على OneAI الإجابة الآن. حاول مرة أخر�
 msgid "OneAI could not be reached. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
 
-#: onedesk/one_slide/ai.py:103
+#: onedesk/one_deck/ai.py:103
 msgid "OneAI could not design the slide. Try again."
 msgstr "تعذّر على OneAI تصميم الشريحة. حاول مرة أخرى."
 
@@ -34775,7 +34775,7 @@ msgstr "لم يتمكن OneAI من إصلاح {0}: {1}"
 msgid "OneAI could not make it. Try again, or describe it differently."
 msgstr "تعذّر على OneAI إنشاؤه. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
-#: onedesk/one_slide/ai.py:113
+#: onedesk/one_deck/ai.py:113
 msgid "OneAI could not make the picture. Try again."
 msgstr "تعذّر على OneAI صنع الصورة. حاول مرة أخرى."
 
@@ -34784,7 +34784,7 @@ msgid "OneAI could not make the recording. Try again."
 msgstr "تعذّر على OneAI صنع التسجيل. حاول مرة أخرى."
 
 #. Subject of a notification
-#: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
+#: onedesk/one_display/notifications.py onedesk/one_deck/notifications.py
 #: onedesk/one_cloud/notifications.py
 #, python-brace-format
 msgid "OneAI could not make “{what}”"
@@ -34989,7 +34989,7 @@ msgstr "لم يكتب OneAI شيئًا. أخبره بالمزيد قليلًا."
 msgid "OneAI's fixed version was not kept: {0}"
 msgstr "لم تُحفظ النسخة التي أصلحها OneAI: {0}"
 
-#: onedesk/one_slide/tour.py:29
+#: onedesk/one_deck/tour.py:29
 msgid "OneAI, File and Present"
 msgstr "OneAI والملف والعرض"
 
@@ -35305,9 +35305,9 @@ msgstr "OneQuality"
 msgid "OneQuality's Home is opened, and each time a non conformance, an action, a review or a meeting changes."
 msgstr "عند فتح الصفحة الرئيسية لـ OneQuality، وفي كل مرة يتغير فيها عدم مطابقة أو إجراء أو مراجعة أو اجتماع."
 
-#: onedesk/one_slide/page/presentation/presentation.js:4
-msgid "OneSlide"
-msgstr "OneSlide"
+#: onedesk/one_deck/page/presentation/presentation.js:4
+msgid "OneDeck"
+msgstr "OneDeck"
 
 #. Title of a Sidebar
 #: onedesk/one_ai/jobs.py:49
@@ -35365,7 +35365,7 @@ msgstr "مراجعة تسجيل الحضور من صلاحية الموارد ا
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير هذه؛ أما تشغيلها أو إيقافها فهو قرارك."
 
-#: onedesk/one_slide/from_powerpoint.py:307
+#: onedesk/one_deck/from_powerpoint.py:307
 msgid "Only PowerPoint files can be opened as a presentation."
 msgstr "يمكن فتح ملفات PowerPoint فقط كعرض تقديمي."
 
@@ -36096,7 +36096,7 @@ msgid "Opened From"
 msgstr "فُتح من"
 
 #. Label of the opened_on (Datetime) field in DocType 'Presentation View'
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:72
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:72
 msgid "Opened On"
 msgstr "فُتح في"
 
@@ -36826,7 +36826,7 @@ msgstr "رعاتنا"
 msgid "Our Tax ID"
 msgstr "رقمنا الضريبي"
 
-#: onedesk/one_slide/decks.py:52
+#: onedesk/one_deck/decks.py:52
 msgid "Our answer"
 msgstr "إجابتنا"
 
@@ -36835,15 +36835,15 @@ msgstr "إجابتنا"
 msgid "Our invoice {0} of {1} for {2} was due on {3}, and {4} of it is still outstanding."
 msgstr "فاتورتنا {0} بتاريخ {1} بمبلغ {2} كانت مستحقة في {3}، ولا يزال {4} منها غير مدفوع."
 
-#: onedesk/one_slide/decks.py:74
+#: onedesk/one_deck/decks.py:74
 msgid "Our offer"
 msgstr "عرضنا"
 
-#: onedesk/one_slide/decks.py:69
+#: onedesk/one_deck/decks.py:69
 msgid "Our offer, in answer to your request"
 msgstr "عرضنا، رداً على طلبكم"
 
-#: onedesk/one_slide/decks.py:49
+#: onedesk/one_deck/decks.py:49
 msgid "Our proposal"
 msgstr "مقترحنا"
 
@@ -37663,7 +37663,7 @@ msgstr "طُلب جزء؛ والباقي لم يُطلب بعد."
 msgid "Part of"
 msgstr "جزء من"
 
-#: onedesk/one_slide/decks.py:87
+#: onedesk/one_deck/decks.py:87
 msgid "Part one"
 msgstr "الجزء الأول"
 
@@ -39065,7 +39065,7 @@ msgstr "التقطها"
 msgid "Picture"
 msgstr "الصورة"
 
-#: onedesk/one_slide/decks.py:26
+#: onedesk/one_deck/decks.py:26
 msgid "Picture and Text"
 msgstr "صورة ونص"
 
@@ -39197,7 +39197,7 @@ msgstr "مسار المبيعات"
 msgid "Pipeline Value"
 msgstr "قيمة خط المبيعات"
 
-#: onedesk/one_slide/decks.py:38
+#: onedesk/one_deck/decks.py:38
 msgid "Pitch"
 msgstr "عرض تقديمي"
 
@@ -39435,7 +39435,7 @@ msgid "Playback"
 msgstr "التشغيل"
 
 #. Label of the played (Long Text) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:66
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:66
 msgid "Played"
 msgstr "ما يُعرض"
 
@@ -39773,24 +39773,24 @@ msgstr "الحاضرون اليوم"
 #: frontend/src/cloud/cloud.js:111
 #: onedesk/one_display/doctype/display_slide/display_slide.json:22
 #: onedesk/one_display/doctype/display_slide/display_slide.json:31
-#: onedesk/one_slide/doctype/presentation/presentation.json:20
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:41
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:42
+#: onedesk/one_deck/doctype/presentation/presentation.json:20
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:41
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:42
 msgid "Presentation"
 msgstr "عرض تقديمي"
 
 #. Name of a DocType
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:19
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:19
 msgid "Presentation Slide"
 msgstr "شريحة عرض تقديمي"
 
 #. Name of a DocType
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:20
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:20
 msgid "Presentation Version"
 msgstr "نسخة عرض تقديمي"
 
 #. Name of a DocType
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:20
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:20
 msgid "Presentation View"
 msgstr "مشاهدة عرض"
 
@@ -39808,7 +39808,7 @@ msgstr "خيارات العرض"
 msgid "Presentations and web pages shown in sequence."
 msgstr "عروض تقديمية وصفحات ويب تُعرض بالتتابع."
 
-#: onedesk/one_slide/api.py:109
+#: onedesk/one_deck/api.py:109
 msgid "Presentations cannot be created in a mounted drive."
 msgstr "لا يمكن إنشاء عروض تقديمية في محرك مُركّب."
 
@@ -39973,8 +39973,8 @@ msgstr "تشمل الأسعار التوريد والتركيب كما ورد ف
 msgid "Prices cover the work quoted. A change after a stage is approved is charged at our day rate. The finished work belongs to the client once it is paid for in full. We may show it in our portfolio."
 msgstr "تشمل الأسعار العمل الوارد في عرض السعر. يُحتسب أي تغيير بعد اعتماد مرحلة ما بسعرنا اليومي. يصبح العمل المنجز ملكًا للعميل بعد دفع ثمنه كاملًا. يجوز لنا عرضه ضمن أعمالنا."
 
-#: onedesk/one_crm/home.py:68 onedesk/one_slide/decks.py:31
-#: onedesk/one_slide/decks.py:244
+#: onedesk/one_crm/home.py:68 onedesk/one_deck/decks.py:31
+#: onedesk/one_deck/decks.py:244
 msgid "Pricing"
 msgstr ""
 
@@ -40347,7 +40347,7 @@ msgstr "رقم الفاتورة المبدئية"
 
 #. Label in the One Training Event print format
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_slide/decks.py:72
+#: onedesk/one_deck/decks.py:72
 msgid "Programme"
 msgstr "البرنامج"
 
@@ -40360,7 +40360,7 @@ msgstr "البرنامج"
 #: onedesk/one_inventory/heads.py:1376 onedesk/one_inventory/heads.py:1386
 #: onedesk/one_inventory/heads.py:1424 onedesk/one_inventory/heads.py:1436
 #: onedesk/one_project/heads.py:298 onedesk/one_project/portal.py:339
-#: onedesk/one_slide/decks.py:62 onedesk/one_studio/print_blocks.py:681
+#: onedesk/one_deck/decks.py:62 onedesk/one_studio/print_blocks.py:681
 msgid "Progress"
 msgstr "التقدم"
 
@@ -40568,7 +40568,7 @@ msgstr "أنواع المشاريع"
 
 #. Label in the One Project Update print format
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
-#: onedesk/one_slide/decks.py:39 onedesk/public/js/project_list.js:71
+#: onedesk/one_deck/decks.py:39 onedesk/public/js/project_list.js:71
 msgid "Project Update"
 msgstr "تحديث المشروع"
 
@@ -40577,7 +40577,7 @@ msgstr "تحديث المشروع"
 msgid "Project Update Asked"
 msgstr "طُلب تحديث المشروع"
 
-#: onedesk/one_slide/decks.py:61
+#: onedesk/one_deck/decks.py:61
 msgid "Project update"
 msgstr "تحديث المشروع"
 
@@ -41008,7 +41008,7 @@ msgstr "وضعها تحت"
 msgid "Put a message over everything on every screen, and end it."
 msgstr "وضع رسالة فوق كل شيء على كل الشاشات، وإنهاؤها."
 
-#: onedesk/one_slide/decks.py:200
+#: onedesk/one_deck/decks.py:200
 msgid "Put a picture here"
 msgstr "ضع صورة هنا"
 
@@ -41258,7 +41258,7 @@ msgstr "الأسئلة"
 msgid "Questions answered"
 msgstr "الرد على الأسئلة"
 
-#: onedesk/one_slide/decks.py:91
+#: onedesk/one_deck/decks.py:91
 msgid "Questions?"
 msgstr "أسئلة؟"
 
@@ -41425,7 +41425,7 @@ msgstr "عروض أسعار تنتهي صلاحيتها"
 msgid "Quotations lost, and why."
 msgstr "عروض الأسعار الخاسرة، وسبب خسارتها."
 
-#: onedesk/one_inventory/portal.py:83 onedesk/one_slide/decks.py:27
+#: onedesk/one_inventory/portal.py:83 onedesk/one_deck/decks.py:27
 msgid "Quote"
 msgstr "عرض سعر"
 
@@ -44462,7 +44462,7 @@ msgstr "إعادة صياغة هذه الشريحة"
 msgid "Rewrite in {0}"
 msgstr "إعادة صياغة في {0}"
 
-#: onedesk/one_slide/ai.py:345
+#: onedesk/one_deck/ai.py:345
 #, python-brace-format
 msgid "Rewrite slide {0} in {1}"
 msgstr "إعادة صياغة الشريحة {0} في {1}"
@@ -44508,7 +44508,7 @@ msgstr "سبب الخطر"
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 #: onedesk/one_project/ai.py:758
 #: onedesk/one_project/doctype/project_contact/project_contact.json:21
-#: onedesk/one_slide/decks.py:212 onedesk/public/js/doctype_settings.js:271
+#: onedesk/one_deck/decks.py:212 onedesk/public/js/doctype_settings.js:271
 #: onedesk/public/js/one/access_center.js:348
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:221
 #: onedesk/public/js/project_actions.js:436
@@ -45275,7 +45275,7 @@ msgstr "حفظ PDF في OneCloud"
 msgid "Save a document as a template everybody in the workspace can start from."
 msgstr "حفظ مستند كقالب يمكن لكل من في مساحة العمل أن يبدأ منه."
 
-#: onedesk/one_slide/abilities.py:31
+#: onedesk/one_deck/abilities.py:31
 msgid "Save a presentation as a template everybody in the workspace can start from."
 msgstr "حفظ عرض تقديمي كقالب يمكن لكل من في مساحة العمل أن يبدأ منه."
 
@@ -45458,7 +45458,7 @@ msgstr "أرفض هذا؟"
 msgid "Say what OneAI should keep in mind."
 msgstr "قل ما يجب أن يتذكره OneAI."
 
-#: onedesk/one_slide/ai.py:73
+#: onedesk/one_deck/ai.py:73
 msgid "Say what OneAI should make."
 msgstr "قل ما الذي ينبغي أن يصنعه OneAI."
 
@@ -45879,12 +45879,12 @@ msgid "Second fix and fittings"
 msgstr "التمديدات النهائية والتركيبات"
 
 #. Label of the total (Int) field in DocType 'Presentation View'
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:83
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:83
 msgid "Seconds"
 msgstr "ثوانٍ"
 
 #. Label of the seconds (JSON) field in DocType 'Presentation View'
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:89
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:89
 msgid "Seconds on Each Slide"
 msgstr "الثواني على كل شريحة"
 
@@ -45910,7 +45910,7 @@ msgstr "المفتاح السري"
 msgid "Secrets written: {0}"
 msgstr "الأسرار المكتوبة: {0}"
 
-#: onedesk/one_slide/decks.py:24
+#: onedesk/one_deck/decks.py:24
 msgid "Section"
 msgstr ""
 
@@ -46746,7 +46746,7 @@ msgid "Serving"
 msgstr "قيد الخدمة"
 
 #. Label of the session (Data) field in DocType 'Presentation View'
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:65
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:65
 msgid "Session"
 msgstr "الجلسة"
 
@@ -47890,7 +47890,7 @@ msgstr "يُظهر الرسالة في السجل الزمني لكل سجل."
 msgid "Sick Note"
 msgstr "إجازة مرضية"
 
-#: onedesk/one_slide/decks.py:191
+#: onedesk/one_deck/decks.py:191
 msgid "Side by side"
 msgstr "جنباً إلى جنب"
 
@@ -48280,7 +48280,7 @@ msgstr "زيارات الموقع"
 msgid "Sitemap and wireframes"
 msgstr "خريطة الموقع والمخططات الأولية"
 
-#: onedesk/one_slide/decks.py:236
+#: onedesk/one_deck/decks.py:236
 msgid "Sites"
 msgstr "المواقع"
 
@@ -48448,7 +48448,7 @@ msgstr "ستة أماكن لشعارات رعاتك."
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json:52
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:63
-#: onedesk/one_slide/doctype/presentation/presentation.json:130
+#: onedesk/one_deck/doctype/presentation/presentation.json:130
 #: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:46
 #: onedesk/public/js/table_workbook.js:39
 msgid "Size"
@@ -48560,7 +48560,7 @@ msgid "Slide"
 msgstr "شريحة"
 
 #: frontend/src/slide/components/LayoutDialog.vue:5
-#: onedesk/one_slide/library.py:27
+#: onedesk/one_deck/library.py:27
 msgid "Slide Library"
 msgstr "مكتبة الشرائح"
 
@@ -48584,7 +48584,7 @@ msgstr "حجم الشرائح"
 msgid "Slide copied to clipboard"
 msgstr "نُسخت الشريحة إلى الحافظة"
 
-#: onedesk/one_slide/api.py:333
+#: onedesk/one_deck/api.py:333
 #, python-brace-format
 msgid "Slide fields not accepted: {0}"
 msgstr "حقول شريحة غير مقبولة: {0}"
@@ -48594,11 +48594,11 @@ msgid "Slide in"
 msgstr "انزلاق"
 
 #. Description of the 'Kind' (Data) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:93
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:93
 msgid "Slide type in the slide library. Example: Title or Timeline."
 msgstr "نوع الشريحة في مكتبة الشرائح. مثال: عنوان أو خط زمني."
 
-#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:390
+#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_deck/ai.py:390
 #, python-brace-format
 msgid "Slide {0}"
 msgstr "الشريحة {0}"
@@ -48608,7 +48608,7 @@ msgstr "الشريحة {0}"
 msgid "Slide {0} of {1}"
 msgstr "الشريحة {0} من {1}"
 
-#: onedesk/one_slide/doctype/presentation/presentation.py:24
+#: onedesk/one_deck/doctype/presentation/presentation.py:24
 #, python-brace-format
 msgid "Slide {0}: Advance After must be between 1 and 3600 seconds, not {1}"
 msgstr "الشريحة {0}: يجب أن يكون الانتقال بعد ما بين 1 و3600 ثانية، وليس {1}"
@@ -48619,8 +48619,8 @@ msgstr "الشريحة {0}: يجب أن يكون الانتقال بعد ما ب
 #. Label of the slides (JSON) field in DocType 'Presentation Version'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:29
-#: onedesk/one_slide/doctype/presentation/presentation.json:135
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:66
+#: onedesk/one_deck/doctype/presentation/presentation.json:135
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:66
 msgid "Slides"
 msgstr "الشرائح"
 
@@ -48671,7 +48671,7 @@ msgstr "لحم ضأن مطهو ببطء مع الأرز"
 #. Label of the slug (Data) field in DocType 'Tenant'
 #. Label of the slug (Data) field in DocType 'Presentation'
 #: onedesk/one_admin/doctype/tenant/tenant.json:86
-#: onedesk/one_slide/doctype/presentation/presentation.json:114
+#: onedesk/one_deck/doctype/presentation/presentation.json:114
 msgid "Slug"
 msgstr ""
 
@@ -49155,7 +49155,7 @@ msgstr "نطاق المصدر"
 #. Label of a Sidebar Item
 #. Label of the sources (Long Text) field in DocType 'Presentation'
 #: onedesk/one/sidebar/one/one.json:124
-#: onedesk/one_slide/doctype/presentation/presentation.json:98
+#: onedesk/one_deck/doctype/presentation/presentation.json:98
 #: onedesk/public/js/one_interface/chrome.js:318
 msgid "Sources"
 msgstr "المصادر"
@@ -49203,7 +49203,7 @@ msgstr "نطق النداءات والإعلانات"
 #. Label of the notes (Long Text) field in DocType 'Presentation Slide'
 #: frontend/src/slide/shim/NotesDrawer.vue:17
 #: frontend/src/slide/shim/PresenterView.vue:57
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:71
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:71
 msgid "Speaker Notes"
 msgstr "ملاحظات المتحدث"
 
@@ -49353,7 +49353,7 @@ msgid "Stalled"
 msgstr "متوقف"
 
 #: onedesk/one/ai.py:2502 onedesk/one_display/starters.py:626
-#: onedesk/one_slide/decks.py:245
+#: onedesk/one_deck/decks.py:245
 #: onedesk/public/js/one_studio/studio_control.js:128
 msgid "Standard"
 msgstr ""
@@ -49440,7 +49440,7 @@ msgstr "المميّزة بنجمة"
 #: frontend/src/admin/AdminSessions.vue:107
 #: frontend/src/factory/floor/FloorSteps.vue:97
 #: frontend/src/slide/composables/useShortcuts.js:475
-#: onedesk/one_slide/decks.py:225 onedesk/public/js/floor_actions.js:29
+#: onedesk/one_deck/decks.py:225 onedesk/public/js/floor_actions.js:29
 #: onedesk/public/js/timesheet.js:66
 msgid "Start"
 msgstr ""
@@ -51239,9 +51239,9 @@ msgstr "صناديق بريد النظام"
 #: onedesk/one_sheet/doctype/workbook/workbook.json:142
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:95
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:90
-#: onedesk/one_slide/doctype/presentation/presentation.json:29
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:29
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:30
+#: onedesk/one_deck/doctype/presentation/presentation.json:29
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:29
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:30
 #: onedesk/one_studio/doctype/extension/extension.json:212
 #: onedesk/one_studio/doctype/record_type/record_type.json:76
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:86
@@ -51863,7 +51863,7 @@ msgstr "الخاضع للضريبة هذه السنة"
 msgid "Taxes"
 msgstr ""
 
-#: frontend/src/project/Team.vue:7 onedesk/one_slide/decks.py:28
+#: frontend/src/project/Team.vue:7 onedesk/one_deck/decks.py:28
 msgid "Team"
 msgstr "الفريق"
 
@@ -52022,7 +52022,7 @@ msgstr "حدث مساحة عمل"
 msgid "Tender"
 msgstr "المناقصة"
 
-#: onedesk/one_slide/decks.py:40
+#: onedesk/one_deck/decks.py:40
 msgid "Tender Response"
 msgstr "الرد على المناقصة"
 
@@ -52031,7 +52031,7 @@ msgstr "الرد على المناقصة"
 msgid "Tender documents issued"
 msgstr "إصدار وثائق المناقصة"
 
-#: onedesk/one_slide/decks.py:69
+#: onedesk/one_deck/decks.py:69
 msgid "Tender response"
 msgstr "الرد على المناقصة"
 
@@ -52257,7 +52257,7 @@ msgstr "طول النص"
 msgid "Text wrapping"
 msgstr "التفاف النص"
 
-#: onedesk/one_slide/tour.py:18
+#: onedesk/one_deck/tour.py:18
 msgid "Text, pictures and videos, shapes, lines and tables go on the slide from here."
 msgstr "من هنا تضع على الشريحة النصوص والصور ومقاطع الفيديو والأشكال والخطوط والجداول."
 
@@ -52266,7 +52266,7 @@ msgstr "من هنا تضع على الشريحة النصوص والصور وم�
 msgid "Text, shapes and images behind the widgets."
 msgstr "نصوص وأشكال وصور خلف الأدوات."
 
-#: onedesk/one_slide/decks.py:32
+#: onedesk/one_deck/decks.py:32
 msgid "Thank You"
 msgstr "شكراً"
 
@@ -52278,7 +52278,7 @@ msgstr "اشكر العملاء الذين يدفعون"
 msgid "Thank them, say what you understood they need, and say we will reply soon."
 msgstr "اشكرهم، وقل ما فهمته مما يحتاجونه، وقل إننا سنرد قريبًا."
 
-#: onedesk/one_slide/decks.py:257
+#: onedesk/one_deck/decks.py:257
 msgid "Thank you"
 msgstr "شكراً لكم"
 
@@ -52434,11 +52434,11 @@ msgstr "هذه القاعدة ليست في صندوق البريد هذا."
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr "لم تشارك علامة التبويب أي صوت، لذا يُسجَّل الميكروفون فقط."
 
-#: onedesk/one_slide/api.py:386
+#: onedesk/one_deck/api.py:386
 msgid "That theme does not exist."
 msgstr "هذه السمة غير موجودة."
 
-#: onedesk/one_slide/versions.py:91
+#: onedesk/one_deck/versions.py:91
 msgid "That version is not of this presentation."
 msgstr "هذه النسخة ليست من هذا العرض التقديمي."
 
@@ -52834,7 +52834,7 @@ msgstr "العملاء المحتملون وجهات الاتصال في الح�
 msgid "The cards this one points at, approved before it."
 msgstr "البطاقات التي تشير إليها هذه البطاقة، وتُعتمد قبلها."
 
-#: onedesk/one_slide/decks.py:51
+#: onedesk/one_deck/decks.py:51
 msgid "The challenge"
 msgstr "التحدي"
 
@@ -53391,7 +53391,7 @@ msgid "The invited address"
 msgstr "العنوان المدعو"
 
 #. Description of the 'Viewer' (Data) field in DocType 'Presentation View'
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:60
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:60
 msgid "The invited email address used to open the presentation. Not set for link access."
 msgstr "عنوان البريد المدعو الذي فُتح به العرض. غير محدد عند الوصول عبر الرابط."
 
@@ -53494,7 +53494,7 @@ msgid "The letter heads and print formats documents are printed and sent on."
 msgstr "الترويسات وتنسيقات الطباعة التي تُطبع بها المستندات وتُرسل."
 
 #. Description of the 'Guides' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:92
+#: onedesk/one_deck/doctype/presentation/presentation.json:92
 msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
 msgstr "الخطوط المسحوبة من المساطر لمحاذاة العناصر عليها. تظهر في المحرر فقط."
 
@@ -53572,7 +53572,7 @@ msgstr "النموذج الذي جاءت منه آخر إجابة."
 msgid "The module whose declaration this is. Its rows are written again on every update."
 msgstr "الوحدة التي صرّحت بهذا. تُكتب صفوفه من جديد مع كل تحديث."
 
-#: onedesk/one_slide/decks.py:78
+#: onedesk/one_deck/decks.py:78
 msgid "The month in figures"
 msgstr "الشهر بالأرقام"
 
@@ -53902,7 +53902,7 @@ msgstr "الأماكن التي تبيع فيها."
 msgid "The plain text the version's hash was taken over."
 msgstr "النص الذي حُسبت منه بصمة الإصدار."
 
-#: onedesk/one_slide/decks.py:222
+#: onedesk/one_deck/decks.py:222
 msgid "The plan"
 msgstr "الخطة"
 
@@ -53950,7 +53950,7 @@ msgid "The presentation could not be saved. Try again."
 msgstr "تعذّر حفظ العرض التقديمي. حاول مرة أخرى."
 
 #. Description of the 'Master Of' (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:109
+#: onedesk/one_deck/doctype/presentation/presentation.json:109
 msgid "The presentation this one is the master of. A master has no File of its own."
 msgstr "العرض الذي يُعد هذا قالبه الرئيسي. لا يملك القالب الرئيسي ملفاً خاصاً به."
 
@@ -53976,7 +53976,7 @@ msgstr "الأسعار التي قدّمها الموردون."
 msgid "The prices you sell at, one list per currency or customer group."
 msgstr "الأسعار التي تبيع بها، قائمة لكل عملة أو مجموعة عملاء."
 
-#: onedesk/one_slide/decks.py:52
+#: onedesk/one_deck/decks.py:52
 msgid "The problem"
 msgstr "المشكلة"
 
@@ -54122,7 +54122,7 @@ msgid "The record's own link to the one whose fields are shown."
 msgstr "رابط السجل نفسه إلى السجل الذي تُعرض حقوله."
 
 #. Description of the 'Sources' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:99
+#: onedesk/one_deck/doctype/presentation/presentation.json:99
 msgid "The records whose words this presentation shows, filled each time it is drawn."
 msgstr "السجلات التي يعرض هذا العرض كلماتها، وتُملأ في كل مرة يُرسم فيها."
 
@@ -54258,17 +54258,17 @@ msgid "The slide is in the library."
 msgstr "الشريحة في المكتبة."
 
 #. Description of the 'Not Brought In' (Data) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:65
+#: onedesk/one_deck/doctype/presentation/presentation.json:65
 msgid "The slides whose last save from the drive had parts that could not be brought in."
 msgstr "الشرائح التي تضمّن آخر حفظ لها من محرك الأقراص أجزاء تعذّر نقلها."
 
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:86
+#: onedesk/one_deck/doctype/presentation/presentation.json:86
 msgid "The slides' height in pixels."
 msgstr "ارتفاع الشرائح بالبكسل."
 
 #. Description of the 'Width' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:79
+#: onedesk/one_deck/doctype/presentation/presentation.json:79
 msgid "The slides' width in pixels."
 msgstr "عرض الشرائح بالبكسل."
 
@@ -54344,7 +54344,7 @@ msgstr "الضرائب التي تحملها عملية الشراء."
 msgid "The taxes a sale carries."
 msgstr "الضرائب التي تحملها عملية البيع."
 
-#: onedesk/one_slide/decks.py:211
+#: onedesk/one_deck/decks.py:211
 msgid "The team"
 msgstr "الفريق"
 
@@ -54366,7 +54366,7 @@ msgid "The template includes the whole document as it is now."
 msgstr "يتضمن القالب المستند كاملًا كما هو الآن."
 
 #. Description of the 'Layout' (Data) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:86
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:86
 msgid "The template slide this slide is based on. Used to apply later changes to the template."
 msgstr "شريحة القالب التي تستند إليها هذه الشريحة. تُستخدم لتطبيق تغييرات القالب لاحقاً."
 
@@ -54417,7 +54417,7 @@ msgstr "الوقت وطقس الأسبوع، بحجم كبير."
 msgid "The time, the weather and a code beside the slides."
 msgstr "الوقت والطقس ورمز بجانب الشرائح."
 
-#: onedesk/one_slide/decks.py:171
+#: onedesk/one_deck/decks.py:171
 msgid "The title of your presentation"
 msgstr "عنوان عرضك"
 
@@ -54713,7 +54713,7 @@ msgstr "وضعه، والإجازة المتبقية له، وما ينتظر ا
 
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
-#: onedesk/one_slide/doctype/presentation/presentation.json:72
+#: onedesk/one_deck/doctype/presentation/presentation.json:72
 #: onedesk/public/js/outside.js:106 onedesk/public/js/theme.js:132
 msgid "Theme"
 msgstr ""
@@ -54730,7 +54730,7 @@ msgstr "بعدها تُطلب كلمة مرور جديدة عند تسجيل ا�
 msgid "Then sign-in stops and the subscription ends. This month is not refunded."
 msgstr "ثم يتوقف تسجيل الدخول وينتهي الاشتراك. لا يُسترد مبلغ هذا الشهر."
 
-#: onedesk/one_slide/paper.py:38
+#: onedesk/one_deck/paper.py:38
 msgid "There are no slides to print."
 msgstr "لا توجد شرائح للطباعة."
 
@@ -54835,7 +54835,7 @@ msgstr "لا توجد خطة معروضة للبيع. أضف خطة إلى قا�
 msgid "There is no rule {0}."
 msgstr "لا توجد قاعدة {0}."
 
-#: onedesk/one_slide/decks.py:262 onedesk/one_slide/library.py:94
+#: onedesk/one_deck/decks.py:262 onedesk/one_deck/library.py:94
 msgid "There is no slide of that kind."
 msgstr "لا توجد شريحة من هذا النوع."
 
@@ -55208,7 +55208,7 @@ msgstr "لا يمكن عرض هذا الملف هنا."
 
 #: onedesk/one_doc/word.py:226 onedesk/one_doc/word.py:278
 #: onedesk/one_sheet/api.py:240 onedesk/one_sheet/excel.py:284
-#: onedesk/one_sheet/patching.py:49 onedesk/one_slide/from_powerpoint.py:304
+#: onedesk/one_sheet/patching.py:49 onedesk/one_deck/from_powerpoint.py:304
 #: onedesk/one_cloud/opening.py:275
 msgid "This file cannot be opened."
 msgstr "لا يمكن فتح هذا الملف."
@@ -55222,7 +55222,7 @@ msgstr "تعذّر تحويل هذا الملف."
 msgid "This file has {0} {1} can't keep."
 msgstr "يحتوي هذا الملف على {0} لا يستطيع {1} الاحتفاظ بها."
 
-#: onedesk/one_slide/drive.py:69
+#: onedesk/one_deck/drive.py:69
 msgid "This file is not a presentation."
 msgstr "هذا الملف ليس عرضًا تقديميًا."
 
@@ -55230,7 +55230,7 @@ msgstr "هذا الملف ليس عرضًا تقديميًا."
 msgid "This file is too large to put into a document."
 msgstr "هذا الملف أكبر من أن يوضع في مستند."
 
-#: onedesk/one_slide/api.py:525
+#: onedesk/one_deck/api.py:525
 msgid "This file is too large to put on a slide."
 msgstr "هذا الملف أكبر من أن يوضع على شريحة."
 
@@ -55287,8 +55287,8 @@ msgstr "هذا قرار يتخذه شخص."
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr "هذا لبريد قيد الكتابة. طبّقه ونافذة البريد مفتوحة."
 
-#: onedesk/one_slide/api.py:558 onedesk/one_slide/api.py:562
-#: onedesk/one_slide/api.py:575 onedesk/one_slide/paper.py:32
+#: onedesk/one_deck/api.py:558 onedesk/one_deck/api.py:562
+#: onedesk/one_deck/api.py:575 onedesk/one_deck/paper.py:32
 msgid "This is not a picture."
 msgstr "هذه ليست صورة."
 
@@ -55417,8 +55417,8 @@ msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف
 msgid "This picture could not be opened."
 msgstr "تعذّر فتح هذه الصورة."
 
-#: onedesk/one_slide/api.py:564 onedesk/one_slide/api.py:578
-#: onedesk/one_slide/paper.py:35
+#: onedesk/one_deck/api.py:564 onedesk/one_deck/api.py:578
+#: onedesk/one_deck/paper.py:35
 msgid "This picture is too large."
 msgstr "هذه الصورة كبيرة جداً."
 
@@ -55426,19 +55426,19 @@ msgstr "هذه الصورة كبيرة جداً."
 msgid "This presentation"
 msgstr "هذا العرض التقديمي"
 
-#: onedesk/one_slide/paper.py:91
+#: onedesk/one_deck/paper.py:91
 msgid "This presentation has too many slides to print at once."
 msgstr "يحتوي هذا العرض التقديمي على شرائح أكثر من أن تُطبع دفعة واحدة."
 
-#: onedesk/one_slide/api.py:305
+#: onedesk/one_deck/api.py:305
 msgid "This presentation is too large to save."
 msgstr "هذا العرض التقديمي أكبر من أن يُحفظ."
 
-#: onedesk/one_slide/api.py:75
+#: onedesk/one_deck/api.py:75
 msgid "This presentation no longer exists."
 msgstr "هذا العرض التقديمي لم يعد موجوداً."
 
-#: onedesk/one_slide/api.py:309
+#: onedesk/one_deck/api.py:309
 msgid "This presentation was changed elsewhere. Reload to get the latest version."
 msgstr "تغيّر هذا العرض التقديمي في مكان آخر. أعد التحميل للحصول على أحدث نسخة."
 
@@ -55786,8 +55786,8 @@ msgstr "عبر"
 
 #. Label of the thumbnail (Data) field in DocType 'Presentation'
 #. Label of the thumbnail (Long Text) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation/presentation.json:119
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:41
+#: onedesk/one_deck/doctype/presentation/presentation.json:119
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:41
 msgid "Thumbnail"
 msgstr ""
 
@@ -56037,7 +56037,7 @@ msgstr "زمن الاستجابة"
 msgid "Time · {0}"
 msgstr "وقت · {0}"
 
-#: onedesk/one_slide/decks.py:29
+#: onedesk/one_deck/decks.py:29
 msgid "Timeline"
 msgstr "الجدول الزمني"
 
@@ -56165,9 +56165,9 @@ msgstr "مظلل"
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json:30
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:31
 #: onedesk/one_sheet/doctype/workbook/workbook.json:32
-#: onedesk/one_slide/decks.py:22
-#: onedesk/one_slide/doctype/presentation/presentation.json:41
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:50
+#: onedesk/one_deck/decks.py:22
+#: onedesk/one_deck/doctype/presentation/presentation.json:41
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:50
 #: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:31
 #: onedesk/one_studio/doctype/extension/extension.json:40
 #: onedesk/public/js/one_ai/ai_center.js:222
@@ -56395,7 +56395,7 @@ msgstr "لإضافة خطوط من فهرس Google، شغّل «خطوط من Go
 msgid "To deliver"
 msgstr "للتسليم"
 
-#: onedesk/one_slide/decks.py:80
+#: onedesk/one_deck/decks.py:80
 msgid "To fix"
 msgstr "يحتاج إصلاحاً"
 
@@ -56986,7 +56986,7 @@ msgstr ""
 msgid "Training Scheduled"
 msgstr "تمت جدولة التدريب"
 
-#: onedesk/one_slide/decks.py:42
+#: onedesk/one_deck/decks.py:42
 msgid "Training Session"
 msgstr "جلسة تدريب"
 
@@ -57009,7 +57009,7 @@ msgstr "تدريب المحررين"
 msgid "Training rooms"
 msgstr "غرف التدريب"
 
-#: onedesk/one_display/starters.py:464 onedesk/one_slide/decks.py:85
+#: onedesk/one_display/starters.py:464 onedesk/one_deck/decks.py:85
 msgid "Training session"
 msgstr "جلسة تدريب"
 
@@ -57134,13 +57134,13 @@ msgstr "الناقل"
 #. Label of the transition (Data) field in DocType 'Presentation Slide'
 #: frontend/src/slide/components/TransitionSection.vue:3
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:22
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:46
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:46
 msgid "Transition"
 msgstr "الانتقال"
 
 #. Label of the transition_duration (Data) field in DocType 'Presentation
 #. Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:51
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:51
 msgid "Transition Duration"
 msgstr "مدة الانتقال"
 
@@ -57423,7 +57423,7 @@ msgstr "خصم عشرين بالمئة هذا الأسبوع"
 msgid "Twice Daily"
 msgstr "مرتين يوميًا"
 
-#: onedesk/one_slide/decks.py:25
+#: onedesk/one_deck/decks.py:25
 msgid "Two Columns"
 msgstr "عمودان"
 
@@ -57447,7 +57447,7 @@ msgstr "مشروبان بسعر واحد"
 msgid "Two or more accounts combined into one."
 msgstr "حسابان أو أكثر مدمجة في حساب واحد."
 
-#: onedesk/one_slide/decks.py:202
+#: onedesk/one_deck/decks.py:202
 msgid "Two or three lines that say why it matters."
 msgstr "سطران أو ثلاثة تقول لماذا يهم."
 
@@ -58092,11 +58092,11 @@ msgstr "بلا عنوان"
 msgid "Untitled Document"
 msgstr "مستند بلا عنوان"
 
-#: onedesk/one_slide/fonts.py:111
+#: onedesk/one_deck/fonts.py:111
 msgid "Untitled Font"
 msgstr "خط بلا اسم"
 
-#: frontend/src/slide/shim/EditorNavbar.vue:112 onedesk/one_slide/api.py:110
+#: frontend/src/slide/shim/EditorNavbar.vue:112 onedesk/one_deck/api.py:110
 msgid "Untitled Presentation"
 msgstr "عرض تقديمي بلا عنوان"
 
@@ -58108,7 +58108,7 @@ msgid "Untitled Sheet"
 msgstr "جدول بلا عنوان"
 
 #: onedesk/one_doc/templates.py:64 onedesk/one_sheet/templates.py:89
-#: onedesk/one_slide/templates.py:44
+#: onedesk/one_deck/templates.py:44
 msgid "Untitled Template"
 msgstr "قالب بلا عنوان"
 
@@ -58923,12 +58923,12 @@ msgid "Video"
 msgstr "فيديو"
 
 #. Name of a notification
-#: onedesk/one_slide/notifications.py
+#: onedesk/one_deck/notifications.py
 msgid "Video Made for a Presentation"
 msgstr "تم إنشاء فيديو لعرض تقديمي"
 
 #. Name of a notification
-#: onedesk/one_slide/notifications.py
+#: onedesk/one_deck/notifications.py
 msgid "Video Not Made for a Presentation"
 msgstr "تعذّر إنشاء فيديو لعرض تقديمي"
 
@@ -58986,7 +58986,7 @@ msgid "View only"
 msgstr "عرض فقط"
 
 #. Label of the viewer (Data) field in DocType 'Presentation View'
-#: onedesk/one_slide/doctype/presentation_view/presentation_view.json:57
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:57
 msgid "Viewer"
 msgstr "المشاهد"
 
@@ -59614,7 +59614,7 @@ msgstr "الأسبوع كقائمة"
 msgid "Week of {0} to {1}"
 msgstr "أسبوع {0} إلى {1}"
 
-#: onedesk/one_slide/decks.py:225
+#: onedesk/one_deck/decks.py:225
 #, python-brace-format
 msgid "Week {0}"
 msgstr "الأسبوع {0}"
@@ -59647,7 +59647,7 @@ msgstr "راحة أسبوعية"
 msgid "Weekly results and changes"
 msgstr "النتائج والتعديلات الأسبوعية"
 
-#: onedesk/one_slide/decks.py:236
+#: onedesk/one_deck/decks.py:236
 msgid "Weeks"
 msgstr "أسابيع"
 
@@ -59735,7 +59735,7 @@ msgstr "ترحيب، فاتح"
 msgid "Welcome, Standing"
 msgstr "ترحيب، قائم"
 
-#: onedesk/one_slide/decks.py:80
+#: onedesk/one_deck/decks.py:80
 msgid "Went well"
 msgstr "سار جيداً"
 
@@ -59897,7 +59897,7 @@ msgstr "تكلفة الشهر"
 msgid "What a call was about."
 msgstr "موضوع المكالمة."
 
-#: onedesk/one_slide/decks.py:207
+#: onedesk/one_deck/decks.py:207
 msgid "What a client said about working with us."
 msgstr "ما قاله عميل عن العمل معنا."
 
@@ -59931,7 +59931,7 @@ msgid "What a new version of an item copies from its template."
 msgstr "ما تنسخه النسخة الجديدة من الصنف عن قالبه."
 
 #. Description of a DocType
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:21
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:21
 msgid "What a presentation's slides were at a moment, kept to go back to from its Version History."
 msgstr "ما كانت عليه شرائح العرض التقديمي في لحظة ما، محفوظة للرجوع إليها من سجل النسخ."
 
@@ -60183,7 +60183,7 @@ msgstr "ما يُنجز عند مغادرة أحدهم."
 msgid "What is expected to sell, for the schedule to plan from."
 msgstr "ما يُتوقع بيعه، ليُخطط الجدول بناءً عليه."
 
-#: onedesk/one_slide/decks.py:245
+#: onedesk/one_deck/decks.py:245
 msgid "What is included"
 msgstr "ما يشمله"
 
@@ -60299,7 +60299,7 @@ msgstr "ما فائدة هذه القائمة؟"
 msgid "What is this warehouse worth?"
 msgstr "كم قيمة هذا المستودع؟"
 
-#: onedesk/one_slide/decks.py:177
+#: onedesk/one_deck/decks.py:177
 msgid "What it costs"
 msgstr "التكلفة"
 
@@ -60588,13 +60588,13 @@ msgstr "ما ستجلبه الفرص المفتوحة، شهرًا بشهر."
 msgid "What the person deciding wrote, if anything."
 msgstr "ما كتبه من بتَّ في الطلب، إن كتب شيئاً."
 
-#: onedesk/one_slide/decks.py:201
+#: onedesk/one_deck/decks.py:201
 msgid "What the picture shows"
 msgstr "ما تُظهره الصورة"
 
 #. Description of the 'Speaker Notes' (Long Text) field in DocType
 #. 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:72
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:72
 msgid "What the presenter says over this slide. Only they see it, never the audience."
 msgstr "ما يقوله المقدّم على هذه الشريحة. لا يراه إلا المقدّم، ولا يراه الجمهور أبدًا."
 
@@ -60813,7 +60813,7 @@ msgstr "ما أُنفق مقابل الموازنة."
 msgid "What we do with personal data: yours, and the personal data your organisation puts into One."
 msgstr "ما نفعله بالبيانات الشخصية: بياناتك، والبيانات الشخصية التي تضعها مؤسستك في One."
 
-#: onedesk/one_slide/decks.py:177
+#: onedesk/one_deck/decks.py:177
 msgid "What we propose"
 msgstr "ما نقترحه"
 
@@ -60821,7 +60821,7 @@ msgstr "ما نقترحه"
 msgid "What we send you will be here."
 msgstr "ما نرسله إليك سيظهر هنا."
 
-#: onedesk/one_slide/decks.py:49
+#: onedesk/one_deck/decks.py:49
 msgid "What we will do for you, and why us"
 msgstr "ما سنفعله لكم، ولماذا نحن"
 
@@ -60873,7 +60873,7 @@ msgstr "ما توافق عليه عند استخدام One. النص الإنج�
 msgid "What you agreed to"
 msgstr "ما وافقت عليه"
 
-#: onedesk/one_slide/decks.py:71
+#: onedesk/one_deck/decks.py:71
 msgid "What you asked for"
 msgstr "ما طلبتموه"
 
@@ -60902,7 +60902,7 @@ msgstr "ما عليك لكل مورد، حسب مدة التأخير."
 msgid "What you will have once orders come and go."
 msgstr "ما سيكون لديك بعد أن تأتي الطلبات وتذهب."
 
-#: onedesk/one_slide/decks.py:85
+#: onedesk/one_deck/decks.py:85
 msgid "What you will learn today"
 msgstr "ما ستتعلمه اليوم"
 
@@ -61043,7 +61043,7 @@ msgid "When OneAI could not make a piece of music somebody asked for."
 msgstr "عندما يتعذّر على OneAI إنشاء مقطوعة موسيقية طلبها أحدهم."
 
 #. When a notification is sent
-#: onedesk/one_slide/notifications.py
+#: onedesk/one_deck/notifications.py
 msgid "When OneAI could not make a video somebody asked for in a presentation."
 msgstr "عندما يتعذّر على OneAI إنشاء فيديو طلبه أحدهم في عرض تقديمي."
 
@@ -61431,7 +61431,7 @@ msgid "When a training event you attend is scheduled."
 msgstr "عند جدولة فعالية تدريب تحضرها."
 
 #. When a notification is sent
-#: onedesk/one_slide/notifications.py
+#: onedesk/one_deck/notifications.py
 msgid "When a video somebody asked OneAI for is ready, on a new slide of their presentation."
 msgstr "عندما يكون الفيديو الذي طلبه أحدهم من OneAI جاهزًا، على شريحة جديدة في عرضه التقديمي."
 
@@ -62609,11 +62609,11 @@ msgstr "إلى أين يؤدي الرقم. قد يذكر حقول السجل ب�
 msgid "Where this user's desk session was live from, if they had one."
 msgstr "المكان الذي كانت تعمل منه جلسة هذا المستخدم، إن وُجدت."
 
-#: onedesk/one_slide/decks.py:177
+#: onedesk/one_deck/decks.py:177
 msgid "Where we are"
 msgstr "أين نحن"
 
-#: onedesk/one_slide/decks.py:61
+#: onedesk/one_deck/decks.py:61
 msgid "Where we are and what comes next"
 msgstr "أين نحن وما التالي"
 
@@ -63201,7 +63201,7 @@ msgid "Whoever asked"
 msgstr "من طلب"
 
 #. Who a notification is sent to
-#: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
+#: onedesk/one_display/notifications.py onedesk/one_deck/notifications.py
 #: onedesk/one_cloud/notifications.py
 msgid "Whoever asked for it"
 msgstr "من طلبه"
@@ -63672,8 +63672,8 @@ msgstr "الأدوات"
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:43
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:43
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:77
-#: onedesk/one_slide/doctype/presentation_version/presentation_version.json:56
+#: onedesk/one_deck/doctype/presentation/presentation.json:77
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:56
 #: onedesk/public/js/table_workbook.js:48
 msgid "Width"
 msgstr "العرض"
@@ -64208,7 +64208,7 @@ msgstr "ورش العمل"
 #: onedesk/one_mail/custom/email_account.json:102
 #: onedesk/one_portal/abilities.py:19 onedesk/one_project/abilities.py:18
 #: onedesk/one_quality/abilities.py:15 onedesk/one_sheet/abilities.py:20
-#: onedesk/one_slide/abilities.py:20 onedesk/one_task/abilities.py:18
+#: onedesk/one_deck/abilities.py:20 onedesk/one_task/abilities.py:18
 #: onedesk/public/js/one/notification_center.js:108
 #: onedesk/public/js/one/notification_center.js:110
 #: onedesk/public/js/one/notification_center.js:141
@@ -64740,7 +64740,7 @@ msgstr "اكتب تحديثك أولًا."
 msgid "Write {0} on a new {1}"
 msgstr "كتابة {0} في {1} جديد"
 
-#: onedesk/one_slide/ai.py:306
+#: onedesk/one_deck/ai.py:306
 #, python-brace-format
 msgid "Write {0} slides in {1}"
 msgstr "كتابة {0} شرائح في {1}"
@@ -64898,7 +64898,7 @@ msgstr "سنوات الخدمة"
 #: onedesk/one_legal/abilities.py:21 onedesk/one_mail/ai.py:1014
 #: onedesk/one_mail/ai.py:1064 onedesk/one_portal/abilities.py:21
 #: onedesk/one_project/abilities.py:20 onedesk/one_quality/abilities.py:17
-#: onedesk/one_sheet/abilities.py:22 onedesk/one_slide/abilities.py:22
+#: onedesk/one_sheet/abilities.py:22 onedesk/one_deck/abilities.py:22
 #: onedesk/one_task/abilities.py:20 onedesk/public/js/bom_list.js:5
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "Yes"
@@ -65092,7 +65092,7 @@ msgstr "ليست لديك صلاحية تغيير {0}."
 msgid "You do not have permission to open this document."
 msgstr "ليس لديك إذن بفتح هذا المستند."
 
-#: frontend/src/slide/PresentationPage.vue:49 onedesk/one_slide/api.py:84
+#: frontend/src/slide/PresentationPage.vue:49 onedesk/one_deck/api.py:84
 msgid "You do not have permission to open this presentation."
 msgstr "ليس لديك إذن بفتح هذا العرض التقديمي."
 
@@ -65189,7 +65189,7 @@ msgstr "لا يُسمح لك بقراءة {0} {1}."
 msgid "You may not read {0}, so a webhook of yours cannot send it."
 msgstr "لا يمكنك قراءة {0}، لذا لا يستطيع ويب هوك خاص بك إرساله."
 
-#: onedesk/one_slide/data.py:255
+#: onedesk/one_deck/data.py:255
 #, python-brace-format
 msgid "You may not read {0}, so it can't be a source."
 msgstr "لا يحق لك قراءة {0}، لذا لا يمكن أن يكون مصدراً."
@@ -65468,7 +65468,7 @@ msgstr "طلباتك"
 msgid "Your Sheets"
 msgstr "أوراقك"
 
-#: onedesk/one_slide/tour.py:11
+#: onedesk/one_deck/tour.py:11
 msgid "Your Slides"
 msgstr "شرائحك"
 
@@ -65706,7 +65706,7 @@ msgstr "رسالتك"
 msgid "Your name"
 msgstr "اسمك"
 
-#: onedesk/one_slide/decks.py:258
+#: onedesk/one_deck/decks.py:258
 msgid "Your name · your email · your phone"
 msgstr "اسمك · بريدك · هاتفك"
 
@@ -65827,7 +65827,7 @@ msgstr "طلب التوظيف لـ {designation}: {status}"
 msgid "Your role"
 msgstr "دورك"
 
-#: onedesk/one_slide/fonts.py:239
+#: onedesk/one_deck/fonts.py:239
 msgid "Your role doesn't add fonts to the workspace. Ask a workspace administrator."
 msgstr "دورك لا يضيف خطوطاً إلى مساحة العمل. اطلب ذلك من مسؤول مساحة العمل."
 
@@ -65882,11 +65882,11 @@ msgid "Your role doesn't allow writing OneAI's Knowledge."
 msgstr "دورك لا يسمح بكتابة معرفة OneAI."
 
 #: onedesk/one_doc/templates.py:90 onedesk/one_sheet/templates.py:124
-#: onedesk/one_slide/templates.py:43
+#: onedesk/one_deck/templates.py:43
 msgid "Your role doesn't keep company templates. Ask a workspace administrator."
 msgstr "دورك لا يتيح حفظ قوالب الشركة. اطلب ذلك من مسؤول مساحة العمل."
 
-#: onedesk/one_slide/library.py:92 onedesk/one_slide/library.py:115
+#: onedesk/one_deck/library.py:92 onedesk/one_deck/library.py:115
 msgid "Your role doesn't keep slides in the library. Ask a workspace administrator."
 msgstr "دورك لا يحفظ شرائح في المكتبة. اطلب ذلك من مسؤول مساحة العمل."
 
@@ -71303,7 +71303,7 @@ msgstr "لن يتمكن {0} من تسجيل الحضور أو تسجيل مفت�
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حضوره التالي. ويُسحب المفتاح القديم من الخدمة ولا يُحذف."
 
-#: onedesk/one_slide/paper.py:95
+#: onedesk/one_deck/paper.py:95
 #, python-brace-format
 msgid "{0} with notes"
 msgstr "{0} مع الملاحظات"
@@ -73147,7 +73147,7 @@ msgid "“{what}” is ready in {playlist}"
 msgstr "«{what}» جاهز في {playlist}"
 
 #. Subject of a notification
-#: onedesk/one_slide/notifications.py
+#: onedesk/one_deck/notifications.py
 #, python-brace-format
 msgid "“{what}” is ready in {presentation}"
 msgstr "«{what}» جاهز في {presentation}"

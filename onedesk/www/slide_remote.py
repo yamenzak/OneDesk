@@ -1,13 +1,13 @@
 """The page a presenter's phone opens from the presenter view's QR code:
 /slide-remote?t=<token>. It drives the slides; it reads nothing.
-one_slide/remote.py says what the token pairs."""
+one_deck/remote.py says what the token pairs."""
 
 import json
 
 import frappe
 from frappe import _
 
-from onedesk.one_slide import remote
+from onedesk.one_deck import remote
 
 no_cache = 1
 

@@ -1,0 +1,156 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-30 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-12 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Deck",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "name": "Presentation",
+ "description": "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_deck/api.py, which asks OneCloud whether the reader may.",
+ "title_field": "title",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "role": "System Manager",
+   "report": 1,
+   "email": 0,
+   "print": 0,
+   "export": 0,
+   "share": 0
+  }
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "File",
+   "options": "File",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "from_file",
+   "fieldtype": "Link",
+   "label": "From File",
+   "options": "File",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "lost",
+   "fieldtype": "Data",
+   "label": "Not Brought In",
+   "description": "The slides whose last save from the drive had parts that could not be brought in.",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "theme",
+   "fieldtype": "Data",
+   "label": "Theme"
+  },
+  {
+   "fieldname": "width",
+   "fieldtype": "Int",
+   "label": "Width",
+   "default": "960",
+   "description": "The slides' width in pixels."
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Int",
+   "label": "Height",
+   "default": "540",
+   "description": "The slides' height in pixels."
+  },
+  {
+   "fieldname": "guides",
+   "fieldtype": "Long Text",
+   "label": "Guides",
+   "description": "The lines dragged out of the rulers to line things up against. Shown only in the editor.",
+   "hidden": 1
+  },
+  {
+   "fieldname": "sources",
+   "fieldtype": "Long Text",
+   "label": "Sources",
+   "description": "The records whose words this presentation shows, filled each time it is drawn.",
+   "hidden": 1
+  },
+  {
+   "fieldname": "master_of",
+   "fieldtype": "Link",
+   "options": "Presentation",
+   "label": "Master Of",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "The presentation this one is the master of. A master has no File of its own."
+  },
+  {
+   "fieldname": "slug",
+   "fieldtype": "Data",
+   "label": "Slug"
+  },
+  {
+   "fieldname": "thumbnail",
+   "fieldtype": "Data",
+   "label": "Thumbnail"
+  },
+  {
+   "fieldname": "is_template",
+   "fieldtype": "Check",
+   "label": "Is Template",
+   "default": "0"
+  },
+  {
+   "fieldname": "byte_size",
+   "fieldtype": "Int",
+   "label": "Size"
+  },
+  {
+   "fieldname": "slides",
+   "fieldtype": "Table",
+   "label": "Slides",
+   "options": "Presentation Slide"
+  }
+ ],
+ "field_order": [
+  "title",
+  "file",
+  "from_file",
+  "lost",
+  "theme",
+  "width",
+  "height",
+  "guides",
+  "sources",
+  "master_of",
+  "slug",
+  "thumbnail",
+  "is_template",
+  "byte_size",
+  "slides"
+ ]
+}

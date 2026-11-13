@@ -20,11 +20,11 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "12.2f178593",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.2db9ccba",
+	"privacy": "27.ad205219",
 	"cookies": "2.946a434c",
 	"dpa": "7.a01dc637",
-	"subprocessors": "5.9ff8c642",
-	"ai": "25.c978bc7d",
+	"subprocessors": "5.e5ff6950",
+	"ai": "25.3db47d27",
 	"licences": "1.c71daf62",
 }
 

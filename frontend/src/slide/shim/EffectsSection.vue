@@ -40,7 +40,7 @@ import Section from '../components/controls/Section.vue'
 import { useElementProperty, setElementProperty } from '../composables/editProperty'
 import { firstEditableElement } from '../stores/element'
 import { labelClasses } from '../utils/constants'
-import rules from '../../../../onedesk/one_slide/css.json'
+import rules from '../../../../onedesk/one_deck/css.json'
 import { readCss } from './looks.js'
 import { __ } from './words.js'
 

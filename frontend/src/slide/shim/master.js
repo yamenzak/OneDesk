@@ -1,12 +1,12 @@
 // The presentation's master, drawn under every slide that does not hide it
-// (one_slide/master.py), and whether the editor is open on a master itself.
+// (one_deck/master.py), and whether the editor is open on a master itself.
 // A text on the master may be a field, the slide's number or today's date,
 // filled for each slide where it is drawn.
 import { ref } from "vue";
 import { date, today } from "../../kit/desk";
 
 export const master = ref([]);
-// a date is wider than the box it was first given, in some formats and faces (one_slide/master.py)
+// a date is wider than the box it was first given, in some formats and faces (one_deck/master.py)
 const DATE_WIDE = 140;
 // the presentation this one is the master of, when the editor is open on a master
 export const masterOf = ref("");

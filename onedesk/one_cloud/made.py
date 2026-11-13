@@ -40,7 +40,7 @@ def making(kind: str, description: str, shape: str | None, voice: str | None, re
 	job, reference = JOBS[kind], reference or f"OneCloud {kind}"
 	look, orientation = SHAPES.get(shape or "", SHAPES["square" if kind == "picture" else "wide"])
 	if kind == "video":
-		from onedesk.one_slide.ai import _video
+		from onedesk.one_deck.ai import _video
 
 		said = _video(f"Shape: {look}.\n\n{description}", orientation, job=job, reference=reference)
 	elif kind == "picture":

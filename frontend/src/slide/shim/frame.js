@@ -1,7 +1,7 @@
 // The frame a slide is drawn on, in the editor's own units: the presentation's
 // own size (Presentation.width and height, 960 by 540 unless it was made
 // otherwise), or a screen's shape when the editor lays out a screen (stage 7
-// of docs/ONESLIDE.md). Set it before the editor mounts.
+// of docs/ONEDECK.md). Set it before the editor mounts.
 import { reactive } from "vue";
 import { __ } from "./words.js";
 
@@ -9,7 +9,7 @@ export const WIDE = { w: 960, h: 540 };
 export const frame = reactive({ ...WIDE });
 
 // the sizes New Presentation and Slide Size offer, in the reader's language;
-// one_slide/resize.py SIZES is the same list
+// one_deck/resize.py SIZES is the same list
 export const sizes = () => [
 	{ key: "wide", label: __("Wide (16:9)"), w: 960, h: 540 },
 	{ key: "standard", label: __("Standard (4:3)"), w: 960, h: 720 },

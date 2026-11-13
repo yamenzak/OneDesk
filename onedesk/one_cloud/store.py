@@ -19,7 +19,7 @@ from werkzeug.utils import redirect
 
 FETCH = "/api/method/onedesk.one_storage.store.fetch"
 
-#: the sizes a picture on a slide is copied at for screens (one_slide/sized.py);
+#: the sizes a picture on a slide is copied at for screens (one_deck/sized.py);
 #: the copies sit beside it and go with it
 SCREEN_EDGES = (1280, 1920, 2560, 3840, 7680)
 SCREEN_COPIED = (".jpg", ".jpeg", ".png", ".webp")

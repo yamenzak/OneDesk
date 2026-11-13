@@ -1,9 +1,9 @@
 <!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/components/NavigationPanel.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
 	<!-- Slide Navigation Panel -->
-	<!-- One: data-tour marks the tour's step, one_slide/tour.py; VENDORED.md -->
+	<!-- One: data-tour marks the tour's step, one_deck/tour.py; VENDORED.md -->
 	<div
-		data-tour="oneslide-slides"
+		data-tour="onedeck-slides"
 		:class="[panelClasses, attrs.class]"
 		@click.stop
 	>

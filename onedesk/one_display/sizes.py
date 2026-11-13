@@ -2,7 +2,7 @@
 one, or Custom with any width and height, and the layout is drawn on that
 frame in pixels; a screen of another size scales the frame to fit (tv.js).
 The editor works on the same frame at half its pixels, so a landscape
-screen is OneSlide's own 960 by 540."""
+screen is OneDeck's own 960 by 540."""
 
 from frappe.utils import cint
 
