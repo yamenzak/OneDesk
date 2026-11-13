@@ -451,9 +451,9 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 1.3.0 |
 | 5. Settings and setup | 3 | — |
-| 7. Our look | 79 | not yet |
+| 7. Our look | 79 | in 1.3.0 |
 | 11. Notifications | 10 | not yet |
 | 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
