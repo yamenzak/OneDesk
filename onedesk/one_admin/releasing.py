@@ -69,7 +69,7 @@ def begin(server: str) -> dict:
 	placed = _placed(server)
 	why = why_not(row, placed)
 	if why == "ordered":
-		frappe.throw(_("{0} is a box we ordered. Only a machine you connected can be released.").format(server))
+		frappe.throw(_("{0} is a box ordered from AWS. Only a connected machine can be released.").format(server))
 	if why == "released":
 		frappe.throw(_("{0} is already released.").format(server))
 	if why == "placed":

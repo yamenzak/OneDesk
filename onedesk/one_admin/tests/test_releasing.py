@@ -208,7 +208,7 @@ def test_a_server_is_deleted_only_once_released(world):
 	for status in ("Up", "Connecting", "Releasing"):
 		with pytest.raises(_Thrown, match="Release machine-1"):
 			WorkspaceServer.on_trash(SimpleNamespace(status=status, connected=1, server="machine-1", flags=flags))
-	with pytest.raises(_Thrown, match="box we ordered"):
+	with pytest.raises(_Thrown, match="box ordered from AWS"):
 		WorkspaceServer.on_trash(SimpleNamespace(status="Up", connected=0, server="se-1", flags=flags))
 	WorkspaceServer.on_trash(SimpleNamespace(status="Released", connected=1, server="machine-1", flags=flags))
 	WorkspaceServer.on_trash(SimpleNamespace(status="Up", connected=0, server="se-1", flags=frappe._dict(dropped=True)))

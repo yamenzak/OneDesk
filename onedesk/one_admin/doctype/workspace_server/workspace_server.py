@@ -19,4 +19,4 @@ class WorkspaceServer(Document):
 			return
 		if self.connected:
 			frappe.throw(frappe._("Release {0} before deleting it.").format(self.server))
-		frappe.throw(frappe._("{0} is a box we ordered, and its row goes only with the box.").format(self.server))
+		frappe.throw(frappe._("{0} is a box ordered from AWS, and its row goes only with the box.").format(self.server))

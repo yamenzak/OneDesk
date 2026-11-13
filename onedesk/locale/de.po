@@ -3713,15 +3713,15 @@ msgstr "Zu {invoice}. Die Zahlung ist erfasst, es ist nichts zu tun."
 msgid "Ageing"
 msgstr "Altersstruktur"
 
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
-#: onedesk/one_admin/report/price_check/price_check.py
-msgid "Agent Cost"
-msgstr "Agentenkosten"
-
 #: onedesk/one_deck/decks.py:23 onedesk/one_deck/decks.py:176
 #: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
 msgid "Agenda"
 msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
+#: onedesk/one_admin/report/price_check/price_check.py
+msgid "Agent Cost"
+msgstr "Agentenkosten"
 
 #. Label of the aggregate (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:68
@@ -10976,6 +10976,10 @@ msgstr "Bestätigt"
 msgid "Connect"
 msgstr "Verbinden"
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:8
+msgid "Connect Again"
+msgstr "Erneut verbinden"
+
 #: onedesk/public/js/one_admin/admin_control.js:270
 msgid "Connect GitHub"
 msgstr "GitHub verbinden"
@@ -15348,6 +15352,10 @@ msgstr "Erledigen Sie ihn, drücken Sie dann bei {kind} auf Nächster Schritt er
 msgid "Do this now, as you?"
 msgstr "Jetzt in Ihrem Namen ausführen?"
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:21
+msgid "Do this once the line has run on the machine. Its tunnel, addresses and keys are then removed."
+msgstr "Erst ausführen, wenn die Zeile auf dem Rechner gelaufen ist. Danach werden Tunnel, Adressen und Schlüssel entfernt."
+
 #. Label in the One Bank Transaction print format
 #. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
@@ -19708,10 +19716,20 @@ msgstr "Fingerabdruck"
 msgid "Finish"
 msgstr ""
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:18
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:22
+msgid "Finish Release"
+msgstr "Freigabe abschließen"
+
 #. Name of a notification
 #: onedesk/one_admin/notifications.py
 msgid "Finish Signing Up"
 msgstr "Registrierung abschließen"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:20
+#, python-brace-format
+msgid "Finish releasing {0}?"
+msgstr "Freigabe von {0} abschließen?"
 
 #. The button on a notification's mail
 #: onedesk/one_admin/notifications.py
@@ -35338,6 +35356,10 @@ msgstr "Nur ein Postfach unter einer Unternehmensdomain kann für jemanden verbu
 msgid "Only a recurring offering can have a trial."
 msgstr "Nur ein wiederkehrendes Angebot kann eine Testphase haben."
 
+#: onedesk/one_admin/servers.py:314
+msgid "Only a released server can be connected again."
+msgstr "Nur ein freigegebener Server kann erneut verbunden werden."
+
 #: onedesk/one_hr/shift.py:35 onedesk/one_hr/shift.py:41
 msgid "Only a request still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
@@ -42842,14 +42864,38 @@ msgstr "„Abgelehnt“ setzt „Automatische Anwesenheit überspringen“ beim 
 msgid "Release"
 msgstr ""
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:17
+msgid "Release Command"
+msgstr "Freigabebefehl"
+
 #: frontend/src/project/Invoices.vue:10 frontend/src/project/Invoices.vue:138
 msgid "Release Retention"
 msgstr "Einbehalt freigeben"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:33
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:37
+msgid "Release Server"
+msgstr "Server freigeben"
 
 #: frontend/src/admin/ReleaseCard.vue:7 frontend/src/admin/ServerCard.vue:72
 #, python-brace-format
 msgid "Release {0}"
 msgstr "Release {0}"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.py:21
+#, python-brace-format
+msgid "Release {0} before deleting it."
+msgstr "{0} vor dem Löschen freigeben."
+
+#: onedesk/one_admin/releasing.py:155
+#, python-brace-format
+msgid "Release {0} first."
+msgstr "Zuerst {0} freigeben."
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:35
+#, python-brace-format
+msgid "Release {0}?"
+msgstr "{0} freigeben?"
 
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:38
@@ -42885,6 +42931,11 @@ msgstr "Releases"
 #: onedesk/one_project/custom/sales_invoice_item.json:43
 msgid "Releases Retention Of"
 msgstr "Gibt Einbehalt frei von"
+
+#. Option for the 'Status' (Select) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:46
+msgid "Releasing"
+msgstr "Wird freigegeben"
 
 #. Label in the One Income Tax Slab print format
 #: onedesk/one_hr/print_format/one_income_tax_slab/one_income_tax_slab.json
@@ -44817,6 +44868,10 @@ msgstr "Als Empfänger ausführen"
 #: onedesk/one_admin/doctype/workspace_server/workspace_server_list.js:24
 msgid "Run once on the machine as root within an hour."
 msgstr "Einmal als Root auf dem Gerät ausführen, innerhalb einer Stunde."
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:47
+msgid "Run once on the machine as root within an hour. When it has run, the server reads Released here."
+msgstr "Innerhalb einer Stunde einmal als root auf dem Rechner ausführen. Danach steht der Server hier auf Freigegeben."
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -69391,6 +69446,16 @@ msgstr "{0} Rechnungen"
 msgid "{0} is a One address and can't be added."
 msgstr "{0} ist eine One-Adresse und kann nicht hinzugefügt werden."
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.py:22
+#, python-brace-format
+msgid "{0} is a box ordered from AWS, and its row goes only with the box."
+msgstr "{0} ist eine bei AWS bestellte Box, und ihr Eintrag geht nur mit der Box."
+
+#: onedesk/one_admin/releasing.py:72
+#, python-brace-format
+msgid "{0} is a box ordered from AWS. Only a connected machine can be released."
+msgstr "{0} ist eine bei AWS bestellte Box. Nur ein verbundener Rechner kann freigegeben werden."
+
 #: onedesk/one_cloud/api.py:389
 #, python-brace-format
 msgid "{0} is a folder. Choose the files in it."
@@ -69525,6 +69590,11 @@ msgstr "{0} ist bereits im Arbeitsbereich."
 #, python-brace-format
 msgid "{0} is already one of its series."
 msgstr "{0} ist bereits eine seiner Serien."
+
+#: onedesk/one_admin/releasing.py:74
+#, python-brace-format
+msgid "{0} is already released."
+msgstr "{0} ist bereits freigegeben."
 
 #: onedesk/one_mail/addresses.py:163
 #, python-brace-format
@@ -71110,6 +71180,11 @@ msgstr "{0} von {1} erhalten."
 msgid "{0} records"
 msgstr "{0} Datensätze"
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:27
+#, python-brace-format
+msgid "{0} released."
+msgstr "{0} freigegeben."
+
 #: onedesk/one_inventory/heads.py:414
 #, python-brace-format
 msgid "{0} requests"
@@ -71324,6 +71399,11 @@ msgstr "{0} hat noch {1}. Auch diese stornieren?"
 #, python-brace-format
 msgid "{0} still has {1}. Complete them too?"
 msgstr "{0} hat noch {1}. Auch diese abschließen?"
+
+#: onedesk/one_admin/releasing.py:76
+#, python-brace-format
+msgid "{0} still holds {1}. Move each to another server first."
+msgstr "{0} hostet noch {1}. Zuerst jeden auf einen anderen Server verschieben."
 
 #: onedesk/one_book/heads.py:134
 #, python-brace-format
@@ -71844,6 +71924,11 @@ msgstr "Der Tarif von {0} enthält keine Trainingskopien."
 #, python-brace-format
 msgid "{0}'s role in {1}"
 msgstr "Rolle von {0} in {1}"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:36
+#, python-brace-format
+msgid "{0}'s sessions are deleted, then a line you run on the machine removes the one-box container, its image and the one-copies user."
+msgstr "Die Sitzungen von {0} werden gelöscht, dann entfernt eine Zeile, die Sie auf dem Rechner ausführen, den Container one-box, sein Image und den Benutzer one-copies."
 
 #: onedesk/one/agent.py:1152 onedesk/one/agent.py:1175
 #, python-brace-format

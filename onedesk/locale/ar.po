@@ -3713,15 +3713,15 @@ msgstr "مقابل {invoice}. تم تسجيل الدفعة ولا يلزم أي 
 msgid "Ageing"
 msgstr "أعمار الديون"
 
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
-#: onedesk/one_admin/report/price_check/price_check.py
-msgid "Agent Cost"
-msgstr "تكلفة الوكلاء"
-
 #: onedesk/one_deck/decks.py:23 onedesk/one_deck/decks.py:176
 #: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
 msgid "Agenda"
 msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
+#: onedesk/one_admin/report/price_check/price_check.py
+msgid "Agent Cost"
+msgstr "تكلفة الوكلاء"
 
 #. Label of the aggregate (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:68
@@ -10976,6 +10976,10 @@ msgstr "تم التأكيد"
 msgid "Connect"
 msgstr "اتصال"
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:8
+msgid "Connect Again"
+msgstr "ربط مجددًا"
+
 #: onedesk/public/js/one_admin/admin_control.js:270
 msgid "Connect GitHub"
 msgstr "ربط GitHub"
@@ -15348,6 +15352,10 @@ msgstr "أنجزها، ثم اضغط «تمّت الخطوة التالية» ف
 msgid "Do this now, as you?"
 msgstr "أنفّذ هذا الآن باسمك؟"
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:21
+msgid "Do this once the line has run on the machine. Its tunnel, addresses and keys are then removed."
+msgstr "نفّذ هذا بعد تشغيل السطر على الجهاز. تُزال بعدها قناة الاتصال والعناوين والمفاتيح."
+
 #. Label in the One Bank Transaction print format
 #. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
@@ -19708,10 +19716,20 @@ msgstr "البصمة"
 msgid "Finish"
 msgstr ""
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:18
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:22
+msgid "Finish Release"
+msgstr "إنهاء التحرير"
+
 #. Name of a notification
 #: onedesk/one_admin/notifications.py
 msgid "Finish Signing Up"
 msgstr "إكمال التسجيل"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:20
+#, python-brace-format
+msgid "Finish releasing {0}?"
+msgstr "إنهاء تحرير {0}؟"
 
 #. The button on a notification's mail
 #: onedesk/one_admin/notifications.py
@@ -35338,6 +35356,10 @@ msgstr "لا يمكن ربط صندوق بريد لشخص آخر إلا إذا �
 msgid "Only a recurring offering can have a trial."
 msgstr "لا يمكن أن تكون التجربة إلا في عرض متكرر."
 
+#: onedesk/one_admin/servers.py:314
+msgid "Only a released server can be connected again."
+msgstr "لا يمكن ربط الخادم مجددًا إلا بعد تحريره."
+
 #: onedesk/one_hr/shift.py:35 onedesk/one_hr/shift.py:41
 msgid "Only a request still waiting can be answered."
 msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
@@ -42842,14 +42864,38 @@ msgstr "«مرفوض» يفعّل تخطي الحضور التلقائي على 
 msgid "Release"
 msgstr ""
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:17
+msgid "Release Command"
+msgstr "أمر التحرير"
+
 #: frontend/src/project/Invoices.vue:10 frontend/src/project/Invoices.vue:138
 msgid "Release Retention"
 msgstr "الإفراج عن المحتجزات"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:33
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:37
+msgid "Release Server"
+msgstr "تحرير الخادم"
 
 #: frontend/src/admin/ReleaseCard.vue:7 frontend/src/admin/ServerCard.vue:72
 #, python-brace-format
 msgid "Release {0}"
 msgstr "الإصدار {0}"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.py:21
+#, python-brace-format
+msgid "Release {0} before deleting it."
+msgstr "حرّر {0} قبل حذفه."
+
+#: onedesk/one_admin/releasing.py:155
+#, python-brace-format
+msgid "Release {0} first."
+msgstr "حرّر {0} أولًا."
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:35
+#, python-brace-format
+msgid "Release {0}?"
+msgstr "تحرير {0}؟"
 
 #. Option for the 'State' (Select) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:38
@@ -42885,6 +42931,11 @@ msgstr "الإصدارات"
 #: onedesk/one_project/custom/sales_invoice_item.json:43
 msgid "Releases Retention Of"
 msgstr "تفرج عن محتجزات"
+
+#. Option for the 'Status' (Select) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:46
+msgid "Releasing"
+msgstr "قيد التحرير"
 
 #. Label in the One Income Tax Slab print format
 #: onedesk/one_hr/print_format/one_income_tax_slab/one_income_tax_slab.json
@@ -44817,6 +44868,10 @@ msgstr "التشغيل باسم المستلم"
 #: onedesk/one_admin/doctype/workspace_server/workspace_server_list.js:24
 msgid "Run once on the machine as root within an hour."
 msgstr "نفّذه مرة واحدة على الجهاز بصلاحية الجذر خلال ساعة."
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:47
+msgid "Run once on the machine as root within an hour. When it has run, the server reads Released here."
+msgstr "شغّله مرة واحدة على الجهاز بصلاحية root خلال ساعة. بعد تشغيله تظهر حالة الخادم هنا محرَّرًا."
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -69391,6 +69446,16 @@ msgstr "{0} فواتير"
 msgid "{0} is a One address and can't be added."
 msgstr "{0} عنوان من One ولا يمكن إضافته."
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.py:22
+#, python-brace-format
+msgid "{0} is a box ordered from AWS, and its row goes only with the box."
+msgstr "{0} جهاز مطلوب من AWS، ولا يُحذف سجله إلا معه."
+
+#: onedesk/one_admin/releasing.py:72
+#, python-brace-format
+msgid "{0} is a box ordered from AWS. Only a connected machine can be released."
+msgstr "{0} جهاز مطلوب من AWS. لا يمكن تحرير إلا جهاز مربوط."
+
 #: onedesk/one_cloud/api.py:389
 #, python-brace-format
 msgid "{0} is a folder. Choose the files in it."
@@ -69525,6 +69590,11 @@ msgstr "{0} موجود بالفعل في مساحة العمل."
 #, python-brace-format
 msgid "{0} is already one of its series."
 msgstr "{0} هي بالفعل إحدى سلاسله."
+
+#: onedesk/one_admin/releasing.py:74
+#, python-brace-format
+msgid "{0} is already released."
+msgstr "{0} محرَّر بالفعل."
 
 #: onedesk/one_mail/addresses.py:163
 #, python-brace-format
@@ -71110,6 +71180,11 @@ msgstr "استُلم {0} من {1}."
 msgid "{0} records"
 msgstr "{0} سجلات"
 
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:27
+#, python-brace-format
+msgid "{0} released."
+msgstr "تم تحرير {0}."
+
 #: onedesk/one_inventory/heads.py:414
 #, python-brace-format
 msgid "{0} requests"
@@ -71324,6 +71399,11 @@ msgstr "لا يزال في {0} {1}. هل تلغيها أيضاً؟"
 #, python-brace-format
 msgid "{0} still has {1}. Complete them too?"
 msgstr "لا يزال في {0} {1}. هل تكملها أيضاً؟"
+
+#: onedesk/one_admin/releasing.py:76
+#, python-brace-format
+msgid "{0} still holds {1}. Move each to another server first."
+msgstr "لا يزال {0} يستضيف {1}. انقل كلًّا منها إلى خادم آخر أولًا."
 
 #: onedesk/one_book/heads.py:134
 #, python-brace-format
@@ -71844,6 +71924,11 @@ msgstr "خطة {0} لا تشمل نسخ التدريب."
 #, python-brace-format
 msgid "{0}'s role in {1}"
 msgstr "دور {0} في {1}"
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.js:36
+#, python-brace-format
+msgid "{0}'s sessions are deleted, then a line you run on the machine removes the one-box container, its image and the one-copies user."
+msgstr "تُحذف جلسات {0}، ثم يزيل سطر تشغّله على الجهاز حاوية one-box وصورتها والمستخدم one-copies."
 
 #: onedesk/one/agent.py:1152 onedesk/one/agent.py:1175
 #, python-brace-format
