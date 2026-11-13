@@ -16,8 +16,13 @@ HOUR = 1
 def held_until() -> str | None:
 	"""The day the waiting update goes ahead even though the organisation
 	has not agreed to the new terms yet, while it waits for them."""
-	value = frappe.db.get_single_value(ACCOUNT, "update_held_until")
-	return str(value) if value else None
+	return _when(frappe.db.get_single_value(ACCOUNT, "update_held_until"))
+
+
+def _when(value) -> str | None:
+	"""A date the account said, or None for none: an empty Datetime reads
+	back from the database as the first day of year 1. Pure."""
+	return str(value) if value and getattr(value, "year", 2) > 1 else None
 
 
 def plainly(said: dict) -> dict:
@@ -26,11 +31,11 @@ def plainly(said: dict) -> dict:
 	weekday = said.get("update_weekday")
 	hour = said.get("update_hour")
 	return {
-		"at": str(said["update_at"]) if said.get("update_at") else None,
+		"at": _when(said.get("update_at")),
 		"weekday": WEEKDAY if weekday is None else cint(weekday),
 		"hour": HOUR if hour is None else cint(hour),
 		"moving": cint(said.get("update_moving")),
-		"held_until": str(said["update_held_until"]) if said.get("update_held_until") else None,
+		"held_until": _when(said.get("update_held_until")),
 	}
 
 

@@ -6,6 +6,8 @@ module's README says what it does.
 
 ## Due now
 
+- UpdateCenter's window before OneAdmin has answered: Workspace Account's update_weekday and update_hour are Int, so a workspace that never heard from OneAdmin shows Monday at 00:00 rather than OneAdmin's Saturday 01:00. Read the window as unknown until update_at or a hello says it (one/update_window.plainly). Seen on run.localhost, 13 Nov.
+
 - **Rebuild the demo on a fresh site.** Five checks read dates relative to
   today and fail on a demo built days ago:
   `onecalendar_shows_each_person_their_week`,

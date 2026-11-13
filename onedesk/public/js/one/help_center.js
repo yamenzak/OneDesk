@@ -103,7 +103,7 @@ onedesk.centers.declare("help", {
 	},
 });
 
-onedesk.help_center.WINDOW = "one/update_window.";
+onedesk.help_center.WINDOW = "one.update_window.";
 
 onedesk.help_center.days = () => [__("Monday"), __("Tuesday"), __("Wednesday"), __("Thursday"), __("Friday"), __("Saturday"), __("Sunday")];
 onedesk.help_center.hours = () => Array.from({ length: 24 }, (_, hour) => `${String(hour).padStart(2, "0")}:00`);
