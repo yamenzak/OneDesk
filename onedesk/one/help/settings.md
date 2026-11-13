@@ -100,6 +100,16 @@ linking to one is hidden. Nothing is deleted or locked. A link to one of its
 records still opens it, on Home; {one_ai} still files into it; turning it
 on again brings everything back. One itself can't be turned off.
 
+Some apps can't be turned off once they hold records the law or another app
+needs, and their card says why: {one_book} once it has a ledger entry or a
+submitted invoice, {one_inventory} once stock has moved, and {one_hr} once a
+salary slip is submitted. {one_crm} and the rest can always be turned off.
+
+A card that says **Needs** names the apps it can't run without: {one_factory}
+needs {one_inventory}, and {one_studio} needs {one_ai}. Turning it on turns
+those on too, and an app another one needs says **Needed by** and can't be
+turned off until that one is.
+
 **{one_ai}** and its **Reading** have cards there too. {one_ai} off means nobody can
 ask it anything: the {one_ai} button, the chat, the field explanations and the
 writing help go, and nothing in the workspace calls a model, {one_hr}'s

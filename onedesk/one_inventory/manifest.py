@@ -1,6 +1,6 @@
 """OneInventory's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
+from onedesk.one.registry.model import App, Kept, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_inventory",
@@ -18,6 +18,7 @@ APP = App(
 	owns=("Stock", "Buying", "Assets"),
 	rail=50,
 	sidebar="OneInventory",
+	kept=Kept(_lt("Stock entries back the stock value in the books."), when=("Stock Ledger Entry",)),
 	roles=Roles(user=("Stock User", "Purchase User"), manager=("Stock Manager", "Purchase Manager", "Item Manager")),
 	agent=_lt("storekeeper"),
 	screens="inventory",

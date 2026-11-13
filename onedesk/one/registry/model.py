@@ -34,13 +34,18 @@ class Roles:
 
 @dataclass(frozen=True)
 class Kept:
-	"""Why the app can't be turned off once it holds records, and the dotted
-	path of a function that says whether it holds them now; none means it is
-	never offered as a switch at all. An app is kept when other apps' records
-	need its records, or the law needs them reachable."""
+	"""Why the app can't be turned off, and from when: once a record is
+	submitted in one of `when`'s record types, or always when `when` is
+	empty, which means it is never offered as a switch at all. An app is kept
+	by the rule (docs/run/RUN.md, Decisions): when other apps' records need
+	its records, or the law needs them reachable. An app that holds neither
+	has no Kept, and is turned off whatever it holds."""
 
 	why: str
-	held: str = ""
+	when: tuple[str, ...] = ()
+
+	def always(self) -> bool:
+		return not self.when
 
 
 @dataclass(frozen=True)

@@ -1429,10 +1429,14 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	inset-inline-start: 2px;
 }
 
-.one-app-needs {
-	display: none;
+.one-app-needs,
+.one-app-held {
 	font-size: 12px;
 	color: var(--ink-gray-6);
+}
+
+.one-app-held:empty {
+	display: none;
 }
 
 .one-app-card.is-locked {
@@ -1441,10 +1445,6 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 
 .one-app-card.is-locked:hover {
 	background: var(--surface-gray-1);
-}
-
-.one-app-card.is-locked .one-app-needs {
-	display: block;
 }
 
 .one-app-card.is-kept {

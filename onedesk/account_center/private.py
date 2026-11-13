@@ -47,6 +47,12 @@ def offered() -> list[dict]:
 	return [{**about(app), "on": True, "kept": True} for app in names() if app not in _planless(plan.held())]
 
 
+def needs() -> dict[str, tuple[str, ...]]:
+	"""What each private app installed needs of One's apps, by its id, from
+	its manifest: it is always on, so what it needs stays on."""
+	return {app: (_declared(app).needs if _declared(app) else ()) for app in names()}
+
+
 def _planless(held) -> set:
 	from onedesk.one.registry import features
 

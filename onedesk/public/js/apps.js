@@ -22,27 +22,45 @@ onedesk.apps.button = ($dock) => {
 	onedesk.interface.tips.name($button[0], __("Apps"));
 };
 
-onedesk.apps.card = (app, off) => {
+onedesk.apps.card = (app, titles) => {
 	const esc = frappe.utils.escape_html;
-	const locked = app.needs && off.has(app.needs);
+	const needs = app.needs || [];
 	const states = { Installing: __("Installing…"), Failed: __("Couldn't be installed. We've been told.") };
 	const tag = app.kept ? (app.state ? states[app.state] || app.state : __("Private app")) : "";
-	return `<button type="button" class="one-app-card ${app.on ? "" : "is-off"} ${locked ? "is-locked" : ""} ${app.kept ? "is-kept" : ""}" data-app="${esc(
+	return `<button type="button" class="one-app-card ${app.on ? "" : "is-off"} ${app.held ? "is-locked is-held" : ""} ${app.kept ? "is-kept" : ""}" data-app="${esc(
 		app.name
-	)}" data-needs="${esc(app.needs || "")}" aria-pressed="${app.on}" ${locked || app.kept ? "disabled" : ""}>
+	)}" data-needs="${esc(needs.join("|"))}" ${app.section ? 'data-section="1"' : ""} aria-pressed="${app.on}" ${app.held || app.kept ? "disabled" : ""}>
 		<span class="one-app-top">
 			<span class="one-app-icon">${frappe.utils.icon(app.icon, "xl")}</span>
 			${app.kept ? `<span class="one-app-tag">${esc(tag)}</span>` : `<span class="one-app-switch"></span>`}
 		</span>
 		<span class="one-app-name">${esc(app.title)}</span>
 		<span class="one-app-said">${esc(app.said)}</span>
-		${app.needs ? `<span class="one-app-needs">${esc(__("Needs {0}", [app.needs]))}</span>` : ""}
+		${needs.length ? `<span class="one-app-needs">${esc(__("Needs {0}", [needs.map((one) => titles[one] || one).join(", ")]))}</span>` : ""}
+		<span class="one-app-held">${esc(app.held || "")}</span>
 	</button>`;
+};
+
+/** Each card an app left on needs can't be turned off, and says which. */
+onedesk.apps.lock = ($wrapper, titles) => {
+	const $cards = $wrapper.find(".one-app-card");
+	const needs = (card) => ($(card).attr("data-needs") || "").split("|").filter(Boolean);
+	$cards.not(".is-held").each((_i, card) => {
+		const name = $(card).attr("data-app");
+		const by = $cards
+			.filter((_j, other) => !$(other).hasClass("is-off") && !$(other).is("[data-section]") && needs(other).includes(name))
+			.map((_j, other) => titles[$(other).attr("data-app")] || $(other).attr("data-app"))
+			.get();
+		const locked = by.length > 0 && !$(card).hasClass("is-off");
+		$(card).toggleClass("is-locked", locked);
+		if (!$(card).hasClass("is-kept")) $(card).prop("disabled", locked);
+		$(card).find(".one-app-held").text(locked ? __("Needed by {0}", [by.join(", ")]) : "");
+	});
 };
 
 onedesk.apps.configure = async () => {
 	const { apps } = await frappe.xcall("onedesk.one.apps.read");
-	const off = new Set(apps.filter((app) => !app.on).map((app) => app.name));
+	const titles = Object.fromEntries(apps.map((app) => [app.name, app.title]));
 	const dialog = new frappe.ui.Dialog({
 		title: __("Turn Apps On or Off"),
 		size: "large",
@@ -52,7 +70,7 @@ onedesk.apps.configure = async () => {
 				fieldname: "apps",
 				options: `<p class="one-apps-said">${__(
 					"An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
-				)}</p><div class="one-apps-grid">${apps.map((app) => onedesk.apps.card(app, off)).join("")}</div>`,
+				)}</p><div class="one-apps-grid">${apps.map((app) => onedesk.apps.card(app, titles)).join("")}</div>`,
 			},
 			{
 				fieldtype: "HTML",
@@ -70,13 +88,16 @@ onedesk.apps.configure = async () => {
 				.find(".one-app-card.is-off:not(.is-kept)")
 				.map((_i, card) => $(card).attr("data-app"))
 				.get();
-			await frappe.xcall("onedesk.one.apps.save", { off });
+			const { said } = await frappe.xcall("onedesk.one.apps.save", { off });
 			dialog.hide();
-			frappe.show_alert({ message: __("Apps saved"), indicator: "green" });
 			// An app turned on that has steps opens in SetupCenter, on its steps.
 			const landed = apps.find((app) => !app.on && !off.includes(app.name) && ((frappe.boot.one_setup || {})[app.name] || []).length);
-			if (landed) window.location.assign(`/desk/one?center=setup&at=${encodeURIComponent(landed.name)}`);
-			else window.location.reload();
+			const go = () => (landed ? window.location.assign(`/desk/one?center=setup&at=${encodeURIComponent(landed.name)}`) : window.location.reload());
+			if (!said?.length) {
+				frappe.show_alert({ message: __("Apps saved"), indicator: "green" });
+				return go();
+			}
+			frappe.msgprint({ title: __("Apps saved"), message: said.map(frappe.utils.escape_html).join("<br>") }).onhide = go;
 		},
 	});
 	const set = ($card, on) => $card.toggleClass("is-off", !on).attr("aria-pressed", on);
@@ -96,14 +117,24 @@ onedesk.apps.configure = async () => {
 					  ]),
 		});
 	});
-	dialog.$wrapper.on("click", ".one-app-card:not(.is-kept)", (event) => {
+	dialog.$wrapper.on("click", ".one-app-card:not(.is-kept):not(.is-locked)", (event) => {
 		const $card = $(event.currentTarget);
 		const on = $card.hasClass("is-off");
 		set($card, on);
-		const $needing = dialog.$wrapper.find(`.one-app-card[data-needs="${$card.attr("data-app")}"]`);
-		if (!on) set($needing, false);
-		$needing.toggleClass("is-locked", !on).prop("disabled", !on);
+		const bring = (card) =>
+			($(card).attr("data-needs") || "")
+				.split("|")
+				.filter(Boolean)
+				.forEach((name) => {
+					const $needed = dialog.$wrapper.find(".one-app-card.is-off").filter((_i, one) => $(one).attr("data-app") === name);
+					set($needed, true);
+					$needed.each((_i, one) => bring(one));
+				});
+		if (on) bring($card[0]);
+		else set(dialog.$wrapper.find(".one-app-card[data-section]").filter((_i, one) => ($(one).attr("data-needs") || "").split("|").includes($card.attr("data-app"))), false);
+		onedesk.apps.lock(dialog.$wrapper, titles);
 	});
+	onedesk.apps.lock(dialog.$wrapper, titles);
 	dialog.show();
 };
 

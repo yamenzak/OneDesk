@@ -1,6 +1,6 @@
 """OneBook's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
+from onedesk.one.registry.model import App, Kept, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_book",
@@ -16,6 +16,7 @@ APP = App(
 	owns=("Accounts", "EDI", "ERPNext Integrations", "Regional"),
 	rail=40,
 	sidebar="OneBook",
+	kept=Kept(_lt("Ledger entries are the company's books, which must be kept by law."), when=("GL Entry", "Sales Invoice", "Purchase Invoice")),
 	roles=Roles(user=("Accounts User",), manager=("Accounts Manager",)),
 	agent=_lt("accountant"),
 	screens="books",

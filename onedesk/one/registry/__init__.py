@@ -126,6 +126,10 @@ def _check(found: list[App]) -> None:
 		for needed in one.needs:
 			if needed not in ids:
 				raise Invalid(f"{where}: needs {needed!r}, which has no manifest")
+			if needed == one.id:
+				raise Invalid(f"{where}: needs itself")
+		if one.kept is not None:
+			_check_kept(one.kept, where)
 		if features.unknown(one.plan):
 			raise Invalid(f"{where}: plan names {features.unknown(one.plan)[0]!r}, which is not one of {features.IDS}")
 		for country, state in one.countries.items():
@@ -147,6 +151,15 @@ def _check(found: list[App]) -> None:
 		twins = [other.id for other in found if other.id != one.id and other.name == one.name]
 		if twins:
 			raise Invalid(f"{where}: the name {one.name!r} is also {twins[0]}'s")
+
+
+def _check_kept(kept, where: str) -> None:
+	"""A Kept says why in words, and from when as record types: the rule
+	is the reason (docs/run/RUN.md, Decisions), so none goes without one."""
+	if not isinstance(kept.why, str) or not kept.why.strip():
+		raise Invalid(f"{where}: kept says why the app can't be turned off")
+	if not isinstance(kept.when, tuple) or not all(isinstance(one, str) and one for one in kept.when):
+		raise Invalid(f"{where}: kept's when is a tuple of record types")
 
 
 def _check_parts(found: list, apps: tuple[App, ...]) -> None:

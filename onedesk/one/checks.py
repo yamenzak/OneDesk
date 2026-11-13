@@ -318,6 +318,49 @@ def one_an_app_turned_off_is_hidden_not_refused():
 
 
 @check
+def one_onebook_is_kept_once_it_has_entries_onecrm_is_not():
+	"""The demo's books have ledger entries, so OneBook can't be turned off
+	and Apps says why; OneCRM holds nothing the law or another app needs, so
+	it turns off and back on. OneInventory is needed by OneFactory, and
+	turning OneFactory on with OneInventory off brings it back on, said."""
+	from onedesk.one import apps, registry
+
+	book = registry.get("one_book")
+	assert frappe.db.exists("GL Entry", {"docstatus": 1}), "the demo has books"
+	with as_user(OWNER):
+		offered = {one["name"]: one for one in apps.read()["apps"]}
+		assert offered[book.sidebar]["held"], offered[book.sidebar]
+		assert not offered["OneCRM"]["held"], offered["OneCRM"]
+		assert offered["OneFactory"]["needs"] == ["OneInventory"], offered["OneFactory"]
+		try:
+			apps.save([book.sidebar])
+		except frappe.ValidationError as refused:
+			assert book.name in str(refused), refused
+		else:
+			raise AssertionError("OneBook was turned off with entries in it")
+		assert book.sidebar not in apps.hidden()
+		try:
+			apps.save(["OneInventory"])
+		except frappe.ValidationError as refused:
+			assert registry.name("one_factory") in str(refused) or registry.get("one_inventory").name in str(refused), refused
+		else:
+			raise AssertionError("OneInventory was turned off with OneFactory on")
+		try:
+			apps.save(["OneCRM"])
+			assert "OneCRM" in apps.hidden()
+		finally:
+			apps.save([])
+		assert "OneCRM" not in apps.hidden()
+		frappe.db.set_default(apps.KEY, '["OneFactory", "OneInventory"]')
+		try:
+			said = apps.save(["OneInventory"])["said"]
+			assert not {"OneFactory", "OneInventory"} & set(apps.hidden()), apps.hidden()
+			assert said and registry.name("one_inventory") in said[0], said
+		finally:
+			apps.save([])
+
+
+@check
 def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 	"""OneAI off, in Apps, turns OneAI off with it: no model is asked
 	(`run.once`, a chat), nothing is queued to be read, no switch turns on,
@@ -341,8 +384,8 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 	frappe.enqueue = lambda *args, **kwargs: queued.append(args)
 	try:
 		with as_user(OWNER):
-			apps.save(["OneAI"])
-			assert {"OneAI", "Reading"} <= set(apps.hidden()), apps.hidden()
+			apps.save(["OneAI", "OneStudio"])
+			assert {"OneAI", "Reading", "OneStudio"} <= set(apps.hidden()), apps.hidden()
 			try:
 				run.once("chat_title", "anything")
 			except faults.Refused:
