@@ -48,6 +48,34 @@ def connect_server() -> dict:
 	return servers.connect()
 
 
+@frappe.whitelist(methods=["POST"])
+def connect_again(server: str) -> dict:
+	"""A released machine joins again under its own name: the line to run on it."""
+	_may()
+	from onedesk.one_admin import servers
+
+	return servers.connect(server)
+
+
+@frappe.whitelist(methods=["POST"])
+def release_server(server: str) -> dict:
+	"""A connected machine let go: its sessions end, and the line that
+	removes what Connect Server put on it."""
+	_may()
+	from onedesk.one_admin import releasing
+
+	return releasing.begin(server)
+
+
+@frappe.whitelist(methods=["POST"])
+def finish_release(server: str) -> dict:
+	"""The operator says the release line ran, when the machine could not."""
+	_may()
+	from onedesk.one_admin import releasing
+
+	return {"done": releasing.finish(server)}
+
+
 @frappe.whitelist()
 def standing(tenant: str) -> dict:
 	"""Where this workspace is, and what may be done to it from here.

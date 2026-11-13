@@ -468,9 +468,11 @@ No doctypes yet.
 * `onedesk.one_admin.offerings.rates`
 * `onedesk.one_admin.oneos.stop_session`
 * `onedesk.one_admin.operator.backups`
+* `onedesk.one_admin.operator.connect_again`
 * `onedesk.one_admin.operator.connect_server`
 * `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`
+* `onedesk.one_admin.operator.finish_release`
 * `onedesk.one_admin.operator.give_credits`
 * `onedesk.one_admin.operator.measure`
 * `onedesk.one_admin.operator.move`
@@ -478,6 +480,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.rebuild`
 * `onedesk.one_admin.operator.refresh_domain`
 * `onedesk.one_admin.operator.refresh_domains`
+* `onedesk.one_admin.operator.release_server`
 * `onedesk.one_admin.operator.restore`
 * `onedesk.one_admin.operator.resume`
 * `onedesk.one_admin.operator.retry_signup`
@@ -543,6 +546,8 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.weather_reading`
 * `onedesk.one_admin.proxy.withdraw_closing`
 * `onedesk.one_admin.releases.released`
+* `onedesk.one_admin.releasing.release_script`
+* `onedesk.one_admin.releasing.released`
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
 * `onedesk.one_admin.rollout.overview`
 * `onedesk.one_admin.servers.connect_script`

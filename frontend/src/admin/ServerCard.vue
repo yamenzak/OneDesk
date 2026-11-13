@@ -32,7 +32,7 @@ import { Avatar, Badge } from "frappe-ui";
 
 import { Figures, Mark, __, count, get, goTo } from "../kit";
 
-const STATUS = { Up: "green", "Filling Up": "amber", Full: "amber", Down: "red" };
+const STATUS = { Up: "green", "Filling Up": "amber", Full: "amber", Down: "red", Connecting: "blue", Releasing: "amber", Released: "gray" };
 const LOW_BURST = 20;
 
 const props = defineProps({

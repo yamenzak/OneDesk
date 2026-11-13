@@ -3,6 +3,8 @@
 import frappe
 
 DOCTYPE = "Workspace Server"
+RELEASING = "Releasing"
+RELEASED = "Released"
 
 
 def rows() -> list:

@@ -67,7 +67,7 @@ def watch() -> None:
 		return
 	held = quota.held_on_servers()
 	for row in fleet.rows():
-		if not row.pilot_host:
+		if not row.pilot_host or row.status in (fleet.RELEASING, fleet.RELEASED):
 			continue
 		try:
 			read = pilot.call(row.server, "GET", "/metrics") or {}
@@ -122,7 +122,7 @@ def remove(server: str) -> None:
 	zone = keys["origin_zone"]
 	made = {"tunnel": pilot.held(server)["tunnel"], "host": row.pilot_host, "origin_zone": zone}
 	boxes.drop(keys, boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"]), server, made, zone, row.region or boxes.REGION)
-	frappe.delete_doc("Workspace Server", server, ignore_permissions=True, force=True)
+	frappe.delete_doc("Workspace Server", server, ignore_permissions=True, force=True, flags=frappe._dict(dropped=True))
 	pilot.forget(server)
 
 
@@ -300,22 +300,29 @@ def begin(tenant: str | None = None) -> None:
 	frappe.enqueue("onedesk.one_admin.servers.build", queue="long", timeout=3 * 3600, job_id=f"one_admin_order_server_{tenant or 'shared'}", deduplicate=True, tenant=tenant)
 
 
-def connect() -> dict:
+def connect(server: str | None = None) -> dict:
 	"""A machine that is not on AWS listed under Servers, and the one line
 	that joins it. Its tunnel, address and lock are made now, under a name
 	that stays (`machine-N`: Cloudflare and Pilot's keys hold it); the
 	machine asks for its first boot with the ticket in the line and says
 	which cloud it is on in `located`. A machine already waiting to join is
-	given a new line."""
+	given a new line. A released server named joins again under its own
+	name, on its own row."""
 	site.require_admin()
-	waiting = next((one.server for one in fleet.rows() if one.status == CONNECTING), None)
+	again = fleet.row_of(server) if server else None
+	if server and not (again and again.connected and again.status in (fleet.RELEASED, CONNECTING)):
+		frappe.throw(frappe._("Only a released server can be connected again."))
+	if again:
+		waiting = server if again.status == CONNECTING else None
+	else:
+		waiting = next((one.server for one in fleet.rows() if one.status == CONNECTING), None)
 	if waiting:
 		return {"server": waiting, "command": connect_command(waiting)}
 	if not vault.get(KEYS):
 		frappe.throw(frappe._("Server keys are not set."))
 	keys = _keys()
 	settings = frappe.get_single("One Admin Settings")
-	name = next_name([one.server for one in fleet.rows()], CONNECTED_NAME)
+	name = server or next_name([one.server for one in fleet.rows()], CONNECTED_NAME)
 	zone = keys["origin_zone"]
 	release = boxes.latest_release(keys)
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
@@ -324,24 +331,31 @@ def connect() -> dict:
 		pilot.remember(name, made["access"]["client_id"], made["access"]["client_secret"], made["pilot_password"], made["tunnel"], made["agent"])
 
 	made = boxes.connect(keys, cloudflare, name, zone, settings.tenant_domain, zone, tell.operators(), on_made=kept)
-	doc = frappe.get_doc(
-		{
-			"doctype": "Workspace Server",
-			"server": name,
-			"status": CONNECTING,
-			"open": 0,
-			"capacity": COPIES_AT_ONCE,
-			"pilot_host": made["host"],
-			"origin_host": made["origin"],
-			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready"}]),
-			"provider": providers.OTHER,
-			"connected": 1,
-			"monthly_cost": 0,
-		}
-	)
-	doc.flags.ordered = True
-	doc.insert(ignore_permissions=True)
+	values = joining(made, release)
+	if again:
+		frappe.db.set_value("Workspace Server", again.name, values)
+	else:
+		doc = frappe.get_doc({"doctype": "Workspace Server", "server": name, **values})
+		doc.flags.ordered = True
+		doc.insert(ignore_permissions=True)
 	return {"server": name, "command": connect_command(name)}
+
+
+def joining(made: dict, release: str) -> dict:
+	"""What a connected server's row says while it joins, the first time or
+	again after a release. Pure."""
+	return {
+		"status": CONNECTING,
+		"open": 0,
+		"capacity": COPIES_AT_ONCE,
+		"pilot_host": made["host"],
+		"origin_host": made["origin"],
+		"benches": json.dumps([{"bench": FIRST, "release": release, "state": "ready"}]),
+		"provider": providers.OTHER,
+		"region": None,
+		"connected": 1,
+		"monthly_cost": 0,
+	}
 
 
 def connect_command(server: str) -> str:

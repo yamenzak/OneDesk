@@ -55,7 +55,7 @@ def may_move(terms_pending: bool, due: datetime, now: datetime) -> bool:
 
 
 def _rows() -> list:
-	return [one for one in fleet.rows() if one.server and one.pilot_host]
+	return [one for one in fleet.rows() if one.server and one.pilot_host and one.status != fleet.RELEASING]
 
 
 def _tenants(server: str) -> list:

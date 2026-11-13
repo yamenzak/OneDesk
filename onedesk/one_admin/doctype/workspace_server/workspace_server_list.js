@@ -3,7 +3,7 @@ frappe.listview_settings["Workspace Server"] = {
 	hide_name_column: true,
 
 	get_indicator(doc) {
-		const colour = { Up: "green", "Filling Up": "orange", Full: "orange", Down: "red", Connecting: "blue" }[doc.status] || "gray";
+		const colour = { Up: "green", "Filling Up": "orange", Full: "orange", Down: "red", Connecting: "blue", Releasing: "orange", Released: "gray" }[doc.status] || "gray";
 		return [__(doc.status), colour, `status,=,${doc.status}`];
 	},
 

@@ -711,6 +711,16 @@ open server that allows it and has room. If none does, its job fails saying
 so, and **Resume** places it once there is one. Home warns when a server is
 70% full.
 
+A machine you connected is let go with **Release Server** on its record. It
+refuses while a workspace is on the machine, and names each one. Otherwise
+the machine's sessions are deleted and you get one line to run on it as root
+within the hour, which removes the `one-box` container, its image and the
+`one-copies` user, and prints what it removed. When it has run, the server
+reads **Released**; if the machine couldn't say so, press **Finish Release**.
+The row stays for its history, and only a released server can be deleted.
+**Connect Again** on a released server joins the same machine again under its
+own name.
+
 The note at the top lists what's missing and what that stops (for example,
 without the Stripe webhook secret every payment is refused). **Test Gateway**
 makes one real call. Saving notifies the other operators what changed and
@@ -2315,6 +2325,45 @@ Server** once that workspace is archived or dropped.
 
 `server.py lock-admin` puts OneAdmin's desk and raw record API behind Access.
 Signup, payment and the customers' account pages stay open.
+
+### Releasing a server: releasing.py
+
+**Release Server** (`operator.release_server`, `releasing.begin`) refuses an
+ordered box (those go with their workspace, `servers.remove`), a server
+already released, and one any workspace not archived or dropped is placed
+on. It deletes the sessions on the machine first, each one's edge route
+(`cloudflare.forget`) and then its row, without asking Pilot: the site goes
+with the container. The row reads **Releasing**, with `open` off, and `watch`
+and the rollout leave it alone. The line is ticketed like the connect line
+(one hour, one use, `releasing.release_script`), and fetches
+`deploy/server/release.sh` headed by the server's name, its agent secret and
+this site's address.
+
+`release.sh` undoes `connect.sh` in the reverse order: the user unit
+`one-box.service` stopped, disabled and removed, the `one-box` container,
+the `one-box` image and the Ubuntu image it was built from, `one-copies`'s
+linger, its `/etc/subuid` and `/etc/subgid` lines, then the user with its
+home. It stops before removing anything when `one-copies` is not the user
+`connect.sh` made (its comment `One copies`, its home `/home/one-copies`).
+Each step looks first, so a second run removes nothing and says so. The
+packages `connect.sh` installed stay: podman may have been there before,
+and other things may use it. It posts what it removed to `releasing.released`,
+signed with the agent secret and believed only while the server is
+Releasing; **Finish Release** (`operator.finish_release`) does the same by
+hand.
+
+`releasing.finish` is safe to run again: the tunnel, every address pointing
+at it, the Access app and service token go (`boxes.Cloudflare.forget`, only
+while `has_tunnel` finds the tunnel), the server's instructions under
+`servers/<name>/` on R2, its missed-check default and Pilot sign-ins in the
+cache, then its keys (`pilot.forget`). The row is cleared to **Released**:
+no addresses, benches or spares, so nothing that reads servers by their
+Pilot address reaches it. `test_releasing.py` reads both scripts and fails
+when `connect.sh` makes something `release.sh` does not remove, or removes
+it out of order. **Connect Again** (`operator.connect_again`) runs
+`servers.connect` for the released row: a new tunnel, addresses and lock
+under the same name, the row Connecting again with its provider Other until
+the machine says where it is.
 
 ### releases.py and notes.py: Updates
 

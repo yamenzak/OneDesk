@@ -222,6 +222,11 @@ class Cloudflare:
 		for one in stale_benches(self.every(apps), "domain", server, hosts):
 			self.call("DELETE", f"{apps}/{one['id']}")
 
+	def has_tunnel(self, name: str, tunnel: str) -> bool:
+		"""Whether this tunnel is still on the account and not deleted."""
+		listed = self.every(f"/accounts/{self.account}/cfd_tunnel", {"name": name, "is_deleted": "false"})
+		return any(one.get("id") == tunnel for one in listed)
+
 	def forget(self, name: str, tunnel: str, host: str, zones: list[str]) -> None:
 		for zone in zones:
 			found = self.call("GET", "/zones", params={"name": zone})["result"]
