@@ -139,9 +139,9 @@ def planned(declared: list, held: dict) -> dict:
 
 def register(declared: list | None) -> dict:
 	"""The Private App records, as the release's private apps declare
-	themselves (deploy/release/upload.py, `declared`). A release from before
-	releases listed them changes nothing, and a record with a grant is never
-	deleted. Enabled stays the operator's."""
+	themselves in their manifest.py (deploy/release/upload.py, `declared`).
+	A release from before releases listed them changes nothing, and a record
+	with a grant is never deleted. Enabled stays the operator's."""
 	if declared is None:
 		return {}
 	held = {row.name: {**row, "grants": 0} for row in frappe.get_all("Private App", fields=["name", "title", "said", "icon"])}

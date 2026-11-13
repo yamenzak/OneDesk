@@ -52701,7 +52701,7 @@ msgstr ""
 
 #. Description of the 'Frappe App' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:28
-msgid "The app's name, the same as app_name in its hooks.py."
+msgid "The app's name, the same as the id in its manifest.py."
 msgstr ""
 
 #: onedesk/one_interface/tour.py:24
@@ -53309,7 +53309,7 @@ msgstr ""
 
 #. Description of the 'Icon' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:47
-msgid "The icon the Apps card shows before the app is installed. Installed, the app's own hooks.py says."
+msgid "The icon the Apps card shows, the mark in the app's manifest.py."
 msgstr ""
 
 #: onedesk/one_crm/home.py:164

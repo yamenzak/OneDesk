@@ -40,20 +40,20 @@ def test_a_release_call_is_only_believed_while_it_is_fresh():
 	assert not releases.fresh(None, 1000)
 
 
-def test_a_private_app_is_read_from_its_hooks_without_running_them(tmp_path):
+def test_a_release_lists_each_private_app_as_its_manifest_says_without_running_it(tmp_path):
 	app = tmp_path / "private" / "acme" / "acme"
 	app.mkdir(parents=True)
-	(app / "hooks.py").write_text('import os\napp_name = "acme"\nos.remove("/")\none_private_app = {"title": "Acme Fleet", "said": "Acme\'s vans."}\nafter_install = "acme.install.after_install"\n')
+	(app / "hooks.py").write_text('import os\nos.remove("/")\n')
+	(app / "manifest.py").write_text('import os\nos.remove("/")\nAPP = App(id="acme", name="Acme Fleet", kind="app", module="Acme", line=_lt("Acme\'s vans."), mark="truck")\n')
 	(tmp_path / "private" / "loose").mkdir()
-	(tmp_path / "private" / "loose" / "hooks.py").write_text('one_private_app = {"title": "Loose"}\n')
+	(tmp_path / "private" / "loose" / "manifest.py").write_text('APP = App(id="loose", name="Loose", module="Loose")\n')
 	plain = tmp_path / "private" / "plain" / "plain"
 	plain.mkdir(parents=True)
 	(plain / "hooks.py").write_text('app_name = "plain"\n')
-	assert upload.declared(tmp_path) == [{"app": "acme", "title": "Acme Fleet", "said": "Acme's vans.", "icon": ""}]
-	assert upload.assigned("x = {'a': 1}\ny = len(x)\nz: int = 2\n") == {"x": {"a": 1}}
+	assert upload.declared(tmp_path) == [{"app": "acme", "title": "Acme Fleet", "said": "Acme's vans.", "icon": "truck"}]
 
 
 def test_every_private_app_here_declares_itself():
-	names = sorted(path.name for path in (ROOT / "private").iterdir() if (path / path.name / "hooks.py").exists())
-	assert [one["app"] for one in upload.declared()] == names
-	assert all(one["title"] != one["app"] and one["said"] for one in upload.declared())
+	names = sorted(path.name for path in (ROOT / "private").iterdir() if (path / path.name / "manifest.py").exists())
+	assert names and [one["app"] for one in upload.declared()] == names
+	assert all(one["title"] != one["app"] and one["said"] and one["icon"] for one in upload.declared())

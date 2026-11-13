@@ -25,7 +25,7 @@
    "label": "Frappe App",
    "reqd": 1,
    "unique": 1,
-   "description": "The app's name, the same as app_name in its hooks.py.",
+   "description": "The app's name, the same as the id in its manifest.py.",
    "read_only": 1
   },
   {
@@ -44,7 +44,7 @@
    "fieldname": "icon",
    "fieldtype": "Data",
    "label": "Icon",
-   "description": "The icon the Apps card shows before the app is installed. Installed, the app's own hooks.py says.",
+   "description": "The icon the Apps card shows, the mark in the app's manifest.py.",
    "read_only": 1
   },
   {
@@ -82,7 +82,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-11 12:00:00.000000",
+ "modified": "2026-11-13 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Private App",

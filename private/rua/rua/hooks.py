@@ -7,12 +7,6 @@ app_license = "agpl-3.0"
 
 required_apps = ["onedesk"]
 
-one_private_app = {
-	"title": "Rua",
-	"said": "Rua Company's setup, and its records brought over from the old Rua app.",
-	"icon": "package",
-}
-
 after_install = "rua.install.after_install"
 
 one_verbs = ["rua.settle.VERBS"]

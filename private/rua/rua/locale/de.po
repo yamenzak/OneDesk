@@ -506,3 +506,7 @@ msgstr "{0} von {1} in den Einbehalt verschoben."
 msgid "{0} recorded as retention."
 msgstr "{0} als Einbehalt erfasst."
 
+
+#: rua/manifest.py:11
+msgid "Rua Company's setup, and its records brought over from the old Rua app."
+msgstr "Die Einrichtung der Rua Company und ihre aus der alten Rua-App übernommenen Datensätze."

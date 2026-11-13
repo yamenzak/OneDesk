@@ -1582,20 +1582,21 @@ into `apps/`, an entry with `path` in bench.toml, Pilot's `Validator`, an
 editable install, `apps.txt`, assets when it has `public/`). Linked, Pilot
 lists it and never fetches or updates it. Before anything is installed,
 `checked` refuses an app that is not a Frappe app, has no
-`one_private_app`, whose pyproject names another project, or whose Python
+`manifest.py` the registry holds (registry/private.py), whose pyproject names another project, or whose Python
 package or modules.txt modules another app on the bench (or an earlier
 private app) already has: `frappe.local.module_app` is bench-wide. The
 template site is made with the four apps only, and `spares.as_template`
 stops the build if a private app is installed on it.
 
 The records come from the release, never from an operator. The release
-build reads each `private/<app>/<app>/hooks.py` with `ast` (upload.py
-`assigned` and `declared`) and writes `private_apps` into
+build reads each `private/<app>/<app>/manifest.py` with `ast`
+(registry/private.py `at`, through upload.py `declared`): its `name`,
+`line` and `mark` become the record's title, sentence and icon. It writes `private_apps` into
 `releases/<sha>.json`; `releases.check` hands that list to `register`,
 whose pure half `planned` says what to add, what to bring up to date and
 what to delete: only a record no release declares and no grant holds. A
 release from before the list (no `private_apps`) changes nothing. Reading
-the hooks at build time keeps `tests/test_private.py`'s rule: One's code
+the manifest, never importing it, keeps `tests/test_private.py`'s rule: One's code
 never imports or names a private app, and the build runs none of its code.
 
 ### faults.py

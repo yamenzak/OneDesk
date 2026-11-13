@@ -1,44 +1,41 @@
 """Private apps: Frappe apps made for one workspace, and how they join One.
 
-An installed app whose hooks.py says `one_private_app` is one of One's apps,
-always on and never uninstalled. It arrives by a code typed into Apps, which
-the control plane turns into an Install App job (one_admin/private.py). The
-rest is in one/AGENTS.md under Under the hood, and docs/PRIVATE-APPS.md.
+An installed app whose package declares itself in a manifest.py
+(registry/private.py) is one of One's apps, always on and never
+uninstalled. It arrives by a code typed into Apps, which the control plane
+turns into an Install App job (one_admin/private.py). The rest is in one/AGENTS.md under Under the hood, and docs/PRIVATE-APPS.md.
 """
+
+from pathlib import Path
 
 import frappe
 from frappe import _
 
 from onedesk.one import registry
-
-HOOK = "one_private_app"
+from onedesk.one.registry import Invalid
+from onedesk.one.registry import private as manifest
 
 LEAVE = "one_allow_private_uninstall"
 
 
 def names() -> list[str]:
 	"""The installed apps that are private apps, in install order."""
-	return [app for app in frappe.get_installed_apps() if _said(app)]
+	return [app for app in frappe.get_installed_apps() if _declared(app)]
 
 
-def _said(app: str) -> dict:
+def _declared(app: str):
+	"""Its manifest, read without running it; None for an app that has none
+	or one the registry would not hold."""
 	try:
-		said = frappe.get_hooks(HOOK, app_name=app) or {}
-	except Exception:
-		return {}
-	return said if isinstance(said, dict) else {}
+		return manifest.at(Path(frappe.get_app_path(app)))
+	except (Invalid, OSError, ImportError):
+		return None
 
 
 def about(app: str) -> dict:
-	"""Its title, sentence and icon, from its hooks.py. A key given twice
-	keeps the last. Pure over what the hook says."""
-	said = {key: (value[-1] if isinstance(value, list) and value else value) for key, value in _said(app).items()}
-	return {
-		"name": app,
-		"title": str(said.get("title") or app),
-		"said": str(said.get("said") or ""),
-		"icon": str(said.get("icon") or "package"),
-	}
+	"""A private app's title, sentence and icon, from its manifest.py."""
+	card = manifest.card(_declared(app))
+	return {"name": app, "title": card["title"], "said": _(card["said"]) if card["said"] else "", "icon": card["icon"] or "package"}
 
 
 def offered() -> list[dict]:

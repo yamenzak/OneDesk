@@ -118,11 +118,18 @@ def test_every_private_app_here_can_join_the_bench():
 	assert placing.checked(placing.found(tree.ROOT), {"frappe", "erpnext", "hrms", "onedesk"}, held) == []
 
 
-def _app(root, name, hooks='one_private_app = {"title": "T"}\n', modules="Fleet", project=None):
+def _manifest(name, **said):
+	fields = {"id": name, "name": name.title(), "kind": "app", "module": name.title(), **said}
+	return "from onedesk.one.registry.model import App\n\nAPP = App(" + ", ".join(f"{key}={value!r}" for key, value in fields.items()) + ")\n"
+
+
+def _app(root, name, manifest=True, modules="Fleet", project=None, hooks='app_name = "x"\n'):
 	package = root / "private" / name / name
 	package.mkdir(parents=True)
 	if hooks is not None:
 		(package / "hooks.py").write_text(hooks)
+	if manifest:
+		(package / "manifest.py").write_text(manifest if isinstance(manifest, str) else _manifest(name, module=modules.splitlines()[0]))
 	(package / "modules.txt").write_text(modules + "\n")
 	(package.parent / "pyproject.toml").write_text(f'[project]\nname = "{project or name}"\n')
 
@@ -131,11 +138,12 @@ def test_a_private_app_that_would_break_the_bench_is_refused(tmp_path):
 	placing = _placing()
 	_app(tmp_path, "fleet", modules="Fleet\nOne CRM")
 	_app(tmp_path, "accounts", modules="Accounts")
-	_app(tmp_path, "plain", hooks='app_name = "plain"\n', modules="Plain")
+	_app(tmp_path, "plain", manifest=False, modules="Plain")
 	_app(tmp_path, "renamed", modules="Renamed", project="other")
 	_app(tmp_path, "twin", modules="Fleet")
 	_app(tmp_path, "loose", hooks=None, modules="Loose")
 	_app(tmp_path, "Upper", modules="Upper")
+	_app(tmp_path, "needy", manifest=_manifest("needy", needs=("one_nothing",)), modules="Needy")
 	wrong = placing.checked(placing.found(tmp_path), {"frappe", "onedesk", "accounts"}, {"accounts", "one_crm"})
 	said = "\n".join(wrong)
 	assert "private/Upper:" in said
@@ -143,11 +151,53 @@ def test_a_private_app_that_would_break_the_bench_is_refused(tmp_path):
 	assert "private/accounts: its modules accounts are already another app's" in said
 	assert "private/fleet: its modules one_crm" in said
 	assert "private/twin: its modules fleet" in said, "two private apps clash with each other too"
-	assert "private/plain: its hooks.py has no one_private_app" in said
+	assert "private/plain: there is no plain/manifest.py" in said
+	assert "private/needy: needy/manifest.py: needs 'one_nothing', which has no manifest" in said
 	assert "private/renamed: its pyproject.toml must name the project renamed, not other" in said
 	assert "private/loose is not a Frappe app" in said
-	assert len(wrong) == 8
+	assert len(wrong) == 9
 	assert placing.checked(placing.found(tmp_path / "nothing"), set(), set()) == []
+
+
+def test_a_private_app_says_what_it_is_in_its_manifest_and_nothing_of_it_runs():
+	from onedesk.one.registry import Invalid
+	from onedesk.one.registry import private
+
+	source = (
+		'import os\nos.remove("/")\nfrom onedesk.one.registry.model import App, Kept, Roles, _lt\n\n'
+		'APP = App(id="acme", name="Acme Fleet", kind="app", module="Acme", line=_lt("Acme\'s vans."), mark="truck",'
+		' needs=["one_inventory"], kept=Kept(_lt("Its vans live in it.")), roles=Roles(user=("Fleet User",)))\n'
+	)
+	app = private.parsed(source)
+	assert (app.id, app.name, app.kind, app.private, app.needs, app.kept.why, app.roles.user) == ("acme", "Acme Fleet", "app", True, ("one_inventory",), "Its vans live in it.", ("Fleet User",))
+	assert private.card(app) == {"app": "acme", "title": "Acme Fleet", "said": "Acme's vans.", "icon": "truck"}
+	refused = {
+		'APP = App(id="acme", name=NAME, module="Acme")': "name is not a literal",
+		'APP = App(id="acme", name="Acme", module="Acme", line=open("/etc/passwd").read())': "line is not a literal",
+		'APP = App(id="acme", name="Acme", module="Acme", rail=10)': "'rail' is not something a private app says",
+		'APP = App(id="acme", module="Acme")': "says its id and its name",
+		'APP = App(id="acme", name="Acme", module="Acme", kind="engine")': "kind is app",
+		'APP = App(id="acme", name="OneBook", module="Acme")': "the name 'OneBook' is also one_book's",
+		'APP = App(id="acme", name="Acme", module="Acme", **said)': "by name",
+		"APP = make()": "APP must be App(...)",
+		"APP = App(": "manifest.py:",
+	}
+	for wrong, says in refused.items():
+		try:
+			private.parsed(wrong)
+		except Invalid as raised:
+			assert says in str(raised), (wrong, str(raised))
+		else:
+			raise AssertionError(f"{wrong} was held")
+
+
+def test_every_private_app_here_declares_itself_in_its_manifest():
+	from onedesk.one.registry import private
+
+	for path in sorted((tree.ROOT / "private").iterdir()):
+		app = private.at(path / path.name)
+		assert app and app.name != app.id and app.line and app.mark, f"private/{path.name}"
+		assert "one_private_app" not in (path / path.name / "hooks.py").read_text(), "the manifest says it, and only the manifest"
 
 
 def test_the_build_names_no_private_app_and_keeps_them_off_the_template():

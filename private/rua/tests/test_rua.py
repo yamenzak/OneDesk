@@ -96,9 +96,9 @@ def test_the_import_reads_and_never_writes():
 
 
 def test_rua_is_a_private_app_that_needs_one():
-	hooks = (RUA / "hooks.py").read_text()
-	assert 'required_apps = ["onedesk"]' in hooks
-	assert "one_private_app = {" in hooks
+	assert 'required_apps = ["onedesk"]' in (RUA / "hooks.py").read_text()
+	manifest = (RUA / "manifest.py").read_text()
+	assert 'APP = App(\n\tid="rua",' in manifest and 'mark="package"' in manifest
 
 
 def _projects():

@@ -16,9 +16,10 @@ import sys
 import tomllib
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from upload import HOOK, assigned
+from onedesk.one.registry import Invalid  # noqa: E402
+from onedesk.one.registry import private as manifest  # noqa: E402
 
 HELD = "private-apps"
 LEFT_OUT = shutil.ignore_patterns(".git", "__pycache__", "*.pyc", "node_modules")
@@ -61,9 +62,11 @@ def problems(app: Path, python: set, held: set) -> list[str]:
 	if not hooks.is_file():
 		return [f"private/{name} is not a Frappe app: there is no {name}/hooks.py"]
 	wrong = []
-	about = assigned(hooks.read_text(encoding="utf-8")).get(HOOK)
-	if not isinstance(about, dict) or not about.get("title"):
-		wrong.append(f"private/{name}: its hooks.py has no {HOOK} with a title, so it would be an app nobody could claim")
+	try:
+		if manifest.at(app / name) is None:
+			wrong.append(f"private/{name}: there is no {name}/manifest.py, so it would be an app nobody could claim")
+	except Invalid as refused:
+		wrong.append(f"private/{name}: {refused}")
 	if project(app) != name:
 		wrong.append(f"private/{name}: its pyproject.toml must name the project {name}, not {project(app) or 'nothing'}")
 	if name in python:

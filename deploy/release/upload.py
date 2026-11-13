@@ -2,11 +2,10 @@
 screens' archive, the ready-made bench, the template site and the box's agent
 of that commit, then what they are (`releases/<sha>.json`, last, since its
 arrival is what makes the release exist), and tells OneAdmin. What they are
-includes the private apps under `private/`, as each one's hooks.py declares
-itself, which OneAdmin keeps as its Private App records. `config` prints the
+includes the private apps under `private/`, as each one's manifest.py
+declares itself, which OneAdmin keeps as its Private App records. `config` prints the
 template site's config without anything a site must not share."""
 
-import ast
 import hashlib
 import hmac
 import json
@@ -19,8 +18,10 @@ from pathlib import Path
 
 SHARED_NEVER = ("db_", "encryption_key", "admin_password", "pilot_", "cloud_", "onedesk_vapid", "host_name", "installed_apps", "maintenance", "pause_", "domains", "route", "ssl", "cert_name", "email_sender_name", "backup")
 SECRET_WORDS = ("secret", "token", "password", "key")
-HOOK = "one_private_app"
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(str(ROOT))
+
+from onedesk.one.registry import private  # noqa: E402
 
 
 def shareable(config: dict) -> dict:
@@ -28,31 +29,15 @@ def shareable(config: dict) -> dict:
 	return {key: value for key, value in config.items() if not key.startswith(SHARED_NEVER) and not any(word in key.lower() for word in SECRET_WORDS)}
 
 
-def assigned(source: str) -> dict:
-	"""Every name a module sets to a plain value at its top, read without
-	running it. Pure."""
-	held = {}
-	for node in ast.parse(source).body:
-		if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
-			try:
-				held[node.targets[0].id] = ast.literal_eval(node.value)
-			except (ValueError, TypeError, SyntaxError):
-				continue
-	return held
-
-
 def declared(root: Path = ROOT) -> list[dict]:
-	"""The private apps under `root/private`, each as its hooks.py's
-	`one_private_app` says. Read, never imported: building a release runs
-	none of their code, and nothing in One names one."""
+	"""The private apps under `root/private`, each as its manifest.py says.
+	Read, never imported: building a release runs none of their code, and
+	nothing in One names one. deploy/release/private.py has already refused
+	one whose manifest the registry would not hold."""
 	found = []
-	for hooks in sorted((root / "private").glob("*/*/hooks.py")):
-		app = hooks.parent.name
-		if app != hooks.parent.parent.name:
-			continue
-		about = assigned(hooks.read_text(encoding="utf-8")).get(HOOK)
-		if isinstance(about, dict):
-			found.append({"app": app, "title": str(about.get("title") or app), "said": str(about.get("said") or ""), "icon": str(about.get("icon") or "")})
+	for path in sorted((root / "private").glob("*/*/manifest.py")):
+		if path.parent.name == path.parent.parent.name:
+			found.append(private.card(private.at(path.parent)))
 	return found
 
 

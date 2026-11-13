@@ -506,3 +506,7 @@ msgstr "نُقل {0} من {1} إلى المحتجزات."
 msgid "{0} recorded as retention."
 msgstr "سُجل {0} كمحتجزات."
 
+
+#: rua/manifest.py:11
+msgid "Rua Company's setup, and its records brought over from the old Rua app."
+msgstr "إعداد شركة Rua، وسجلاتها المنقولة من تطبيق Rua القديم."

@@ -52705,8 +52705,8 @@ msgstr "التطبيق الذي ترسل أحداثه هذا."
 
 #. Description of the 'Frappe App' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:28
-msgid "The app's name, the same as app_name in its hooks.py."
-msgstr "اسم التطبيق، وهو نفسه app_name في ملف hooks.py الخاص به."
+msgid "The app's name, the same as the id in its manifest.py."
+msgstr "اسم التطبيق، وهو نفسه id في ملف manifest.py الخاص به."
 
 #: onedesk/one_interface/tour.py:24
 msgid "The app's settings, this tour again, its help and what is new in it."
@@ -53306,8 +53306,8 @@ msgstr "ساعات اليوم التي تصل فيها البلاغات."
 
 #. Description of the 'Icon' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:47
-msgid "The icon the Apps card shows before the app is installed. Installed, the app's own hooks.py says."
-msgstr "الأيقونة التي تعرضها بطاقة التطبيقات قبل تثبيت التطبيق. بعد التثبيت، يحددها ملف hooks.py الخاص بالتطبيق."
+msgid "The icon the Apps card shows, the mark in the app's manifest.py."
+msgstr "الأيقونة التي تعرضها بطاقة التطبيقات، وهي mark في ملف manifest.py الخاص بالتطبيق."
 
 #: onedesk/one_crm/home.py:164
 msgid "The industry a lead or a customer is in."

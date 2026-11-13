@@ -504,3 +504,7 @@ msgstr ""
 msgid "{0} recorded as retention."
 msgstr ""
 
+
+#: rua/manifest.py:11
+msgid "Rua Company's setup, and its records brought over from the old Rua app."
+msgstr ""

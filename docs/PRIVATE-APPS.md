@@ -26,20 +26,35 @@ catalogue skips `private/` (`private/**,ignore`, first in
 `babel_extractors.csv`), so One ships none of a customer's strings.
 `tests/test_private.py` holds the line.
 
-- **`hooks.py`** says it needs One, and that it is a private app:
+- **`hooks.py`** says it needs One: `required_apps = ["onedesk"]`.
+
+- **`manifest.py`**, beside `hooks.py`, says it is a private app, the way
+  each of One's apps says what it is:
 
   ```python
-  required_apps = ["onedesk"]
+  from onedesk.one.registry.model import App, Kept, _lt
 
-  one_private_app = {
-      "title": "Acme Fleet",
-      "said": "Acme's vans, drivers and routes, and who drives what today.",
-      "icon": "truck",
-  }
+  APP = App(
+      id="acme_fleet",
+      name="Acme Fleet",
+      kind="app",
+      module="Acme Fleet",
+      line=_lt("Acme's vans, drivers and routes, and who drives what today."),
+      mark="truck",
+      needs=("one_inventory",),
+      kept=Kept(_lt("Acme's vans and routes live in it.")),
+  )
   ```
 
-  `title` and `said` are its card in Apps. `icon` is a name in the icon
-  sprite, or one of its own `Custom Icon` fixtures.
+  `name` and `line` are its card in Apps and in OneAdmin's Private Apps.
+  `mark` is a name in the icon sprite, or one of its own `Custom Icon`
+  fixtures. `id` is its folder, `module` its Frappe module, `needs` the
+  ids of One's apps it stands on; `roles` may give a `Roles(...)` too. It
+  is read, never run (`onedesk/one/registry/private.py`): every value is
+  a literal, a word may be wrapped in `_lt`, and anything else, a field
+  outside those, or a manifest without a name is refused. The registry's
+  own checks hold it as they hold One's apps: a `needs` that names no app,
+  or a name or module One's apps already have, is refused.
 
 - **`pyproject.toml`** names the project as its folder, and says which
   frappe and which One it runs on, because Pilot refuses an app that
@@ -82,15 +97,15 @@ catalogue skips `private/` (`private/**,ignore`, first in
 
 ## Getting it to a customer
 
-1. Push `main`. The release build reads every `private/<app>/<app>/hooks.py`
-   for its `one_private_app` (`deploy/release/upload.py`, `declared`: parsed,
-   never imported, so the build runs none of the app's code and One still
+1. Push `main`. The release build reads every `private/<app>/<app>/manifest.py`
+   (`deploy/release/upload.py`, `declared`: parsed, never imported, so the build runs none of the app's code and One still
    names none of them) and lists them in the release's
    `releases/<sha>.json` as `private_apps`.
 2. OneAdmin's release check (`releases.check`, hourly and when the release
    workflow says one is up) makes the **Private App** records from that
    list (`private.register`): one per app, its title, sentence and icon
-   kept to what `hooks.py` says. Nobody adds one by hand, and the form
+   kept to what its `manifest.py` says (a record from before manifests
+   takes them at the next release). Nobody adds one by hand, and the form
    doesn't offer New. A record no release declares any more is deleted
    only while no workspace holds a code for it; **Enabled** is the
    operator's and a release never changes it.
@@ -135,7 +150,7 @@ The build stops, naming the app and why, when a private app:
 
 - isn't a Frappe app (no `<app>/hooks.py`), or its folder isn't a lower
   case Python name;
-- has no `one_private_app` with a title;
+- has no `<app>/manifest.py`, or one the registry refuses;
 - has a `pyproject.toml` naming another project;
 - takes a Python package or a Frappe module another app on the bench
   already has (including another private app);

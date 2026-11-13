@@ -419,7 +419,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneAdmin 1.3.0
+## OneAdmin 1.4.0
 
 Not marked ready yet.
 

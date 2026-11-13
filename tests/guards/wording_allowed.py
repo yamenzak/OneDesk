@@ -28,7 +28,7 @@ ALLOWED = {
 	"onedesk/one_admin/doctype/credit_reservation/credit_reservation.json": 2,
 	"onedesk/one_admin/doctype/offering/offering.json": 5,
 	"onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json": 28,
-	"onedesk/one_admin/doctype/private_app/private_app.json": 3,
+	"onedesk/one_admin/doctype/private_app/private_app.json": 2,
 	"onedesk/one_admin/doctype/private_app_grant/private_app_grant.json": 1,
 	"onedesk/one_admin/doctype/provisioning_job/provisioning_job.json": 2,
 	"onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json": 1,
