@@ -1,5 +1,5 @@
 <template>
-  <svg v-if="found" class="inline-block shrink-0" :viewBox="found.viewBox" aria-hidden="true" v-html="found.html" />
+  <svg v-if="found" class="inline-block shrink-0" :viewBox="found.viewBox" v-bind="found.drawn" aria-hidden="true" v-html="found.html" />
 </template>
 
 <script setup>

@@ -16,7 +16,7 @@
       >
         <span class="flex size-9 shrink-0 items-center justify-center rounded-3 bg-surface-gray-2 text-ink-gray-7"><Mark :name="one.icon" class="icon size-5" /></span>
         <span class="flex min-w-0 flex-col gap-0.5">
-          <span class="text-base font-medium text-ink-gray-8"><Branded :text="one.name" /></span>
+          <span class="text-base font-medium text-ink-gray-8">{{ one.name }}</span>
           <span class="text-sm text-ink-gray-5">{{ one.line }}</span>
         </span>
       </button>
@@ -28,7 +28,7 @@
 import { computed, ref } from "vue";
 import { TextInput } from "frappe-ui";
 
-import { Branded, Mark, Page, __, name, onedesk } from "../kit";
+import { Mark, Page, __, name, onedesk } from "../kit";
 
 const props = defineProps({ onTitle: Function });
 

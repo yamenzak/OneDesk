@@ -341,9 +341,18 @@ export const alert = (message, indicator = "green") => frappe().show_alert({ mes
 
 export const formatted = (value, df, doc) => String(frappe().format(value, df, { inline: true, only_value: true }, doc) ?? "");
 
+const DRAWN = { fill: "none", stroke: "currentColor", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" };
+
 export const symbol = (name) => {
   const found = document.getElementById(`icon-${name}`);
-  return found ? { viewBox: found.getAttribute("viewBox"), html: found.innerHTML } : null;
+  if (!found) return null;
+  const outlined = Boolean(found.closest("#frappe-symbols"));
+  const drawn = Object.fromEntries(
+    Object.entries(DRAWN)
+      .map(([one, usual]) => [one, found.getAttribute(one) ?? (outlined ? usual : null)])
+      .filter(([, value]) => value !== null),
+  );
+  return { viewBox: found.getAttribute("viewBox"), html: found.innerHTML, drawn };
 };
 
 // Where on the window a part of an island goes (onedesk/one_interface/AGENTS.md, The parts):
