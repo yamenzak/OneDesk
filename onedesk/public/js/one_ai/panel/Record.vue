@@ -180,11 +180,11 @@ async function see_page() {
 function open(name) {
 	if (kind.value === "Customize") frappe.set_route("List", "Workspace Field", { form: doctype.value });
 	else if (kind.value === "Signature") frappe.set_route("onemail", { settings: "mailboxes" });
-	else if (kind.value === "Holidays") onedesk.hr_control.open({ at: "holidays" });
+	else if (kind.value === "Holidays") onedesk.centers.open("settings", { module: onedesk.names.of("one_hr"), at: "holidays" });
 	else if (kind.value === "Reply") frappe.set_route("onemail");
 	else if (kind.value === "Numbering") onedesk.doctype_settings.open(doctype.value, "naming");
 	else if (kind.value === "Printing" && props.record.format) frappe.set_route("print-format-builder", props.record.format);
-	else if (kind.value === "Printing") onedesk.studio_control.open({ at: "printing" });
+	else if (kind.value === "Printing") onedesk.centers.open("settings", { module: onedesk.names.of("one_studio"), at: "printing" });
 	else if (kind.value === "Approval") frappe.set_route("workflow-builder", name);
 	else if (kind.value === "Setup" && props.record.route) frappe.set_route(...props.record.route);
 	else frappe.set_route("Form", doctype.value, name);

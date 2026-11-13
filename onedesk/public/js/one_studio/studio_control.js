@@ -385,27 +385,24 @@ onedesk.studio_control.ABOUT = {
 	approvals: __("Who approves which records, step by step."),
 };
 
-onedesk.studio_control.open = ({ at = null } = {}) => {
-	if (!frappe.boot.one_administers) return onedesk.account_center.open();
-	const tabs = [
-		["numbering", __("Numbering"), "hash"],
-		["printing", __("Printing"), "printer"],
-		["approvals", __("Approvals"), "route"],
-	].map(([id, label, icon]) => onedesk.center_section.tab(onedesk.StudioSection, { id, label, icon, about: onedesk.studio_control.ABOUT[id] }));
-	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_studio"), tabs: [{ group: null, items: tabs }], default_tab: at });
-	dialog.show();
-	return dialog;
-};
-
-frappe.provide("onedesk.control_centers");
-onedesk.control_centers.OneStudio = onedesk.studio_control.open;
+onedesk.centers.part("settings", onedesk.names.of("one_studio"), {
+	instead: () => !frappe.boot.one_administers && (() => onedesk.centers.open("account")),
+	sections() {
+		const items = [
+			["numbering", __("Numbering"), "hash"],
+			["printing", __("Printing"), "printer"],
+			["approvals", __("Approvals"), "route"],
+		].map(([id, label, icon]) => ({ id, label, icon, description: onedesk.studio_control.ABOUT[id], section: onedesk.StudioSection }));
+		return [{ group: null, items }];
+	},
+});
 
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_studio")) return;
-		win.module_foot({ module: onedesk.names.of("one_studio"), settings: () => onedesk.studio_control.open() });
+		win.module_foot({ module: onedesk.names.of("one_studio"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_studio") }) });
 		onedesk.interface.nav.place();
 	}, 0)
 );

@@ -285,15 +285,8 @@ PORTAL_KINDS.forEach((doctype) => {
 });
 
 // OnePortal's settings (docs/READY.md, mechanism 5): what every module's
-// finds, its roles and its notifications (module_settings.centers).
-onedesk.portal.settings = ({ at = null } = {}) => {
-	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_portal"), tabs: [], default_tab: at });
-	dialog.show();
-	return dialog;
-};
-
-frappe.provide("onedesk.control_centers");
-onedesk.control_centers.OnePortal = onedesk.portal.settings;
+// finds, its roles and its notifications (onedesk.centers.found).
+onedesk.centers.part("settings", onedesk.names.of("one_portal"));
 
 // Its foot: Settings, Help and the version at the foot of its rail. Its
 // screens are frappe's lists, so the window draws it (module_foot).
@@ -302,7 +295,7 @@ $(document).on("page-change", () =>
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_portal")) return;
-		win.module_foot({ module: onedesk.names.of("one_portal"), settings: () => onedesk.portal.settings() });
+		win.module_foot({ module: onedesk.names.of("one_portal"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_portal") }) });
 		onedesk.interface.nav.place();
 	}, 0)
 );

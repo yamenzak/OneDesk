@@ -144,7 +144,7 @@ def sent(item: dict) -> dict | None:
 		asked = dict(urllib.parse.parse_qsl(url.query))
 		if asked.get("center"):
 			# A module's ControlCenter is told as the module's own page
-			# (module_settings.js `activate`).
+			# (one_interface/centre.js `activate`).
 			centre = asked["center"] if asked["center"] != "settings" else (asked.get("module") or "One").lower()
 			return {"page": centre, "section": asked.get("at") or "", "record": asked.get("record") or "", "view": "Page", "label": label}
 		if not parts:

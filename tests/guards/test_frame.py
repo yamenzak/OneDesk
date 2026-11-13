@@ -519,6 +519,57 @@ def test_a_dialog_is_frappes():
 		assert not own_modal(path.read_text(encoding="utf-8")), f"{path.name} draws its own modal"
 
 
+CENTRE_FRAME = "centre.js"
+"""OneInterface's centre frame (public/js/one_interface/centre.js), the
+only script that draws a centre's dialog."""
+CREATE = "form.js"
+"""A new record in frappe's own form (one_interface/form.js), a dialog of
+the create kind, not a centre."""
+OWN_CENTRE = re.compile(r"new frappe\.ui\.SettingsDialog\(|extends frappe\.ui\.SettingsDialog\b|new onedesk\.Centre\(|extends onedesk\.Centre\b")
+DRAWN = re.compile(r"^(\s*)(?:async\s+)?render(?:\(panel\)|: (?:async )?\(panel\))", re.M)
+
+
+def own_centres(code: dict[str, str]) -> list[str]:
+	"""The scripts that draw a centre's dialog themselves rather than
+	declaring it for the frame (`onedesk.centers.declare` and `part`).
+	`code` is each script's text by name. Pure."""
+	return sorted(name for name, text in code.items() if Path(name).name not in (CENTRE_FRAME, CREATE) and OWN_CENTRE.search(text))
+
+
+def undeclared_centres(keys: tuple[str, ...], code: str) -> list[str]:
+	"""The registry's centres no script declares. Pure."""
+	return [key for key in keys if f'onedesk.centers.declare("{key}"' not in code]
+
+
+def drawn_unsaid(text: str) -> list[int]:
+	"""In a script that declares a centre or its part: each section drawn
+	by its own `render(panel)` without a docstring just above it saying why
+	no declared kind (rows, fields, section, page) fits, by line. Pure."""
+	if not re.search(r"onedesk\.centers\.(?:declare|part)\(", text):
+		return []
+	lines = text.splitlines()
+	found = []
+	for match in DRAWN.finditer(text):
+		at = text.count("\n", 0, match.start())
+		before = next((line.strip() for line in reversed(lines[:at]) if line.strip()), "")
+		if not before.endswith("*/"):
+			found.append(at + 1)
+	return found
+
+
+def test_every_centre_opens_in_the_frame():
+	"""Every centre is a declaration the frame draws (one_interface/centre.js):
+	no script draws a centre's dialog of its own, every centre the registry
+	names is declared, and a section that draws its own body says why."""
+	from onedesk.one.registry.model import CENTRE_KEYS
+
+	code = {str(path.relative_to(ROOT)): path.read_text(encoding="utf-8") for path in _ours("*.js", "*.vue")}
+	assert not own_centres(code), f"draw a centre's dialog of their own; declare it with onedesk.centers.declare: {own_centres(code)}"
+	assert not undeclared_centres(CENTRE_KEYS, "\n".join(code.values())), undeclared_centres(CENTRE_KEYS, "\n".join(code.values()))
+	unsaid = {name: lines for name, text in code.items() if Path(name).name != CENTRE_FRAME and (lines := drawn_unsaid(text))}
+	assert not unsaid, f"a section drawn by its own render with no docstring saying why: {unsaid}"
+
+
 NEVER_DRAWN = {"me.html", "projects.html", "start.html"}
 
 
@@ -559,6 +610,11 @@ def test_every_page_outside_the_desk_wears_the_portal():
 
 
 def test_the_frame_rules_catch_their_examples():
+	assert own_centres({"a/centre.js": "new frappe.ui.SettingsDialog(", "b/form.js": "new frappe.ui.SettingsDialog(", "c/x.js": "class X extends onedesk.Centre {"}) == ["c/x.js"]
+	assert undeclared_centres(("help", "setup"), 'onedesk.centers.declare("help", {})') == ["setup"]
+	said = 'onedesk.centers.declare("x", {\n\t/** Why. */\n\trender(panel) {},\n\trender: (panel) => 1,\n});'
+	assert drawn_unsaid(said) == [4]
+	assert drawn_unsaid("render(panel) {}") == []
 	assert islands_unknown({"Task": 1}, {}) == ["Task"] and not islands_unknown({}, {})
 	record = 'onedesk.record_files.side(frm, open_files)\n' + "".join(f'__("{word}")' for word in MENU)
 	good = 'useRecord("Task" record.menu( follow('

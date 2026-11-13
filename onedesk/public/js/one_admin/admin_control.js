@@ -1,6 +1,5 @@
 // OneAdmin's ControlCenter (docs/ONE.md): One Admin Settings, a tab each,
 // and Operators (one_admin/control.py). Operators only, on the admin site.
-frappe.provide("onedesk.admin_control");
 frappe.provide("onedesk.admin");
 
 onedesk.AdminSection = class AdminSection extends onedesk.CenterSection {
@@ -83,11 +82,10 @@ onedesk.AdminSection = class AdminSection extends onedesk.CenterSection {
 	}
 };
 
-onedesk.admin_control.open = ({ at = null } = {}) => {
-	const tab = (id, label, icon, about) => onedesk.center_section.tab(onedesk.AdminSection, { id, label, icon, about });
-	const dialog = onedesk.module_settings.open({
-		module: onedesk.names.of("one_admin"),
-		tabs: [
+onedesk.centers.part("settings", onedesk.names.of("one_admin"), {
+	sections() {
+		const tab = (id, label, icon, about) => ({ id, label, icon, description: about, section: onedesk.AdminSection });
+		return [
 			{
 				group: null,
 				items: [
@@ -101,22 +99,16 @@ onedesk.admin_control.open = ({ at = null } = {}) => {
 					tab("grace", __("Grace Periods"), "clock", __("How long a workspace waits at each step when it stops paying.")),
 				],
 			},
-		],
-		default_tab: at,
-	});
-	dialog.show();
-	return dialog;
-};
-
-frappe.provide("onedesk.control_centers");
-onedesk.control_centers.OneAdmin = onedesk.admin_control.open;
+		];
+	},
+});
 
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "One Admin") return;
-		win.module_foot({ module: onedesk.names.of("one_admin"), settings: () => onedesk.admin_control.open() });
+		win.module_foot({ module: onedesk.names.of("one_admin"), settings: () => onedesk.centers.open("settings", { module: onedesk.names.of("one_admin") }) });
 		onedesk.interface.nav.place();
 	}, 0)
 );

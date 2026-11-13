@@ -100,7 +100,6 @@ import {
   interfaceSearch,
   interfaceStatus,
   interfaceHeading,
-  requires,
   interfaceModuleFoot,
   interfaceHeadAction,
   interfaceTree,
@@ -299,11 +298,9 @@ const treeRows = computed(() => {
 
 interfaceHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => settings("connect") });
 
-// OneMail's settings: frappe's settings dialog, public/js/one_mail/onemail_settings.js.
-const SETTINGS = ["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"];
-async function settings(tab) {
-  await requires(SETTINGS);
-  onedesk().mail.settings(tab);
+// OneMail's ControlCenter, its part in public/js/one_mail/onemail_settings.js.
+function settings(tab) {
+  onedesk().centers.open("settings", { module: appName("one_mail"), at: tab || null });
 }
 interfaceModuleFoot(props.win, { module: appName("one_mail"), onSettings: () => settings() });
 

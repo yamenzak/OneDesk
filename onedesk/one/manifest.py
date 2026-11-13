@@ -1,6 +1,6 @@
 """One's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Kept, Region, Settle, _lt
+from onedesk.one.registry.model import App, Centre, Kept, Region, Settle, _lt
 
 APP = App(
 	id="one",
@@ -63,11 +63,11 @@ APP = App(
 )
 
 PARTS = (
-	App(id="control_center", name="ControlCenter", kind="centre", module=""),
-	App(id="notification_center", name="NotificationCenter", kind="centre", module=""),
-	App(id="access_center", name="AccessCenter", kind="centre", module=""),
-	App(id="shortcut_center", name="ShortcutCenter", kind="centre", module=""),
-	App(id="help_center", name="HelpCenter", kind="centre", module=""),
-	App(id="update_center", name="UpdateCenter", kind="centre", module=""),
-	App(id="setup_center", name="SetupCenter", kind="centre", module=""),
+	App(id="control_center", name="ControlCenter", kind="centre", module="", centre=Centre("settings", "settings")),
+	App(id="notification_center", name="NotificationCenter", kind="centre", module="", centre=Centre("notifications", "bell")),
+	App(id="access_center", name="AccessCenter", kind="centre", module="", centre=Centre("access", "key-round")),
+	App(id="shortcut_center", name="ShortcutCenter", kind="centre", module="", centre=Centre("shortcuts", "keyboard")),
+	App(id="help_center", name="HelpCenter", kind="centre", module="", centre=Centre("help", "circle-question-mark")),
+	App(id="update_center", name="UpdateCenter", kind="centre", module="", centre=Centre("updates", "sparkles")),
+	App(id="setup_center", name="SetupCenter", kind="centre", module="", centre=Centre("setup", "list-checks")),
 )

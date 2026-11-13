@@ -65,7 +65,7 @@ def test_a_step_with_fields_is_the_wizards_form():
 def test_setupcenter_is_on_ones_rail_and_getting_started_opens_it():
 	rail = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())["items"]
 	assert "/desk/one?center=setup" in {one.get("url") for one in rail}
-	kit = (tree.APP / "public" / "js" / "module_settings.js").read_text()
+	kit = (tree.APP / "public" / "js" / "one_interface" / "centre.js").read_text()
 	assert 'onedesk.centers.open("setup", { at: module })' in kit and "getting_started = " not in kit
 	apps = (tree.APP / "public" / "js" / "apps.js").read_text()
 	assert "center=setup&at=" in apps

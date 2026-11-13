@@ -58,7 +58,7 @@ Measured on 2026-10-26.
 
 The module is AccountCenter (`account_center`). Its
 centre is drawn on the settings dialog like the others
-(`onedesk.CENTERS.account`), opens from your avatar at the foot of the rail
+(`onedesk.centers.open("account")`), opens from your avatar at the foot of the rail
 and from the arrows, and has two groups.
 
 **Yours**, for everybody:
@@ -184,7 +184,7 @@ moves its version.
    NotificationCenter's Everything, which took the one switch it lacked
    (mail about what is assigned to you). The Settings page is deleted.
    `/desk/one?center=settings&module=OneHR&at=holidays` opens any module's
-   ControlCenter (`onedesk.control_centers`), and every centre tells OneAI
+   ControlCenter (`onedesk.centers.part("settings", module)`), and every centre tells OneAI
    which tab is open. Workspace Settings keeps Workspace Notifications,
    Numbering, Printing and Approvals until stage 3.
 3. **OneStudio takes Setup and Automation.** Built. Printing (with
@@ -209,7 +209,7 @@ moves its version.
 5. **Masters go home.** Built. Each module declares its lists as `LISTS` in
    its `lists.py`, and `one/lists.py` is the engine (`HOMES`, `listed`,
    `kinds`, `homes`, `place`). Every ControlCenter ends with Lists
-   (`public/js/one/lists.js`, found by `module_settings.open` as the centres
+   (`public/js/one/lists.js`, found by the centre frame as the centres
    are), one row per list with its count, each opening frappe's list in the
    module's own rail with the module's other lists beside it. Salutation,
    Gender and Address Template are One's (Address Book › Lists), Print

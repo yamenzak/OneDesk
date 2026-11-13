@@ -69,7 +69,7 @@ def test_frappes_screens_open_ones_own():
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js
-	assert "onedesk.notification_center.open();" in js
+	assert 'onedesk.centers.open("notifications");' in js
 	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	rows = [item.get("link_to") or item.get("url") for item in one["items"]]
 	assert rows.index("Address") == rows.index("Contact") + 1

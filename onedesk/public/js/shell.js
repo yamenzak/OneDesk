@@ -114,8 +114,28 @@ $.extend(onedesk.shell, {
 				list.refresh();
 			});
 		}
+		list.after_render = () => onedesk.shell.fold(list);
+		if (window.ResizeObserver) new ResizeObserver(() => onedesk.shell.fold(list)).observe(list.$wrapper.get(0));
 		list.refresh();
 		return list;
+	},
+
+	/** A table never wider than where it sits (D16): while it would run
+	 * past the edge, its last column that is not an action drops under the
+	 * first as a quiet line, then the one before it, so nothing is cut and
+	 * nothing scrolls sideways. */
+	fold(list) {
+		const wrap = list.$result.find(".embedded-list-table-wrap").get(0);
+		const table = wrap && wrap.querySelector("table");
+		if (!table || !wrap.clientWidth) return;
+		const columns = table.querySelectorAll("thead th").length;
+		const fits = () => table.scrollWidth <= wrap.clientWidth + 1;
+		for (let from = 2; from <= 6; from++) table.classList.remove(`one-fold-${from}`);
+		table.classList.remove("one-fold");
+		for (let from = Math.min(columns, 6); from >= 2 && !fits(); from--) {
+			if (from < 6) table.classList.remove(`one-fold-${from + 1}`);
+			table.classList.add("one-fold", `one-fold-${from}`);
+		}
 	},
 
 	side({ image = null, initials = "", mark = null, title = "", sub = "", groups = [], meta = [] } = {}) {

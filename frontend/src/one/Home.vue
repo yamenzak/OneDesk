@@ -127,7 +127,7 @@ const news = computed(() =>
     sub: one.title,
     dot: "blue",
     value: one.version,
-    onClick: () => onedesk().whats_new.open(one.module),
+    onClick: () => onedesk().centers.open("updates", { module: one.module }),
   }))
 );
 </script>

@@ -1,5 +1,5 @@
 // AccountCenter (docs/ONE.md): your own account and the workspace's, on the
-// settings dialog (onedesk.CENTERS.account). For everybody, Yours: Profile
+// centre frame (one_interface/centre.js). For everybody, Yours: Profile
 // and Sign-in; for administrators, Workspace: People, Devices, Plan and
 // Credits, and Domains. Each section is a CenterSection (center_section.js).
 frappe.provide("onedesk.account_center");
@@ -1799,47 +1799,28 @@ onedesk.account_center.HELP = {
 
 // AccountCenter: Yours for everybody, Workspace for administrators. at
 // opens one section, and record one record in it, such as a person. It
-// starts with Getting Started, which opens SetupCenter, while a step waits.
-onedesk.account_center.open = async ({ at = null, record = null } = {}) => {
-	const said = await frappe.xcall(onedesk.AccountSection.API + "sections_of");
-	const allowed = Object.fromEntries(said.sections.map((one) => [one.key, one]));
-	const named = { yours: __("Yours"), workspace: __("Workspace") };
-	const tabs = [
-		...onedesk.module_settings.starting(onedesk.names.of("account_center")),
-		...Object.entries(named).map(([group, label]) => ({
+// starts with Getting Started, which opens SetupCenter, while a step waits,
+// and its tour the first time it opens: it has no foot to start it from.
+onedesk.centers.declare("account", {
+	whose: () => ({ label: frappe.session.user_fullname, icon: "user" }),
+	steps: () => onedesk.names.of("account_center"),
+	help: (tab) => [onedesk.names.of("account_center"), onedesk.account_center.HELP[tab] || "overview"],
+	css: "one-account",
+	tour: [onedesk.names.of("account_center"), "account"],
+	async sections({ at, record }) {
+		const said = await frappe.xcall(onedesk.AccountSection.API + "sections_of");
+		const allowed = Object.fromEntries(said.sections.map((one) => [one.key, one]));
+		const named = { yours: __("Yours"), workspace: __("Workspace") };
+		return Object.entries(named).map(([group, label]) => ({
 			group: label,
 			items: onedesk.account_center.SECTIONS.filter((one) => allowed[one.id] && allowed[one.id].group === group).map((one) => ({
 				id: one.id,
 				label: allowed[one.id].label,
 				icon: allowed[one.id].icon,
-				title: allowed[one.id].label,
 				description: one.about,
-				render(panel) {
-					panel.section = panel.section || new onedesk.AccountSection(panel, one.id);
-					panel.section.open(one.id, { record: one.id === at ? record : null });
-				},
+				section: onedesk.AccountSection,
+				record: one.id === at ? record : null,
 			})),
-		})),
-	].filter((group) => group.items.length);
-	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
-	const dialog = new onedesk.module_settings.Dialog({
-		title: onedesk.names.of("account_center"),
-		center: { center: "account", label: frappe.session.user_fullname, icon: "user" },
-		tabs,
-		default_tab: ids.includes(at) ? at : ids.find((id) => id !== "getting_started"),
-		// Help opens at the page for the tab being read.
-		help: (tab) => [onedesk.names.of("account_center"), onedesk.account_center.HELP[tab] || "overview"],
-	});
-	dialog.$wrapper.addClass("one-set one-account");
-	dialog.$wrapper.find(".settings-dialog-sidebar").wrapInner('<div class="one-account-tabs" data-tour="account-tabs"></div>');
-	dialog.show();
-	// AccountCenter has no foot to start its tour from, so it starts here
-	// the first time it opens.
-	if ((frappe.boot.one_tours_unseen || []).includes("AccountCenter:account")) {
-		setTimeout(async () => {
-			const tour = await onedesk.tour.here(onedesk.names.of("account_center"));
-			if (tour && dialog.display) onedesk.tour.run(onedesk.names.of("account_center"), tour);
-		}, 600);
-	}
-	return dialog;
-};
+		}));
+	},
+});

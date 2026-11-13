@@ -492,7 +492,7 @@ list price.
 ## AICenter
 
 Opened from **OneAI** in any module's ControlCenter (on that module), from
-the bottom bar, and from Settings. Built on `onedesk.module_settings.Dialog`
+the bottom bar, and from Settings. Built on the centre frame (`onedesk.Centre`)
 as the other centres are; the arrows by its name enlarge the window, and
 AICenter on One's rail opens the whole of it.
 

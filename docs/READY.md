@@ -171,7 +171,7 @@ each holds only the desk's own scripts and styles, each in `ready.SHARED`.
   whether it is unseen.
 - The version sits at the end of the module's foot row (`win.foot_action`
   with `version`), with a dot until seen, beside a Help button.
-- What's New (`public/js/module_docs.js`, `onedesk.whats_new.open`) is a
+- What's New (`public/js/one/help_center.js`, `onedesk.centers.open("updates")`) is a
   OneInterface settings dialog whose sidebar is the module's own: its mark,
   a search, and a tree with each fix under the minor it fixes and each
   minor under its major. A row is the version number alone, with its
@@ -280,22 +280,21 @@ version. So writing `docs:` is what links both ways.
 
 ### 5. The module's foot, and one settings dialog
 
-**Built.** `onedesk.module_settings.open({ module, may, tabs })`
-(`public/js/module_settings.js`) is every module's settings dialog: frappe's
-settings dialog with ControlCenter and the module under it, and a Help
-button, at the top of its sidebar. `onedesk.module_head` draws that for
-every dialog a module has: One's mark and a name in the products' manner,
-the first word light (HelpCenter, UpdateCenter for What's New,
-ControlCenter, AccountCenter for one mailbox), and, small under it, whose:
-the module's mark and name, or one thing in it, such as a mailbox's
-address (`dialog.center`). The names are names, so they are not
-translated (`onedesk.CENTERS`). Each tab names the `needs` it asks of the reader's role (an ability's
-key, a list of keys any one of which will do, or a function), the dialog
+**Built.** A module's settings are its part of ControlCenter,
+`onedesk.centers.part("settings", module, { sections, may })`, opened in
+OneInterface's centre frame (`public/js/one_interface/centre.js`,
+onedesk/one_interface/AGENTS.md, Centres): one header atop the sections,
+the centre's name in the products' manner with whose it is under it (the
+module's mark and name, or one thing in it, such as a mailbox's address),
+Help, Enlarge and Close in the corner, and a search across the sections.
+The names are code (the registry's `Centre`, `frappe.boot.one_centres`).
+Each section names the `needs` it asks of the reader's role (an ability's
+key, a list of keys any one of which will do, or a function), the frame
 leaves out what the role doesn't allow and drops a group left empty.
-`onedesk.module_settings.kit` is what tabs are drawn with: list rows, a
-heading with a control at its end, a switch after a tab's title, Back
+`onedesk.centers.kit` is what sections are drawn with: list rows, a
+heading with a control at its end, a switch after a section's title, Back
 before a view's title, a Save that shows once something changed; its
-classes are `one-set-*` in `public/css/module_settings.css`, and a module's
+classes are `one-set-*` in `public/css/one_interface/centre.css`, and a module's
 own stylesheet keeps only what is its own. The foot is
 `win.module_foot({ module, settings })`, `interfaceModuleFoot` in an island:
 a row of icons: Settings (the cog), the tour of the area on screen and Help,
@@ -339,7 +338,7 @@ typo). A host the code calls that no `subprocessor()` declares also fails
 it.
 
 **Built.** Every module's ControlCenter ends with **Legal**
-(`onedesk.module_settings.legal`, added by `module_settings.open`, so a
+(`onedesk.centers.found`, added by the centre frame, so a
 module can't leave it out). It reads `trust_center.reading.of_module(module)`,
 which is `assemble.of_module`: from the same registry the documents are
 assembled from, each agreement the module writes into, with its current
@@ -423,7 +422,7 @@ the window's own (`window-nav`, `window-search`, `window-foot`,
 `window-tour`) serve every module. `one/tours.py` gives the tours in the
 reader's language (`tour`), the areas a reader hasn't toured, as
 `Module:key`, in the boot (`unseen`), and remembers an area's tour taken or
-closed as a user default (`seen`). The runner in `module_docs.js` puts them
+closed as a user default (`seen`). The runner in `one_interface/tour.js` puts them
 on `frappe.Driver`, taking the first tour whose `at` is on screen, from the
 play button in the module's foot, which says so when the screen has no
 tour. A tour never starts by itself.
@@ -490,7 +489,7 @@ at, which makes it stale. A fix leaves a look standing.
 **Built.** All six parts.
 
 - **The center.** `public/js/trust_center/trust_center.js`, on the docs dialog
-  (`onedesk.CENTERS.trust`), reads `trust_center.reading.trust`, in two
+  (`onedesk.centers.open("trust")`), reads `trust_center.reading.trust`, in two
   sizes. **A module's part**, from the shield in its foot: **{Module} and
   Your Data** (its optional services and who it sends data to), its own
   paragraphs of each agreement it writes into with where the reader and the
@@ -548,8 +547,8 @@ may object, and keep using One or leave.
 **As designed, in six parts.**
 
 **1. One center.** TrustCenter is a center like HelpCenter and ControlCenter
-(`onedesk.CENTERS`, `trust: "Trust"`), drawn by `onedesk.module_docs`'s
-dialog. It replaces both the Legal tab and the Agreements page, which
+(its manifest's `Centre("trust", …)`), drawn by the centre frame as
+pages. It replaces both the Legal tab and the Agreements page, which
 becomes TrustCenter opened on the workspace. Opened from a module's foot
 (a shield beside the question mark), it opens on that module, and its
 sidebar is:
@@ -660,7 +659,7 @@ theirs to complete.
 ### 14. AccessCenter
 
 **Built.** `public/js/one/access_center.js` and `one/access_center.py`, on the
-settings dialog (`onedesk.CENTERS.access`), for workspace administrators.
+settings dialog (`onedesk.centers.open("access")`), for workspace administrators.
 A module's part has three tabs: **Roles**, the matrix (`role_matrix.js`,
 with Show Roles and New Role); **People**, everybody's role in the module,
 changed in place as People changes it (`put`, which takes somebody off a
@@ -676,7 +675,7 @@ Record unless it gives something there (`SHARED`, `access_center.shared`).
 It is found, not drawn: the boot names the modules with abilities
 (`one_centers.access`), and ControlCenter ends every such module's sidebar
 with **Roles and Access**, which opens AccessCenter on it
-(`onedesk.module_settings.centers`). The whole, every module with
+(`onedesk.centers.found`). The whole, every module with
 abilities, opens from One's rail (mechanism 18); a role of such a module in Workspace Settings
 › Access opens it too (`Settings.access`). OneMail's Roles tab and
 `Settings.ROLES_IN` are gone. Profiles, groups, the record-type levels of
@@ -688,7 +687,7 @@ matrix, and the demo checks `access_center_finds_and_sets_roles`.
 
 **Built.** `public/js/one/notification_center.js` and
 `one/notification_center.py`, on the settings dialog
-(`onedesk.CENTERS.notifications`), for everybody. A module's part has
+(`onedesk.centers.open("notifications")`), for everybody. A module's part has
 **Yours**, each type the reader can get from it with an Email and a Push
 switch, saved as it changes (`choose`, which carries a type's followers
 with it), and a switch that can't move saying why; and, for
@@ -714,7 +713,7 @@ choices, and the demo checks
 ### 16. AICenter
 
 **Built.** `public/js/one_ai/ai_center.js` and `one_ai/center.py`, on the settings
-dialog (`onedesk.CENTERS.ai`). For everybody, **Yours**: what OneAI
+dialog (`onedesk.centers.open("ai")`). For everybody, **Yours**: what OneAI
 remembers about the reader. For administrators, **OneAI** (on or off, the
 tier with what an answer costs at each, credits left), **Knowledge**, each
 module's part, **Summaries** and **Usage**. A module's part is found from
@@ -733,7 +732,7 @@ are in `docs/AICENTER.md`.
 ### 17. AccountCenter
 
 **Built.** AccountCenter (`account_center/`), on the settings dialog
-(`onedesk.CENTERS.account`): for everybody, **Yours** (Profile, Sign-in);
+(`onedesk.centers.open("account")`): for everybody, **Yours** (Profile, Sign-in);
 for administrators, **Workspace** (People, Devices, Plan and Credits with
 closing the workspace at its foot, Domains). It opens from the avatar, the
 rail and `/desk/one?center=account&at=...`. Each section is a
@@ -745,7 +744,7 @@ the shell, Home and a few screens of its own; the rest is in `docs/ONE.md`.
 
 **Built.** There are nine: **AccountCenter**, **ControlCenter**,
 **NotificationCenter**, **AccessCenter**, **TrustCenter**, **AICenter**,
-**ShortcutCenter**, **HelpCenter** and **UpdateCenter** (`onedesk.CENTERS`). Every one of them is
+**ShortcutCenter**, **HelpCenter** and **UpdateCenter** (the registry's `Centre`). Every one of them is
 One's, and every module but AccountCenter adds its part to them from its own
 files rather than drawing one: its settings and Lists (ControlCenter), its
 `access.py` (AccessCenter), `notifications.py` (NotificationCenter),
@@ -766,7 +765,7 @@ files rather than drawing one: its settings and Lists (ControlCenter), its
   ControlCenter, its Settings, ends with a row per centre it has a part in,
   each opening that centre on the module: Roles and Access, Notifications,
   OneAI, Keyboard Shortcuts, and Your Data, which every module has
-  (`onedesk.module_settings.centers`).
+  (`onedesk.centers.found`).
 
 Nothing else opens a centre: the frame's bars carry what is used every day
 (search, the bell, OneAI, Check In, timers) and no centre, and AccountCenter

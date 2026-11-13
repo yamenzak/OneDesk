@@ -243,23 +243,6 @@
 	justify-content: flex-end;
 }
 
-/* The tabs, wrapped so the tour can point at them, still fill the sidebar. */
-.one-account .one-account-tabs {
-	display: flex;
-	flex-direction: column;
-	flex: 1 1 auto;
-	min-height: 0;
-}
-
-/* On a phone the sidebar is one strip of tabs (dialogs.css): the wrapper
-   lays its tabs in that one row instead of a row per group. */
-@media (max-width: 640px) {
-	.one-account .one-account-tabs {
-		flex-direction: row;
-		flex: none;
-	}
-}
-
 /* Pictures (one_control.js): a card for each record type, which opens a
    grid of every style drawn from one of its names. */
 .os-picture-cards {

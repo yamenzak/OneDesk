@@ -262,7 +262,7 @@ def test_slates_levels_keep_their_order():
 
 
 SELECTED = re.compile(r'\.is-on\b|\.active\b|\.active-sidebar\b|aria-selected="true"|aria-pressed="true"|data-state="(?:active|on)"')
-CHOOSING = ("canvas.css", "views.css", "dialogs.css", "phone.css", "../module_docs.css")
+CHOOSING = ("canvas.css", "views.css", "dialogs.css", "phone.css", "centre.css")
 
 
 def unchosen(name: str, text: str) -> list[str]:

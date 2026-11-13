@@ -177,7 +177,7 @@ export function followList(doctype, changed) {
 	return () => realtime.off("list_update", heard);
 }
 
-// An event the desk triggers on its document (module_docs.js "one-version-seen"),
+// An event the desk triggers on its document (UpdateCenter's "one-version-seen", one/help_center.js),
 // heard until the returned function is called.
 export function onDesk(event, heard) {
 	window.$(document).on(event, heard);

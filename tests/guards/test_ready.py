@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from onedesk.one import ready, standard  # noqa: E402
+from onedesk.one.registry.model import CENTRE_KEYS  # noqa: E402
 from tests.guards.registry import GUARDS  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import tree  # noqa: E402
@@ -244,13 +245,13 @@ def own_settings(module: str, spec: dict, code: dict) -> list[str]:
 	if spec.get("windowless"):
 		return [] if _one_sentence(spec["windowless"]) else [f"{module}: why it has no window, in one sentence"]
 	wrong = []
-	own = [name for name, text in code.items() if "new frappe.ui.SettingsDialog" in text]
+	own = [name for name, text in code.items() if "new frappe.ui.SettingsDialog" in text or "new onedesk.Centre(" in text]
 	if own:
-		wrong.append(f"{module} draws its own settings dialog in {own}; use onedesk.module_settings.open")
+		wrong.append(f"{module} draws its own settings dialog in {own}; declare its part with onedesk.centers.part")
 	loose = [name for name, text in code.items() if "interfaceFootAction(" in text]
 	if loose:
 		wrong.append(f"{module} draws its own foot in {loose}; use interfaceModuleFoot")
-	if not any("onedesk.module_settings.open(" in text for text in code.values()):
+	if not any('onedesk.centers.part("settings"' in text or "onedesk.centers.declare(" in text for text in code.values()):
 		wrong.append(f"{module} has no settings dialog")
 	if not any("interfaceModuleFoot(" in text or ".module_foot({ module:" in text for text in code.values()):
 		wrong.append(f"{module} has no foot")
@@ -258,7 +259,8 @@ def own_settings(module: str, spec: dict, code: dict) -> list[str]:
 
 
 def test_a_module_has_one_settings_dialog_and_one_foot():
-	"""Every module's settings are drawn by onedesk.module_settings and its
+	"""Every module's settings are its part of ControlCenter, in the centre
+	frame (one_interface/centre.js), and its
 	foot by interfaceModuleFoot (docs/READY.md, mechanism 5), so they look and
 	behave alike: the mark and Help atop the settings, tabs left out by role,
 	and Settings, Help and the version at the foot. A module with no window,
@@ -270,30 +272,31 @@ def test_a_module_has_one_settings_dialog_and_one_foot():
 	assert not wrong, wrong
 
 
-def centres_misplaced(kit: str, rail: list[dict], frame: str) -> list[str]:
-	"""Given module_settings.js, One's rail and the frame's scripts: a centre
-	One's rail does not open, one a module's Settings does not, or one the
-	frame opens. Pure."""
-	names = re.findall(r"^\t(\w+): \"", kit.split("onedesk.CENTERS = {", 1)[1].split("};", 1)[0], re.M)
-	wrong = [] if len(names) == 10 else [f"ten centres, not {names}"]
+FOUND = ("access", "notifications", "ai", "shortcuts", "trust")
+"""The centres a module's ControlCenter finds and opens on the module."""
+
+
+def centres_misplaced(keys: tuple[str, ...], centre: str, rail: list[dict], frame: str) -> list[str]:
+	"""Given the registry's centre keys, the centre frame's script, One's
+	rail and the window's scripts: a centre One's rail does not open, one a
+	module's ControlCenter does not find, or one the window opens. Pure."""
+	wrong = [] if len(keys) == 10 else [f"ten centres, not {keys}"]
 	opened = {re.search(r"center=(\w+)", row.get("url") or "").group(1) for row in rail if "center=" in (row.get("url") or "")}
-	if opened != set(names):
-		wrong.append(f"One's rail opens {sorted(opened)}, not {sorted(names)}")
-	settings = kit.split("onedesk.module_settings.centers = ", 1)[1].split("\n};", 1)[0]
-	opens = ("onedesk.access.open", "onedesk.notification_center.open", "onedesk.ai_center.open", "onedesk.shortcut_center.open", "onedesk.trust.open")
-	wrong += [f"a module's Settings doesn't open {one}" for one in opens if one not in settings]
-	centres = ("onedesk.access.open(", "onedesk.trust.open(", "onedesk.ai_center.open(")
-	return wrong + [f"the frame opens {one}: centres open from One's rail and Settings" for one in centres if one in frame]
+	if opened != set(keys):
+		wrong.append(f"One's rail opens {sorted(opened)}, not {sorted(keys)}")
+	found = centre.split("onedesk.centers.found = ", 1)[1].split("\n};", 1)[0]
+	wrong += [f"a module's ControlCenter doesn't find {one}" for one in FOUND if f'opens("{one}")' not in found]
+	return wrong + [f"the window opens {one}: centres open from One's rail and Settings" for one in ("access", "trust", "ai") if f'onedesk.centers.open("{one}"' in frame]
 
 
 def test_every_centre_opens_from_ones_rail_and_from_each_modules_settings():
 	"""docs/READY.md, mechanism 18: the whole of each centre from One's rail,
 	a module's part from its Settings, and nothing else in the frame."""
 	js = ROOT / "onedesk" / "public" / "js"
-	kit = (js / "module_settings.js").read_text(encoding="utf-8")
+	centre = (js / "one_interface" / "centre.js").read_text(encoding="utf-8")
 	rail = json.loads((ROOT / "onedesk" / "one" / "sidebar" / "one" / "one.json").read_text())["items"]
 	frame = (js / "one_interface" / "chrome.js").read_text(encoding="utf-8") + (js / "one_interface" / "nav_tree.js").read_text(encoding="utf-8")
-	wrong = centres_misplaced(kit, rail, frame)
+	wrong = centres_misplaced(CENTRE_KEYS, centre, rail, frame)
 	assert not wrong, wrong
 
 
@@ -473,9 +476,9 @@ def centres_drawn(text: str) -> list[tuple[str, str]]:
 	return [(center, hit.group(0)) for center, drawn in CENTERS.items() if (hit := drawn.search(text))]
 
 
-def centres_unoffered(kit: str) -> bool:
-	"""Whether module_settings.js no longer offers AccessCenter and NotificationCenter. Pure."""
-	return not ("onedesk.access.open({ module })" in kit and "onedesk.notification_center.open({ module })" in kit)
+def centres_unoffered(centre: str) -> bool:
+	"""Whether the centre frame no longer finds AccessCenter and NotificationCenter for a module. Pure."""
+	return not ('opens("access")' in centre and 'opens("notifications")' in centre)
 
 
 def test_a_module_leaves_roles_and_notifications_to_their_centers():
@@ -488,8 +491,8 @@ def test_a_module_leaves_roles_and_notifications_to_their_centers():
 				continue
 			drawn = centres_drawn(path.read_text(encoding="utf-8"))
 			assert not drawn, f"{path.relative_to(ROOT)} draws what {drawn[0][0]} shows ({drawn[0][1]}); ControlCenter opens {drawn[0][0]}"
-	kit = (ROOT / "onedesk" / "public" / "js" / "module_settings.js").read_text(encoding="utf-8")
-	assert not centres_unoffered(kit), "ControlCenter no longer offers AccessCenter and NotificationCenter on its own"
+	centre = (ROOT / "onedesk" / "public" / "js" / "one_interface" / "centre.js").read_text(encoding="utf-8")
+	assert not centres_unoffered(centre), "ControlCenter no longer offers AccessCenter and NotificationCenter on its own"
 
 
 AI_DRAWN = re.compile(r"one_ai\.center\.(?:set_tier|set_on|set_job)|one_ai_tier|chosen_model|ai_models")
@@ -520,8 +523,8 @@ def test_only_aicenter_draws_oneais_settings_and_only_oneai_reaches_the_gateway(
 			continue
 		hit = draws_ai(path.read_text(encoding="utf-8", errors="ignore"))
 		assert not hit, f"{path.relative_to(ROOT)} draws what AICenter shows ({hit}); open onedesk.ai_center instead"
-	kit = (ROOT / "onedesk" / "public" / "js" / "module_settings.js").read_text(encoding="utf-8")
-	assert "onedesk.ai_center.open({ module })" in kit, "ControlCenter no longer offers AICenter on its own"
+	centre = (ROOT / "onedesk" / "public" / "js" / "one_interface" / "centre.js").read_text(encoding="utf-8")
+	assert 'opens("ai")' in centre, "ControlCenter no longer offers AICenter on its own"
 	for path in tree.scoped((ROOT / "onedesk").rglob("*.py")):
 		if path.parts[-2] in ("one_admin", "one_ai") or "one_admin" in path.parts or "one_ai" in path.parts:
 			continue
@@ -566,7 +569,7 @@ def test_a_module_says_what_setting_it_up_takes():
 	assert not wrong, wrong
 
 
-WINDOW_MARKS = ("onedesk/public/js/one_interface/frame.js", "onedesk/public/js/one_interface/nav_tree.js", "onedesk/public/js/one_interface/look.js", "onedesk/public/js/one_interface/form.js", "onedesk/public/js/module_docs.js")
+WINDOW_MARKS = ("onedesk/public/js/one_interface/frame.js", "onedesk/public/js/one_interface/nav_tree.js", "onedesk/public/js/one_interface/look.js", "onedesk/public/js/one_interface/form.js", "onedesk/public/js/one_interface/centre.js")
 
 
 RECORDS = {
@@ -800,23 +803,24 @@ def test_the_folder_and_version_rules_catch_their_examples():
 
 
 def test_the_declaration_rules_catch_their_examples():
-	code = {"a.js": "onedesk.module_settings.open(); interfaceModuleFoot();"}
+	code = {"a.js": 'onedesk.centers.part("settings", "OneHR"); interfaceModuleFoot();'}
 	assert own_settings("OneHR", {}, code) == []
 	assert own_settings("OneHR", {}, {"a.js": "new frappe.ui.SettingsDialog()"}) == [
-		"OneHR draws its own settings dialog in ['a.js']; use onedesk.module_settings.open",
+		"OneHR draws its own settings dialog in ['a.js']; declare its part with onedesk.centers.part",
 		"OneHR has no settings dialog",
 		"OneHR has no foot",
 	]
 	assert own_settings("OneHR", {"windowless": "It has none. Truly."}, {}) == ["OneHR: why it has no window, in one sentence"]
-	opens = "onedesk.access.open onedesk.notification_center.open onedesk.ai_center.open onedesk.shortcut_center.open onedesk.trust.open"
-	names = [f"C{n}" for n in range(10)]
-	kit = "onedesk.CENTERS = {\n" + "".join(f'\t{name}: "x",\n' for name in names) + "};\nonedesk.module_settings.centers = {" + opens + "\n};"
+	names = tuple(f"c{n}" for n in range(10))
+	centre = "onedesk.centers.found = (module) => {" + " ".join(f'opens("{one}")' for one in FOUND) + "\n};"
 	rail = [{"url": f"/app/one?center={name}"} for name in names]
-	assert centres_misplaced(kit, rail, "") == []
-	assert centres_misplaced(kit, rail[1:], "onedesk.trust.open(") == [
+	assert centres_misplaced(names, centre, rail, "") == []
+	assert centres_misplaced(names, centre.replace('opens("ai")', ""), rail[1:], 'onedesk.centers.open("trust", {})') == [
 		f"One's rail opens {sorted(names[1:])}, not {sorted(names)}",
-		"the frame opens onedesk.trust.open(: centres open from One's rail and Settings",
+		"a module's ControlCenter doesn't find ai",
+		"the window opens trust: centres open from One's rail and Settings",
 	]
+	assert centres_unoffered('opens("access")') and not centres_unoffered('opens("access") opens("notifications")')
 	access = 'APP = "OneHR"\nABILITIES = [{"key": "approve", "label": _("Approve")}]\nEVERYONE = "Employee"\nDEFAULTS = {"Employee": {"approve": 0, "pay": 1}}\n'
 	said = _declared_in(access)
 	assert roles_wrong("OneHR", "one_hr", said, "", ["No roles here."]) == [
@@ -841,8 +845,6 @@ def test_the_declaration_rules_catch_their_examples():
 	]
 	assert centres_drawn("onedesk.roles.draw(wrapper)") == [("AccessCenter", "onedesk.roles.draw(")]
 	assert centres_drawn("onedesk.access.open({ module })") == []
-	assert centres_unoffered("onedesk.access.open({ module })")
-	assert not centres_unoffered("onedesk.access.open({ module }) onedesk.notification_center.open({ module })")
 	assert draws_ai("frappe.call('onedesk.one_ai.center.set_tier')") == "one_ai.center.set_tier"
 	assert opens_the_door("from onedesk.one_admin import gateway") == "from onedesk.one_admin import gateway"
 	assert draws_ai("onedesk.ai_center.open({ module })") is None and opens_the_door("one_ai.ask(x)") is None
