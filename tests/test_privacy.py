@@ -100,7 +100,7 @@ def test_the_sidebar_and_the_profile_reach_it():
 	assert '"onedesk.one.privacy.requests"' in trust
 	for doctype in ("Personal Data Deletion Request", "Personal Data Download Request"):
 		assert f'go("{doctype}"' in trust, doctype
-	page = (tree.APP / "public" / "js" / "one_account" / "account_center.js").read_text()
+	page = (tree.APP / "public" / "js" / "account_center" / "account_center.js").read_text()
 	for method in ("privacy_copy.ask", "privacy.ask_to_delete", "privacy.withdraw"):
 		assert f"onedesk.one.{method}" in page, method
 

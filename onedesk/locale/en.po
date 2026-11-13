@@ -83,8 +83,8 @@ msgid "Trust Center"
 msgstr "TrustCenter"
 
 
-msgid "One Account"
-msgstr "OneAccount"
+msgid "Account Center"
+msgstr "AccountCenter"
 
 msgid "Calendar Feed"
 msgstr "Calendar Link"

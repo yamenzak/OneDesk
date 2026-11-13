@@ -334,7 +334,7 @@ def ask_email_change(email: str) -> dict:
 	if frappe.db.exists("User", email):
 		frappe.throw(frappe._("That address already has an account. Sign in with it instead."))
 	key = frappe.generate_hash(length=32)
-	frappe.cache.set_value(f"one_account_email:{key}", [me, email], expires_in_sec=CONFIRM_MINUTES * 60)
+	frappe.cache.set_value(f"account_center_email:{key}", [me, email], expires_in_sec=CONFIRM_MINUTES * 60)
 	tell.email_change_asked(
 		email, get_url(f"/api/method/onedesk.one_admin.accounts.confirm_email?key={key}"), CONFIRM_MINUTES
 	)
@@ -352,7 +352,7 @@ def confirm_email(key: str):
 	"""
 	from onedesk.one_admin import tell
 
-	held = frappe.cache.get_value(f"one_account_email:{key}")
+	held = frappe.cache.get_value(f"account_center_email:{key}")
 	if not held or not site.is_admin():
 		frappe.respond_as_web_page(
 			frappe._("Link expired"),
@@ -361,7 +361,7 @@ def confirm_email(key: str):
 			indicator_color="red",
 		)
 		return
-	frappe.cache.delete_value(f"one_account_email:{key}")
+	frappe.cache.delete_value(f"account_center_email:{key}")
 	was, now = held
 	from frappe.model.rename_doc import rename_doc
 

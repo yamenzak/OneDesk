@@ -54,7 +54,7 @@ def over_storage(tenant: str, held: int, limit: int) -> None:
 	has moved by a gigabyte or a month has passed."""
 	from frappe.utils import add_days, now_datetime
 
-	from onedesk.one_account.heads import size
+	from onedesk.account_center.heads import size
 
 	last = frappe.get_all(
 		"Tenant Event",

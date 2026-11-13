@@ -29,7 +29,7 @@ commit message; the log of every walk up to 18 October 2026 is
 | The code: no comments, docs in the module that owns them, one backlog | done | 2026-10-18 |
 | OneMail: the first module marked ready (`docs/READY.md`) | ready; OneAI's own replies say so | 2026-10-25 |
 | OneAI and TrustCenter | ready, both released at 1.0.0 | 2026-10-26 |
-| One and OneAccount (AccountCenter), the end of `docs/ONE.md` | ready, both released at 1.0.0 | 2026-10-26 |
+| One and AccountCenter, the end of `docs/ONE.md` | ready, both released at 1.0.0 | 2026-10-26 |
 | OneCalendar, OnePortal, OneTask, OneProject | ready, walked on OneInterface | 2026-10-28 |
 | OneInventory, OneBook, OneCRM, OneHR | ready; the full walk by five walkers, every finding fixed | 2026-10-29 |
 | OneDisplay, OneDeck, OneDoc, OneSheet | ready, looks taken at each version | 2026-10-30 |

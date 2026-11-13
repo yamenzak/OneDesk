@@ -125,7 +125,7 @@ def capacity() -> list[dict]:
 	from frappe.utils import cint
 
 	from onedesk.one import account
-	from onedesk.one_account import heads
+	from onedesk.account_center import heads
 
 	held = frappe.get_single("Workspace Account")
 	linked = account.configured()

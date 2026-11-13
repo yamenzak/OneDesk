@@ -1,6 +1,6 @@
 """A workspace closed because the person who pays for it asked.
 
-The workspace asks (one_account/closing.py, through the proxy); this writes the day
+The workspace asks (account_center/closing.py, through the proxy); this writes the day
 and walks it there, on the ladder's own Archive job.
 """
 

@@ -44,8 +44,8 @@ def test_the_alphabet_has_nothing_to_misread():
 
 
 def test_a_private_app_stays():
-	assert 'after_app_install = ["onedesk.one_account.private.installed_now"]' in HOOKS
-	assert 'before_app_uninstall = ["onedesk.one_account.private.refuse_uninstall"]' in HOOKS
+	assert 'after_app_install = ["onedesk.account_center.private.installed_now"]' in HOOKS
+	assert 'before_app_uninstall = ["onedesk.account_center.private.refuse_uninstall"]' in HOOKS
 	apps = (tree.APP / "one" / "apps.py").read_text()
 	assert 'offered() if not one.get("kept")' in apps, "save refuses to turn a private app off"
 	companions = (tree.APP / "one" / "companions.py").read_text()

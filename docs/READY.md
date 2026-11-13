@@ -663,7 +663,7 @@ profile that says otherwise); and **On One Record**, everybody given more
 than their role on one record (`records`, read from the module's shares),
 with Edit and Remove through `rights.grant` (`give`). A record is named
 by the field its `abilities.py` names (`TITLE`, OneMail's `email_id`).
-A module everybody uses (`EVERYONE`: One, OneAI, OneAccount, TrustCenter) is
+A module everybody uses (`EVERYONE`: One, OneAI, AccountCenter, TrustCenter) is
 not one of People's apps, so its People tab offers User and Manager only,
 its User role being everybody's (`people.with_roles`), and it has no On One
 Record unless it gives something there (`SHARED`, `access_center.shared`).
@@ -727,7 +727,7 @@ are in `docs/AICENTER.md`.
 
 ### 17. AccountCenter
 
-**Built.** OneAccount (`one_account/`), on the settings dialog
+**Built.** AccountCenter (`account_center/`), on the settings dialog
 (`onedesk.CENTERS.account`): for everybody, **Yours** (Profile, Sign-in);
 for administrators, **Workspace** (People, Devices, Plan and Credits with
 closing the workspace at its foot, Domains). It opens from the avatar, the
@@ -741,7 +741,7 @@ the shell, Home and a few screens of its own; the rest is in `docs/ONE.md`.
 **Built.** There are nine: **AccountCenter**, **ControlCenter**,
 **NotificationCenter**, **AccessCenter**, **TrustCenter**, **AICenter**,
 **ShortcutCenter**, **HelpCenter** and **UpdateCenter** (`onedesk.CENTERS`). Every one of them is
-One's, and every module but OneAccount adds its part to them from its own
+One's, and every module but AccountCenter adds its part to them from its own
 files rather than drawing one: its settings and Lists (ControlCenter), its
 `abilities.py` (AccessCenter), `notifications.py` (NotificationCenter),
 `legal.py` (TrustCenter), `ai.py` (AICenter), `shortcuts.py`

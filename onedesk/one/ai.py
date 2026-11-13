@@ -493,7 +493,7 @@ def page(said: dict) -> str | None:
 			"The reader administers the workspace and is on Devices in AccountCenter: every browser "
 			"somebody signed in on, with who signed in last, when and from where, and how many passkeys it "
 			"holds. They name one and set it Shared (nobody's passkey is made there) or Assigned to one "
-			"person (theirs may be), or mark it Lost or Retired. How it works is in OneAccount's Help "
+			"person (theirs may be), or mark it Lost or Retired. How it works is in AccountCenter's Help "
 			"under People and Devices (how_to)."
 		)
 	if said.get("page") == "onestudio" and said.get("section") == "numbering":
@@ -525,7 +525,7 @@ def page(said: dict) -> str | None:
 			"The reader administers this workspace and is on People in AccountCenter: everybody on it, which of "
 			"OneCRM, OneBook, OneInventory, OneProject and OneHR each may use and as a user or a manager, who "
 			"administers it, and when each was last active. workspace_people reads it all. They change a person "
-			"by clicking them, and turn off, sign out or send a password reset from there; how is in OneAccount's "
+			"by clicking them, and turn off, sign out or send a password reset from there; how is in AccountCenter's "
 			"Help under People and Devices (how_to)."
 		)
 	if said.get("page") == "access" and said.get("section") == "audit":
@@ -548,7 +548,7 @@ def page(said: dict) -> str | None:
 			"added to it, its seats, storage and database, and its OneCredits (what is left, held by calls running now, used in the last thirty "
 			"days, and what expires when). workspace_plan reads it all, with the last thirty days by model and "
 			"by person, and the cheapest ways to have what it uses now. They change the plan from the page head, and "
-			"add seats, storage, database or credits from the button on each one's tile; how is in OneAccount's Help under Plan and "
+			"add seats, storage, database or credits from the button on each one's tile; how is in AccountCenter's Help under Plan and "
 			"Credits (how_to)."
 		)
 	if said.get("page") == "one":
@@ -588,7 +588,7 @@ def page(said: dict) -> str | None:
 			"subdomain. "
 			"The main address is the one sign-in, invitations and links in mail use. workspace_plan reads each "
 			"domain under domains, with its status and the target. They add one from the page head and make it the main address or "
-			"remove it from its row; how is in OneAccount's Help under Plan and Credits (how_to)."
+			"remove it from its row; how is in AccountCenter's Help under Plan and Credits (how_to)."
 		)
 	if said.get("page") == "one" and said.get("section") in ONE_TABS:
 		return (
@@ -620,7 +620,7 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader is on Sign-in in AccountCenter: their password, their passkey, whether two-factor "
 			"sign-in applies to them, every place they are signed in with a Sign Out each, and their last "
-			"sign-ins. my_sign_in reads it all. They change things themselves on the page; how is in OneAccount's "
+			"sign-ins. my_sign_in reads it all. They change things themselves on the page; how is in AccountCenter's "
 			"Help under Your Account (how_to)."
 		)
 	if at == ("onecalendar", "link"):
@@ -664,7 +664,7 @@ def page(said: dict) -> str | None:
 			if employee
 			else "."
 		)
-		+ " How to use it is in OneAccount's Help under Your Account (how_to)."
+		+ " How to use it is in AccountCenter's Help under Your Account (how_to)."
 	)
 
 
@@ -1288,7 +1288,7 @@ def workspace_people() -> dict:
 	may use and at what level, who administers it, when each was last active,
 	who is turned off, and the seats."""
 	from onedesk.one import roles
-	from onedesk.one_account import center
+	from onedesk.account_center import center
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees everybody's access."}
@@ -1948,8 +1948,8 @@ def _domains() -> dict:
 	"""The workspace's addresses as `workspace_plan` hands them over: each
 	domain, whether it works and what that means, which is the main address,
 	and the CNAME target. Asks the account again when what it said is stale
-	(one_account/center.py, _domains)."""
-	from onedesk.one_account import center
+	(account_center/center.py, _domains)."""
+	from onedesk.account_center import center
 
 	said = center._domains()
 	return {
@@ -1978,7 +1978,7 @@ def workspace_plan() -> dict:
 	from frappe.utils import add_days, getdate
 
 	from onedesk.one import roles
-	from onedesk.one_account import center
+	from onedesk.account_center import center
 	from onedesk.one_ai.report.ai_credits import ai_credits
 
 	if not roles.administers():
@@ -2121,7 +2121,7 @@ def my_sign_in() -> dict:
 	password last changed, whether they have a passkey and what it is for,
 	whether two-factor sign-in applies to them, the devices they are signed in
 	on, and their last sign-ins, failed ones included."""
-	from onedesk.one_account import signin
+	from onedesk.account_center import signin
 
 	said = signin.facts()
 	return {

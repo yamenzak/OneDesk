@@ -46,7 +46,7 @@ USE_THE_SHELL = {
 	"public/js/one_studio/studio_control.js",
 	"public/js/one/notification_center.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
-	"public/js/one_account/account_center.js",
+	"public/js/account_center/account_center.js",
 	"public/js/band.js",
 	"public/js/one_calendar/calendar_link.js",
 	"public/js/desk.js",

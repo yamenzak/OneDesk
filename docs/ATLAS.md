@@ -910,6 +910,13 @@ Pages: organizational-chart (on a rail or a home).
 
 Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a list's related reports (Payroll Entry's list)); Employee CTC Break-up (on a rail or a home); Income Tax Computation (on a rail or a home); Income Tax Deductions (on a rail or a home); Salary Payments Based On Payment Mode (under a list's related reports (Salary Slip's list)); Salary Payments via ECS (under a list's related reports (Salary Slip's list)); Salary Register (on a rail or a home).
 
+## onedesk / Account Center
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Device | inside: AccountCenter › Devices | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Workspace Account | inside: Account, from the rail's foot | the administrator | a head, form script | no | taught |  |  |  |  |  |  |
+
 ## onedesk / One
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
@@ -944,13 +951,6 @@ Pages: one (on a rail or a home).
 Reports: AI Credits (on a rail or a home); Deadlines (on a rail or a home); Ready to Submit (on a rail or a home); Spending (on a rail or a home).
 
 Pages: intake (on a rail or a home).
-
-## onedesk / One Account
-
-| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Device | inside: AccountCenter › Devices | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Workspace Account | inside: Account, from the rail's foot | the administrator | a head, form script | no | taught |  |  |  |  |  |  |
 
 ## onedesk / One Admin
 

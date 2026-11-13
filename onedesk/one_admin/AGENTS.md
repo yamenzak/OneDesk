@@ -1176,7 +1176,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   operator's.
   Nothing is changed from there: resuming a job, building a signup, checking
   a domain or giving credits is a button the operator presses.
-- **A new workspace's owner** (`one_account/owner.py`, on the tenant): the admin site
+- **A new workspace's owner** (`account_center/owner.py`, on the tenant): the admin site
   cannot sign in to a site it built and holds only a hash of its token, so
   `proxy.hello` names the owner and a workspace with no administrator yet
   makes them one and invites them. `steps.invite_owner` posts to the new
@@ -1465,7 +1465,7 @@ webhook still moves the workspace, because the customer has paid either way.
 
 ### closing.py
 
-The workspace asks (`one_account/closing.py`, through the proxy); this writes the day
+The workspace asks (`account_center/closing.py`, through the proxy); this writes the day
 and walks it there. Closing is the ladder's own Archive job, started by a date
 rather than by a debt, so it takes the same backup, cancels the same
 subscription and is undone the same way; and from Archived it falls to Dropped
@@ -2804,7 +2804,7 @@ that it is taking longer than it should.
   hash of its token, so the site does it: `account.wake` makes it ask
   `proxy.hello`, which names the owner, and a workspace nobody administers yet
   makes them its administrator and mails One's own invitation
-  (`one_account/owner.py`). Safe to run twice: a workspace that has an administrator
+  (`account_center/owner.py`). Safe to run twice: a workspace that has an administrator
   does nothing. A site that has not read its new config yet answers that
   nobody administers it, and the step waits and asks again, as `site_is_up`
   does.

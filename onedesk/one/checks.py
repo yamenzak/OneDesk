@@ -25,7 +25,7 @@ def one_manager_sees_what_anybody_deleted():
 	assert others, "the demo has nothing deleted by anybody but Nadia"
 	with as_user("nadia@one.test"):
 		assert "nadia@one.test" in (recycle.query() or "") and not recycle._everyone("nadia@one.test")
-	assert "One" in access_center.modules() and "OneAccount" in access_center.modules()
+	assert "One" in access_center.modules() and "AccountCenter" in access_center.modules()
 	levels = {one["user"]: one["level"] for one in access_center.people("One")["people"]}
 	assert levels.get("mariam@one.test") == "Manager" and levels.get("nadia@one.test") == "User", levels
 	access_center.put("One", "nadia@one.test", "Manager")

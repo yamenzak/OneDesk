@@ -214,7 +214,7 @@ def _over_storage() -> list[dict]:
 	"""Live workspaces holding more than their plan allows: storage we pay for
 	and they do not. Their own site tells their administrators when nearly
 	full; this is our side of it. Opening one is the action."""
-	from onedesk.one_account.heads import size
+	from onedesk.account_center.heads import size
 
 	rows = frappe.get_all(
 		"Tenant",
@@ -243,7 +243,7 @@ def _over_database() -> list[dict]:
 	"""Live workspaces whose database is past what they bought. On our own
 	servers Frappe Cloud sets no limit, so this is the only place it is
 	watched (quota.py). Opening one is the action."""
-	from onedesk.one_account.heads import size
+	from onedesk.account_center.heads import size
 
 	rows = frappe.get_all(
 		"Tenant",

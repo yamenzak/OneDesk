@@ -223,9 +223,9 @@ No doctypes yet.
 | Workspace Server | 22 | document |
 | Workspace Session | 18 | document |
 
-## One Account
+## Account Center
 
-`onedesk/one_account`
+`onedesk/account_center`
 
 | Doctype | Fields | Kind |
 |---|--:|---|
@@ -287,6 +287,40 @@ No doctypes yet.
 
 ## Whitelisted methods
 
+* `onedesk.account_center.ai.write_bio`
+* `onedesk.account_center.bills.auto_topup`
+* `onedesk.account_center.bills.change_card`
+* `onedesk.account_center.bills.invoices`
+* `onedesk.account_center.bills.payment_portal`
+* `onedesk.account_center.bills.set_auto_topup`
+* `onedesk.account_center.bills.set_spend_limit`
+* `onedesk.account_center.bills.set_update_window`
+* `onedesk.account_center.bills.to_books`
+* `onedesk.account_center.bills.update_now`
+* `onedesk.account_center.center.invite`
+* `onedesk.account_center.center.invite_again`
+* `onedesk.account_center.center.load`
+* `onedesk.account_center.center.reset_two_factor`
+* `onedesk.account_center.center.save`
+* `onedesk.account_center.center.sections_of`
+* `onedesk.account_center.center.send_reset`
+* `onedesk.account_center.center.set_enabled`
+* `onedesk.account_center.center.sign_out_elsewhere`
+* `onedesk.account_center.center.sign_out_everywhere`
+* `onedesk.account_center.closing.close`
+* `onedesk.account_center.closing.download`
+* `onedesk.account_center.closing.keep`
+* `onedesk.account_center.closing.prepare`
+* `onedesk.account_center.closing.state`
+* `onedesk.account_center.devices.lost`
+* `onedesk.account_center.devices.retire`
+* `onedesk.account_center.devices.retire_passkey`
+* `onedesk.account_center.devices.save`
+* `onedesk.account_center.invite.accept`
+* `onedesk.account_center.private.claim`
+* `onedesk.account_center.signin.reset_two_factor`
+* `onedesk.account_center.signin.sign_out`
+* `onedesk.account_center.signin.update_password`
 * `onedesk.one.access.ability_matrix`
 * `onedesk.one.access.change_ability`
 * `onedesk.one.access.doctype_levels`
@@ -400,40 +434,6 @@ No doctypes yet.
 * `onedesk.one.weather.located`
 * `onedesk.one.weather.search`
 * `onedesk.one.weather.suggest`
-* `onedesk.one_account.ai.write_bio`
-* `onedesk.one_account.bills.auto_topup`
-* `onedesk.one_account.bills.change_card`
-* `onedesk.one_account.bills.invoices`
-* `onedesk.one_account.bills.payment_portal`
-* `onedesk.one_account.bills.set_auto_topup`
-* `onedesk.one_account.bills.set_spend_limit`
-* `onedesk.one_account.bills.set_update_window`
-* `onedesk.one_account.bills.to_books`
-* `onedesk.one_account.bills.update_now`
-* `onedesk.one_account.center.invite`
-* `onedesk.one_account.center.invite_again`
-* `onedesk.one_account.center.load`
-* `onedesk.one_account.center.reset_two_factor`
-* `onedesk.one_account.center.save`
-* `onedesk.one_account.center.sections_of`
-* `onedesk.one_account.center.send_reset`
-* `onedesk.one_account.center.set_enabled`
-* `onedesk.one_account.center.sign_out_elsewhere`
-* `onedesk.one_account.center.sign_out_everywhere`
-* `onedesk.one_account.closing.close`
-* `onedesk.one_account.closing.download`
-* `onedesk.one_account.closing.keep`
-* `onedesk.one_account.closing.prepare`
-* `onedesk.one_account.closing.state`
-* `onedesk.one_account.devices.lost`
-* `onedesk.one_account.devices.retire`
-* `onedesk.one_account.devices.retire_passkey`
-* `onedesk.one_account.devices.save`
-* `onedesk.one_account.invite.accept`
-* `onedesk.one_account.private.claim`
-* `onedesk.one_account.signin.reset_two_factor`
-* `onedesk.one_account.signin.sign_out`
-* `onedesk.one_account.signin.update_password`
 * `onedesk.one_admin.accounts.ask_email_change`
 * `onedesk.one_admin.accounts.card`
 * `onedesk.one_admin.accounts.confirm_email`

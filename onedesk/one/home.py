@@ -151,7 +151,7 @@ def glance() -> list[dict]:
 	if not roles.administers():
 		return []
 	from onedesk.one import apps, people
-	from onedesk.one_account.heads import size
+	from onedesk.account_center.heads import size
 
 	held = frappe.get_single("Workspace Account")
 	offered = [one for one in apps.offered() if not one.get("needs")]

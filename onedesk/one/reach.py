@@ -110,7 +110,7 @@ def centre_shown(url: str | None) -> bool:
 	if not centre or roles.administers():
 		return True
 	if centre == "account":
-		from onedesk.one_account.center import _may_open
+		from onedesk.account_center.center import _may_open
 
 		return _may_open(asked.get("at") or "profile")
 	if centre == "access":

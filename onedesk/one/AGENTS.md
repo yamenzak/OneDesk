@@ -18,7 +18,7 @@ ready.SHARED. The portal is OnePortal's (one_portal/AGENTS.md).
 - **To OneMail**: One's frame and rail; ControlCenter, which OneMail's settings
   are drawn in; AccessCenter and NotificationCenter, which find and draw what
   OneMail declares of its roles and notifications.
-- **From OneAccount**: AccountCenter, opened from the avatar and One's
+- **From AccountCenter**: the dialog opened from the avatar and One's
   Centers, holds each person's profile and sign-in and the workspace's
   people, devices, plan and domains.
 - **From TrustCenter**: TrustCenter holds the agreements and Your Data, whose

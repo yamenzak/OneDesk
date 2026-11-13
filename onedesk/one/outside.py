@@ -26,7 +26,7 @@ def keep(bootinfo) -> None:
 		bootinfo["user"]["can_import"] = []
 	pages = (bootinfo.get("workspaces") or {}).get("pages")
 	if isinstance(pages, list):
-		from onedesk.one_account import private
+		from onedesk.account_center import private
 
 		held = {APP, *private.names()}
 		bootinfo["one_elsewhere"] = sorted(
@@ -47,7 +47,7 @@ def kept(said: dict) -> None:
 	if not isinstance(sidebars, dict):
 		return
 	from onedesk.one import apps
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	off = set(apps.hidden())
 	held = {APP, *private.names()}
@@ -165,7 +165,7 @@ def _shown() -> dict:
 	import json
 	import os
 
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	with open(os.path.join(os.path.dirname(__file__), "shown.json")) as f:
 		said = json.load(f)
