@@ -13,7 +13,6 @@ APP = App(
 	),
 	line=_lt("Keep the company's files in one place and share them with anyone, inside or out."),
 	mark="onecloud",
-	owns=("One Sheet", "One Doc"),
 	rail=20,
 	sidebar="OneCloud",
 	screens="cloud",

@@ -29460,6 +29460,10 @@ msgstr "Kürzer machen"
 msgid "Make it smaller"
 msgstr "Kleiner machen"
 
+#: onedesk/one_deck/manifest.py:14
+msgid "Make presentations together, present them by link, and send them as PowerPoint or PDF."
+msgstr "Präsentationen gemeinsam erstellen, per Link vorführen und als PowerPoint oder PDF senden."
+
 #: onedesk/one_deck/agent.py:386
 #, python-brace-format
 msgid "Make slide {0} a {1}"
@@ -35648,6 +35652,11 @@ msgid "OneCredit Rates"
 msgstr "OneCredit-Preise"
 
 #. Title of a Sidebar
+#: onedesk/one_deck/sidebar/onedeck/onedeck.json:44
+msgid "OneDeck"
+msgstr "OneDeck"
+
+#. Title of a Sidebar
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:14
 msgid "OneDisplay"
 msgstr "OneDisplay"
@@ -35682,6 +35691,11 @@ msgstr "OneDisplay-Manager"
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:136
 msgid "OneDisplay User"
 msgstr "OneDisplay-Benutzer"
+
+#. Title of a Sidebar
+#: onedesk/one_doc/sidebar/onedoc/onedoc.json:44
+msgid "OneDoc"
+msgstr "OneDoc"
 
 #. Title of a Sidebar
 #: frontend/src/factory/home/FactoryHome.vue:217
@@ -35842,6 +35856,11 @@ msgstr "OneQuality"
 #: onedesk/one_studio/places.py:102
 msgid "OneQuality's Home is opened, and each time a non conformance, an action, a review or a meeting changes."
 msgstr "Die Startseite von OneQuality wird geöffnet, und jedes Mal, wenn sich eine Abweichung, eine Maßnahme, eine Prüfung oder eine Besprechung ändert."
+
+#. Title of a Sidebar
+#: onedesk/one_sheet/sidebar/onesheet/onesheet.json:44
+msgid "OneSheet"
+msgstr "OneSheet"
 
 #. Title of a Sidebar
 #: onedesk/one_ai/jobs.py:45
@@ -42841,10 +42860,28 @@ msgstr "Zuletzt verwendet"
 msgid "Recent Calls"
 msgstr "Letzte Aufrufe"
 
+#. Label of a Sidebar Item
+#: onedesk/one_cloud/namespace.py:611
+#: onedesk/one_doc/sidebar/onedoc/onedoc.json:19
+msgid "Recent Documents"
+msgstr "Letzte Dokumente"
+
+#. Label of a Sidebar Item
+#: onedesk/one_cloud/namespace.py:611
+#: onedesk/one_deck/sidebar/onedeck/onedeck.json:19
+msgid "Recent Presentations"
+msgstr "Letzte Präsentationen"
+
 #: onedesk/public/js/account_center/account_center.js:295
 #: onedesk/public/js/account_center/account_center.js:573
 msgid "Recent Sign-ins"
 msgstr "Letzte Anmeldungen"
+
+#. Label of a Sidebar Item
+#: onedesk/one_cloud/namespace.py:611
+#: onedesk/one_sheet/sidebar/onesheet/onesheet.json:19
+msgid "Recent Workbooks"
+msgstr "Letzte Arbeitsmappen"
 
 #: onedesk/one_display/starters.py:295 onedesk/one_display/starters.py:1133
 msgid "Reception"
@@ -65164,6 +65201,10 @@ msgstr "Arbeit und Abrechnung"
 msgid "Work done {0}%"
 msgstr "Erledigte Arbeit {0} %"
 
+#: onedesk/one_sheet/manifest.py:14
+msgid "Work on spreadsheets together, with formulas and charts, and send them as Excel."
+msgstr "Gemeinsam an Tabellen arbeiten, mit Formeln und Diagrammen, und sie als Excel senden."
+
 #: onedesk/public/js/one_inventory/item_new.js:5
 msgid "Work or a charge, never stocked."
 msgstr "Arbeit oder Gebühr, nie auf Lager."
@@ -65829,6 +65870,10 @@ msgstr "Schreiben und stellen Sie es aus der Anfrage heraus aus."
 #: onedesk/one_hr/custom/attendance_request.json:119
 msgid "Write attendance on the holidays inside these dates as well. Left off, holidays in the range are skipped."
 msgstr "Auch an den Feiertagen innerhalb dieser Daten Anwesenheit erfassen. Ohne Haken werden Feiertage im Zeitraum übersprungen."
+
+#: onedesk/one_doc/manifest.py:14
+msgid "Write documents together, from a template or a blank page, and send them as Word or PDF."
+msgstr "Dokumente gemeinsam schreiben, aus einer Vorlage oder einer leeren Seite, und sie als Word oder PDF senden."
 
 #: onedesk/one_quality/manifest.py:14
 msgid "Write how work is done, record what went wrong, and follow it until it is fixed."
@@ -71488,6 +71533,16 @@ msgstr "{0} ist für dieses Postfach ausgeschaltet."
 #, python-brace-format
 msgid "{0} is turned off for this workspace in Apps."
 msgstr "{0} ist für diesen Arbeitsbereich unter Apps ausgeschaltet."
+
+#: onedesk/one_cloud/editors.py:56
+#, python-brace-format
+msgid "{0} is turned off for this workspace, so nothing new can be made in it."
+msgstr "{0} ist in diesem Arbeitsbereich ausgeschaltet, deshalb kann darin nichts Neues erstellt werden."
+
+#: frontend/src/slide/PresentationPage.vue:53 onedesk/one_cloud/editors.py:52
+#, python-brace-format
+msgid "{0} is turned off for this workspace, so this opens read-only."
+msgstr "{0} ist in diesem Arbeitsbereich ausgeschaltet, deshalb öffnet sich dies schreibgeschützt."
 
 #: onedesk/one/apps.py:69 onedesk/one_ai/chat.py:117
 #, python-brace-format
