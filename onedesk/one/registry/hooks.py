@@ -62,6 +62,12 @@ def hook(name: str) -> list[str]:
 	return found
 
 
+def heirs() -> dict[str, list[str]]:
+	"""one_module_heirs: each Frappe module an app owns, to the app whose
+	records they are reached in (one/outside.py)."""
+	return {module: [app.name] for app in registry.apps() for module in app.owns}
+
+
 def settles(install: bool) -> list[str]:
 	"""after_sync (install) or after_migrate: every app's steps in the rail's
 	order, then every app's `last` ones."""

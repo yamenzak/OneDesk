@@ -8,6 +8,8 @@ import re
 
 import frappe
 
+from onedesk.one import registry
+
 CORE = (
 	"list_records",
 	"read_record",
@@ -320,30 +322,23 @@ GROUPS = {
 	},
 }
 
-MODULES = {
-	"CRM": "crm",
-	"Selling": "crm",
-	"One CRM": "crm",
-	"Projects": "projects",
-	"One Project": "projects",
-	"Stock": "inventory",
-	"Buying": "inventory",
-	"Manufacturing": "inventory",
-	"Assets": "inventory",
-	"One Inventory": "inventory",
-	"Accounts": "books",
-	"One Book": "books",
-	"HR": "hr",
-	"Payroll": "hr",
-	"One HR": "hr",
-	"One Display": "display",
-	"One Mail": "mail",
-	"One Storage": "files",
-	"One Studio": "studio",
-	"One AI": "workspace",
-	"One Legal": "workspace",
-	"One Admin": "console",
+APPS = {
+	"one_crm": "crm",
+	"one_project": "projects",
+	"one_inventory": "inventory",
+	"one_factory": "inventory",
+	"one_book": "books",
+	"one_hr": "hr",
+	"one_display": "display",
+	"one_mail": "mail",
+	"one_storage": "files",
+	"one_studio": "studio",
+	"one_ai": "workspace",
+	"one_legal": "workspace",
+	"one_admin": "console",
 }
+"""The tool group of each app's record types; which Frappe modules an app
+has is the registry's (onedesk/one/registry)."""
 
 DOCTYPES = {
 	"Employee": "hr",
@@ -391,7 +386,8 @@ def page_group(page: dict | None) -> str | None:
 		return None
 	if doctype in DOCTYPES:
 		return DOCTYPES[doctype]
-	return MODULES.get(frappe.db.get_value("DocType", doctype, "module") or "")
+	app = registry.of_module(frappe.db.get_value("DocType", doctype, "module") or "")
+	return APPS.get(app.id) if app else None
 
 
 def worded(text: str | None) -> set[str]:

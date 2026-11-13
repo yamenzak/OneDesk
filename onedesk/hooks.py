@@ -1,4 +1,4 @@
-from onedesk.one.registry.hooks import hook, settles
+from onedesk.one.registry.hooks import heirs, hook, settles
 from onedesk.one.stamp import stamped
 
 app_name = "onedesk"
@@ -1106,38 +1106,7 @@ company_data_to_be_ignored = [
 
 code_only_modules = {"One Legal": ["One"]}
 
-one_module_heirs = {
-	"Projects": ["OneProject"],
-	"Stock": ["OneInventory"],
-	"Buying": ["OneInventory"],
-	"Assets": ["OneInventory"],
-	"Manufacturing": ["OneFactory"],
-	"Subcontracting": ["OneFactory"],
-	"Accounts": ["OneBook"],
-	"CRM": ["OneCRM"],
-	"Selling": ["OneCRM"],
-	"Quality Management": ["OneQuality"],
-	"Support": ["OneCRM"],
-	"Maintenance": ["OneCRM"],
-	"Telephony": ["OneCRM"],
-	"Communication": ["OneCRM"],
-	"EDI": ["OneBook"],
-	"ERPNext Integrations": ["OneBook"],
-	"One Sheet": ["OneCloud"],
-	"One Doc": ["OneCloud"],
-	"Regional": ["OneBook"],
-	"HR Setup": ["OneHR"],
-	"Tenure": ["OneHR"],
-	"Recruitment": ["OneHR"],
-	"Shift and Attendance": ["OneHR"],
-	"Leaves": ["OneHR"],
-	"Expenses": ["OneHR"],
-	"Performance": ["OneHR"],
-	"Payroll": ["OneHR"],
-	"Tax and Benefits": ["OneHR"],
-	"HR": ["OneHR"],
-	"One HR": ["OneHR"],
-}
+one_module_heirs = heirs()
 
 one_makes_records = {
 	"Account": ["one_account", "one_admin", "one_book", "one_project"],

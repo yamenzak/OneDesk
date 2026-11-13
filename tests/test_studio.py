@@ -461,7 +461,7 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	assert '"onedesk.one_studio.ai.forms_here"' in HOOKS
 	assert '"forms_here"' in (tree.APP / "one_ai" / "groups.py").read_text()
 	forms = (STUDIO / "forms.py").read_text()
-	assert "module in MODULES" in forms and "\tmay(doctype)\n" in forms
+	assert "module in one.owns" in forms and "\tmay(doctype)\n" in forms
 
 
 def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs():

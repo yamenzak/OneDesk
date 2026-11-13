@@ -7,7 +7,7 @@ OneAI reads it (forms_here); people see OneStudio's Custom Fields list
 import frappe
 from frappe import _
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one_studio.customize import REFUSED_MODULES
 
 
@@ -18,34 +18,14 @@ def _counts(doctype: str, field: str) -> dict:
 	}
 
 
-MODULES = {
-	"Accounts": "One Book",
-	"Regional": "One Book",
-	"EDI": "One Book",
-	"HR": "One HR",
-	"Payroll": "One HR",
-	"CRM": "One CRM",
-	"Selling": "One CRM",
-	"Support": "One CRM",
-	"Telephony": "One CRM",
-	"Stock": "One Inventory",
-	"Buying": "One Inventory",
-	"Manufacturing": "One Inventory",
-	"Subcontracting": "One Inventory",
-	"Assets": "One Inventory",
-	"Maintenance": "One Inventory",
-	"Quality Management": "One Inventory",
-	"Projects": "One Project",
-}
-
-
 def _app(doctype: str, module: str, apps: dict) -> str | None:
 	"""The app a form is under: the rail that links to it, else its module's,
 	else its module when that is one of One's own (OneAI, OneMail)."""
 	if doctype in apps:
 		return apps[doctype]
-	if module in MODULES:
-		return MODULES[module]
+	owner = next((one for one in registry.apps() if module in one.owns), None)
+	if owner:
+		return owner.module
 	return module if frappe.db.get_value("Module Def", module, "app_name") == "onedesk" else None
 
 

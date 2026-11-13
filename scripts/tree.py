@@ -122,6 +122,8 @@ def hooks() -> str:
 	lists["after_sync = settles(install=True)"] = ("after_sync", built.settles(install=True))
 	lists["after_migrate = settles(install=False)"] = ("after_migrate", built.settles(install=False))
 	said = (APP / "hooks.py").read_text(encoding="utf-8")
+	heirs = "".join(f'\t"{module}": ["{app[0]}"],\n' for module, app in built.heirs().items())
+	said = said.replace("one_module_heirs = heirs()", "one_module_heirs = {\n" + heirs + "}")
 	for call, (name, entries) in lists.items():
 		short = f"{name} = [" + ", ".join(f'"{one}"' for one in entries) + "]"
 		long = f"{name} = [\n" + "".join(f'\t"{one}",\n' for one in entries) + "]"

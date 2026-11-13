@@ -10,6 +10,8 @@ import os
 import sys
 
 APP = os.path.join(os.path.dirname(__file__), "..", "onedesk")
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from onedesk.one import registry  # noqa: E402
 MUTED = "#6b7280"
 INK = "#111827"
 LINE = "#e5e7eb"
@@ -3043,7 +3045,6 @@ for _doctype, _spec in TRADE.items():
 	VERSIONS[f"One {_doctype} Bordered"] = (_doctype, _spec["module"], _trade(_doctype, trade_bordered))
 	VERSIONS[f"One {_doctype} with Images"] = (_doctype, _spec["module"], _trade(_doctype, trade_images))
 
-MODULES = {"one_admin": "One Admin", "one_book": "One Book", "one_crm": "One CRM", "one_inventory": "One Inventory", "one_hr": "One HR", "one_project": "One Project"}
 
 
 def write(modified):
@@ -3058,7 +3059,7 @@ def write(modified):
 			**doc,
 			"name": name,
 			"doc_type": doctype,
-			"module": MODULES[module],
+			"module": registry.get(module).module,
 			"format_data": json.dumps(make()),
 			"font": "Inter",
 			"font_size": 11,
