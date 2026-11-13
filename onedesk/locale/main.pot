@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 01:46+0000\n"
-"PO-Revision-Date: 2026-11-13 01:46+0000\n"
+"POT-Creation-Date: 2026-11-13 02:41+0000\n"
+"PO-Revision-Date: 2026-11-13 02:41+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -796,7 +796,7 @@ msgstr ""
 msgid "A document of One's own from this file."
 msgstr ""
 
-#: onedesk/one_doc/word.py:255 onedesk/one_cloud/opening.py:158
+#: onedesk/one_cloud/opening.py:158 onedesk/one_doc/word.py:255
 msgid "A document with a record's fields in it can only be edited in OneWriter."
 msgstr ""
 
@@ -888,7 +888,7 @@ msgstr ""
 msgid "A draft. Submit it to take these out of stock for {0}."
 msgstr ""
 
-#: onedesk/one_cloud/dav.py:258
+#: onedesk/one_cloud/dav.py:260
 msgid "A drive"
 msgstr ""
 
@@ -1394,7 +1394,7 @@ msgstr ""
 msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
 msgstr ""
 
-#: onedesk/one_deck/drive.py:63 onedesk/one_cloud/opening.py:163
+#: onedesk/one_cloud/opening.py:163 onedesk/one_deck/drive.py:63
 msgid "A presentation with words from records can only be edited in OneDeck."
 msgstr ""
 
@@ -1505,7 +1505,7 @@ msgstr ""
 msgid "A record's head is drawn on its form: each time the record is opened or saved."
 msgstr ""
 
-#: onedesk/one_sheet/excel.py:341 onedesk/one_cloud/opening.py:154
+#: onedesk/one_cloud/opening.py:154 onedesk/one_sheet/excel.py:341
 msgid "A record's workbook can only be edited in OneWorkbook."
 msgstr ""
 
@@ -2644,11 +2644,11 @@ msgstr ""
 #: onedesk/public/js/one_ai/ai_center.js:227
 #: onedesk/public/js/one_ai/ai_center.js:399
 #: onedesk/public/js/one_ai/ai_center.js:550
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:228
 #: onedesk/public/js/one_interface/json_view.js:141
 #: onedesk/public/js/one_interface/json_view.js:343
 #: onedesk/public/js/one_mail/onemail_settings.js:609
 #: onedesk/public/js/one_mail/onemail_settings.js:1327
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:228
 msgid "Add"
 msgstr ""
 
@@ -3269,6 +3269,7 @@ msgstr ""
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Statement of Account print format
 #. Label in the One Supplier Statement print format
+#. Label of the url (Data) field in DocType 'Cloud Mount'
 #. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
@@ -3302,7 +3303,6 @@ msgstr ""
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Stock Entry print format
 #. Label in the One Supplier Quotation print format
-#. Label of the url (Data) field in DocType 'Cloud Mount'
 #: frontend/src/slide/shim/WidgetSection.vue:61
 #: onedesk/one/custom/personal_data_download_request.json:8
 #: onedesk/one/portal.py:58 onedesk/one_account/doctype/device/device.json:93
@@ -3321,6 +3321,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
 #: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:62
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -3355,9 +3356,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_mail/signatures.py:32
-#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:62
-#: onedesk/one_studio/letter_heads.py:54 onedesk/one_studio/letter_heads.py:316
+#: onedesk/one_mail/signatures.py:32 onedesk/one_studio/letter_heads.py:54
+#: onedesk/one_studio/letter_heads.py:316
 #: onedesk/one_studio/letter_heads.py:331
 #: onedesk/one_studio/letter_heads.py:351
 #: onedesk/one_studio/letter_heads.py:370
@@ -3366,9 +3366,9 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:94
 #: onedesk/public/js/one_account/account_center.js:377
 #: onedesk/public/js/one_account/account_center.js:387
-#: onedesk/public/js/one_interface/frame.js:587
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:288
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:527
+#: onedesk/public/js/one_interface/frame.js:587
 #: onedesk/public/js/one_studio/studio_control.js:168
 msgid "Address"
 msgstr ""
@@ -3676,8 +3676,8 @@ msgstr ""
 msgid "Ageing"
 msgstr ""
 
-#: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
 #: onedesk/one_deck/decks.py:23 onedesk/one_deck/decks.py:176
+#: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
 msgid "Agenda"
 msgstr ""
 
@@ -6154,10 +6154,10 @@ msgstr ""
 msgid "Attributes"
 msgstr ""
 
-#. Label of the audience (Data) field in DocType 'Legal Document Version'
 #. Label of the audience (Select) field in DocType 'Cloud Link'
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:52
+#. Label of the audience (Data) field in DocType 'Legal Document Version'
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:56
+#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:52
 msgid "Audience"
 msgstr ""
 
@@ -6642,13 +6642,13 @@ msgstr ""
 msgid "Backend and data"
 msgstr ""
 
+#. Label of the background (Data) field in DocType 'Presentation Slide'
 #. Label of the background (Data) field in DocType 'Widget Collection'
 #. Label of the 'profile_tab' field in DocType 'Employee'
-#. Label of the background (Data) field in DocType 'Presentation Slide'
 #: frontend/src/slide/components/BackgroundSection.vue:3
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:31
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:47
 #: onedesk/one_hr/custom/employee.json:231
-#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:31
 msgid "Background"
 msgstr ""
 
@@ -6916,7 +6916,7 @@ msgstr ""
 msgid "Based On"
 msgstr ""
 
-#: onedesk/one_display/starters.py:626 onedesk/one_deck/decks.py:245
+#: onedesk/one_deck/decks.py:245 onedesk/one_display/starters.py:626
 msgid "Basic"
 msgstr ""
 
@@ -7959,8 +7959,8 @@ msgstr ""
 
 #. Task in the Mobile App project template
 #. Task in the Website project template
-#: onedesk/one_project/library/mobile_app.json
-#: onedesk/one_project/library/website.json onedesk/one_deck/decks.py:225
+#: onedesk/one_deck/decks.py:225 onedesk/one_project/library/mobile_app.json
+#: onedesk/one_project/library/website.json
 msgid "Build"
 msgstr ""
 
@@ -9966,10 +9966,9 @@ msgstr ""
 #: onedesk/one_admin/accounts.py:141 onedesk/one_admin/accounts.py:160
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:85
 #: onedesk/one_ai/doctype/reading/reading.json:345
-#: onedesk/one_display/widgets.py:145 onedesk/one_display/widgets.py:192
-#: onedesk/one_factory/portal.py:54
 #: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:40
-#: onedesk/one_cloud/file_requests.py:170
+#: onedesk/one_cloud/file_requests.py:170 onedesk/one_display/widgets.py:145
+#: onedesk/one_display/widgets.py:192 onedesk/one_factory/portal.py:54
 msgid "Closed"
 msgstr ""
 
@@ -10576,6 +10575,9 @@ msgstr ""
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/report/tax_return/tax_return.js:5
+#: onedesk/one_cloud/history.py:247 onedesk/one_cloud/namespace.py:402
+#: onedesk/one_cloud/namespace.py:543 onedesk/one_cloud/namespace.py:644
+#: onedesk/one_cloud/namespace.py:900
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_inventory/print_format/one_delivery_note_bordered/one_delivery_note_bordered.json
@@ -10585,9 +10587,7 @@ msgstr ""
 #: onedesk/one_project/doctype/project_contact/project_contact.json:39
 #: onedesk/one_quality/custom/non_conformance.json:6
 #: onedesk/one_quality/custom/quality_action.json:17
-#: onedesk/one_cloud/history.py:247 onedesk/one_cloud/namespace.py:402
-#: onedesk/one_cloud/namespace.py:543 onedesk/one_cloud/namespace.py:644
-#: onedesk/one_cloud/namespace.py:900 onedesk/one_studio/letter_heads.py:586
+#: onedesk/one_studio/letter_heads.py:586
 #: onedesk/public/js/one/one_control.js:20
 #: onedesk/public/js/one/one_control.js:29
 #: onedesk/public/js/project_actions.js:445
@@ -10681,8 +10681,8 @@ msgstr ""
 
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
-#: onedesk/one_deck/decks.py:245
 #: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
+#: onedesk/one_deck/decks.py:245
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:475
 #: onedesk/public/js/timesheet.js:67
 msgid "Complete"
@@ -10895,9 +10895,9 @@ msgstr ""
 msgid "Confirmed"
 msgstr ""
 
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:319
 #: onedesk/public/js/one_mail/onemail_settings.js:924
 #: onedesk/public/js/one_mail/onemail_settings.js:979
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:319
 msgid "Connect"
 msgstr ""
 
@@ -11450,12 +11450,12 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:153
 #: frontend/src/slide/components/ElementContextMenu.vue:137
 #: onedesk/one_ai/doctype/reading/reading.json:331
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:451
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:543
 #: onedesk/public/js/one_interface/json_view.js:145
 #: onedesk/public/js/one_interface/json_view.js:344
 #: onedesk/public/js/one_interface/look.js:208
 #: onedesk/public/js/one_portal/portal.js:156
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:451
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:543
 msgid "Copy"
 msgstr ""
 
@@ -11754,7 +11754,7 @@ msgstr ""
 msgid "Could not read range."
 msgstr ""
 
-#: onedesk/one_deck/from_powerpoint.py:319 onedesk/one_cloud/pdf.py:102
+#: onedesk/one_cloud/pdf.py:102 onedesk/one_deck/from_powerpoint.py:319
 #, python-brace-format
 msgid "Could not read {0}."
 msgstr ""
@@ -12079,13 +12079,13 @@ msgstr ""
 #: onedesk/public/js/one/access_center.js:286
 #: onedesk/public/js/one/access_center.js:390
 #: onedesk/public/js/one/role_matrix.js:123
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:197
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:552
 #: onedesk/public/js/one_interface/form.js:40
 #: onedesk/public/js/one_inventory/item.js:27
 #: onedesk/public/js/one_inventory/item.js:28
 #: onedesk/public/js/one_inventory/item.js:29
 #: onedesk/public/js/one_inventory/request_for_quotation.js:15
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:197
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:552
 #: onedesk/public/js/one_studio/studio_control.js:187
 #: onedesk/public/js/opportunity.js:14 onedesk/public/js/opportunity.js:15
 #: onedesk/public/js/progress.js:30 onedesk/public/js/progress.js:81
@@ -14470,8 +14470,8 @@ msgstr ""
 msgid "Describe It"
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_doc/api.py:304
-#: onedesk/one_cloud/made.py:72
+#: onedesk/one_cloud/made.py:72 onedesk/one_display/make.py:80
+#: onedesk/one_doc/api.py:304
 msgid "Describe what OneAI should make."
 msgstr ""
 
@@ -14634,9 +14634,9 @@ msgstr ""
 #. Task in the Mobile App project template
 #. Task in the Website project template
 #: frontend/src/slide/components/PropertiesPanel.vue:153
-#: frontend/src/slide/shim/EditorNavbar.vue:393
+#: frontend/src/slide/shim/EditorNavbar.vue:393 onedesk/one_deck/decks.py:225
 #: onedesk/one_project/library/mobile_app.json
-#: onedesk/one_project/library/website.json onedesk/one_deck/decks.py:225
+#: onedesk/one_project/library/website.json
 msgid "Design"
 msgstr ""
 
@@ -15413,6 +15413,7 @@ msgstr ""
 #: onedesk/one_ai/heads.py:15
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
+#: onedesk/one_deck/decks.py:64 onedesk/one_deck/decks.py:236
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:65
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
@@ -15420,8 +15421,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
-#: onedesk/one_project/portal.py:16 onedesk/one_deck/decks.py:64
-#: onedesk/one_deck/decks.py:236
+#: onedesk/one_project/portal.py:16
 #: onedesk/one_task/doctype/task_step/task_step.json:28
 #: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:491
 #: onedesk/public/js/module_settings.js:129
@@ -15874,6 +15874,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label of the due_date (Date) field in DocType 'Cloud File Request'
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
 #. Label in the One Quotation Bordered print format
@@ -15887,7 +15888,6 @@ msgstr ""
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
-#. Label of the due_date (Date) field in DocType 'Cloud File Request'
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
@@ -15900,6 +15900,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:47
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
@@ -15914,9 +15915,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
-#: onedesk/one_project/ai.py:601
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:47
-#: onedesk/one_studio/print_blocks.py:49
+#: onedesk/one_project/ai.py:601 onedesk/one_studio/print_blocks.py:49
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:346
 #: onedesk/public/js/project_actions.js:578
 msgid "Due Date"
@@ -16643,6 +16642,9 @@ msgstr ""
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Statement of Account print format
 #. Label in the One Supplier Statement print format
+#. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
+#. Label of the email (Data) field in DocType 'Cloud File Request Upload'
+#. Label of the email (Data) field in DocType 'Cloud Link Invitee'
 #. Label in the One Installation Note print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Proforma Invoice print format
@@ -16674,9 +16676,6 @@ msgstr ""
 #. Label in the One Supplier Quotation print format
 #. Label of the email (Data) field in DocType 'Portal Link'
 #. Label of the email (Data) field in DocType 'Project Contact'
-#. Label of the email (Data) field in DocType 'Cloud File Request Recipient'
-#. Label of the email (Data) field in DocType 'Cloud File Request Upload'
-#. Label of the email (Data) field in DocType 'Cloud Link Invitee'
 #: frontend/src/project/Team.vue:66 onedesk/one/control.py:371
 #: onedesk/one_admin/doctype/account_request/account_request.json:36
 #: onedesk/one_ai/doctype/identifier/identifier.json:23
@@ -16694,6 +16693,9 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
 #: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:19
+#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:17
+#: onedesk/one_cloud/doctype/cloud_link_invitee/cloud_link_invitee.json:15
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -16726,9 +16728,6 @@ msgstr ""
 #: onedesk/one_mail/signatures.py:30
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:67
 #: onedesk/one_project/doctype/project_contact/project_contact.json:55
-#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:19
-#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:17
-#: onedesk/one_cloud/doctype/cloud_link_invitee/cloud_link_invitee.json:15
 #: onedesk/one_studio/letter_heads.py:56 onedesk/one_studio/letter_heads.py:333
 #: onedesk/one_studio/letter_heads.py:353
 #: onedesk/public/js/one/notification_center.js:50
@@ -19103,20 +19102,20 @@ msgstr ""
 msgid "Figure"
 msgstr ""
 
-#: onedesk/one_display/starters.py:1155 onedesk/one_deck/decks.py:30
+#: onedesk/one_deck/decks.py:30 onedesk/one_display/starters.py:1155
 msgid "Figures"
 msgstr ""
 
 #. Label of the file_name (Data) field in DocType 'OneOS Session'
 #. Label of the file (Link) field in DocType 'File Link'
-#. Label of the file (Attach) field in DocType 'Display Track'
-#. Label of the file (Link) field in DocType 'Writer Document'
-#. Label of the file (Link) field in DocType 'Workbook'
-#. Label of the file (Link) field in DocType 'Presentation'
 #. Label of the label (Data) field in DocType 'Cloud File Request Item'
 #. Label of the item (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the file (Link) field in DocType 'Cloud File Version'
 #. Label of the file (Link) field in DocType 'Cloud Link'
+#. Label of the file (Link) field in DocType 'Presentation'
+#. Label of the file (Attach) field in DocType 'Display Track'
+#. Label of the file (Link) field in DocType 'Writer Document'
+#. Label of the file (Link) field in DocType 'Workbook'
 #: frontend/src/cloud/CloudViewer.vue:7 frontend/src/cloud/OneCloud.vue:569
 #: frontend/src/cloud/cloud.js:115
 #: frontend/src/sheet/components/SheetEditor/index.vue:95
@@ -19125,14 +19124,14 @@ msgstr ""
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:62
 #: onedesk/one_ai/doctype/file_link/file_link.json:20
 #: onedesk/one_ai/reading/bundle.py:74
-#: onedesk/one_display/doctype/display_track/display_track.json:16
-#: onedesk/one_doc/doctype/writer_document/writer_document.json:39
-#: onedesk/one_sheet/doctype/workbook/workbook.json:39
-#: onedesk/one_deck/doctype/presentation/presentation.json:48
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:20
 #: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:24
 #: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:23
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:33
+#: onedesk/one_deck/doctype/presentation/presentation.json:48
+#: onedesk/one_display/doctype/display_track/display_track.json:16
+#: onedesk/one_doc/doctype/writer_document/writer_document.json:39
+#: onedesk/one_sheet/doctype/workbook/workbook.json:39
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:357
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:413
 msgid "File"
@@ -19197,7 +19196,7 @@ msgstr ""
 msgid "File URL"
 msgstr ""
 
-#: onedesk/one_cloud/store.py:214
+#: onedesk/one_cloud/store.py:217
 msgid "File not found"
 msgstr ""
 
@@ -19838,13 +19837,13 @@ msgstr ""
 msgid "Fold or unfold"
 msgstr ""
 
-#. Label of the one_folder (Data) field in DocType 'Communication'
 #. Label of the folder (Link) field in DocType 'Cloud File Request'
+#. Label of the one_folder (Data) field in DocType 'Communication'
 #: frontend/src/cloud/CloudItems.vue:189 frontend/src/cloud/CloudPreview.vue:95
 #: frontend/src/cloud/OneCloud.vue:251 frontend/src/cloud/OneCloud.vue:719
 #: frontend/src/cloud/cloud.js:108
-#: onedesk/one_mail/custom/communication.json:20
 #: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:64
+#: onedesk/one_mail/custom/communication.json:20
 #: onedesk/public/js/one_ai/ai_center.js:176
 #: onedesk/public/js/one_ai/ai_center.js:500
 #: onedesk/public/js/one_ai/ai_center.js:538
@@ -19976,6 +19975,7 @@ msgstr ""
 #. Label in the One Payment Order print format
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Request print format
+#. Label of the label (Data) field in DocType 'Cloud Drive Password'
 #. Label in the One Contract print format
 #. Label in the One Quotation print format
 #. Label in the One Quotation Bordered print format
@@ -19998,13 +19998,13 @@ msgstr ""
 #. Label in the One Quality Inspection print format
 #. Label in the One Stock Reservation Entry print format
 #. Label in the One Timesheet print format
-#. Label of the label (Data) field in DocType 'Cloud Drive Password'
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 #: onedesk/one_book/print_format/one_payment_request/one_payment_request.json
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:31
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
@@ -20028,7 +20028,6 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
 #: onedesk/one_inventory/print_format/one_stock_reservation_entry/one_stock_reservation_entry.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:31
 #: onedesk/one_studio/print_blocks.py:117
 #: onedesk/public/js/one_mail/mail_templates.js:22
 msgid "For"
@@ -22077,6 +22076,8 @@ msgstr ""
 msgid "Hear the plan for the next quarter and ask your questions."
 msgstr ""
 
+#. Label of the height (Int) field in DocType 'Presentation'
+#. Label of the height (Int) field in DocType 'Presentation Version'
 #. Label of the height (Int) field in DocType 'Display Channel'
 #. Label of the h (Float) field in DocType 'Display Widget'
 #. Label of the height (Int) field in DocType 'Widget Collection'
@@ -22117,10 +22118,10 @@ msgstr ""
 #. Label of the one_height (Float) field in DocType 'Stock Reconciliation Item'
 #. Label of the one_height (Float) field in DocType 'Supplier Quotation Item'
 #. Label in the One Shipment print format
-#. Label of the height (Int) field in DocType 'Presentation'
-#. Label of the height (Int) field in DocType 'Presentation Version'
 #: frontend/src/slide/components/FrameSection.vue:161
 #: frontend/src/slide/shim/EditorNavbar.vue:225
+#: onedesk/one_deck/doctype/presentation/presentation.json:84
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:61
 #: onedesk/one_display/doctype/display_channel/display_channel.json:47
 #: onedesk/one_display/doctype/display_widget/display_widget.json:70
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:40
@@ -22154,8 +22155,6 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:55
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:55
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_deck/doctype/presentation/presentation.json:84
-#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:61
 #: onedesk/public/js/table_workbook.js:49
 msgid "Height"
 msgstr ""
@@ -23193,8 +23192,8 @@ msgstr ""
 msgid "IBAN to Pay"
 msgstr ""
 
-#: onedesk/one_display/sources.py:288 onedesk/one_doc/paper.py:270
-#: onedesk/one_mail/mail_templates.py:208 onedesk/one_deck/data.py:267
+#: onedesk/one_deck/data.py:267 onedesk/one_display/sources.py:288
+#: onedesk/one_doc/paper.py:270 onedesk/one_mail/mail_templates.py:208
 msgid "ID"
 msgstr ""
 
@@ -24794,12 +24793,12 @@ msgstr ""
 msgid "Is Folder"
 msgstr ""
 
+#. Label of the is_template (Check) field in DocType 'Presentation'
 #. Label of the is_template (Check) field in DocType 'Writer Document'
 #. Label of the is_template (Check) field in DocType 'Workbook'
-#. Label of the is_template (Check) field in DocType 'Presentation'
+#: onedesk/one_deck/doctype/presentation/presentation.json:124
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:97
 #: onedesk/one_sheet/doctype/workbook/workbook.json:97
-#: onedesk/one_deck/doctype/presentation/presentation.json:124
 msgid "Is Template"
 msgstr ""
 
@@ -25836,8 +25835,8 @@ msgstr ""
 msgid "Keep"
 msgstr ""
 
-#: onedesk/one_doc/abilities.py:28 onedesk/one_sheet/abilities.py:28
-#: onedesk/one_deck/abilities.py:28
+#: onedesk/one_deck/abilities.py:28 onedesk/one_doc/abilities.py:28
+#: onedesk/one_sheet/abilities.py:28
 msgid "Keep Company Templates"
 msgstr ""
 
@@ -25989,6 +25988,9 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Reading Action'
 #. Label of the kind (Select) field in DocType 'Reading Reference'
 #. Label in the One Transaction Deletion Record print format
+#. Label of the row_key (Data) field in DocType 'Cloud File Request Item'
+#. Label of the protocol (Select) field in DocType 'Cloud Mount'
+#. Label of the kind (Data) field in DocType 'Presentation Slide'
 #. Label in the One Employee Grievance print format
 #. Label in the One Training Event print format
 #. Label in the One Vehicle Log print format
@@ -25998,9 +26000,6 @@ msgstr ""
 #. Label of the one_kind (Select) field in DocType 'Project'
 #. Label of the op_type (Data) field in DocType 'Workbook Change'
 #. Label of the kind (Select) field in DocType 'Workbook Version'
-#. Label of the kind (Data) field in DocType 'Presentation Slide'
-#. Label of the row_key (Data) field in DocType 'Cloud File Request Item'
-#. Label of the protocol (Select) field in DocType 'Cloud Mount'
 #: frontend/src/slide/shim/libraryKeep.js:13
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json:28
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:41
@@ -26014,6 +26013,9 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:35
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json:17
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:61
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:39
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:91
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
@@ -26023,9 +26025,6 @@ msgstr ""
 #: onedesk/one_project/ai.py:954 onedesk/one_project/custom/project.json:53
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:46
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:39
-#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:91
-#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:61
-#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:39
 #: onedesk/public/js/item_new.js:181 onedesk/public/js/item_new.js:343
 #: onedesk/public/js/project_new.js:177 onedesk/public/js/project_new.js:267
 msgid "Kind"
@@ -26297,12 +26296,12 @@ msgstr ""
 
 #. Label of the last_error (Small Text) field in DocType 'News Source'
 #. Label of the last_error (Small Text) field in DocType 'Workspace Account'
-#. Label of the one_error (Small Text) field in DocType 'Email Account'
 #. Label of the last_error (Small Text) field in DocType 'Cloud Mount'
+#. Label of the one_error (Small Text) field in DocType 'Email Account'
 #: onedesk/one/doctype/news_source/news_source.json:242
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:129
-#: onedesk/one_mail/custom/email_account.json:45
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:121
+#: onedesk/one_mail/custom/email_account.json:45
 msgid "Last Error"
 msgstr ""
 
@@ -26401,16 +26400,16 @@ msgstr ""
 #. Label of the seen_section (Section Break) field in DocType 'Device'
 #. Label of the last_seen (Datetime) field in DocType 'Device'
 #. Label of the last_seen (Datetime) field in DocType 'Workspace Error'
+#. Label of the last_seen (Datetime) field in DocType 'Presentation View'
 #. Label of the last_seen (Datetime) field in DocType 'Display Screen'
 #. Label of the last_seen (Datetime) field in DocType 'Clock Network'
 #. Label of the last_seen (Datetime) field in DocType 'Clock Place'
-#. Label of the last_seen (Datetime) field in DocType 'Presentation View'
 #: onedesk/one_account/doctype/device/device.json:71
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:91
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:78
 #: onedesk/one_display/doctype/display_screen/display_screen.json:108
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:106
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:129
-#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:78
 #: onedesk/public/js/one_account/account_center.js:1431
 #: onedesk/public/js/one_account/account_center.js:1443
 msgid "Last Seen"
@@ -26440,10 +26439,10 @@ msgstr ""
 msgid "Last Updated On"
 msgstr ""
 
-#. Label of the last_used (Datetime) field in DocType 'Clock Device'
 #. Label of the last_used (Datetime) field in DocType 'Cloud Drive Password'
-#: onedesk/one_hr/doctype/clock_device/clock_device.json:96
+#. Label of the last_used (Datetime) field in DocType 'Clock Device'
 #: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:38
+#: onedesk/one_hr/doctype/clock_device/clock_device.json:96
 #: onedesk/public/js/one_account/account_center.js:378
 #: onedesk/public/js/one_account/account_center.js:1462
 msgid "Last Used"
@@ -26618,12 +26617,12 @@ msgid "Layers"
 msgstr ""
 
 #. Label of the layout (Data) field in DocType 'Presentation Slide'
+#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:84
 #: onedesk/one_display/widgets.py:37 onedesk/one_display/widgets.py:51
 #: onedesk/one_display/widgets.py:62 onedesk/one_display/widgets.py:79
 #: onedesk/one_display/widgets.py:107 onedesk/one_display/widgets.py:119
 #: onedesk/one_display/widgets.py:130 onedesk/one_display/widgets.py:166
 #: onedesk/one_display/widgets.py:180 onedesk/one_display/widgets.py:191
-#: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:84
 msgid "Layout"
 msgstr ""
 
@@ -27517,8 +27516,8 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 #: onedesk/one_book/print_format/one_payment_request/one_payment_request.json
-#: onedesk/one_display/layout.py:22
 #: onedesk/one_deck/doctype/presentation_view/presentation_view.json:51
+#: onedesk/one_display/layout.py:22
 msgid "Link"
 msgstr ""
 
@@ -27661,8 +27660,8 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_portal/sidebar/oneportal/oneportal.json:36
 #: onedesk/public/js/one_account/account_center.js:549
-#: onedesk/public/js/one_portal/portal.js:168
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:105
+#: onedesk/public/js/one_portal/portal.js:168
 msgid "Links"
 msgstr ""
 
@@ -28186,10 +28185,10 @@ msgstr ""
 msgid "Made"
 msgstr ""
 
-#. Label in the One Work Order print format
 #. Label of the made_by (Link) field in DocType 'Cloud File Version'
-#: onedesk/one_factory/print_format/one_work_order/one_work_order.json
+#. Label in the One Work Order print format
 #: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:59
+#: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 msgid "Made By"
 msgstr ""
 
@@ -28339,9 +28338,9 @@ msgstr ""
 #: onedesk/one_admin/offerings.py:124 onedesk/one_ai/chat.py:327
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
-#: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:25
+#: onedesk/one_cloud/namespace.py:404 onedesk/one_mail/cloud.py:65
+#: onedesk/one_mail/linking.py:25
 #: onedesk/one_mail/sidebar/onemail/onemail.json:15
-#: onedesk/one_cloud/namespace.py:404
 #: onedesk/public/js/one_admin/admin_control.js:195
 #: onedesk/public/js/one_interface/form.js:152
 msgid "Mail"
@@ -29151,7 +29150,7 @@ msgstr ""
 msgid "Master Token"
 msgstr ""
 
-#: onedesk/one_deck/api.py:274
+#: onedesk/one_deck/api.py:277
 #, python-brace-format
 msgid "Master of {0}"
 msgstr ""
@@ -29545,6 +29544,7 @@ msgid "Merge cells"
 msgstr ""
 
 #. Label of the one_message (Code) field in DocType 'Notification Type'
+#. Label of the message (Small Text) field in DocType 'Cloud File Request'
 #. Label of the one_message (Small Text) field in DocType 'Lead'
 #. Label of a field in the get-in-touch Web Form
 #. Label in the One Request for Quotation print format
@@ -29552,11 +29552,12 @@ msgstr ""
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
 #. Label of the content (Long Text) field in DocType 'Mail Draft'
-#. Label of the message (Small Text) field in DocType 'Cloud File Request'
 #: frontend/src/mail/MailBody.vue:13
 #: onedesk/one/custom/notification_type.json:67
 #: onedesk/one/notification_words.py:228 onedesk/one/notify.py:274
-#: onedesk/one/rules.py:44 onedesk/one_crm/custom/lead.json:26
+#: onedesk/one/rules.py:44
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:53
+#: onedesk/one_crm/custom/lead.json:26
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json:100
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:56
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
@@ -29566,17 +29567,16 @@ msgstr ""
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:61
 #: onedesk/one_mail/mail_templates.py:316
 #: onedesk/one_mail/mail_templates.py:317
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:53
 #: onedesk/one_studio/automation_steps.py:42
 #: onedesk/public/js/one/notification_center.js:380
 #: onedesk/public/js/one/notification_center.js:475
 #: onedesk/public/js/one_ai/oneai.js:416
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:347
 #: onedesk/public/js/one_mail/mail_templates.js:32
 #: onedesk/public/js/one_mail/mail_templates.js:36
 #: onedesk/public/js/one_mail/mail_templates.js:37
 #: onedesk/public/js/one_mail/onemail_settings.js:355
 #: onedesk/public/js/one_mail/rule_builder.js:226
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:347
 #: onedesk/public/js/quotes_actions.js:33 onedesk/www/message.html:2
 msgid "Message"
 msgstr ""
@@ -30391,14 +30391,14 @@ msgstr ""
 #. Label of the party_name (Data) field in DocType 'Reading Party'
 #. Label in the One Statement of Account print format
 #. Label in the One Supplier Statement print format
+#. Label of the file_name (Data) field in DocType 'Cloud Link'
+#. Label of the title (Data) field in DocType 'Cloud Mount'
 #. Label in the One Telephony Call Type print format
 #. Label of the label (Data) field in DocType 'Clock Network'
 #. Label of the label (Data) field in DocType 'Clock Place'
 #. Label of the label (Data) field in DocType 'Mail Folder'
 #. Label of the title (Data) field in DocType 'Mail Rule'
 #. Label of the label (Data) field in DocType 'Workbook Version'
-#. Label of the file_name (Data) field in DocType 'Cloud Link'
-#. Label of the title (Data) field in DocType 'Cloud Mount'
 #: frontend/src/admin/AdminSessions.vue:26
 #: frontend/src/cloud/CloudItems.vue:188
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:13
@@ -30414,16 +30414,16 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:41
 #: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
 #: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:43
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:31
 #: onedesk/one_crm/print_format/one_telephony_call_type/one_telephony_call_type.json
+#: onedesk/one_deck/decks.py:212
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:41
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:36
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:48
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:51
 #: onedesk/one_project/report/workload/workload.py:174
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:47
-#: onedesk/one_deck/decks.py:212
-#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:43
-#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:31
 #: onedesk/one_studio/letter_heads.py:53
 #: onedesk/public/js/doctype_settings.js:705 onedesk/public/js/item_new.js:34
 #: onedesk/public/js/item_new.js:273
@@ -30437,10 +30437,10 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:1488
 #: onedesk/public/js/one_account/account_center.js:1654
 #: onedesk/public/js/one_ai/panel/Panel.vue:485
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:279
 #: onedesk/public/js/one_interface/form.js:568
 #: onedesk/public/js/one_mail/mail_templates.js:17
 #: onedesk/public/js/one_mail/rule_builder.js:430
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:279
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/one_studio/studio_control.js:181
 #: onedesk/public/js/project_new.js:72
@@ -30710,9 +30710,9 @@ msgstr ""
 #. Label of the network_section (Section Break) field in DocType 'Clock
 #. Attempt'
 #: frontend/src/admin/ServerMetrics.vue:26
-#: frontend/src/slide/shim/WidgetMock.vue:222
+#: frontend/src/slide/shim/WidgetMock.vue:222 onedesk/one_cloud/mounts.py:326
+#: onedesk/one_cloud/namespace.py:405
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:229
-#: onedesk/one_cloud/mounts.py:326 onedesk/one_cloud/namespace.py:405
 #: onedesk/www/tv.py:60
 msgid "Network"
 msgstr ""
@@ -31650,8 +31650,8 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
-#: onedesk/one_display/abilities.py:16 onedesk/one_doc/abilities.py:22
-#: onedesk/one_factory/abilities.py:17
+#: onedesk/one_deck/abilities.py:22 onedesk/one_display/abilities.py:16
+#: onedesk/one_doc/abilities.py:22 onedesk/one_factory/abilities.py:17
 #: onedesk/one_factory/print_format/one_bill_of_materials/one_bill_of_materials.json
 #: onedesk/one_factory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
@@ -31715,8 +31715,8 @@ msgstr ""
 #: onedesk/one_mail/ai.py:1014 onedesk/one_mail/ai.py:1064
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
 #: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
-#: onedesk/one_deck/abilities.py:22 onedesk/one_studio/print_blocks.py:427
-#: onedesk/one_task/abilities.py:20 onedesk/public/js/item_new.js:49
+#: onedesk/one_studio/print_blocks.py:427 onedesk/one_task/abilities.py:20
+#: onedesk/public/js/item_new.js:49
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "No"
 msgstr ""
@@ -32037,7 +32037,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:274 onedesk/one_deck/api.py:522
+#: onedesk/one_deck/api.py:525 onedesk/one_doc/api.py:274
 msgid "No file was sent."
 msgstr ""
 
@@ -33244,16 +33244,17 @@ msgstr ""
 
 #. Label of the why (Small Text) field in DocType 'Credit Ledger Entry'
 #. Label of the why (Small Text) field in DocType 'Credit Reservation'
+#. Label of the description (Small Text) field in DocType 'Cloud File Request
+#. Item'
 #. Label of the one_note (Small Text) field in DocType 'Attendance Request'
 #. Label of the one_note (Small Text) field in DocType 'Expense Claim'
 #. Label of the one_note (Small Text) field in DocType 'Leave Application'
 #. Label of the one_note (Small Text) field in DocType 'Shift Request'
 #. Label of the note (Small Text) field in DocType 'Clock Attempt'
 #. Label of the note (Data) field in DocType 'Project Contact'
-#. Label of the description (Small Text) field in DocType 'Cloud File Request
-#. Item'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:106
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:80
+#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:28
 #: onedesk/one_hr/custom/attendance_request.json:70
 #: onedesk/one_hr/custom/expense_claim.json:44
 #: onedesk/one_hr/custom/leave_application.json:44
@@ -33262,7 +33263,6 @@ msgstr ""
 #: onedesk/one_hr/heads.py:163 onedesk/one_hr/heads.py:571
 #: onedesk/one_project/ai.py:761
 #: onedesk/one_project/doctype/project_contact/project_contact.json:70
-#: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:28
 #: onedesk/public/js/one_studio/studio_control.js:243
 #: onedesk/public/js/project_actions.js:450 onedesk/public/js/tenant.js:62
 msgid "Note"
@@ -34399,6 +34399,11 @@ msgstr ""
 msgid "One Call API 4.0. Workspaces near one place share its reading."
 msgstr ""
 
+#. Option for the 'App' (Select) field in DocType 'Workspace Field'
+#: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
+msgid "One Cloud"
+msgstr ""
+
 #: onedesk/one_display/widgets.py:37 onedesk/one_display/widgets.py:338
 msgid "One Counter"
 msgstr ""
@@ -34471,11 +34476,6 @@ msgstr ""
 #. Option for the 'App' (Select) field in DocType 'Workspace Field'
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
 msgid "One Project"
-msgstr ""
-
-#. Option for the 'App' (Select) field in DocType 'Workspace Field'
-#: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
-msgid "One Cloud"
 msgstr ""
 
 #: onedesk/one_display/widgets.py:79
@@ -34780,7 +34780,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_doc/api.py:308 onedesk/one_cloud/made.py:92
+#: onedesk/one_cloud/made.py:92 onedesk/one_doc/api.py:308
 msgid "OneAI could not make it. Try again, or describe it differently."
 msgstr ""
 
@@ -34793,8 +34793,8 @@ msgid "OneAI could not make the recording. Try again."
 msgstr ""
 
 #. Subject of a notification
-#: onedesk/one_display/notifications.py onedesk/one_deck/notifications.py
-#: onedesk/one_cloud/notifications.py
+#: onedesk/one_cloud/notifications.py onedesk/one_deck/notifications.py
+#: onedesk/one_display/notifications.py
 #, python-brace-format
 msgid "OneAI could not make “{what}”"
 msgstr ""
@@ -35064,10 +35064,11 @@ msgstr ""
 
 #. Title of a Sidebar
 #: frontend/src/cloud/OneCloud.vue:397 frontend/src/cloud/OneCloud.vue:1550
-#: onedesk/one_mail/cloud.py:65 onedesk/one_cloud/file_requests.py:196
-#: onedesk/one_cloud/mounts.py:326 onedesk/one_cloud/namespace.py:835
+#: onedesk/one_cloud/file_requests.py:196 onedesk/one_cloud/mounts.py:326
+#: onedesk/one_cloud/namespace.py:835
 #: onedesk/one_cloud/page/onecloud/onecloud.js:4
 #: onedesk/one_cloud/sidebar/onecloud/onecloud.json:29
+#: onedesk/one_mail/cloud.py:65
 #: onedesk/public/js/one_cloud/onecloud_picker.js:104
 msgid "OneCloud"
 msgstr ""
@@ -35121,6 +35122,10 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/one_account/notifications.py
 msgid "OneCredits were added"
+msgstr ""
+
+#: onedesk/one_deck/page/presentation/presentation.js:4
+msgid "OneDeck"
 msgstr ""
 
 #. Title of a Sidebar
@@ -35312,10 +35317,6 @@ msgstr ""
 
 #: onedesk/one_studio/places.py:106
 msgid "OneQuality's Home is opened, and each time a non conformance, an action, a review or a meeting changes."
-msgstr ""
-
-#: onedesk/one_deck/page/presentation/presentation.js:4
-msgid "OneDeck"
 msgstr ""
 
 #. Title of a Sidebar
@@ -35593,7 +35594,7 @@ msgstr ""
 msgid "Only people on the team can be added. Create a link for {0} instead."
 msgstr ""
 
-#: onedesk/one_cloud/dav.py:252
+#: onedesk/one_cloud/dav.py:254
 msgid "Only people on the team can connect a drive."
 msgstr ""
 
@@ -35731,10 +35732,10 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Workspace Error'
 #. Label of the open (Check) field in DocType 'Workspace Server'
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
-#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
-#. Option for the 'Status' (Select) field in DocType 'Mail Conversation'
 #. The button on a notification's mail
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
+#. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#. Option for the 'Status' (Select) field in DocType 'Mail Conversation'
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: frontend/src/admin/AdminSessions.vue:105
 #: frontend/src/cloud/CloudPreview.vue:33 frontend/src/cloud/OneCloud.vue:745
@@ -35747,12 +35748,12 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:292
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:40
+#: onedesk/one_cloud/notifications.py
 #: onedesk/one_crm/custom/sales_stage.json:28
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:12
-#: onedesk/one_project/status.py:14
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:40
-#: onedesk/one_cloud/notifications.py onedesk/one_task/custom/task.json:87
+#: onedesk/one_project/status.py:14 onedesk/one_task/custom/task.json:87
 #: onedesk/public/js/audit_list.js:6 onedesk/public/js/doctype_settings.js:731
 #: onedesk/public/js/one_ai/panel/Record.vue:15
 #: onedesk/public/js/project.js:150 onedesk/public/js/project_actions.js:56
@@ -37878,16 +37879,16 @@ msgstr ""
 #. Label of the password (Password) field in DocType 'Cloud Mount'
 #: frontend/portal/src/pages/Password.vue:2
 #: frontend/src/slide/shim/WidgetMock.vue:224
-#: onedesk/one_display/widgets.py:170 onedesk/one_portal/portal.py:29
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:88
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:78
+#: onedesk/one_display/widgets.py:170 onedesk/one_portal/portal.py:29
 #: onedesk/public/js/one_account/account_center.js:227
-#: onedesk/public/js/one_mail/onemail_settings.js:711
-#: onedesk/public/js/one_mail/onemail_settings.js:945
-#: onedesk/public/js/one_mail/onemail_settings.js:1013
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:162
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:300
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:547
+#: onedesk/public/js/one_mail/onemail_settings.js:711
+#: onedesk/public/js/one_mail/onemail_settings.js:945
+#: onedesk/public/js/one_mail/onemail_settings.js:1013
 #: onedesk/public/js/setup_wizard.js:149 onedesk/www/s.html:46
 #: onedesk/www/tv.py:61
 msgid "Password"
@@ -38599,20 +38600,20 @@ msgstr ""
 msgid "Pentagon"
 msgstr ""
 
+#. Label of the recipients (Table) field in DocType 'Cloud File Request'
 #. Label of the section_people (Section Break) field in DocType 'Display Board'
 #. Label of the people (Table MultiSelect) field in DocType 'Display Board'
 #. Label of the one_people (Int) field in DocType 'Training Result'
 #. Label in the One Payroll Run print format
 #. Label of a Card Break in the OneHR Setup Workspace
 #. Label of a Sidebar Item
-#. Label of the recipients (Table) field in DocType 'Cloud File Request'
 #: onedesk/one/home.py:163 onedesk/one_account/center.py:36
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:105
 #: onedesk/one_display/doctype/display_board/display_board.json:76
 #: onedesk/one_hr/custom/training_result.json:7
 #: onedesk/one_hr/print_format/one_payroll_run/one_payroll_run.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json:19
 #: onedesk/one_portal/sidebar/oneportal/oneportal.json:22
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:105
 #: onedesk/public/js/one/access_center.js:44
 #: onedesk/public/js/one/access_center.js:46
 #: onedesk/public/js/one/access_center.js:117
@@ -39776,18 +39777,18 @@ msgstr ""
 msgid "Present Today"
 msgstr ""
 
-#. Option for the 'Type' (Select) field in DocType 'Display Slide'
-#. Label of the presentation (Link) field in DocType 'Display Slide'
 #. Name of a DocType
 #. Label of the presentation (Link) field in DocType 'Presentation Version'
 #. Label of the presentation (Link) field in DocType 'Presentation View'
+#. Option for the 'Type' (Select) field in DocType 'Display Slide'
+#. Label of the presentation (Link) field in DocType 'Display Slide'
 #: frontend/src/cloud/OneCloud.vue:722 frontend/src/cloud/cloud.js:30
 #: frontend/src/cloud/cloud.js:111
-#: onedesk/one_display/doctype/display_slide/display_slide.json:22
-#: onedesk/one_display/doctype/display_slide/display_slide.json:31
 #: onedesk/one_deck/doctype/presentation/presentation.json:20
 #: onedesk/one_deck/doctype/presentation_version/presentation_version.json:41
 #: onedesk/one_deck/doctype/presentation_view/presentation_view.json:42
+#: onedesk/one_display/doctype/display_slide/display_slide.json:22
+#: onedesk/one_display/doctype/display_slide/display_slide.json:31
 msgid "Presentation"
 msgstr ""
 
@@ -39820,7 +39821,7 @@ msgstr ""
 msgid "Presentations and web pages shown in sequence."
 msgstr ""
 
-#: onedesk/one_deck/api.py:109
+#: onedesk/one_deck/api.py:112
 msgid "Presentations cannot be created in a mounted drive."
 msgstr ""
 
@@ -40358,8 +40359,8 @@ msgid "Proforma No"
 msgstr ""
 
 #. Label in the One Training Event print format
-#: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_deck/decks.py:72
+#: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 msgid "Programme"
 msgstr ""
 
@@ -40367,12 +40368,12 @@ msgstr ""
 #: frontend/src/cloud/CloudPreview.vue:95 frontend/src/cloud/OneCloud.vue:251
 #: frontend/src/slide/shim/WidgetMock.vue:231 onedesk/one_book/heads.py:590
 #: onedesk/one_book/heads.py:670 onedesk/one_book/heads.py:680
-#: onedesk/one_crm/heads.py:370 onedesk/one_display/widgets.py:374
-#: onedesk/one_factory/heads.py:220 onedesk/one_factory/heads.py:248
-#: onedesk/one_inventory/heads.py:1376 onedesk/one_inventory/heads.py:1386
-#: onedesk/one_inventory/heads.py:1424 onedesk/one_inventory/heads.py:1436
-#: onedesk/one_project/heads.py:298 onedesk/one_project/portal.py:339
-#: onedesk/one_deck/decks.py:62 onedesk/one_studio/print_blocks.py:681
+#: onedesk/one_crm/heads.py:370 onedesk/one_deck/decks.py:62
+#: onedesk/one_display/widgets.py:374 onedesk/one_factory/heads.py:220
+#: onedesk/one_factory/heads.py:248 onedesk/one_inventory/heads.py:1376
+#: onedesk/one_inventory/heads.py:1386 onedesk/one_inventory/heads.py:1424
+#: onedesk/one_inventory/heads.py:1436 onedesk/one_project/heads.py:298
+#: onedesk/one_project/portal.py:339 onedesk/one_studio/print_blocks.py:681
 msgid "Progress"
 msgstr ""
 
@@ -40579,8 +40580,9 @@ msgid "Project Types"
 msgstr ""
 
 #. Label in the One Project Update print format
+#: onedesk/one_deck/decks.py:39
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
-#: onedesk/one_deck/decks.py:39 onedesk/public/js/project_list.js:71
+#: onedesk/public/js/project_list.js:71
 msgid "Project Update"
 msgstr ""
 
@@ -41437,7 +41439,7 @@ msgstr ""
 msgid "Quotations lost, and why."
 msgstr ""
 
-#: onedesk/one_inventory/portal.py:83 onedesk/one_deck/decks.py:27
+#: onedesk/one_deck/decks.py:27 onedesk/one_inventory/portal.py:83
 msgid "Quote"
 msgstr ""
 
@@ -42284,13 +42286,13 @@ msgstr ""
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
 #. Label of the target_name (Dynamic Link) field in DocType 'Reading Action'
+#. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
+#. Request'
 #. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the record_name (Dynamic Link) field in DocType 'Display Source'
 #. Label of the bound_name (Dynamic Link) field in DocType 'Writer Document'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
 #. Label of the bound_name (Dynamic Link) field in DocType 'Workbook'
-#. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
-#. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
 #: frontend/src/cloud/CloudPreview.vue:97 frontend/src/cloud/cloud.js:106
 #: frontend/src/mail/MailConversation.vue:264
@@ -42303,12 +42305,12 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:64
 #: onedesk/one_ai/report/deadlines/deadlines.py:39
 #: onedesk/one_book/heads.py:582
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:81
 #: onedesk/one_display/doctype/display_source/display_source.json:52
 #: onedesk/one_display/doctype/display_source/display_source.json:99
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:84
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:38
 #: onedesk/one_sheet/doctype/workbook/workbook.json:72
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:81
 #: onedesk/one_studio/ai.py:393
 #: onedesk/one_studio/doctype/extension/extension.json:66
 #: onedesk/public/js/extension_errors.js:16 onedesk/public/js/hiring.js:8
@@ -42401,9 +42403,9 @@ msgstr ""
 #. Label of the for_doctype (Data) field in DocType 'AI Proposal'
 #. Label of the target_doctype (Link) field in DocType 'Reading Action'
 #. Label of the target_doctype (Link) field in DocType 'Reading Lesson'
+#. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Label of the ref_doctype (Link) field in DocType 'Display Source'
 #. Label of the reference_doctype (Link) field in DocType 'Portal Link'
-#. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
 #: frontend/src/mail/MailConversation.vue:263
 #: frontend/src/slide/shim/DataDialog.vue:109 onedesk/one/access_center.py:258
@@ -42411,9 +42413,9 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:47
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:56
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:32
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:75
 #: onedesk/one_display/doctype/display_source/display_source.json:92
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:29
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:75
 #: onedesk/one_studio/doctype/record_type/record_type.json:68
 #: onedesk/public/js/doctype_settings.js:730
 #: onedesk/public/js/one_account/account_center.js:603
@@ -42533,9 +42535,9 @@ msgstr ""
 #. Label of the section_records (Section Break) field in DocType 'Display
 #. Source'
 #: frontend/src/slide/shim/EditorNavbar.vue:290
+#: onedesk/one_cloud/namespace.py:403 onedesk/one_cloud/namespace.py:859
 #: onedesk/one_display/doctype/display_source/display_source.json:52
 #: onedesk/one_display/doctype/display_source/display_source.json:86
-#: onedesk/one_cloud/namespace.py:403 onedesk/one_cloud/namespace.py:859
 msgid "Records"
 msgstr ""
 
@@ -43101,14 +43103,14 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:1620
 #: onedesk/public/js/one_admin/admin_control.js:138
 #: onedesk/public/js/one_ai/panel/Panel.vue:182
-#: onedesk/public/js/one_interface/json_view.js:345
-#: onedesk/public/js/one_mail/mail_compose.js:26
-#: onedesk/public/js/one_mail/rule_builder.js:117
-#: onedesk/public/js/one_mail/rule_builder.js:325
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:62
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:108
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:244
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:562
+#: onedesk/public/js/one_interface/json_view.js:345
+#: onedesk/public/js/one_mail/mail_compose.js:26
+#: onedesk/public/js/one_mail/rule_builder.js:117
+#: onedesk/public/js/one_mail/rule_builder.js:325
 #: onedesk/public/js/project_actions.js:336
 #: onedesk/public/js/project_actions.js:458
 msgid "Remove"
@@ -43759,8 +43761,7 @@ msgstr ""
 msgid "Requested. You'll be notified when it's ready."
 msgstr ""
 
-#: onedesk/one_cloud/file_requests.py:197
-#: onedesk/one_cloud/namespace.py:406
+#: onedesk/one_cloud/file_requests.py:197 onedesk/one_cloud/namespace.py:406
 #: onedesk/public/js/one_legal/trust_center.js:156
 #: onedesk/public/js/one_legal/trust_center.js:159
 msgid "Requests"
@@ -44519,10 +44520,11 @@ msgstr ""
 #. Label of the role (Select) field in DocType 'Project Contact'
 #: frontend/src/project/Team.vue:65
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:33
+#: onedesk/one_deck/decks.py:212
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 #: onedesk/one_project/ai.py:758
 #: onedesk/one_project/doctype/project_contact/project_contact.json:21
-#: onedesk/one_deck/decks.py:212 onedesk/public/js/doctype_settings.js:271
+#: onedesk/public/js/doctype_settings.js:271
 #: onedesk/public/js/one/access_center.js:348
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:221
 #: onedesk/public/js/project_actions.js:436
@@ -45245,6 +45247,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:1503
 #: onedesk/public/js/one_ai/ai_center.js:227
 #: onedesk/public/js/one_ai/ai_center.js:399
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:319
 #: onedesk/public/js/one_factory/factory_control.js:12
 #: onedesk/public/js/one_interface/chrome.js:327
 #: onedesk/public/js/one_interface/form.js:441
@@ -45257,7 +45260,6 @@ msgstr ""
 #: onedesk/public/js/one_mail/onemail_settings.js:853
 #: onedesk/public/js/one_mail/onemail_settings.js:1073
 #: onedesk/public/js/one_mail/onemail_settings.js:1345
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:319
 #: onedesk/public/js/project_actions.js:60
 #: onedesk/public/js/project_actions.js:288
 #: onedesk/public/js/project_actions.js:330
@@ -46153,9 +46155,9 @@ msgstr ""
 #: onedesk/public/js/one/notification_center.js:80
 #: onedesk/public/js/one/notification_center.js:94
 #: onedesk/public/js/one_ai/panel/Panel.vue:214
+#: onedesk/public/js/one_cloud/onecloud_dialogs.js:422
 #: onedesk/public/js/one_mail/onemail_settings.js:664
 #: onedesk/public/js/one_mail/onemail_settings.js:1248
-#: onedesk/public/js/one_cloud/onecloud_dialogs.js:422
 #: onedesk/public/js/privacy_copy.js:47 onedesk/www/r.html:65
 #: onedesk/www/s.html:107
 msgid "Send"
@@ -46349,23 +46351,23 @@ msgstr ""
 msgid "Sensitivity"
 msgstr ""
 
-#. Label in the One Job Card print format
-#. Label in the One Subcontracting Order print format
-#. Label in the One Work Order print format
-#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Label of the section_sent (Section Break) field in DocType 'Cloud File
 #. Request'
 #. Label of the uploads (Table) field in DocType 'Cloud File Request'
 #. Label of the file (Link) field in DocType 'Cloud File Request Upload'
+#. Label in the One Job Card print format
+#. Label in the One Subcontracting Order print format
+#. Label in the One Work Order print format
+#. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #: frontend/src/admin/ServerMetrics.vue:106 frontend/src/mail/mail.js:11
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:112
+#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:31
 #: onedesk/one_crm/portal.py:14 onedesk/one_crm/portal.py:16
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_inventory/portal.py:35 onedesk/one_inventory/portal.py:84
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:54
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:112
-#: onedesk/one_cloud/doctype/cloud_file_request_upload/cloud_file_request_upload.json:31
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:428
 #: onedesk/public/js/privacy_copy_list.js:9
 msgid "Sent"
@@ -46598,8 +46600,8 @@ msgstr ""
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:36
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:95
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:48
-#: onedesk/public/js/one_mail/onemail_settings.js:947
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:280
+#: onedesk/public/js/one_mail/onemail_settings.js:947
 msgid "Server"
 msgstr ""
 
@@ -47076,11 +47078,11 @@ msgid "Settings Changed"
 msgstr ""
 
 #: onedesk/one_admin/tour.py:16 onedesk/one_book/tour.py:30
-#: onedesk/one_calendar/tour.py:36 onedesk/one_crm/tour.py:30
-#: onedesk/one_display/tour.py:30 onedesk/one_factory/tour.py:29
-#: onedesk/one_hr/tour.py:30 onedesk/one_inventory/tour.py:30
-#: onedesk/one_mail/tour.py:42 onedesk/one_project/tour.py:31
-#: onedesk/one_quality/tour.py:17 onedesk/one_cloud/tour.py:42
+#: onedesk/one_calendar/tour.py:36 onedesk/one_cloud/tour.py:42
+#: onedesk/one_crm/tour.py:30 onedesk/one_display/tour.py:30
+#: onedesk/one_factory/tour.py:29 onedesk/one_hr/tour.py:30
+#: onedesk/one_inventory/tour.py:30 onedesk/one_mail/tour.py:42
+#: onedesk/one_project/tour.py:31 onedesk/one_quality/tour.py:17
 #: onedesk/one_studio/tour.py:17 onedesk/one_task/tour.py:30
 msgid "Settings and Tours"
 msgstr ""
@@ -48313,6 +48315,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
+#. Label of the file_size (Int) field in DocType 'Cloud File Version'
 #. Label in the One Installation Note print format
 #. Label in the One Proforma Invoice print format
 #. Label in the One Quotation print format
@@ -48323,6 +48326,7 @@ msgstr ""
 #. Label in the One Sales Order Bordered print format
 #. Label in the One Sales Order Classic print format
 #. Label in the One Sales Order with Images print format
+#. Label of the byte_size (Int) field in DocType 'Presentation'
 #. Label of the byte_size (Int) field in DocType 'Writer Document'
 #. Label of the one_size (Data) field in DocType 'BOM Item'
 #. Label of the one_size (Data) field in DocType 'BOM Secondary Item'
@@ -48383,8 +48387,6 @@ msgstr ""
 #. Label in the One Supplier Quotation print format
 #. Label of the byte_size (Int) field in DocType 'Workbook'
 #. Label of the byte_size (Int) field in DocType 'Workbook Version'
-#. Label of the byte_size (Int) field in DocType 'Presentation'
-#. Label of the file_size (Int) field in DocType 'Cloud File Version'
 #: frontend/src/cloud/CloudItems.vue:192 frontend/src/cloud/CloudPreview.vue:92
 #: frontend/src/cloud/CloudPreview.vue:108
 #: frontend/src/slide/components/FontSection.vue:27
@@ -48399,6 +48401,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:46
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -48409,6 +48412,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
+#: onedesk/one_deck/doctype/presentation/presentation.json:130
 #: onedesk/one_display/widgets.py:96
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:70
 #: onedesk/one_factory/custom/bom_item.json:79
@@ -48466,8 +48470,6 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json:52
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:63
-#: onedesk/one_deck/doctype/presentation/presentation.json:130
-#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:46
 #: onedesk/public/js/table_workbook.js:39
 msgid "Size"
 msgstr ""
@@ -48609,7 +48611,7 @@ msgstr ""
 msgid "Slide copied to clipboard"
 msgstr ""
 
-#: onedesk/one_deck/api.py:333
+#: onedesk/one_deck/api.py:336
 #, python-brace-format
 msgid "Slide fields not accepted: {0}"
 msgstr ""
@@ -48638,14 +48640,14 @@ msgstr ""
 msgid "Slide {0}: Advance After must be between 1 and 3600 seconds, not {1}"
 msgstr ""
 
-#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
-#. Label of the slides (Table) field in DocType 'Slide Playlist'
 #. Label of the slides (Table) field in DocType 'Presentation'
 #. Label of the slides (JSON) field in DocType 'Presentation Version'
-#: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:29
+#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
+#. Label of the slides (Table) field in DocType 'Slide Playlist'
 #: onedesk/one_deck/doctype/presentation/presentation.json:135
 #: onedesk/one_deck/doctype/presentation_version/presentation_version.json:66
+#: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:29
 msgid "Slides"
 msgstr ""
 
@@ -49386,8 +49388,8 @@ msgstr ""
 msgid "Stalled"
 msgstr ""
 
-#: onedesk/one/ai.py:2502 onedesk/one_display/starters.py:626
-#: onedesk/one_deck/decks.py:245
+#: onedesk/one/ai.py:2502 onedesk/one_deck/decks.py:245
+#: onedesk/one_display/starters.py:626
 #: onedesk/public/js/one_studio/studio_control.js:128
 msgid "Standard"
 msgstr ""
@@ -49465,9 +49467,8 @@ msgid "Star or Unstar"
 msgstr ""
 
 #. Label of the one_flagged (Check) field in DocType 'Communication'
-#: frontend/src/cloud/CloudItems.vue:112
+#: frontend/src/cloud/CloudItems.vue:112 onedesk/one_cloud/namespace.py:399
 #: onedesk/one_mail/custom/communication.json:46
-#: onedesk/one_cloud/namespace.py:399
 msgid "Starred"
 msgstr ""
 
@@ -49680,26 +49681,25 @@ msgstr ""
 #. Label of the state (Select) field in DocType 'Health Check'
 #. Label of the state (Select) field in DocType 'AI Proposal'
 #. Label of the state (Select) field in DocType 'Reading'
+#. Label of the state (Select) field in DocType 'Cloud File Request Recipient'
+#. Label of the section_state (Section Break) field in DocType 'Cloud Mount'
 #. Label of the state (Data) field in DocType 'Display Board Change'
 #. Label of the state (Data) field in DocType 'Display Board Item'
 #. Label of the state (Data) field in DocType 'Display Board State'
 #. Label of the state (Select) field in DocType 'Interview Recording Part'
-#. Label of the state (Select) field in DocType 'Cloud File Request Recipient'
-#. Label of the section_state (Section Break) field in DocType 'Cloud Mount'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:37
 #: onedesk/one_admin/doctype/health_check/health_check.json:33
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:67
 #: onedesk/one_ai/doctype/reading/reading.json:103 onedesk/one_ai/heads.py:123
 #: onedesk/one_book/report/books_check/books_check.py:16
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:27
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:110
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json:38
 #: onedesk/one_display/doctype/display_board_item/display_board_item.json:24
 #: onedesk/one_display/doctype/display_board_state/display_board_state.json:15
 #: onedesk/one_display/layout.py:70
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:36
-#: onedesk/one_hr/heads.py:829
-#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:27
-#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:110
-#: onedesk/one_studio/heads.py:97
+#: onedesk/one_hr/heads.py:829 onedesk/one_studio/heads.py:97
 msgid "State"
 msgstr ""
 
@@ -49757,6 +49757,7 @@ msgstr ""
 #. Label in the One Repost Accounting Ledger print format
 #. Label in the One Repost Payment Ledger print format
 #. Label in the One Transaction Deletion Record print format
+#. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label in the One Maintenance Plan print format
 #. Label in the One Service Report print format
 #. Label of the status (Select) field in DocType 'Display Screen'
@@ -49794,7 +49795,6 @@ msgstr ""
 #. Label in the One Stock Closing Entry print format
 #. Label in the One Stock Reservation Entry print format
 #. Label of the status (Select) field in DocType 'Mail Conversation'
-#. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: frontend/src/admin/AdminHome.vue:69
 #: frontend/src/factory/floor/OrderRows.vue:6
@@ -49828,6 +49828,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_repost_accounting_ledger/one_repost_accounting_ledger.json
 #: onedesk/one_book/print_format/one_repost_payment_ledger/one_repost_payment_ledger.json
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:39
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
 #: onedesk/one_display/doctype/display_screen/display_screen.json:99
@@ -49873,7 +49874,6 @@ msgstr ""
 #: onedesk/one_portal/portal.py:34 onedesk/one_project/ai.py:539
 #: onedesk/one_project/portal.py:339 onedesk/one_project/portal.py:344
 #: onedesk/one_project/report/project_progress/project_progress.js:5
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:39
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:45
 #: onedesk/one_studio/print_blocks.py:101
 #: onedesk/public/js/one_account/account_center.js:1109
@@ -50413,7 +50413,7 @@ msgstr ""
 msgid "Storage is full. Saved automatically once there's space."
 msgstr ""
 
-#: onedesk/one_cloud/store.py:78
+#: onedesk/one_cloud/store.py:81
 msgid "Storage is full. This file wasn't saved."
 msgstr ""
 
@@ -51252,6 +51252,9 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:208
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:91
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:76
+#: onedesk/one_deck/doctype/presentation/presentation.json:29
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:29
+#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:30
 #: onedesk/one_display/doctype/display_board/display_board.json:94
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json:89
 #: onedesk/one_display/doctype/display_channel/display_channel.json:112
@@ -51273,9 +51276,6 @@ msgstr ""
 #: onedesk/one_sheet/doctype/workbook/workbook.json:142
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:95
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:90
-#: onedesk/one_deck/doctype/presentation/presentation.json:29
-#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:29
-#: onedesk/one_deck/doctype/presentation_view/presentation_view.json:30
 #: onedesk/one_studio/doctype/extension/extension.json:212
 #: onedesk/one_studio/doctype/record_type/record_type.json:76
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:86
@@ -51511,12 +51511,12 @@ msgstr ""
 #. Label of the one_tasks (Int) field in DocType 'Project Template'
 #. Label of the one_tasks_section (Section Break) field in DocType 'Project
 #. Template'
-#: frontend/portal/src/pages/Project.vue:47 onedesk/one_project/ai.py:862
+#: frontend/portal/src/pages/Project.vue:47 onedesk/one_cloud/namespace.py:758
+#: onedesk/one_cloud/namespace.py:855 onedesk/one_project/ai.py:862
 #: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/custom/project_template.json:7
 #: onedesk/one_project/heads.py:289
 #: onedesk/one_project/report/workload/workload.py:180
-#: onedesk/one_cloud/namespace.py:758 onedesk/one_cloud/namespace.py:855
 msgid "Tasks"
 msgstr ""
 
@@ -52468,7 +52468,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_deck/api.py:386
+#: onedesk/one_deck/api.py:389
 msgid "That theme does not exist."
 msgstr ""
 
@@ -55247,10 +55247,10 @@ msgstr ""
 msgid "This file can't be shown here."
 msgstr ""
 
+#: onedesk/one_cloud/opening.py:275 onedesk/one_deck/from_powerpoint.py:304
 #: onedesk/one_doc/word.py:226 onedesk/one_doc/word.py:278
 #: onedesk/one_sheet/api.py:240 onedesk/one_sheet/excel.py:284
-#: onedesk/one_sheet/patching.py:49 onedesk/one_deck/from_powerpoint.py:304
-#: onedesk/one_cloud/opening.py:275
+#: onedesk/one_sheet/patching.py:49
 msgid "This file cannot be opened."
 msgstr ""
 
@@ -55271,7 +55271,7 @@ msgstr ""
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_deck/api.py:525
+#: onedesk/one_deck/api.py:528
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -55328,8 +55328,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_deck/api.py:558 onedesk/one_deck/api.py:562
-#: onedesk/one_deck/api.py:575 onedesk/one_deck/paper.py:32
+#: onedesk/one_deck/api.py:561 onedesk/one_deck/api.py:565
+#: onedesk/one_deck/api.py:578 onedesk/one_deck/paper.py:32
 msgid "This is not a picture."
 msgstr ""
 
@@ -55373,7 +55373,7 @@ msgid "This is your own mailbox. If OneAI reads it, it files and acts on this ma
 msgstr ""
 
 #: onedesk/one_cloud/api.py:19 onedesk/one_cloud/api.py:83
-#: onedesk/one_cloud/dav.py:281
+#: onedesk/one_cloud/dav.py:283
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.py:24
 #: onedesk/one_cloud/file_requests.py:137 onedesk/one_cloud/history.py:102
 #: onedesk/one_cloud/history.py:270 onedesk/one_cloud/lease.py:225
@@ -55458,7 +55458,7 @@ msgstr ""
 msgid "This picture could not be opened."
 msgstr ""
 
-#: onedesk/one_deck/api.py:564 onedesk/one_deck/api.py:578
+#: onedesk/one_deck/api.py:567 onedesk/one_deck/api.py:581
 #: onedesk/one_deck/paper.py:35
 msgid "This picture is too large."
 msgstr ""
@@ -55471,15 +55471,15 @@ msgstr ""
 msgid "This presentation has too many slides to print at once."
 msgstr ""
 
-#: onedesk/one_deck/api.py:305
+#: onedesk/one_deck/api.py:308
 msgid "This presentation is too large to save."
 msgstr ""
 
-#: onedesk/one_deck/api.py:75
+#: onedesk/one_deck/api.py:78
 msgid "This presentation no longer exists."
 msgstr ""
 
-#: onedesk/one_deck/api.py:309
+#: onedesk/one_deck/api.py:312
 msgid "This presentation was changed elsewhere. Reload to get the latest version."
 msgstr ""
 
@@ -55539,7 +55539,7 @@ msgstr ""
 msgid "This request expired. Try again."
 msgstr ""
 
-#: onedesk/one_inventory/portal.py:275 onedesk/one_cloud/file_requests.py:340
+#: onedesk/one_cloud/file_requests.py:340 onedesk/one_inventory/portal.py:275
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:494 onedesk/www/r.html:27
 #: onedesk/www/r.py:19
 msgid "This request is closed."
@@ -56179,15 +56179,15 @@ msgstr ""
 #. Label of the title (Data) field in DocType 'AI Chunk'
 #. Label of the title (Data) field in DocType 'AI Knowledge'
 #. Label of the title (Data) field in DocType 'Reading'
+#. Label of the title (Data) field in DocType 'Cloud File Request'
+#. Label of the title (Data) field in DocType 'Presentation'
+#. Label of the title (Data) field in DocType 'Presentation Version'
 #. Label of the title (Data) field in DocType 'Display Slide'
 #. Label of the title (Data) field in DocType 'Display Track'
 #. Label of the title (Data) field in DocType 'Writer Document'
 #. Label of the title (Data) field in DocType 'Writer Document Version'
 #. Label of the title (Data) field in DocType 'Legal Document Version'
 #. Label of the title (Data) field in DocType 'Workbook'
-#. Label of the title (Data) field in DocType 'Presentation'
-#. Label of the title (Data) field in DocType 'Presentation Version'
-#. Label of the title (Data) field in DocType 'Cloud File Request'
 #. Label of the title (Data) field in DocType 'Extension'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:50
 #: onedesk/one/custom/deleted_document.json:9
@@ -56198,6 +56198,10 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:22
 #: onedesk/one_ai/doctype/reading/reading.json:96
 #: onedesk/one_ai/reading/bundle.py:74
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:31
+#: onedesk/one_deck/decks.py:22
+#: onedesk/one_deck/doctype/presentation/presentation.json:41
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:50
 #: onedesk/one_display/doctype/display_slide/display_slide.json:62
 #: onedesk/one_display/doctype/display_track/display_track.json:23
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:47
@@ -56206,10 +56210,6 @@ msgstr ""
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json:30
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:31
 #: onedesk/one_sheet/doctype/workbook/workbook.json:32
-#: onedesk/one_deck/decks.py:22
-#: onedesk/one_deck/doctype/presentation/presentation.json:41
-#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:50
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:31
 #: onedesk/one_studio/doctype/extension/extension.json:40
 #: onedesk/public/js/one_ai/ai_center.js:222
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:343
@@ -56551,32 +56551,32 @@ msgid "Toggle navigation panel"
 msgstr ""
 
 #. Label of the token (Password) field in DocType 'Calendar Feed'
-#. Label of the token_hash (Data) field in DocType 'Display Screen'
-#. Label of the token (Password) field in DocType 'Portal Link'
 #. Label of the token (Password) field in DocType 'Cloud File Request
 #. Recipient'
 #. Label of the token (Password) field in DocType 'Cloud Link'
+#. Label of the token_hash (Data) field in DocType 'Display Screen'
+#. Label of the token (Password) field in DocType 'Portal Link'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:51
-#: onedesk/one_display/doctype/display_screen/display_screen.json:267
-#: onedesk/one_portal/doctype/portal_link/portal_link.json:120
 #: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:49
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:129
+#: onedesk/one_display/doctype/display_screen/display_screen.json:267
+#: onedesk/one_portal/doctype/portal_link/portal_link.json:120
 msgid "Token"
 msgstr ""
 
 #. Label of the token_hash (Data) field in DocType 'Device'
 #. Label of the token_hash (Data) field in DocType 'Tenant'
 #. Label of the token_hash (Data) field in DocType 'Calendar Feed'
-#. Label of the token_hash (Data) field in DocType 'Portal Link'
 #. Label of the token_hash (Data) field in DocType 'Cloud File Request
 #. Recipient'
 #. Label of the token_hash (Data) field in DocType 'Cloud Link'
+#. Label of the token_hash (Data) field in DocType 'Portal Link'
 #: onedesk/one_account/doctype/device/device.json:106
 #: onedesk/one_admin/doctype/tenant/tenant.json:242
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:58
-#: onedesk/one_portal/doctype/portal_link/portal_link.json:127
 #: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:57
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:137
+#: onedesk/one_portal/doctype/portal_link/portal_link.json:127
 msgid "Token Hash"
 msgstr ""
 
@@ -57050,7 +57050,7 @@ msgstr ""
 msgid "Training rooms"
 msgstr ""
 
-#: onedesk/one_display/starters.py:464 onedesk/one_deck/decks.py:85
+#: onedesk/one_deck/decks.py:85 onedesk/one_display/starters.py:464
 msgid "Training session"
 msgstr ""
 
@@ -57171,11 +57171,11 @@ msgstr ""
 msgid "Transferor"
 msgstr ""
 
-#. Label of the transition (Select) field in DocType 'Slide Playlist'
 #. Label of the transition (Data) field in DocType 'Presentation Slide'
+#. Label of the transition (Select) field in DocType 'Slide Playlist'
 #: frontend/src/slide/components/TransitionSection.vue:3
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:22
 #: onedesk/one_deck/doctype/presentation_slide/presentation_slide.json:46
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:22
 msgid "Transition"
 msgstr ""
 
@@ -58137,7 +58137,7 @@ msgstr ""
 msgid "Untitled Font"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:112 onedesk/one_deck/api.py:110
+#: frontend/src/slide/shim/EditorNavbar.vue:112 onedesk/one_deck/api.py:113
 msgid "Untitled Presentation"
 msgstr ""
 
@@ -58148,8 +58148,8 @@ msgstr ""
 msgid "Untitled Sheet"
 msgstr ""
 
-#: onedesk/one_doc/templates.py:64 onedesk/one_sheet/templates.py:89
-#: onedesk/one_deck/templates.py:44
+#: onedesk/one_deck/templates.py:44 onedesk/one_doc/templates.py:64
+#: onedesk/one_sheet/templates.py:89
 msgid "Untitled Template"
 msgstr ""
 
@@ -58435,12 +58435,12 @@ msgstr ""
 
 #. Label of the section_used (Section Break) field in DocType 'Workspace
 #. Server'
-#. Label of the section_use (Section Break) field in DocType 'Portal Link'
 #. Label of the section_use (Section Break) field in DocType 'Cloud Link'
+#. Label of the section_use (Section Break) field in DocType 'Portal Link'
 #: onedesk/one_admin/doctype/offering/offering_list.js:19
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:116
-#: onedesk/one_portal/doctype/portal_link/portal_link.json:90
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:111
+#: onedesk/one_portal/doctype/portal_link/portal_link.json:90
 #: onedesk/public/js/one_ai/oneai.js:202
 msgid "Use"
 msgstr ""
@@ -58604,17 +58604,17 @@ msgid "Used {0} on {1}"
 msgstr ""
 
 #. Label of the user (Link) field in DocType 'Calendar Feed'
+#. Label of the user (Link) field in DocType 'Cloud Drive Password'
 #. Label of the user (Link) field in DocType 'Clock Device'
 #. Option for the 'Party' (Select) field in DocType 'Legal Acceptance'
 #. Label of the user (Link) field in DocType 'Legal Acceptance'
-#. Label of the user (Link) field in DocType 'Cloud Drive Password'
 #: frontend/src/admin/ServerMetrics.vue:95 frontend/src/project/Team.vue:33
 #: onedesk/one/rights.py:275
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:22
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:40
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:49
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:61
-#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:21
 #: onedesk/public/js/one/access_center.js:300
 #: onedesk/public/js/one/access_center.js:359
 #: onedesk/public/js/one_mail/onemail_settings.js:1001
@@ -58910,12 +58910,12 @@ msgstr ""
 msgid "Verified By"
 msgstr ""
 
+#. Label of the version (Int) field in DocType 'Cloud File Version'
 #. Label of the version (Data) field in DocType 'Legal Acceptance'
 #. Label of the version (Data) field in DocType 'Legal Document Version'
-#. Label of the version (Int) field in DocType 'Cloud File Version'
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:33
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:33
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:39
-#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:33
 msgid "Version"
 msgstr ""
 
@@ -58990,11 +58990,10 @@ msgstr ""
 #: onedesk/one_inventory/portal.py:110
 #: onedesk/one_studio/doctype/extension/extension.json:77
 #: onedesk/public/js/account_tree.js:14
-#: onedesk/public/js/one_interface/frame.js:798
-#: onedesk/public/js/one_interface/look.js:774
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:37
-#: onedesk/public/js/project.js:27 onedesk/public/js/project.js:32
-#: onedesk/www/account_invoices.html:39
+#: onedesk/public/js/one_interface/frame.js:798
+#: onedesk/public/js/one_interface/look.js:774 onedesk/public/js/project.js:27
+#: onedesk/public/js/project.js:32 onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr ""
 
@@ -59179,10 +59178,10 @@ msgstr ""
 #. Option for the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
-#. Option for the 'Status' (Select) field in DocType 'Queue Ticket'
-#. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
+#. Option for the 'Status' (Select) field in DocType 'Queue Ticket'
+#. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #: frontend/src/intake/IntakeInbox.vue:82
 #: frontend/src/slide/shim/WidgetMock.vue:81
 #: onedesk/one/custom/personal_data_download_request.json:26
@@ -59190,11 +59189,11 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:24
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:8
 #: onedesk/one_admin/heads.py:46 onedesk/one_admin/home.py:315
+#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:65
 #: onedesk/one_display/programme.py:451
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:37
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
-#: onedesk/one_cloud/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
 #: onedesk/one_studio/print_blocks.py:943
 #: onedesk/public/js/one_ai/ai_center.js:130
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:475 onedesk/www/tv.py:54
@@ -63248,14 +63247,14 @@ msgid "Whoever OneAI reads it for and whoever connected it, or every administrat
 msgstr ""
 
 #. Who a notification is sent to
-#: onedesk/one_hr/notifications.py onedesk/one_inventory/notifications.py
-#: onedesk/one_cloud/notifications.py
+#: onedesk/one_cloud/notifications.py onedesk/one_hr/notifications.py
+#: onedesk/one_inventory/notifications.py
 msgid "Whoever asked"
 msgstr ""
 
 #. Who a notification is sent to
-#: onedesk/one_display/notifications.py onedesk/one_deck/notifications.py
-#: onedesk/one_cloud/notifications.py
+#: onedesk/one_cloud/notifications.py onedesk/one_deck/notifications.py
+#: onedesk/one_display/notifications.py
 msgid "Whoever asked for it"
 msgstr ""
 
@@ -63654,6 +63653,8 @@ msgstr ""
 msgid "Widgets"
 msgstr ""
 
+#. Label of the width (Int) field in DocType 'Presentation'
+#. Label of the width (Int) field in DocType 'Presentation Version'
 #. Label of the width (Int) field in DocType 'Display Channel'
 #. Label of the w (Float) field in DocType 'Display Widget'
 #. Label of the width (Int) field in DocType 'Widget Collection'
@@ -63692,10 +63693,10 @@ msgstr ""
 #. Label of the one_width (Float) field in DocType 'Stock Reconciliation Item'
 #. Label of the one_width (Float) field in DocType 'Supplier Quotation Item'
 #. Label in the One Shipment print format
-#. Label of the width (Int) field in DocType 'Presentation'
-#. Label of the width (Int) field in DocType 'Presentation Version'
 #: frontend/src/slide/components/FrameSection.vue:160
 #: frontend/src/slide/shim/EditorNavbar.vue:224
+#: onedesk/one_deck/doctype/presentation/presentation.json:77
+#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:56
 #: onedesk/one_display/doctype/display_channel/display_channel.json:40
 #: onedesk/one_display/doctype/display_widget/display_widget.json:63
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:33
@@ -63729,8 +63730,6 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:43
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:43
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_deck/doctype/presentation/presentation.json:77
-#: onedesk/one_deck/doctype/presentation_version/presentation_version.json:56
 #: onedesk/public/js/table_workbook.js:48
 msgid "Width"
 msgstr ""
@@ -64256,16 +64255,16 @@ msgstr ""
 #: onedesk/one_ai/abilities.py:18 onedesk/one_book/abilities.py:15
 #: onedesk/one_calendar/abilities.py:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:207
-#: onedesk/one_crm/abilities.py:15 onedesk/one_display/abilities.py:14
-#: onedesk/one_doc/abilities.py:20 onedesk/one_factory/abilities.py:15
-#: onedesk/one_hr/abilities.py:15 onedesk/one_inventory/abilities.py:15
-#: onedesk/one_legal/abilities.py:19
+#: onedesk/one_crm/abilities.py:15 onedesk/one_deck/abilities.py:20
+#: onedesk/one_display/abilities.py:14 onedesk/one_doc/abilities.py:20
+#: onedesk/one_factory/abilities.py:15 onedesk/one_hr/abilities.py:15
+#: onedesk/one_inventory/abilities.py:15 onedesk/one_legal/abilities.py:19
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:49
 #: onedesk/one_mail/abilities.py:19 onedesk/one_mail/cloud.py:33
 #: onedesk/one_mail/custom/email_account.json:102
 #: onedesk/one_portal/abilities.py:19 onedesk/one_project/abilities.py:18
 #: onedesk/one_quality/abilities.py:15 onedesk/one_sheet/abilities.py:20
-#: onedesk/one_deck/abilities.py:20 onedesk/one_task/abilities.py:18
+#: onedesk/one_task/abilities.py:18
 #: onedesk/public/js/one/notification_center.js:108
 #: onedesk/public/js/one/notification_center.js:110
 #: onedesk/public/js/one/notification_center.js:141
@@ -64306,6 +64305,11 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:109
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json:88
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:82
+#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:62
+#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:132
+#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:83
+#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:154
+#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:135
 #: onedesk/one_display/doctype/display_board/display_board.json:104
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json:96
 #: onedesk/one_display/doctype/display_channel/display_channel.json:122
@@ -64325,11 +64329,6 @@ msgstr ""
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:82
 #: onedesk/one_mail/doctype/face/face.json:62
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:138
-#: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:62
-#: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:132
-#: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:83
-#: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:154
-#: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:135
 #: onedesk/one_studio/doctype/extension/extension.json:225
 #: onedesk/one_studio/doctype/record_type/record_type.json:83
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:82
@@ -64949,13 +64948,13 @@ msgstr ""
 #: onedesk/one/ai.py:3768 onedesk/one_account/abilities.py:19
 #: onedesk/one_ai/abilities.py:20 onedesk/one_ai/chat.py:699
 #: onedesk/one_book/abilities.py:17 onedesk/one_calendar/abilities.py:20
-#: onedesk/one_crm/abilities.py:17 onedesk/one_display/abilities.py:16
-#: onedesk/one_doc/abilities.py:22 onedesk/one_factory/abilities.py:17
-#: onedesk/one_hr/abilities.py:17 onedesk/one_inventory/abilities.py:17
-#: onedesk/one_legal/abilities.py:21 onedesk/one_mail/ai.py:1014
-#: onedesk/one_mail/ai.py:1064 onedesk/one_portal/abilities.py:21
-#: onedesk/one_project/abilities.py:20 onedesk/one_quality/abilities.py:17
-#: onedesk/one_sheet/abilities.py:22 onedesk/one_deck/abilities.py:22
+#: onedesk/one_crm/abilities.py:17 onedesk/one_deck/abilities.py:22
+#: onedesk/one_display/abilities.py:16 onedesk/one_doc/abilities.py:22
+#: onedesk/one_factory/abilities.py:17 onedesk/one_hr/abilities.py:17
+#: onedesk/one_inventory/abilities.py:17 onedesk/one_legal/abilities.py:21
+#: onedesk/one_mail/ai.py:1014 onedesk/one_mail/ai.py:1064
+#: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
+#: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
 #: onedesk/one_task/abilities.py:20 onedesk/public/js/bom_list.js:5
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "Yes"
@@ -65081,8 +65080,8 @@ msgstr ""
 msgid "You can't add items here."
 msgstr ""
 
-#: onedesk/one_doc/paper.py:245 onedesk/one_sheet/paper.py:419
-#: onedesk/one_cloud/api.py:48
+#: onedesk/one_cloud/api.py:48 onedesk/one_doc/paper.py:245
+#: onedesk/one_sheet/paper.py:419
 msgid "You can't add to this folder."
 msgstr ""
 
@@ -65149,7 +65148,7 @@ msgstr ""
 msgid "You do not have permission to open this document."
 msgstr ""
 
-#: frontend/src/slide/PresentationPage.vue:49 onedesk/one_deck/api.py:84
+#: frontend/src/slide/PresentationPage.vue:49 onedesk/one_deck/api.py:87
 msgid "You do not have permission to open this presentation."
 msgstr ""
 
@@ -65938,8 +65937,8 @@ msgstr ""
 msgid "Your role doesn't allow writing OneAI's Knowledge."
 msgstr ""
 
-#: onedesk/one_doc/templates.py:90 onedesk/one_sheet/templates.py:124
-#: onedesk/one_deck/templates.py:43
+#: onedesk/one_deck/templates.py:43 onedesk/one_doc/templates.py:90
+#: onedesk/one_sheet/templates.py:124
 msgid "Your role doesn't keep company templates. Ask a workspace administrator."
 msgstr ""
 
@@ -67687,8 +67686,8 @@ msgstr ""
 msgid "unsubscribe"
 msgstr ""
 
-#: onedesk/public/js/one_portal/portal.js:23
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:114
+#: onedesk/public/js/one_portal/portal.js:23
 #, python-brace-format
 msgid "until {0}"
 msgstr ""
@@ -70439,15 +70438,15 @@ msgstr ""
 #: frontend/src/slide/shim/PresenterView.vue:104
 #: onedesk/one_account/heads.py:69
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:67
-#: onedesk/one_admin/heads.py:143 onedesk/one_crm/heads.py:298
+#: onedesk/one_admin/heads.py:143 onedesk/one_cloud/api.py:146
+#: onedesk/one_crm/heads.py:298
 #: onedesk/one_display/doctype/voice_pack/voice_pack.js:6
 #: onedesk/one_factory/heads.py:26 onedesk/one_factory/heads.py:49
 #: onedesk/one_inventory/heads.py:430 onedesk/one_inventory/heads.py:843
 #: onedesk/one_inventory/heads.py:852 onedesk/one_inventory/heads.py:861
 #: onedesk/one_inventory/heads.py:928 onedesk/one_project/view.py:570
 #: onedesk/one_quality/heads.py:43 onedesk/one_quality/heads.py:52
-#: onedesk/one_cloud/api.py:146 onedesk/one_task/heads.py:63
-#: onedesk/public/js/work_order_list.js:16
+#: onedesk/one_task/heads.py:63 onedesk/public/js/work_order_list.js:16
 #, python-brace-format
 msgid "{0} of {1}"
 msgstr ""

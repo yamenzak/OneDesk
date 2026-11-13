@@ -80,3 +80,13 @@ detail.
   only storage_is_cloud ran, One Storage is gone, the old file address
   reaches the same fetch; 313 of 314 (D3).
 - Running: an agent renames one_slide to one_deck (OneDeck, P2.2).
+
+## 13 Nov 2026, 06:50
+
+- P2.2 merged (0c6cab50): OneSlide is OneDeck. The look found JSON whose
+  words changed without `modified` moving, so sites kept "OneSlide" as the
+  page's title: 19 files moved, migrated on both sites (D8 for a rule).
+- run.localhost is a test workspace of the dev OneAdmin (tenant
+  run-localhost, made with testbed.new; keys written straight into its
+  site config, never shown), so screens that need the account open there.
+- P3.2 done by an agent (885dc9f2): one standard of twenty points; merging next.

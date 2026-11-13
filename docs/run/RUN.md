@@ -246,7 +246,7 @@ routes, translations, docs. The old dotted path stays importable for one
 release through a thin module, removed in P2.9.
 
 - [x] P2.1 one_storage → one_cloud, Module "One Cloud", shown OneCloud. — no "one_storage", "One Storage", "onestorage" in code; DAV, share links, the editors and demo checks pass. (13 Nov, an agent, 3865a5b8: 228 files; storage_is_cloud merges the Module Def and moves what holds it as text; R2 file URLs and DAV keep their address through override_whitelisted_methods, site-config keys keep theirs; run.localhost and one.4dl.dev migrated, 313 of 314.)
-- [ ] P2.2 one_slide → one_deck, Module "One Deck", shown OneDeck; doctypes keep "Presentation*" (a presentation is the thing). — no OneSlide/oneslide in code.
+- [x] P2.2 one_slide → one_deck, Module "One Deck", shown OneDeck; doctypes keep "Presentation*" (a presentation is the thing). — no OneSlide/oneslide in code. (13 Nov, an agent, a82dc957: slide_is_deck renames the Module Def and roles; stored URLs, HMAC salts and /assets/onedesk/slide keep their names for good. JSON whose words changed without `modified` moving never reached sites: fixed for P2.1 and P2.2 (D8). Looked at on run.localhost, linked to the dev OneAdmin for it: the editor opens a presentation at 1440 and 390.)
 - [ ] P2.3 OneDoc: "OneWriter" leaves code; frontend/src/writer → doc; doctypes Writer Document(*) → Document(*) only if `frappe.rename_doc` on run.localhost keeps links, versions and shares (measured; else kept and noted). — no OneWriter in code.
 - [ ] P2.4 OneSheet: "OneWorkbook" leaves code; doctypes Workbook* stay (a workbook is the thing). — no OneWorkbook in code.
 - [ ] P2.5 one_legal → trust_center, Module "Trust Center". — legal.py files import from the new path; TrustCenter opens.
@@ -396,6 +396,7 @@ Only what needs his own hands:
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
 
+- [ ] D8 A rule that a synced JSON (doctype, page, sidebar, report, print format, notification, fixture) whose content changed also moved its `modified`, or frappe never syncs it to sites — at P3.3: the P2 renames changed titles without it and sites kept the old words.
 - [ ] D6 OneCloud's checks move out of one_demo/check.py into its own checks.py, as every other module's are; check.py imports a module's checks only where the file exists until then — at P3.7: check.py is split there. (OneCloud's folder is one_cloud since P2.1.)
 - [ ] D7 Remove the one_slide shim — at P2.9: it stays one release so old dotted paths run
 - [ ] D4 Remove the one_storage shim — at P2.9: it stays one release so old dotted paths run
