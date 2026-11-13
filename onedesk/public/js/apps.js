@@ -74,7 +74,10 @@ onedesk.apps.configure = async () => {
 			await frappe.xcall("onedesk.one.apps.save", { off });
 			dialog.hide();
 			frappe.show_alert({ message: __("Apps saved"), indicator: "green" });
-			window.location.reload();
+			// An app turned on that has steps opens in SetupCenter, on its steps.
+			const landed = apps.find((app) => !app.on && !off.includes(app.name) && ((frappe.boot.one_setup || {})[app.name] || []).length);
+			if (landed) window.location.assign(`/desk/one?center=setup&at=${encodeURIComponent(landed.name)}`);
+			else window.location.reload();
 		},
 	});
 	const set = ($card, on) => $card.toggleClass("is-off", !on).attr("aria-pressed", on);

@@ -33695,6 +33695,11 @@ msgstr "Noch nichts, wonach Lieferanten bewertet werden. „Beheben“ fügt Pü
 msgid "Nothing to set here."
 msgstr "Hier gibt es nichts einzustellen."
 
+#: onedesk/public/js/one/setup_center.js:70
+#: onedesk/public/js/one/setup_center.js:81
+msgid "Nothing to set up."
+msgstr "Nichts einzurichten."
+
 #: onedesk/public/js/shell.js:91
 msgid "Nothing to show"
 msgstr "Nichts anzuzeigen"
@@ -47179,6 +47184,11 @@ msgstr ""
 msgid "Setup hit a problem on our side. We're working on it."
 msgstr "Bei der Einrichtung ist bei uns ein Problem aufgetreten. Wir arbeiten daran."
 
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json:198
+msgid "SetupCenter"
+msgstr "SetupCenter"
+
 #. Label of the several (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:41
 msgid "Several Files"
@@ -60140,6 +60150,10 @@ msgstr "Was schuldet uns dieser Kunde, auf welchen Rechnungen, und wie verspäte
 msgid "What does this warehouse hold, what is it worth, and what in it is low or short?"
 msgstr "Was liegt in diesem Lager, was ist es wert, und was davon ist knapp oder fehlt?"
 
+#: onedesk/public/js/one/setup_center.js:78
+msgid "What each app needs set up so it works the way your company does."
+msgstr "Was in jeder App einzurichten ist, damit sie so arbeitet wie Ihr Unternehmen."
+
 #: onedesk/one_crm/home.py:132
 msgid "What each campaign brought in leads, opportunities and sales."
 msgstr "Was jede Kampagne an Leads, Chancen und Verkäufen brachte."
@@ -68212,6 +68226,11 @@ msgstr "{0} nicht abgeglichene Banktransaktionen"
 #, python-brace-format
 msgid "{0} Users"
 msgstr "{0} Benutzer"
+
+#: onedesk/public/js/one/setup_center.js:20
+#, python-brace-format
+msgid "{0} Waiting"
+msgstr "{0} offen"
 
 #: frontend/src/crm/CrmHome.vue:149
 #, python-brace-format

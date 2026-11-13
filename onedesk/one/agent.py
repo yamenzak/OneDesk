@@ -16,6 +16,8 @@ NOT_FOR_AI = {
 	"setup_job.wake": "A new site's build asks it to set itself up from its signup, before anybody works in it.",
 	"company.use": "Which company a person works in is their own choice, from the frame.",
 	"unsubscribe.off": "A signed link in a mail, opened without signing in, while OneAI sets the same switch through NotificationCenter.",
+	"setup_center.save": "A step's answers are the workspace's own setup, typed by whoever sets it up in SetupCenter.",
+	"setup_center.finish": "Marking a step done is the word of whoever did it, never OneAI's.",
 	"shortcut_center.save": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"shortcut_center.reset": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"avatars.pick": "How every record of a kind looks is an administrator's choice in One's settings, never OneAI's.",

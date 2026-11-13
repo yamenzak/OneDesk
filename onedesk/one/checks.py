@@ -1635,13 +1635,13 @@ def help_shows_every_page_in_order():
 @check
 def setup_steps_are_slides_then_to_dos():
 	"""OneMail's setup steps (one/setup_steps.py): Layla, who administers the
-	workspace, sees all three in Getting Started and Nadia none; the two with
-	fields would be wizard slides, named for the module and step; one given
-	in the wizard is saved and done, one left empty stays a to-do, and Mark
-	as Done finishes one."""
+	workspace, sees all three and Nadia none; the two with fields would be
+	wizard slides, named for the module and step; one given in the wizard is
+	saved and done, one left empty stays a to-do, and SetupCenter's Mark as
+	Done finishes one."""
 	from unittest.mock import patch
 
-	from onedesk.one import setup_steps
+	from onedesk.one import setup_center, setup_steps
 	from onedesk.one_mail import addresses
 
 	with as_user(OWNER):
@@ -1662,12 +1662,56 @@ def setup_steps_are_slides_then_to_dos():
 		with as_user(OWNER):
 			said = {one["key"]: one["done"] for one in setup_steps.for_boot()["OneMail"]}
 			assert said["private"] == 1 and said["templates"] == 0, said
-			left = setup_steps.finish("OneMail", "templates")
+			left = next(one for one in setup_center.finish("OneMail", "templates")["apps"] if one["app"] == "OneMail")["steps"]
 		assert next(one for one in left if one["key"] == "templates")["done"] == 1
 	finally:
 		frappe.db.set_default(addresses.EXTERNAL, was) if was is not None else frappe.db.set_default(addresses.EXTERNAL, "1")
 		for key, value in flags.items():
 			frappe.db.set_default(setup_steps.FLAG.format("one_mail", key), value or "")
+
+
+@check
+def setupcenter_lists_each_apps_steps_and_saves_their_forms():
+	"""SetupCenter (one/setup_center.py): Layla, who administers the
+	workspace, sees every app on with steps, in the rail's order,
+	AccountCenter's and OneMail's among them, and a step with fields carries
+	the wizard's own fields; Nadia, who may do none, sees none and has no
+	row for it; an app turned off leaves it; OneMail's Private Mailboxes
+	saved from its form is done and says so."""
+	import json
+
+	from onedesk.one import apps, registry, setup_center, setup_steps
+	from onedesk.one_mail import addresses
+
+	mail = registry.name("one_mail")
+	with as_user(OWNER):
+		said = setup_center.load()["apps"]
+		assert setup_center.reaches()
+	listed = [one["app"] for one in said]
+	assert registry.name("account_center") in listed and mail in listed, listed
+	steps = {one["key"]: one for one in next(one for one in said if one["app"] == mail)["steps"]}
+	assert [field["fieldname"] for field in steps["private"]["fields"]] == ["allowed"] and not steps["templates"]["fields"], steps
+	assert next(one for one in said if one["app"] == mail)["center"] == "settings"
+	assert next(one for one in said if one["app"] == registry.name("account_center"))["center"] == "account"
+	with as_user("nadia@one.test"):
+		assert not setup_center.load()["apps"] and not setup_center.reaches()
+	was = frappe.db.get_default(addresses.EXTERNAL)
+	flag = frappe.db.get_default(setup_steps.FLAG.format("one_mail", "private"))
+	hidden = frappe.db.get_default(apps.KEY)
+	try:
+		frappe.db.set_default(setup_steps.FLAG.format("one_mail", "private"), "")
+		with as_user(OWNER):
+			after = setup_center.save(mail, "private", {"allowed": 0})["apps"]
+		assert frappe.db.get_default(addresses.EXTERNAL) == "0"
+		saved = next(one for one in next(one for one in after if one["app"] == mail)["steps"] if one["key"] == "private")
+		assert saved["done"] == 1, saved
+		frappe.db.set_default(apps.KEY, json.dumps([registry.get("one_mail").sidebar]))
+		with as_user(OWNER):
+			assert mail not in [one["app"] for one in setup_center.load()["apps"]]
+	finally:
+		frappe.db.set_default(addresses.EXTERNAL, was if was is not None else "1")
+		frappe.db.set_default(setup_steps.FLAG.format("one_mail", "private"), flag or "")
+		frappe.db.set_default(apps.KEY, hidden or "[]")
 
 
 @check

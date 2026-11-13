@@ -275,7 +275,7 @@ def centres_misplaced(kit: str, rail: list[dict], frame: str) -> list[str]:
 	One's rail does not open, one a module's Settings does not, or one the
 	frame opens. Pure."""
 	names = re.findall(r"^\t(\w+): \"", kit.split("onedesk.CENTERS = {", 1)[1].split("};", 1)[0], re.M)
-	wrong = [] if len(names) == 9 else [f"nine centres, not {names}"]
+	wrong = [] if len(names) == 10 else [f"ten centres, not {names}"]
 	opened = {re.search(r"center=(\w+)", row.get("url") or "").group(1) for row in rail if "center=" in (row.get("url") or "")}
 	if opened != set(names):
 		wrong.append(f"One's rail opens {sorted(opened)}, not {sorted(names)}")
@@ -809,7 +809,7 @@ def test_the_declaration_rules_catch_their_examples():
 	]
 	assert own_settings("OneHR", {"windowless": "It has none. Truly."}, {}) == ["OneHR: why it has no window, in one sentence"]
 	opens = "onedesk.access.open onedesk.notification_center.open onedesk.ai_center.open onedesk.shortcut_center.open onedesk.trust.open"
-	names = [f"C{n}" for n in range(9)]
+	names = [f"C{n}" for n in range(10)]
 	kit = "onedesk.CENTERS = {\n" + "".join(f'\t{name}: "x",\n' for name in names) + "};\nonedesk.module_settings.centers = {" + opens + "\n};"
 	rail = [{"url": f"/app/one?center={name}"} for name in names]
 	assert centres_misplaced(kit, rail, "") == []

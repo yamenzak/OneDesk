@@ -400,9 +400,13 @@ is the one engine: `for_wizard`, built with the boot while setup is
 unfinished, gives the wizard a slide per step with fields, named for the
 module and step, after ours (`public/js/setup_wizard.js`); `apply`, a
 wizard task, saves each step that was given and leaves an empty one for
-later; `for_boot` gives each reader the steps their role can do; and the
-ControlCenter opens on **Getting Started** while one is left, with Set Up
-(the step's tab) and Mark as Done (`finish`). OneMail's are the company's
+later; `for_boot` gives each reader the steps their role can do. Every
+step is reached in **SetupCenter** (`one/setup_center.py`), an app per tab
+with its steps done and waiting: a step with fields is the wizard's own
+form (`fields`, one declaration for both), saved through the step's `save`;
+one without has Set Up (its tab) and Mark as Done (`finish`). A
+ControlCenter starts with a Getting Started row that opens SetupCenter on
+the module while a step waits, and turning an app on in Apps lands there. OneMail's are the company's
 domain, private mailboxes, and mail templates (no fields: a to-do only).
 `test_ready.py` fails on a ready module without `setup.py`, a step without
 its key, title, what it's for, ability or tab, a tab its settings don't

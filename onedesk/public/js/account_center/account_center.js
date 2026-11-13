@@ -1799,15 +1799,13 @@ onedesk.account_center.HELP = {
 
 // AccountCenter: Yours for everybody, Workspace for administrators. at
 // opens one section, and record one record in it, such as a person. It
-// starts with what is left to set up, while something is.
+// starts with Getting Started, which opens SetupCenter, while a step waits.
 onedesk.account_center.open = async ({ at = null, record = null } = {}) => {
 	const said = await frappe.xcall(onedesk.AccountSection.API + "sections_of");
 	const allowed = Object.fromEntries(said.sections.map((one) => [one.key, one]));
 	const named = { yours: __("Yours"), workspace: __("Workspace") };
-	const steps = (frappe.boot.one_setup || {}).AccountCenter || [];
-	const starting = steps.some((step) => !step.done) ? [{ group: __("Start Here"), items: [onedesk.module_settings.getting_started(onedesk.names.of("account_center"))] }] : [];
 	const tabs = [
-		...starting,
+		...onedesk.module_settings.starting(onedesk.names.of("account_center")),
 		...Object.entries(named).map(([group, label]) => ({
 			group: label,
 			items: onedesk.account_center.SECTIONS.filter((one) => allowed[one.id] && allowed[one.id].group === group).map((one) => ({

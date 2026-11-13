@@ -1021,6 +1021,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one/access_center.js",
 	"/assets/onedesk/js/one_ai/ai_center.js",
 	"/assets/onedesk/js/one/notification_center.js",
+	"/assets/onedesk/js/one/setup_center.js",
 	"/assets/onedesk/js/one/one_control.js",
 	"/assets/onedesk/js/one_hr/hr_control.js",
 	"/assets/onedesk/js/one_calendar/calendar_control.js",

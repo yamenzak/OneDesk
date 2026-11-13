@@ -10,7 +10,7 @@ frappe.provide("onedesk.module_settings");
 // The centres a module's dialogs are, named as One's products are: One's
 // mark, the first word light and Center after it (HelpCenter, ControlCenter,
 // AccountCenter, UpdateCenter, TrustCenter, AccessCenter,
-// NotificationCenter, AICenter, ShortcutCenter). They are names, so they are not translated, and
+// NotificationCenter, AICenter, ShortcutCenter, SetupCenter). They are names, so they are not translated, and
 // brand.js draws them so wherever they are written (brand.CENTER).
 onedesk.CENTERS = {
 	help: "Help",
@@ -22,6 +22,7 @@ onedesk.CENTERS = {
 	notifications: "Notification",
 	ai: "AI",
 	shortcuts: "Shortcut",
+	setup: "Setup",
 };
 
 // Modules that are a centre rather than a product, named and drawn as the
@@ -110,42 +111,15 @@ onedesk.module_settings.allows = (needs, may) => {
 	return [].concat(needs).some((key) => may[key]);
 };
 
-// A module's setup steps the reader may do (docs/READY.md, mechanism 9;
-// one/setup_steps.py): each done, or a to-do with Set Up, which opens the
-// tab that does it, and Mark as Done.
-onedesk.module_settings.getting_started = (module) => ({
-	id: "getting_started",
-	label: __("Getting Started"),
-	icon: "list-checks",
-	title: __("Getting Started"),
-	description: __("What to set up so {0} works the way your company does.", [module]),
-	render(panel) {
-		const kit = onedesk.module_settings.kit;
-		const steps = (frappe.boot.one_setup || {})[module] || [];
-		const $list = $(`<div class="one-set-list one-set-steps"></div>`).appendTo(panel.body.empty());
-		for (const step of steps) {
-			const $end = $(`<span class="one-set-buttons"></span>`);
-			if (step.done) {
-				$end.append(frappe.ui.badge.html({ label: __("Done"), theme: "green" }));
-			} else {
-				if (step.tab && panel.dialog._items[step.tab]) {
-					kit.button({ label: __("Set Up"), variant: "solid" }).on("click", () => panel.dialog.activate(step.tab)).appendTo($end);
-				}
-				kit.button({ label: __("Mark as Done"), variant: "ghost" })
-					.on("click", async () => {
-						const left = await frappe.xcall("onedesk.one.setup_steps.finish", { module, key: step.key });
-						frappe.boot.one_setup[module] = left;
-						panel.refresh();
-					})
-					.appendTo($end);
-			}
-			kit.row({ lead: kit.glyph(step.done ? "circle-check" : "circle"), title: step.title, sub: frappe.utils.escape_html(step.about) })
-				.appendTo($list)
-				.find(".one-set-end")
-				.append($end);
-		}
-	},
-});
+// While one of a module's setup steps waits for the reader (one/setup_steps.py),
+// its ControlCenter starts with Getting Started, which opens SetupCenter on
+// the module, where the steps are.
+onedesk.module_settings.starting = (module) => {
+	const steps = (frappe.boot.one_setup || {})[module] || [];
+	if (!steps.some((step) => !step.done)) return [];
+	const item = { id: "getting_started", label: __("Getting Started"), icon: "list-checks", opens: () => onedesk.centers.open("setup", { at: module }) };
+	return [{ group: __("Start Here"), items: [item] }];
+};
 
 // What every module's ControlCenter ends with, found rather than drawn
 // (docs/READY.md, mechanism 18), after its Lists (lists.js): Roles and Access
@@ -180,11 +154,7 @@ onedesk.module_settings.centers = (module) => {
 // each item with the `needs` its tab asks of the reader's role (`may`).
 // A group left with nothing is left out, and opening again replaces it.
 onedesk.module_settings.open = ({ module, may = {}, tabs, default_tab = null, ...rest }) => {
-	// Every module's ControlCenter starts with what is left to set up, while
-	// something is. What it adds to the agreements is in TrustCenter.
-	const steps = (frappe.boot.one_setup || {})[module] || [];
-	const starting = steps.some((step) => !step.done) ? [{ group: __("Start Here"), items: [onedesk.module_settings.getting_started(module)] }] : [];
-	tabs = [...starting, ...tabs, ...onedesk.lists.tab(module), ...onedesk.module_settings.centers(module)];
+	tabs = [...onedesk.module_settings.starting(module), ...tabs, ...onedesk.lists.tab(module), ...onedesk.module_settings.centers(module)];
 	const shown = tabs
 		.map((group) => ({ ...group, items: (group.items || []).filter((item) => item && onedesk.module_settings.allows(item.needs, may)) }))
 		.filter((group) => group.items.length);
