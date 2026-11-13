@@ -23,11 +23,11 @@ APP = App(
 	ready={
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-11-12", "commit": "ec12a9996047", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-12", "commit": "ec12a9996047", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-12", "commit": "ec12a9996047", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-12", "commit": "ec12a9996047", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-12", "commit": "ec12a9996047", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-13", "commit": "a82dc9575064", "by": "Claude, for Yamen"},
 		},
 	},
 	settle=(
