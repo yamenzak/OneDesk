@@ -1,4 +1,4 @@
-"""Closing a workspace (one_account/closing.py, one_admin/closing.py): only its payer
+"""Closing a workspace (account_center/closing.py, one_admin/closing.py): only its payer
 takes everything or closes it, closing waits out a notice and then walks the
 ladder's own Archive, and nothing without a closing day is ever touched.
 The workspace's side is checked on the demo; the account's side is read
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-HERE = (tree.APP / "one_account" / "closing.py").read_text()
+HERE = (tree.APP / "account_center" / "closing.py").read_text()
 THERE = (tree.APP / "one_admin" / "closing.py").read_text()
 PROXY = (tree.APP / "one_admin" / "proxy.py").read_text()
 TELL = (tree.APP / "one_admin" / "tell.py").read_text()

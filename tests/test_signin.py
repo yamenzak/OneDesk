@@ -1,5 +1,5 @@
 """The Sign-in page of Settings reads what frappe keeps, and says it as a person would.
-See one_account/signin.py."""
+See account_center/signin.py."""
 
 import ast
 import sys
@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-SIGNIN = tree.APP / "one_account" / "signin.py"
+SIGNIN = tree.APP / "account_center" / "signin.py"
 HOOKS = tree.hooks()
 
 
@@ -64,7 +64,7 @@ def test_sessions_are_shown_a_device_at_a_time():
 
 
 def test_a_password_change_goes_through_ours_and_the_notices_are_always_mailed():
-	assert '"frappe.core.doctype.user.user.update_password": "onedesk.one_account.signin.update_password"' in HOOKS
+	assert '"frappe.core.doctype.user.user.update_password": "onedesk.account_center.signin.update_password"' in HOOKS
 	notices = tree.notifications()
 	for name in ("Password Changed", "Passkey Added", "Administrator Added"):
 		assert notices[name].get("always_mailed"), name

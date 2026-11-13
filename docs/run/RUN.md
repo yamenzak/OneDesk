@@ -400,6 +400,8 @@ Only what needs his own hands:
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
 
+- [-] D11 OneAdmin calls workspaces' account_center paths — at P2.9: until every workspace runs the rename, only the old paths are on all of them. Dropped 13 Nov (P2.6): OneAdmin names no account path on a workspace; it posts to `onedesk.one.account.wake` (steps.py, releases.py), which keeps its path and calls owner.arrive inside the workspace.
+- [ ] D10 Remove the one_account shim — at P2.9: it stays one release so old dotted paths run
 - [ ] D9 Remove the one_legal shim — at P2.9: it stays one release so old dotted paths run
 - [ ] D12 A rule that every name a checks.py reads from one of our modules (module.NAME) exists: checks never run under pytest, and P3.6 moved story.MONTHS and home.FEW from under three checks — at P3.3: the checks are reworked there.
 - [ ] D8 A rule that a synced JSON (doctype, page, sidebar, report, print format, notification, fixture) whose content changed also moved its `modified`, or frappe never syncs it to sites — at P3.3: the P2 renames changed titles without it and sites kept the old words.

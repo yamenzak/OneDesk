@@ -154,7 +154,7 @@ def as_template() -> None:
 	calendar links and logs. A spare made from it is given its own. The
 	bench carries every private app, but a template holding one would give
 	it to every workspace, so the build stops there."""
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	if private.names():
 		raise SystemExit(f"the template site has private apps installed ({', '.join(private.names())}); a workspace gets one only by claiming it")

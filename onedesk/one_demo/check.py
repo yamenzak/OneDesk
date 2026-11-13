@@ -2427,7 +2427,7 @@ def one_a_private_app_is_always_on():
 	from unittest.mock import patch
 
 	from onedesk.one import apps
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	said = {"name": "acme_fleet", "title": "Acme Fleet", "said": "Acme's vans.", "icon": "truck"}
 	with patch.object(private, "names", return_value=["acme_fleet"]), patch.object(private, "about", return_value=said), patch.object(private, "rail", return_value=set()):
@@ -2457,8 +2457,8 @@ def one_devices_decide_where_a_passkey_lives():
 	that signs for him. Lost retires the laptop's and leaves the phone's."""
 	import json
 
-	from onedesk.one_account import devices
-	from onedesk.one_account.signin import facts
+	from onedesk.account_center import devices
+	from onedesk.account_center.signin import facts
 	from onedesk.one_demo.setup import BUILDER
 	from onedesk.one_hr import passkey, signin
 
@@ -2607,7 +2607,7 @@ def settings_open_and_save_for_each_person():
 	Hana, turns Nadia off and on, and drops a rule OneAI wrote. What OneAI
 	remembers is kept and forgotten."""
 	from onedesk.one import access_center, ai, audit, control, notification_words, privacy, rules
-	from onedesk.one_account import center
+	from onedesk.account_center import center
 	from onedesk.one_ai import run as runs
 	from onedesk.one_ai import yours
 	from onedesk.one_calendar import control as calendar_control
@@ -2677,7 +2677,7 @@ def settings_open_and_save_for_each_person():
 		center.sign_out_everywhere("nadia@one.test")
 		from unittest import mock
 
-		from onedesk.one_account import signin
+		from onedesk.account_center import signin
 
 		was = frappe.db.get_single_value("System Settings", "enable_two_factor_auth")
 		frappe.db.set_single_value("System Settings", "enable_two_factor_auth", 1)
@@ -3081,7 +3081,7 @@ def the_payer_downloads_everything_and_closes_the_workspace():
 	import zipfile
 	from unittest import mock
 
-	from onedesk.one_account import closing
+	from onedesk.account_center import closing
 
 	frappe.db.set_single_value("Workspace Account", "billed_to", OWNER)
 	folder = frappe.get_site_path("private", "closing")
@@ -3632,7 +3632,7 @@ def the_plan_credits_domains_and_bills_are_the_administrators():
 	from unittest import mock
 
 	from onedesk.one import account
-	from onedesk.one_account import bills
+	from onedesk.account_center import bills
 
 	with (
 		as_user(OWNER),
@@ -3661,7 +3661,7 @@ def the_plan_credits_domains_and_bills_are_the_administrators():
 			assert asked.call_args.kwargs == {"limit": 0}, "a monthly limit is never below nothing"
 			assert bills.set_update_window(0, 9) is not None and asked.call_args.kwargs == {"weekday": 0, "hour": 9}
 			assert bills.update_now() is not None
-		with mock.patch("onedesk.one_account.bills._attach"):
+		with mock.patch("onedesk.account_center.bills._attach"):
 			bill = bills.to_books("ONE-2026-0042")
 		made = frappe.get_doc("Purchase Invoice", bill)
 		assert made.bill_no == "ONE-2026-0042" and made.discount_amount == 20 and made.docstatus == 0
@@ -3734,7 +3734,7 @@ def push_reaches_a_persons_own_browsers():
 	from unittest import mock
 
 	from onedesk.one import push
-	from onedesk.one_account import signin
+	from onedesk.account_center import signin
 
 	endpoint = "https://fcm.googleapis.com/fcm/send/demo-rania"
 	with as_user("rania@one.test"):
@@ -4263,7 +4263,7 @@ def the_workspace_tells_what_it_promised_to():
 	from unittest.mock import patch
 
 	from onedesk.one import account, tell
-	from onedesk.one_account import signin
+	from onedesk.account_center import signin
 	from onedesk.one_admin import tell as admin
 	from onedesk.one_ai.reading import tell as intake
 	from onedesk.one_studio import tell as studio

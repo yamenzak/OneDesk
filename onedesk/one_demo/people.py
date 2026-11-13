@@ -16,7 +16,7 @@ PEOPLE = (
 	("Layla", "Haddad", OWNER, "Management", "General Manager", "Female", (2019, 3, 1), 42000, None, dict.fromkeys(APPS, "Manager")),
 	("Samir", "Aoun", "samir@one.test", "Projects", "Projects Manager", "Male", (2020, 6, 14), 28000, "Layla", {"OneProject": "Manager", "OneCRM": "User", "OneInventory": "User"}),
 	("Omar", "Farouk", "omar@one.test", "Sales", "Sales Manager", "Male", (2021, 1, 10), 24000, "Layla", {"OneCRM": "Manager", "OneProject": "User", "OneBook": "User", "OneDoc": "Manager"}),
-	("Huda", "Nasser", "huda@one.test", "Accounts", "Accountant", "Female", (2021, 9, 1), 18000, "Layla", {"OneBook": "Manager", "OneInventory": "User", "OneProject": "User", "OneAccount": "Manager", "OneSheet": "Manager"}),
+	("Huda", "Nasser", "huda@one.test", "Accounts", "Accountant", "Female", (2021, 9, 1), 18000, "Layla", {"OneBook": "Manager", "OneInventory": "User", "OneProject": "User", "AccountCenter": "Manager", "OneSheet": "Manager"}),
 	("Karim", "Mansour", "karim@one.test", "Purchase", "Procurement Officer", "Male", (2022, 2, 20), 15000, "Samir", {"OneInventory": "Manager", "OneFactory": "User", "OneQuality": "Manager", "OneBook": "User", "OneProject": "User"}),
 	("Mariam", "Saleh", "mariam@one.test", "Human Resources", "HR Officer", "Female", (2022, 5, 3), 15000, "Layla", {"OneHR": "Manager", "OneMail": "Manager", "One": "Manager", "OneCalendar": "Manager"}),
 	("Rania", "Sabbagh", "rania@one.test", "Projects", "Site Engineer", "Female", (2022, 8, 15), 16000, "Samir", {"OneProject": "User", "OneInventory": "User", "OneFactory": "User"}),
@@ -38,7 +38,7 @@ ABILITIES = {"samir@one.test": ("OneProject Manager",)}
 
 def run(password=None):
 	from onedesk.one.people import set_access
-	from onedesk.one_account.center import invite
+	from onedesk.account_center.center import invite
 	from onedesk.one_demo.setup import BUILDER
 
 	frappe.db.set_single_value("System Settings", "enable_password_policy", 0)

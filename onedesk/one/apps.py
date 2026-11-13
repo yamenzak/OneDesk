@@ -75,7 +75,7 @@ def offered() -> list[dict]:
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
 	from onedesk.one.people import APP_SAID
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	off = set(hidden())
 	theirs = private.rail()
@@ -183,7 +183,7 @@ def boot(bootinfo) -> None:
 @frappe.whitelist()
 def read() -> dict:
 	from onedesk.one import roles
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	roles.require()
 	return {"apps": offered() + private.waiting()}

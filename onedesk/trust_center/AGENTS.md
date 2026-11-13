@@ -252,7 +252,7 @@ OneApp's `trustcenter/legal.py` and corrected for what OneDesk actually does:
 
 - OneAI's reading writes without being asked each time, so "nothing is written without
   somebody asking" is gone.
-- The full download (one_account/closing.py) is offered to whoever pays, not promised as
+- The full download (account_center/closing.py) is offered to whoever pays, not promised as
   a backup.
 - The lifecycle's periods are read from `one_admin/ladder.py` rather than typed
   here, so the Terms say what the code does.

@@ -58,7 +58,7 @@ def credits_expiring(people: list[str], credits: str, date: str) -> None:
 def storage_nearly_full(people: list[str], used, limit) -> None:
 	"""The files crossed nine tenths of what the plan holds."""
 	from onedesk.one import account
-	from onedesk.one_account.heads import size
+	from onedesk.account_center.heads import size
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Storage Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)
@@ -67,7 +67,7 @@ def storage_nearly_full(people: list[str], used, limit) -> None:
 def database_nearly_full(people: list[str], used, limit) -> None:
 	"""The database crossed nine tenths of what the plan holds."""
 	from onedesk.one import account
-	from onedesk.one_account.heads import size
+	from onedesk.account_center.heads import size
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Database Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)
@@ -236,7 +236,7 @@ def _said() -> dict:
 	"""When, from which device and address: what a security notice says."""
 	from frappe.utils import now_datetime
 
-	from onedesk.one_account.signin import device
+	from onedesk.account_center.signin import device
 
 	agent = frappe.request.headers.get("User-Agent") if getattr(frappe.local, "request", None) else None
 	return {

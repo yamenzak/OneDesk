@@ -137,7 +137,7 @@ def refresh() -> dict:
 	_take_zone(zone_to_take(finished, ours, said.get("time_zone")))
 	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held, credits.get("gift"))
-	from onedesk.one_account import owner
+	from onedesk.account_center import owner
 
 	owner.arrive(said)
 	return held.as_dict()
@@ -170,7 +170,7 @@ def _take_zone(zone: str | None) -> None:
 def wake() -> dict:
 	"""Ask the administrator who this workspace is, now: the admin site's last
 	step of a build calls this, so the owner's invitation leaves as the build
-	finishes (one_account/owner.py). It takes nothing and trusts nobody: all it does
+	finishes (account_center/owner.py). It takes nothing and trusts nobody: all it does
 	is make this site ask, with its own token, and it says only whether the
 	workspace has an administrator after."""
 	if not configured():
@@ -252,7 +252,7 @@ def ran_out() -> None:
 
 def _once(what: str, value: str) -> bool:
 	"""Whether `what` has not yet been told for `value`, and remember it has."""
-	key = f"one_account_told_{what}"
+	key = f"account_center_told_{what}"
 	if frappe.db.get_default(key) == value:
 		return False
 	frappe.db.set_default(key, value)

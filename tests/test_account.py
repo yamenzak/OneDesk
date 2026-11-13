@@ -10,9 +10,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-CENTER = tree.APP / "one_account" / "center.py"
+CENTER = tree.APP / "account_center" / "center.py"
 PEOPLE = tree.APP / "one" / "people.py"
-SCRIPT = tree.APP / "public" / "js" / "one_account" / "account_center.js"
+SCRIPT = tree.APP / "public" / "js" / "account_center" / "account_center.js"
 
 
 def _load(path, names):

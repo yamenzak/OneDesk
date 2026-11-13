@@ -15,7 +15,7 @@ One Portal
 One AI
 One Studio
 One Admin
-One Account
+Account Center
 One Deck
 One Doc
 One Interface

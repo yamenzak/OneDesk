@@ -22,8 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 ONE = tree.APP / "one"
-ACCOUNT = tree.APP / "one_account" / "doctype" / "workspace_account" / "workspace_account.json"
-DOMAIN = tree.APP / "one_account" / "doctype" / "workspace_domain" / "workspace_domain.json"
+ACCOUNT = tree.APP / "account_center" / "doctype" / "workspace_account" / "workspace_account.json"
+DOMAIN = tree.APP / "account_center" / "doctype" / "workspace_domain" / "workspace_domain.json"
 
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
@@ -86,7 +86,7 @@ def test_the_account_is_in_accountcenter():
 	"""Otherwise it is reachable only by typing its name, which is where it was.
 	It is AccountCenter's Plan and Credits and Domains now, which the avatar's
 	menu opens."""
-	assert '"Workspace Account"' in (tree.APP / "one_account" / "center.py").read_text(), "AccountCenter does not show the account"
+	assert '"Workspace Account"' in (tree.APP / "account_center" / "center.py").read_text(), "AccountCenter does not show the account"
 	outside = (tree.APP / "public" / "js" / "outside.js").read_text()
 	assert 'one.name === "settings"' in outside and 'label: "AccountCenter"' in outside
 

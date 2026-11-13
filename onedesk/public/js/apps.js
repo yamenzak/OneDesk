@@ -82,7 +82,7 @@ onedesk.apps.configure = async () => {
 		const $input = dialog.$wrapper.find(".one-apps-code input");
 		const code = ($input.val() || "").trim();
 		if (!code) return $input.trigger("focus");
-		const app = await frappe.xcall("onedesk.one_account.private.claim", { code });
+		const app = await frappe.xcall("onedesk.account_center.private.claim", { code });
 		dialog.hide();
 		frappe.msgprint({
 			title: app.title,

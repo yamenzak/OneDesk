@@ -88,7 +88,7 @@ def gather_kind(key: str, user: str):
 		account["roles"] = frappe.get_roles(user)
 		employee = frappe.db.get_value("Employee", {"user_id": user}, "name")
 		if employee:
-			from onedesk.one_account import center
+			from onedesk.account_center import center
 
 			fields = (
 				"employee_name",

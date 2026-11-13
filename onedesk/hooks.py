@@ -14,9 +14,9 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 
 after_sync = settles(install=True)
 
-after_app_install = ["onedesk.one_account.private.installed_now"]
+after_app_install = ["onedesk.account_center.private.installed_now"]
 
-before_app_uninstall = ["onedesk.one_account.private.refuse_uninstall"]
+before_app_uninstall = ["onedesk.account_center.private.refuse_uninstall"]
 
 after_migrate = settles(install=False)
 extend_bootinfo = [
@@ -90,7 +90,7 @@ scheduler_events = {
 		"onedesk.one_ai.vectors.tidy",
 		"onedesk.one_sheet.versions.tidy",
 		"onedesk.one_doc.versions.tidy",
-		"onedesk.one_account.devices.forget",
+		"onedesk.account_center.devices.forget",
 		"onedesk.one_admin.tell.trials_ending",
 		"onedesk.one_admin.tell.servers_filling",
 		"onedesk.one_admin.health.prune",
@@ -185,7 +185,7 @@ doc_events = {
 		"validate": "onedesk.one.people.seated",
 		"before_save": "onedesk.one_mail.addresses.for_person",
 		"after_insert": "onedesk.one_mail.faces.dress_later",
-		"on_update": ["onedesk.one_mail.faces.dress_later", "onedesk.one_hr.everybody.user", "onedesk.one_account.sync.from_user"],
+		"on_update": ["onedesk.one_mail.faces.dress_later", "onedesk.one_hr.everybody.user", "onedesk.account_center.sync.from_user"],
 	},
 	"System Settings": {"on_update": "onedesk.one_calendar.feed.switched"},
 	"Custom Field": {"validate": "onedesk.one.layer.custom_field"},
@@ -411,7 +411,7 @@ doc_events = {
 	"Employee": {
 		"validate": ["onedesk.one_hr.leaving.notice_ends_on", "onedesk.one_hr.everybody.employee"],
 		"after_insert": "onedesk.one_mail.faces.dress_later",
-		"on_update": ["onedesk.one_hr.leaving.on_employee_update", "onedesk.one_mail.faces.dress_later", "onedesk.one_account.sync.from_employee"],
+		"on_update": ["onedesk.one_hr.leaving.on_employee_update", "onedesk.one_mail.faces.dress_later", "onedesk.account_center.sync.from_employee"],
 	},
 	"Overtime Slip": {
 		"before_validate": "onedesk.one_hr.overtime.before_validate",
@@ -670,6 +670,7 @@ override_whitelisted_methods = {
 	"onedesk.one_slide.api.media": "onedesk.one_deck.api.media",
 	"onedesk.one_slide.api.shown": "onedesk.one_deck.api.shown",
 	"onedesk.one_slide.fonts.face": "onedesk.one_deck.fonts.face",
+	"onedesk.one_account.invite.accept": "onedesk.account_center.invite.accept",
 	"frappe.utils.global_search.search": "onedesk.one.outside.search",
 	"frappe.desk.page.setup_wizard.setup_wizard.setup_complete": "onedesk.one.setup_wizard.setup_complete",
 	"erpnext.stock.doctype.material_request.material_request.update_status": "onedesk.one_inventory.tell.update_status",
@@ -678,7 +679,7 @@ override_whitelisted_methods = {
 	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
 	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",
 	"erpnext.selling.doctype.customer.customer.send_emails": "onedesk.one_book.tell.credit_limit",
-	"frappe.core.doctype.user.user.update_password": "onedesk.one_account.signin.update_password",
+	"frappe.core.doctype.user.user.update_password": "onedesk.account_center.signin.update_password",
 	"frappe.www.login.send_login_link": "onedesk.one_admin.accounts.send_login_link",
 	"frappe.utils.print_format_generator.render_builder_preview": "onedesk.one_studio.printing.render_builder_preview",
 	"frappe.utils.print_format_generator.download_builder_preview_pdf": "onedesk.one_studio.printing.download_builder_preview_pdf",
@@ -834,7 +835,7 @@ doctype_js = {
 	"Personal Data Deletion Request": "public/js/trust_center/privacy_request.js",
 	"Contact": "public/js/one_portal/contact.js",
 	"Personal Data Download Request": "public/js/trust_center/privacy_copy.js",
-	"Workspace Account": "public/js/one_account/workspace_account.js",
+	"Workspace Account": "public/js/account_center/workspace_account.js",
 	"Tenant": "public/js/one_admin/tenant.js",
 	"Workspace Server": "public/js/one_admin/workspace_server.js",
 	"Account Request": "public/js/one_admin/account_request.js",
@@ -972,7 +973,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/desk.css",
 	"/assets/onedesk/css/module_docs.css",
 	"/assets/onedesk/css/module_settings.css",
-	"/assets/onedesk/css/one_account/account_center.css",
+	"/assets/onedesk/css/account_center/account_center.css",
 	"/assets/onedesk/css/center_section.css",
 	"/assets/onedesk/css/shell.css",
 	"/assets/onedesk/css/one_interface/chrome.css",
@@ -1016,7 +1017,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/outside.js",
 	"/assets/onedesk/js/shell.js",
 	"/assets/onedesk/js/center_section.js",
-	"/assets/onedesk/js/one_account/account_center.js",
+	"/assets/onedesk/js/account_center/account_center.js",
 	"/assets/onedesk/js/one/access_center.js",
 	"/assets/onedesk/js/one_ai/ai_center.js",
 	"/assets/onedesk/js/one/notification_center.js",
@@ -1229,4 +1230,4 @@ user_data_fields = [
 ]
 
 on_login = ["onedesk.one_portal.gate.signing_in"]
-on_session_creation = ["onedesk.one_account.signin.arrived", "onedesk.one_account.devices.signed_in"]
+on_session_creation = ["onedesk.account_center.signin.arrived", "onedesk.account_center.devices.signed_in"]

@@ -445,7 +445,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneAccount 1.2.2
+## AccountCenter 1.2.3
 
 Ready.
 

@@ -14,7 +14,7 @@ Portal dialog the workspace manages both from.
 ## Connections
 
 - **From One**: the Contact, Customer and Supplier records the dialog opens on, and the addresses a customer keeps on the portal.
-- **From OneAccount**: the invitation mail and the week-long link to choose a password (one_account/invite.py).
+- **From AccountCenter**: the invitation mail and the week-long link to choose a password (account_center/invite.py).
 - **From OneCRM**: quotations and sales orders, which a customer accepts or declines on the portal.
 - **From OneInventory**: shipments, quote requests, quotes and purchase orders, which a supplier prices on the portal.
 - **From OneBook**: sales and purchase invoices, with what is left to pay.
@@ -175,7 +175,7 @@ customer (Sales Manager) or supplier (Purchase Manager), invites the contact
 from their form: a Website User is made for the contact's address, linked to
 the contact (`portal.invited` then makes it a portal user of each customer and
 supplier the contact is for), and One's Portal Invitation is mailed with a
-link that works for a week (one_account/invite.py). An address that is already
+link that works for a week (account_center/invite.py). An address that is already
 somebody's in the workspace is refused: they sign in to One, not the portal.
 
 Revoke Access turns the login off and signs it out everywhere; Restore Access

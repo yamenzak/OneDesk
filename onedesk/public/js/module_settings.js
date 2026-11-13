@@ -26,7 +26,7 @@ onedesk.CENTERS = {
 
 // Modules that are a centre rather than a product, named and drawn as the
 // centre wherever a list of apps holds them, as One's rail does.
-onedesk.module_settings.AS_CENTER = { OneAccount: ["AccountCenter", "user"], TrustCenter: ["TrustCenter", "shield-check"] };
+onedesk.module_settings.AS_CENTER = { AccountCenter: ["AccountCenter", "user"], TrustCenter: ["TrustCenter", "shield-check"] };
 onedesk.module_settings.named = (app) => (onedesk.module_settings.AS_CENTER[app] || [app])[0];
 onedesk.module_settings.app_icon = (app, fallback = "bell") => {
 	const centre = onedesk.module_settings.AS_CENTER[app];

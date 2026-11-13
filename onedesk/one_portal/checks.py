@@ -32,7 +32,7 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 	from unittest import mock
 
 	from onedesk.one import outside
-	from onedesk.one_account import invite
+	from onedesk.account_center import invite
 	from onedesk.one_inventory import portal as buying_portal
 	from onedesk.one_portal import invite as portal_invite
 

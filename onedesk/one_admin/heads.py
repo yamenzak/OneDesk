@@ -11,7 +11,7 @@ from frappe import _, _lt
 from frappe.utils import escape_html, flt, get_fullname
 from frappe.utils.caching import request_cache
 
-from onedesk.one_account.heads import size
+from onedesk.account_center.heads import size
 from onedesk.one_admin import ledger, operator
 
 TENANT = {

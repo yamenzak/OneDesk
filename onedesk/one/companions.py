@@ -2,7 +2,7 @@
 
 Their `Dock` rows are made to name One as their host, on every migrate, so
 their doctypes open in One's rail rather than their own. A private app's Dock
-is mounted the same way, and its rows stay shown (one_account/private.py).
+is mounted the same way, and its rows stay shown (account_center/private.py).
 """
 
 import frappe
@@ -13,7 +13,7 @@ SITE_LAYER = ""
 
 
 def apply() -> None:
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	for app in (*COMPANIONS, *private.names()):
 		name = frappe.db.exists("Dock", {"app": app, "user": SITE_LAYER, "standard": 1})
@@ -34,7 +34,7 @@ def layer() -> None:
 	from frappe.desk.doctype.dock.dock import get_app_base, get_app_dock
 
 	from onedesk.one import apps
-	from onedesk.one_account import private
+	from onedesk.account_center import private
 
 	ours = {row.get("link_to") for row in get_app_dock(HOST)} | private.rail()
 	off = set(apps.hidden())

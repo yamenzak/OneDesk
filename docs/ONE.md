@@ -56,7 +56,7 @@ Measured on 2026-10-26.
 
 ## AccountCenter
 
-The module is OneAccount (`one_account`). Its
+The module is AccountCenter (`account_center`). Its
 centre is drawn on the settings dialog like the others
 (`onedesk.CENTERS.account`), opens from your avatar at the foot of the rail
 and from the arrows, and has two groups.
@@ -161,7 +161,7 @@ browser on a desktop and a phone, in English and Arabic, a commit, a push
 and a screenshot. A module that is already ready and takes something in
 moves its version.
 
-1. **AccountCenter.** Built. OneAccount (`one_account`) has its folder,
+1. **AccountCenter.** Built. It has its folder (`account_center`),
    registry entry, Help pages, roles, notifications, legal clauses, setup
    step and tour; `signin.py`, `devices.py`, `invite.py`, `owner.py`,
    `bills.py`, `heads.py`, `closing.py` and `private.py` and the four
@@ -272,16 +272,16 @@ moves its version.
    module: frappe's right-to-left sheet turns driver's `left: 0` into
    `right: 0`, and a step written for the left now mirrors.
    AccessCenter only knew People's six apps, so nobody could be made One's,
-   OneAI's, OneAccount's or TrustCenter's Manager from a screen. Now a module
+   OneAI's, AccountCenter's or TrustCenter's Manager from a screen. Now a module
    everybody uses gets a People tab with User and Manager
    (`people.with_roles`), and On One Record shows only where something is
-   given on a record. A OneAccount Manager was shown Plan and Credits and
+   given on a record. An AccountCenter Manager was shown Plan and Credits and
    then refused it, because the closing details are an administrator's.
    Somebody who administers nothing saw One's Workspace links and was
    refused by each (`reach.centre_shown`). Dashboards took 24 seconds,
    because frappe's sidebars were built once for every kind of chart; now
    they are read once a request. The demo keeps Mariam as One's Manager
-   and Huda as OneAccount's.
+   and Huda as AccountCenter's.
 
 ## Open
 

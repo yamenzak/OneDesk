@@ -1,7 +1,7 @@
 """What OnePortal tells people, one entry per kind of notification, read by
 onedesk/notifications/__init__.py beside the other modules' files (docs/
 READY.md, mechanism 8). Both go to somebody outside the workspace, so both
-are mail alone: the invitation to sign in (invite.py, through OneAccount's
+are mail alone: the invitation to sign in (invite.py, through AccountCenter's
 invite) and a link to one record (share.py). Pure."""
 
 TYPES = [
