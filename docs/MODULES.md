@@ -37,6 +37,36 @@
 | Cloud Link Invitee | 2 | child |
 | Cloud Mount | 15 | document |
 
+## One Doc
+
+`onedesk/one_doc`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Writer Document | 15 | document |
+| Writer Document Version | 4 | document |
+
+## One Sheet
+
+`onedesk/one_sheet`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Workbook | 15 | document |
+| Workbook Change | 10 | document |
+| Workbook Version | 9 | document |
+
+## One Deck
+
+`onedesk/one_deck`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Presentation | 15 | document |
+| Presentation Slide | 13 | child |
+| Presentation Version | 5 | document |
+| Presentation View | 8 | document |
+
 ## One Mail
 
 `onedesk/one_mail`
@@ -248,41 +278,11 @@ No doctypes yet.
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
-## One Deck
-
-`onedesk/one_deck`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Presentation | 15 | document |
-| Presentation Slide | 13 | child |
-| Presentation Version | 5 | document |
-| Presentation View | 8 | document |
-
-## One Doc
-
-`onedesk/one_doc`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Writer Document | 15 | document |
-| Writer Document Version | 4 | document |
-
 ## One Interface
 
 `onedesk/one_interface`
 
 No doctypes yet.
-
-## One Sheet
-
-`onedesk/one_sheet`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Workbook | 15 | document |
-| Workbook Change | 10 | document |
-| Workbook Version | 9 | document |
 
 ## Trust Center
 
@@ -296,7 +296,7 @@ No doctypes yet.
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onechat, onecloud, onecrm, onedisplay, onefactory, onehr, oneinventory, onemail, oneportal, oneproject, onequality, onestudio, onetask
+* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onechat, onecloud, onecrm, onedeck, onedisplay, onedoc, onefactory, onehr, oneinventory, onemail, oneportal, oneproject, onequality, onesheet, onestudio, onetask
 * **workspace** — one_admin, onehr_setup
 
 ## Whitelisted methods

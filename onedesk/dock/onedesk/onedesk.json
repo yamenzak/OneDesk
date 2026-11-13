@@ -24,6 +24,30 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "onedoc",
+   "link_to": "OneDoc",
+   "link_type": "Sidebar",
+   "title": "OneDoc"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "onesheet",
+   "link_to": "OneSheet",
+   "link_type": "Sidebar",
+   "title": "OneSheet"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "onedeck",
+   "link_to": "OneDeck",
+   "link_type": "Sidebar",
+   "title": "OneDeck"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "onemail",
    "link_to": "OneMail",
    "link_type": "Sidebar",
@@ -150,7 +174,7 @@
    "title": "OneAdmin"
   }
  ],
- "modified": "2026-11-13 19:04:06.027900",
+ "modified": "2026-11-13 20:43:46.095102",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

@@ -142,7 +142,10 @@ def draft_document(
 	Approving makes it as New › Document does. On a record, the template's
 	field blocks print what that record says."""
 	from onedesk.one_ai import proposals
+	from onedesk.one_cloud import editors
 
+	if not editors.on(api.DOCUMENT):
+		return {"error": editors.refused(api.DOCUMENT)}
 	written = clean(html)
 	chosen = _template(template)
 	if template and not chosen:

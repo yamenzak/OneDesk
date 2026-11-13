@@ -55,6 +55,84 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
+## OneDoc 1.2.0
+
+Ready.
+
+| Point | Rules | Last looked at |
+|---|--:|---|
+| 1. Demo and tests | 14 | in 1.2.0 |
+| 5. Settings and setup | 5 | — |
+| 7. Our look | 81 | in 1.2.0 |
+| 11. Notifications | 10 | in 1.2.0 |
+| 13. Plain words | 24 | in 1.2.0 |
+| 14. Documented, with Help and a tour | 9 | — |
+| 15. Versioned, with What's New | 8 | — |
+| 16. OneAI knows and does | 17 | — |
+| 18. Permissions and roles | 16 | — |
+| 19. Legal | 16 | in 1.2.0 |
+| 20. One home, clean code | 25 | — |
+
+What a person looks at:
+
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneSheet 1.2.0
+
+Ready.
+
+| Point | Rules | Last looked at |
+|---|--:|---|
+| 1. Demo and tests | 14 | in 1.2.0 |
+| 5. Settings and setup | 5 | — |
+| 7. Our look | 81 | in 1.2.0 |
+| 11. Notifications | 10 | in 1.2.0 |
+| 13. Plain words | 24 | in 1.2.0 |
+| 14. Documented, with Help and a tour | 9 | — |
+| 15. Versioned, with What's New | 8 | — |
+| 16. OneAI knows and does | 17 | — |
+| 18. Permissions and roles | 16 | — |
+| 19. Legal | 16 | in 1.2.0 |
+| 20. One home, clean code | 25 | — |
+
+What a person looks at:
+
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneDeck 1.18.0
+
+Ready.
+
+| Point | Rules | Last looked at |
+|---|--:|---|
+| 1. Demo and tests | 14 | in 1.18.0 |
+| 5. Settings and setup | 5 | — |
+| 7. Our look | 81 | in 1.18.0 |
+| 11. Notifications | 10 | in 1.18.0 |
+| 13. Plain words | 24 | in 1.18.0 |
+| 14. Documented, with Help and a tour | 9 | — |
+| 15. Versioned, with What's New | 8 | — |
+| 16. OneAI knows and does | 17 | — |
+| 18. Permissions and roles | 16 | — |
+| 19. Legal | 16 | in 1.18.0 |
+| 20. One home, clean code | 25 | — |
+
+What a person looks at:
+
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
 ## OneMail 1.4.0
 
 Ready.
@@ -497,58 +575,6 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneDeck 1.18.0
-
-Ready.
-
-| Point | Rules | Last looked at |
-|---|--:|---|
-| 1. Demo and tests | 14 | in 1.18.0 |
-| 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | in 1.18.0 |
-| 11. Notifications | 10 | in 1.18.0 |
-| 13. Plain words | 24 | in 1.18.0 |
-| 14. Documented, with Help and a tour | 9 | — |
-| 15. Versioned, with What's New | 8 | — |
-| 16. OneAI knows and does | 17 | — |
-| 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 1.18.0 |
-| 20. One home, clean code | 25 | — |
-
-What a person looks at:
-
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneDoc 1.2.0
-
-Ready.
-
-| Point | Rules | Last looked at |
-|---|--:|---|
-| 1. Demo and tests | 14 | in 1.2.0 |
-| 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | in 1.2.0 |
-| 11. Notifications | 10 | in 1.2.0 |
-| 13. Plain words | 24 | in 1.2.0 |
-| 14. Documented, with Help and a tour | 9 | — |
-| 15. Versioned, with What's New | 8 | — |
-| 16. OneAI knows and does | 17 | — |
-| 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 1.2.0 |
-| 20. One home, clean code | 25 | — |
-
-What a person looks at:
-
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
 ## OneInterface 1.13.0
 
 Not marked ready yet.
@@ -565,32 +591,6 @@ Not marked ready yet.
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | not yet |
-| 20. One home, clean code | 25 | — |
-
-What a person looks at:
-
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneSheet 1.2.0
-
-Ready.
-
-| Point | Rules | Last looked at |
-|---|--:|---|
-| 1. Demo and tests | 14 | in 1.2.0 |
-| 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | in 1.2.0 |
-| 11. Notifications | 10 | in 1.2.0 |
-| 13. Plain words | 24 | in 1.2.0 |
-| 14. Documented, with Help and a tour | 9 | — |
-| 15. Versioned, with What's New | 8 | — |
-| 16. OneAI knows and does | 17 | — |
-| 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 1.2.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:

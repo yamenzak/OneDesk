@@ -1,0 +1,45 @@
+{
+ "app": "onedesk",
+ "creation": "2026-11-13 22:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Sidebar",
+ "header_icon": "onedoc",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "onecloud",
+   "is_default_module": 1,
+   "label": "Recent Documents",
+   "route_options": "{\"node\": \"@made/document\"}",
+   "icon": "file-text"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "onecloud",
+   "is_default_module": 0,
+   "label": "New Document",
+   "route_options": "{\"new\": \"document\"}",
+   "icon": "plus"
+  }
+ ],
+ "modified": "2026-11-13 22:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Doc",
+ "name": "OneDoc",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "OneDoc"
+}

@@ -62,11 +62,14 @@ def _file(name: str) -> dict:
 
 
 def _may(name: str, ptype: str = "read") -> dict:
+	from onedesk.one_cloud import editors
 	from onedesk.one_cloud import namespace as ns
 
 	item = _file(name)
 	if not ns.may(item, ptype):
 		frappe.throw(_("You do not have permission to open this document."), frappe.PermissionError)
+	if ptype == "write":
+		editors.refuse_change(DOCUMENT)
 	return item
 
 

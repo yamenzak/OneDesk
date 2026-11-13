@@ -80,11 +80,14 @@ def _file(name: str) -> dict:
 
 
 def _may(name: str, ptype: str = "read") -> dict:
+	from onedesk.one_cloud import editors
 	from onedesk.one_cloud import namespace as ns
 
 	item = _file(name)
 	if not ns.may(item, ptype):
 		frappe.throw(_("You do not have permission to open this presentation."), frappe.PermissionError)
+	if ptype == "write":
+		editors.refuse_change(PRESENTATION)
 	return item
 
 
@@ -254,12 +257,13 @@ def get(name: str, doctype: str | None = None) -> dict:
 
 def _loaded(name: str, item: dict) -> dict:
 	from onedesk.one import rights
+	from onedesk.one_cloud import editors
 	from onedesk.one_cloud import namespace as ns
 
 	doc = frappe.get_doc(PRESENTATION, name).as_dict(no_default_fields=False)
 	doc["title"] = item["file_name"]
 	doc["file"] = item["name"]
-	doc["can_write"] = ns.may(item, "write")
+	doc["can_write"] = ns.may(item, "write") and editors.on(PRESENTATION)
 	doc["can_template"] = rights.held(PRESENTATION, "slide_template")
 	doc["record"] = (
 		{"doctype": item["attached_to_doctype"], "name": item["attached_to_name"]}
@@ -287,13 +291,14 @@ def _loaded(name: str, item: dict) -> dict:
 @frappe.whitelist()
 @frappe.read_only()
 def get_editor_access(presentation_id: str, doctype: str | None = None) -> str:
+	from onedesk.one_cloud import editors
 	from onedesk.one_cloud import namespace as ns
 
 	try:
 		item = _may(presentation_id, "read")
 	except (frappe.PermissionError, frappe.DoesNotExistError):
 		return "none"
-	return "edit" if ns.may(item, "write") else "view"
+	return "edit" if ns.may(item, "write") and editors.on(PRESENTATION) else "view"
 
 
 @frappe.whitelist(methods=["POST"])

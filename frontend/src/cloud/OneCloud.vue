@@ -157,6 +157,7 @@ import {
   goTo,
   goToUrl,
   hasRole,
+  editorOn,
   intakeOn,
   oneaiOn,
   listenIn,
@@ -248,7 +249,7 @@ const searchPlaceholder = computed(() =>
 const whereHead = computed(() => {
   if (search.value) return "";
   return (
-    { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), starred: __("Folder"), network: __("Type"), requests: __("Progress"), request: __("File · From") }[
+    { shared: __("Shared by"), libraries: __("Your role"), recent: __("Folder"), made: __("Folder"), starred: __("Folder"), network: __("Type"), requests: __("Progress"), request: __("File · From") }[
       kind.value
     ] || ""
   );
@@ -716,9 +717,9 @@ const newMenu = computed(() => {
   return asMenu([
     [
       ["new-folder", "lucide-folder-plus", __("Folder"), can.folder],
-      ["new-workbook", "lucide-file-spreadsheet", __("Workbook"), can.add && local],
-      ["new-document", "lucide-file-text", __("Document"), can.add && local],
-      ["new-presentation", "lucide-presentation", __("Presentation"), can.add && local],
+      editorOn("workbook") ? ["new-workbook", "lucide-file-spreadsheet", __("Workbook"), can.add && local] : null,
+      editorOn("document") ? ["new-document", "lucide-file-text", __("Document"), can.add && local] : null,
+      editorOn("presentation") ? ["new-presentation", "lucide-presentation", __("Presentation"), can.add && local] : null,
     ],
     [
       ["upload-files", "lucide-upload", __("Upload files"), can.add],
@@ -795,9 +796,9 @@ function spaceMenu() {
   return asMenu([
     [
       ["new-folder", "lucide-folder-plus", __("New folder"), can.folder],
-      ["new-workbook", "lucide-file-spreadsheet", __("New Workbook"), can.add && local],
-      ["new-document", "lucide-file-text", __("New Document"), can.add && local],
-      ["new-presentation", "lucide-presentation", __("New Presentation"), can.add && local],
+      editorOn("workbook") ? ["new-workbook", "lucide-file-spreadsheet", __("New Workbook"), can.add && local] : null,
+      editorOn("document") ? ["new-document", "lucide-file-text", __("New Document"), can.add && local] : null,
+      editorOn("presentation") ? ["new-presentation", "lucide-presentation", __("New Presentation"), can.add && local] : null,
       ["upload-files", "lucide-upload", __("Upload files"), can.add],
       ["upload-folder", "lucide-folder-up", __("Upload folder"), can.add && kind.value !== "record"],
       ["paste", "lucide-clipboard-paste", __("Paste"), can.add && !!clipboard.value],
@@ -921,7 +922,7 @@ async function act(name) {
     case "drive":
       return cloud().drive(picked[0].id, picked[0].name);
     case "drive-here": {
-      const shown = ["@root", "@recent", "@starred", "@bin", "@mounts"].includes(node.value) || node.value.startsWith("@mount/") ? "@root" : node.value;
+      const shown = ["@root", "@recent", "@starred", "@bin", "@mounts"].includes(node.value) || node.value.startsWith("@mount/") || node.value.startsWith("@made/") ? "@root" : node.value;
       return cloud().drive(shown, here.value ? here.value.name : __("Files"));
     }
     case "star":
@@ -1068,8 +1069,13 @@ const oneOSChoice = (one) => ({
 });
 
 function ownChoices(one, kind) {
-  const choices = [{ label: __("Edit in {0}", [OWN[kind].app]), short: __("Edit"), icon: "lucide-pencil", onClick: () => goTo(kind, one[kind]) }];
-  if (oneosOffer.value) choices.push(oneOSChoice(one));
+  const on = editorOn(kind);
+  const choices = [
+    on
+      ? { label: __("Edit in {0}", [OWN[kind].app]), short: __("Edit"), icon: "lucide-pencil", onClick: () => goTo(kind, one[kind]) }
+      : { label: __("Open in {0}", [OWN[kind].app]), short: __("Open"), icon: "lucide-eye", onClick: () => goTo(kind, one[kind]) },
+  ];
+  if (oneosOffer.value && on) choices.push(oneOSChoice(one));
   const name = one.name.toLowerCase().endsWith(OWN[kind].suffix) ? one.name : one.name + OWN[kind].suffix;
   const exported = { ...one, name, url: `/api/method/onedesk.one_cloud.opening.download?node=${encodeURIComponent(one.id)}` };
   choices.push({ label: OWN[kind].download(), short: OWN[kind].download(), icon: "lucide-download", quiet: true, onClick: () => download([exported]) });
@@ -1575,7 +1581,18 @@ userSettings.get("File").then((kept) => {
   Object.assign(settings, (kept && kept.OneCloud) || {});
   ready = true;
   show();
+  newAsked();
 });
+
+// An editor's rail row asks for a new one (OneDoc's New Document): made in
+// the reader's own files, from the template they pick.
+function newAsked() {
+  const kind = props.query.new;
+  if (!ready || props.picker || room || !OWN[kind]) return;
+  setQuery("new", null);
+  act(`new-${kind}`);
+}
+watch(() => props.query.new, newAsked);
 
 function show() {
   if (!ready) return;

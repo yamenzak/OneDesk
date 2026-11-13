@@ -3,6 +3,7 @@ frappe.provide("onedesk.apps");
 onedesk.apps.hidden = () => new Set(frappe.boot.one_hidden?.doctypes || []);
 onedesk.apps.ai = () => frappe.boot.one_hidden?.ai !== false;
 onedesk.apps.intake = () => frappe.boot.one_hidden?.intake !== false;
+onedesk.apps.editing = (kind) => frappe.boot.one_editors?.[kind] !== false;
 
 onedesk.apps.button = ($dock) => {
 	const $user = $dock.find(".dock-user");
