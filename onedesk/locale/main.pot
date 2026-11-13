@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 08:23+0000\n"
-"PO-Revision-Date: 2026-11-13 08:23+0000\n"
+"POT-Creation-Date: 2026-11-13 09:02+0000\n"
+"PO-Revision-Date: 2026-11-13 09:02+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3952,10 +3952,6 @@ msgstr ""
 msgid "All borders"
 msgstr ""
 
-#: onedesk/public/js/doctype_settings.js:910
-msgid "Applies when every condition matches, or always when empty."
-msgstr ""
-
 #: onedesk/public/js/one_ai/panel/Panel.vue:12
 msgid "All conversations"
 msgstr ""
@@ -4916,6 +4912,10 @@ msgstr ""
 
 #: onedesk/public/js/one_hr/hr_control.js:24
 msgid "Applies to everyone from today, or from its start date. Used for leave, attendance, check-ins, the calendar and deadlines."
+msgstr ""
+
+#: onedesk/public/js/doctype_settings.js:910
+msgid "Applies when every condition matches, or always when empty."
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:31

@@ -941,7 +941,7 @@ Pages: one (on a rail or a home).
 | AI Memory | inside: AICenter › Yours lists and forgets what OneAI remembers | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  | yes |  |  |  |  |
 | AI Touch | engine: what OneAI wrote into a record, read back as the AI badge on it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | yes |  |  |  |  |
+| File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | general |  | yes |  |  |  | Couldn't Read, Phishing |
 | Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | general |  | yes |  |  |  |  |
