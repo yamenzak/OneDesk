@@ -3918,6 +3918,10 @@ msgstr "الكل"
 msgid "All Announcements"
 msgstr "كل الإعلانات"
 
+#: onedesk/public/js/one_interface/launcher.js:28
+msgid "All Apps"
+msgstr "كل التطبيقات"
+
 #: onedesk/public/js/one/news_add.js:148
 msgid "All Categories"
 msgstr "كل الفئات"
@@ -5316,6 +5320,14 @@ msgstr "لم تنجح الموافقة على «{0}»: {1} صحّحه واقتر
 msgid "Apps"
 msgstr ""
 
+#: onedesk/public/js/one_interface/arrange.js:88
+msgid "Apps arranged"
+msgstr "تم ترتيب التطبيقات"
+
+#: onedesk/public/js/one_interface/arrange.js:98
+msgid "Apps reset"
+msgstr "تمت إعادة تعيين التطبيقات"
+
 #: onedesk/public/js/apps.js:76
 msgid "Apps saved"
 msgstr "تم حفظ التطبيقات"
@@ -5414,6 +5426,12 @@ msgstr "المساحة"
 #: frontend/src/slide/components/ArrangeSection.vue:3
 msgid "Arrange"
 msgstr "ترتيب"
+
+#: onedesk/public/js/one_interface/arrange.js:72
+#: onedesk/public/js/one_interface/launcher.js:80
+#: onedesk/public/js/outside.js:96
+msgid "Arrange Apps"
+msgstr "ترتيب التطبيقات"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:174 onedesk/one_hr/sidebar/onehr/onehr.json:533
@@ -11929,6 +11947,10 @@ msgstr "تعذر حفظ ملف PDF."
 #: frontend/src/doc/shim/yjs.js:146
 msgid "Could not save the document."
 msgstr "تعذّر حفظ المستند."
+
+#: onedesk/one/rail.py:164
+msgid "Could not save the order."
+msgstr "تعذّر حفظ الترتيب."
 
 #: frontend/src/doc/shim/SaveTemplateDialog.vue:49
 #: frontend/src/sheet/shim/TemplateDialog.vue:49
@@ -32115,6 +32137,12 @@ msgstr "بلا تاريخ استحقاق"
 msgid "No End Date"
 msgstr "بلا تاريخ انتهاء"
 
+#: onedesk/public/js/one_interface/arrange.js:19
+#: onedesk/public/js/one_interface/arrange.js:25
+#: onedesk/public/js/one_interface/arrange.js:49
+msgid "No Folder"
+msgstr "بلا مجلد"
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:12
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:31
 msgid "No Location"
@@ -32197,6 +32225,10 @@ msgstr "لا توجد موافقات"
 #: frontend/portal/src/pages/Apps.vue:16
 msgid "No apps"
 msgstr "لا توجد تطبيقات"
+
+#: onedesk/public/js/one_interface/launcher.js:52
+msgid "No apps or pages found"
+msgstr "لا توجد تطبيقات أو صفحات"
 
 #: onedesk/one_inventory/ready.py:253
 msgid "No asset is marked Maintenance Required."
@@ -32531,10 +32563,6 @@ msgstr "لا توجد حقول مطابقة"
 #: onedesk/public/js/one/notification_center.js:324
 msgid "No matching notifications"
 msgstr "لا توجد إشعارات مطابقة"
-
-#: onedesk/public/js/one_interface/phone.js:188
-msgid "No matching pages"
-msgstr "لا توجد صفحات مطابقة"
 
 #: onedesk/public/js/account_center/account_center.js:411
 msgid "No matching people"
@@ -36674,6 +36702,13 @@ msgstr "طلب أعمال النجارة والأثاث"
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Order long-lead items"
 msgstr "طلب المواد طويلة التوريد"
+
+#: onedesk/public/js/one/setup_center.js:102
+#: onedesk/public/js/one/setup_center.js:104
+#: onedesk/public/js/one/setup_center.js:117
+#: onedesk/public/js/one/setup_center.js:123
+msgid "Order of Apps"
+msgstr "ترتيب التطبيقات"
 
 #: onedesk/public/js/one_inventory/quotes_actions.js:74
 msgid "Order the cheapest quote on each line?"
@@ -44088,6 +44123,10 @@ msgstr ""
 msgid "Reset All"
 msgstr "إعادة تعيين الكل"
 
+#: onedesk/public/js/one_interface/arrange.js:100
+msgid "Reset Apps"
+msgstr "إعادة تعيين التطبيقات"
+
 #: onedesk/public/js/one_hr/employee.js:5
 msgid "Reset Passkey"
 msgstr "إعادة تعيين مفتاح المرور"
@@ -44095,6 +44134,10 @@ msgstr "إعادة تعيين مفتاح المرور"
 #: onedesk/public/js/account_center/account_center.js:478
 msgid "Reset Two-Factor"
 msgstr "إعادة تعيين التحقق بخطوتين"
+
+#: onedesk/public/js/one_interface/arrange.js:93
+msgid "Reset Your Apps?"
+msgstr "إعادة تعيين تطبيقاتك؟"
 
 #: frontend/src/slide/components/ImageSection.vue:42
 msgid "Reset crop"
@@ -54015,6 +54058,10 @@ msgstr "أوامر العمل المفتوحة، وكل خطوة للبدء وا
 msgid "The operators"
 msgstr "المشغّلون"
 
+#: onedesk/public/js/one/setup_center.js:105
+msgid "The order of the apps on the rail for everybody who has not arranged their own."
+msgstr "ترتيب التطبيقات على الشريط لكل من لم يرتّب تطبيقاته بنفسه."
+
 #: onedesk/one_display/starters.py:1182
 msgid "The order ready to collect and those being prepared."
 msgstr "الطلب الجاهز للاستلام والطلبات قيد التحضير."
@@ -54390,6 +54437,10 @@ msgstr "الطابور وطريقة عمله ورمز لمشاركة الرأي.
 #: onedesk/one/control.py:326
 msgid "The rail and the bars around every screen, for everyone. Leave it empty for One's own."
 msgstr "الشريط الجانبي والشريطان حول كل شاشة، للجميع. اتركه فارغًا لاستخدام لون One."
+
+#: onedesk/public/js/one_interface/arrange.js:94
+msgid "The rail goes back to the workspace's order, and your folders are removed."
+msgstr "يعود الشريط إلى ترتيب مساحة العمل، وتُحذف مجلداتك."
 
 #: frontend/src/sheet/shim/problems.js:16
 msgid "The ranges in this formula do not intersect."
@@ -57672,6 +57723,10 @@ msgstr "حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 #: onedesk/public/js/account_center/account_center.js:908
 msgid "Tuesday"
 msgstr "الثلاثاء"
+
+#: onedesk/public/js/apps.js:47 onedesk/public/js/one_interface/launcher.js:87
+msgid "Turn Apps On or Off"
+msgstr "تفعيل التطبيقات أو إيقافها"
 
 #: onedesk/one_display/doctype/display_screen/display_screen.js:6
 #: onedesk/one_studio/heads.py:88
