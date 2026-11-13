@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 14:26+0000\n"
-"PO-Revision-Date: 2026-11-13 14:26+0000\n"
+"POT-Creation-Date: 2026-11-13 15:22+0000\n"
+"PO-Revision-Date: 2026-11-13 15:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2065,7 +2065,7 @@ msgstr ""
 msgid "Abandoned"
 msgstr ""
 
-#: onedesk/one/rights.py:283 onedesk/public/js/one/role_matrix.js:29
+#: onedesk/one/rights.py:284 onedesk/public/js/one/role_matrix.js:29
 msgid "Ability"
 msgstr ""
 
@@ -5596,7 +5596,7 @@ msgstr ""
 msgid "Ask at the counter for details."
 msgstr ""
 
-#: onedesk/one_mail/access.py:56
+#: onedesk/one_mail/access.py:57
 msgid "Ask for Approval"
 msgstr ""
 
@@ -6464,7 +6464,7 @@ msgid "Automatically Create New Batch"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/mail/OneMail.vue:350 onedesk/one_mail/access.py:52
+#: frontend/src/mail/OneMail.vue:350 onedesk/one_mail/access.py:53
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:194
 #: onedesk/public/js/doctype_settings.js:213
 #: onedesk/public/js/one_mail/onemail_settings.js:733
@@ -11108,7 +11108,7 @@ msgstr ""
 msgid "Connect Shared Mailbox"
 msgstr ""
 
-#: onedesk/one_mail/access.py:85
+#: onedesk/one_mail/access.py:86
 msgid "Connect Shared Mailboxes"
 msgstr ""
 
@@ -11170,7 +11170,7 @@ msgstr ""
 msgid "Connecting…"
 msgstr ""
 
-#: onedesk/one/ai_customize.py:299 onedesk/one_mail/access.py:77
+#: onedesk/one/ai_customize.py:299 onedesk/one_mail/access.py:78
 #: onedesk/public/js/one_mail/onemail_settings.js:689
 #: onedesk/public/js/one_mail/onemail_settings.js:691
 msgid "Connection"
@@ -17969,7 +17969,7 @@ msgstr ""
 msgid "Every Mail Manager and administrator"
 msgstr ""
 
-#: onedesk/one_mail/access.py:30
+#: onedesk/one_mail/access.py:31
 msgid "Every Mailbox"
 msgstr ""
 
@@ -21447,7 +21447,7 @@ msgstr ""
 msgid "Give Up After"
 msgstr ""
 
-#: onedesk/one_mail/access.py:80
+#: onedesk/one_mail/access.py:81
 msgid "Give a connected mailbox its password again, or disconnect it."
 msgstr ""
 
@@ -21455,7 +21455,7 @@ msgstr ""
 msgid "Give a subject or a mail template"
 msgstr ""
 
-#: onedesk/one_mail/access.py:72
+#: onedesk/one_mail/access.py:73
 msgid "Give and take away a shared mailbox, and what each person may do in it."
 msgstr ""
 
@@ -21463,7 +21463,7 @@ msgstr ""
 msgid "Give each line a share done between 0 and 100, and at least one above 0."
 msgstr ""
 
-#: onedesk/one_mail/access.py:95
+#: onedesk/one_mail/access.py:96
 msgid "Give people their workspace address, and choose which mailboxes they may connect."
 msgstr ""
 
@@ -28719,7 +28719,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:39
 #: onedesk/one_cloud/namespace.py:408 onedesk/one_mail/cloud.py:66
-#: onedesk/one_mail/linking.py:25
+#: onedesk/one_mail/linking.py:60
 #: onedesk/one_mail/sidebar/onemail/onemail.json:15
 #: onedesk/public/js/one_admin/admin_control.js:195
 #: onedesk/public/js/one_interface/form.js:152
@@ -28792,7 +28792,7 @@ msgstr ""
 msgid "Mail Template"
 msgstr ""
 
-#: onedesk/one_mail/access.py:100 onedesk/one_mail/setup.py:63
+#: onedesk/one_mail/access.py:101 onedesk/one_mail/setup.py:63
 #: onedesk/public/js/doctype_settings.js:44
 #: onedesk/public/js/doctype_settings.js:118
 #: onedesk/public/js/one_mail/onemail_settings.js:1367
@@ -28884,7 +28884,7 @@ msgstr ""
 msgid "Mailbox connected"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:311 onedesk/one_mail/access.py:25
+#: frontend/src/mail/OneMail.vue:311 onedesk/one_mail/access.py:26
 #: onedesk/public/js/one_ai/ai_center.js:143
 #: onedesk/public/js/one_ai/ai_center.js:473
 #: onedesk/public/js/one_mail/onemail_settings.js:49
@@ -29273,7 +29273,7 @@ msgstr ""
 #. Label of the 'reports_to' field in DocType 'Employee'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: frontend/portal/src/start/People.vue:49 frontend/src/project/Team.vue:32
-#: onedesk/one/people.py:99 onedesk/one/rights.py:282
+#: onedesk/one/people.py:99 onedesk/one/rights.py:283
 #: onedesk/one_hr/custom/employee.json:183
 #: onedesk/one_hr/custom/employee_grievance.json:31
 #: onedesk/public/js/one/access_center.js:300
@@ -32119,7 +32119,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_mail/access.py:30 onedesk/one_mail/agent.py:1054
+#: onedesk/one_mail/access.py:31 onedesk/one_mail/agent.py:1054
 #: onedesk/one_mail/agent.py:1104 onedesk/one_portal/access.py:23
 #: onedesk/one_project/access.py:27 onedesk/one_quality/access.py:21
 #: onedesk/one_sheet/access.py:24 onedesk/one_studio/print_blocks.py:427
@@ -34320,7 +34320,7 @@ msgid "Of Whom"
 msgstr ""
 
 #: onedesk/one/ai_printing.py:241 onedesk/one/control.py:390
-#: onedesk/one/rights.py:289 onedesk/one_ai/chat.py:699
+#: onedesk/one/rights.py:290 onedesk/one_ai/chat.py:699
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:76
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
 #: onedesk/one_studio/heads.py:23
@@ -34476,7 +34476,7 @@ msgid "Older items are deleted when new ones arrive. Set to 0 to keep all items.
 msgstr ""
 
 #: onedesk/one/ai_approvals.py:200 onedesk/one/ai_automations.py:201
-#: onedesk/one/rights.py:289 onedesk/one_ai/chat.py:699
+#: onedesk/one/rights.py:290 onedesk/one_ai/chat.py:699
 #: onedesk/one_doc/agent.py:164
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:18
@@ -35138,7 +35138,7 @@ msgstr ""
 msgid "OneAI Reads To"
 msgstr ""
 
-#: onedesk/one_mail/access.py:61
+#: onedesk/one_mail/access.py:62
 msgid "OneAI Settings"
 msgstr ""
 
@@ -37017,7 +37017,7 @@ msgid "Out of 100. Below Flag Below Score the log is flagged for review."
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:262 frontend/src/mail/OneMail.vue:348
-#: onedesk/one_mail/access.py:44
+#: onedesk/one_mail/access.py:45
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #: onedesk/public/js/one_mail/onemail_settings.js:311
 #: onedesk/public/js/one_mail/onemail_settings.js:313
@@ -38536,11 +38536,11 @@ msgstr ""
 msgid "Payment for {workspace} failed"
 msgstr ""
 
-#: onedesk/one_admin/wizard_offer.py:136
+#: onedesk/one_admin/wizard_offer.py:141
 msgid "Payment is taken by Stripe. A plan with a trial takes your card now and charges it when the trial ends."
 msgstr ""
 
-#: onedesk/one_admin/wizard_offer.py:137
+#: onedesk/one_admin/wizard_offer.py:142
 msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed there."
 msgstr ""
 
@@ -48391,7 +48391,7 @@ msgstr ""
 msgid "Signature Shows"
 msgstr ""
 
-#: onedesk/one_mail/access.py:36
+#: onedesk/one_mail/access.py:37
 msgid "Signature and Sender Name"
 msgstr ""
 
@@ -55092,7 +55092,7 @@ msgstr ""
 msgid "Their Materials At"
 msgstr ""
 
-#: onedesk/one_mail/access.py:30
+#: onedesk/one_mail/access.py:31
 msgid "Their Own Address"
 msgstr ""
 
@@ -55816,7 +55816,7 @@ msgstr ""
 msgid "This message is larger than 5 MB. Share large files as {0} links."
 msgstr ""
 
-#: onedesk/one_mail/actions.py:65 onedesk/one_mail/linking.py:385
+#: onedesk/one_mail/actions.py:65 onedesk/one_mail/linking.py:388
 msgid "This message isn't in a mailbox."
 msgstr ""
 
@@ -59051,7 +59051,7 @@ msgstr ""
 #. Label of the user (Link) field in DocType 'Legal Acceptance'
 #: frontend/portal/src/start/People.vue:48
 #: frontend/src/admin/ServerMetrics.vue:95 frontend/src/project/Team.vue:33
-#: onedesk/one/rights.py:282
+#: onedesk/one/rights.py:283
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:22
 #: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:40
@@ -59104,7 +59104,7 @@ msgstr ""
 msgid "User stories"
 msgstr ""
 
-#: onedesk/one_mail/access.py:69
+#: onedesk/one_mail/access.py:70
 #: onedesk/public/js/one_mail/onemail_settings.js:586
 #: onedesk/public/js/one_mail/onemail_settings.js:588
 #: onedesk/public/js/one_mail/onemail_settings.js:594
@@ -64786,7 +64786,7 @@ msgstr ""
 #: onedesk/one_crm/access.py:23 onedesk/one_deck/access.py:22
 #: onedesk/one_display/access.py:16 onedesk/one_doc/access.py:22
 #: onedesk/one_factory/access.py:18 onedesk/one_hr/access.py:21
-#: onedesk/one_inventory/access.py:18 onedesk/one_mail/access.py:26
+#: onedesk/one_inventory/access.py:18 onedesk/one_mail/access.py:27
 #: onedesk/one_mail/cloud.py:34 onedesk/one_mail/custom/email_account.json:102
 #: onedesk/one_portal/access.py:21 onedesk/one_project/access.py:25
 #: onedesk/one_quality/access.py:19 onedesk/one_sheet/access.py:22
@@ -65012,7 +65012,7 @@ msgstr ""
 msgid "Workspace and Contacts"
 msgstr ""
 
-#: onedesk/one_mail/access.py:92
+#: onedesk/one_mail/access.py:93
 msgid "Workspace and External Addresses"
 msgstr ""
 
@@ -72408,7 +72408,7 @@ msgstr ""
 msgid "{0}'s sessions are deleted, then a line you run on the machine removes the one-box container, its image and the one-copies user."
 msgstr ""
 
-#: onedesk/one_ai/agents/users.py:24
+#: onedesk/one_ai/agents/users.py:26
 #, python-brace-format
 msgid "{0}'s {1}"
 msgstr ""

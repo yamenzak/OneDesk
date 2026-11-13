@@ -120,7 +120,8 @@ clause(
 	body=f"""
 		Each app's agent, such as {registry.name("one_book")}'s accountant, works for your workspace from Cloudflare Workers. It
 		reads and changes your records only through your workspace, as a user of its own with its app's roles.
-		Every call it makes back is signed for your workspace alone and lasts two minutes at most. Cloudflare
+		{registry.name("one_mail")}'s receptionist may also read the records a mail is linked to, and only the mail
+		of a mailbox your administrator lets {registry.name("one_ai")} read. Every call it makes back is signed for your workspace alone and lasts two minutes at most. Cloudflare
 		keeps, for each agent, the work waiting for it and which mail and documents it was handed, by their
 		names in your workspace.
 	""",
