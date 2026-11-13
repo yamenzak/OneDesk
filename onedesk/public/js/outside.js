@@ -13,14 +13,6 @@ onedesk.outside.skipping = (page, labels, build) => {
 	}
 };
 
-onedesk.outside.without = (groups, names) =>
-	(groups || []).map((group) => ({
-		...group,
-		options: Array.isArray(group.options)
-			? group.options.filter((one) => !names.includes(one.name))
-			: group.options,
-	}));
-
 // frappe's, erpnext's and hrms's record types and reports link to their own
 // documentation, from an empty list, a list's and a form's menu, a report's
 // and a field's help. One's help is OneAI, so the links go before anything
@@ -95,10 +87,13 @@ if (frappe.boot.one_elsewhere && frappe.ui.Sidebar) {
 			const Dropdown = frappe.ui.Dropdown;
 			frappe.ui.Dropdown = class extends Dropdown {
 				constructor(opts) {
-					const options = onedesk.outside.without(opts.options, ["workspace-selector"]);
-					// frappe's Settings is AccountCenter here (desk.js, show_user_settings).
+					const options = opts.options;
+					// frappe's Settings is AccountCenter here (desk.js, show_user_settings),
+					// and its Manage Dock is Arrange Apps (arrange.js), which saves
+					// through frappe's own save_user_dock.
 					for (const one of options.flatMap((it) => it.options || [])) {
 						if (one.name === "settings") Object.assign(one, { label: onedesk.names.of("account_center"), icon: "user" });
+						if (one.name === "workspace-selector") Object.assign(one, { label: __("Arrange Apps"), icon: "arrow-up-down", onclick: () => onedesk.rail.arrange() });
 					}
 					const group = options.find((one) => Array.isArray(one.options) && one.options.some((o) => o.name === "reload"));
 					group?.options.splice(group.options.findIndex((o) => o.name === "reload"), 0, {

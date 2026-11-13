@@ -386,6 +386,70 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 
 
 @check
+def one_an_app_at_no_level_is_never_offered():
+	"""Samir holds no level in OneBook: its sidebar leaves his boot, so it is
+	on no rail, launcher or search of his, its Help is off, and AccessCenter
+	is not among his centres. Huda, who manages OneBook, keeps it all
+	(one/rail.py)."""
+	from frappe.boot import get_module_sidebars
+
+	from onedesk.one import outside, rail, registry, versions
+
+	book = registry.get("one_book")
+	for user, sees in (("samir@one.test", False), ("huda@one.test", True)):
+		with as_user(user):
+			assert (book.sidebar in rail.unreached()) is not sees, user
+			said = {"module_sidebars": get_module_sidebars(), "entity_module": {}, "user": {}}
+			outside.kept(said)
+			assert (book.sidebar in said["module_sidebars"]) is sees, (user, list(said["module_sidebars"]))
+			assert bool(versions.for_boot().get(book.name, {}).get("off")) is not sees, user
+			boot = {"module_sidebars": said["module_sidebars"], "one_centres": [{"key": "access"}, {"key": "help"}, {"key": "settings"}]}
+			rail.boot(boot)
+			keys = {one["key"] for one in boot["one_centres"]}
+			assert "settings" in keys and "help" in keys and "access" not in keys, (user, keys)
+
+
+@check
+def one_a_persons_order_and_folders_outlast_the_workspaces():
+	"""Rania reverses her rail (frappe's save_user_dock) and puts two apps in
+	a folder; the administrator then sets the workspace's order. Rania keeps
+	hers and her folder; Reset puts her on the workspace's order."""
+	import json
+
+	from frappe.desk.doctype.dock.dock import resolve_app_dock, save_user_dock
+	from frappe.model.utils.user_settings import save as keep
+
+	from onedesk.one import rail
+
+	shown = lambda rows: [rail._key(one) for one in rows if not one.get("hidden")]  # noqa: E731
+	person = "rania@one.test"
+	try:
+		with as_user(person):
+			mine = [one for one in resolve_app_dock(rail.HOST) if not one.get("hidden")]
+			order = list(reversed(mine))
+			save_user_dock(rail.HOST, json.dumps([{"link_type": one["link_type"], "link_to": one.get("link_to"), "url": one.get("url")} for one in order]))
+			keep(rail.SETTINGS, {"folders": [{"name": "Work", "apps": shown(order[:2])}]})
+		with as_user(OWNER):
+			workspace = [one["key"] for one in rail.workspace()["apps"]]
+			workspace = workspace[1:] + workspace[:1]
+			rail.save_workspace(workspace)
+		with as_user(person):
+			boot = {"module_sidebars": {}, "dock": {rail.HOST: resolve_app_dock(rail.HOST)}}
+			rail.boot(boot)
+			assert shown(boot["dock"][rail.HOST]) == shown(order), shown(boot["dock"][rail.HOST])
+			assert boot["one_rail"]["folders"] == [{"name": "Work", "apps": shown(order[:2])}], boot["one_rail"]
+			save_user_dock(rail.HOST, "[]")
+			now = shown(resolve_app_dock(rail.HOST))
+			assert now == [key for key in workspace if key in now], now
+	finally:
+		with as_user(person):
+			keep(rail.SETTINGS, {"folders": [], "recent": []})
+			save_user_dock(rail.HOST, "[]")
+		with as_user(OWNER):
+			rail.save_workspace([])
+
+
+@check
 def one_a_person_works_in_one_company_at_a_time():
 	"""With Sahara Glass Saudi beside Sahara, Karim may switch between them
 	from the frame, and Stock Summary follows; a company he may not read is

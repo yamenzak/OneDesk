@@ -1067,7 +1067,24 @@ head has a way up to it (`Centre.one_up`). The top bar's tray, the arrow
 at its right (`onedesk.interface.tray`), lists the same centres with the
 screen's own first (`onedesk.centers.tray`). All three, and Ctrl+K, read
 `onedesk.centers.reachable()`: the registry's centres One's rail opens for
-the reader, so none is typed in a list (`test_ready.py`).
+the reader, so none is typed in a list (`test_ready.py`). The server sends
+only those in `one_centres` too (`one/rail.py` `boot`), ControlCenter always,
+since every app's own settings open in it.
+
+## The rail is the person's
+
+`one/rail.py` says it all. An app AccessCenter puts the reader at no level
+in leaves their `module_sidebars` (`outside.kept`), so the dock, the
+launcher, the phone's Apps and Ctrl+K never have it; its Help and versions
+are marked off. Order is frappe's Dock layers: the workspace's is the site
+layer `companions.layer` writes (SetupCenter's Order of Apps), a person's is
+their user layer through frappe's `save_user_dock` (Arrange Apps,
+`arrange.js`, also the user menu's Manage Dock), and Reset saves it empty.
+An app a person's layer never named joins it where the workspace's order
+puts it (`rail.ordered`). Folders and recent apps are One's layer in user
+settings `One Rail`, by dock key; `folders.js` draws a folder where its first
+app stands. The launcher (`launcher.js`) is the Apps button on the rail and
+the phone's Apps sheet.
 
 A module's foot (Help, the tour, the version) is drawn in one place,
 `onedesk.interface.foot` in `nav_tree.js`, under every module's rail and at

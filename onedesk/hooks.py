@@ -27,6 +27,7 @@ extend_bootinfo = [
 	"onedesk.one_sheet.live.boot",
 	"onedesk.one_studio.extensions.boot",
 	"onedesk.one.apps.boot",
+	"onedesk.one.rail.boot",
 ]
 
 scheduler_events = {
@@ -984,6 +985,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/one_interface/canvas.css",
 	"/assets/onedesk/css/one_interface/dialogs.css",
 	"/assets/onedesk/css/one_interface/phone.css",
+	"/assets/onedesk/css/one_interface/launcher.css",
 	"/assets/onedesk/css/one_ai/oneai.css",
 	"/assets/onedesk/css/trust_center/legal.css",
 	"/assets/onedesk/css/one_ai/intake.css",
@@ -1030,6 +1032,9 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_interface/frame.js",
 	"/assets/onedesk/js/one_interface/chrome.js",
 	"/assets/onedesk/js/one_interface/phone.js",
+	"/assets/onedesk/js/one_interface/folders.js",
+	"/assets/onedesk/js/one_interface/arrange.js",
+	"/assets/onedesk/js/one_interface/launcher.js",
 	"/assets/onedesk/js/one_interface/nav_tree.js",
 	"/assets/onedesk/js/one_interface/page.js",
 	"/assets/onedesk/js/one_interface/list.js",

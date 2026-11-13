@@ -171,58 +171,12 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 	padding-top: 4px;
 }
 
-.one-phone-finding > :not(.one-phone-found) {
+.one-phone-finding > :not(.one-phone-launcher) {
 	display: none;
 }
 
-.one-phone-found {
-	display: flex;
-	flex-direction: column;
-}
-
-.one-phone-page {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	height: 44px;
-	padding: 0 8px;
-	border-radius: var(--one-radius-control);
-	color: var(--one-ink);
-	font-size: var(--text-base);
-	text-decoration: none;
-}
-
-.one-phone-page:hover,
-.one-phone-page:active {
-	background: var(--one-control-bg);
-	text-decoration: none;
-	color: var(--one-ink-strong);
-}
-
-.one-phone-page .icon {
-	margin: 0;
-	flex: none;
-	color: var(--one-ink-soft);
-}
-
-.one-phone-page-label {
-	flex: 1;
-	min-width: 0;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
-.one-phone-page-app {
-	flex: none;
-	color: var(--one-ink-quiet);
-	font-size: var(--text-sm);
-}
-
-.one-phone-none {
-	padding: 24px 8px;
-	color: var(--one-ink-quiet);
-	text-align: center;
+.one-phone-launcher .one-launcher {
+	padding: 8px 0 0;
 }
 
 .one-interface [data-interface="address"] {

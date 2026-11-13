@@ -22,27 +22,27 @@ def apply() -> None:
 	layer()
 
 
-def layer() -> None:
-	"""The site's Dock layer: One's own rows on the rail, except the apps the
-	workspace has turned off (one/apps.py), and what mounting appended
-	dropped.
+def layer(order: list[str] | None = None) -> None:
+	"""The site's Dock layer: One's own rows, less the apps turned off
+	(one/apps.py) and what mounting appended, in the workspace's order
+	(`order`, by dock key, else the layer's own; `rail.ordered`). It names
+	every row: `resolve_app_dock` drops a row a saved layer does not name."""
+	from frappe.desk.doctype.dock.dock import dock_key, get_app_base, get_app_dock
 
-	The layer names every row and not only the hidden ones: `resolve_app_dock`
-	resolves with `keep_unnamed=False`, so a saved layer is the whole rail and a
-	row it does not name is absent rather than inherited.
-	"""
-	from frappe.desk.doctype.dock.dock import get_app_base, get_app_dock
-
-	from onedesk.one import apps
+	from onedesk.one import apps, rail
 	from onedesk.account_center import private
 
 	ours = {row.get("link_to") for row in get_app_dock(HOST)} | private.rail()
 	off = set(apps.hidden())
 	rows = get_app_base(HOST)
 	name = frappe.db.exists("Dock", {"app": HOST, "user": SITE_LAYER, "standard": 0})
-	if len(rows) == len(ours) and not off and not name:
+	if len(rows) == len(ours) and not off and not name and not order:
 		return
 	layer = frappe.get_doc("Dock", name) if name else frappe.new_doc("Dock")
+	if order is None:
+		order = [dock_key(row) for row in layer.get("items") or []]
+	by_key = {dock_key(row): row for row in rows}
+	rows = [by_key[key] for key in rail.ordered(list(by_key), [key for key in order if key in by_key])]
 	layer.app = HOST
 	layer.user = SITE_LAYER
 	layer.standard = 0
