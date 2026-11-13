@@ -549,10 +549,12 @@ def ai_center_sets_the_tier_and_a_modules_part():
 		finally:
 			center.set_job(job["key"], job["value"])
 		try:
+			apps.save(["OneStudio"])
 			center.set_on(0)
 			assert not apps.ai_on() and center.modules()
 		finally:
 			center.set_on(1)
+			apps.save([])
 		assert apps.ai_on()
 		read = center.reading()
 		assert read["on"] and {one["key"] for one in read["settings"]} >= {"floor", "quiet_minutes", "audit"}, read

@@ -137,7 +137,7 @@ def _apps(said, wrong: list) -> None:
 			wrong.append(f"apps has {id!r}, which is not an app that can be turned on or off")
 		elif not isinstance(on, bool):
 			wrong.append(f"apps.{id} must be true or false")
-		elif not on and switches[id].kept and not switches[id].kept.held:
+		elif not on and switches[id].kept and switches[id].kept.always():
 			wrong.append(f"apps.{id} is kept and can't be turned off")
 
 

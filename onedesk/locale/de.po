@@ -5405,6 +5405,10 @@ msgstr "Die Genehmigung von „{0}“ ist nicht durchgegangen: {1} Korrigieren S
 msgid "Apps"
 msgstr ""
 
+#: onedesk/one/apps.py:191
+msgid "Apps Not Saved"
+msgstr "Apps nicht gespeichert"
+
 #: onedesk/public/js/one_interface/arrange.js:88
 msgid "Apps arranged"
 msgstr "Apps angeordnet"
@@ -27705,6 +27709,10 @@ msgstr "Konten zusammenführen"
 msgid "Ledger Repost"
 msgstr "Neubuchung des Hauptbuchs"
 
+#: onedesk/one_book/manifest.py:19
+msgid "Ledger entries are the company's books, which must be kept by law."
+msgstr "Buchungen sind die Bücher des Unternehmens, die gesetzlich aufbewahrt werden müssen."
+
 #: onedesk/one_book/home.py:204
 msgid "Ledgers"
 msgstr ""
@@ -31291,6 +31299,11 @@ msgstr "Prüfung nötig"
 #: onedesk/one_inventory/portal.py:201
 msgid "Needed by"
 msgstr "Benötigt bis"
+
+#: onedesk/public/js/apps.js:57
+#, python-brace-format
+msgid "Needed by {0}"
+msgstr "Benötigt von {0}"
 
 #: frontend/src/inventory/item/ItemMaking.vue:28
 msgid "Needed for Making"
@@ -45703,6 +45716,10 @@ msgstr ""
 msgid "Salary Withholding"
 msgstr ""
 
+#: onedesk/one_hr/manifest.py:31
+msgid "Salary slips are pay records, which must be kept by law."
+msgstr "Gehaltsabrechnungen sind Lohnunterlagen, die gesetzlich aufbewahrt werden müssen."
+
 #: onedesk/one_display/starters.py:698 onedesk/one_display/starters.py:724
 #: onedesk/one_display/starters.py:1174
 msgid "Sale"
@@ -50950,6 +50967,10 @@ msgstr "Inventur"
 #: onedesk/one_inventory/home.py:95
 msgid "Stock counted, and set right where it was wrong."
 msgstr "Gezählter Bestand, berichtigt wo er falsch war."
+
+#: onedesk/one_inventory/manifest.py:21
+msgid "Stock entries back the stock value in the books."
+msgstr "Lagerbuchungen belegen den Lagerwert in den Büchern."
 
 #: onedesk/one_inventory/ready.py:67
 msgid "Stock has a warehouse to go to"
@@ -69638,6 +69659,11 @@ msgstr "{0} kann nicht ausgeschaltet werden."
 msgid "{0} can't be turned off. Shared links depend on it."
 msgstr "{0} kann nicht ausgeschaltet werden. Geteilte Links hängen davon ab."
 
+#: onedesk/one/apps.py:187
+#, python-brace-format
+msgid "{0} can't be turned off. {1}"
+msgstr "{0} kann nicht ausgeschaltet werden. {1}"
+
 #: onedesk/one_mail/addresses.py:160
 #, python-brace-format
 msgid "{0} can't be used in an address. Use letters, digits, - and _."
@@ -70925,6 +70951,11 @@ msgstr "{0} ist am {2} als {1} erfasst. Überstunden werden nur an einem als {3}
 #, python-brace-format
 msgid "{0} is more than the {1} still owed."
 msgstr "{0} ist mehr als die noch offenen {1}."
+
+#: onedesk/one/apps.py:189
+#, python-brace-format
+msgid "{0} is needed by {1}, so it can't be turned off."
+msgstr "{1} benötigt {0}, deshalb kann es nicht ausgeschaltet werden."
 
 #: onedesk/one_cloud/targets.py:125
 #, python-brace-format
@@ -72739,6 +72770,11 @@ msgstr "{0} wurde zu {1} hinzugefügt."
 #, python-brace-format
 msgid "{0} was already {1}."
 msgstr "{0} war bereits {1}."
+
+#: onedesk/one/apps.py:193
+#, python-brace-format
+msgid "{0} was also turned on for {1}."
+msgstr "{0} wurde für {1} ebenfalls eingeschaltet."
 
 #: onedesk/one_doc/field.py:114
 #, python-brace-format

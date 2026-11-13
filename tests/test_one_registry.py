@@ -17,6 +17,7 @@ import tree  # noqa: E402
 
 from onedesk.one import registry  # noqa: E402
 from onedesk.one.registry import hooks  # noqa: E402
+from onedesk.one.registry.model import Kept  # noqa: E402
 
 FOLDERS = sorted(
 	path.parent.name
@@ -99,6 +100,9 @@ def test_one_settles_first_and_what_reads_everything_last():
 		({"owns": ("Stock",)}, "owns"),
 		({"name": "OneMail"}, "name"),
 		({"plan": ("nowhere",)}, "plan"),
+		({"needs": ("one_book",)}, "needs itself"),
+		({"kept": Kept("")}, "kept says why"),
+		({"kept": Kept("Why.", when=["GL Entry"])}, "kept's when"),
 	],
 )
 def test_a_wrong_manifest_is_refused_by_name(change, said):

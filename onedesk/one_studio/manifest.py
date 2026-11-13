@@ -12,6 +12,7 @@ APP = App(
 	mark="onestudio",
 	rail=160,
 	sidebar="OneStudio",
+	needs=("one_ai",),
 	names=("one_studio", "onestudio"),
 	help=(
 		("overview", "info"),

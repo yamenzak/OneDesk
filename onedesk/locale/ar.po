@@ -5405,6 +5405,10 @@ msgstr "لم تنجح الموافقة على «{0}»: {1} صحّحه واقتر
 msgid "Apps"
 msgstr ""
 
+#: onedesk/one/apps.py:191
+msgid "Apps Not Saved"
+msgstr "لم تُحفظ التطبيقات"
+
 #: onedesk/public/js/one_interface/arrange.js:88
 msgid "Apps arranged"
 msgstr "تم ترتيب التطبيقات"
@@ -27705,6 +27709,10 @@ msgstr "دمج الحسابات"
 msgid "Ledger Repost"
 msgstr "إعادة ترحيل الدفتر"
 
+#: onedesk/one_book/manifest.py:19
+msgid "Ledger entries are the company's books, which must be kept by law."
+msgstr "قيود الدفتر هي دفاتر الشركة، ويجب الاحتفاظ بها قانونًا."
+
 #: onedesk/one_book/home.py:204
 msgid "Ledgers"
 msgstr ""
@@ -31291,6 +31299,11 @@ msgstr "احتاج إلى مراجعة"
 #: onedesk/one_inventory/portal.py:201
 msgid "Needed by"
 msgstr "مطلوب بحلول"
+
+#: onedesk/public/js/apps.js:57
+#, python-brace-format
+msgid "Needed by {0}"
+msgstr "يحتاجه {0}"
 
 #: frontend/src/inventory/item/ItemMaking.vue:28
 msgid "Needed for Making"
@@ -45703,6 +45716,10 @@ msgstr ""
 msgid "Salary Withholding"
 msgstr "حجز الراتب"
 
+#: onedesk/one_hr/manifest.py:31
+msgid "Salary slips are pay records, which must be kept by law."
+msgstr "قسائم الرواتب سجلات أجور يجب الاحتفاظ بها قانونًا."
+
 #: onedesk/one_display/starters.py:698 onedesk/one_display/starters.py:724
 #: onedesk/one_display/starters.py:1174
 msgid "Sale"
@@ -50950,6 +50967,10 @@ msgstr "جرد المخزون"
 #: onedesk/one_inventory/home.py:95
 msgid "Stock counted, and set right where it was wrong."
 msgstr "مخزون جُرد، وصُحّح حيث كان خاطئاً."
+
+#: onedesk/one_inventory/manifest.py:21
+msgid "Stock entries back the stock value in the books."
+msgstr "قيود المخزون تسند قيمة المخزون في الدفاتر."
 
 #: onedesk/one_inventory/ready.py:67
 msgid "Stock has a warehouse to go to"
@@ -69638,6 +69659,11 @@ msgstr "لا يمكن إيقاف {0}."
 msgid "{0} can't be turned off. Shared links depend on it."
 msgstr "لا يمكن إيقاف {0}. الروابط المشتركة تعتمد عليه."
 
+#: onedesk/one/apps.py:187
+#, python-brace-format
+msgid "{0} can't be turned off. {1}"
+msgstr "لا يمكن إيقاف {0}. {1}"
+
 #: onedesk/one_mail/addresses.py:160
 #, python-brace-format
 msgid "{0} can't be used in an address. Use letters, digits, - and _."
@@ -70925,6 +70951,11 @@ msgstr "{0} مُسجَّل بحالة {1} في {2}. ولا يُدفع العمل
 #, python-brace-format
 msgid "{0} is more than the {1} still owed."
 msgstr "{0} أكثر من المتبقي {1}."
+
+#: onedesk/one/apps.py:189
+#, python-brace-format
+msgid "{0} is needed by {1}, so it can't be turned off."
+msgstr "يحتاج {1} إلى {0}، لذا لا يمكن إيقافه."
 
 #: onedesk/one_cloud/targets.py:125
 #, python-brace-format
@@ -72739,6 +72770,11 @@ msgstr "تمت إضافة {0} إلى {1}."
 #, python-brace-format
 msgid "{0} was already {1}."
 msgstr "{0} كانت بالفعل {1}."
+
+#: onedesk/one/apps.py:193
+#, python-brace-format
+msgid "{0} was also turned on for {1}."
+msgstr "تم تفعيل {0} أيضًا من أجل {1}."
 
 #: onedesk/one_doc/field.py:114
 #, python-brace-format

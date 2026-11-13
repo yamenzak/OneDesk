@@ -1,6 +1,6 @@
 """OneHR's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
+from onedesk.one.registry.model import App, Kept, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_hr",
@@ -28,6 +28,7 @@ APP = App(
 	),
 	rail=90,
 	sidebar="OneHR",
+	kept=Kept(_lt("Salary slips are pay records, which must be kept by law."), when=("Salary Slip",)),
 	roles=Roles(user=("HR User",), manager=("HR Manager",)),
 	agent=_lt("people officer"),
 	screens="hr",

@@ -84,9 +84,9 @@ def _value(node: ast.AST, where: str):
 				raise Invalid(f"{where}: {raised}") from raised
 			if node.func.id == "Roles":
 				return Roles(*(_strings(getattr(made, one), where) for one in ("user", "manager")))
-			if not all(isinstance(getattr(made, one), str) for one in ("why", "held")):
+			if not isinstance(made.why, str):
 				raise Invalid(f"{where}: a Kept says why in words")
-			return made
+			return Kept(made.why, _strings(made.when, where))
 		raise Invalid(f"{where} is not a literal")
 	try:
 		return ast.literal_eval(node)

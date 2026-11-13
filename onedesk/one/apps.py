@@ -1,7 +1,9 @@
 """Apps a workspace has turned off, OneAI and its reading among them.
 
 An app turned off leaves the rail, search and the pickers for everybody, and
-nothing is deleted or refused. OneAI off refuses every model call and turns
+nothing is deleted or refused. Turning one off is refused while it is kept
+(its manifest's `kept`) or an app left on needs it; turning one on turns on
+what it needs (`needs`), and says so. OneAI off refuses every model call and turns
 reading off with it; OnePortal off closes the portal (one_portal/gate.py). The rest is in One's Help, under Settings (one/help/settings.md).
 """
 
@@ -14,7 +16,7 @@ from onedesk.one import registry
 
 KEY = "one_hidden_apps"
 HOST = "onedesk"
-KEPT = tuple(app.sidebar for app in registry.apps() if app.kept and not app.kept.held and app.sidebar)
+KEPT = tuple(app.sidebar for app in registry.apps() if app.kept and app.kept.always() and app.sidebar)
 """The rail rows never offered as a switch: apps kept whatever they hold."""
 AI = registry.name("one_ai")
 INTAKE = "Reading"
@@ -91,7 +93,9 @@ def refuse_ai() -> None:
 
 def offered() -> list[dict]:
 	"""One's own rail rows a workspace may turn off, OneAI among them, in rail
-	order, then the private apps it has (always on), then OneAI's reading."""
+	order, each with the rows it needs and why it is kept now, if it is
+	(`held`); then the private apps it has (always on), then OneAI's
+	reading."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
 	from onedesk.account_center import private
@@ -100,6 +104,8 @@ def offered() -> list[dict]:
 	off = set(hidden())
 	theirs = private.rail()
 	planless = set(unplanned())
+	apps = {one.sidebar: one for one in registry.apps() if one.sidebar}
+	rows = _rows()
 	rail = [
 		{
 			"name": row.get("link_to"),
@@ -107,6 +113,8 @@ def offered() -> list[dict]:
 			"said": str(APP_SAID.get(row.get("link_to"), "")),
 			"icon": row.get("icon"),
 			"on": row.get("link_to") not in off,
+			"needs": _needed_rows(apps.get(row.get("link_to")), rows),
+			"held": _held(apps.get(row.get("link_to"))) if row.get("link_to") not in off else None,
 		}
 		for row in get_app_dock(HOST)
 		if row.get("link_type") == "Sidebar"
@@ -114,17 +122,76 @@ def offered() -> list[dict]:
 		and row.get("link_to") not in theirs
 		and row.get("link_to") not in planless
 	]
-	return rail + private.offered() + [
+	needing = private.needs()
+	return rail + [{**one, "needs": [rows[id] for id in needing.get(one["name"], ()) if id in rows]} for one in private.offered()] + [
 		{
 			"name": name,
 			"title": str(LABELS.get(name, name)),
 			"said": str(APP_SAID.get(name, "")),
 			"icon": ICONS[name],
 			"on": name not in off,
-			"needs": NEEDS.get(name),
+			"needs": [NEEDS[name]] if name in NEEDS else [],
+			"section": True,
 		}
 		for name in SECTIONS
 	]
+
+
+def _rows() -> dict[str, str]:
+	"""Each of One's apps' rail row (its Sidebar), by its id."""
+	return {one.id: one.sidebar for one in registry.apps() if one.sidebar}
+
+
+def _needed_rows(app, rows: dict) -> list[str]:
+	return [rows[id] for id in (app.needs if app else ()) if id in rows]
+
+
+def _submitted(doctype: str) -> bool:
+	"""Whether a record of this type is submitted: what a Kept's `when` asks."""
+	return bool(frappe.db.exists("DocType", doctype) and frappe.db.exists(doctype, {"docstatus": 1}))
+
+
+def _held(app) -> str | None:
+	"""Why this app can't be turned off now, in the reader's words, or None."""
+	from onedesk.one.registry import switches
+
+	why = switches.held(app, _submitted) if app else None
+	return _(why) if why else None
+
+
+def _named(id: str) -> str:
+	from onedesk.account_center import private
+
+	return registry.names().get(id) or private.about(id)["title"]
+
+
+def settled(off: set, before: set) -> tuple[set, list[str]]:
+	"""`off` once what an app left on needs is turned back on, and a line
+	saying each; refused, naming the app and why, when it turns off one that
+	is kept now or that an app left on needs."""
+	from frappe.utils import comma_and
+
+	from onedesk.account_center import private
+	from onedesk.one.registry import switches
+
+	rows = _rows()
+	ids = {row: id for id, row in rows.items()}
+	planless = set(unplanned())
+	theirs = private.needs()
+	on = {id for id, row in rows.items() if row not in off and row not in planless} | set(theirs)
+	turning = {ids[row] for row in off - before if row in ids}
+	held_now = {id: switches.held(registry.get(id), _submitted) for id in turning}
+	refused = []
+	for id, (why, said) in switches.refused(turning, on, held_now, theirs).items():
+		if why == "kept":
+			refused.append(_("{0} can't be turned off. {1}").format(_named(id), _(said)))
+		else:
+			refused.append(_("{0} is needed by {1}, so it can't be turned off.").format(_named(id), comma_and([_named(one) for one in said], False)))
+	if refused:
+		frappe.throw("<br>".join(refused), title=_("Apps Not Saved"))
+	brought = {id: by for id, by in switches.with_needs(on, theirs).items() if id not in on and id in rows and rows[id] not in planless}
+	lines = [_("{0} was also turned on for {1}.").format(_named(id), comma_and([_named(one) for one in by], False)) for id, by in brought.items()]
+	return off - {rows[id] for id in brought}, lines
 
 
 def unlisted(lists: dict[str, set], off: set) -> set:
@@ -227,7 +294,9 @@ def save(off: str | list) -> dict:
 
 def switch(off: list | None) -> dict:
 	"""The rail rows turned off, every other on, for whoever may: People's
-	Apps screen (save) and the setup job (one/setup_job.py)."""
+	Apps screen (save), AICenter and the setup job (one/setup_job.py). One
+	kept or needed is refused (`settled`); what one turned on needs comes on
+	with it, each said in `said`."""
 	from onedesk.one import companions
 
 	off = list(off or [])
@@ -237,11 +306,12 @@ def switch(off: list | None) -> dict:
 	unknown = [one for one in off or [] if one not in allowed]
 	if unknown:
 		frappe.throw(_("{0} can't be turned off.").format(", ".join(unknown)))
-	frappe.db.set_default(KEY, json.dumps(sorted(set(off or []))))
+	off, said = settled(set(off), set(hidden()))
+	frappe.db.set_default(KEY, json.dumps(sorted(off)))
 	companions.layer()
 	frappe.clear_cache()
 	frappe.publish_realtime("one_apps", after_commit=True)
-	return {"apps": offered()}
+	return {"apps": offered(), "said": said}
 
 
 @frappe.whitelist()

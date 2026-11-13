@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 19:47+0000\n"
-"PO-Revision-Date: 2026-11-13 19:47+0000\n"
+"POT-Creation-Date: 2026-11-13 20:44+0000\n"
+"PO-Revision-Date: 2026-11-13 20:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2588,7 +2588,7 @@ msgstr ""
 #: onedesk/account_center/doctype/device/device.json:66
 #: onedesk/account_center/heads.py:16
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:57
-#: onedesk/one_factory/manifest.py:74
+#: onedesk/one_factory/manifest.py:75
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:82
 #: onedesk/public/js/account_center/account_center.js:536
 #: onedesk/public/js/one_studio/studio_control.js:73
@@ -2683,7 +2683,7 @@ msgstr ""
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:18
 #: onedesk/public/js/account_center/account_center.js:612
 #: onedesk/public/js/account_center/account_center.js:1229
-#: onedesk/public/js/apps.js:64 onedesk/public/js/doctype_settings.js:350
+#: onedesk/public/js/apps.js:82 onedesk/public/js/doctype_settings.js:350
 #: onedesk/public/js/doctype_settings.js:924
 #: onedesk/public/js/one_admin/admin_control.js:142
 #: onedesk/public/js/one_ai/ai_center.js:192
@@ -3821,7 +3821,7 @@ msgstr ""
 msgid "Agents Secret"
 msgstr ""
 
-#: onedesk/one_ai/agents/workspace.py:118 onedesk/one_ai/checks.py:729
+#: onedesk/one_ai/agents/workspace.py:118 onedesk/one_ai/checks.py:731
 msgid "Agents are turned off for this workspace."
 msgstr ""
 
@@ -4587,7 +4587,7 @@ msgstr ""
 msgid "An app made for some workspaces only. A workspace types its code into Apps, and the app is installed there for good."
 msgstr ""
 
-#: onedesk/public/js/apps.js:53
+#: onedesk/public/js/apps.js:71
 msgid "An app turned off leaves the rail and search for everybody. Its records stay, and links to them still open."
 msgstr ""
 
@@ -5089,7 +5089,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr ""
 
-#: onedesk/one_hr/manifest.py:122
+#: onedesk/one_hr/manifest.py:123
 msgid "Apply for Leave"
 msgstr ""
 
@@ -5440,6 +5440,10 @@ msgstr ""
 msgid "Apps"
 msgstr ""
 
+#: onedesk/one/apps.py:191
+msgid "Apps Not Saved"
+msgstr ""
+
 #: onedesk/public/js/one_interface/arrange.js:88
 msgid "Apps arranged"
 msgstr ""
@@ -5448,7 +5452,7 @@ msgstr ""
 msgid "Apps reset"
 msgstr ""
 
-#: onedesk/public/js/apps.js:75
+#: onedesk/public/js/apps.js:97 onedesk/public/js/apps.js:100
 msgid "Apps saved"
 msgstr ""
 
@@ -6094,7 +6098,7 @@ msgstr ""
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one_hr/manifest.py:136
+#: onedesk/one_hr/manifest.py:137
 msgid "Assign a Salary Structure"
 msgstr ""
 
@@ -7696,8 +7700,8 @@ msgstr ""
 msgid "Billed by {0}"
 msgstr ""
 
-#: onedesk/one_book/manifest.py:125 onedesk/one_book/manifest.py:139
-#: onedesk/one_book/manifest.py:153 onedesk/one_crm/manifest.py:66
+#: onedesk/one_book/manifest.py:126 onedesk/one_book/manifest.py:140
+#: onedesk/one_book/manifest.py:154 onedesk/one_crm/manifest.py:66
 msgid "Billed in 12 Months"
 msgstr ""
 
@@ -10040,7 +10044,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:255 onedesk/one_hr/manifest.py:129
+#: frontend/src/hr/HrHome.vue:255 onedesk/one_hr/manifest.py:130
 #: onedesk/one_hr/shortcuts.py:9
 msgid "Claim an Expense"
 msgstr ""
@@ -10548,7 +10552,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:11
 #: onedesk/one_display/widgets.py:201
 #: onedesk/one_studio/doctype/extension/extension.json:157
-#: onedesk/public/js/apps.js:62 onedesk/public/js/one_inventory/item_new.js:38
+#: onedesk/public/js/apps.js:80 onedesk/public/js/one_inventory/item_new.js:38
 msgid "Code"
 msgstr ""
 
@@ -10961,7 +10965,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-#: onedesk/one_book/manifest.py:101
+#: onedesk/one_book/manifest.py:102
 msgid "Company Account"
 msgstr ""
 
@@ -14109,7 +14113,7 @@ msgstr ""
 #: frontend/src/inventory/item/ItemSuppliers.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:28
 #: frontend/src/sheet/components/SheetEditor/ColorPicker.vue:84
-#: onedesk/one/ai_printing.py:238 onedesk/one_factory/manifest.py:73
+#: onedesk/one/ai_printing.py:238 onedesk/one_factory/manifest.py:74
 #: onedesk/public/js/account_center/account_center.js:1355
 #: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/doctype_settings.js:324
@@ -18087,7 +18091,7 @@ msgstr ""
 
 #. Label in the One Equipment Handover print format
 #: frontend/src/inventory/home/InventoryStory.vue:68
-#: onedesk/one_hr/heads.py:745 onedesk/one_inventory/manifest.py:82
+#: onedesk/one_hr/heads.py:745 onedesk/one_inventory/manifest.py:83
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/one_inventory/item_new.js:6
 msgid "Equipment"
@@ -21096,7 +21100,7 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:76
+#: onedesk/one_inventory/manifest.py:77
 msgid "Free to Sell"
 msgstr ""
 
@@ -22590,7 +22594,7 @@ msgstr ""
 msgid "Have a One account?"
 msgstr ""
 
-#: onedesk/public/js/apps.js:60
+#: onedesk/public/js/apps.js:78
 msgid "Have a code for a private app? Type it here. Once installed, a private app stays on."
 msgstr ""
 
@@ -24551,7 +24555,7 @@ msgstr ""
 msgid "In-app notifications are always on."
 msgstr ""
 
-#: onedesk/one_factory/manifest.py:75
+#: onedesk/one_factory/manifest.py:76
 msgid "Inactive"
 msgstr ""
 
@@ -26339,7 +26343,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #. Label in the One Material Request print format
 #: onedesk/one_factory/home.py:27 onedesk/one_factory/home.py:60
-#: onedesk/one_factory/manifest.py:55
+#: onedesk/one_factory/manifest.py:56
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:72
 #: onedesk/one_inventory/print_format/one_material_request/one_material_request.json
@@ -26609,7 +26613,7 @@ msgstr ""
 msgid "Kept by Law"
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:79
+#: onedesk/one_inventory/manifest.py:80
 #: onedesk/public/js/one_inventory/item_new.js:4
 msgid "Kept in Stock"
 msgstr ""
@@ -27822,6 +27826,10 @@ msgstr ""
 msgid "Ledger Repost"
 msgstr ""
 
+#: onedesk/one_book/manifest.py:19
+msgid "Ledger entries are the company's books, which must be kept by law."
+msgstr ""
+
 #: onedesk/one_book/home.py:204
 msgid "Ledgers"
 msgstr ""
@@ -28973,7 +28981,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:47
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:47
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:38
-#: onedesk/one_inventory/manifest.py:80
+#: onedesk/one_inventory/manifest.py:81
 msgid "Made Here"
 msgstr ""
 
@@ -31441,6 +31449,11 @@ msgstr ""
 msgid "Needed by"
 msgstr ""
 
+#: onedesk/public/js/apps.js:57
+#, python-brace-format
+msgid "Needed by {0}"
+msgstr ""
+
 #: frontend/src/inventory/item/ItemMaking.vue:28
 msgid "Needed for Making"
 msgstr ""
@@ -32287,7 +32300,7 @@ msgstr ""
 msgid "Next Run"
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:107
+#: onedesk/one_inventory/manifest.py:108
 msgid "Next Service"
 msgstr ""
 
@@ -33721,7 +33734,7 @@ msgstr ""
 msgid "Not Estimated"
 msgstr ""
 
-#: onedesk/account_center/private.py:108 onedesk/one_admin/private.py:75
+#: onedesk/account_center/private.py:114 onedesk/one_admin/private.py:75
 #: onedesk/www/404.html:2
 msgid "Not Found"
 msgstr ""
@@ -35002,7 +35015,7 @@ msgstr ""
 msgid "On Everyone's Calendar"
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:76
+#: onedesk/one_inventory/manifest.py:77
 #: onedesk/public/js/one_inventory/item_list.js:22
 msgid "On Hand"
 msgstr ""
@@ -35055,7 +35068,7 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemBuying.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:18
-#: frontend/src/project/Overview.vue:168 onedesk/one_inventory/manifest.py:76
+#: frontend/src/project/Overview.vue:168 onedesk/one_inventory/manifest.py:77
 msgid "On Order"
 msgstr ""
 
@@ -38444,7 +38457,7 @@ msgstr ""
 msgid "Party"
 msgstr ""
 
-#: onedesk/one_book/manifest.py:102
+#: onedesk/one_book/manifest.py:103
 msgid "Party Account"
 msgstr ""
 
@@ -41593,7 +41606,7 @@ msgstr ""
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
 #. Label of a Sidebar Item
-#: onedesk/one_factory/manifest.py:86
+#: onedesk/one_factory/manifest.py:87
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/heads.py:1401 onedesk/one_inventory/heads.py:1410
 #: onedesk/one_inventory/heads.py:1419 onedesk/one_inventory/home.py:111
@@ -42603,7 +42616,7 @@ msgstr ""
 #. Label of the section_reading (Section Break) field in DocType 'Reading'
 #. Label of the reading (Link) field in DocType 'Reading Action'
 #. Label of the reading (Link) field in DocType 'Reading Lesson'
-#: onedesk/one/apps.py:41 onedesk/one_ai/custom/file.json:46
+#: onedesk/one/apps.py:43 onedesk/one_ai/custom/file.json:46
 #: onedesk/one_ai/doctype/file_link/file_link.json:49
 #: onedesk/one_ai/doctype/reading/reading.json:161
 #: onedesk/one_ai/doctype/reading/reading.json:563
@@ -45862,6 +45875,10 @@ msgstr ""
 msgid "Salary Withholding"
 msgstr ""
 
+#: onedesk/one_hr/manifest.py:31
+msgid "Salary slips are pay records, which must be kept by law."
+msgstr ""
+
 #: onedesk/one_display/starters.py:698 onedesk/one_display/starters.py:724
 #: onedesk/one_display/starters.py:1174
 msgid "Sale"
@@ -45917,7 +45934,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json:149
-#: onedesk/one_factory/manifest.py:57
+#: onedesk/one_factory/manifest.py:58
 #: onedesk/one_factory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_inventory/heads.py:1431 onedesk/one_project/manifest.py:47
@@ -46077,7 +46094,7 @@ msgstr ""
 #: onedesk/public/js/account_center/account_center.js:927
 #: onedesk/public/js/account_center/account_center.js:1300
 #: onedesk/public/js/account_center/account_center.js:1516
-#: onedesk/public/js/apps.js:67 onedesk/public/js/one/access_center.js:182
+#: onedesk/public/js/apps.js:85 onedesk/public/js/one/access_center.js:182
 #: onedesk/public/js/one/role_matrix.js:144
 #: onedesk/public/js/one/setup_center.js:34
 #: onedesk/public/js/one/setup_center.js:114
@@ -47594,7 +47611,7 @@ msgstr ""
 #. Label in the One Asset Capitalization print format
 #: frontend/src/admin/AdminStatus.vue:10 onedesk/one/registry/fields.py:29
 #: onedesk/one_display/doctype/queue/queue.json:47
-#: onedesk/one_inventory/manifest.py:81
+#: onedesk/one_inventory/manifest.py:82
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/public/js/one_admin/admin_control.js:180
 msgid "Services"
@@ -49475,7 +49492,7 @@ msgstr ""
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:83
+#: onedesk/one_inventory/manifest.py:84
 #: onedesk/public/js/one_inventory/item_new.js:7
 msgid "Sizes or Colours"
 msgstr ""
@@ -50111,7 +50128,7 @@ msgstr ""
 msgid "Source Type"
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:164
+#: onedesk/one_inventory/manifest.py:165
 msgid "Source Warehouse"
 msgstr ""
 
@@ -51003,7 +51020,7 @@ msgid "Stock Count"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_factory/manifest.py:56 onedesk/one_inventory/home.py:94
+#: onedesk/one_factory/manifest.py:57 onedesk/one_inventory/home.py:94
 #: onedesk/one_inventory/home.py:253
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:93
 msgid "Stock Entry"
@@ -51148,6 +51165,10 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:95
 msgid "Stock counted, and set right where it was wrong."
+msgstr ""
+
+#: onedesk/one_inventory/manifest.py:21
+msgid "Stock entries back the stock value in the books."
 msgstr ""
 
 #: onedesk/one_inventory/ready.py:67
@@ -52408,7 +52429,7 @@ msgstr ""
 msgid "Target Margin"
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:165
+#: onedesk/one_inventory/manifest.py:166
 msgid "Target Warehouse"
 msgstr ""
 
@@ -55673,7 +55694,7 @@ msgstr ""
 msgid "The workspace takes its name, and its address starts with it."
 msgstr ""
 
-#: onedesk/public/js/apps.js:142
+#: onedesk/public/js/apps.js:173
 msgid "The workspace's apps changed. Reload to see them."
 msgstr ""
 
@@ -56882,7 +56903,7 @@ msgstr ""
 msgid "This workspace isn't connected to its account. These are the addresses it last said, {0}. Adding or removing one waits until it's connected."
 msgstr ""
 
-#: onedesk/account_center/private.py:110
+#: onedesk/account_center/private.py:116
 #, python-brace-format
 msgid "This workspace isn't linked to {0}, so it can't add private apps."
 msgstr ""
@@ -58450,7 +58471,7 @@ msgstr ""
 msgid "Tuesday"
 msgstr ""
 
-#: onedesk/public/js/apps.js:47 onedesk/public/js/one_interface/launcher.js:87
+#: onedesk/public/js/apps.js:65 onedesk/public/js/one_interface/launcher.js:87
 msgid "Turn Apps On or Off"
 msgstr ""
 
@@ -58729,7 +58750,7 @@ msgstr ""
 msgid "Type it and press Enter, with a due date if it has one, and it is yours."
 msgstr ""
 
-#: onedesk/account_center/private.py:99
+#: onedesk/account_center/private.py:105
 msgid "Type the code you were given."
 msgstr ""
 
@@ -65340,7 +65361,7 @@ msgstr ""
 #: frontend/src/factory/home/FactoryHome.vue:179
 #: onedesk/one_factory/heads.py:225 onedesk/one_factory/heads.py:231
 #: onedesk/one_factory/home.py:26 onedesk/one_factory/home.py:59
-#: onedesk/one_factory/manifest.py:68 onedesk/one_factory/manifest.py:69
+#: onedesk/one_factory/manifest.py:69 onedesk/one_factory/manifest.py:70
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:62
@@ -67604,7 +67625,7 @@ msgstr ""
 msgid "a workspace"
 msgstr ""
 
-#: onedesk/one_book/manifest.py:20
+#: onedesk/one_book/manifest.py:21
 msgid "accountant"
 msgstr ""
 
@@ -68648,7 +68669,7 @@ msgstr ""
 msgid "past work"
 msgstr ""
 
-#: onedesk/one_hr/manifest.py:32
+#: onedesk/one_hr/manifest.py:33
 msgid "people officer"
 msgstr ""
 
@@ -68686,7 +68707,7 @@ msgstr ""
 msgid "point"
 msgstr ""
 
-#: onedesk/one_factory/manifest.py:21
+#: onedesk/one_factory/manifest.py:22
 msgid "production planner"
 msgstr ""
 
@@ -68897,7 +68918,7 @@ msgstr ""
 msgid "storage"
 msgstr ""
 
-#: onedesk/one_inventory/manifest.py:22
+#: onedesk/one_inventory/manifest.py:23
 msgid "storekeeper"
 msgstr ""
 
@@ -69873,7 +69894,7 @@ msgstr ""
 msgid "{0} can't be opened in OneOS."
 msgstr ""
 
-#: onedesk/account_center/private.py:105
+#: onedesk/account_center/private.py:111
 #, python-brace-format
 msgid "{0} can't be reached right now. Try again in a few minutes."
 msgstr ""
@@ -69888,7 +69909,7 @@ msgstr ""
 msgid "{0} can't be sent by a webhook."
 msgstr ""
 
-#: onedesk/one/apps.py:239
+#: onedesk/one/apps.py:308
 #, python-brace-format
 msgid "{0} can't be turned off."
 msgstr ""
@@ -69896,6 +69917,11 @@ msgstr ""
 #: onedesk/one/notify.py:254
 #, python-brace-format
 msgid "{0} can't be turned off. Shared links depend on it."
+msgstr ""
+
+#: onedesk/one/apps.py:187
+#, python-brace-format
+msgid "{0} can't be turned off. {1}"
 msgstr ""
 
 #: onedesk/one_mail/addresses.py:160
@@ -70829,7 +70855,7 @@ msgstr ""
 msgid "{0} is a personal mailbox and can't be shared."
 msgstr ""
 
-#: onedesk/account_center/private.py:87
+#: onedesk/account_center/private.py:93
 #, python-brace-format
 msgid "{0} is a private app, and a private app installed stays."
 msgstr ""
@@ -70934,7 +70960,7 @@ msgstr ""
 msgid "{0} is already connected."
 msgstr ""
 
-#: onedesk/public/js/apps.js:93
+#: onedesk/public/js/apps.js:114
 #, python-brace-format
 msgid "{0} is already installed."
 msgstr ""
@@ -71019,7 +71045,7 @@ msgstr ""
 msgid "{0} is behind on payment, so nothing more is charged until it is paid."
 msgstr ""
 
-#: onedesk/public/js/apps.js:95
+#: onedesk/public/js/apps.js:116
 #, python-brace-format
 msgid "{0} is being installed. It takes a few minutes, and appears in Apps and on the rail when it's ready."
 msgstr ""
@@ -71187,6 +71213,11 @@ msgstr ""
 #: onedesk/one_book/paid.py:40
 #, python-brace-format
 msgid "{0} is more than the {1} still owed."
+msgstr ""
+
+#: onedesk/one/apps.py:189
+#, python-brace-format
+msgid "{0} is needed by {1}, so it can't be turned off."
 msgstr ""
 
 #: onedesk/one_cloud/targets.py:125
@@ -71726,7 +71757,7 @@ msgstr ""
 msgid "{0} is turned off for this workspace in Apps."
 msgstr ""
 
-#: onedesk/one/apps.py:89 onedesk/one_ai/chat.py:117
+#: onedesk/one/apps.py:91 onedesk/one_ai/chat.py:117
 #: onedesk/one_chat/answers.py:41
 #, python-brace-format
 msgid "{0} is turned off for this workspace."
@@ -73008,6 +73039,11 @@ msgstr ""
 #: onedesk/one_ai/touch.py:227
 #, python-brace-format
 msgid "{0} was already {1}."
+msgstr ""
+
+#: onedesk/one/apps.py:193
+#, python-brace-format
+msgid "{0} was also turned on for {1}."
 msgstr ""
 
 #: onedesk/one_doc/field.py:114

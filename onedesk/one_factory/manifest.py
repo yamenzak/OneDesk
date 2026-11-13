@@ -17,6 +17,7 @@ APP = App(
 	owns=("Manufacturing", "Subcontracting"),
 	rail=60,
 	sidebar="OneFactory",
+	needs=("one_inventory",),
 	roles=Roles(user=("Manufacturing User",), manager=("Manufacturing Manager",)),
 	agent=_lt("production planner"),
 	screens="factory",
