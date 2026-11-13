@@ -427,7 +427,7 @@ def _heard(doc) -> None:
 
 def _told(doc, link: bool = True) -> dict:
 	"""What the other administrators hear of an extension turned on, off or
-	deleted (notifications/one_studio/): from that moment it runs on everybody's work,
+	deleted (notifications.py): from that moment it runs on everybody's work,
 	or no longer does."""
 	when = _place_said(doc) if doc.view == PAGE else _when(doc)
 	return {

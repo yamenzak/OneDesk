@@ -275,7 +275,7 @@ workspace notification rule already is (`one/rules.py`):
   row anybody can write that runs in every reader's browser turns "may
   customize a form" into "may act as whoever opens it". The one code that
   does run is what OneAI writes in OneStudio, read by a guard and a second
-  model and turned on by an administrator (`one_studio/README.md`).
+  model and turned on by an administrator (`one_studio/AGENTS.md`).
 - **Nothing that weakens a guard.** Frappe's own Customize Form limits hold (a
   standard field cannot lose `reqd`), plus ours: no `permlevel`, no
   `ignore_user_permissions`, no change to a field another module depends on.

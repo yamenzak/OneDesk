@@ -105,7 +105,7 @@ def check(
 			raise Refused(_("Every field needs a label."))
 		fieldname = frappe.scrub(label) if label else f"{frappe.scrub(fieldtype)}_{len(out)}"
 		if fieldname in seen or fieldname in frappe.model.default_fields:
-			raise Refused(_("{0} is there twice, or is a name frappe keeps for itself.").format(label))
+			raise Refused(_("{0} is there twice, or is a name the system keeps for itself.").format(label))
 		seen.add(fieldname)
 		options = (one.get("options") or "").strip() or None
 		if fieldtype == "Link" and options not in kinds:
@@ -282,7 +282,7 @@ def change(
 
 def _told(doctype: str, app: str, description: str | None, link: bool = True) -> dict:
 	"""What the other administrators hear of a collection added, changed or
-	deleted (notifications/one_studio/): it is in its app for everyone."""
+	deleted (notifications.py): it is in its app for everyone."""
 	shown = [
 		_(df.label)
 		for df in frappe.get_meta(doctype).fields

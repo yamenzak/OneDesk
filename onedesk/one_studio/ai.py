@@ -10,6 +10,24 @@ from frappe import _, _lt
 from onedesk.one import roles
 from onedesk.one_studio import extensions, guard, record_types
 
+NOT_FOR_AI = {
+	"customize.save": "OneAI changes a form its own way, as a card from One's customize tool that saves the same changes once it is approved.",
+	"customize.reset": "Taking back everything the workspace changed on a form is an administrator's decision on the form, never OneAI's.",
+	"extensions.use_draft": "Approving the card from write_extension runs a new version the same way, so this is the button on the extension's page.",
+	"extensions.drop_draft": "Keeping the version that runs over OneAI's new one is the administrator's answer to OneAI, never OneAI's own.",
+	"extensions.tripped": "It is a screen extension's own report of an error in somebody's browser, not anything a person does.",
+	"mend.mend": "OneAI fixes an extension its own way, through mend_extension, which runs the same fix as a job.",
+	"numbering.save": "OneAI changes numbering its own way, as a card from One's numbering tool that makes the same change once it is approved.",
+	"numbering.set_current": "OneAI changes numbering its own way, as a card from One's numbering tool that makes the same change once it is approved.",
+	"numbering.set_naming_by": "OneAI changes numbering its own way, as a card from One's numbering tool that makes the same change once it is approved.",
+	"printing.set_default": "OneAI suggests the format a record prints with as a card from One's print tools, which sets it once it is approved.",
+	"printing.save_letter_head": "OneAI suggests a letter head as a card from One's print tools, which saves it once it is approved.",
+	"printing.new_format": "OneAI designs a format its own way, as a card from One's print tools, rather than copying one.",
+	"printing.design_letter_head": "It opens the builder on a letter head for the person designing it, which only the page does.",
+	"record_types.move": "OneAI moves a collection its own way, as a card from design_record_type that sets its app and group once it is approved.",
+	"reports.place": "OneAI places a report or a dashboard as part of the card that suggests it, from suggest_saved_report or suggest_dashboard.",
+}
+
 SUGGESTIONS = {
 	"Record Type": [
 		{
