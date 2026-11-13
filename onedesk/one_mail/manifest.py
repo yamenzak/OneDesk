@@ -1,12 +1,16 @@
 """OneMail's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, Roles, _lt
+from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_mail",
 	name="OneMail",
 	kind="app",
 	module="One Mail",
+	ui="bespoke",
+	regions=(
+		Region("page", "onemail", "mail, read and written (Communication)"),
+	),
 	line=_lt("The company's email, each message kept on the customer, supplier or job it's about."),
 	mark="onemail",
 	rail=30,

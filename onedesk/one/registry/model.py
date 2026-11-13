@@ -14,6 +14,13 @@ def _lt(text: str) -> str:
 
 
 UI = ("native", "bespoke", "mixed", "none")
+"""How an app's screens are made: native, frappe's own lists and forms but
+for its regions (an app on ERPNext or HRMS); bespoke, every screen One's own,
+built from frappe's and frappe-ui's parts; mixed, both, each screen saying
+which by its regions; none, a centre's or an engine's, which have no app
+screens."""
+REGIONS = ("page",)
+"""What a region is: a desk page One draws (an island, a home, a console)."""
 COUNTRY = ("built", "works", "not checked")
 
 

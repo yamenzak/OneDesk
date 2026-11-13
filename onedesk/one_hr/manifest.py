@@ -1,12 +1,16 @@
 """OneHR's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, Roles, _lt
+from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_hr",
 	name="OneHR",
 	kind="app",
 	module="One HR",
+	ui="native",
+	regions=(
+		Region("page", "onehr", "OneHR's home: everybody's day, and for HR how the people are doing, and everything in it (Employee, Leave Application, Expense Claim, Salary Slip)"),
+	),
 	line=_lt("Contracts, leave, attendance, payroll and hiring for everyone who works with you."),
 	mark="onehr",
 	owns=(

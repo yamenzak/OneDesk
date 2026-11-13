@@ -1,12 +1,16 @@
 """OneCalendar's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, _lt
+from onedesk.one.registry.model import App, Region, Settle, _lt
 
 APP = App(
 	id="one_calendar",
 	name="OneCalendar",
 	kind="app",
 	module="One Calendar",
+	ui="bespoke",
+	regions=(
+		Region("page", "onecalendar", "everybody's calendar (Event, and the dated records shown on it)"),
+	),
 	line=_lt("Meetings, leave and deadlines from every app, on one calendar."),
 	mark="onecalendar",
 	rail=120,

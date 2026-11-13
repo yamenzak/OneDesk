@@ -1,12 +1,16 @@
 """One's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Kept, Settle, _lt
+from onedesk.one.registry.model import App, Kept, Region, Settle, _lt
 
 APP = App(
 	id="one",
 	name="One",
 	kind="app",
 	module="One",
+	ui="mixed",
+	regions=(
+		Region("page", "one", "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)"),
+	),
 	kept=Kept(_lt("Every app stands on One's Home, centres and window.")),
 	mark="one",
 	rail=10,

@@ -1,12 +1,16 @@
 """OneQuality's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, Roles, _lt
+from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_quality",
 	name="OneQuality",
 	kind="app",
 	module="One Quality",
+	ui="native",
+	regions=(
+		Region("page", "onequality", "OneQuality's home: the problems still open, the steps overdue, the goals failing, and everything in it (Non Conformance, Quality Action, Quality Review)"),
+	),
 	line=_lt("Write how work is done, record what went wrong, and follow it until it is fixed."),
 	mark="onequality",
 	owns=("Quality Management",),

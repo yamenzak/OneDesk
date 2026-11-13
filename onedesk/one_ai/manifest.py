@@ -1,12 +1,16 @@
 """OneAI's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, _lt
+from onedesk.one.registry.model import App, Region, Settle, _lt
 
 APP = App(
 	id="one_ai",
 	name="OneAI",
 	kind="app",
 	module="One AI",
+	ui="mixed",
+	regions=(
+		Region("page", "intake", "what Intake read and did (Reading, Reading Action)"),
+	),
 	line=_lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
 	mark="oneai",
 	rail=150,

@@ -7,6 +7,7 @@ APP = App(
 	name="OneStudio",
 	kind="app",
 	module="One Studio",
+	ui="mixed",
 	line=_lt("Shape One to the way you work with your own fields, record types and forms."),
 	mark="onestudio",
 	rail=160,

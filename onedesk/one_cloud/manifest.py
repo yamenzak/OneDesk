@@ -1,12 +1,16 @@
 """OneCloud's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, _lt
+from onedesk.one.registry.model import App, Region, Settle, _lt
 
 APP = App(
 	id="one_cloud",
 	name="OneCloud",
 	kind="app",
 	module="One Cloud",
+	ui="bespoke",
+	regions=(
+		Region("page", "onecloud", "the files (File)"),
+	),
 	line=_lt("Keep the company's files in one place and share them with anyone, inside or out."),
 	mark="onecloud",
 	owns=("One Sheet", "One Doc"),

@@ -7,6 +7,7 @@ APP = App(
 	name="OneProject",
 	kind="app",
 	module="One Project",
+	ui="mixed",
 	line=_lt("Plan each job, follow its time and costs, and bill it as the work gets done."),
 	mark="oneproject",
 	owns=("Projects",),

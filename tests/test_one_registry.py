@@ -154,3 +154,13 @@ def test_the_list_guard_catches_its_example(tmp_path):
 	example = tmp_path / "example.py"
 	example.write_text('APPS = ("OneBook", "OneHR")\n')
 	assert _named_twice(example, _apps_named()) == [1]
+
+
+def test_each_page_is_a_region_of_the_app_whose_folder_holds_it():
+	"""How an app's screens are made is declared (`ui`): a native app is
+	frappe's own lists and forms but for its regions, so every page of ours is
+	a region in the manifest of the folder it lives in, and no other's."""
+	for path in sorted((ROOT / "onedesk").glob("*/page/*/*.json")):
+		owner = registry.get(path.parts[-4])
+		assert path.parent.name.replace("_", "-") in {one.name for one in owner.regions}, f"{owner.id}/manifest.py: no region for page {path.parent.name}"
+	assert all(one.ui != "none" for one in registry.apps() if one.kind == "app")

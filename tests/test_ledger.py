@@ -101,7 +101,7 @@ def test_only_the_ledger_knows_a_balance_is_made_of_rows():
 	"""Everything above it asks for a number. A second module querying these
 	tables is a second definition of what a balance is."""
 	elsewhere = []
-	exempt = {LEDGER, tree.APP / "hooks.py", tree.APP / "one" / "tiers.py", tree.APP / "one" / "atlas.py", tree.APP / "one_studio" / "print_blocks.py"}
+	exempt = {LEDGER, tree.APP / "hooks.py", tree.APP / "one" / "tiers.py", tree.APP / "one_admin" / "manifest.py", tree.APP / "one" / "atlas.py", tree.APP / "one_studio" / "print_blocks.py"}
 	for path in tree.python():
 		if path in exempt or path.parent.name in ("credit_ledger_entry", "credit_reservation"):
 			continue

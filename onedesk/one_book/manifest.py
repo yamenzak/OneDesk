@@ -1,12 +1,16 @@
 """OneBook's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, Roles, _lt
+from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_book",
 	name="OneBook",
 	kind="app",
 	module="One Book",
+	ui="native",
+	regions=(
+		Region("page", "books", "OneBook's home: how the money is doing, what needs somebody today, and everything in it (GL Entry, Sales Invoice, Purchase Invoice, Bank Transaction)"),
+	),
 	line=_lt("Send invoices, pay bills, match the bank and see where the money stands."),
 	mark="onebook",
 	owns=("Accounts", "EDI", "ERPNext Integrations", "Regional"),

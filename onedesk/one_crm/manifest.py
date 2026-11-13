@@ -1,12 +1,16 @@
 """OneCRM's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, Roles, _lt
+from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_crm",
 	name="OneCRM",
 	kind="app",
 	module="One CRM",
+	ui="native",
+	regions=(
+		Region("page", "onecrm", "OneCRM's home: how selling is going, what needs the reader today, and everything in it (Lead, Opportunity, Quotation, Sales Order)"),
+	),
 	line=_lt("Follow every lead from first call to signed quote, and keep each customer's story in one place."),
 	mark="onecrm",
 	owns=("CRM", "Selling", "Support", "Maintenance", "Telephony", "Communication"),

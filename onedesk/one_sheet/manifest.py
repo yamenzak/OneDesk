@@ -1,12 +1,16 @@
 """OneSheet's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App
+from onedesk.one.registry.model import App, Region
 
 APP = App(
 	id="one_sheet",
 	name="OneSheet",
 	kind="app",
 	module="One Sheet",
+	ui="bespoke",
+	regions=(
+		Region("page", "workbook", "a workbook from OneCloud, in OneSheet's editor (Workbook)"),
+	),
 	mark="onesheet",
 	screens="sheet",
 	names=("one_sheet", "onesheet"),

@@ -1,12 +1,17 @@
 """OneFactory's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, Roles, _lt
+from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_factory",
 	name="OneFactory",
 	kind="app",
 	module="One Factory",
+	ui="native",
+	regions=(
+		Region("page", "floor", "the work on the floor, work orders and each step's job card (Work Order, Job Card)"),
+		Region("page", "onefactory", "OneFactory's home: what needs somebody in the workshop today, and everything in it (Work Order, Job Card, Subcontracting Order)"),
+	),
 	line=_lt("Plan what you make, run it on the shop floor, and send work out to suppliers."),
 	mark="onefactory",
 	owns=("Manufacturing", "Subcontracting"),

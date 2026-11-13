@@ -5,6 +5,8 @@ Where we do more than frappe it is declared here, and
 `tests/guards/test_tiers.py` fails on anything done and not declared.
 """
 
+from onedesk.one import registry
+
 VIEWS = ("List", "Report", "Dashboard", "Kanban", "Calendar", "Gantt", "Tree", "Image", "Map", "Inbox")
 
 PAGES = {
@@ -167,31 +169,6 @@ COLLECTIONS = {
 	"Personal Data Download Request": {"List": "Data Copies and where each stands"},
 }
 
-SCREENS = {
-	"workbook": "a workbook from OneCloud, in OneSheet's editor (Workbook)",
-	"document": "a document from OneCloud, in OneDoc's editor (Writer Document)",
-	"presentation": "a presentation from OneCloud, in OneDeck's editor (Presentation)",
-	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
-	"one": "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)",
-	"onehr": "OneHR's home: everybody's day, and for HR how the people are doing, and everything in it (Employee, Leave Application, Expense Claim, Salary Slip)",
-	"onecrm": "OneCRM's home: how selling is going, what needs the reader today, and everything in it (Lead, Opportunity, Quotation, Sales Order)",
-	"books": "OneBook's home: how the money is doing, what needs somebody today, and everything in it (GL Entry, Sales Invoice, Purchase Invoice, Bank Transaction)",
-	"inventory": "OneInventory's home: what needs somebody today, and everything in it (Purchase Order, Bin, Batch, Work Order)",
-	"to-order": "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)",
-	"onequality": "OneQuality's home: the problems still open, the steps overdue, the goals failing, and everything in it (Non Conformance, Quality Action, Quality Review)",
-	"onefactory": "OneFactory's home: what needs somebody in the workshop today, and everything in it (Work Order, Job Card, Subcontracting Order)",
-	"floor": "the work on the floor, work orders and each step's job card (Work Order, Job Card)",
-	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
-	"counter": "a queue counter: the ticket it serves, call the next, and who waits (Queue Ticket)",
-	"boards": "a board's items, each set to a state or a value from a phone (Display Board)",
-	"onemail": "mail, read and written (Communication)",
-	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
-	"onecloud": "the files (File)",
-	"oneadmin": "OneAdmin's overview, a console of its own, read from several records",
-	"oneadmin-billing": "Billing's home: what live workspaces pay, what that leaves against the margin floor, and OneCredits (Tenant, Offering, Credit Reservation)",
-	"oneadmin-releases": "Releases: each release with its commit, build and rollout, the servers and workspaces on it and each workspace's window, across servers, workspaces and the registry (Workspace Server, Tenant)",
-	"oneadmin-status": "each service's state now and over thirty days, with its checks' history, as a status page, which a list of checks cannot show (Health Check)",
-	"oneadmin-sessions": "start, stop, open and delete sessions on our own servers: real actions a list cannot do",
-	"intake": "what Intake read and did (Reading, Reading Action)",
-	"legal": "TrustCenter over the desk: the agreements, the optional services and the companies that receive data",
-}
+SCREENS = {region.name: region.why for app in registry.apps() for region in app.regions if region.kind == "page"}
+"""Every desk page of ours and what it shows that a list cannot: each app's
+regions, in its manifest (onedesk/one/registry)."""

@@ -1,12 +1,18 @@
 """OneInventory's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, Roles, _lt
+from onedesk.one.registry.model import App, Region, Roles, Settle, _lt
 
 APP = App(
 	id="one_inventory",
 	name="OneInventory",
 	kind="app",
 	module="One Inventory",
+	ui="native",
+	regions=(
+		Region("page", "inventory", "OneInventory's home: what needs somebody today, and everything in it (Purchase Order, Bin, Batch, Work Order)"),
+		Region("page", "stock-on-hand", "what the stores hold now, item by item, in every warehouse or one (Bin)"),
+		Region("page", "to-order", "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)"),
+	),
 	line=_lt("Know what's in stock, buy what runs low, and track what you sell."),
 	mark="oneinventory",
 	owns=("Stock", "Buying", "Assets"),

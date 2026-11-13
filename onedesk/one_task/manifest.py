@@ -1,12 +1,16 @@
 """OneTask's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle, _lt
+from onedesk.one.registry.model import App, Region, Settle, _lt
 
 APP = App(
 	id="one_task",
 	name="OneTask",
 	kind="app",
 	module="One Task",
+	ui="mixed",
+	regions=(
+		Region("page", "timers", "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)"),
+	),
 	line=_lt("Everybody's work in one list, with checklists, due dates and timers."),
 	mark="onetask",
 	rail=100,

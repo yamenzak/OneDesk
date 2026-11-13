@@ -11,7 +11,7 @@ import importlib
 from functools import cache
 from pathlib import Path
 
-from onedesk.one.registry.model import COUNTRY, KINDS, UI, App
+from onedesk.one.registry.model import COUNTRY, KINDS, REGIONS, UI, App
 
 FOLDERS = Path(__file__).resolve().parents[2]
 
@@ -96,8 +96,11 @@ def _check(found: list[App]) -> None:
 		for country, state in one.countries.items():
 			if state not in COUNTRY:
 				raise Invalid(f"{where}: countries[{country!r}] is {state!r}, not one of {COUNTRY}")
-		if one.regions and one.ui not in ("native", "mixed"):
-			raise Invalid(f"{where}: regions belong to a native or mixed app")
+		if one.kind == "app" and one.ui == "none":
+			raise Invalid(f"{where}: an app says how its screens are made (ui)")
+		for region in one.regions:
+			if region.kind not in REGIONS:
+				raise Invalid(f"{where}: a region's kind is one of {REGIONS}, not {region.kind!r}")
 		for module in one.owns:
 			if module in owners:
 				raise Invalid(f"{where}: owns {module!r}, which {owners[module]} owns already")

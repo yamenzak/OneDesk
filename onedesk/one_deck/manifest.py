@@ -1,12 +1,16 @@
 """OneDeck's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Settle
+from onedesk.one.registry.model import App, Region, Settle
 
 APP = App(
 	id="one_deck",
 	name="OneDeck",
 	kind="app",
 	module="One Deck",
+	ui="bespoke",
+	regions=(
+		Region("page", "presentation", "a presentation from OneCloud, in OneDeck's editor (Presentation)"),
+	),
 	mark="onedeck",
 	screens="slide",
 	names=("one_deck", "onedeck"),

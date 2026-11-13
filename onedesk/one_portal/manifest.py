@@ -7,6 +7,7 @@ APP = App(
 	name="OnePortal",
 	kind="app",
 	module="One Portal",
+	ui="bespoke",
 	line=_lt("Let customers and suppliers sign in to see their quotes, orders and invoices, and answer them."),
 	mark="oneportal",
 	rail=140,
