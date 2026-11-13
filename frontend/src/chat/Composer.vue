@@ -26,7 +26,7 @@
         ref="box"
         v-model="text"
         rows="1"
-        dir="auto" class="max-h-40 min-h-9 flex-1 resize-none rounded border border-transparent bg-surface-gray-2 px-2.5 py-1.5 text-base text-ink-gray-8 placeholder-ink-gray-4 hover:border-outline-gray-modals hover:bg-surface-gray-3 focus:border-outline-gray-4 focus:bg-surface-white focus:shadow-sm focus:outline-none focus:ring-0"
+        dir="auto" class="max-h-40 min-h-9 flex-1 resize-none rounded-2 border border-transparent bg-surface-gray-2 px-2.5 py-1.5 text-base text-ink-gray-8 placeholder-ink-gray-4 hover:bg-surface-gray-3 focus:border-outline-gray-4 focus:bg-surface-base focus:outline-none focus:ring-0"
         :placeholder="placeholder"
         :aria-label="placeholder"
         @input="fit"
