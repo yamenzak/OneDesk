@@ -208,7 +208,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 								label: __("Written By"),
 								options: [
 									{ value: "Text", label: __("My Own Words") },
-									{ value: "OneAI", label: __("OneAI") },
+									{ value: "OneAI", label: onedesk.names.of("one_ai") },
 								],
 								default: step.with || "Text",
 								change: () => {
@@ -234,7 +234,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 					label: __("Instruction"),
 					default: step.instruction || "",
 					hidden: !ai,
-					description: __("What OneAI's reply should do, such as answering from their orders and promising an answer within a day."),
+					description: __("What {0}'s reply should do, such as answering from their orders and promising an answer within a day.", [onedesk.names.of("one_ai")]),
 				},
 				{
 					fieldname: "records",
@@ -242,7 +242,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 					label: __("Sender's Records"),
 					default: step.records ? 1 : 0,
 					hidden: !ai,
-					description: __("OneAI may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified."),
+					description: __("{0} may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified.", [onedesk.names.of("one_ai")]),
 				},
 			],
 			primary_action_label: __("Done"),
@@ -273,7 +273,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 			reply: () =>
 				step.with === "OneAI"
 					? [
-							words(__("Have OneAI write a reply that follows")),
+							words(__("Have {0} write a reply that follows", [onedesk.names.of("one_ai")])),
 							quote(step.instruction, __("your instruction"), () => reply_dialog(step)).prepend(`${frappe.utils.icon("oneai", "xs")} `),
 							chip(
 								[
@@ -313,7 +313,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 			title: one ? __("Label") : __("New Label"),
 			fields: [
 				{ fieldname: "label", fieldtype: "Data", label: __("Label"), reqd: 1, default: one?.label || "", description: __("Such as Quote Request.") },
-				{ fieldname: "about", fieldtype: "Small Text", label: __("Meaning"), default: one?.about || "", description: __("Optional, and helps OneAI tell it apart.") },
+				{ fieldname: "about", fieldtype: "Small Text", label: __("Meaning"), default: one?.about || "", description: __("Optional, and helps {0} tell it apart.", [onedesk.names.of("one_ai")]) },
 			],
 			primary_action_label: __("Done"),
 			primary_action: ({ label, about }) => {
@@ -354,17 +354,17 @@ onedesk.rules.builder = ($into, rule, context) => {
 			const add = $(`<button type="button" class="rb-add-link"></button>`)
 				.html(`${frappe.utils.icon("plus", "xs")}<span>${esc(__("Label"))}</span>`)
 				.on("click", () => label_dialog(step, null));
-			$line = line(words(__("Ask OneAI")), mode, ...chips, add);
+			$line = line(words(__("Ask {0}", [onedesk.names.of("one_ai")])), mode, ...chips, add);
 		} else {
-			$line = line(words(__("Ask OneAI")), mode, blank(step.question, (v) => (step.question = v), __("a complaint")));
+			$line = line(words(__("Ask {0}", [onedesk.names.of("one_ai")])), mode, blank(step.question, (v) => (step.question = v), __("a complaint")));
 		}
 		const { $node, $body } = node(list, step, "oneai", $line, "rb-node-ai");
 		if (!context.reads) {
 			onedesk
 				.alert({
-					text: __("This step won't run. New Mail is set to Not Read in the OneAI tab."),
+					text: __("This step won't run. New Mail is set to Not Read in the {0} tab.", [onedesk.names.of("one_ai")]),
 					colour: "orange",
-					verbs: context.to_oneai ? [{ label: __("Open OneAI Tab"), action: context.to_oneai }] : [],
+					verbs: context.to_oneai ? [{ label: __("Open {0} Tab", [onedesk.names.of("one_ai")]), action: context.to_oneai }] : [],
 				})
 				.addClass("rb-unread")
 				.prependTo($body);
@@ -410,7 +410,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 		const checks = [
 			{ label: __("If"), icon: "split", onclick: add(() => ({ type: "if", id: id(), test: { any: false, items: [{ field: "from", op: "contains", value: "" }] }, then: [], else: [] })) },
 		];
-		if (context.ai) checks.push({ label: __("Ask OneAI"), icon: "oneai", onclick: add(() => ({ type: "ask", id: id(), ask: "yes", question: "", then: [], else: [] })) });
+		if (context.ai) checks.push({ label: __("Ask {0}", [onedesk.names.of("one_ai")]), icon: "oneai", onclick: add(() => ({ type: "ask", id: id(), ask: "yes", question: "", then: [], else: [] })) });
 		const $add = $(`<button type="button" class="rb-add-step"></button>`).html(`${frappe.utils.icon("plus", "sm")}<span>${esc(__("Add Step"))}</span>`);
 		new frappe.ui.Dropdown({
 			trigger: $add,
@@ -751,11 +751,11 @@ onedesk.rules.starters = (context) => {
 	if (context.ai)
 		said.push(
 			{
-				group: __("With OneAI"),
+				group: __("With {0}", [onedesk.names.of("one_ai")]),
 				key: "sort",
 				icon: "oneai",
 				title: __("Sort by Topic"),
-				about: __("OneAI reads each message and picks a label, and each label has its own steps."),
+				about: __("{0} reads each message and picks a label, and each label has its own steps.", [onedesk.names.of("one_ai")]),
 				rule: {
 					title: __("Sort by Topic"),
 					steps: [
@@ -775,11 +775,11 @@ onedesk.rules.starters = (context) => {
 				},
 			},
 			{
-				group: __("With OneAI"),
+				group: __("With {0}", [onedesk.names.of("one_ai")]),
 				key: "upset",
 				icon: "siren",
 				title: __("Upset or Urgent"),
-				about: __("OneAI says whether the sender is upset or in a hurry, and someone is told."),
+				about: __("{0} says whether the sender is upset or in a hurry, and someone is told.", [onedesk.names.of("one_ai")]),
 				rule: {
 					title: __("Upset or Urgent"),
 					steps: [
@@ -795,11 +795,11 @@ onedesk.rules.starters = (context) => {
 				},
 			},
 			{
-				group: __("With OneAI"),
+				group: __("With {0}", [onedesk.names.of("one_ai")]),
 				key: "draft",
 				icon: "pen-line",
 				title: __("Answer From Their Records"),
-				about: __("OneAI answers customers' questions about orders, deliveries and prices from their own records."),
+				about: __("{0} answers customers' questions about orders, deliveries and prices from their own records.", [onedesk.names.of("one_ai")]),
 				rule: {
 					title: __("Answer From Their Records"),
 					steps: [
@@ -828,11 +828,11 @@ onedesk.rules.starters = (context) => {
 				},
 			},
 			{
-				group: __("With OneAI"),
+				group: __("With {0}", [onedesk.names.of("one_ai")]),
 				key: "ai_reply",
 				icon: "bot",
 				title: __("Auto Reply in Their Language"),
-				about: __("OneAI answers new conversations from outside, in the sender's language."),
+				about: __("{0} answers new conversations from outside, in the sender's language.", [onedesk.names.of("one_ai")]),
 				rule: {
 					title: __("Auto Reply in Their Language"),
 					steps: [

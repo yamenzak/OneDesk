@@ -1,8 +1,8 @@
 # Who Can Do What
 
-OneCloud has no roles of its own. Who may open or change a file follows from
+{one_cloud} has no roles of its own. Who may open or change a file follows from
 where it is and who it was shared with, and everybody on the team uses
-OneCloud.
+{one_cloud}.
 
 ## Who Can Open a File
 

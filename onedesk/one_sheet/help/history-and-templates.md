@@ -22,7 +22,7 @@ one a day for a month, one a week for three months.
 
 ## Templates
 
-**File › Save as Template** keeps a copy in OneCloud › Workbook Templates for
+**File › Save as Template** keeps a copy in {one_cloud} › Workbook Templates for
 everybody in the business to start from: **New › Workbook** then asks which
 template to start from. Who may keep templates is set in **Roles**; see
 [Who Can Do What](who-can-do-what).

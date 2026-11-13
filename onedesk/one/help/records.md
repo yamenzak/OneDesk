@@ -7,11 +7,11 @@ administrators create dashboards and reports by mail. Script reports, Query
 reports, copies of them, and charts or cards that run code can't be made
 here. Those come with the apps.
 
-OneAI offers **What do our dashboards show?** and **Which reports go out by
+{one_ai} offers **What do our dashboards show?** and **Which reports go out by
 mail?**
 
-You can also ask OneAI for a saved report ("unpaid invoices over a thousand,
-largest first, in OneBook"), a dashboard or a report by mail. It shows a card
+You can also ask {one_ai} for a saved report ("unpaid invoices over a thousand,
+largest first, in {one_book}"), a dashboard or a report by mail. It shows a card
 with the columns, filters, charts and recipients. When you click **Approve**,
 it creates it as you, so it can't create anything you couldn't. Anyone can ask
 for a saved report of records they can read. Dashboards, reports by mail and
@@ -24,7 +24,7 @@ reports shown to everyone are for administrators.
 3. Choose **Save As** from its menu.
 
 The report appears under **Saved Reports** in the sidebar of the list's app,
-such as OneBook for invoices or OneCRM for customers.
+such as {one_book} for invoices or {one_crm} for customers.
 
 - If an administrator saves it, everyone who uses the app sees it. Otherwise
   only the person who saved it sees it.
@@ -41,7 +41,7 @@ A dashboard is a page of charts and number cards, such as invoices by month
 or how many are unpaid.
 
 - Each app's dashboards are on its own rail, as **Overview** rows.
-- Administrators make and change them in OneStudio › **Dashboards**, with
+- Administrators make and change them in {one_studio} › **Dashboards**, with
   its **Charts** and **Number Cards**.
 - Each chart and card shows only to people who can read what it counts.
 - A chart counts, sums or averages records, groups them, or shows a report.
@@ -50,23 +50,23 @@ or how many are unpaid.
 
 ## Customizing a Form
 
-Every field your workspace added or changed is listed in **OneStudio ›
+Every field your workspace added or changed is listed in **{one_studio} ›
 Custom Fields**. **Custom Fields** on a form's menu opens the same list,
 filtered to that form. Only administrators can open it. You don't edit
-anything on the list. Ask OneAI instead, and approve the card it makes.
+anything on the list. Ask {one_ai} instead, and approve the card it makes.
 Changes apply to everyone who uses the form.
 
 The list shows each field's form, type, status and the other forms it was
 also added to. **Added** is a field the workspace made, **Changed** a standard
 field it changed (renamed, hidden, made required, shown in list view).
 Numbers, buttons, charts and linked sections above a form's fields, and
-connections, are changed through OneAI too. Extensions are in OneStudio ›
+connections, are changed through {one_ai} too. Extensions are in {one_studio} ›
 Extensions.
 
 ## Adding a Field
 
-Click **Add Field**, or ask OneAI from anywhere, for example "add a field to
-Item". OneAI asks a few short questions and recommends an answer for each.
+Click **Add Field**, or ask {one_ai} from anywhere, for example "add a field to
+Item". {one_ai} asks a few short questions and recommends an answer for each.
 
 1. What the field is for.
 2. The field type and properties: required, unique, default, list view,
@@ -77,13 +77,13 @@ Item". OneAI asks a few short questions and recommends an answer for each.
    usually belongs on Sales Invoice Item and Purchase Order Item, fetched from
    the item.
 
-OneAI then makes one card with every change. **Approve** applies them all, and
-the other administrators are notified. OneAI won't add a field the form
+{one_ai} then makes one card with every change. **Approve** applies them all, and
+the other administrators are notified. {one_ai} won't add a field the form
 already has.
 
 ## Changing a Field
 
-Click a field in the list, or tell OneAI what to change. You can rename, hide,
+Click a field in the list, or tell {one_ai} what to change. You can rename, hide,
 require, move or remove a custom field. Standard fields can be hidden but not
 removed, and fields the form needs stay required.
 
@@ -92,7 +92,7 @@ removed, and fields the form needs stay required.
 Tick fields in the list, then choose **Export** or **Reset** from **Actions**.
 Export downloads this workspace's changes to their forms. Reset removes them
 all, including fields added to related forms. If someone changes the form
-after OneAI made a card, the card can't be applied and says so.
+after {one_ai} made a card, the card can't be applied and says so.
 
 ## A Form's Settings
 
@@ -105,7 +105,7 @@ part appears once the workspace can use it.
   it lists the series, with the default first, and the name the next record
   gets. **Add Series** adds one. Click a series to edit it or move its number
   up. A number only goes up, since going down would repeat a name already
-  used. A series another record type uses is refused. OneStudio's
+  used. A series another record type uses is refused. {one_studio}'s
   **Numbering** lists every record type with a series that you can open, and
   opens each one here.
 - **Print Formats**: every format this record type can print with, each shown
@@ -125,7 +125,7 @@ part appears once the workspace can use it.
   Approvals, for the Workspace.
 - **Automations**: the automations for this record type. **New** opens a new
   automation set to it. Click one to edit it or turn it on or off. See
-  Automations, for the Workspace. The system's own record types, and One's,
+  Automations, for the Workspace. The system's own record types, and {one}'s,
   have none, since they have no Customize.
 
 ## Printing a Record
@@ -142,7 +142,7 @@ as it will print.
 - The file icon, **Form**, goes back to the record.
 
 Every PDF is listed in the Audit Log, under Exports and Prints. How formats
-and letter heads look is set in OneStudio's **Printing**.
+and letter heads look is set in {one_studio}'s **Printing**.
 
 ## Reminders
 

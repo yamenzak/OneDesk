@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Added to Project",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When somebody adds you to a project's members.",
 		"to": "Each person added, but whoever added them",
 		"roles": ("Projects User",),
@@ -22,7 +24,7 @@ TYPES = [
 	},
 	{
 		"name": "Bill Due",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "On the day a supplier's bill on a project falls due and isn't paid yet.",
 		"to": "The project's manager",
 		"roles": ("Projects User",),
@@ -35,7 +37,7 @@ TYPES = [
 	},
 	{
 		"name": "Comment on Project",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When somebody comments on a project you run.",
 		"to": "The project's manager, unless the comment mentions them",
 		"roles": ("Projects User",),
@@ -48,7 +50,7 @@ TYPES = [
 	},
 	{
 		"name": "Hours Over Plan",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When the hours logged on a task, or on a whole project, pass the hours it planned.",
 		"to": "Whoever the task is given to and the project's manager, or a project's manager",
 		"roles": ("Projects User",),
@@ -60,7 +62,7 @@ TYPES = [
 	},
 	{
 		"name": "Made Project Manager",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When somebody makes you a project's manager.",
 		"to": "The new manager, unless they made themselves it",
 		"roles": ("Projects User",),
@@ -73,7 +75,7 @@ TYPES = [
 	},
 	{
 		"name": "Milestone Done",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When a milestone that's billed on completion is done.",
 		"to": "The manager of the project with the order, unless they marked it done",
 		"roles": ("Projects User",),
@@ -85,7 +87,7 @@ TYPES = [
 	},
 	{
 		"name": "Milestone Late",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "The day after a milestone was due and is not done.",
 		"to": "The project's manager",
 		"roles": ("Projects User",),
@@ -98,7 +100,7 @@ TYPES = [
 	},
 	{
 		"name": "Over Budget",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When what's ordered and spent on a project's cost type passes its budget, or its time's cost passes its Time Budget.",
 		"to": "The project's manager and whoever set the budget",
 		"roles": ("Projects User",),
@@ -111,7 +113,7 @@ TYPES = [
 	},
 	{
 		"name": "Progress Bill Drafted",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When somebody saves a bill or invoice for a share of the work done.",
 		"to": "The project's manager, unless they saved it",
 		"roles": ("Projects User",),
@@ -123,7 +125,7 @@ TYPES = [
 	},
 	{
 		"name": "Project Completed",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When a project is completed, by somebody or by its last task, with what's still owed on it.",
 		"to": "The project's manager, unless they completed it",
 		"roles": ("Projects User",),
@@ -135,7 +137,7 @@ TYPES = [
 	},
 	{
 		"name": "Project End Moved",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When an open project's end date is moved.",
 		"to": "The project's manager and members, but whoever moved it",
 		"roles": ("Projects User",),
@@ -147,7 +149,7 @@ TYPES = [
 	},
 	{
 		"name": "Project Health",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When somebody marks a project At Risk or Off Track.",
 		"to": "The project's manager and members, but whoever marked it",
 		"roles": ("Projects User",),
@@ -159,7 +161,7 @@ TYPES = [
 	},
 	{
 		"name": "Project Resumed",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When a project on hold or cancelled is opened again.",
 		"to": "The project's manager and members, but whoever did it",
 		"roles": ("Projects User",),
@@ -171,7 +173,7 @@ TYPES = [
 	},
 	{
 		"name": "Project Stopped",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When a project is put on hold or cancelled.",
 		"to": "The project's manager and members, but whoever did it",
 		"roles": ("Projects User",),
@@ -183,7 +185,7 @@ TYPES = [
 	},
 	{
 		"name": "Project Summary",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "Every morning, what a project's people said about it the day before.",
 		"to": "The project's people",
 		"roles": ("Projects User",),
@@ -194,7 +196,7 @@ TYPES = [
 	},
 	{
 		"name": "Project Update Asked",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "As often as a project says, to ask how it is going. A project's own question replaces this text.",
 		"to": "The project's people",
 		"roles": ("Projects User",),
@@ -210,7 +212,7 @@ TYPES = [
 	},
 	{
 		"name": "Removed from Project",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When somebody takes you off a project's members.",
 		"to": "Each person taken off, but whoever did it",
 		"roles": ("Projects User",),
@@ -222,7 +224,7 @@ TYPES = [
 	},
 	{
 		"name": "Retainer Hours Used",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "When the time logged on a retainer passes its hours for the month.",
 		"to": "The project's manager, or whoever made it",
 		"roles": ("Projects User",),
@@ -234,7 +236,7 @@ TYPES = [
 	},
 	{
 		"name": "Retainer Month to Invoice",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "On the first of the month, for each retainer whose last month isn't invoiced.",
 		"to": "The project's manager, or whoever made it",
 		"roles": ("Projects User",),
@@ -246,7 +248,7 @@ TYPES = [
 	},
 	{
 		"name": "Retention Due",
-		"app": "OneProject",
+		"app": registry.name("one_project"),
 		"about": "On the day retention held by a customer, or from a supplier, falls due.",
 		"to": "The project's manager",
 		"roles": ("Projects User",),

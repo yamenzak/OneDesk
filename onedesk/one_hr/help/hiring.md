@@ -1,26 +1,26 @@
 # Hiring
 
-OneAI works through the whole of hiring, and a person makes every decision.
-Nothing OneAI does changes an applicant's status or contacts the candidate.
+{one_ai} works through the whole of hiring, and a person makes every decision.
+Nothing {one_ai} does changes an applicant's status or contacts the candidate.
 
 ![An applicant with the opening they applied for and where they came from](hiring/job-applicant.png)
 
 **Job Opening.** Write **Screening Criteria** — what a strong applicant has, one
-per line. Every applicant is rated against them. OneAI's panel on the opening
+per line. Every applicant is rated against them. {one_ai}'s panel on the opening
 offers **Write this opening**, which drafts the description and the criteria as
 a change to approve. On a Job Requisition it offers **Draft the opening**.
 
-**Job Applicant.** Each new applicant is read by OneAI in the background:
+**Job Applicant.** Each new applicant is read by {one_ai} in the background:
 
-- **OneAI Rating** — stars, for how well the CV meets the Screening Criteria on
+- **{one_ai} Rating** — stars, for how well the CV meets the Screening Criteria on
   its own.
 - **Standing** — out of 100, against everybody else applying to the same
   opening. It moves as others arrive, and the applicant list is sorted by it.
-- **OneAI Summary**, and a comment from OneAI with what the CV shows, what it
+- **{one_ai} Summary**, and a comment from {one_ai} with what the CV shows, what it
   does not, and what is worth confirming before you call.
 
-The **Applicant Rating** beside them is yours and OneAI never touches it.
-OneAI is told never to judge age, sex, gender, family status, religion, race,
+The **Applicant Rating** beside them is yours and {one_ai} never touches it.
+{one_ai} is told never to judge age, sex, gender, family status, religion, race,
 nationality, disability, appearance, a photograph or what a name implies.
 Anybody whose standing moves by 15 or more gets a comment saying why.
 
@@ -28,17 +28,17 @@ In the panel on an applicant: **Screen again**, **What should I ask first?**
 and **Write a kind decline**. On an opening: **Rank the applicants again**.
 
 **Adding applicants from CVs.** Drop CVs on **Add applicants from CVs** in
-the OneAI panel. On an opening, each becomes an applicant to it; on the
+the {one_ai} panel. On an opening, each becomes an applicant to it; on the
 applicant list or Home, each goes to the open job it fits best. Each is a
 card to approve. A CV that arrives by mail becomes an applicant through
-OneAI.
+{one_ai}.
 
 **Interviewers.** Everybody named on an interview can open it and give
-feedback on it, whatever else they use One for.
+feedback on it, whatever else they use {one} for.
 
 ## Interviews and Recordings
 
-**Interview.** When an interview is made, OneAI writes **Interview
+**Interview.** When an interview is made, {one_ai} writes **Interview
 Preparation** onto it: what to confirm first, then up to eight questions, each
 saying which skill it tests and why. **Prepare this interview again** in the
 panel writes it again.
@@ -52,7 +52,7 @@ silence. The recording keeps going if you move to another page, and the
 browser warns you before you close the tab.
 
 The recording is saved in five-minute parts as it goes, so a crash loses at
-most five minutes. When it stops, OneAI writes the transcript, with
+most five minutes. When it stops, {one_ai} writes the transcript, with
 Interviewer and Candidate and a time on each turn, and comments on the
 interview: what was said about each skill and when, what was not covered, what
 to weigh and what to ask next round. The applicant gets a one-line summary.

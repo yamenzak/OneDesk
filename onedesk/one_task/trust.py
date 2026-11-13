@@ -2,9 +2,10 @@
 ask, and a task or a change it suggests is made only when they approve it. See
 one_task/agent.py and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneTask"
+M = registry.name("one_task")
 
 clause(
 	document="ai",

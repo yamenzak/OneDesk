@@ -2,25 +2,25 @@
 
 ## Access
 
-People gives each person a role in OneCRM, OneBook, OneInventory, OneProject,
-OneHR and OneMail. **AccessCenter**, on One's rail, is where roles are made and
+People gives each person a role in {one_crm}, {one_book}, {one_inventory}, {one_project},
+{one_hr} and {one_mail}. **AccessCenter**, on {one}'s rail, is where roles are made and
 changed, with profiles, groups and user permissions, each below. Only
 administrators see it.
 
 A record type's **Settings › Access** shows what each app's roles can do with
 that record type, and opens any of them to change it.
 
-OneAI offers **Who can do what?** and **Who sees only part?**
+{one_ai} offers **Who can do what?** and **Who sees only part?**
 
-You can also ask OneAI to set things up, for example:
+You can also ask {one_ai} to set things up, for example:
 
-- "a role in OneCRM that can't delete quotations"
+- "a role in {one_crm} that can't delete quotations"
 - "a profile for bookkeepers"
 - "a group for the Gulf sales team"
 - "limit Rania to the UAE territory"
 - "remove Omar's access"
 
-OneAI shows a card listing every permission it would add or remove, every
+{one_ai} shows a card listing every permission it would add or remove, every
 person it would add or remove, and who is notified. Nothing changes until an
 administrator clicks **Approve**. If the role changed after the card was
 made, the card says so and makes no change.
@@ -29,19 +29,19 @@ made, the card says so and makes no change.
 
 Each app has a **User** and a **Manager** role, listed in
 AccessCenter with each one's people, and a workspace can add its own between them.
-OneMail has roles too; everyone is at least its User.
+{one_mail} has roles too; everyone is at least its User.
 
 **An app's roles are built in AccessCenter**: open the app under **Apps**,
 where **Roles**, **People** and **On One Record** are at the top right.
 Roles is a table with what the app lets a role do down the side and its roles across the top,
 each cell a dropdown or a switch that saves as it changes. Signatures and
-sender names, out of office, mail rules and OneAI settings are each **No**,
+sender names, out of office, mail rules and {one_ai} settings are each **No**,
 **Their Own Address** or **Every Mailbox**; who uses a mailbox,
 connections, connecting shared mailboxes, the address policy and mail
 templates are switches. A role above User always has everything User has.
 **New Role** adds a column; click a role's name to rename or delete it,
 and **Show Roles** to choose which columns show.
-Clicking a OneMail role here opens that table.
+Clicking a {one_mail} role here opens that table.
 
 For the other apps, a role's page here has:
 
@@ -53,7 +53,7 @@ To add your own role, such as Senior Sales or Brand Team:
 
 1. Click **New Role**.
 2. Name it, and choose its app and the role it's **Based On**.
-3. Change what it may do on its page, or in OneMail's table for a OneMail
+3. Change what it may do on its page, or in {one_mail}'s table for a {one_mail}
    role.
 
 The new role appears on each person's page, in that app's list between User
@@ -77,7 +77,7 @@ read.
 ## Access Profiles
 
 A profile is a job's role in every app at once, such as Accountant with
-OneBook as Manager and OneInventory as User. Make one in AccessCenter, then
+{one_book} as Manager and {one_inventory} as User. Make one in AccessCenter, then
 choose it under **Profile** on a person's page to set every app at once.
 
 - Changing the profile later updates everyone on it.
@@ -106,11 +106,11 @@ limit can apply everywhere or to one record type (**Applicable For**).
 
 ## The Audit Log
 
-Who did what in the workspace, under One › **Audit Log**. Only administrators
+Who did what in the workspace, under {one} › **Audit Log**. Only administrators
 see it. Each entry is recorded as it happens, and no one can change or
 delete one.
 
-- **Changes**: every change to a record, such as "Wren changed One". Each
+- **Changes**: every change to a record, such as "Wren changed {one}". Each
   entry shows every field that changed, from what to what. **Open** on its row
   goes to the record. Filter by record type or by user.
 - **Sign-ins**: every sign-in and sign-out, including failed ones, with the IP
@@ -125,5 +125,5 @@ System activity, such as scheduled jobs, updates and platform support, isn't
 listed. Sign-ins are kept for 90 days. Changes and exports are kept for good.
 A record's own changes are also on its timeline, for everyone who can read it.
 
-OneAI offers **What changed today?**, **Any odd sign-ins?** and **What left as
+{one_ai} offers **What changed today?**, **Any odd sign-ins?** and **What left as
 a file?**, using only what you can see in the log.

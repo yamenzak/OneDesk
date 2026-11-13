@@ -1,16 +1,16 @@
-# What OneCRM Is
+# What {one_crm} Is
 
-OneCRM is where a company keeps the people and businesses it sells to: who got
+{one_crm} is where a company keeps the people and businesses it sells to: who got
 in touch, what they might buy, what was said, and what happens next. Every
-lead, opportunity, customer and quotation is the same record the rest of One
+lead, opportunity, customer and quotation is the same record the rest of {one}
 reads.
 
 ## Finding Your Way
 
-The rail on the left has the whole of OneCRM in it:
+The rail on the left has the whole of {one_crm} in it:
 
 - **Home** — how selling is going, what needs you today, and everything in
-  OneCRM with what it is for.
+  {one_crm} with what it is for.
 - **Overview** — charts of leads and opportunities coming in, won, and by
   territory and source. The figures are on Home.
 - **Lead** — somebody who got in touch, or somebody you want to reach.
@@ -25,10 +25,10 @@ The rail on the left has the whole of OneCRM in it:
   Selling. Support is what comes after the sale: issues, warranty claims,
   maintenance schedules and the visits that keep them.
 - **Reports** and **Setup** — open their part of Home: every sales report,
-  and every setting and list OneCRM keeps, each with what it is for.
+  and every setting and list {one_crm} keeps, each with what it is for.
 
-A **Sales Order** is what a won opportunity becomes: OneInventory delivers it
-and OneBook invoices it. At its top it says its project and total, the day
+A **Sales Order** is what a won opportunity becomes: {one_inventory} delivers it
+and {one_book} invoices it. At its top it says its project and total, the day
 what is still to go out was promised (in red once that day has passed), and
 how much has been delivered and billed.
 
@@ -44,5 +44,5 @@ yours, every list can filter by it, and Home, the Pipeline's totals and every
 figure are your company's alone, in its currency. Change company from the
 top bar.
 
-**OneAI is the round button in the corner.** Open it on any page and it offers
-what makes sense there. No OneAI button is ever put on a page itself.
+**{one_ai} is the round button in the corner.** Open it on any page and it offers
+what makes sense there. No {one_ai} button is ever put on a page itself.

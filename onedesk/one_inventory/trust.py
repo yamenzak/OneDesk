@@ -2,9 +2,10 @@
 equipment, and what OneAI reads and drafts in it. See one_inventory/custody.py,
 one_inventory/agent.py and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneInventory"
+M = registry.name("one_inventory")
 
 clause(
 	document="privacy",

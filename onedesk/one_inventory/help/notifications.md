@@ -1,6 +1,6 @@
 # Being Told
 
-What OneInventory tells people, and when. **Notifications** in Settings
+What {one_inventory} tells people, and when. **Notifications** in Settings
 changes how each person hears of each one.
 
 - **Delivery Late**: on the morning after a customer's order was due to be delivered and has not all gone. To whoever made the order, and the stock managers.

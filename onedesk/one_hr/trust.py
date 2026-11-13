@@ -3,9 +3,10 @@ for a workspace and those who apply to, clocking in, which is where One
 collects the most about a person at one moment, and what OneAI reads of them.
 See trust_center/AGENTS.md and one_hr/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneHR"
+M = registry.name("one_hr")
 
 clause(
 	document="privacy",

@@ -11,7 +11,7 @@ is: a lobby, a waiting area, a showroom floor.
 | Part | What it is |
 | --- | --- |
 | **Announce Calls** | Whether a ticket called at a counter is said aloud here. A queue names the zone its calls are said in. |
-| **Announcement Language** and **Voice** | The language calls are said in, and OneAI's voice. With no voice, a screen's own voice says them. |
+| **Announcement Language** and **Voice** | The language calls are said in, and {one_ai}'s voice. With no voice, a screen's own voice says them. |
 | **Music Playlist** | The music, quietly under everything, with a **Schedule** for other music, or none, at certain times. |
 | **Voice Ads** | Ads read aloud every few minutes, or at set times. |
 
@@ -38,7 +38,7 @@ video plays, the music of the screen's zone goes quiet, and comes back after.
 
 ## Calls From a Voice Pack
 
-A call is joined from pieces OneAI says once: each letter, the numbers up to
+A call is joined from pieces {one_ai} says once: each letter, the numbers up to
 999, a few words, and each counter's name. They are kept in a **Voice Pack**,
 one for each language, voice and tone, so the first call of a new ticket
 sounds as good as the hundredth. The pieces it lacks are said the first time
@@ -48,9 +48,9 @@ each kind it has said.
 
 ![A voice pack, and what it has said](sound/pack.png)
 
-**Record Missing Clips** has OneAI record everything the pack may still need,
+**Record Missing Clips** has {one_ai} record everything the pack may still need,
 and **Re-record All** records every clip again, replacing the old one. The pieces are files
-in OneCloud, under **Records**, **Voice Pack**; deleting the pack deletes
+in {one_cloud}, under **Records**, **Voice Pack**; deleting the pack deletes
 them.
 
 A queue's **Number Reading** chooses how a ticket's number is read: **Auto**
@@ -60,7 +60,7 @@ says four digits or more one by one and a shorter number whole, or always
 ## Music
 
 A music playlist is a list of tracks, played one after the other, over and
-over, at the volume you set. **Make Music** has OneAI write a piece of
+over, at the volume you set. **Make Music** has {one_ai} write a piece of
 instrumental music from a sentence. It arrives at the end of the playlist,
 paused, and you are told when it is there; clear **Paused** once you have
 listened to it.
@@ -68,6 +68,6 @@ listened to it.
 ## Voice Ads
 
 A voice ad is a few sentences read aloud, in the tone and the voice you
-choose, with a chime first if you like. **Make the Recording** has OneAI
+choose, with a chime first if you like. **Make the Recording** has {one_ai}
 record it, and **Listen** plays it before anybody hears it in a zone. You can
-also upload your own recording. Its file is on the ad in OneCloud.
+also upload your own recording. Its file is on the ad in {one_cloud}.

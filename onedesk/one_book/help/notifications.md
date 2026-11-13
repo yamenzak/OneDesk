@@ -1,6 +1,6 @@
 # Being Told
 
-What OneBook tells people, and when. **Notifications** in Settings
+What {one_book} tells people, and when. **Notifications** in Settings
 changes how each person hears of each one.
 
 - **Bills Due This Week**: on Monday morning, when supplier bills fall due in the coming week. To accounts.

@@ -1,6 +1,6 @@
 # Reports
 
-Four of the reports under **Reports** are OneCRM's own:
+Four of the reports under **Reports** are {one_crm}'s own:
 
 - **Opportunity Forecast** — the open opportunities, except those on hold, by the month they
   are expected to close, with their value, their weighted value, and what was

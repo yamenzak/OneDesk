@@ -28,7 +28,7 @@ function portal_person_line(one) {
 		invited: __("Invited, not signed in yet"),
 		active: __("Signed in {0}", [one.when]),
 		revoked: __("Access revoked"),
-		staff: __("Signs in to One"),
+		staff: __("Signs in to {0}", [onedesk.names.of("one")]),
 	}[one.status];
 	return [one.email || __("No email"), where || __("Not on the portal")].join(" · ");
 }
@@ -37,7 +37,7 @@ frappe.provide("onedesk.portal");
 
 // OnePortal turned off in the app picker (one/apps.py) takes every Portal
 // button with it; the server refuses the rest (one_portal/gate.py).
-onedesk.portal.on = () => !((frappe.boot.one_hidden || {}).apps || []).includes("OnePortal");
+onedesk.portal.on = () => !((frappe.boot.one_hidden || {}).apps || []).includes(onedesk.names.of("one_portal"));
 
 // The Portal button, the same on every record: frappe's button in OnePortal's
 // teal, with its mark (css/one_portal/button.css).
@@ -259,8 +259,8 @@ function portal_dialog(doctype, name, first, after) {
 	// first time it opens (one_portal/tour.py).
 	if ((frappe.boot.one_tours_unseen || []).includes("OnePortal:dialog")) {
 		setTimeout(async () => {
-			const tour = await onedesk.tour.here("OnePortal");
-			if (tour && dialog.display) onedesk.tour.run("OnePortal", tour);
+			const tour = await onedesk.tour.here(onedesk.names.of("one_portal"));
+			if (tour && dialog.display) onedesk.tour.run(onedesk.names.of("one_portal"), tour);
 		}, 600);
 	}
 }
@@ -287,7 +287,7 @@ PORTAL_KINDS.forEach((doctype) => {
 // OnePortal's settings (docs/READY.md, mechanism 5): what every module's
 // finds, its roles and its notifications (module_settings.centers).
 onedesk.portal.settings = ({ at = null } = {}) => {
-	const dialog = onedesk.module_settings.open({ module: "OnePortal", tabs: [], default_tab: at });
+	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_portal"), tabs: [], default_tab: at });
 	dialog.show();
 	return dialog;
 };
@@ -301,8 +301,8 @@ $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OnePortal") return;
-		win.module_foot({ module: "OnePortal", settings: () => onedesk.portal.settings() });
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_portal")) return;
+		win.module_foot({ module: onedesk.names.of("one_portal"), settings: () => onedesk.portal.settings() });
 		onedesk.interface.nav.place();
 	}, 0)
 );

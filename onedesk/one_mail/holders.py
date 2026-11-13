@@ -12,6 +12,7 @@ import re
 import frappe
 from frappe import _
 
+from onedesk.one import registry
 from onedesk.one_mail import addresses
 
 WORKSPACE = "one_mail_workspace"
@@ -276,8 +277,8 @@ def _by_role(user: str) -> dict:
 		if roles.administers(user):
 			cache[user] = {"role": _("Administrator"), "covered": list(SHARED)}
 		else:
-			used, managed = access._apps()["OneMail"]
-			tier = level_of(set(frappe.get_roles(user)), used, managed, access.levels_of("OneMail"))
+			used, managed = access._apps()[registry.name("one_mail")]
+			tier = level_of(set(frappe.get_roles(user)), used, managed, access.levels_of(registry.name("one_mail")))
 			cache[user] = {
 				"role": _(tier) if tier in ("User", "Manager", "None") else tier,
 				"covered": [key for key in SHARED if rights.held(DOCTYPE, _ability(key)["all"], user)],
@@ -303,7 +304,7 @@ def shared() -> dict:
 	ours, sends = workspace(), sends_from()
 	names = dict(frappe.get_all("User", filters={"user_type": "System User"}, fields=["name", "full_name"], as_list=True))
 	for account in accounts:
-		given = rights.grants("OneMail", account.name)
+		given = rights.grants(registry.name("one_mail"), account.name)
 		account["people"] = [
 			{
 				"user": row.parent,
@@ -396,7 +397,7 @@ def set_access(account: str, people) -> list[dict]:
 
 	for user in now - set(wanted):
 		frappe.db.delete("User Email", {"parent": user, "email_account": account})
-		rights.grant("OneMail", account, user, [])
+		rights.grant(registry.name("one_mail"), account, user, [])
 	for user, sends in wanted.items():
 		frappe.db.set_value("User Email", {"parent": user, "email_account": account}, "one_sends", sends, update_modified=False)
 	from onedesk.one_mail import tell
@@ -417,7 +418,7 @@ def give(account: str, user: str, keys: str | list) -> list[str]:
 	if not frappe.db.exists("User Email", {"parent": user, "email_account": account}):
 		frappe.throw(_("{0} doesn't use this mailbox.").format(user))
 	keys = frappe.parse_json(keys) if isinstance(keys, str) else keys or []
-	return rights.grant("OneMail", account, user, list(keys))
+	return rights.grant(registry.name("one_mail"), account, user, list(keys))
 
 
 @frappe.whitelist(methods=["POST"])

@@ -31,7 +31,7 @@ onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname })
 	};
 	let chosen = [];
 	const picker = new frappe.ui.Dialog({
-		title: __("Choose from OneCloud"),
+		title: __("Choose from {0}", [onedesk.names.of("one_cloud")]),
 		size: "extra-large",
 		fields: [{ fieldtype: "HTML", fieldname: "explorer" }],
 		primary_action_label: __("Attach"),
@@ -101,7 +101,7 @@ frappe.require("file_uploader.bundle.js").then(() => {
 	OneCloudUploader.onecloud = true;
 	frappe.ui.FileUploader = OneCloudUploader;
 	Uploader.UploadOptions.push({
-		label: __("OneCloud"),
+		label: onedesk.names.of("one_cloud"),
 		icon: `<circle cx="15" cy="15" r="15" fill="var(--subtle-fg)"></circle>
 			<use href="#icon-onecloud" x="6" y="6" width="18" height="18"></use>`,
 		action: (context) => onedesk.pick_from_onecloud(context),

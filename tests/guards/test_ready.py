@@ -247,7 +247,7 @@ def _declared(path: Path) -> dict:
 	for node in ast.parse(path.read_text(encoding="utf-8")).body:
 		if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
 			try:
-				found[node.targets[0].id] = ast.literal_eval(node.value)
+				found[node.targets[0].id] = tree.literal(node.value)
 			except ValueError:
 				found[node.targets[0].id] = node.value
 	return found

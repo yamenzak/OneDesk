@@ -10,6 +10,8 @@ import re
 
 from frappe import _
 
+from onedesk.one import registry
+
 TEXT = ("from", "to", "subject", "text", "domain")
 FLAGS = ("attachment", "starts", "outside", "holiday", "after_hours")
 KINDS = ("Customer", "Supplier", "Lead", "Contact", "Employee")
@@ -193,7 +195,7 @@ def problems(steps: list) -> list[str]:
 			said.append(_("Choose the folder to move to."))
 		if kind == "reply":
 			if one.get("with") == "OneAI" and not (one.get("instruction") or "").strip():
-				said.append(_("Write what OneAI's reply should say."))
+				said.append(_("Write what {0}'s reply should say.").format(registry.name("one_ai")))
 			if one.get("with") != "OneAI" and not (one.get("text") or "").strip():
 				said.append(_("Write the reply."))
 			if one.get("once") and one["once"] not in ONCE:
@@ -209,9 +211,9 @@ def problems(steps: list) -> list[str]:
 			said.append(_("Write what each condition looks for."))
 	for step in asks(steps):
 		if step.get("ask") == "pick" and len([one for one in step.get("labels") or [] if one.get("label")]) < 2:
-			said.append(_("Give OneAI at least two labels to pick from."))
+			said.append(_("Give {0} at least two labels to pick from.").format(registry.name("one_ai")))
 		if step.get("ask") != "pick" and not (step.get("question") or "").strip():
-			said.append(_("Write the question for OneAI."))
+			said.append(_("Write the question for {0}.").format(registry.name("one_ai")))
 	return list(dict.fromkeys(said))
 
 
@@ -264,7 +266,7 @@ def summary(steps: list, folders: dict | None = None, people: dict | None = None
 		if step.get("type") == "if":
 			whens.append(group_words(step.get("test")))
 		elif step.get("type") == "ask":
-			whens.append(_("OneAI: {0}").format(step.get("question") or ", ".join(one.get("label") or "" for one in step.get("labels") or [])))
+			whens.append(_("{1}: {0}").format(step.get("question") or ", ".join(one.get("label") or "" for one in step.get("labels") or []), registry.name("one_ai")))
 	for one in actions_in(steps):
 		thens.append(action_words(one, folders, people))
 	return " · ".join(one for one in whens if one) or _("All mail"), " · ".join(dict.fromkeys(thens))
@@ -315,7 +317,7 @@ def action_words(one: dict, folders: dict, people: dict) -> str:
 	if kind == "move":
 		return _("Move to {0}").format(folders.get(one.get("folder"), one.get("folder")))
 	if kind == "reply":
-		return _("Reply With OneAI") if one.get("with") == "OneAI" else _("Reply")
+		return _("Reply With {0}").format(registry.name("one_ai")) if one.get("with") == "OneAI" else _("Reply")
 	if kind == "forward":
 		return _("Forward to {0}").format(one.get("to"))
 	if kind == "assign":

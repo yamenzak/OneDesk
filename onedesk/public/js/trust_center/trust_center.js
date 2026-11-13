@@ -396,13 +396,13 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	];
 
 	const dialog = new onedesk.module_docs.Dialog({
-		title: "TrustCenter",
+		title: onedesk.names.of("trust_center"),
 		module,
 		center: "trust",
 		tabs: [{ items }],
 		tree,
 		default_tab: (at && items.find((one) => one.id === at) ? at : null) || items[0]?.id,
-		help: ["TrustCenter", "overview"],
+		help: [onedesk.names.of("trust_center"), "overview"],
 	});
 	dialog.$wrapper.addClass("one-set one-trust");
 	dialog.index = Object.values(sections).flat();
@@ -431,8 +431,8 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	// the first time the agreements are open.
 	if ((frappe.boot.one_tours_unseen || []).includes("TrustCenter:agreements")) {
 		setTimeout(async () => {
-			const tour = await onedesk.tour.here("TrustCenter");
-			if (tour && dialog.display) onedesk.tour.run("TrustCenter", tour);
+			const tour = await onedesk.tour.here(onedesk.names.of("trust_center"));
+			if (tour && dialog.display) onedesk.tour.run(onedesk.names.of("trust_center"), tour);
 		}, 600);
 	}
 	return dialog;

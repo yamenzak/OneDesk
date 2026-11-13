@@ -2,9 +2,10 @@
 without being asked each time, so the AI Addendum has to say so plainly. See
 trust_center/AGENTS.md and one_ai/AGENTS.md, Reading what arrives."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneAI"
+M = registry.name("one_ai")
 
 clause(
 	document="ai",

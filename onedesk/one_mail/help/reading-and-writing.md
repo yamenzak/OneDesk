@@ -1,6 +1,6 @@
 # Reading and Writing
 
-**OneMail** in the dock opens every mailbox you can read. A connected mailbox is
+**{one_mail}** in the dock opens every mailbox you can read. A connected mailbox is
 checked every minute and the list updates on its own; **Refresh**, beside the
 search box, checks now.
 
@@ -93,7 +93,7 @@ sent from it. Set it under **Signature** in the mailbox's **⋯** menu.
 
 ![A mailbox's signature](reading-and-writing/signature.png)
 
-- **Pick a style.** Each is drawn from what One already knows: the holder's
+- **Pick a style.** Each is drawn from what {one} already knows: the holder's
   name, job title and numbers, and the company's name, logo, colour, website
   and address. Pointing at a style shows it.
 - **Show** picks which details appear.

@@ -35,7 +35,7 @@ empty and it is named after what you picked. A request that fills fields can
 go to one person only.
 
 When the file goes in a table, the sender is also asked for the row's other
-plain columns, such as its number and dates. When OneAI reading is on, it
+plain columns, such as its number and dates. When {one_ai} reading is on, it
 fills them from the file and the sender checks them.
 
 ## Where Files Go
@@ -47,7 +47,7 @@ fills them from the file and the sender checks them.
 | **Requests** | A new folder in My Files. |
 
 Someone asked who has an account here also sees each file under **Asked of
-You** on One's Home, and sends it from there without the link.
+You** on {one}'s Home, and sends it from there without the link.
 
 ## Following a Request
 

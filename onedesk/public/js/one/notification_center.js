@@ -51,7 +51,7 @@ onedesk.notification_center.open = async ({ module = null, at = null, record = n
 			const $list = $(`<div class="one-set-list one-notify-list"></div>`).appendTo($body);
 			for (const one of types) {
 				const $row = kit.row({ lead: "", title: one.label, sub: esc([one.about, one.why].filter(Boolean).join(" ")) }).appendTo($list);
-				if (one.oneai) $row.find(".one-set-title").append(" ", onedesk.oneai.tag(__("OneAI")));
+				if (one.oneai) $row.find(".one-set-title").append(" ", onedesk.oneai.tag(onedesk.names.of("one_ai")));
 				const $end = $row.find(".one-set-end");
 				for (const channel of ["email", "push"]) {
 					toggle($end, {

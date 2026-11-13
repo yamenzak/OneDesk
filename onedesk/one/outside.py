@@ -46,8 +46,8 @@ def kept(said: dict) -> None:
 	sidebars = said.get("module_sidebars")
 	if not isinstance(sidebars, dict):
 		return
-	from onedesk.one import apps
 	from onedesk.account_center import private
+	from onedesk.one import apps
 
 	off = set(apps.hidden())
 	held = {APP, *private.names()}

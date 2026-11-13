@@ -3,12 +3,12 @@
 ## Inviting Somebody
 
 Open **People** and press **Invite People**. Give their address and name,
-and choose what they may use in each app. Everybody has One, OneCloud,
-OneMail, OneTask and OneCalendar; the other apps are given here. They get a
+and choose what they may use in each app. Everybody has {one}, {one_cloud},
+{one_mail}, {one_task} and {one_calendar}; the other apps are given here. They get a
 mail with a link to set their password, which lasts a week.
 
-The list shows each person's apps in one line, such as *Manager in OneCRM,
-OneBook +3*, and how they sign in: **Passkey**, **Two-Factor**, **Two-Factor
+The list shows each person's apps in one line, such as *Manager in {one_crm},
+{one_book} +3*, and how they sign in: **Passkey**, **Two-Factor**, **Two-Factor
 Not Set Up** or **Password Only**.
 
 ## One Person

@@ -4,16 +4,16 @@ An approval sets the states a record moves through before it's done, and who
 moves it. A purchase order stays Waiting for Approval until a manager approves
 it, or a customer stays Pending until the accounts team checks it. Only
 administrators see this, and only for record types they can open. The
-system's own record types, such as users and roles, and One's own can't have
+system's own record types, such as users and roles, and {one}'s own can't have
 approvals.
 
-OneAI offers **Approve bills by amount** and **Who approves what?** It
+{one_ai} offers **Approve bills by amount** and **Who approves what?** It
 suggests a new or changed approval as a card you approve. The approval then
 opens in the builder, laid out, to edit like any other.
 
-A bill OneAI drafted waits in **Ready to Submit**. **Submit** takes the
+A bill {one_ai} drafted waits in **Ready to Submit**. **Submit** takes the
 approval's step when the step is waiting on your role. Otherwise it says who
-it's waiting for. OneAI never takes a step itself.
+it's waiting for. {one_ai} never takes a step itself.
 
 ## Adding an Approval
 
@@ -31,7 +31,7 @@ Open Setup › **Approvals**, or a record type's **Settings › Approvals**.
 ## Who Is Told
 
 People with the role see the action on the record. Each step waiting on their
-role counts in **Approvals Waiting** on their Home. They're also told in One,
+role counts in **Approvals Waiting** on their Home. They're also told in {one},
 and by email if they chose (**Approval Waiting** in NotificationCenter's
 **Words and Rules**), when a record reaches their step. Whoever made the
 record, and whoever sent it to the step, hear where it went next (**Approval

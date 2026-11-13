@@ -33,7 +33,7 @@ def with_roles() -> list[tuple]:
 
 # Apps everybody uses: no None, and User is not worth saying on the list
 # of people (one/rights.py `always`).
-ALWAYS = ("OneMail",)
+ALWAYS = (registry.name("one_mail"),)
 
 
 APP_SAID = {

@@ -8,6 +8,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, flt, today
 
+from onedesk.one import registry
 from onedesk.one_admin import books, console, costs, fleet, ledger, margins, operator, price_list, quota
 
 MODELS = 8
@@ -123,7 +124,7 @@ def overview() -> dict:
 	used = ledger.by_month(span[0])
 	credits = _credits(span, used)
 	invoiced, invoiced_in = _invoiced(span)
-	named = (("Stripe", spent["stripe"]), ("Servers", spent["servers"]), ("Cloudflare", spent["cloudflare"]), ("OneAI", spent["oneai"]), ("Storage", spent["storage"]))
+	named = (("Stripe", spent["stripe"]), ("Servers", spent["servers"]), ("Cloudflare", spent["cloudflare"]), (registry.name("one_ai"), spent["oneai"]), ("Storage", spent["storage"]))
 	return {
 		"currency": price_list.CURRENCY,
 		"revenue": revenue,

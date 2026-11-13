@@ -8,6 +8,7 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, get_first_day, getdate, today
 
+from onedesk.one import registry
 from onedesk.one_ai.reading import calendar, tell
 
 
@@ -41,7 +42,7 @@ def said(month: dict) -> str:
 	"""The monthly number in words."""
 	if not month["arrived"]:
 		return _("No documents this month")
-	return _("OneAI handled {0} of {1} documents this month. {2} needed review.").format(month["handled"], month["arrived"], month["needed"])
+	return _("{3} handled {0} of {1} documents this month. {2} needed review.").format(month["handled"], month["arrived"], month["needed"], registry.name("one_ai"))
 
 
 def weekly() -> None:
@@ -84,7 +85,7 @@ def send(person: str, since, until) -> None:
 
 def body(week: dict, waiting: list, due: list) -> str:
 	esc = frappe.utils.escape_html
-	parts = [f"<p>{esc(_('{0} documents arrived for you this week. OneAI handled {1}.').format(week['arrived'], week['handled']))}</p>"]
+	parts = [f"<p>{esc(_('{0} documents arrived for you this week. {2} handled {1}.').format(week['arrived'], week['handled'], registry.name('one_ai')))}</p>"]
 	if waiting:
 		parts.append(f"<p><b>{esc(_('Waiting for you'))}</b></p><ul>" + "".join(f"<li>{esc(one.title or '')}</li>" for one in waiting) + "</ul>")
 	if due:

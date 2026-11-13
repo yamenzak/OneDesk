@@ -9,7 +9,7 @@ import json
 import frappe
 from frappe import _
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 
 NOTE = "Note"
 
@@ -178,7 +178,7 @@ def _update(now) -> list[dict]:
 	if not at or not 0 < time_diff_in_hours(get_datetime(at), now) <= 72:
 		return []
 	when = format_datetime(at, "EEEE d MMMM, HH:mm")
-	return [{"name": UPDATE, "title": _("One updates on {0}").format(when), "text": _("It takes a few minutes. What's New says what changes."), "by": "One", "on": str(now)}]
+	return [{"name": UPDATE, "title": _("One updates on {0}").format(when), "text": _("It takes a few minutes. What's New says what changes."), "by": registry.name("one"), "on": str(now)}]
 
 
 @frappe.whitelist(methods=["POST"])

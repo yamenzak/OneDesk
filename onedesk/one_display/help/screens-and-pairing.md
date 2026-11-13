@@ -8,7 +8,7 @@ on a TV remote.
 
    ![A new screen showing its code](screens-and-pairing/code.png)
 
-2. In OneDisplay, open **Display Screen** and press **Add Display Screen**.
+2. In {one_display}, open **Display Screen** and press **Add Display Screen**.
 3. Type the code, name the screen, choose its channel and say how it is hung.
    Choose its sound zone too if its own speakers play the zone. The screen
    starts playing within a few seconds.

@@ -8,8 +8,9 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import flt
 
-from onedesk.one_admin import price_list, plans, site
+from onedesk.one import registry
 from onedesk.one_admin import costs as ours
+from onedesk.one_admin import plans, price_list, site
 
 SYNCING = "one_admin_price_list_sync"
 
@@ -121,7 +122,7 @@ def rates() -> list[dict]:
 
 	made = [
 		{"what": _("Office file to PDF"), "per": _("Conversion, at least"), "credits": office.LEAST},
-		{"what": _("Mail from OneMail"), "per": _("Mail"), "credits": price_list.MAIL_CREDITS},
+		{"what": _("Mail from {0}").format(registry.name("one_mail")), "per": _("Mail"), "credits": price_list.MAIL_CREDITS},
 	]
 	return made + [
 		{"what": _("OneOS, {0}").format(one["size"]), "per": _("Minute"), "credits": one["credits_a_minute"]}

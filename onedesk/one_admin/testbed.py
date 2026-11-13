@@ -11,6 +11,7 @@ import frappe
 from frappe import _lt
 from frappe.utils import now_datetime, sha256_hash
 
+from onedesk.one import registry
 from onedesk.one_admin import hosts, site
 
 SLUG = re.compile(r"^[a-z0-9][a-z0-9-]{1,39}$")
@@ -99,7 +100,7 @@ def new(address: str, workspace_name: str) -> dict:
 		frappe.throw(frappe._("{0} is too long for a workspace address.").format(address))
 	admin = steps._admin_url()
 	if hosts.ours(address, steps._tenant_domain(), urlparse(admin).hostname):
-		frappe.throw(frappe._("{0} is one of One's own addresses.").format(address))
+		frappe.throw(frappe._("{0} is one of {1}'s own addresses.").format(address, registry.name("one")))
 	held = frappe.db.get_value("Tenant", slug, ["name", "is_test"], as_dict=True)
 	if held and not held.is_test:
 		frappe.throw(frappe._("{0} is already a workspace.").format(slug))

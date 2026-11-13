@@ -43,7 +43,7 @@
 import { computed, inject, onBeforeUnmount, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dropdown } from "frappe-ui";
 
-import { __, aiSees, alert, askOneAI, call, confirm, goTo, goToUrl, listen, onedesk, oneaiMark, oneaiOn, openTab, prompt, reloadPage, requires } from "../../kit/desk";
+import { __, aiSees, alert, askOneAI, call, confirm, goTo, goToUrl, listen, onedesk, oneaiMark, oneaiOn, openTab, prompt, reloadPage, requires, name as appName } from "../../kit/desk";
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
@@ -67,7 +67,7 @@ import { sources } from "./data.js";
 
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
 const ONE = "One"; // a name, not a word to translate
-const ONEAI = "OneAI"; // a name too
+const ONEAI = appName("one_ai"); // a name too
 // a screen's editor belongs to OneDisplay, a presentation's to OneDeck
 const oneMark = computed(() => mark(screen.value ? "onedisplay" : "onedeck"));
 const inReadonlyMode = inject("inReadonlyMode", ref(false));
@@ -101,7 +101,7 @@ const parents = computed(() => {
 			{ label: said.record.name, onClick: () => goTo("Form", said.record.doctype, said.record.name) },
 		];
 	}
-	const folders = said.trail?.length ? said.trail : [{ id: "", name: "OneCloud" }];
+	const folders = said.trail?.length ? said.trail : [{ id: "", name: appName("one_cloud") }];
 	return folders.map((one, at) => ({
 		...(at ? { label: one.name } : { label: "Cloud", one: true }),
 		onClick: () => goToUrl(one.id ? `/desk/onecloud?node=${encodeURIComponent(one.id)}` : "/desk/onecloud"),
@@ -165,7 +165,7 @@ const fileMenu = computed(() => [
 		options: [
 			{ label: __("Data from Records"), icon: "lucide-database", onClick: () => (showData.value = true) },
 			...(inReadonlyMode.value || !sources.value.length || screen.value ? [] : [{ label: __("Freeze Data"), icon: "lucide-snowflake", onClick: freezeData }]),
-			...(!screen.value && sources.value.some((one) => one.kind === "this" && one.doctype) ? [{ label: __("Make One for Each…"), icon: "lucide-copy", onClick: makeForEach }] : []),
+			...(!screen.value && sources.value.some((one) => one.kind === "this" && one.doctype) ? [{ label: __("Make {0} for Each…", [appName("one")]), icon: "lucide-copy", onClick: makeForEach }] : []),
 		],
 	}]),
 	{
@@ -245,7 +245,7 @@ async function exportPdf(notes) {
 		const pictures = await camera.value.shoot(slides.value, (done, all) => (printing.value = __("Drawing slide {0} of {1}…", [done, all])));
 		await saveWithoutDelay();
 		const made = await call("onedesk.one_deck.paper.pdf", { name: presentationDoc.value.name, pictures: JSON.stringify(pictures), notes: notes ? 1 : 0 });
-		alert(__("Saved {0} to OneCloud.", [made.file_name]));
+		alert(__("Saved {0} to {1}.", [made.file_name, appName("one_cloud")]));
 		openTab(made.url);
 	} finally {
 		printing.value = "";
@@ -260,7 +260,7 @@ async function exportPowerPoint() {
 	try {
 		await saveWithoutDelay();
 		const made = await call("onedesk.one_deck.powerpoint.export", { name: presentationDoc.value.name });
-		alert(made.lost.length ? __("Saved {0} to OneCloud. Slides {1} lost an effect PowerPoint does not have.", [made.file_name, made.lost.join(", ")]) : __("Saved {0} to OneCloud.", [made.file_name]), made.lost.length ? "yellow" : "green");
+		alert(made.lost.length ? __("Saved {0} to {2}. Slides {1} lost an effect PowerPoint does not have.", [made.file_name, made.lost.join(", "), appName("one_cloud")]) : __("Saved {0} to {1}.", [made.file_name, appName("one_cloud")]), made.lost.length ? "yellow" : "green");
 		openTab(made.url);
 	} finally {
 		printing.value = "";
@@ -297,7 +297,7 @@ function makeForEach() {
 			const { queued } = await call("onedesk.one_deck.data.for_each", { name: presentationDoc.value.name, names });
 			alert(__("Making {0} presentations. You will be told when they are filed.", [queued]));
 		},
-		__("Make One for Each {0}", [__(doctype)]),
+		__("Make {1} for Each {0}", [__(doctype), appName("one")]),
 		__("Make")
 	);
 }
@@ -332,7 +332,7 @@ const aiMenu = computed(() => [
 	},
 	// in OneAI's panel, as cards to approve (one_deck/agent.py draft_deck, write_slide, remake_slide)
 	...(screen.value ? [] : [{
-		group: __("In the OneAI Panel"),
+		group: __("In the {0} Panel", [appName("one_ai")]),
 		options: [
 			{ label: __("Write a Whole Deck"), icon: "lucide-presentation", onClick: writeDeck },
 			{ label: __("Rewrite This Slide"), icon: "lucide-pencil-line", onClick: () => askOneAI(__("Rewrite this slide so it reads better.")) },
@@ -344,11 +344,11 @@ const aiMenu = computed(() => [
 ]);
 
 function writeDeck() {
-	described(__("Write a Whole Deck"), __("Ask OneAI"), (description) => askOneAI(__("Write a whole deck in this presentation: {0}", [description])));
+	described(__("Write a Whole Deck"), __("Ask {0}", [appName("one_ai")]), (description) => askOneAI(__("Write a whole deck in this presentation: {0}", [description])));
 }
 
 function translateSlide() {
-	prompt([{ fieldname: "language", fieldtype: "Link", options: "Language", label: __("Into"), reqd: 1 }], ({ language }) => askOneAI(__("Translate this slide into {0}.", [language])), __("Translate This Slide"), __("Ask OneAI"));
+	prompt([{ fieldname: "language", fieldtype: "Link", options: "Language", label: __("Into"), reqd: 1 }], ({ language }) => askOneAI(__("Translate this slide into {0}.", [language])), __("Translate This Slide"), __("Ask {0}", [appName("one_ai")]));
 }
 
 // the slide that is open, so "this slide" in OneAI's panel means it
@@ -391,7 +391,7 @@ async function asking(saying, method, description) {
 
 function designSlide() {
 	described(__("Design a Slide"), __("Design"), async (description) => {
-		const made = await asking(__("OneAI is designing the slide…"), "onedesk.one_deck.agent.design", description);
+		const made = await asking(__("{0} is designing the slide…", [appName("one_ai")]), "onedesk.one_deck.agent.design", description);
 		const at = slideIndex.value;
 		insertSlide(getNewSlide(false, { background: made.background, elements: made.elements }), at);
 		changeSlide(at + 1);
@@ -401,7 +401,7 @@ function designSlide() {
 function makePicture() {
 	const slide = currentSlide.value;
 	described(__("Make a Picture"), __("Make"), async (description) => {
-		const made = await asking(__("OneAI is making the picture…"), "onedesk.one_deck.agent.picture", description);
+		const made = await asking(__("{0} is making the picture…", [appName("one_ai")]), "onedesk.one_deck.agent.picture", description);
 		await addMediaElement(made, "image", slide);
 	});
 }
@@ -409,8 +409,8 @@ function makePicture() {
 function makeVideo() {
 	described(__("Make a Video"), __("Make"), async (description) => {
 		await saveWithoutDelay();
-		await asking(__("OneAI is starting the video…"), "onedesk.one_deck.agent.video", description);
-		alert(__("OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."));
+		await asking(__("{0} is starting the video…", [appName("one_ai")]), "onedesk.one_deck.agent.video", description);
+		alert(__("{0} is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told.", [appName("one_ai")]));
 	});
 }
 

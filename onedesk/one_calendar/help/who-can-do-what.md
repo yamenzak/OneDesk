@@ -13,7 +13,7 @@ everyone's calendar is for fewer people.
 
 ## What Each Role Starts With
 
-This is what OneCalendar's roles hold when it arrives in a workspace.
+This is what {one_calendar}'s roles hold when it arrives in a workspace.
 **Roles** in AccessCenter changes any of it, and an update never undoes a
 change you made.
 

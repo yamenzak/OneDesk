@@ -382,7 +382,7 @@ onedesk.mail.settings = (tab) => {
 		{
 			level: "Sort Only",
 			title: __("Sorting"),
-			note: __("Automation rules that ask OneAI need this level."),
+			note: __("Automation rules that ask {0} need this level.", [onedesk.names.of("one_ai")]),
 			jobs: [
 				["junk", __("Move Junk and Phishing"), __("Phishing also alerts the mailbox's users.")],
 				["newsletters", __("Move Newsletters and Ads"), __("Creates a Newsletters folder if there is none.")],
@@ -400,7 +400,7 @@ onedesk.mail.settings = (tab) => {
 		{
 			level: "Read, File and Act",
 			title: __("Actions"),
-			note: __("Changes OneAI is unsure of wait for approval in Documents."),
+			note: __("Changes {0} is unsure of wait for approval in Documents.", [onedesk.names.of("one_ai")]),
 			jobs: [
 				["parties", __("Create Customers and Suppliers"), __("Also Leads and Job Applicants, for unknown senders.")],
 				["contacts", __("Create and Update Contacts"), __("For the sender and everyone in To and Cc.")],
@@ -415,7 +415,7 @@ onedesk.mail.settings = (tab) => {
 		},
 	];
 	const LEVEL_SAYS = {
-		[NOT_READ]: __("OneAI does not read new mail."),
+		[NOT_READ]: __("{0} does not read new mail.", [onedesk.names.of("one_ai")]),
 		"Sort Only": __("Moves junk and newsletters out of the Inbox."),
 		"Read and File": __("Also links each message and its files to its records."),
 		"Read, File and Act": __("Also creates the records and tasks a message asks for."),
@@ -431,12 +431,12 @@ onedesk.mail.settings = (tab) => {
 
 	const oneai_tab = (box) => ({
 		id: "oneai",
-		label: __("OneAI"),
+		label: onedesk.names.of("one_ai"),
 		icon: "oneai",
-		title: __("OneAI"),
+		title: onedesk.names.of("one_ai"),
 		description: box.may.ai
-			? __("Whether OneAI may read this mailbox, and what it does with new mail here on its own.")
-			: __("What OneAI does with new mail here, which your role doesn't allow changing."),
+			? __("Whether {0} may read this mailbox, and what it does with new mail here on its own.", [onedesk.names.of("one_ai")])
+			: __("What {0} does with new mail here, which your role doesn't allow changing.", [onedesk.names.of("one_ai")]),
 		actions: box.may.ai
 			? [
 					{
@@ -472,14 +472,14 @@ onedesk.mail.settings = (tab) => {
 		async render(panel) {
 			const said = (panel.said = await frappe.xcall(G + "settings_of", { account: box.name }));
 			if (!said.ai) {
-				panel.set_header({ title: __("OneAI"), description: __("OneAI is turned off for this workspace in Apps.") });
+				panel.set_header({ title: onedesk.names.of("one_ai"), description: __("{0} is turned off for this workspace in Apps.", [onedesk.names.of("one_ai")]) });
 				return;
 			}
 			if (!said.may_manage) {
 				const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 				const value = (title, said_value) =>
 					row({ lead: "", title, end: `<span class="one-set-value">${esc(said_value)}</span>` }).appendTo($list);
-				value(__("OneAI"), said.on ? __("On") : __("Off"));
+				value(onedesk.names.of("one_ai"), said.on ? __("On") : __("Off"));
 				if (!said.on) return;
 				const level = said.reads ? said.level : NOT_READ;
 				value(__("New Mail"), (LEVELS.find((one) => one[0] === level) || [])[1] || level);
@@ -494,7 +494,7 @@ onedesk.mail.settings = (tab) => {
 								fieldname: "own",
 								fieldtype: "HTML",
 								options: onedesk.alert({
-									text: __("This is your own mailbox. If OneAI reads it, it files and acts on this mail in the workspace, with your permissions."),
+									text: __("This is your own mailbox. If {0} reads it, it files and acts on this mail in the workspace, with your permissions.", [onedesk.names.of("one_ai")]),
 									colour: "orange",
 								})
 									.addClass("one-set-alert")
@@ -549,7 +549,7 @@ onedesk.mail.settings = (tab) => {
 					fieldtype: "Int",
 					label: __("Monthly Credit Limit"),
 					default: said.limit || "",
-					description: __("OneAI stops reading new mail for the rest of the month once this is used, with no limit if empty."),
+					description: __("{0} stops reading new mail for the rest of the month once this is used, with no limit if empty.", [onedesk.names.of("one_ai")]),
 				}
 			);
 			panel.add_fields(fields);
@@ -734,7 +734,7 @@ onedesk.mail.settings = (tab) => {
 		icon: "workflow",
 		title: __("Automation"),
 		description: box.may.rules
-			? __("Rules you write, run in order on each new message before what OneAI does.")
+			? __("Rules you write, run in order on each new message before what {0} does.", [onedesk.names.of("one_ai")])
 			: box.hosted && !box.shared
 			? __("Rules you write, run in order on each new message once a Mail Manager approves them.")
 			: managed,
@@ -774,7 +774,7 @@ onedesk.mail.settings = (tab) => {
 					$end.prepend(
 						$(frappe.ui.badge.html({ label: __("Not Running"), theme: "gray" })).attr(
 							"title",
-							__("New Mail is set to Not Read in the OneAI tab.")
+							__("New Mail is set to Not Read in the {0} tab.", [onedesk.names.of("one_ai")])
 						)
 					);
 				if (!said.manages) return;
@@ -824,7 +824,7 @@ onedesk.mail.settings = (tab) => {
 					$(`<button type="button" class="rb-starter"></button>`)
 						.html(
 							`<span class="rb-starter-title">${frappe.utils.icon(one.icon, "sm")}<span class="rb-starter-name">${esc(one.title)}</span>${
-								onedesk.rules.uses_ai(one.rule.steps) ? onedesk.oneai.tag("OneAI") : ""
+								onedesk.rules.uses_ai(one.rule.steps) ? onedesk.oneai.tag(onedesk.names.of("one_ai")) : ""
 							}</span><span class="rb-starter-about">${esc(one.about)}</span>`
 						)
 						.on("click", () => rule_view(panel, box, null, one.rule))
@@ -1427,7 +1427,7 @@ onedesk.mail.settings = (tab) => {
 	// `mailbox:<name>[:signature|away]` on one mailbox.
 	const [opening, named, focus] = String(tab || "").split(":");
 	const joining = { connect: "mailboxes", "connect-shared": can.connect_shared ? "shared" : "mailboxes", mailbox: "mailboxes" }[opening];
-	const dialog = onedesk.module_settings.open({ module: "OneMail", may: can, tabs, default_tab: joining || tab });
+	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_mail"), may: can, tabs, default_tab: joining || tab });
 	dialog.$wrapper.addClass("oms");
 	dialog.show();
 	if (opening === "mailbox") open(named, "mailboxes", focus);

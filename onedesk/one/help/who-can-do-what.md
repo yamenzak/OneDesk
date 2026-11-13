@@ -14,7 +14,7 @@ notifications are a Workspace Administrator's, who can do everything.
 
 ## What Each Role Starts With
 
-This is what One's roles hold when a workspace begins. **Roles** in
+This is what {one}'s roles hold when a workspace begins. **Roles** in
 AccessCenter changes any of it, and an update never undoes a change you
 made.
 

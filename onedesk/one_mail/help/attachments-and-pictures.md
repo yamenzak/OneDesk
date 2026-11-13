@@ -1,18 +1,18 @@
 # Attachments and Pictures
 
-Every attachment is kept in OneCloud, and every sender shows with their face or
+Every attachment is kept in {one_cloud}, and every sender shows with their face or
 their company's logo.
 
 ## Where Attachments Go
 
-Attachments are saved in OneCloud under **Mail**, in a folder for each mailbox.
+Attachments are saved in {one_cloud} under **Mail**, in a folder for each mailbox.
 Only people with access to the mailbox can see them.
 
 | To | Do |
 | --- | --- |
-| Open a mailbox's attachments | **Attachments in OneCloud** in its **⋯** menu |
+| Open a mailbox's attachments | **Attachments in {one_cloud}** in its **⋯** menu |
 | Keep a copy for yourself | The folder button on an attachment saves it to My Files |
-| Attach a file you already have | Pick it from OneCloud while you write |
+| Attach a file you already have | Pick it from {one_cloud} while you write |
 | Send a large file | It goes as a link that works for 30 days when it is too large to send from the workspace's address |
 
 ## When Storage Is Full
@@ -21,7 +21,7 @@ Mail still arrives, but its attachments aren't saved. Each shows **Not saved,
 storage is full**, and the people with access to the mailbox, and the
 administrators, hear **Attachments Not Saved** at most once a day.
 
-> **Nothing is lost.** OneMail tries again every hour and saves them once there
+> **Nothing is lost.** {one_mail} tries again every hour and saves them once there
 > is space. Free some up, or add storage under **Plan and Credits**.
 
 ## Sender Pictures
@@ -38,7 +38,7 @@ or their organization's logo, in that order.
 A picture you upload always comes first.
 
 Gravatar photos and logos from the web are optional services. Each stays off
-until a workspace administrator turns it on in **TrustCenter › Optional
+until a workspace administrator turns it on in **{trust_center} › Optional
 Services**, which agrees to it for the whole workspace. While they're off,
 people show their initials and organizations show no logo.
 

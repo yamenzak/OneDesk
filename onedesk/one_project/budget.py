@@ -7,6 +7,7 @@ from frappe import _
 from frappe.query_builder.functions import Sum
 from frappe.utils import flt, getdate, nowdate
 
+from onedesk.one import registry
 from onedesk.one_project import money, tree
 
 ACTIONS = ("Warn", "Stop")
@@ -298,7 +299,7 @@ def _years(project: str) -> dict:
 		"Fiscal Year", fields=["name", "year_start_date", "year_end_date"], order_by="year_start_date asc"
 	)
 	if not years:
-		frappe.throw(_("Set up a fiscal year in OneBook first."))
+		frappe.throw(_("Set up a fiscal year in {0} first.").format(registry.name("one_book")))
 
 	def holding(day):
 		day = getdate(day)

@@ -21,7 +21,7 @@ frappe.ui.form.on("*", {
 			const $wrapper = control?.$wrapper;
 			if (!$wrapper || $wrapper.find(".one-open-writer").length) continue;
 			frappe.ui
-				.button({ label: __("Open in OneDoc"), css_class: "mt-2 one-open-writer", onclick: () => onedesk.text_writer.open(frm, df.fieldname) })
+				.button({ label: __("Open in {0}", [onedesk.names.of("one_doc")]), css_class: "mt-2 one-open-writer", onclick: () => onedesk.text_writer.open(frm, df.fieldname) })
 				.appendTo($wrapper.find(".form-group").first());
 		}
 	},

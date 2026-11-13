@@ -12,7 +12,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one_studio import customize
 
 
@@ -136,13 +136,13 @@ def _listed(filters=None, or_filters=None, order_by=None) -> list[frappe._dict]:
 
 class WorkspaceField(Document):
 	def db_insert(self, *args, **kwargs):
-		frappe.throw(_("Ask OneAI to add a field."))
+		frappe.throw(_("Ask {0} to add a field.").format(registry.name("one_ai")))
 
 	def db_update(self, *args, **kwargs):
-		frappe.throw(_("Ask OneAI to change a field."))
+		frappe.throw(_("Ask {0} to change a field.").format(registry.name("one_ai")))
 
 	def delete(self, *args, **kwargs):
-		frappe.throw(_("Ask OneAI to remove a field."))
+		frappe.throw(_("Ask {0} to remove a field.").format(registry.name("one_ai")))
 
 	def load_from_db(self):
 		roles.require()

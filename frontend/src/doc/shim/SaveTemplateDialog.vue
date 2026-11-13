@@ -6,7 +6,7 @@
 				<FormControl v-model="title" type="text" :label="__('Name')" :placeholder="__('e.g. Cover letter')" />
 				<p class="text-sm text-ink-gray-5">
 					{{ __("The template includes the whole document as it is now.") }}
-					<Branded :text="__('It is saved to OneCloud › Document Templates and is available to everyone in the company.')" />
+					<Branded :text="__('It is saved to {0} › Document Templates and is available to everyone in the company.', [appName('one_cloud')])" />
 				</p>
 				<p v-if="error" class="text-sm text-ink-red-4">{{ error }}</p>
 			</div>
@@ -22,7 +22,7 @@ import { Button, Dialog, FormControl } from "frappe-ui";
 import { computed, ref, watch } from "vue";
 
 import Branded from "../../kit/Branded.vue";
-import { __, alert, call } from "../../kit/desk";
+import { __, alert, call, name as appName } from "../../kit/desk";
 
 const props = defineProps({ modelValue: Boolean, document: { type: String, default: "" }, name: { type: String, default: "" } });
 const emit = defineEmits(["update:modelValue"]);

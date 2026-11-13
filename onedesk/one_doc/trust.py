@@ -3,9 +3,10 @@ about the document that is open, and for a picture. A document is a file in
 OneCloud, so what OneCloud's agreements say of a file holds for it. See
 one_doc/AGENTS.md and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneDoc"
+M = registry.name("one_doc")
 
 clause(
 	document="ai",

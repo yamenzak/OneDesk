@@ -1,9 +1,10 @@
 """What running a workspace adds to the agreements: where it runs, how it is
 reached, and who takes the money. See trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause, service, subprocessor
 
-M = "OneAdmin"
+M = registry.name("one_admin")
 
 subprocessor(
 	name="Amazon Web Services EMEA SARL",

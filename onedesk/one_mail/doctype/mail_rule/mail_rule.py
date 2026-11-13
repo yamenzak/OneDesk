@@ -4,6 +4,8 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
+from onedesk.one import registry
+
 
 class MailRule(Document):
 	def validate(self):
@@ -23,9 +25,9 @@ class MailRule(Document):
 			one.get("type") == "reply" and one.get("with") == "OneAI" for one in flow.actions_in(steps)
 		)
 		if uses_ai and not gate.may_read(self.account):
-			frappe.throw(_("OneAI is turned off for this mailbox."))
+			frappe.throw(_("{0} is turned off for this mailbox.").format(registry.name("one_ai")))
 		if flow.needs_ai(steps) and self.enabled and not gate.reads(self.account):
-			frappe.throw(_("This rule can't run while New Mail is set to Not Read in the mailbox's OneAI tab."))
+			frappe.throw(_("This rule can't run while New Mail is set to Not Read in the mailbox's {0} tab.").format(registry.name("one_ai")))
 		self.steps = frappe.as_json(steps, indent=None)
 		self.title = (self.title or "").strip() or _("Mail Rule")
 

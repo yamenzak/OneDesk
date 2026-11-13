@@ -73,9 +73,9 @@ its sub-projects: material requests, requests for quotation, the suppliers'
 quotations, orders for goods (with how much is received and billed, in amber
 when it's billed ahead of what's come) and the goods received, newest first.
 Each says its status, coloured as urgent as its own page in
-OneInventory says it is, so a late order is red. **New Material Request**
+{one_inventory} says it is, so a late order is red. **New Material Request**
 asks for material for the project, and **Ask for Prices** asks suppliers to
-quote for one of its requests, as OneInventory's Request for Quotation page
+quote for one of its requests, as {one_inventory}'s Request for Quotation page
 asks.
 
 **Subcontracts** on a Fixed Price project's Overview lists the subcontracts: what

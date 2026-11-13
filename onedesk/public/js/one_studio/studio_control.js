@@ -224,7 +224,7 @@ onedesk.StudioSection = class StudioSection extends onedesk.CenterSection {
 					{ fieldtype: "Int", fieldname: "logo_height", label: __("Logo Height"), description: __("In pixels."), default: (kept && kept.logo_height) || 60, change: () => drawn() },
 					{ fieldtype: "Check", fieldname: "line", label: __("Brand Line"), description: __("A line in the Brand Colour under the header."), default: kept && kept.line ? 1 : 0, change: () => drawn() },
 					{ fieldtype: "Select", fieldname: "align", label: __("Logo Alignment"), options: [{ value: "left", label: __("Left") }, { value: "center", label: __("Centre") }, { value: "right", label: __("Right") }], default: (kept && kept.align) || "left", change: () => drawn() },
-					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from One's ControlCenter, under Company and Branding."))}</p>` },
+					{ fieldtype: "HTML", fieldname: "from_general", options: `<p class="text-muted small">${esc(__("The name, logo, address, contacts and colour come from {0}'s ControlCenter, under Company and Branding.", [onedesk.names.of("one")]))}</p>` },
 				]);
 		const foot_part = theirs
 			? null
@@ -392,7 +392,7 @@ onedesk.studio_control.open = ({ at = null } = {}) => {
 		["printing", __("Printing"), "printer"],
 		["approvals", __("Approvals"), "route"],
 	].map(([id, label, icon]) => onedesk.center_section.tab(onedesk.StudioSection, { id, label, icon, about: onedesk.studio_control.ABOUT[id] }));
-	const dialog = onedesk.module_settings.open({ module: "OneStudio", tabs: [{ group: null, items: tabs }], default_tab: at });
+	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_studio"), tabs: [{ group: null, items: tabs }], default_tab: at });
 	dialog.show();
 	return dialog;
 };
@@ -404,8 +404,8 @@ $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneStudio") return;
-		win.module_foot({ module: "OneStudio", settings: () => onedesk.studio_control.open() });
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_studio")) return;
+		win.module_foot({ module: onedesk.names.of("one_studio"), settings: () => onedesk.studio_control.open() });
 		onedesk.interface.nav.place();
 	}, 0)
 );

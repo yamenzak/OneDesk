@@ -32,7 +32,7 @@ A lot's page says what is left (**Batch Quantity**), its **Manufacturing
 Date** and **Expiry Date**, the receipt it came from (**Source Document**),
 and how many times some was taken out (**Issued**), which opens its trace.
 
-OneAI answers **Which lots go off soon?** and **Where is each numbered
+{one_ai} answers **Which lots go off soon?** and **Where is each numbered
 piece?** on the page.
 
 ## Quality
@@ -42,4 +42,4 @@ in, on the way out or while they are made, reading by reading against what
 they should be. A receipt can require one before it is submitted.
 
 How work is done, what went wrong and what is done about it (procedures,
-goals, non conformances and actions) is OneQuality's.
+goals, non conformances and actions) is {one_quality}'s.

@@ -3,9 +3,10 @@ asked about the workbook that is open. A workbook is a file in OneCloud, so
 what OneCloud's agreements say of a file holds for it. See
 one_sheet/AGENTS.md and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneSheet"
+M = registry.name("one_sheet")
 
 clause(
 	document="ai",

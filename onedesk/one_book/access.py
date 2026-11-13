@@ -6,9 +6,9 @@ defaults do not fit. A role that reads one already keeps what it has
 
 from frappe import _lt
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 
-APP = "OneBook"
+APP = registry.name("one_book")
 
 # Not everybody's: People gives it to whoever uses OneBook.
 USER = "Accounts User"

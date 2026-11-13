@@ -9,9 +9,9 @@ administrator may do it without.
 import frappe
 from frappe import _lt
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 
-APP = "OneHR"
+APP = registry.name("one_hr")
 
 # Not everybody's: People gives it to whoever uses OneHR.
 USER = "HR User"

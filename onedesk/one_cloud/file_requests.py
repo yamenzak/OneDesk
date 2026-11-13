@@ -13,7 +13,7 @@ from frappe.utils import add_days, get_fullname, get_url, getdate, now_datetime,
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one_cloud import api, targets, tell
 from onedesk.one_cloud import namespace as ns
 
@@ -192,7 +192,7 @@ def children(node: str) -> list[dict]:
 def trail(node: str) -> list[dict]:
 	title = frappe.db.get_value("Cloud File Request", node[len(PREFIX) + 1 :], "title") or node
 	return [
-		{"id": ns.ROOT, "name": _("OneCloud")},
+		{"id": ns.ROOT, "name": registry.name("one_cloud")},
 		{"id": ns.REQUESTS, "name": _("Requests")},
 		{"id": node, "name": title},
 	]

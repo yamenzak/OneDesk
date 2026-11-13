@@ -10,6 +10,7 @@ import re
 import frappe
 from frappe.utils import now_datetime, strip_html_tags
 
+from onedesk.one import registry
 from onedesk.one_ai import here, kind, run
 
 CHAT = "chat"
@@ -113,7 +114,7 @@ def say(
 	from onedesk.one_ai import touch
 
 	if not apps.ai_on():
-		frappe.throw(frappe._("OneAI is turned off for this workspace."), title=frappe._("OneAI is off"))
+		frappe.throw(frappe._("{0} is turned off for this workspace.").format(registry.name("one_ai")), title=frappe._("{0} is off").format(registry.name("one_ai")))
 	text = (text or "").strip()
 	writing = touch.target(field)
 	attached = frappe.parse_json(files) if isinstance(files, str) else (files or [])
@@ -183,7 +184,7 @@ def answer(chat: str, text: str, field: dict | None, run_id: str, page: dict | s
 			frappe.log_error(
 				title="OneAI provider refused", message=said, reference_doctype="AI Chat", reference_name=chat
 			)
-			said = frappe._("OneAI could not answer. Try again in a moment.")
+			said = frappe._("{0} could not answer. Try again in a moment.").format(registry.name("one_ai"))
 		_tell(run_id, chat, {"failed": said})
 	except Exception:
 		frappe.db.rollback()
@@ -426,7 +427,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 		)
 	except faults.Again:
 		frappe.throw(
-			frappe._("OneAI could not be reached. The question is still here — try again."),
+			frappe._("{0} could not be reached. The question is still here — try again.").format(registry.name("one_ai")),
 			title=frappe._("Not answered"),
 		)
 	except faults.Refused as raised:
@@ -1108,7 +1109,7 @@ def _sent(doc, turns: list[dict]) -> list[dict]:
 def _recalled(doc, before: str | None, turns: list[dict]) -> str:
 	"""What is worth knowing of the turns, with what was recalled before."""
 	said = "\n".join(
-		f"{'Person' if one.get('role') == 'user' else 'OneAI'}: {strip_html_tags(one.get('text') or '')[:RECALLED_TURN]}"
+		f"{'Person' if one.get('role') == 'user' else registry.name('one_ai')}: {strip_html_tags(one.get('text') or '')[:RECALLED_TURN]}"
 		for one in turns
 		if one.get("role") in ("user", "model") and not one.get("context") and (one.get("text") or "").strip()
 	)

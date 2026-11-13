@@ -1,10 +1,10 @@
 # Settings
 
-**Settings**, at the foot of OneMail's rail, holds everything about your
+**Settings**, at the foot of {one_mail}'s rail, holds everything about your
 mailboxes and, for administrators, the workspace's mail. Each tab has its own
 **Save**, and the question mark at the top opens this Help.
 
-> **You see only what your role lets you use.** Someone without a OneMail role
+> **You see only what your role lets you use.** Someone without a {one_mail} role
 > beyond User sees **Mailboxes** alone; the workspace's areas below appear for
 > those whose role reaches them.
 
@@ -32,7 +32,7 @@ its tabs, with **All Mailboxes** above them to go back.
 | --- | --- | --- |
 | **Signature** | The signature and sender name | All |
 | **Out of Office** | The away reply | Your own |
-| **OneAI** | What OneAI reads and does on its own | All |
+| **{one_ai}** | What {one_ai} reads and does on its own | All |
 | **Users** | Who uses it and who may send from it | Shared |
 | **Connection** | Its password, or disconnecting it | Connected |
 | **Automation** | Its rules | All |
@@ -58,27 +58,27 @@ System and Organization Mailboxes.
 | **Organization Mailboxes** | Every mailbox people hold at the company's domains, and **Connect Organization Mailbox** to connect one for somebody. |
 | **Private Mailboxes** | Whether people may connect mailboxes anywhere else, such as Gmail. **Allowed Domains** limits them; leave it empty to allow any. |
 | **Mail Templates** | Emails people start from. |
-| **Roles and Access** | Opens AccessCenter on OneMail: what each role may do, everybody's role, and what people were given on one mailbox. See [Who Can Do What](who-can-do-what). |
-| **Notifications** | Opens NotificationCenter on OneMail: what it tells you and how, and for administrators what it sends in the workspace. |
+| **Roles and Access** | Opens AccessCenter on {one_mail}: what each role may do, everybody's role, and what people were given on one mailbox. See [Who Can Do What](who-can-do-what). |
+| **Notifications** | Opens NotificationCenter on {one_mail}: what it tells you and how, and for administrators what it sends in the workspace. |
 
 A mailbox opened from System or Organization Mailboxes shows its Signature, Out
-of Office, OneAI and Automation tabs.
+of Office, {one_ai} and Automation tabs.
 
-## TrustCenter
+## {trust_center}
 
-**Your Data**, at the end of OneMail's Settings, opens **TrustCenter** on
-OneMail's part of it. Everyone can open it; only a
+**Your Data**, at the end of {one_mail}'s Settings, opens **{trust_center}** on
+{one_mail}'s part of it. Everyone can open it; only a
 workspace administrator can turn an optional service on or off.
 
 | You see | What it is |
 | --- | --- |
-| **OneMail and Your Data** | What OneMail can send out, who receives it, and its optional services |
-| **Agreements** | OneMail's own paragraphs of each agreement, who agreed to it, and any change coming |
+| **{one_mail} and Your Data** | What {one_mail} can send out, who receives it, and its optional services |
+| **Agreements** | {one_mail}'s own paragraphs of each agreement, who agreed to it, and any change coming |
 | **Changes** | What changed in those agreements, and from when |
 
 **Read in Full** on an agreement opens the whole of
-TrustCenter: every agreement, every optional service, every company that
-receives data, and what is kept. TrustCenter on One's rail opens it from
+{trust_center}: every agreement, every optional service, every company that
+receives data, and what is kept. {trust_center} on {one}'s rail opens it from
 anywhere.
 
 > **When an agreement changes**, it's published 30 days before it takes
@@ -87,7 +87,7 @@ anywhere.
 
 ## Mail Templates
 
-![Mail Templates in OneMail's settings](settings/templates.png)
+![Mail Templates in {one_mail}'s settings](settings/templates.png)
 
 A template opens in place, with **Save** and **Delete** at the top.
 

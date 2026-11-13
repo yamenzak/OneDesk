@@ -5,7 +5,7 @@ maintenance, its log and teams, repairs and quality inspections. A **Stock
 Manager** runs all of it, value adjustments and capitalization included.
 Whoever manages items, stock or buying keeps the item prices; whoever uses
 stock or buying reads them. Out of the box these belong to accounts, quality
-and manufacturing roles nobody in a small business is given, so One gives
+and manufacturing roles nobody in a small business is given, so {one} gives
 them to the roles People hands out.
 
 Whoever works in HR reads the equipment register and its handovers, to see
@@ -19,7 +19,7 @@ turns on depreciation posting, also needs the right to change those.
 
 ## What Each Role Starts With
 
-This is what OneInventory's roles hold when it arrives in a workspace.
+This is what {one_inventory}'s roles hold when it arrives in a workspace.
 **Roles** in AccessCenter changes any of it, and an update never undoes a
 change you made.
 

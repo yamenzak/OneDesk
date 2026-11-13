@@ -4,7 +4,7 @@
 <template>
 	<Dialog v-model:open="open" :title="__('Views')" size="lg">
 		<div class="flex flex-col gap-4">
-			<p v-if="!said.looks.length" class="text-base text-ink-gray-6">{{ __("Nobody has opened this presentation through a link yet. Share it from OneCloud with a link, and each look shows here.") }}</p>
+			<p v-if="!said.looks.length" class="text-base text-ink-gray-6">{{ __("Nobody has opened this presentation through a link yet. Share it from {0} with a link, and each look shows here.", [appName("one_cloud")]) }}</p>
 			<template v-else>
 				<div class="flex flex-col">
 					<p class="mb-1 text-sm font-medium text-ink-gray-5">{{ __("Looks") }}</p>
@@ -29,7 +29,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { Dialog } from "frappe-ui";
-import { ago, call, duration } from "../../kit/desk";
+import { ago, call, duration, name as appName } from "../../kit/desk";
 import { __ } from "./words.js";
 
 const open = defineModel({ type: Boolean, default: false });

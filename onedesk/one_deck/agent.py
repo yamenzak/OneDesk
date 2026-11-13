@@ -13,7 +13,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-from onedesk.one import apps
+from onedesk.one import apps, registry
 from onedesk.one_deck import api, convert, play
 
 # Why OneAI's chat does not do these itself (docs/READY.md, mechanism 11):
@@ -70,7 +70,7 @@ def asked(description: str, most: int) -> str:
 	apps.refuse_ai()
 	description = (description or "").strip()[:most]
 	if not description:
-		frappe.throw(_("Say what OneAI should make."))
+		frappe.throw(_("Say what {0} should make.").format(registry.name("one_ai")))
 	return description
 
 
@@ -100,7 +100,7 @@ def design(
 	except ValueError:
 		designed = None
 	if not isinstance(designed, dict) or not designed.get("blocks"):
-		frappe.throw(_("OneAI could not design the slide. Try again."))
+		frappe.throw(_("{0} could not design the slide. Try again.").format(registry.name("one_ai")))
 	drawn = convert.slide(designed, width, height)
 	return {"background": play.background(drawn["background"]), "elements": json.loads(play.cleaned(drawn["elements"]))}
 
@@ -110,7 +110,7 @@ def made_picture(description: str) -> tuple[bytes, str]:
 
 	said = run.make("slide_picture", description, reference="OneDeck picture")
 	if not said.get("data"):
-		frappe.throw(_("OneAI could not make the picture. Try again."))
+		frappe.throw(_("{0} could not make the picture. Try again.").format(registry.name("one_ai")))
 	return base64.b64decode(said["data"]), PICTURES.get((said.get("mime") or "").split(";")[0].strip(), "png")
 
 
@@ -419,7 +419,7 @@ def approved(changes: dict) -> str:
 	name = changes["presentation"]
 	api._may(name, "write")
 	doc = frappe.get_doc(api.PRESENTATION, name)
-	versions.keep_now(doc, _("Before OneAI wrote slides"))
+	versions.keep_now(doc, _("Before {0} wrote slides").format(registry.name("one_ai")))
 	if changes["what"] == "deck":
 		blank = len(doc.slides) == 1 and not _said_on(doc.slides[0].elements)
 		if blank:

@@ -12,6 +12,7 @@ from datetime import date, datetime, time
 import frappe
 from frappe import _
 
+from onedesk.one import registry
 from onedesk.one_sheet import api, storage
 
 SUFFIX = ".xlsx"
@@ -334,11 +335,11 @@ def write(name: str, content: bytes) -> None:
 	written from outside: its table is worked out in the editor. What the
 	Excel file had that the workbook does not keep is noted on it, shown
 	when it next opens."""
-	from onedesk.one_sheet import versions
 	from onedesk.one_cloud import fidelity, saving
+	from onedesk.one_sheet import versions
 
 	if frappe.db.get_value(api.WORKBOOK, name, "bound_doctype"):
-		frappe.throw(_("A record's workbook can only be edited in OneSheet."), frappe.PermissionError)
+		frappe.throw(_("A record's workbook can only be edited in {0}.").format(registry.name("one_sheet")), frappe.PermissionError)
 	item = api._may(name, "write")
 	data = read(name, content)
 	if frappe.db.get_value(api.WORKBOOK, name, "sheets_data"):

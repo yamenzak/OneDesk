@@ -1,6 +1,6 @@
 
 frappe.pages["onecalendar"].on_page_load = (wrapper) => {
-	const page = onedesk.shell.page(wrapper, __("OneCalendar"), { mark: "onecalendar", fit: true });
+	const page = onedesk.shell.page(wrapper, onedesk.names.of("one_calendar"), { mark: "onecalendar", fit: true });
 	wrapper.onecalendar = new onedesk.OneCalendar(page);
 };
 
@@ -54,8 +54,8 @@ onedesk.OneCalendar = class OneCalendar {
 			this.page.set_title(__("Calendar"));
 			onedesk.shell.trail(title, `/desk/${frappe.router.slug(doctype)}/${encodeURIComponent(name)}`, __("Calendar"));
 		} else {
-			this.page.set_title(__("OneCalendar"));
-			onedesk.shell.name(__("OneCalendar"));
+			this.page.set_title(onedesk.names.of("one_calendar"));
+			onedesk.shell.name(onedesk.names.of("one_calendar"));
 		}
 	}
 

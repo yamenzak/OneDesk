@@ -138,7 +138,7 @@ onedesk.hr_control.open = ({ at = null, record = null } = {}) => {
 		record: at === "holidays" ? record : null,
 	});
 	const dialog = onedesk.module_settings.open({
-		module: "OneHR",
+		module: onedesk.names.of("one_hr"),
 		tabs: frappe.boot.one_administers ? [{ group: null, items: [holidays] }] : [],
 		default_tab: at,
 	});
@@ -155,8 +155,8 @@ $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneHR") return;
-		win.module_foot({ module: "OneHR", settings: () => onedesk.hr_control.open() });
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_hr")) return;
+		win.module_foot({ module: onedesk.names.of("one_hr"), settings: () => onedesk.hr_control.open() });
 		onedesk.interface.nav.place();
 	}, 0)
 );

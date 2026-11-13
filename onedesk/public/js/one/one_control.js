@@ -308,7 +308,7 @@ $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "One") return;
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one")) return;
 		win.module_foot({ module: "One", settings: () => onedesk.one_control.open() });
 		onedesk.interface.nav.place();
 	}, 0)

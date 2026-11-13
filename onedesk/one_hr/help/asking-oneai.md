@@ -1,9 +1,9 @@
-# Asking OneAI
+# Asking {one_ai}
 
-Open the OneAI panel on any page. It offers what fits that page; you can also
-just ask. Anything OneAI would write is shown as a card, and nothing happens
+Open the {one_ai} panel on any page. It offers what fits that page; you can also
+just ask. Anything {one_ai} would write is shown as a card, and nothing happens
 until you approve it — except the background work listed after this table,
-which only writes OneAI's own fields and comments.
+which only writes {one_ai}'s own fields and comments.
 
 | On | Offered | What it does |
 |---|---|---|
@@ -20,20 +20,20 @@ which only writes OneAI's own fields and comments.
 | Any settings page | Help me set this up | Goes through the settings and suggests changes |
 | Hiring | see **Hiring** | |
 
-## Asking OneAI About a Policy
+## Asking {one_ai} About a Policy
 
 **Asking about a policy.** "How many sick days do I get?" is answered only
 from what this workspace has written down — its leave types, holiday list and
 the notes an administrator added in AI Knowledge — and each part of the answer
-names where it came from. When nothing covers the question, OneAI says so.
+names where it came from. When nothing covers the question, {one_ai} says so.
 
-**Asking how OneHR works.** OneAI reads this page to answer questions like
+**Asking how {one_hr} works.** {one_ai} reads this page to answer questions like
 "how do I register my passkey?" and names the section it used.
 
-## What OneAI Does Alone
+## What {one_ai} Does Alone
 
 **What runs on its own**, each with a switch on AICenter › Reading, under
-OneHR, with the rest of what OneAI does by itself when something arrives:
+{one_hr}, with the rest of what {one_ai} does by itself when something arrives:
 
 | When | What | Switch |
 |---|---|---|
@@ -43,10 +43,10 @@ OneHR, with the rest of what OneAI does by itself when something arrives:
 | A new grievance | Summarised and categorised | Triage Grievances |
 
 Whether interviews may be recorded, and how long their audio is kept, are on
-the same page, under OneHR. With OneAI turned off in **Apps** none of the four
+the same page, under {one_hr}. With {one_ai} turned off in **Apps** none of the four
 runs, and a grievance goes to HR as it was written.
 
 Each is one AI call per event and uses the workspace's AI credits. Comments
-from these are written by a user called **OneAI**. Which model each uses is set
-on OneAI › Actions: **Screen Applicants**, **Interviews**,
+from these are written by a user called **{one_ai}**. Which model each uses is set
+on {one_ai} › Actions: **Screen Applicants**, **Interviews**,
 **Grievances** and **Transcribe Interviews**. Transcribe Interviews needs a model that reads audio.

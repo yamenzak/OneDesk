@@ -1,6 +1,6 @@
 # Being Told
 
-What OneCRM tells people, and when. **Notifications** in Settings
+What {one_crm} tells people, and when. **Notifications** in Settings
 changes how each person hears of each one.
 
 - **Appointment Confirmation**: when somebody books an appointment, and again once it is confirmed, in Appointment Booking Settings' words. To whoever booked it.

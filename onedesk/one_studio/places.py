@@ -3,8 +3,8 @@ what happens on each (its events), what each event gives, and what an
 extension may do there.
 """
 
+from onedesk.one import registry
 from onedesk.one.registry.model import _lt
-
 
 POWERS = {
 	"note": "page.note(text, tone): a line of text shown on the page; tone is gray, blue, green, orange or red.",
@@ -16,7 +16,7 @@ POWERS = {
 
 PLACES = {
 	"onemail": {
-		"label": "OneMail",
+		"label": registry.name("one_mail"),
 		"record": "Communication",
 		"events": {
 			"conversation": {
@@ -47,7 +47,7 @@ PLACES = {
 		},
 	},
 	"oneinventory_item": {
-		"label": "OneInventory",
+		"label": registry.name("one_inventory"),
 		"record": "Item",
 		"events": {
 			"stock": {
@@ -73,7 +73,7 @@ PLACES = {
 		},
 	},
 	"oneinventory_stock": {
-		"label": "OneInventory",
+		"label": registry.name("one_inventory"),
 		"record": "Bin",
 		"events": {
 			"on_hand": {
@@ -84,7 +84,7 @@ PLACES = {
 		},
 	},
 	"onefactory_floor": {
-		"label": "OneFactory",
+		"label": registry.name("one_factory"),
 		"record": "Job Card",
 		"events": {
 			"shown": {
@@ -95,7 +95,7 @@ PLACES = {
 		},
 	},
 	"onequality_home": {
-		"label": "OneQuality",
+		"label": registry.name("one_quality"),
 		"record": "Non Conformance",
 		"events": {
 			"shown": {
@@ -106,7 +106,7 @@ PLACES = {
 		},
 	},
 	"onefactory_home": {
-		"label": "OneFactory",
+		"label": registry.name("one_factory"),
 		"record": "Work Order",
 		"events": {
 			"shown": {
@@ -117,7 +117,7 @@ PLACES = {
 		},
 	},
 	"oneinventory_home": {
-		"label": "OneInventory",
+		"label": registry.name("one_inventory"),
 		"record": "Item",
 		"events": {
 			"shown": {
@@ -128,7 +128,7 @@ PLACES = {
 		},
 	},
 	"onecrm_home": {
-		"label": "OneCRM",
+		"label": registry.name("one_crm"),
 		"record": "Opportunity",
 		"events": {
 			"shown": {
@@ -139,7 +139,7 @@ PLACES = {
 		},
 	},
 	"onehr_home": {
-		"label": "OneHR",
+		"label": registry.name("one_hr"),
 		"record": "Employee",
 		"events": {
 			"shown": {
@@ -150,7 +150,7 @@ PLACES = {
 		},
 	},
 	"onebook_home": {
-		"label": "OneBook",
+		"label": registry.name("one_book"),
 		"record": "Sales Invoice",
 		"events": {
 			"shown": {
@@ -161,7 +161,7 @@ PLACES = {
 		},
 	},
 	"oneinventory_order": {
-		"label": "OneInventory",
+		"label": registry.name("one_inventory"),
 		"record": "Material Request",
 		"events": {
 			"shown": {
@@ -172,7 +172,7 @@ PLACES = {
 		},
 	},
 	"onecloud": {
-		"label": "OneCloud",
+		"label": registry.name("one_cloud"),
 		"record": "File",
 		"events": {
 			"file": {
@@ -200,7 +200,7 @@ PLACES = {
 		},
 	},
 	"onecrm": {
-		"label": "OneCRM",
+		"label": registry.name("one_crm"),
 		"record": "Opportunity",
 		"events": {
 			"board": {
@@ -222,7 +222,7 @@ PLACES = {
 		},
 	},
 	"oneproject": {
-		"label": "OneProject",
+		"label": registry.name("one_project"),
 		"record": "Project",
 		"events": {
 			"overview": {
@@ -276,7 +276,7 @@ PLACES = {
 		},
 	},
 	"oneproject_list": {
-		"label": "OneProject",
+		"label": registry.name("one_project"),
 		"record": None,
 		"events": {
 			"projects": {
@@ -290,7 +290,7 @@ PLACES = {
 		},
 	},
 	"oneproject_workload": {
-		"label": "OneProject",
+		"label": registry.name("one_project"),
 		"record": None,
 		"events": {
 			"week": {
@@ -304,7 +304,7 @@ PLACES = {
 		},
 	},
 	"onecalendar": {
-		"label": "OneCalendar",
+		"label": registry.name("one_calendar"),
 		"record": "Event",
 		"events": {
 			"event": {

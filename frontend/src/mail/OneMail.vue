@@ -104,6 +104,7 @@ import {
   interfaceModuleFoot,
   interfaceHeadAction,
   interfaceTree,
+  name as appName,
 } from "../kit";
 import { ACT, API, called, depth, folderLabel, forward, kindOf, names, noSender, reply, sender } from "./mail";
 import MailConversation from "./MailConversation.vue";
@@ -234,7 +235,7 @@ const searchBox = interfaceSearch(props.win, {
   onKey: (event) => event.key === "Escape" && root.value?.focus(),
 });
 interfaceHandles(props.win, { refresh: () => refresh() });
-watch(heading, (name) => props.onTitle?.(name || __("OneMail")), { immediate: true });
+watch(heading, (name) => props.onTitle?.(name || appName("one_mail")), { immediate: true });
 
 userSettings.get("OneMail").then((said) => {
   folds.value = (said && said.folds) || {};
@@ -304,7 +305,7 @@ async function settings(tab) {
   await requires(SETTINGS);
   onedesk().mail.settings(tab);
 }
-interfaceModuleFoot(props.win, { module: "OneMail", onSettings: () => settings() });
+interfaceModuleFoot(props.win, { module: appName("one_mail"), onSettings: () => settings() });
 
 const tree = interfaceTree(props.win, {
   label: __("Mailboxes"),
@@ -345,9 +346,9 @@ function boxMenu(one) {
     { label: __("New Folder"), icon: "folder-plus", onClick: () => newFolder(one.name) },
     one.may_sign ? { label: __("Signature"), icon: "signature", onClick: at("signature") } : null,
     !one.shared && !one.covering_until ? { label: __("Out of Office"), icon: "plane", onClick: at("away") } : null,
-    one.may?.ai ? { label: __("OneAI"), icon: "oneai", onClick: at("oneai") } : null,
+    one.may?.ai ? { label: appName("one_ai"), icon: "oneai", onClick: at("oneai") } : null,
     { label: __("Automation"), icon: "workflow", onClick: at("rules") },
-    { label: __("Attachments in OneCloud"), icon: "paperclip", onClick: () => goTo("onecloud", { node: `@mail/${one.name}` }) },
+    { label: __("Attachments in {0}", [appName("one_cloud")]), icon: "paperclip", onClick: () => goTo("onecloud", { node: `@mail/${one.name}` }) },
     { label: __("Mailbox Settings"), icon: "settings", onClick: at("") },
   ].filter(Boolean);
 }

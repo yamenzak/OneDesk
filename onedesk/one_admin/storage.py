@@ -10,6 +10,7 @@ import frappe
 from botocore.client import Config
 from frappe.utils import cint
 
+from onedesk.one import registry
 from onedesk.one_admin import keys, vault
 
 GOOD_FOR = 15 * 60
@@ -90,7 +91,7 @@ def search_access(tenant) -> dict:
 	account = frappe.conf.get("cloudflare_account") or stored.cloudflare_account
 	keeper, secret = stored.keeper_url, vault.get("keeper_secret")
 	if not (account and keeper and secret):
-		frappe.throw(frappe._("R2 is not configured. Set it in OneAdmin Settings."))
+		frappe.throw(frappe._("R2 is not configured. Set it in {0} Settings.").format(registry.name("one_admin")))
 	bucket = _bucket(tenant.jurisdiction)
 	prefix = keys.prefix(tenant.name) + SEARCH
 	try:
@@ -231,7 +232,7 @@ def _client(jurisdiction: str):
 	key_id = frappe.conf.get("r2_key_id") or stored.r2_key_id
 	secret = vault.get("r2_secret")
 	if not (account and key_id and secret):
-		frappe.throw(frappe._("R2 is not configured. Set it in OneAdmin Settings."))
+		frappe.throw(frappe._("R2 is not configured. Set it in {0} Settings.").format(registry.name("one_admin")))
 	endpoint = frappe.conf.get("r2_endpoint") or HOSTS[jurisdiction if jurisdiction in HOSTS else "Global"].format(
 		account=account
 	)

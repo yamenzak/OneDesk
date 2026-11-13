@@ -2,7 +2,7 @@ frappe.provide("onedesk.oneai");
 
 const MARK = "/assets/onedesk/images/oneai.svg";
 
-const ONEAI = "OneAI";
+const ONEAI = onedesk.names.of("one_ai");
 
 onedesk.oneai = {
 	panel: null,
@@ -196,7 +196,7 @@ onedesk.oneai.quick = ($button, { title, ask, placeholder, run, use }) => {
 			return asking();
 		}
 		$panel.empty().append(head(""));
-		$(`<div class="one-ai-quick-said"></div>`).text(words || __("OneAI wrote nothing. Tell it a little more.")).appendTo($panel);
+		$(`<div class="one-ai-quick-said"></div>`).text(words || __("{0} wrote nothing. Tell it a little more.", [onedesk.names.of("one_ai")])).appendTo($panel);
 		$(`<div class="one-ai-quick-actions"></div>`)
 			.append(button(__("Try Again"), "ghost", () => asking()))
 			.append(words ? button(__("Use"), "solid", () => (use(words), popover.close())) : "")
@@ -479,8 +479,8 @@ if (frappe.search?.AwesomeBar && !Object.hasOwn(frappe.search.AwesomeBar.prototy
 		const question = onedesk.oneai.asks(said);
 		const safe = frappe.utils.xss_sanitise(said);
 		const ask = {
-			label: `<span class="flex justify-between text-medium"><span class="ellipsis">${__("Ask OneAI {0}", [safe.bold()])}</span>${question ? "<kbd>↵</kbd>" : ""}</span>`,
-			value: __("Ask OneAI {0}", [safe]),
+			label: `<span class="flex justify-between text-medium"><span class="ellipsis">${__("Ask {1} {0}", [safe.bold(), onedesk.names.of("one_ai")])}</span>${question ? "<kbd>↵</kbd>" : ""}</span>`,
+			value: __("Ask {1} {0}", [safe, onedesk.names.of("one_ai")]),
 			match: said,
 			type: "Executable",
 			index: question ? 200 : 1,

@@ -8,6 +8,7 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_months, add_years, get_datetime, getdate
 
+from onedesk.one import registry
 from onedesk.one_calendar import layers
 
 WEEKDAYS = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
@@ -255,7 +256,7 @@ def validate(doc, method=None) -> None:
 		return
 	if not may_publish():
 		frappe.throw(
-			frappe._("Only a OneCalendar Manager or an administrator can put an event on everyone's calendar."),
+			frappe._("Only a {0} Manager or an administrator can put an event on everyone's calendar.").format(registry.name("one_calendar")),
 			frappe.PermissionError,
 		)
 

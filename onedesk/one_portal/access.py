@@ -6,7 +6,9 @@ contacts (invite.MANAGERS), may invite without it."""
 
 from frappe import _lt
 
-APP = "OnePortal"
+from onedesk.one import registry
+
+APP = registry.name("one_portal")
 
 # Everybody sees who is on the portal from a record's Portal dialog: its User
 # role is given to every person (rights.everyone).

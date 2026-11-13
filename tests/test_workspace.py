@@ -88,7 +88,7 @@ def test_the_account_is_in_accountcenter():
 	menu opens."""
 	assert '"Workspace Account"' in (tree.APP / "account_center" / "center.py").read_text(), "AccountCenter does not show the account"
 	outside = (tree.APP / "public" / "js" / "outside.js").read_text()
-	assert 'one.name === "settings"' in outside and 'label: "AccountCenter"' in outside
+	assert 'one.name === "settings"' in outside and 'label: onedesk.names.of("account_center")' in outside
 
 
 def test_the_screen_text_is_in_register():

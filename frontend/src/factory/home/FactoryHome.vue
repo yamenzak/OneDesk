@@ -44,7 +44,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, can, count, date, followList, go, money, newDoc, onedesk, quantity, setQuery, shortcut } from "../../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, can, count, date, followList, go, money, newDoc, onedesk, quantity, setQuery, shortcut, name } from "../../kit";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -214,7 +214,7 @@ const parts = computed(() => {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("OneFactory") });
+  props.onTitle?.({ title: name("one_factory") });
   extended(s);
   const can = (doctype) => (s.may_make || []).includes(doctype);
   const made = [

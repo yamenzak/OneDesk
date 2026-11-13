@@ -9,7 +9,7 @@ from typing import Annotated
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import roles, sections
+from onedesk.one import registry, roles, sections
 from onedesk.one.access import all_levels
 from onedesk.one.people import (
 	APP_SAID,
@@ -478,8 +478,8 @@ def _person_page(user: str) -> dict:
 	and the Administrator switch, saved against the User as it was loaded;
 	where they are signed in and their last sign-ins (account_center/signin.py), and the
 	records they are held to (one/access.py)."""
-	from onedesk.one import access
 	from onedesk.account_center import signin
+	from onedesk.one import access
 
 	doc = one_of_the_people(user)
 	held = {one.role for one in doc.roles}
@@ -503,7 +503,7 @@ def _person_page(user: str) -> dict:
 			"fieldname": "admin",
 			"fieldtype": "Switch",
 			"label": _("Administrator"),
-			"description": _("Can manage people, the plan, domains and OneAI. Other administrators are notified."),
+			"description": _("Can manage people, the plan, domains and {0}. Other administrators are notified.").format(registry.name("one_ai")),
 		}
 	)
 	me = doc.name == frappe.session.user
@@ -667,8 +667,8 @@ STALE = 60 * 60
 def _plan() -> dict:
 	"""The workspace's account, as the administrator last said it: asked again
 	first when that was over an hour ago, so a pack just paid for shows."""
-	from onedesk.one import account
 	from onedesk.account_center import closing, heads
+	from onedesk.one import account
 
 	held = frappe.get_single("Workspace Account")
 	heard = held.last_heard

@@ -13,6 +13,7 @@ from frappe import _
 from frappe.utils import now_datetime, strip_html
 
 from onedesk.notifications import layout
+from onedesk.one import registry
 
 SERVICES = (
 	"fcm.googleapis.com",
@@ -84,7 +85,7 @@ def register(
 	if frappe.session.user == "Guest":
 		frappe.throw(_("Sign in first."), frappe.PermissionError)
 	if not allowed_service(endpoint):
-		frappe.throw(_("This browser's push service is not one One sends to."))
+		frappe.throw(_("This browser's push service is not one {0} sends to.").format(registry.name("one")))
 	name = frappe.db.get_value("Push Device", {"endpoint": endpoint})
 	doc = frappe.get_doc("Push Device", name) if name else frappe.new_doc("Push Device")
 	doc.update(
@@ -126,7 +127,7 @@ def test() -> dict:
 		frappe.session.user,
 		{
 			"title": _("Push works"),
-			"body": _("Notifications from One will appear like this on this device."),
+			"body": _("Notifications from {0} will appear like this on this device.").format(registry.name("one")),
 			"url": "/app/settings?section=notifications",
 		},
 	)

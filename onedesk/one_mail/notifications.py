@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "No Reply Yet",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When you asked to be reminded about a conversation and nobody has replied by then.",
 		"to": "Whoever asked to be reminded",
 		"channels": ALL,
@@ -22,7 +24,7 @@ TYPES = [
 	},
 	{
 		"name": "Attachments Not Saved",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When mail arrives with attachments and the workspace's storage is full. Once a day at most.",
 		"to": "Every administrator, and everybody who holds the mailbox",
 		"channels": ALL,
@@ -35,7 +37,7 @@ TYPES = [
 	},
 	{
 		"name": "Covering Mail",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When you cover for somebody on leave, and their leave says you read their mail.",
 		"to": "The covering person",
 		"channels": ALL,
@@ -44,12 +46,12 @@ TYPES = [
 		"push_default": True,
 		"sender": "workspace",
 		"subject": "You're covering {who}'s mail until {until}",
-		"message": "Mail to {mailbox} is in OneMail with your own while they're on leave. You can read it and reply "
+		"message": "Mail to {mailbox} is in {one_mail} with your own while they're on leave. You can read it and reply "
 		"from your own address, but not send from theirs.",
 	},
 	{
 		"name": "Mail Not Sent",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When mail you sent could not be delivered after every retry.",
 		"to": "Whoever sent it",
 		"channels": {**ALL, "email": "Mail is what failed, so it isn't told by mail."},
@@ -60,7 +62,7 @@ TYPES = [
 	},
 	{
 		"name": "Mail Rule Approved",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When a Mail Manager approves a mail rule you asked for.",
 		"to": "The person who asked for it",
 		"channels": ALL,
@@ -73,7 +75,7 @@ TYPES = [
 	},
 	{
 		"name": "Mail Rule Declined",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When a Mail Manager declines a mail rule you asked for.",
 		"to": "The person who asked for it",
 		"channels": ALL,
@@ -86,7 +88,7 @@ TYPES = [
 	},
 	{
 		"name": "Mail Rule Notice",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When a mail rule says to tell you that mail it watches for arrived.",
 		"to": "Whoever the rule names",
 		"channels": ALL,
@@ -99,7 +101,7 @@ TYPES = [
 	},
 	{
 		"name": "Mail Rule Requested",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When somebody asks for a mail rule on the workspace address issued to them.",
 		"to": "Every Mail Manager and administrator",
 		"channels": ALL,
@@ -107,12 +109,12 @@ TYPES = [
 		"email_default": True,
 		"sender": "workspace",
 		"subject": "{who} asked for a mail rule on {mailbox}",
-		"message": "<b>When</b> {when}<br><b>Then</b> {then}<br>It runs once you approve it in OneMail › Settings › "
+		"message": "<b>When</b> {when}<br><b>Then</b> {then}<br>It runs once you approve it in {one_mail} › Settings › "
 		"{mailbox} › Automation.",
 	},
 	{
 		"name": "Mailbox Not Reachable",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When a mailbox you hold stops connecting. Once, when it breaks.",
 		"to": "Everybody who holds it, or every administrator when nobody does",
 		"channels": ALL,
@@ -121,24 +123,24 @@ TYPES = [
 		"sender": "workspace",
 		"subject": "{mailbox} is not connecting: {reason}",
 		"message": "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from "
-		"OneMail › Settings › Mailboxes.",
+		"{one_mail} › Settings › Mailboxes.",
 	},
 	{
 		"name": "Mailbox OneAI Limit Reached",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When a mailbox uses its OneCredits for the month. Once a month.",
-		"to": "Whoever OneAI reads it for and whoever connected it, or every administrator",
+		"to": "Whoever {one_ai} reads it for and whoever connected it, or every administrator",
 		"channels": ALL,
 		"button": "Open Mail Settings",
 		"email_default": True,
 		"sender": "system",
 		"subject": "{mailbox} used its {limit} OneCredits for this month",
-		"message": "New mail in <b>{mailbox}</b> is only read without OneAI until next month. Raise the limit in "
-		"OneMail › Settings › {mailbox} › OneAI.",
+		"message": "New mail in <b>{mailbox}</b> is only read without {one_ai} until next month. Raise the limit in "
+		"{one_mail} › Settings › {mailbox} › {one_ai}.",
 	},
 	{
 		"name": "Mailbox Shared With You",
-		"app": "OneMail",
+		"app": registry.name("one_mail"),
 		"about": "When an administrator gives you a shared mailbox.",
 		"to": "Each person given it",
 		"channels": ALL,
@@ -147,6 +149,6 @@ TYPES = [
 		"push_default": True,
 		"sender": "workspace",
 		"subject": "{who} gave you {mailbox}",
-		"message": "Its mail is in OneMail now, beside your own, and you can reply from it.",
+		"message": "Its mail is in {one_mail} now, beside your own, and you can reply from it.",
 	},
 ]

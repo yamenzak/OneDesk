@@ -9,10 +9,10 @@ import frappe
 from frappe import _
 from frappe.utils import pretty_date
 
-from onedesk.one import rights, roles
+from onedesk.account_center import invite
+from onedesk.one import registry, rights, roles
 from onedesk.one_portal import gate
 from onedesk.one_portal.portal import PARTIES
-from onedesk.account_center import invite
 
 MANAGERS = {"Customer": "Sales Manager", "Supplier": "Purchase Manager"}
 
@@ -94,7 +94,7 @@ def invite_contact(contact: str) -> dict:
 		frappe.throw(_("Add the contact's email first."))
 	existing = frappe.db.get_value("User", {"email": email}, ["name", "user_type", "enabled"], as_dict=True)
 	if existing and existing.user_type != "Website User":
-		frappe.throw(_("{0} is someone in the workspace. They sign in to One, not the portal.").format(email))
+		frappe.throw(_("{0} is someone in the workspace. They sign in to {1}, not the portal.").format(email, registry.name("one")))
 	if existing:
 		user = existing.name
 		if not existing.enabled:

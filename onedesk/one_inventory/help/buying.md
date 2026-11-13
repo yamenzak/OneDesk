@@ -4,7 +4,7 @@
 **Material Request**, **Request for Quotation**, **Purchase Order** and
 **Supplier**. Supplier Quotations, the Supplier Quotation Comparison report
 and Blanket Orders are under Everything on Home. Suppliers are kept in
-OneBook, and the link here opens the same supplier. A supplier's **Items**
+{one_book}, and the link here opens the same supplier. A supplier's **Items**
 tab says what is bought from them, item by item: their own code for it,
 whether they are its default supplier, the last price paid in their money
 and what it was before, or what they agreed on a blanket order, how much was
@@ -38,7 +38,7 @@ Order** starts one with them.
    cheapest. **Create › Order Cheapest** on the request drafts one order to
    each supplier for the lines they are cheapest on; nothing is sent. A
    quote says on how many of its lines it is the cheapest (**Lowest On**).
-   OneAI answers **Who has not answered?** and **Who is cheapest?** on a
+   {one_ai} answers **Who has not answered?** and **Who is cheapest?** on a
    request.
 4. **Order.** **Create › Purchase Order** on the quote you take. Lines can
    go to different suppliers, each from whoever is cheapest on it.
@@ -56,7 +56,7 @@ Order** starts one with them.
    the status room for "To Receive and Bill", without the number, and a
    line's own Required By stays out of the items table.
 5. **Receive and pay.** See Receiving. The supplier's bill is
-   **Create › Purchase Invoice**, and it is OneBook's from there.
+   **Create › Purchase Invoice**, and it is {one_book}'s from there.
 
 - **Late orders.** Once a day, an order whose goods are past the date they
   were wanted and not all here is told to whoever made it (**Order Late**),

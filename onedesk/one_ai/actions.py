@@ -9,6 +9,8 @@ import json
 import frappe
 from frappe import _
 
+from onedesk.one import registry
+
 KEY = "one_ai_actions_off"
 
 
@@ -37,7 +39,7 @@ def on(key: str) -> bool:
 def refuse(key: str) -> None:
 	"""Every action asks this before it runs."""
 	if not on(key):
-		frappe.throw(_("This OneAI action is turned off for this workspace."), frappe.PermissionError)
+		frappe.throw(_("This {0} action is turned off for this workspace.").format(registry.name("one_ai")), frappe.PermissionError)
 
 
 def for_boot() -> dict[str, int]:
@@ -67,7 +69,7 @@ def switch(key: str, on: int | str) -> dict:
 
 	roles.require()
 	if key not in declared():
-		frappe.throw(_("{0} is not one of OneAI's actions.").format(key))
+		frappe.throw(_("{0} is not one of {1}'s actions.").format(key, registry.name("one_ai")))
 	shut = off()
 	if frappe.utils.cint(on):
 		shut.discard(key)

@@ -12,11 +12,11 @@ counter is for whoever serves the queue.
 
 A board can name its own **People**, who change it from **Boards** whatever
 their role; a board that names nobody may be changed by everyone with
-OneDisplay.
+{one_display}.
 
 ## What Each Role Starts With
 
-This is what OneDisplay's roles hold when it arrives in a workspace.
+This is what {one_display}'s roles hold when it arrives in a workspace.
 **Roles** in AccessCenter changes any of it, and an update never undoes a
 change you made.
 

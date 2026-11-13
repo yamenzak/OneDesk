@@ -18,7 +18,7 @@ from frappe import _
 from frappe.utils import now_datetime
 from werkzeug.wrappers import Response
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one_cloud import namespace as ns
 
 PREFIX = "@mount"
@@ -86,7 +86,7 @@ def reachable(host: str) -> None:
 	for address in found:
 		ip = ipaddress.ip_address(address.split("%")[0])
 		if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved or ip.is_multicast or ip.is_unspecified:
-			frappe.throw(_("{0} is on a private network. OneCloud can't connect to it.").format(host))
+			frappe.throw(_("{0} is on a private network. {1} can't connect to it.").format(host, registry.name("one_cloud")))
 
 
 class SFTP:
@@ -323,7 +323,7 @@ def _node(mount: str, path: str, one: dict) -> dict:
 def trail(node: str) -> list[dict]:
 	mount, path = split(node)
 	title = frappe.db.get_value("Cloud Mount", mount, "title") or mount
-	crumbs = [{"id": ns.ROOT, "name": _("OneCloud")}, {"id": ns.MOUNTS, "name": _("Network")}, {"id": node_id(mount), "name": title}]
+	crumbs = [{"id": ns.ROOT, "name": registry.name("one_cloud")}, {"id": ns.MOUNTS, "name": _("Network")}, {"id": node_id(mount), "name": title}]
 	walked = ""
 	for part in path.split("/") if path else []:
 		walked = posixpath.join(walked, part)

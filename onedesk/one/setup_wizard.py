@@ -1,6 +1,8 @@
 import frappe
 from frappe.utils import add_days, get_time, getdate, now_datetime, nowdate, time_diff_in_hours
 
+from onedesk.one import registry
+
 THEMES = {"Automatic": "Automatic", "Light": "Light", "Dark": "Dark"}
 
 SHIFT = "Day"
@@ -9,8 +11,8 @@ SHIFT = "Day"
 def get_setup_stages(args=None):
 	return [
 		{
-			"status": frappe._("Setting up One"),
-			"fail_msg": frappe._("Failed to set up One"),
+			"status": frappe._("Setting up {0}").format(registry.name("one")),
+			"fail_msg": frappe._("Failed to set up {0}").format(registry.name("one")),
 			"tasks": [
 				{
 					"fn": set_appearance,
@@ -25,12 +27,12 @@ def get_setup_stages(args=None):
 				{
 					"fn": settle,
 					"args": args,
-					"fail_msg": frappe._("Failed to set up One"),
+					"fail_msg": frappe._("Failed to set up {0}").format(registry.name("one")),
 				},
 				{
 					"fn": module_steps,
 					"args": args,
-					"fail_msg": frappe._("Failed to set up One"),
+					"fail_msg": frappe._("Failed to set up {0}").format(registry.name("one")),
 				},
 			],
 		}

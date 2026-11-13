@@ -13,7 +13,7 @@ leaves the rail.
 ## Dashboards
 
 Under the rail's **Dashboards**, an administrator makes **Dashboards** of
-**Charts** and **Number Cards**. Everybody sees them under One ›
+**Charts** and **Number Cards**. Everybody sees them under {one} ›
 **Dashboards**, and each chart shows only to those who may read what it
 counts. The dashboards that come with the apps (Accounts, Stock, CRM) are on
 their own app's rail, a company on every chart.
@@ -32,7 +32,7 @@ create them.
 - A chart or a number card of type **Custom**, which runs code an app wrote.
 - A report by mail that runs as somebody else.
 
-## With OneAI
+## With {one_ai}
 
-OneAI suggests a saved report, a dashboard or a report by mail as a card, with
+{one_ai} suggests a saved report, a dashboard or a report by mail as a card, with
 where it is shown and to whom. Nothing is made until you approve it.

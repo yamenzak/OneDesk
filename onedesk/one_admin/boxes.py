@@ -19,6 +19,8 @@ from pathlib import Path
 import boto3
 import requests
 
+from onedesk.one import registry
+
 API = "https://api.cloudflare.com/client/v4"
 ROOT = Path(__file__).resolve().parents[2]
 FIRST_BOOT = ROOT / "deploy/server/first-boot.sh"

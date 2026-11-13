@@ -1,6 +1,6 @@
-# What OneQuality Is
+# What {one_quality} Is
 
-OneQuality is how the company keeps its work right: how each piece of work
+{one_quality} is how the company keeps its work right: how each piece of work
 is done, the goals it is held to, what went wrong, and what is done about
 it. It suits a business that works to procedures, such as installing a
 curtain wall or fitting a kitchen, and wants every slip written down and
@@ -8,12 +8,12 @@ followed until it is fixed.
 
 ## Finding Your Way
 
-**OneQuality** in the dock opens it on **Home**: the non conformances still
+**{one_quality}** in the dock opens it on **Home**: the non conformances still
 open, the actions open, the steps overdue and the goals failing. **Today**
 lists each, with who raised a problem and whether anybody acts on it, whose
 step is late, the goals whose last review failed and the meetings still
 open. **Report a Problem** at the top records a non conformance, from a
-phone too. **Everything** is all of OneQuality, each with what it is for.
+phone too. **Everything** is all of {one_quality}, each with what it is for.
 
 The rail keeps the rest:
 
@@ -29,4 +29,4 @@ The rail keeps the rest:
 ## What Is Kept Where
 
 Checking goods on arrival or while they are made is a **Quality
-Inspection**, kept in OneInventory with the stock it checks.
+Inspection**, kept in {one_inventory} with the stock it checks.

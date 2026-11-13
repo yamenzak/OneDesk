@@ -9,12 +9,12 @@
 
 <script setup>
 import { computed } from "vue";
-import { onedesk, symbol } from "./desk";
+import { name, onedesk, symbol } from "./desk";
 
 // `marked` draws the mark on a name standing alone too, as a heading over
 // what belongs to that app does.
 const props = defineProps({ text: { type: [String, Number], default: "" }, marked: Boolean });
-const NAME = "One";
+const NAME = name("one");
 const CENTER = "Center";
 const mark = symbol("one");
 // The desk draws a product's name, "OneCloud", with One light and, in a

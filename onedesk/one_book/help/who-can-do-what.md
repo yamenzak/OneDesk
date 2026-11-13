@@ -1,6 +1,6 @@
 # Who Can Do What
 
-Everything in OneBook is for whoever People gives it. An **Accounts User**
+Everything in {one_book} is for whoever People gives it. An **Accounts User**
 enters invoices, bills and payments, matches the bank and imports a
 statement. An **Accounts Manager** also enters the opening invoices, adds
 banks and suppliers, keeps the tax templates, and does the two things below.
@@ -13,7 +13,7 @@ banks and suppliers, keeps the tax templates, and does the two things below.
 
 ## What Each Role Starts With
 
-This is what OneBook's roles hold when it arrives in a workspace. **Roles**
+This is what {one_book}'s roles hold when it arrives in a workspace. **Roles**
 in AccessCenter changes any of it, and an update never undoes a change you
 made.
 

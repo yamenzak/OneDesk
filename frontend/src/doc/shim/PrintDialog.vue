@@ -14,7 +14,7 @@
 			<div class="flex flex-col gap-2">
 				<Button variant="solid" class="w-full" :loading="busy === 'print'" :disabled="!!busy" @click="print">{{ __("Print") }}</Button>
 				<Button v-if="record" class="w-full" :loading="busy === 'record'" :disabled="!!busy" @click="keep('record')">{{ __("Attach PDF to {0}", [record.name]) }}</Button>
-				<Button v-else class="w-full" :loading="busy === 'cloud'" :disabled="!!busy" @click="keep('cloud')"><Branded :text="__('Save PDF to OneCloud')" /></Button>
+				<Button v-else class="w-full" :loading="busy === 'cloud'" :disabled="!!busy" @click="keep('cloud')"><Branded :text="__('Save PDF to {0}', [name('one_cloud')])" /></Button>
 			</div>
 		</template>
 	</Dialog>
@@ -25,7 +25,7 @@ import { Button, Dialog, FormControl } from "frappe-ui";
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 
 import Branded from "../../kit/Branded.vue";
-import { __, call, csrf, followList, openTab } from "../../kit/desk";
+import { __, call, csrf, followList, openTab, name } from "../../kit/desk";
 
 const props = defineProps({
 	modelValue: Boolean,
@@ -106,7 +106,7 @@ async function keep(where) {
 	error.value = kept.value = "";
 	try {
 		const made = await call("onedesk.one_doc.paper.pdf", args(where));
-		kept.value = where === "record" ? __("{0} attached to {1}.", [made.name, props.record.name]) : __("{0} saved to OneCloud, in the same folder as this document.", [made.name]);
+		kept.value = where === "record" ? __("{0} attached to {1}.", [made.name, props.record.name]) : __("{0} saved to {1}, in the same folder as this document.", [made.name, name("one_cloud")]);
 	} catch (failed) {
 		error.value = failed?.message || __("Could not save the PDF.");
 	} finally {

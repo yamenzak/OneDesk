@@ -68,7 +68,7 @@ phone):
 - **Your Data**: **Request My Data** asks for a copy, which an administrator
   reviews first; when it is ready, **Download My Data**. **Delete My
   Account** asks for the account to be deleted, confirmed with their
-  password, and an administrator decides (TrustCenter › Your Data › Requests).
+  password, and an administrator decides ({trust_center} › Your Data › Requests).
   **Cancel Deletion** withdraws it until then.
 - **Third Party Apps**: shown once they have let an app sign in for them.
   **Revoke** signs the app out.

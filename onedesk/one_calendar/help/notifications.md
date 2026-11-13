@@ -9,7 +9,7 @@
 
 Whoever made a change isn't told of it. Each comes to the bell, and by email
 or push as you choose in NotificationCenter, which **Notifications** in
-OneCalendar's settings opens.
+{one_calendar}'s settings opens.
 
 ## Guests Outside
 

@@ -13,7 +13,7 @@ were just before, so going back can be undone too.
 
 ## Templates
 
-**Save as Template** keeps a copy in OneCloud › Presentation Templates for
+**Save as Template** keeps a copy in {one_cloud} › Presentation Templates for
 everyone in the business to start from: **New › Presentation** offers it, and
 **Theme** lists it beside Light and Dark. Who may keep templates is set in
 **Roles**; see [Who Can Do What](who-can-do-what).
@@ -22,7 +22,7 @@ everyone in the business to start from: **New › Presentation** offers it, and
 
 **Export as PDF** draws every slide as it looks in the editor, a page each
 at the presentation's own size, so an A4 presentation prints on A4,
-keeps the PDF in OneCloud beside the presentation, and opens it.
+keeps the PDF in {one_cloud} beside the presentation, and opens it.
 
 **Export as PDF with Notes** prints an A4 page for each slide, the slide above
 and its speaker notes below as real words, which can be found and copied.
@@ -38,7 +38,7 @@ which slides lost one.
 
 ## Open a PowerPoint File
 
-Open a .pptx in **OneCloud** and it becomes a presentation beside it, with
+Open a .pptx in **{one_cloud}** and it becomes a presentation beside it, with
 its words, shapes, pictures, tables, backgrounds and speaker notes, in the
 file's own colours. Opening the file again opens the same presentation. A
 chart, SmartArt or a video can't come along, and you are told which slides
@@ -46,7 +46,7 @@ had one.
 
 ## On the Drive
 
-When OneCloud is connected as a drive on your computer, a presentation shows
+When {one_cloud} is connected as a drive on your computer, a presentation shows
 there as a PowerPoint file, "Name.pptx". Open it in PowerPoint, Keynote or
 LibreOffice and save, and your changes come back into the same presentation:
 its name, sharing and links stay, and what it was before is kept in
@@ -54,10 +54,10 @@ its name, sharing and links stay, and what it was before is kept in
 master, so its shapes are not copied onto every slide. A chart, SmartArt or
 a video can't come back, and the next time the presentation is opened you
 are told which slides had one. A presentation with words from records can
-only be edited in OneDeck.
+only be edited in {one_deck}.
 
 ## On a Record
 
-A record's **Files** tab is OneCloud, so **New › Presentation** there files
+A record's **Files** tab is {one_cloud}, so **New › Presentation** there files
 the presentation on the record. Whoever may open the record may open it, and
 its PDF is kept on the record too.

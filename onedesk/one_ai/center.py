@@ -9,7 +9,7 @@ import json
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import account, apps, roles
+from onedesk.one import account, apps, registry, roles
 from onedesk.one.registry import hooks as registry_hooks
 from onedesk.one_ai import models
 
@@ -143,7 +143,7 @@ def set_reading(key: str, value) -> None:
 
 	roles.require()
 	if key not in yours.INTAKE:
-		frappe.throw(_("{0} is not one of OneAI's settings.").format(key))
+		frappe.throw(_("{0} is not one of {1}'s settings.").format(key, registry.name("one_ai")))
 	yours._save_intake({key: frappe.utils.flt(value)})
 
 
@@ -170,7 +170,7 @@ def parts() -> list[dict]:
 	for module, path in PARTS.items():
 		declared = getattr(importlib.import_module(path), "JOBS", [])
 		out.append({"module": module, "jobs": [_job(one) for one in declared]})
-	out.append({"module": "OneMail", "mailboxes": _mailboxes()})
+	out.append({"module": registry.name("one_mail"), "mailboxes": _mailboxes()})
 	for part in out:
 		part["actions"] = actions.of(part["module"])
 	for module in actions.modules():
@@ -196,7 +196,7 @@ def _declared(key: str) -> dict:
 		for one in getattr(importlib.import_module(path), "JOBS", []):
 			if one["key"] == key:
 				return one
-	frappe.throw(_("{0} is not one of OneAI's settings.").format(key))
+	frappe.throw(_("{0} is not one of {1}'s settings.").format(key, registry.name("one_ai")))
 
 
 @frappe.whitelist(methods=["POST"])
@@ -247,7 +247,7 @@ def usage() -> dict:
 	from onedesk.one_ai.report.ai_credits import ai_credits
 
 	if not may()["usage"]:
-		frappe.throw(_("Your role doesn't allow seeing OneAI's usage."), frappe.PermissionError)
+		frappe.throw(_("Your role doesn't allow seeing {0}'s usage.").format(registry.name("one_ai")), frappe.PermissionError)
 	if not account.configured():
 		return {"reached": False, "linked": False, "jobs": []}
 	end = getdate()
@@ -260,7 +260,7 @@ def usage() -> dict:
 
 def _writes_knowledge() -> None:
 	if not may()["knowledge"]:
-		frappe.throw(_("Your role doesn't allow writing OneAI's Knowledge."), frappe.PermissionError)
+		frappe.throw(_("Your role doesn't allow writing {0}'s Knowledge.").format(registry.name("one_ai")), frappe.PermissionError)
 
 
 @frappe.whitelist()

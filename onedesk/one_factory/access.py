@@ -6,9 +6,9 @@ has (one/roles.py `give`); a workspace administrator may do the ability.
 
 from frappe import _lt
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 
-APP = "OneFactory"
+APP = registry.name("one_factory")
 
 # Not everybody's: People gives it to whoever uses OneFactory.
 USER = "Manufacturing User"

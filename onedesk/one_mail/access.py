@@ -8,7 +8,9 @@ User open any Communication by its name.
 import frappe
 from frappe import _lt
 
-APP = "OneMail"
+from onedesk.one import registry
+
+APP = registry.name("one_mail")
 
 # Everybody uses OneMail: its User role is given to every person
 # (rights.everyone), and People offers no None for it.

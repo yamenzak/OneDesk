@@ -37,7 +37,7 @@ A lead can be made three ways:
   name, business, email, mobile and a message, and makes a lead with its
   source set to Website and the message kept on it. Change the form under
   **Setup › Get in Touch Form**; link to it from your own website.
-- **From an inbox.** OneAI reads the workspace's mail, and an enquiry
+- **From an inbox.** {one_ai} reads the workspace's mail, and an enquiry
   from somebody new comes with a lead ready to make. Mail from somebody who
   is already a lead is linked to their lead instead.
 

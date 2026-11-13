@@ -15,13 +15,14 @@ from frappe import _
 from frappe.realtime import get_doctype_room
 from frappe.utils import get_fullname
 
+from onedesk.one import registry
 from onedesk.one_cloud import fidelity, lease
 
 EDITS = {"xlsx": "workbook", "csv": "workbook", "docx": "document"}
 MAKES = {"pptx": "presentation", "ppsx": "presentation"}
 COPIES = {"xlsm": "workbook", "xltm": "workbook", "xls": "workbook", "docm": "document", "dotm": "document"}
 WEIGHED = ("xlsx", "docx")
-APPS = {"workbook": "OneSheet", "document": "OneDoc"}
+APPS = {"workbook": registry.name("one_sheet"), "document": registry.name("one_doc")}
 HELD_BY = {"workbook": "Workbook", "document": "Writer Document"}
 
 
@@ -123,9 +124,9 @@ def own_of(item: dict) -> tuple[str, str] | None:
 
 
 def _suffix(kind: str) -> str:
+	from onedesk.one_deck import drive
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_deck import drive
 
 	return {"workbook": excel.SUFFIX, "document": word.SUFFIX, "presentation": drive.SUFFIX}[kind]
 
@@ -139,9 +140,9 @@ def office_name(item: dict, kind: str) -> str:
 
 def exported(kind: str, name: str) -> bytes:
 	"""One's own as the drive serves it, for the reader."""
+	from onedesk.one_deck import drive
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_deck import drive
 
 	return {"workbook": excel.xlsx, "document": word.docx, "presentation": drive.pptx}[kind](name)
 
@@ -151,16 +152,16 @@ def kept_inside(kind: str, name: str) -> str | None:
 	record's table, a document with a record's fields, a presentation with
 	words from records. None when an outside save may come back into it."""
 	if kind == "workbook" and frappe.db.get_value("Workbook", name, "bound_doctype"):
-		return _("A record's workbook can only be edited in OneSheet.")
+		return _("A record's workbook can only be edited in {0}.").format(registry.name("one_sheet"))
 	if kind == "document":
 		held = frappe.db.get_value("Writer Document", name, ["html", "bound_doctype"], as_dict=True) or frappe._dict()
 		if held.bound_doctype or 'data-field="' in (held.html or ""):
-			return _("A document with a record's fields in it can only be edited in OneDoc.")
+			return _("A document with a record's fields in it can only be edited in {0}.").format(registry.name("one_doc"))
 	if kind == "presentation":
 		from onedesk.one_deck import data
 
 		if data.cleaned(frappe.db.get_value("Presentation", name, "sources")):
-			return _("A presentation with words from records can only be edited in OneDeck.")
+			return _("A presentation with words from records can only be edited in {0}.").format(registry.name("one_deck"))
 	return None
 
 
@@ -233,7 +234,7 @@ def one_copy(node: str) -> dict:
 	api._need(item, "read")
 	kind = (way(item.file_name) or {}).get("copy")
 	if not kind:
-		frappe.throw(_("{0} can't be copied into One.").format(item.file_name))
+		frappe.throw(_("{0} can't be copied into {1}.").format(item.file_name, registry.name("one")))
 	folder = ns.row(item.folder) if item.folder else None
 	parent = item.folder if folder and ns.may(folder, "add") else ns.home()
 	title = item.file_name.rsplit(".", 1)[0]

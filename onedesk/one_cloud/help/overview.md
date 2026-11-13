@@ -1,14 +1,14 @@
-# What OneCloud Is
+# What {one_cloud} Is
 
-OneCloud holds the company's files in one place: your own files, the files
-your team shares, and every file attached to a record in One, such as an
+{one_cloud} holds the company's files in one place: your own files, the files
+your team shares, and every file attached to a record in {one}, such as an
 invoice's PDF or an employee's passport scan. It works like the file
 explorer on your computer, and the files are kept in cloud storage, not on
 the workspace's server.
 
 ## Finding Your Way
 
-**OneCloud** in the dock opens the explorer at full width. The folder tree
+**{one_cloud}** in the dock opens the explorer at full width. The folder tree
 on the left is how you move around, so the side panel starts closed.
 
 | Part | What it holds |
@@ -16,7 +16,7 @@ on the left is how you move around, so the side panel starts closed.
 | **The folder tree**, on the left | The places below, each opening to its folders. |
 | **The heading** | The folder's name, **New**, and **Details** or **Tiles** at its other end. |
 | **The list** | What is in the folder. Click a column heading to sort by it. |
-| **The foot** | How full the workspace's storage is, **Settings**, the play button that takes the tour, the question mark that opens this Help, and OneCloud's version, which opens What's New. |
+| **The foot** | How full the workspace's storage is, **Settings**, the play button that takes the tour, the question mark that opens this Help, and {one_cloud}'s version, which opens What's New. |
 
 ## The Places
 
@@ -44,5 +44,5 @@ on the left is how you move around, so the side panel starts closed.
 | Give a colleague a file | [Sharing With the Team](sharing-with-the-team) |
 | Send a file to a customer | [Sharing Outside the Team](sharing-outside) |
 | Ask a supplier for their documents | [Asking for Files](asking-for-files) |
-| Open OneCloud from Windows or macOS | [OneCloud as a Drive](drive-on-your-computer) |
+| Open {one_cloud} from Windows or macOS | [{one_cloud} as a Drive](drive-on-your-computer) |
 | Know who can see a file | [Who Can Do What](who-can-do-what) |

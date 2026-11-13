@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Delivery Late",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Sales User", "Sales Manager", "Stock Manager"),
 		"about": "On the morning after a customer's order was due to be delivered and has not all gone.",
 		"to": "Whoever made the order, and the stock managers",
@@ -22,7 +24,7 @@ TYPES = [
 	},
 	{
 		"name": "Delivery Trip Notice",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"about": "When somebody presses Notify Customers on a delivery trip, in Delivery Settings' words.",
 		"to": "Each stop's contact",
 		"channels": {
@@ -36,7 +38,7 @@ TYPES = [
 	},
 	{
 		"name": "Depreciation Not Posted",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"about": "When the nightly job cannot post depreciation.",
 		"to": "The role Accounts Settings names",
 		"channels": ALL,
@@ -45,7 +47,7 @@ TYPES = [
 	},
 	{
 		"name": "Equipment Handed Over",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Employee",),
 		"about": "When a piece of the company's equipment is given to somebody.",
 		"to": "The person given it",
@@ -57,7 +59,7 @@ TYPES = [
 	},
 	{
 		"name": "Expiring Soon",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock Manager",),
 		"about": "When a batch with some still in stock expires within a month.",
 		"to": "Whoever keeps the stores",
@@ -69,7 +71,7 @@ TYPES = [
 	},
 	{
 		"name": "Material Request Asked",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Purchase User", "Purchase Manager"),
 		"about": "When somebody asks for items to be bought.",
 		"to": "Purchasing",
@@ -82,7 +84,7 @@ TYPES = [
 	},
 	{
 		"name": "Material Request Done",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock User", "Purchase User", "Manufacturing User", "Projects User", "Employee"),
 		"about": "When the items you asked to be moved or issued have all been moved or issued.",
 		"to": "Whoever asked",
@@ -95,7 +97,7 @@ TYPES = [
 	},
 	{
 		"name": "Material Request Raised",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Purchase Manager", "Stock Manager"),
 		"about": "When items fall to their reorder level and a material request is raised for them.",
 		"to": "Purchasing",
@@ -109,7 +111,7 @@ TYPES = [
 	},
 	{
 		"name": "Material Request Received",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"about": "When what your material request asked for is received.",
 		"to": "Whoever made the request",
 		"channels": ALL,
@@ -120,7 +122,7 @@ TYPES = [
 	},
 	{
 		"name": "Material Request Stopped",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock User", "Purchase User", "Manufacturing User", "Projects User", "Employee"),
 		"about": "When somebody stops a request you made.",
 		"to": "Whoever asked",
@@ -133,7 +135,7 @@ TYPES = [
 	},
 	{
 		"name": "Order Late",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Purchase Manager", "Purchase User"),
 		"about": "When goods on an order are past the date they were wanted and have not all arrived.",
 		"to": "Whoever made the order",
@@ -145,7 +147,7 @@ TYPES = [
 	},
 	{
 		"name": "Quote Received",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Purchase Manager", "Purchase User"),
 		"about": "When a supplier sends a quote for your request.",
 		"to": "Whoever made the request, or purchasing when they cannot sign in",
@@ -157,7 +159,7 @@ TYPES = [
 	},
 	{
 		"name": "Quote Request Sent",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"about": "When a quote request is sent to a supplier, with the link to answer it.",
 		"to": "The supplier's contact",
 		"channels": {
@@ -171,7 +173,7 @@ TYPES = [
 	},
 	{
 		"name": "Reordering Failed",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock Manager", "Purchase Manager"),
 		"about": "When reordering could not raise a request for items below their level.",
 		"to": "The stock and buying managers",
@@ -183,7 +185,7 @@ TYPES = [
 	},
 	{
 		"name": "Reposting Error Mail",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"about": "When stock values cannot be recalculated, mailed by ERPNext besides Reposting Failed, whenever the workspace sends mail.",
 		"to": "Stock managers",
 		"channels": ALL,
@@ -192,7 +194,7 @@ TYPES = [
 	},
 	{
 		"name": "Reposting Failed",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock Manager", "Accounts Manager"),
 		"about": "When stock values cannot be recalculated after a back-dated entry, so the books are behind.",
 		"to": "Stock and accounts managers",
@@ -204,7 +206,7 @@ TYPES = [
 	},
 	{
 		"name": "Service Due",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock User", "Stock Manager"),
 		"about": "When a service on a piece of equipment is due within a week.",
 		"to": "Whoever does the service",
@@ -216,7 +218,7 @@ TYPES = [
 	},
 	{
 		"name": "Service Late",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock User", "Stock Manager"),
 		"about": "When a service on a piece of equipment is past its date and not done.",
 		"to": "Whoever does the service, and the maintenance team's manager",
@@ -228,7 +230,7 @@ TYPES = [
 	},
 	{
 		"name": "Stock Account Wrong",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock Manager", "Accounts Manager"),
 		"about": "When a warehouse posts to an account that is not a stock account, so stock and the books disagree.",
 		"to": "Stock and accounts managers",
@@ -240,7 +242,7 @@ TYPES = [
 	},
 	{
 		"name": "Stock Asked",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"roles": ("Stock User", "Stock Manager", "Manufacturing User", "Manufacturing Manager"),
 		"about": "When somebody asks for items to be moved, issued or made.",
 		"to": "Whoever keeps the stores, or makes it for a manufacture request",
@@ -253,7 +255,7 @@ TYPES = [
 	},
 	{
 		"name": "Supplier Scorecard Standing",
-		"app": "OneInventory",
+		"app": registry.name("one_inventory"),
 		"about": "When a supplier's scorecard standing changes, where the standing is set to mail.",
 		"to": "The employee the standing names, and the supplier",
 		"channels": ALL,

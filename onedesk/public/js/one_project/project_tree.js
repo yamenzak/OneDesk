@@ -3,7 +3,7 @@ frappe.treeview_settings["Project"] = {
 	get_tree_root: false,
 	root_label: __("All Projects"),
 	title: __("Projects"),
-	breadcrumb: "OneProject",
+	breadcrumb: onedesk.names.of("one_project"),
 	disable_add_node: true,
 	filters: [{ fieldname: "closed", fieldtype: "Check", label: __("Show Completed") }],
 	get_label(node) {

@@ -2,9 +2,10 @@
 lookups it makes to draw people's faces and organisations' logos
 (one_mail/faces.py). See trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause, service, subprocessor
 
-M = "OneMail"
+M = registry.name("one_mail")
 
 subprocessor(
 	name="Cloudflare, Inc.",

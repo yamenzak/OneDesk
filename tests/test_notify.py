@@ -37,7 +37,9 @@ def test_a_layout_reads_back_what_it_writes():
 
 
 def _jinja():
-	space = {"re": re}
+	from onedesk.one import registry
+
+	space = {"re": re, "registry": registry}
 	for fn in ("raw", "jinja"):
 		for node in ast.parse(NOTIFY.read_text(encoding="utf-8")).body:
 			if isinstance(node, ast.FunctionDef) and node.name == fn:

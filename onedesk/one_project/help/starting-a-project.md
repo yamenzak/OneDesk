@@ -29,7 +29,7 @@ no end.
 - **Timesheets**: people log their hours on the project, by hand or with a
   task's timer. For people who work on several jobs in a day.
 - **Attendance on Site**: pick the project's **Site** (a check-in location in
-  OneHR). Each day someone's attendance has them at the site counts as a day
+  {one_hr}). Each day someone's attendance has them at the site counts as a day
   on the project. For crews who spend the whole day on one site.
 - **Not Tracked**: hours aren't counted, and the project has no **Timesheet** tab.
 
@@ -48,7 +48,7 @@ A job you do again and again, like a website, a fit-out or an office move,
 starts from a **template**: its usual tasks, when each starts and how long it
 takes, which depends on which, the milestones and the checklists.
 
-**Project Template** at the top of OneProject lists them, each with how many tasks
+**Project Template** at the top of {one_project} lists them, each with how many tasks
 it has, how many days it runs and how many projects were started from it. A
 template opens on its form. At the top are its **Tasks**, its **Duration** and
 the **Projects** started from it (click that for the list), and **New Project**
@@ -75,7 +75,7 @@ form too.
 
 ### From the Library
 
-OneProject comes with templates ready to use. **From Library** in
+{one_project} comes with templates ready to use. **From Library** in
 **New Project**, in **Add from Template** and on the **Project Template** list offers
 them as a list to pick from or search, each with its tasks, its days and what
 it is for, or **In your templates** once you have a copy. The first time one

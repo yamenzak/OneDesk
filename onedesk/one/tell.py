@@ -5,7 +5,7 @@ import frappe
 from frappe import _, _lt
 from frappe.automation.doctype.reminder.reminder import Reminder as _FrappeReminder
 
-from onedesk.one import notify, roles
+from onedesk.one import notify, registry, roles
 
 
 def credits_running_low(people: list[str], balance: str, days: int) -> None:
@@ -32,7 +32,7 @@ def credits_added(people: list[str], balance: str, gift: dict | None = None) -> 
 		from frappe.utils import formatdate
 		from markupsafe import Markup, escape
 
-		said = [frappe._("A note from One: {0}").format(gift["why"])] if gift.get("why") else []
+		said = [frappe._("A note from {1}: {0}").format(gift["why"], registry.name("one"))] if gift.get("why") else []
 		if gift.get("expires_on"):
 			said.append(frappe._("They expire on {0}.").format(formatdate(gift["expires_on"])))
 		note = Markup("<br><br>") + escape(" ".join(said)) if said else ""
@@ -57,8 +57,8 @@ def credits_expiring(people: list[str], credits: str, date: str) -> None:
 
 def storage_nearly_full(people: list[str], used, limit) -> None:
 	"""The files crossed nine tenths of what the plan holds."""
-	from onedesk.one import account
 	from onedesk.account_center.heads import size
+	from onedesk.one import account
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Storage Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)
@@ -66,8 +66,8 @@ def storage_nearly_full(people: list[str], used, limit) -> None:
 
 def database_nearly_full(people: list[str], used, limit) -> None:
 	"""The database crossed nine tenths of what the plan holds."""
-	from onedesk.one import account
 	from onedesk.account_center.heads import size
+	from onedesk.one import account
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Database Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)

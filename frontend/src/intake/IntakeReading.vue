@@ -16,7 +16,7 @@
       <PlaceSpot :said="placed" class="mt-3" />
       <p v-if="said.summary" class="mt-3 text-ink-gray-7">{{ said.summary }}</p>
 
-      <div class="mt-4 text-xs font-medium text-ink-gray-5">{{ __("What OneAI did") }}</div>
+      <div class="mt-4 text-xs font-medium text-ink-gray-5">{{ __("What {0} did", [name("one_ai")]) }}</div>
       <ul class="mt-1 divide-y divide-outline-gray-1">
         <li v-if="!(said.actions || []).length" class="py-2 text-ink-gray-5">{{ __("Nothing") }}</li>
         <li v-for="act in said.actions || []" :key="act.name" class="py-2">
@@ -59,7 +59,7 @@
 import { reactive, ref, watch } from "vue";
 import { Badge, Button } from "frappe-ui";
 
-import { Loading, PlaceSpot, __, alert, call, confirm, msgprint, onedesk, recordRoute } from "../kit";
+import { Loading, PlaceSpot, __, alert, call, confirm, msgprint, onedesk, recordRoute, name } from "../kit";
 import IntakeExplain from "./IntakeExplain.vue";
 import IntakeFacts from "./IntakeFacts.vue";
 

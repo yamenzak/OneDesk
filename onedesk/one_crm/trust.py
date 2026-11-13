@@ -2,9 +2,10 @@
 they come in, what is mailed to them, and what OneAI reads of a sale. See
 one_crm/capture.py, one_crm/agent.py and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneCRM"
+M = registry.name("one_crm")
 
 clause(
 	document="privacy",

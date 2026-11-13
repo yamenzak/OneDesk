@@ -1,6 +1,6 @@
 # Home
 
-**Home** is the first page you see in One. It shows what only One sees
+**Home** is the first page you see in {one}. It shows what only {one} sees
 across your apps. Your tasks, meetings and documents are on their own apps'
 homes.
 
@@ -30,4 +30,4 @@ And **The Workspace Needs You** when something needs attention:
 
 Each one opens the page where you fix it.
 
-OneAI offers **What needs me today?** here.
+{one_ai} offers **What needs me today?** here.

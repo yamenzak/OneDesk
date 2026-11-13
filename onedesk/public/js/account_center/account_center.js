@@ -7,7 +7,7 @@ frappe.provide("onedesk.account_center");
 onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 	static API = "onedesk.account_center.center.";
 	static HERE = "account";
-	static LABEL = "AccountCenter";
+	static LABEL = onedesk.names.of("account_center");
 
 	constructor(panel, key) {
 		super(panel, key);
@@ -189,7 +189,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				fields: [
 					{
 						fieldtype: "HTML",
-						options: `<p>${__("An administrator reviews the request. Then you're signed out, and your OneAI chats, memory, notifications and devices are deleted.")} ${__("Records the workspace keeps, such as invoices and tasks, stay without your name and address. HR keeps your employee record, if you have one.")}</p><p>${__("This can't be undone. Request a copy of your data first if you need one.")}</p>`,
+						options: `<p>${__("An administrator reviews the request. Then you're signed out, and your {0} chats, memory, notifications and devices are deleted.", [onedesk.names.of("one_ai")])} ${__("Records the workspace keeps, such as invoices and tasks, stay without your name and address. HR keeps your employee record, if you have one.")}</p><p>${__("This can't be undone. Request a copy of your data first if you need one.")}</p>`,
 					},
 					state.password
 						? { fieldname: "password", fieldtype: "Password", label: __("Your Password"), reqd: 1 }
@@ -399,7 +399,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		const levels = Object.fromEntries(data.levels.map((one) => [one.value, one.label]));
 		this.$content.html(
 			`<div class="one-shell-section"><div class="one-shell-quiet">${esc(
-				__("Everyone has One, OneCloud, OneMail, OneTask and OneCalendar.")
+				__("Everyone has {4}, {0}, {1}, {2} and {3}.", [onedesk.names.of("one_cloud"), onedesk.names.of("one_mail"), onedesk.names.of("one_task"), onedesk.names.of("one_calendar"), onedesk.names.of("one")])
 			)} ${esc(seats)}</div></div>
 			<div class="one-shell-section os-people-list" data-list="people"></div>`
 		);
@@ -556,7 +556,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		});
 		const apps = data.apps.map((app) => `app_${app.icon}`);
 		const rows = [
-			{ heading: __("Apps"), note: __("Everyone has One, OneCloud, OneMail, OneTask and OneCalendar.") },
+			{ heading: __("Apps"), note: __("Everyone has {4}, {0}, {1}, {2} and {3}.", [onedesk.names.of("one_cloud"), onedesk.names.of("one_mail"), onedesk.names.of("one_task"), onedesk.names.of("one_calendar"), onedesk.names.of("one")]) },
 			["profile", ""],
 			...onedesk.shell.pairs(apps),
 			{ stack: ["admin"] },
@@ -650,7 +650,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				{ fieldtype: "Column Break" },
 				{ fieldname: "first_name", fieldtype: "Data", label: __("First Name"), reqd: 1 },
 				{ fieldname: "last_name", fieldtype: "Data", label: __("Last Name") },
-				{ fieldtype: "Section Break", label: __("Apps"), description: __("Everyone has One, OneCloud, OneMail, OneTask and OneCalendar.") },
+				{ fieldtype: "Section Break", label: __("Apps"), description: __("Everyone has {4}, {0}, {1}, {2} and {3}.", [onedesk.names.of("one_cloud"), onedesk.names.of("one_mail"), onedesk.names.of("one_task"), onedesk.names.of("one_calendar"), onedesk.names.of("one")]) },
 				...onedesk.shell.two_columns(data.apps, (app) => ({ fieldname: `app_${app.icon}`, fieldtype: "Select", label: app.name, options: app.levels, default: "None" })),
 			],
 			primary_action_label: __("Invite"),
@@ -764,7 +764,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				used: data.storage.used,
 				of: Number(account.storage_limit) ? __("of {0}", [data.storage.limit]) : __("no limit"),
 				share: share(account.storage_bytes, account.storage_limit),
-				text: __("Files in OneCloud and on records."),
+				text: __("Files in {0} and on records.", [onedesk.names.of("one_cloud")]),
 				href: "/desk/onecloud",
 				buy: __("Add Storage"),
 				kind: "storage_gb",
@@ -998,7 +998,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		const download = {
 			Preparing: __("Preparing. You'll be notified when it's ready."),
 			Ready: __("Created {0}, {1}.", [frappe.datetime.prettyDate(kept.on), kept.size]),
-			Failed: __("Couldn't create the download. Try again, or reply to any email from One."),
+			Failed: __("Couldn't create the download. Try again, or reply to any email from {0}.", [onedesk.names.of("one")]),
 		}[kept.status] || __("One file with the database, every record as a spreadsheet, and all files.");
 		const download_actions =
 			kept.status === "Ready"
@@ -1108,12 +1108,12 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				{ label: __("Amount"), render: (one) => esc(format_currency(one.total, one.currency)) },
 				{ label: __("Status"), render: (one) => frappe.ui.badge.html({ label: states[one.status] || one.status, theme: themes[one.status] || "gray" }) },
 				{
-					label: __("In OneBook"),
+					label: __("In {0}", [onedesk.names.of("one_book")]),
 					render: (one) =>
 						one.bill
 							? `<a class="one-record-link" href="${esc(frappe.utils.get_form_link("Purchase Invoice", one.bill))}">${esc(one.bill)}</a>`
 							: one.status === "paid"
-							? onedesk.shell.button(__("Add to OneBook"), { "data-book": one.id }, "subtle")
+							? onedesk.shell.button(__("Add to {0}", [onedesk.names.of("one_book")]), { "data-book": one.id }, "subtle")
 							: "",
 				},
 				{ label: "", render: (one) => (one.pdf ? `<a class="one-record-link" href="${esc(one.pdf)}" target="_blank" rel="noopener">${esc(__("PDF"))}</a>` : "") },
@@ -1123,7 +1123,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		$into.on("click", "[data-book]", async (event) => {
 			event.stopPropagation();
 			const bill = await frappe.xcall("onedesk.account_center.bills.to_books", { invoice: $(event.currentTarget).attr("data-book") });
-			frappe.show_alert({ message: __("Added to OneBook as a draft bill."), indicator: "green" });
+			frappe.show_alert({ message: __("Added to {0} as a draft bill.", [onedesk.names.of("one_book")]), indicator: "green" });
 			this.leave(() => frappe.set_route("Form", "Purchase Invoice", bill));
 		});
 		$into.on("click", "a[target=_blank]", (event) => event.stopPropagation());
@@ -1179,7 +1179,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					label: __("Email"),
 					reqd: 1,
 					default: account.billed_to || "",
-					description: __("The One account with this email becomes the owner and receives invoices and payment notices."),
+					description: __("The {0} account with this email becomes the owner and receives invoices and payment notices.", [onedesk.names.of("one")]),
 				},
 			],
 			primary_action_label: __("Change"),
@@ -1599,7 +1599,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				{
 					label: __("Domain"),
 					render: (one) =>
-						`<div>${esc(one.domain)} ${one.given ? frappe.ui.badge.html({ label: __("Provided by One"), theme: "gray" }) : ""}</div>${
+						`<div>${esc(one.domain)} ${one.given ? frappe.ui.badge.html({ label: __("Provided by {0}", [onedesk.names.of("one")]), theme: "gray" }) : ""}</div>${
 							said(one) ? `<div class="one-shell-quiet">${esc(said(one))}</div>` : ""
 						}`,
 				},
@@ -1734,7 +1734,7 @@ onedesk.account_center.open = async ({ at = null, record = null } = {}) => {
 	const allowed = Object.fromEntries(said.sections.map((one) => [one.key, one]));
 	const named = { yours: __("Yours"), workspace: __("Workspace") };
 	const steps = (frappe.boot.one_setup || {}).AccountCenter || [];
-	const starting = steps.some((step) => !step.done) ? [{ group: __("Start Here"), items: [onedesk.module_settings.getting_started("AccountCenter")] }] : [];
+	const starting = steps.some((step) => !step.done) ? [{ group: __("Start Here"), items: [onedesk.module_settings.getting_started(onedesk.names.of("account_center"))] }] : [];
 	const tabs = [
 		...starting,
 		...Object.entries(named).map(([group, label]) => ({
@@ -1754,12 +1754,12 @@ onedesk.account_center.open = async ({ at = null, record = null } = {}) => {
 	].filter((group) => group.items.length);
 	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
 	const dialog = new onedesk.module_settings.Dialog({
-		title: "AccountCenter",
+		title: onedesk.names.of("account_center"),
 		center: { center: "account", label: frappe.session.user_fullname, icon: "user" },
 		tabs,
 		default_tab: ids.includes(at) ? at : ids.find((id) => id !== "getting_started"),
 		// Help opens at the page for the tab being read.
-		help: (tab) => ["AccountCenter", onedesk.account_center.HELP[tab] || "overview"],
+		help: (tab) => [onedesk.names.of("account_center"), onedesk.account_center.HELP[tab] || "overview"],
 	});
 	dialog.$wrapper.addClass("one-set one-account");
 	dialog.$wrapper.find(".settings-dialog-sidebar").wrapInner('<div class="one-account-tabs" data-tour="account-tabs"></div>');
@@ -1768,8 +1768,8 @@ onedesk.account_center.open = async ({ at = null, record = null } = {}) => {
 	// the first time it opens.
 	if ((frappe.boot.one_tours_unseen || []).includes("AccountCenter:account")) {
 		setTimeout(async () => {
-			const tour = await onedesk.tour.here("AccountCenter");
-			if (tour && dialog.display) onedesk.tour.run("AccountCenter", tour);
+			const tour = await onedesk.tour.here(onedesk.names.of("account_center"));
+			if (tour && dialog.display) onedesk.tour.run(onedesk.names.of("account_center"), tour);
 		}, 600);
 	}
 	return dialog;

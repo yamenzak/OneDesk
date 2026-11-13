@@ -4,7 +4,7 @@ Everybody who works here sees their own record, payslips, leave and claims,
 and asks for leave, expenses and letters. A supervisor also sees the people
 who report to them, but not their pay, and what they are asked to approve.
 Somebody who manages another app, the stores or the books, is kept to the same
-in OneHR, and opens only their own employee record and their reports'; they
+in {one_hr}, and opens only their own employee record and their reports'; they
 pick any employee in a field, for a handover or an expense, without opening
 the record. Accounts reads every expense claim and advance, to pay them. HR's
 dashboards, the org chart and the
@@ -19,7 +19,7 @@ HR Manager's, and Roles and Access can give it to others.
 
 ## What Each Role Starts With
 
-This is what OneHR's roles hold when it arrives in a workspace. **Roles** in
+This is what {one_hr}'s roles hold when it arrives in a workspace. **Roles** in
 AccessCenter changes any of it, and an update never undoes a change you made.
 
 {roles}

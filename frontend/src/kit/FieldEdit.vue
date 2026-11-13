@@ -5,7 +5,7 @@
     <template v-else>
       <span v-if="long && shown" class="min-w-0 text-start [&_p]:mb-2" v-html="shown" />
       <span v-else class="min-w-0 truncate" :class="{ 'text-ink-gray-4': !shown }" v-html="shown || placeholder || '–'" />
-      <img v-if="touched" :src="oneaiMark" class="size-3.5 shrink-0" alt="OneAI" :title="__('Written by {0}', ['OneAI'])" />
+      <img v-if="touched" :src="oneaiMark" class="size-3.5 shrink-0" :alt="name('one_ai')" :title="__('Written by {0}', [name('one_ai')])" />
       <button
         v-if="writable"
         type="button"
@@ -27,7 +27,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { Button, Switch } from "frappe-ui";
 
-import { __, aiLeft, oneaiMark, oneaiOn } from "./desk";
+import { __, aiLeft, name, oneaiMark, oneaiOn } from "./desk";
 
 const props = defineProps({
   form: { type: Object, required: true },

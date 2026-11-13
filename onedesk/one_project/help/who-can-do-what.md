@@ -32,13 +32,13 @@ picks from every project in that field. Picking one doesn't open it.
 | **User** | Everyone | Work on the projects they're on, and on open ones. |
 | **Manager** | People you choose | Also see every project in the workspace. |
 
-Whoever holds **Projects Manager** is also given OneProject's Manager role.
+Whoever holds **Projects Manager** is also given {one_project}'s Manager role.
 Money on a project shows to whoever may see the documents behind it: its
 orders, invoices and bills.
 
 ## What Each Role Starts With
 
-This is what OneProject's roles hold when it arrives in a workspace.
+This is what {one_project}'s roles hold when it arrives in a workspace.
 **Roles** in AccessCenter changes any of it, and an update never undoes a
 change you made.
 

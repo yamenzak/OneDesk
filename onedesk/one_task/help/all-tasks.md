@@ -12,6 +12,6 @@ views at the right of the list's bar:
 - **Dashboard**: how many tasks are due or late, and how many are open.
 
 A template's tasks are steps for a new project, not work, so none of these
-show them. They are in OneProject under Project Template.
+show them. They are in {one_project} under Project Template.
 
 Who you see tasks of is in [Who Can Do What](who-can-do-what).

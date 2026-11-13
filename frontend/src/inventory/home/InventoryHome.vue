@@ -49,7 +49,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, count, date, followList, go, money, newDoc, onedesk, quantity, setQuery } from "../../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, count, date, followList, go, money, newDoc, onedesk, quantity, setQuery, name } from "../../kit";
 import InventoryStory from "./InventoryStory.vue";
 
 const props = defineProps({
@@ -292,7 +292,7 @@ const parts = computed(() => {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("OneInventory") });
+  props.onTitle?.({ title: name("one_inventory") });
   extended(s);
   const can = (doctype) => (s.may_make || []).includes(doctype);
   const made = [

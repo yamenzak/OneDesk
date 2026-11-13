@@ -5,7 +5,9 @@ or off, its tier and reading are a workspace administrator's."""
 
 from frappe import _lt
 
-APP = "OneAI"
+from onedesk.one import registry
+
+APP = registry.name("one_ai")
 
 # Everybody asks OneAI: its User role is given to every person
 # (rights.everyone), and People offers no None for it.

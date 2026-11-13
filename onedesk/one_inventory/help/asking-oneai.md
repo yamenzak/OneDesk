@@ -1,9 +1,9 @@
-# Asking OneAI
+# Asking {one_ai}
 
-The OneAI panel offers questions that fit the page you are on. Press one, or
+The {one_ai} panel offers questions that fit the page you are on. Press one, or
 type your own.
 
-![The OneAI panel on an item, with the questions it offers there](asking-oneai/panel.png)
+![The {one_ai} panel on an item, with the questions it offers there](asking-oneai/panel.png)
 
 - **Home**: **Which orders are late?**, **What is running low?** and
   **Which services are due?**
@@ -28,5 +28,5 @@ type your own.
   somebody…** and **Which services are due?**; on Asset Maintenance, **Which
   services are due?** and **What is out of order?**
 
-Whatever OneAI would change or make, such as a receipt, a delivery, a
+Whatever {one_ai} would change or make, such as a receipt, a delivery, a
 transfer, comes as a draft card you approve first.

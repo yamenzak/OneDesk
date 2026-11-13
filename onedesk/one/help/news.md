@@ -1,7 +1,7 @@
 # News
 
-News Sources add headlines to the top bar and to OneDisplay tickers and news
-widgets. Go to One › News › Sources to add one.
+News Sources add headlines to the top bar and to {one_display} tickers and news
+widgets. Go to {one} › News › Sources to add one.
 
 Click **Add News Source** and choose how to add one.
 
@@ -12,12 +12,12 @@ Click **Add News Source** and choose how to add one.
 - **Google News** shows Google's headlines for a topic, or for words you
   search for, in a country and language. Use it for preview only. Showing
   these headlines publicly may require each publisher's permission. An
-  administrator must turn it on in **TrustCenter** first. One updates
+  administrator must turn it on in **{trust_center}** first. One updates
   Google News every two hours, so a new source can take a few minutes to
   show its first headlines.
-- **OneAI** searches the web for what you enter in **Look For** and writes
+- **{one_ai}** searches the web for what you enter in **Look For** and writes
   headlines from what it finds. Each run uses credits, so it runs only at the
-  **Times** you set, for example 07:00, 13:00. Headlines that OneAI could not
+  **Times** you set, for example 07:00, 13:00. Headlines that {one_ai} could not
   find in a search are dropped.
 - **Written** is news you write yourself, with an image, a summary and the
   full story.
@@ -47,11 +47,11 @@ screens and everywhere else. Click **Show Headline** to bring it back.
 ## Logos
 
 Each source's logo is taken from its website. Google News headlines show the
-publisher's logo. Logos only appear while **Logos** is on in TrustCenter.
+publisher's logo. Logos only appear while **Logos** is on in {trust_center}.
 Screens can show a logo before or after each headline.
 
 ## Content Ownership
 
 Feeds belong to their publishers, and you need their permission to show their
-content. Feeds in the library are listed for convenience only. OneAI writes
+content. Feeds in the library are listed for convenience only. {one_ai} writes
 its headlines with a model, so they can be wrong or out of date.

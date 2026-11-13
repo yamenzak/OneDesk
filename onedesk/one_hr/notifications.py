@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Appraisal Started",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When an appraisal cycle starts your appraisal.",
 		"to": "The employee",
@@ -22,7 +24,7 @@ TYPES = [
 	},
 	{
 		"name": "Attendance Request Answered",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your attendance request is approved or turned down.",
 		"to": "The employee",
@@ -35,7 +37,7 @@ TYPES = [
 	},
 	{
 		"name": "Attendance Request Asked",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager"),
 		"about": "When somebody asks to be marked present for days they worked away or from home.",
 		"to": "HR",
@@ -48,7 +50,7 @@ TYPES = [
 	},
 	{
 		"name": "Birthday",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "On the morning of a colleague's birthday.",
 		"to": "Everybody else at their company",
@@ -61,9 +63,9 @@ TYPES = [
 	},
 	{
 		"name": "Check-in Closed for You",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
-		"about": "When you checked in, never checked out, and One checked you out at the end of the shift.",
+		"about": "When you checked in, never checked out, and {one} checked you out at the end of the shift.",
 		"to": "The employee",
 		"channels": ALL,
 		"push_default": True,
@@ -73,7 +75,7 @@ TYPES = [
 	},
 	{
 		"name": "Check-in Flagged",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager"),
 		"about": "When a check-in looks wrong and waits for somebody to accept or reject it.",
 		"to": "Its reviewers",
@@ -85,9 +87,9 @@ TYPES = [
 	},
 	{
 		"name": "Check-in Place Proposed",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR Manager",),
-		"about": "When One adds a network or place people check in from, because they keep using it.",
+		"about": "When {one} adds a network or place people check in from, because they keep using it.",
 		"to": "HR managers",
 		"channels": ALL,
 		"sender": "workspace",
@@ -96,7 +98,7 @@ TYPES = [
 	},
 	{
 		"name": "Check-in Rejected",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When HR turns down a check-in of yours that was flagged.",
 		"to": "The employee",
@@ -109,7 +111,7 @@ TYPES = [
 	},
 	{
 		"name": "Contract Ending",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager", "Employee"),
 		"about": "When an employee's contract ends in a month, and again in a week.",
 		"to": "HR and the employee's manager",
@@ -121,7 +123,7 @@ TYPES = [
 	},
 	{
 		"name": "Could Not Mark Left",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager"),
 		"about": "When an employee's leaving date passes and their status could not be set to Left.",
 		"to": "HR",
@@ -133,7 +135,7 @@ TYPES = [
 	},
 	{
 		"name": "Document Expiring",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee", "HR User", "HR Manager"),
 		"about": "When a passport, visa or permit on an employee's record expires in a month, and again in a week.",
 		"to": "The employee and HR",
@@ -145,7 +147,7 @@ TYPES = [
 	},
 	{
 		"name": "Earned Leave Not Allocated",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"about": "When the nightly job cannot allocate earned leave.",
 		"to": "HR managers",
 		"channels": ALL,
@@ -154,7 +156,7 @@ TYPES = [
 	},
 	{
 		"name": "Employee Details Changed",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR Manager",),
 		"about": "When an employee changes their address or emergency contact in their profile.",
 		"to": "HR managers",
@@ -164,7 +166,7 @@ TYPES = [
 	},
 	{
 		"name": "Exit Interview Scheduled",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "The day before your exit interview.",
 		"to": "The employee leaving",
@@ -176,7 +178,7 @@ TYPES = [
 	},
 	{
 		"name": "Exit Questionnaire",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"about": "When somebody is leaving, in the template HR Settings names.",
 		"to": "The employee leaving",
 		"channels": {
@@ -190,7 +192,7 @@ TYPES = [
 	},
 	{
 		"name": "Expense Claim Answered",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your expense claim is approved or rejected.",
 		"to": "The employee",
@@ -203,7 +205,7 @@ TYPES = [
 	},
 	{
 		"name": "Advance Asked",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Expense Approver", "HR User", "HR Manager"),
 		"about": "When somebody asks for an advance.",
 		"to": "Their expense approver, or HR when none is set",
@@ -216,7 +218,7 @@ TYPES = [
 	},
 	{
 		"name": "Expense Claim Asked",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Expense Approver", "HR User", "HR Manager"),
 		"about": "When somebody claims an expense.",
 		"to": "Their expense approver, or HR when none is set",
@@ -229,7 +231,7 @@ TYPES = [
 	},
 	{
 		"name": "Expense Claim Paid",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your expense claim is paid in full.",
 		"to": "The employee",
@@ -242,7 +244,7 @@ TYPES = [
 	},
 	{
 		"name": "Grievance Answered",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When HR resolves a grievance you raised, or finds it invalid.",
 		"to": "The employee who raised it",
@@ -255,7 +257,7 @@ TYPES = [
 	},
 	{
 		"name": "Grievance Raised",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR Manager",),
 		"about": "When an employee raises a grievance.",
 		"to": "The people trusted with grievances",
@@ -268,7 +270,7 @@ TYPES = [
 	},
 	{
 		"name": "Holidays Coming Up",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "Every week or month, as HR Settings says, when you have holidays coming up.",
 		"to": "Each employee",
@@ -283,7 +285,7 @@ TYPES = [
 	},
 	{
 		"name": "Interview Feedback Due",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Interviewer", "HR User", "HR Manager"),
 		"about": "Every day after an interview, until your feedback on it is in.",
 		"to": "Each interviewer who owes it",
@@ -297,7 +299,7 @@ TYPES = [
 	},
 	{
 		"name": "Interview Moved",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Interviewer", "HR User", "HR Manager"),
 		"about": "When an interview you are on moves to another time.",
 		"to": "Its interviewers",
@@ -310,7 +312,7 @@ TYPES = [
 	},
 	{
 		"name": "Interview Moved, to the Applicant",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"about": "When an interview moves to another time.",
 		"to": "The applicant",
 		"channels": {
@@ -325,7 +327,7 @@ TYPES = [
 	},
 	{
 		"name": "Interview Scheduled",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Interviewer", "HR User", "HR Manager"),
 		"about": "When you are put on an interview.",
 		"to": "Its interviewers",
@@ -338,7 +340,7 @@ TYPES = [
 	},
 	{
 		"name": "Interview Scheduled, to the Applicant",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"about": "When an interview is scheduled with an applicant.",
 		"to": "The applicant",
 		"channels": {
@@ -353,7 +355,7 @@ TYPES = [
 	},
 	{
 		"name": "Interview Soon",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Interviewer", "HR User", "HR Manager"),
 		"about": "Shortly before an interview you are on, as long before as HR Settings says.",
 		"to": "Its interviewers",
@@ -367,7 +369,7 @@ TYPES = [
 	},
 	{
 		"name": "Interview Soon, to the Applicant",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"about": "Shortly before an interview, as long before as HR Settings says.",
 		"to": "The applicant",
 		"channels": {
@@ -383,7 +385,7 @@ TYPES = [
 	},
 	{
 		"name": "Job Requisition Answered",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your job requisition is approved or rejected.",
 		"to": "Whoever asked",
@@ -395,7 +397,7 @@ TYPES = [
 	},
 	{
 		"name": "Job Requisition Asked",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager"),
 		"about": "When somebody asks to hire for a role.",
 		"to": "HR",
@@ -408,7 +410,7 @@ TYPES = [
 	},
 	{
 		"name": "Leave Answered",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your leave application is approved, rejected or cancelled.",
 		"to": "The employee",
@@ -422,7 +424,7 @@ TYPES = [
 	},
 	{
 		"name": "Leave Asked",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Leave Approver", "HR User", "HR Manager"),
 		"about": "When somebody applies for leave.",
 		"to": "Their leave approver, or HR when none is set",
@@ -436,7 +438,7 @@ TYPES = [
 	},
 	{
 		"name": "Leave Cancelled",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Leave Approver", "HR User", "HR Manager"),
 		"about": "When somebody cancels leave that was already decided.",
 		"to": "Their leave approver, or HR when none is set",
@@ -449,7 +451,7 @@ TYPES = [
 	},
 	{
 		"name": "Leave Expiring",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When leave you have not used lapses in two weeks.",
 		"to": "The employee",
@@ -461,7 +463,7 @@ TYPES = [
 	},
 	{
 		"name": "Letter Issued",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When HR issues a letter you asked for.",
 		"to": "The employee",
@@ -474,7 +476,7 @@ TYPES = [
 	},
 	{
 		"name": "Letter Requested",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR Manager",),
 		"about": "When an employee asks HR for a letter.",
 		"to": "HR managers",
@@ -486,7 +488,7 @@ TYPES = [
 	},
 	{
 		"name": "Marked Absent",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your shift marks a working day absent because it found no check-in.",
 		"to": "The employee",
@@ -499,7 +501,7 @@ TYPES = [
 	},
 	{
 		"name": "Not Checked In",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your shift has started and you haven't checked in.",
 		"to": "The employee",
@@ -513,7 +515,7 @@ TYPES = [
 	},
 	{
 		"name": "Passkey Reset Asked",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager"),
 		"about": "When an employee who changed phones asks for their passkey to be reset.",
 		"to": "HR",
@@ -526,7 +528,7 @@ TYPES = [
 	},
 	{
 		"name": "Passkey Reset Done",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When HR resets your passkey after you changed phones.",
 		"to": "The employee",
@@ -536,11 +538,11 @@ TYPES = [
 		"push_default": True,
 		"sender": "workspace",
 		"subject": "You can check in from your new phone",
-		"message": "{by} reset your passkey. Open One on the new phone and check in once to register it.",
+		"message": "{by} reset your passkey. Open {one} on the new phone and check in once to register it.",
 	},
 	{
 		"name": "Payslip by Email",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"about": "When a payslip is submitted, with the payslip as a PDF.",
 		"to": "Its employee",
 		"channels": ALL,
@@ -550,7 +552,7 @@ TYPES = [
 	},
 	{
 		"name": "Probation Ending",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager", "Employee"),
 		"about": "When an employee's probation ends in a month, and again in a week.",
 		"to": "HR and the employee's manager",
@@ -562,7 +564,7 @@ TYPES = [
 	},
 	{
 		"name": "Referral Answered",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When somebody you referred is accepted or rejected.",
 		"to": "Whoever referred them",
@@ -574,7 +576,7 @@ TYPES = [
 	},
 	{
 		"name": "Referral Received",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR User", "HR Manager"),
 		"about": "When an employee refers somebody for a job.",
 		"to": "HR",
@@ -587,9 +589,9 @@ TYPES = [
 	},
 	{
 		"name": "Sensitive Grievance",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR Manager",),
-		"about": "When OneAI reads a new grievance as sensitive.",
+		"about": "When {one_ai} reads a new grievance as sensitive.",
 		"to": "The people trusted with grievances",
 		"channels": ALL,
 		"email_default": True,
@@ -600,7 +602,7 @@ TYPES = [
 	},
 	{
 		"name": "Shift Answered",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When your shift request is approved or rejected.",
 		"to": "The employee",
@@ -612,7 +614,7 @@ TYPES = [
 	},
 	{
 		"name": "Shift Asked",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee", "HR User", "HR Manager"),
 		"about": "When somebody asks for a shift.",
 		"to": "Their shift approver, or HR when none is set",
@@ -624,7 +626,7 @@ TYPES = [
 	},
 	{
 		"name": "Shift Not Reading Check-ins",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR Manager",),
 		"about": "When a shift has check-ins but writes no attendance from them. At most once a week.",
 		"to": "HR managers",
@@ -636,7 +638,7 @@ TYPES = [
 	},
 	{
 		"name": "Training Scheduled",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "When a training event you attend is scheduled.",
 		"to": "Everybody attending",
@@ -648,9 +650,9 @@ TYPES = [
 	},
 	{
 		"name": "Urgent Grievance",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("HR Manager",),
-		"about": "When OneAI reads a new grievance as urgent.",
+		"about": "When {one_ai} reads a new grievance as urgent.",
 		"to": "The people trusted with grievances",
 		"channels": ALL,
 		"email_default": True,
@@ -661,7 +663,7 @@ TYPES = [
 	},
 	{
 		"name": "Work Anniversary",
-		"app": "OneHR",
+		"app": registry.name("one_hr"),
 		"roles": ("Employee",),
 		"about": "On the morning of a colleague's work anniversary.",
 		"to": "Everybody else at their company",

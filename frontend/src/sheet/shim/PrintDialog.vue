@@ -15,7 +15,7 @@
 		<template #actions>
 			<div class="flex flex-col gap-2">
 				<Button variant="solid" class="w-full" :loading="busy === 'print'" :disabled="!!busy" @click="print">{{ __("Print") }}</Button>
-				<Button v-if="!bound" class="w-full" :loading="busy === 'cloud'" :disabled="!!busy" @click="keep('cloud')"><Branded :text="__('Save PDF to OneCloud')" /></Button>
+				<Button v-if="!bound" class="w-full" :loading="busy === 'cloud'" :disabled="!!busy" @click="keep('cloud')"><Branded :text="__('Save PDF to {0}', [name('one_cloud')])" /></Button>
 				<Button v-else class="w-full" :loading="busy === 'record'" :disabled="!!busy" @click="keep('record')">{{ __("Attach PDF to {0}", [bound.name]) }}</Button>
 			</div>
 		</template>
@@ -26,7 +26,7 @@
 import { Button, Dialog, FormControl } from "frappe-ui";
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import Branded from "../../kit/Branded.vue";
-import { __, csrf, followList, openTab } from "../../kit/desk";
+import { __, csrf, followList, openTab, name } from "../../kit/desk";
 import { call } from "../utils/api.js";
 
 const props = defineProps({
@@ -151,7 +151,7 @@ async function keep(where) {
 		const made = await call("onedesk.one_sheet.paper.pdf", args(where));
 		kept.value = where === "record"
 			? __("{0} attached to {1}.", [made.name, props.bound.name])
-			: __("{0} saved to OneCloud, in the same folder as this workbook.", [made.name]);
+			: __("{0} saved to {1}, in the same folder as this workbook.", [made.name, name("one_cloud")]);
 	} catch (failed) {
 		error.value = failed?.message || __("Could not save the PDF.");
 	} finally {

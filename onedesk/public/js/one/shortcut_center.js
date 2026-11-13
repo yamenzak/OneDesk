@@ -12,7 +12,7 @@ onedesk.shortcut_center.open = ({ module = null, at = null } = {}) => {
 	const kit = onedesk.module_settings.kit;
 	const esc = frappe.utils.escape_html;
 	// The window's keys are One's: the same in every app.
-	const app_of = (one) => (one.module === "OneInterface" ? "One" : one.module);
+	const app_of = (one) => (one.module === onedesk.names.of("one_interface") ? "One" : one.module);
 	const apps = [...new Set(S.all().map(app_of))].sort((a, b) => (a === "One" ? -1 : b === "One" ? 1 : a.localeCompare(b)));
 	const named = onedesk.module_settings.named;
 
@@ -297,7 +297,7 @@ onedesk.shortcut_center.open = ({ module = null, at = null } = {}) => {
 	});
 
 	const tabs = module
-		? [{ items: [tab(module === "OneInterface" ? "One" : module)] }]
+		? [{ items: [tab(module === onedesk.names.of("one_interface") ? "One" : module)] }]
 		: [{ items: [tab(null)] }, { group: __("Apps"), items: apps.map(tab) }];
 	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
 	const dialog = new onedesk.module_settings.Dialog({

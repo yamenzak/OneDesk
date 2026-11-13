@@ -37,19 +37,19 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 	// credits left.
 	const oneai_tab = {
 		id: "oneai",
-		label: __("OneAI"),
+		label: onedesk.names.of("one_ai"),
 		icon: "oneai",
-		title: __("OneAI"),
+		title: onedesk.names.of("one_ai"),
 		description: __("The tier sets which models answer and what each answer costs."),
 		actions: [{ label: __("Add Credits"), icon: "plus", click: (panel) => (panel.dialog.hide(), onedesk.account_center.open({ at: "plan" })) }],
 		async render(panel) {
 			const said = await frappe.xcall(C + "state", {}, "GET");
 			const $body = panel.body.empty();
 			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
-			const $on = kit.row({ lead: kit.glyph("oneai"), title: __("OneAI"), sub: esc(__("If off, nobody can ask OneAI and none of its jobs run.")) }).appendTo($list);
+			const $on = kit.row({ lead: kit.glyph("oneai"), title: onedesk.names.of("one_ai"), sub: esc(__("If off, nobody can ask {0} and none of its jobs run.", [onedesk.names.of("one_ai")])) }).appendTo($list);
 			toggle($on.find(".one-set-end"), {
 				value: said.on,
-				label: __("OneAI"),
+				label: onedesk.names.of("one_ai"),
 				change: async (on) => {
 					await frappe.xcall(C + "set_on", { on });
 					frappe.boot.one_hidden = frappe.boot.one_hidden || {};
@@ -196,7 +196,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		label: __("Knowledge"),
 		icon: "book-open",
 		title: __("Knowledge"),
-		description: __("Facts, terms and policies OneAI reads with every answer."),
+		description: __("Facts, terms and policies {0} reads with every answer.", [onedesk.names.of("one_ai")]),
 		actions: [{ label: __("New Knowledge"), icon: "plus", click: (panel) => write_knowledge(null, panel) }],
 		async render(panel) {
 			const rows = await frappe.xcall(C + "knowledge", {}, "GET");
@@ -250,10 +250,10 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		icon_html: frappe.utils.icon(onedesk.brand.mark_of(part.module.replace(/^One/, "")) || "oneai", "sm"),
 		title: part.module,
 		description: part.mailboxes
-			? __("How far OneAI reads each mailbox's new mail.")
+			? __("How far {0} reads each mailbox's new mail.", [onedesk.names.of("one_ai")])
 			: part.jobs.length
-			? __("Jobs OneAI runs in {0} by itself, each using credits.", [part.module])
-			: __("What OneAI's buttons in {0} do, each using credits.", [part.module]),
+			? __("Jobs {1} runs in {0} by itself, each using credits.", [part.module, onedesk.names.of("one_ai")])
+			: __("What {1}'s buttons in {0} do, each using credits.", [part.module, onedesk.names.of("one_ai")]),
 		render(panel) {
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			if (part.mailboxes) {
@@ -355,7 +355,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		label: __("Memory"),
 		icon: "brain",
 		title: __("Memory"),
-		description: __("What OneAI remembers about you, which only you can see."),
+		description: __("What {0} remembers about you, which only you can see.", [onedesk.names.of("one_ai")]),
 		actions: [{ label: __("Add Memory"), icon: "plus", click: (panel) => remember(panel) }],
 		async render(panel) {
 			const said = await frappe.xcall(C + "yours", {}, "GET");
@@ -383,9 +383,9 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 	const reads_tab = onedesk.center_section.tab(onedesk.ReadsSection, {
 		id: "reads",
 		label: __("What It Reads"),
-		title: __("What OneAI Reads"),
+		title: __("What {0} Reads", [onedesk.names.of("one_ai")]),
 		icon: "oneintake",
-		about: __("Your mailboxes and folders that OneAI reads, files and acts on as you."),
+		about: __("Your mailboxes and folders that {0} reads, files and acts on as you.", [onedesk.names.of("one_ai")]),
 	});
 
 	const remember = (panel, one = null) => {
@@ -437,7 +437,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 				tabs: shown,
 				default_tab: ids.includes(at) ? at : ids[0],
 		  })
-		: onedesk.module_settings.open({ module: "OneAI", tabs: shown, default_tab: at, title: "AICenter", center: "ai", help: ["OneAI", "settings"] });
+		: onedesk.module_settings.open({ module: onedesk.names.of("one_ai"), tabs: shown, default_tab: at, title: "AICenter", center: "ai", help: [onedesk.names.of("one_ai"), "settings"] });
 	dialog.$wrapper.addClass("one-set one-ai-center");
 	dialog.show();
 	return dialog;
@@ -476,7 +476,7 @@ onedesk.ReadsSection = class ReadsSection extends onedesk.CenterSection {
 			),
 			onedesk.shell.section(
 				__("Folders"),
-				folders.length ? '<div data-list="folders"></div>' : none(__("OneAI has no access to any of your folders.")),
+				folders.length ? '<div data-list="folders"></div>' : none(__("{0} has no access to any of your folders.", [onedesk.names.of("one_ai")])),
 				__("New files in the folder and the folders inside it are read, filed and acted on as you."),
 				onedesk.shell.button(__("Add Folder"), { "data-add-folder": "1" }, "subtle", "plus")
 			)
@@ -487,7 +487,7 @@ onedesk.ReadsSection = class ReadsSection extends onedesk.CenterSection {
 				rows: mailboxes,
 				columns: [
 					{ label: __("Mailbox"), fieldname: "email" },
-					{ label: __("Read by OneAI"), render: (one) => esc(reading(one)) },
+					{ label: __("Read by {0}", [onedesk.names.of("one_ai")]), render: (one) => esc(reading(one)) },
 					{ label: "", render: (one) => ReadsSection.read_switch(one.on) },
 				],
 				open: (one) => this.switch_mailbox(one),
@@ -498,7 +498,7 @@ onedesk.ReadsSection = class ReadsSection extends onedesk.CenterSection {
 				rows: folders,
 				columns: [
 					{ label: __("Folder"), render: (one) => esc(one.path.replace(/^Home\//, "")) },
-					{ label: __("Read by OneAI"), render: (one) => esc(reading({ on: true, for: one.for })) },
+					{ label: __("Read by {0}", [onedesk.names.of("one_ai")]), render: (one) => esc(reading({ on: true, for: one.for })) },
 					{ label: "", render: () => ReadsSection.read_switch(true) },
 				],
 				open: (one) => this.stop_folder(one),
@@ -512,16 +512,16 @@ onedesk.ReadsSection = class ReadsSection extends onedesk.CenterSection {
 			await frappe.xcall("onedesk.one_ai.reading.switches.set_mailbox", { account: one.name, on });
 			this.refresh();
 		};
-		if (one.on) return frappe.confirm(__("Stop OneAI reading new mail in {0}?", [esc(one.email)]), () => set(0));
-		if (!one.mine) return frappe.msgprint(__("Only the owner of {0} can turn this on, because OneAI acts on their behalf.", [esc(one.email)]));
+		if (one.on) return frappe.confirm(__("Stop {1} reading new mail in {0}?", [esc(one.email), onedesk.names.of("one_ai")]), () => set(0));
+		if (!one.mine) return frappe.msgprint(__("Only the owner of {0} can turn this on, because {1} acts on their behalf.", [esc(one.email), onedesk.names.of("one_ai")]));
 		frappe.confirm(
-			__("OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneCredits.", [`<b>${esc(one.email)}</b>`]),
+			__("{1} will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneCredits.", [`<b>${esc(one.email)}</b>`, onedesk.names.of("one_ai")]),
 			() => set(1)
 		);
 	}
 
 	stop_folder(one) {
-		frappe.confirm(__("Stop OneAI reading new files in {0} and the folders inside it?", [frappe.utils.escape_html(one.path)]), async () => {
+		frappe.confirm(__("Stop {1} reading new files in {0} and the folders inside it?", [frappe.utils.escape_html(one.path), onedesk.names.of("one_ai")]), async () => {
 			await frappe.xcall("onedesk.one_ai.reading.switches.set_folder", { folder: one.name, on: 0 });
 			this.refresh();
 		});

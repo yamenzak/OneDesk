@@ -81,9 +81,9 @@ holds.
 - A floor is set up with **New Plant Floor**: its name and its warehouse.
   A workstation joins it with **Plant Floor** on the workstation.
 
-OneAI answers **What are the machines doing?** on a plant floor.
+{one_ai} answers **What are the machines doing?** on a plant floor.
 
 ## What Making Costs a Project
 
 The materials a project's work order uses count in the project's Stock Used
-on OneProject.
+on {one_project}.

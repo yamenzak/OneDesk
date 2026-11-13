@@ -2,7 +2,7 @@
 // its lists, roles and notifications (module_settings.centers).
 frappe.provide("onedesk.book");
 onedesk.book.settings = ({ at = null } = {}) => {
-	const dialog = onedesk.module_settings.open({ module: "OneBook", tabs: [], default_tab: at });
+	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_book"), tabs: [], default_tab: at });
 	dialog.show();
 	return dialog;
 };
@@ -16,8 +16,8 @@ $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneBook") return;
-		win.module_foot({ module: "OneBook", settings: () => onedesk.book.settings() });
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_book")) return;
+		win.module_foot({ module: onedesk.names.of("one_book"), settings: () => onedesk.book.settings() });
 		onedesk.interface.nav.place();
 	}, 0)
 );

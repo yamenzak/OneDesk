@@ -11,7 +11,7 @@ Do What):
   — to it. A bank account added any other way is connected the same way.
 - **Invoices carry tax** and **Bills carry tax.** **Fix** asks which tax
   template is added to a new invoice or bill when nobody picks one, in a
-  form and on every invoice or bill One, OneAI or an import makes.
+  form and on every invoice or bill {one}, {one_ai} or an import makes.
 - **A late customer is reminded.** **Fix** turns the payment reminder on.
 - **Opening balances are finished.** Opening invoices and opening stock are
   posted against Temporary Opening; once every opening balance is in,

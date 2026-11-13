@@ -1,6 +1,6 @@
 // What OneMail's parts share: the kinds of folder, and how a date and a
 // sender are said (one_mail/api.py).
-import { __, call, clock, date, dateTime, msgprint, onedesk, shortDate, today } from "../kit";
+import { __, call, clock, date, dateTime, msgprint, name, onedesk, shortDate, today } from "../kit";
 
 export const API = "onedesk.one_mail.api.";
 export const ACT = "onedesk.one_mail.actions.";
@@ -22,7 +22,7 @@ export const FILED_BY = {
 	text: () => __("Mentioned in the message"),
 	manual: () => __("Linked manually"),
 	rule: () => __("Linked by a rule"),
-	oneai: () => __("Linked by OneAI"),
+	oneai: () => __("Linked by {0}", [name("one_ai")]),
 };
 
 export const kindOf = (folder) => KINDS[folder.kind] || KINDS.Other;

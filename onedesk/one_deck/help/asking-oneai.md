@@ -1,10 +1,10 @@
-# Asking OneAI
+# Asking {one_ai}
 
-When OneAI is on, **OneAI** in the head makes three things from a sentence.
+When {one_ai} is on, **{one_ai}** in the head makes three things from a sentence.
 Nothing it makes is kept until it is on your slide, and each request uses
 credits like any other.
 
-![The OneAI menu, with the panel's deck and slide requests](asking-oneai/menu.png)
+![The {one_ai} menu, with the panel's deck and slide requests](asking-oneai/menu.png)
 
 | Ask | What happens |
 | --- | --- |
@@ -14,11 +14,11 @@ credits like any other.
 
 ## Decks in the Panel
 
-The rest of the menu opens OneAI's panel, which knows the presentation and
-the slide you are on. **Write a Whole Deck** asks what it is for; OneAI
+The rest of the menu opens {one_ai}'s panel, which knows the presentation and
+the slide you are on. **Write a Whole Deck** asks what it is for; {one_ai}
 reads the record the presentation is filed on, and anything else it needs,
 and shows the slides it would write as a card: each one's kind and title.
-Nothing changes until you press **Approve**. It builds them from One's
+Nothing changes until you press **Approve**. It builds them from {one}'s
 kinds of slide in your business's colour, and puts a value from a record in
 as a field that stays up to date rather than typing the number.
 
@@ -26,9 +26,9 @@ as a field that stays up to date rather than typing the number.
 **Make This Slide a Timeline** work the same way on the slide that is open:
 a card first, the change after you approve it. You can ask in your own
 words in the panel too, such as "make the third slide figures". Before
-OneAI changes slides, what they were is kept in **Version History**.
+{one_ai} changes slides, what they were is kept in **Version History**.
 
-**Make a Picture with OneAI** is in OneDoc too, in the menu that adds a
+**Make a Picture with {one_ai}** is in {one_doc} too, in the menu that adds a
 picture to a document.
 
-An administrator can turn OneAI off for OneDeck in AICenter.
+An administrator can turn {one_ai} off for {one_deck} in AICenter.

@@ -10,6 +10,7 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import strip_html
 
+from onedesk.one import registry
 from onedesk.one_mail import gate
 
 MOST_TEXT = 4000
@@ -290,7 +291,7 @@ def suggest_mail_rule(
 		},
 	]
 	if read:
-		summary.append({"label": _("Read with OneAI"), "value": _("Turned on for this mailbox")})
+		summary.append({"label": _("Read with {0}").format(registry.name("one_ai")), "value": _("Turned on for this mailbox")})
 	if sort_inbox_now and any(words.values()):
 		summary.append({"label": _("Inbox"), "value": _("Matching mail is moved too")})
 	changes = {
@@ -1243,7 +1244,7 @@ def approved(changes: dict) -> str:
 			holders.set_sends(changes["address"], changes["address_sends"])
 		if changes.get("incoming") or changes.get("outgoing"):
 			holders.set_defaults(changes.get("incoming"), changes.get("outgoing"))
-		return "OneMail"
+		return registry.name("one_mail")
 	if what == "domain":
 		if changes["remove"]:
 			connect.remove_domain(changes["domain"])

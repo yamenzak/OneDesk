@@ -4,9 +4,10 @@ catalogue once a workspace turns that on. A presentation is a file in OneCloud,
 so what OneCloud's agreements say of a file holds for it. See
 one_deck/AGENTS.md and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause, service, subprocessor
 
-M = "OneDeck"
+M = registry.name("one_deck")
 
 clause(
 	document="ai",

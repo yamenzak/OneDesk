@@ -8,7 +8,7 @@ and submit it to put the goods into stock.
 **Purchase Receipt** in the rail lists every delivery with its supplier,
 where it stands, its date, its total and how much of it is billed. A
 supplier's delivery note read from mail is already there as a draft, marked
-as made by OneAI.
+as made by {one_ai}.
 
 A receipt says above its fields its **Project**, the **Purchase Order** it
 came on, what it is worth in the company's money (**Stock Value**, with the
@@ -37,12 +37,12 @@ what one of the supplier's currency is in the company's.
   whoever received.
 
 Whoever asked for the goods on a material request is told when they arrive.
-OneAI says what came in on a receipt, what is still to arrive and what is
+{one_ai} says what came in on a receipt, what is still to arrive and what is
 late, and drafts a receipt for what arrived on an order as a card you approve.
 
 ## Delivering
 
-The customer's order is OneCRM's and the invoice is OneBook's. What happens
+The customer's order is {one_crm}'s and the invoice is {one_book}'s. What happens
 between them is here.
 
 Goods leave for a customer on a **Delivery Note**. On the submitted sales
@@ -78,13 +78,13 @@ says when some of it came back.
   set in Google Settings.
 - **Paper.** A delivery prints as a **Delivery Note**.
 
-OneAI says what went out on a delivery, what is still to deliver for a
+{one_ai} says what went out on a delivery, what is still to deliver for a
 customer or project and how much of it is held, and drafts a delivery for what
 an order still needs as a card you approve.
 
 ## On the Calendar
 
-In OneCalendar, **Goods Expected** puts each purchase order still to arrive
+In {one_calendar}, **Goods Expected** puts each purchase order still to arrive
 on the day it is wanted, and **Deliveries Due** each sales order still to go
 out on the day it was promised, your company's only. Both are off until you
 turn them on, and each opens its order.

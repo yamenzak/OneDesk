@@ -10,7 +10,7 @@ onedesk.news.WAYS = [
 	{ way: "site", kind: "Feed", icon: "globe", label: __("Website"), text: __("Paste a news site's address and see its latest headlines.") },
 	{ way: "library", kind: "Feed", icon: "library", label: __("From the Library"), text: __("Pick news sites near you, several at once.") },
 	{ way: "google", kind: "Google News", icon: "search", label: __("Google News"), text: __("Top stories on a topic, or headlines for a search. For preview only.") },
-	{ way: "ai", kind: "OneAI", icon: "sparkles", label: __("OneAI"), text: __("OneAI searches the web for the news you describe. Each run uses credits.") },
+	{ way: "ai", kind: onedesk.names.of("one_ai"), icon: "sparkles", label: onedesk.names.of("one_ai"), text: __("{0} searches the web for the news you describe. Each run uses credits.", [onedesk.names.of("one_ai")]) },
 	{ way: "written", kind: "Written", icon: "pen-line", label: __("Written by You"), text: __("News you write yourself, for example company updates.") },
 ];
 
@@ -212,7 +212,7 @@ onedesk.news.add = ({ after_insert = null } = {}) =>
 			$body.append(
 				context.google
 					? `<p class="one-news-quiet">${esc(__("For preview only. Showing these headlines publicly may require each publisher's permission."))}</p>`
-					: `<p class="one-news-problem">${esc(__("Google News is turned off. Turn it on in TrustCenter."))}</p>`
+					: `<p class="one-news-problem">${esc(__("Google News is turned off. Turn it on in {0}.", [onedesk.names.of("trust_center")]))}</p>`
 			);
 			const [$a, $b] = pair($body);
 			control($a, { fieldtype: "Select", fieldname: "google_topic", label: __("Topic"), options: onedesk.news.TOPICS.map((one) => ({ value: one, label: __(one) })) }).set_value(

@@ -2,7 +2,7 @@
   <div v-if="said" class="rounded-4 border border-outline-gray-1 p-3 text-sm">
     <div class="flex flex-wrap items-center gap-1.5 text-ink-gray-6">
       <img :src="oneaiMark" alt="" class="size-4" />
-      <span>{{ __("Read by OneAI") }}</span>
+      <span>{{ __("Read by {0}", [name("one_ai")]) }}</span>
       <Badge v-if="junk" :label="__(said.verdict)" :theme="said.verdict === 'Phishing' ? 'red' : 'gray'" size="sm" />
       <Badge v-if="!junk && said.kind" :label="__(said.kind)" theme="blue" size="sm" />
       <Badge v-if="!junk && said.unsure" :label="__('Unsure')" theme="amber" size="sm" />
@@ -18,7 +18,7 @@
       </dl>
       <a v-if="acts.length" :href="statusRoute" class="mt-2 flex flex-wrap items-center gap-1.5 text-ink-gray-7 hover:underline">
         <Badge v-if="waits" :label="__('{0} to decide', [waits])" theme="amber" size="sm" />
-        {{ done === 1 ? __("OneAI did 1 thing with it") : __("OneAI did {0} things with it", [done]) }} →
+        {{ done === 1 ? __("{0} did 1 thing with it", [name("one_ai")]) : __("{1} did {0} things with it", [done, name("one_ai")]) }} →
       </a>
       <div class="mt-2 flex flex-wrap gap-1.5">
         <Button v-if="said.pay" size="sm" :label="said.pay.warn ? __('Do Not Pay Yet') : __('Pay')" :variant="open === 'pay' ? 'solid' : 'subtle'" @click="fold('pay')" />
@@ -39,7 +39,7 @@
 import { computed, ref, watch } from "vue";
 import { Badge, Button } from "frappe-ui";
 
-import { __, call, date, intakeOn, money, oneaiMark } from "../kit";
+import { __, call, date, intakeOn, money, oneaiMark, name } from "../kit";
 import IntakeExplain from "./IntakeExplain.vue";
 import IntakeFacts from "./IntakeFacts.vue";
 import IntakePay from "./IntakePay.vue";

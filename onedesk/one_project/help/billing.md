@@ -154,7 +154,7 @@ are, and clicking it lists them so you can order the right one. Mark a
 quotation **Lost** once it's replaced, or cancel and amend it for a new
 revision. A lost, expired or cancelled quotation no longer counts.
 
-A quotation made outside the project, from a deal in OneCRM or the
+A quotation made outside the project, from a deal in {one_crm} or the
 Quotation list, offers the customer's open projects to pick from. If the
 customer has one open Fixed Price project with nothing ordered yet, it's
 picked for you.

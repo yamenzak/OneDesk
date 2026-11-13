@@ -2,7 +2,7 @@
 
 ## A Copy, or Deleting
 
-**Your Data** is in TrustCenter, on One's rail, and at the end of any app's
+**Your Data** is in {trust_center}, on {one}'s rail, and at the end of any app's
 **Settings**:
 
 - **Request My Data** requests a copy of your data. An administrator
@@ -16,30 +16,30 @@
 ## Privacy Requests
 
 People ask for a copy of their data, or for their account to be deleted, under
-TrustCenter › **Your Data**. People without an account use the workspace's
-**/your-data** page. Administrators handle requests under TrustCenter › **Requests**, which
+{trust_center} › **Your Data**. People without an account use the workspace's
+**/your-data** page. Administrators handle requests under {trust_center} › **Requests**, which
 counts those waiting: every request for a copy of someone's data and every
 request to delete an account, in one list. Open one to answer it.
 
-- Administrators are notified of each new request in One and by email, and
+- Administrators are notified of each new request in {one} and by email, and
   again each day once a request has waited a week.
 - The law allows a month to respond.
 
-On a request, OneAI offers **What would this copy give?** and **What would
+On a request, {one_ai} offers **What would this copy give?** and **What would
 deleting them remove?** The answer lists each type of data and how much, or
 what's deleted, what's kept without their name, and what's still assigned to
 them that someone should take over first.
 
 ## Answering a Copy Request
 
-Open the request from **Requests**, at the end of TrustCenter's Your Data. **Review and Send** shows
+Open the request from **Requests**, at the end of {trust_center}'s Your Data. **Review and Send** shows
 each type of data and how much of it there is.
 
 - **Always included**, because it's about the person: their account and
   profile (with employee details), sign-ins, contacts with their email
-  address, what OneAI remembers about them, and what they agreed to.
+  address, what {one_ai} remembers about them, and what they agreed to.
 - **Included unless you untick it**: emails they sent or received, comments
-  they wrote, to-dos assigned to them, their OneAI conversations, which records
+  they wrote, to-dos assigned to them, their {one_ai} conversations, which records
   they changed (field names only, never values), what they exported or printed
   (never the content), and their notifications. Untick one only if it would
   reveal other people's or the company's confidential information, and give a
@@ -49,11 +49,11 @@ each type of data and how much of it there is.
 
 ## Answering a Deletion Request
 
-Open the request from **Requests**, at the end of TrustCenter's Your Data.
+Open the request from **Requests**, at the end of {trust_center}'s Your Data.
 
 - **Approve and Delete** signs the person out and turns off the account right
   away. Then, in the background:
-  - Their OneAI conversations and memories, notifications, devices, calendar
+  - Their {one_ai} conversations and memories, notifications, devices, calendar
     links and data copies are deleted.
   - Their name and email are removed from everything the workspace keeps:
     contacts, mail, comments, to-dos, the Recycle Bin and the Audit Log.

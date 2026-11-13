@@ -5,7 +5,7 @@
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one_studio import extensions, guard
 
 MEND = "studio_mend"
@@ -99,10 +99,10 @@ def mend(extension: str, problem: str | None = None) -> dict:
 	code = str(said.get("code") or "").strip()
 	if not diagnosis or not code:
 		frappe.throw(
-			_("OneAI could not work out what went wrong with {0}. Try again later.").format(doc.title)
+			_("{1} could not work out what went wrong with {0}. Try again later.").format(doc.title, registry.name("one_ai"))
 		)
 	if code == (doc.code or "").strip():
-		frappe.throw(_("OneAI could not fix {0}: {1}").format(doc.title, diagnosis))
+		frappe.throw(_("{2} could not fix {0}: {1}").format(doc.title, diagnosis, registry.name("one_ai")))
 	asked = "\n\n".join(filter(None, [doc.asked, _("Fixed: {0}").format(diagnosis)]))
 	try:
 		kept = extensions.write(
@@ -119,7 +119,7 @@ def mend(extension: str, problem: str | None = None) -> dict:
 			cron=doc.get("cron"),
 		)
 	except guard.Refused as refused:
-		frappe.throw(_("OneAI's fixed version was not kept: {0}").format(refused))
+		frappe.throw(_("{1}'s fixed version was not kept: {0}").format(refused, registry.name("one_ai")))
 	return {
 		"extension": doc.name,
 		"diagnosis": diagnosis,
@@ -153,7 +153,7 @@ def start(doc, problem: str | None = None) -> str:
 		told=frappe.session.user,
 		problem=problem,
 	)
-	return _("OneAI is fixing it. It takes a few minutes; you will be told when it is done.")
+	return _("{0} is fixing it. It takes a few minutes; you will be told when it is done.").format(registry.name("one_ai"))
 
 
 def in_background(extension: str, told: str, problem: str | None = None) -> None:

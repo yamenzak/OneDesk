@@ -69,7 +69,7 @@
 import { computed, onBeforeUnmount, onMounted, provide, reactive, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dialogs, Dropdown } from "frappe-ui";
 
-import { __, aiSees, alert, call, goTo, goToUrl, listen, me, onLeave, userSettings } from "../kit/desk";
+import { __, aiSees, alert, call, goTo, goToUrl, listen, me, onLeave, userSettings, name as appName } from "../kit/desk";
 import OneAlert from "../kit/OneAlert.vue";
 import InlineRenameInput from "../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../sheet/shim/mark.js";
@@ -255,7 +255,7 @@ const parents = computed(() => {
 			{ label: said.record.name, onClick: () => goTo("Form", said.record.doctype, said.record.name) },
 		];
 	}
-	const folders = said.trail?.length ? said.trail : [{ id: "", name: "OneCloud" }];
+	const folders = said.trail?.length ? said.trail : [{ id: "", name: appName("one_cloud") }];
 	return folders.map((one, at) => ({
 		...(at ? { label: one.name } : { label: "Cloud", one: true }),
 		onClick: () => goToUrl(one.id ? `/desk/onecloud?node=${encodeURIComponent(one.id)}` : "/desk/onecloud"),

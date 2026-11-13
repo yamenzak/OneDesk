@@ -10,6 +10,8 @@ from urllib.parse import parse_qs, urlparse
 import frappe
 from frappe import _
 
+from onedesk.one import registry
+
 DOCUMENT = "Writer Document"
 
 #: Where a document's File points, so OneCloud knows to open it in the editor.
@@ -103,11 +105,10 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 def get_document(name: str) -> dict:
 	"""The document as the editor loads it, whether the reader may change it,
 	and the OneCloud folders above it for its breadcrumb."""
-	from onedesk.one_cloud import namespace as ns
-
 	from onedesk.one import rights
-	from onedesk.one_doc import field
+	from onedesk.one_cloud import namespace as ns
 	from onedesk.one_cloud import saving
+	from onedesk.one_doc import field
 
 	item = _may(name, "read")
 	doc = frappe.get_doc(DOCUMENT, name)
@@ -152,8 +153,8 @@ def _settings(raw) -> dict:
 def save_document(name: str, content: str, html: str, title: str | None = None, manual: int = 0) -> dict:
 	"""Keep what the editor sends: its Yjs state, which it opens from, and
 	the same document as HTML, which everything else reads."""
-	from onedesk.one_doc import field
 	from onedesk.one_cloud import saving
+	from onedesk.one_doc import field
 
 	item = _may(name, "write")
 	saving.check(DOCUMENT, name, item)
@@ -207,9 +208,9 @@ def rename_document(name: str, title: str) -> dict:
 def _retitle(name: str, item: dict, title: str | None) -> None:
 	"""The File's name is the document's title, kept unique in its folder; a
 	Word file's keeps its .docx."""
-	from onedesk.one_doc import word
 	from onedesk.one_cloud import api as cloud
 	from onedesk.one_cloud import namespace as ns
+	from onedesk.one_doc import word
 
 	title = _titled(title)
 	if title and frappe.db.get_value(DOCUMENT, name, "source_kind") == "docx" and not title.lower().endswith(word.SUFFIX):
@@ -301,11 +302,11 @@ def make_picture(file_id: str, description: str, shape: str | None = None) -> di
 	apps.refuse_ai()
 	description = (description or "").strip()[: maker.MOST_WORDS]
 	if not description:
-		frappe.throw(_("Describe what OneAI should make."))
+		frappe.throw(_("Describe what {0} should make.").format(registry.name("one_ai")))
 	try:
 		content, extension = maker.making("picture", description, shape, None, reference="OneDoc picture")
 	except frappe.ValidationError:
-		frappe.throw(_("OneAI could not make it. Try again, or describe it differently."))
+		frappe.throw(_("{0} could not make it. Try again, or describe it differently.").format(registry.name("one_ai")))
 	made = frappe.get_doc(
 		{
 			"doctype": "File",

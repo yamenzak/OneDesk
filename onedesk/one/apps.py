@@ -8,15 +8,15 @@ reading off with it; OnePortal off closes the portal (one_portal/gate.py). The r
 import json
 
 import frappe
+from frappe import _, _lt
 
 from onedesk.one import registry
-from frappe import _, _lt
 
 KEY = "one_hidden_apps"
 HOST = "onedesk"
 KEPT = tuple(app.sidebar for app in registry.apps() if app.kept and not app.kept.held and app.sidebar)
 """The rail rows never offered as a switch: apps kept whatever they hold."""
-AI = "OneAI"
+AI = registry.name("one_ai")
 INTAKE = "Reading"
 NEEDS = {INTAKE: AI}
 # OneAI is a rail of its own, turned off as any app is; reading is a switch
@@ -66,7 +66,7 @@ def refuse_ai() -> None:
 	if not ai_on():
 		from onedesk.one_admin import faults
 
-		raise faults.Refused(_("OneAI is turned off for this workspace."))
+		raise faults.Refused(_("{0} is turned off for this workspace.").format(registry.name("one_ai")))
 
 
 def offered() -> list[dict]:
@@ -74,8 +74,8 @@ def offered() -> list[dict]:
 	order, then the private apps it has (always on), then OneAI's reading."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
-	from onedesk.one.people import APP_SAID
 	from onedesk.account_center import private
+	from onedesk.one.people import APP_SAID
 
 	off = set(hidden())
 	theirs = private.rail()
@@ -182,8 +182,8 @@ def boot(bootinfo) -> None:
 
 @frappe.whitelist()
 def read() -> dict:
-	from onedesk.one import roles
 	from onedesk.account_center import private
+	from onedesk.one import roles
 
 	roles.require()
 	return {"apps": offered() + private.waiting()}

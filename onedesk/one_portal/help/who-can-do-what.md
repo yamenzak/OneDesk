@@ -13,7 +13,7 @@ for fewer people.
 
 ## What Each Role Starts With
 
-This is what OnePortal's roles hold when the portal arrives in a workspace.
+This is what {one_portal}'s roles hold when the portal arrives in a workspace.
 **Roles** in AccessCenter changes any of it, and an update never undoes a
 change you made.
 
@@ -23,4 +23,4 @@ change you made.
 
 A Workspace Administrator can do everything. A customer's manager in sales
 can invite that customer's contacts, and a supplier's manager in buying that
-supplier's, without OnePortal's Manager.
+supplier's, without {one_portal}'s Manager.

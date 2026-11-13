@@ -7,6 +7,7 @@ thing anybody here changes on it.
 
 from frappe import _, _lt
 
+from onedesk.one import registry
 from onedesk.one_studio import agent, extensions
 
 
@@ -79,7 +80,7 @@ VERBS = {
 	},
 	"extension.mend": {
 		"doctypes": [extensions.EXTENSION],
-		"label": lambda doc: _("Fix With OneAI"),
+		"label": lambda doc: _("Fix With {0}").format(registry.name("one_ai")),
 		"when": lambda doc: not doc.is_new() and agent._recent_mistakes(doc.name) > 0,
 		"run": lambda doc, **_values: _mended(doc),
 	},

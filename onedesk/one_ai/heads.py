@@ -8,6 +8,7 @@ It opens on where it stands and what that means.
 from frappe import _, _lt
 from frappe.utils import escape_html, pretty_date
 
+from onedesk.one import registry
 from onedesk.one_ai import brief, run
 
 SAYS = {
@@ -62,12 +63,12 @@ def summary(doc):
 		return None
 	if not doc.get(brief.BRIEF):
 		return {
-			"text": _("OneAI Summary"),
-			"lines": [_("OneAI writes one here when something happens, such as an invoice, a payment or a mail.")],
+			"text": _("{0} Summary").format(registry.name("one_ai")),
+			"lines": [_("{0} writes one here when something happens, such as an invoice, a payment or a mail.").format(registry.name("one_ai"))],
 			"colour": "blue",
 		}
 	return {
-		"text": _("OneAI Summary"),
+		"text": _("{0} Summary").format(registry.name("one_ai")),
 		"lines": [doc.get(brief.BRIEF), _("Written {0}.").format(pretty_date(doc.get(brief.ON)))],
 		"colour": "blue",
 	}
@@ -81,7 +82,7 @@ def _summarisable(doc) -> bool:
 
 def _summarise(doc, **_values):
 	brief.later(doc.doctype, doc.name)
-	return _("OneAI is writing it. It shows here in a minute.")
+	return _("{0} is writing it. It shows here in a minute.").format(registry.name("one_ai"))
 
 
 NOTICES = {

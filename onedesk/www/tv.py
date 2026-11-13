@@ -14,6 +14,7 @@ import frappe
 from frappe import _
 from frappe.sessions import get_csrf_token
 
+from onedesk.one import registry
 from onedesk.one_display import screens
 
 no_cache = 1
@@ -48,7 +49,7 @@ def get_context(context):
 			"where": brand["name"],
 			"host": frappe.utils.get_url().split("://", 1)[-1],
 			"done": _("Connected"),
-			"how": _("Open Screens in OneDisplay, add a screen and enter this code."),
+			"how": _("Open Screens in {0}, add a screen and enter this code.").format(registry.name("one_display")),
 			"silent": _("Nothing playing"),
 			"counter": _("Counter"),
 			"waiting": _("Waiting"),

@@ -10,9 +10,9 @@ import frappe
 from frappe import _lt
 from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 
-APP = "OneProject"
+APP = registry.name("one_project")
 
 # Everybody may be on a project: its User role is given to every person
 # (rights.everyone).

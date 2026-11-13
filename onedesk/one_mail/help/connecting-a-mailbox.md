@@ -8,7 +8,7 @@ folders.
 
 ## How to Connect
 
-1. Click **+** beside OneMail's heading, or **Connect Mailbox** in
+1. Click **+** beside {one_mail}'s heading, or **Connect Mailbox** in
    **Settings › Mailboxes**.
 2. Enter the **Email Address** and **Password**. The page says what you may
    connect.
@@ -16,7 +16,7 @@ folders.
 4. Open **Server** only if the server isn't found on its own, or the login
    differs from the email address.
 
-![Connect Mailbox in OneMail's settings](connecting-a-mailbox/connect.png)
+![Connect Mailbox in {one_mail}'s settings](connecting-a-mailbox/connect.png)
 
 Connecting signs in to the incoming server, and with **Enable Outgoing** on to
 the outgoing one, before anything is saved. A guessed outgoing server is tried
@@ -26,7 +26,7 @@ on its other usual port too.
 
 | Mailbox | Who connects it | Where | Who else sees into it |
 | --- | --- | --- | --- |
-| **Organization**, at a company domain | Its holder, or an administrator for them | **+**, or **Organization Mailboxes › Connect Organization Mailbox** | Administrators set its signature, away reply, OneAI and Automation |
+| **Organization**, at a company domain | Its holder, or an administrator for them | **+**, or **Organization Mailboxes › Connect Organization Mailbox** | Administrators set its signature, away reply, {one_ai} and Automation |
 | **Private**, such as Gmail | Its holder, while **Private Mailboxes** allows it | **+** | Nobody, not even administrators |
 | **Shared**, such as sales@yourcompany.com | A Workspace Administrator | **Settings › Shared Mailboxes › Connect Shared Mailbox** | The people added to it |
 
@@ -49,7 +49,7 @@ A mailbox's **⋯** in the sidebar, or a right-click on it, has:
 | **Signature** | Sets the signature and the sender name |
 | **Out of Office** | Turns the away reply on, for your own mailboxes |
 | **Automation** | Its rules, in the order they run |
-| **Attachments in OneCloud** | Opens the folder its attachments are saved in |
+| **Attachments in {one_cloud}** | Opens the folder its attachments are saved in |
 | **Mailbox Settings** | All of the above in one place |
 
 A folder you made has **New Folder**, **Rename** and **Delete**. Deleting it

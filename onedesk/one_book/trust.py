@@ -1,9 +1,10 @@
 """What OneBook adds to the agreements: what OneAI reads of the books. See
 one_book/agent.py and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneBook"
+M = registry.name("one_book")
 
 clause(
 	document="ai",

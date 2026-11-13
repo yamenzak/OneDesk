@@ -12,7 +12,7 @@ A **Display Board** has its **Items**, the things on it, and its **States**,
 what an item can be, in order, each with a colour and, if you like, a
 **Time Limit**. An item can carry a **Value** instead or as well, a number or
 a word, named as you like: Score, Count or Price. **People** says who may
-change the board; with nobody named, everyone with OneDisplay may.
+change the board; with nobody named, everyone with {one_display} may.
 
 ## Changing It
 

@@ -22,9 +22,9 @@ choose any other record type and opens it there. While you type a series or
 expression, the window shows the next name it would give, or what's wrong
 with it.
 
-You can also ask OneAI: "number our invoices by year", "start this year's
+You can also ask {one_ai}: "number our invoices by year", "start this year's
 quotations at 500", "name projects by their title", "give government
-customers their own prefix" or "is any numbering behind?". OneAI suggests the
+customers their own prefix" or "is any numbering behind?". {one_ai} suggests the
 change as a card, and nothing changes until you approve it.
 
 ## Changing Invoice Numbers
@@ -80,7 +80,7 @@ its name:
 | **Naming Series** | The next name in one of its series, for record types that have them. |
 | **Field** | The value of a field you choose, such as a project's title or a vehicle's plate. The field becomes required and unique. It's refused while two records share a value, and the message names that value. |
 | **Expression** | A pattern written like a series, such as `PRJ-.YYYY.-.####`, for record types with no series of their own. The window shows the next name as you type, and **Use This Expression** applies it. |
-| **Set by User** | The person creating the record types its name. Not offered for record types One creates in the background, such as expense claims OneHR files or timesheets from the timer, since no one is there to type a name. These can be named by a field only if that field is always filled in. Records OneAI creates from a document aren't limited this way, since OneAI reads the name or field from the document. |
+| **Set by User** | The person creating the record types its name. Not offered for record types {one} creates in the background, such as expense claims {one_hr} files or timesheets from the timer, since no one is there to type a name. These can be named by a field only if that field is always filled in. Records {one_ai} creates from a document aren't limited this way, since {one_ai} reads the name or field from the document. |
 | **Random** | A random name, for records no one refers to by name. |
 
 **Customer**, **Supplier**, **Item**, **Employee** and **Campaign** have their
@@ -93,7 +93,7 @@ afterwards. Switching back to a series continues from the number it had
 reached.
 
 The naming method can only be changed on record types people create
-themselves. Ledgers, logs, and the system's and One's own record types are
+themselves. Ledgers, logs, and the system's and {one}'s own record types are
 named by the system. Rules work on all of them.
 
 ## Naming Rules

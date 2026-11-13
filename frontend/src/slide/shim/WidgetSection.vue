@@ -22,7 +22,7 @@
 				<FormControl v-else-if="field.kind === 'select'" :model-value="setting(field)" :label="field.label" type="select" :options="field.options" @update:model-value="(v) => set(field.key, v)" />
 				<div v-else-if="field.kind === 'long' || field.kind === 'code'" class="flex flex-col gap-1">
 					<FormControl :model-value="setting(field)" :label="field.label" type="textarea" :rows="field.kind === 'code' ? 10 : 3" :class="field.kind === 'code' ? 'font-mono' : ''" @update:model-value="(v) => set(field.key, v)" />
-					<Button v-if="field.kind === 'code' && oneaiOn()" :label="__('Write with OneAI')" icon-left="lucide-sparkles" :loading="writing" @click="write(field.key)" />
+					<Button v-if="field.kind === 'code' && oneaiOn()" :label="__('Write with {0}', [name('one_ai')])" icon-left="lucide-sparkles" :loading="writing" @click="write(field.key)" />
 				</div>
 				<div v-else-if="field.kind === 'image'" class="flex flex-col gap-1">
 					<span class="text-xs text-ink-gray-5">{{ field.label }}</span>
@@ -55,7 +55,7 @@ import { setElementProperty } from "../composables/editProperty";
 import { firstEditableElement } from "../stores/element";
 import { screen } from "../stores/presentation";
 import { labelClasses } from "../utils/constants";
-import { __, call, oneaiOn, prompt, upload } from "../../kit/desk";
+import { __, call, oneaiOn, prompt, upload, name } from "../../kit/desk";
 
 const API = "onedesk.one_display.layout.";
 const slots = { text: __("Words"), title: __("Line"), subtitle: __("Smaller Line"), value: __("Figure"), image: __("Picture"), label: __("Label"), link: __("Address") };

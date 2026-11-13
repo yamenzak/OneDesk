@@ -14,9 +14,9 @@ read. Click it to open the panel:
 
 ## Your Notifications
 
-Every notification One can send you, and how you get it. Every notification
-appears in One. Here you choose which ones you also get by **email** and by
-**push**. Push shows them on your computer or phone even when One isn't open.
+Every notification {one} can send you, and how you get it. Every notification
+appears in {one}. Here you choose which ones you also get by **email** and by
+**push**. Push shows them on your computer or phone even when {one} isn't open.
 
 ## Push Notifications
 
@@ -31,7 +31,7 @@ In NotificationCenter:
 - Private windows can't get push. If you blocked notifications in a browser,
   the page says so. Allow them in the browser's settings and come back.
 - iPhone and iPad aren't supported yet. Apple only allows push for sites added
-  to the Home Screen as an app, and One can't be added that way yet.
+  to the Home Screen as an app, and {one} can't be added that way yet.
 
 ## Choosing What You Get
 
@@ -49,7 +49,7 @@ In NotificationCenter:
   **Push** for the ones you also want that way. **Other** has what the
   workspace's own rules tell you.
 - You only see notifications that can reach you. For example, HR's
-  notifications are only for HR. Notifications from OneAI have the OneAI tag.
+  notifications are only for HR. Notifications from {one_ai} have the {one_ai} tag.
 - When an event comes in two versions, such as one document or several, they
   share one row and one set of switches.
 - A dimmed switch says why you can't change it. Either the workspace doesn't
@@ -68,7 +68,7 @@ Each switch is saved as you change it. Administrators choose what new people sta
 with, and the text of each notification, in NotificationCenter's
 **Words and Rules**.
 
-OneAI offers:
+{one_ai} offers:
 
 - **What will I be told about?** Every notification that can reach you, and
   which ones you get by email.
@@ -83,9 +83,9 @@ in NotificationCenter. **Workspace** lists everything the app sends here, with
 three switches each: **Send**, and whether people may have it by **Email** and
 by **Push**. Click a notification to open its words.
 
-**Words and Rules** lists every notification One sends, with the app that
+**Words and Rules** lists every notification {one} sends, with the app that
 sends it and who gets it. For example, a file shared with you, a letter
-requested from HR, or a document OneAI flags as phishing. Each has these
+requested from HR, or a document {one_ai} flags as phishing. Each has these
 badges:
 
 - **Off**: it isn't sent.
@@ -98,12 +98,12 @@ badges:
 Mentions, assignments and shares are the system's built-in notifications,
 listed at the bottom. Their text is built in, so it can't be changed here.
 
-OneAI offers:
+{one_ai} offers:
 
 - **Rewrite this notification**: new text as a card, using only the names allowed. Approving saves it, and the
   open page shows the new text.
 - **Which should be emailed?** Which notifications are worth an email and
-  which are better left in One.
+  which are better left in {one}.
 - **Make a rule**: asks what should happen and who should be notified, then
   suggests the rule.
 - **How do notifications work?** An explanation of this page.
@@ -113,15 +113,15 @@ OneAI offers:
 Notifications the products send are listed under their product, in one of
 three ways:
 
-- **Sent through One**, like any other notification. For example, a leave or
+- **Sent through {one}**, like any other notification. For example, a leave or
   expense to approve, a birthday, an upcoming interview, a credit limit
   exceeded, or a material request from reordering. Their switches in HR
   Settings and Stock Settings are gone, because **Send This** here controls
   them.
-- **Sent through One in the product's own words**: the product's built-in
+- **Sent through {one} in the product's own words**: the product's built-in
   rules, such as Training Scheduled or New Fiscal Year. You can change their
   channels but not their text.
-- **Sent by OneHR**, **Sent by OneBook** and so on: emails the product
+- **Sent by {one_hr}**, **Sent by {one_book}** and so on: emails the product
   sends itself, such as payslips, campaign emails, customer statements and the
   reports nightly jobs send when something fails. They're listed so nothing the
   workspace sends is hidden. The payslip's **Send This** is the same setting
@@ -142,7 +142,7 @@ Click a notification to open it, and save from the top right.
 - The default text is sent in each person's language. Once you edit it, your
   text is sent to everyone as written. **Reset to Default** restores
   the default, which is translated again.
-- **Channels**: notifications in One are always on. **Email Allowed** and
+- **Channels**: notifications in {one} are always on. **Email Allowed** and
   **Push Allowed** let people also get it by email or push. Whether new
   people start with it on is the app's to say, and for a workspace rule,
   everybody starts with what is allowed. Turning a channel off stops it for
@@ -171,7 +171,7 @@ a record type, they notify someone. They're at the top of the page. Click
 5. **Channels**, as for any notification. The rule is then listed in
    NotificationCenter with the others, so each person can choose how they get it.
 
-**Delete** removes a rule for good. With **Make a rule** in the OneAI
+**Delete** removes a rule for good. With **Make a rule** in the {one_ai}
 panel, you describe the rule in your own words ("tell the
-account manager when an invoice is seven days overdue"). OneAI suggests it as
+account manager when an invoice is seven days overdue"). {one_ai} suggests it as
 a card, and nothing is created until you approve it.

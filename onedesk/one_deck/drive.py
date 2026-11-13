@@ -8,6 +8,7 @@ import json
 import frappe
 from frappe import _
 
+from onedesk.one import registry
 from onedesk.one_deck import api, data, from_powerpoint, master, play, powerpoint, versions
 
 SUFFIX = ".pptx"
@@ -60,7 +61,7 @@ def write(name: str, content: bytes) -> list[int]:
 	where they come from."""
 	item = api._may(name, "write")
 	if data.cleaned(frappe.db.get_value(api.PRESENTATION, name, "sources")):
-		frappe.throw(_("A presentation with words from records can only be edited in OneDeck."), frappe.PermissionError)
+		frappe.throw(_("A presentation with words from records can only be edited in {0}.").format(registry.name("one_deck")), frappe.PermissionError)
 	try:
 		from pptx import Presentation as Deck
 

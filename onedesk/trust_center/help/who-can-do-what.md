@@ -12,7 +12,7 @@ organisation is a Workspace Administrator's, who can do everything.
 
 ## What Each Role Starts With
 
-This is what TrustCenter's roles hold when TrustCenter arrives in a workspace.
+This is what {trust_center}'s roles hold when {trust_center} arrives in a workspace.
 **Roles** in AccessCenter changes any of it, and an update never undoes a
 change you made.
 

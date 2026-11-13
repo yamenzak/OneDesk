@@ -4,10 +4,12 @@ READY.md, mechanism 8). Both go to somebody outside the workspace, so both
 are mail alone: the invitation to sign in (invite.py, through AccountCenter's
 invite) and a link to one record (share.py). Pure."""
 
+from onedesk.one import registry
+
 TYPES = [
 	{
 		"name": "Portal Invitation",
-		"app": "OnePortal",
+		"app": registry.name("one_portal"),
 		"about": "When someone invites a customer's or supplier's contact to the portal.",
 		"to": "The contact invited",
 		"channels": {
@@ -23,7 +25,7 @@ TYPES = [
 	},
 	{
 		"name": "Portal Link",
-		"app": "OnePortal",
+		"app": registry.name("one_portal"),
 		"about": "When someone sends a customer or supplier a link to a record.",
 		"to": "Whoever the link is for",
 		"channels": {
