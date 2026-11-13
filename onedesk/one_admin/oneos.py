@@ -63,7 +63,7 @@ def cost_a_minute(size: str = SIZE) -> float:
 
 
 def credits_a_minute(size: str, markup: float, per_dollar: float) -> float:
-	"""What a minute of a session is charged, in OneCredits, unrounded. Pure."""
+	"""What a minute of a session is charged, in credits, unrounded. Pure."""
 	return round(cost_a_minute(size) * (markup or 1) * (per_dollar or 0), 6)
 
 
@@ -397,7 +397,7 @@ def stop_session(name: str) -> dict:
 def said(raised: Exception) -> str:
 	"""What a workspace is told when a session is refused."""
 	if isinstance(raised, ledger.NotEnough):
-		return _("The workspace doesn't have enough OneCredits to open this in OneOS.")
+		return _("The workspace doesn't have enough credits to open this in OneOS.")
 	if "not set up" in str(raised):
 		return _("OneOS isn't available yet.")
 	if "on a trial" in str(raised):

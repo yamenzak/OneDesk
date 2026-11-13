@@ -88,7 +88,7 @@ def update_now() -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def set_spend_limit(limit: int = 0) -> dict:
-	"""The most the workspace spends in OneCredits a month: OneAI,
+	"""The most the workspace spends in credits a month: OneAI,
 	conversions and mail sent through One stop there until the next month.
 	0 for no limit."""
 	roles.require()

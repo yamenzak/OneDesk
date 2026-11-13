@@ -23,13 +23,13 @@
         </div>
       </Section>
 
-      <Section v-if="said.credits.length || said.models.length" :title="__('OneCredits')" icon="lucide-sparkles" :action="{ text: true, label: __('Credits'), onClick: () => go('/desk/credit-ledger-entry') }" data-cards>
+      <Section v-if="said.credits.length || said.models.length" :title="name('one_credits')" icon="lucide-sparkles" :action="{ text: true, label: __('Credits'), onClick: () => go('/desk/credit-ledger-entry') }" data-cards>
         <div class="grid gap-3 lg:grid-cols-3">
           <ChartCard v-if="said.credits.length" class="h-80" :class="said.models.length ? 'lg:col-span-2' : 'lg:col-span-3'">
             <BarChart :title="__('Sold and Used by Month')" :data="said.credits" x="month" :y="['sold', 'used']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="CREDITS" />
           </ChartCard>
           <ChartCard v-if="said.models.length" class="h-80" :class="said.credits.length ? '' : 'lg:col-span-3'">
-            <BarChart :title="__('By Model, Last 30 Days')" :data="said.models" x="model" :y="['credits']" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="{ credits: { label: __('OneCredits'), color: hue(2) } }" />
+            <BarChart :title="__('By Model, Last 30 Days')" :data="said.models" x="model" :y="['credits']" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="{ credits: { label: __('Credits'), color: hue(2) } }" />
           </ChartCard>
         </div>
       </Section>
@@ -63,7 +63,7 @@
 import { computed, onBeforeUnmount, ref } from "vue";
 import { AreaChart, BarChart, ChartCard, DonutChart, NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, Section, __, count, followList, get, go, money, shortMonth, wrapped } from "../kit";
+import { Loading, Page, Section, __, count, followList, get, go, money, name, shortMonth, wrapped } from "../kit";
 
 const said = ref(null);
 const root = ref();
@@ -95,7 +95,7 @@ const marginDelta = () => (said.value.margin === null ? {} : { delta: Math.round
 const cards = computed(() => [
   { key: "revenue", route: "/desk/tenant", props: { title: __("Monthly Revenue"), value: said.value.revenue, format: listMoney, ...sparkline(said.value.invoiced, "amount", "area", 0) } },
   ...(said.value.margin === null ? [] : [{ key: "margin", route: "/desk/query-report/Price Check", props: { title: __("Margin This Month"), value: said.value.margin, format: share, ...marginDelta() } }]),
-  { key: "sold", route: "/desk/credit-ledger-entry", props: { title: __("OneCredits Sold This Month"), value: said.value.sold_now, format: count, ...sparkline(said.value.credits, "sold", "bar", 0) } },
-  { key: "used", route: "/desk/query-report/AI Usage", props: { title: __("OneCredits Used This Month"), value: said.value.used_now, format: count, ...sparkline(said.value.credits, "used", "bar", 4) } },
+  { key: "sold", route: "/desk/credit-ledger-entry", props: { title: __("Credits Sold This Month"), value: said.value.sold_now, format: count, ...sparkline(said.value.credits, "sold", "bar", 0) } },
+  { key: "used", route: "/desk/query-report/AI Usage", props: { title: __("Credits Used This Month"), value: said.value.used_now, format: count, ...sparkline(said.value.credits, "used", "bar", 4) } },
 ]);
 </script>

@@ -599,7 +599,7 @@ onedesk.cloud.oneos_held = (item, held, { copy, view }) => {
 			: __("{0} is editing {1} in {2}. Make a copy to edit it in OneOS, or view it read-only.", [frappe.utils.escape_html(held.by || ""), name, where]);
 	const dialog = new frappe.ui.Dialog({
 		title: __("Open in OneOS"),
-		fields: [{ fieldtype: "HTML", options: `<p>${said}</p><p class="text-muted">${__("OneOS uses OneCredits for each minute it is open.")}</p>` }],
+		fields: [{ fieldtype: "HTML", options: `<p>${said}</p><p class="text-muted">${__("OneOS uses credits for each minute it is open.")}</p>` }],
 		primary_action_label: __("Make a Copy"),
 		primary_action: () => {
 			dialog.hide();

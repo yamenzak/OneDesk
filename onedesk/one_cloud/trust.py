@@ -103,7 +103,7 @@ clause(
 		What is shown and typed passes between the browser and the container through Cloudflare. Each save is
 		sent back to the workspace as a new version of the file. The container and its copy of the file are
 		deleted when the session ends: when it is closed, after 15 minutes without use, or after 8 hours at most.
-		Each minute it is open uses OneCredits.
+		Each minute it is open uses credits.
 	""",
 )
 

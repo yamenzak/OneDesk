@@ -190,7 +190,7 @@ SUGGESTIONS = {
 		{
 			"label": _lt("Where did the credits go?"),
 			"ask": _lt(
-				"Where did this workspace's OneCredits go? Say what it has left and until when, what it spent "
+				"Where did this workspace's credits go? Say what it has left and until when, what it spent "
 				"this month and on which models, and anything given or taken back by hand, with its note."
 			),
 			"can": "read",
@@ -221,7 +221,7 @@ def page(said: dict) -> str | None:
 	if said.get("page") == "oneadmin-billing":
 		return (
 			"The reader is an operator of One, on OneAdmin's Billing: what live workspaces pay a month, what that leaves "
-			"against the margin floor, OneCredits sold and used, OneAI's cost, and how the plans split. run_report reads AI Usage and Price Check."
+			"against the margin floor, credits sold and used, OneAI's cost, and how the plans split. run_report reads AI Usage and Price Check."
 		)
 	if said.get("page") == "oneadmin-releases":
 		return (
@@ -285,7 +285,7 @@ def workspace_facts(
 ) -> dict:
 	"""For an operator of One only: how one workspace stands. Its status and
 	since when, whether it owes and when it falls a rung, its plan and
-	add-ons, storage, OneCredits and this month's spend, its last jobs and
+	add-ons, storage, credits and this month's spend, its last jobs and
 	log entries, and each domain: whether it works, what Cloudflare says
 	stops it, where its CNAME must point, whether it is the main address and
 	since when it has waited. Given a domain, the workspace it belongs to."""
@@ -430,7 +430,7 @@ def settings_check() -> dict:
 def credit_facts(
 	workspace: Annotated[str, "The workspace's id, its slug, as the page names it."],
 ) -> dict:
-	"""For an operator of One only: a workspace's OneCredits. What it has
+	"""For an operator of One only: a workspace's credits. What it has
 	and what is promised to calls in flight, each grant with what is left of
 	it and until when, this month's spend by model, and the credits given or
 	taken back by hand with their notes."""
@@ -556,7 +556,7 @@ def plan_quote(
 	seats: Annotated[int, "How many people need a seat."] = 0,
 	storage_gb: Annotated[float, "How many GB of files."] = 0,
 	database_gb: Annotated[float, "How many GB of database."] = 0,
-	credits_a_month: Annotated[int, "How many OneCredits a month."] = 0,
+	credits_a_month: Annotated[int, "How many credits a month."] = 0,
 	workspace: Annotated[str, "A workspace's id, to start from what it has now instead."] | None = None,
 ) -> dict:
 	"""For an operator of One only: what a workspace needing this much should

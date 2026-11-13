@@ -71,9 +71,9 @@ ADDONS = (
 )
 
 PACKS = (
-	Pack("credits-1k@2026-12", "1,000 OneCredits", 45, 1000),
-	Pack("credits-5k@2026-12", "5,000 OneCredits", 199, 5000),
-	Pack("credits-20k@2026-12", "20,000 OneCredits", 749, 20000),
+	Pack("credits-1k@2026-12", "1,000 Credits", 45, 1000),
+	Pack("credits-5k@2026-12", "5,000 Credits", 199, 5000),
+	Pack("credits-20k@2026-12", "20,000 Credits", 749, 20000),
 )
 
 SERVICES = (
@@ -97,7 +97,7 @@ def has_own_server(key: str | None) -> bool:
 
 
 def credits_per_dollar() -> float:
-	"""How many OneCredits a dollar of our cost is before markup: a dollar in
+	"""How many credits a dollar of our cost is before markup: a dollar in
 	dirhams over a OneCredit's value. Pure."""
 	from onedesk.one_admin.costs import AED_PER_USD
 

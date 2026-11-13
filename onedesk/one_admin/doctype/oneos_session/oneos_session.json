@@ -134,7 +134,7 @@
   {
    "fieldname": "section_money",
    "fieldtype": "Section Break",
-   "label": "OneCredits"
+   "label": "Credits"
   },
   {
    "fieldname": "minutes_billed",
@@ -146,7 +146,7 @@
   {
    "fieldname": "credits",
    "fieldtype": "Float",
-   "label": "OneCredits Charged",
+   "label": "Credits Charged",
    "read_only": 1,
    "precision": "2"
   },
@@ -157,14 +157,14 @@
   {
    "fieldname": "rate",
    "fieldtype": "Float",
-   "label": "Rate (OneCredits per Minute)",
+   "label": "Rate (Credits per Minute)",
    "read_only": 1,
    "precision": "4"
   },
   {
    "fieldname": "held",
    "fieldtype": "Float",
-   "label": "OneCredits Held",
+   "label": "Credits Held",
    "read_only": 1,
    "precision": "2"
   },
@@ -227,7 +227,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-12 08:00:00.000000",
+ "modified": "2026-11-13 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "OneOS Session",

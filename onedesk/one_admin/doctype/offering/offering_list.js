@@ -16,7 +16,7 @@ frappe.listview_settings["Offering"] = {
 				fields: [
 					{
 						fieldtype: "HTML",
-						options: `<table class="table table-bordered"><thead><tr><th>${__("Use")}</th><th>${__("Per")}</th><th class="text-right">${__("OneCredits")}</th></tr></thead><tbody>${body}</tbody></table>`,
+						options: `<table class="table table-bordered"><thead><tr><th>${__("Use")}</th><th>${__("Per")}</th><th class="text-right">${__("Credits")}</th></tr></thead><tbody>${body}</tbody></table>`,
 					},
 				],
 			}).show();

@@ -73,7 +73,7 @@ can't be archived from here.
 Eight figures sit at the top, each opening what it counts: **Live
 Workspaces**, **Monthly Revenue** (what live workspaces pay a month at the
 price list), **Paid This Month** (Stripe's invoices in the books),
-**Signups, Last 30 Days**, **OneCredits This Month**, **Server Cost a
+**Signups, Last 30 Days**, **Credits This Month**, **Server Cost a
 Month**, **Open Errors** and **Services Working**. A figure turns red when it
 needs you.
 
@@ -83,7 +83,7 @@ needs you.
 - **Signups**: the last 90 days as a funnel (started, checkout, paid, live)
   and signups started and paid by month.
 - **Workspaces**: how many there were each month, and by status.
-- **OneAI**: OneCredits used and calls by month, and the workspaces that used
+- **OneAI**: credits used and calls by month, and the workspaces that used
   most in the last 30 days.
 - **Servers**: memory and disk used, and workspaces against the room left.
 - **Health**: each service's state, new kinds of error by day, and where the
@@ -262,7 +262,7 @@ Writing one, and putting it on a server, is `docs/PRIVATE-APPS.md`.
 ## Billing and Releases
 
 **Billing** on the rail opens with the month's figures: what live workspaces
-pay, what that leaves against the 40% floor, OneCredits sold and used, what
+pay, what that leaves against the 40% floor, credits sold and used, what
 OneAI cost and how the plans split, each drawn only when there is data.
 
 **Releases** shows a card for each release: its commit and what it says,
@@ -287,7 +287,7 @@ There are three types:
   credits. Zero means unlimited.
 - **Add-on**: adds one thing, in one size, to a plan, paid monthly with it.
   For example 50 GB of storage or 5 seats.
-- **Credit Pack**: bought once, for OneCredits that don't expire at the
+- **Credit Pack**: bought once, for credits that don't expire at the
   end of the month.
 
 **A new price** is a new version in the price list in code, added by a
@@ -471,7 +471,7 @@ workspace, OneAI answers **Why wasn't this built?**.
 
 ## Credits
 
-**Credits** is every change to every workspace's OneCredits, one row each,
+**Credits** is every change to every workspace's credits, one row each,
 never edited. A workspace's balance is the sum of its rows.
 
 - **Grant** adds credits: a plan's monthly credits (expire at month end), a
@@ -769,7 +769,7 @@ when it was last saved, and what it was charged. **Stop Session** closes it
 for the person using it, keeping what they saved.
 
 A session is charged to its workspace for each minute it runs, at
-its **Rate (OneCredits per Minute)**, from the moment it starts. It holds 30 minutes of
+its **Rate (Credits per Minute)**, from the moment it starts. It holds 30 minutes of
 credits while it runs and holds the next 30 every 15 minutes. It stops by
 itself after 15 minutes without use (the person is warned at 10), after 8
 hours, when the workspace can't cover the next 30 minutes, and when OneOS
@@ -2438,7 +2438,7 @@ at); the quotas do, the next time the customer changes their plan or add-ons
 
 A workspace is sold four things it can run out of: **seats**, **storage** (its
 files, in R2), **database** (its site's database on Frappe Cloud, and the
-backups kept of it) and **OneCredits**. A plan is a bundle of all four at a
+backups kept of it) and **credits**. A plan is a bundle of all four at a
 monthly price. An add-on is one of them, in a fixed size, on top of a plan.
 
 **Why a calculator.** A price list is only coherent if three things hold at

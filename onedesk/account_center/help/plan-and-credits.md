@@ -1,12 +1,12 @@
 # Plan and Credits
 
 **Plan and Credits** shows the workspace's plan, how many of its seats are
-used, how much storage and database it takes, its {one_credits} and the
-invoices. Seats, storage, database and {one_credits} are a tile each, with
+used, how much storage and database it takes, its credits and the
+invoices. Seats, storage, database and credits are a tile each, with
 what is used and how much is left, and each has its own button to buy more:
 **Add Seats**, **Add Storage**, **Add Database** and **Buy Credits**. **Change
 Plan** moves to another plan. Monthly credits are used first, and credits you
-buy last 12 months. **Monthly Limit**, under the {one_credits} tile, caps what
+buy last 12 months. **Monthly Limit**, under the **Credits** tile, caps what
 the workspace spends in a month: once it is reached, {one_ai}, conversions and
 mail sent through {one} stop until the next month or until you raise it.
 

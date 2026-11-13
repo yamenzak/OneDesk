@@ -1,5 +1,5 @@
 """What OneAdmin's Billing Home reads: what the workspaces pay, what that
-leaves against the margin floor, and what OneCredits did. Nothing here
+leaves against the margin floor, and what credits did. Nothing here
 changes anything."""
 
 from collections import defaultdict
@@ -71,7 +71,7 @@ def _months(rows: list, key: str, span: list[str]) -> list[float]:
 
 
 def _credits(span: list[str], used: list) -> list[dict]:
-	"""OneCredits sold and used each month, from the first month with any."""
+	"""Credits sold and used each month, from the first month with any."""
 	sold_values = _months(ledger.sold_by_month(span[0]), "credits", span)
 	used_values = _months(used, "credits", span)
 	first = from_first(span, [sum(one) for one in zip(sold_values, used_values)])
