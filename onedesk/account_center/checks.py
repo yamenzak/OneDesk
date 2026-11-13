@@ -177,8 +177,8 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 	"""AccountCenter (account_center/center.py): Layla opens all six sections and
 	one person's page from People; Huda, AccountCenter's Manager in the demo,
 	opens Plan and Credits and nothing else of the workspace's; Nadia sees
-	Yours only, and People, Devices, Plan and Credits and Domains each refuse
-	her."""
+	Yours only, and People, Companies, Devices, Plan and Credits and Domains
+	each refuse her."""
 	from unittest import mock
 
 	from onedesk.account_center import center
@@ -186,7 +186,7 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 	with as_user("wsadmin@one.test"), mock.patch("onedesk.one.account.ask", return_value=[]):
 		said = center.sections_of()
 		keys = {one["key"] for one in said["sections"]}
-		assert keys == {"profile", "personal", "work", "documents", "signin", "people", "devices", "plan", "domains"}, keys
+		assert keys == {"profile", "personal", "work", "documents", "signin", "people", "companies", "devices", "plan", "domains"}, keys
 		for key in keys:
 			center.load(key)
 		people = center.load("people")
@@ -200,7 +200,7 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 		assert not said["admin"] and set(said["closing"]) == {"closing_on", "deleted_on"}, said["closing"]
 	with as_user("nadia@one.test"):
 		assert {one["group"] for one in center.sections_of()["sections"]} == {"yours"}
-		for key in ("people", "devices", "plan", "domains"):
+		for key in ("people", "companies", "devices", "plan", "domains"):
 			try:
 				center.load(key)
 			except frappe.PermissionError:
@@ -262,3 +262,88 @@ def auto_topup_is_an_administrators_and_asks_oneadmin():
 				raise AssertionError("Auto Top-Up was set by somebody who may not")
 			except frappe.PermissionError:
 				pass
+
+
+@check
+def a_company_added_in_account_center_invoices_and_pays():
+	"""Companies (account_center/companies.py): Layla adds a Riyadh company
+	from AccountCenter, made as the setup job makes one (setup_job.company),
+	and it is ready at once: its financial year, a holiday list in force, a
+	payroll payable account, salary accounts and its own letter head. A
+	Sales Invoice to the Riyadh customer and a Salary Slip for somebody it
+	employs both submit. Nadia, who doesn't administer the workspace, is
+	refused, and so is a country's own chart."""
+	from erpnext.accounts.utils import get_fiscal_year
+	from frappe.utils import add_days, get_first_day, get_last_day, today
+
+	from onedesk.account_center import companies
+
+	name = "Sahara Check Riyadh"
+	with as_user("nadia@one.test"):
+		try:
+			companies.make(name, "Saudi Arabia")
+			raise AssertionError("somebody who doesn't administer the workspace added a company")
+		except frappe.PermissionError:
+			pass
+	with as_user(OWNER):
+		try:
+			companies.make(name, "Saudi Arabia", chart="Saudi Arabia - Chart of Accounts")
+			raise AssertionError("a company was made on a country's own chart")
+		except frappe.ValidationError:
+			pass
+		assert companies.currency("Saudi Arabia") == "SAR"
+		made = companies.make(name, "Saudi Arabia", "SAR")
+		assert any(one["name"] == made for one in companies.listed()["companies"])
+	company = frappe.get_doc("Company", made)
+	assert company.default_currency == "SAR" and company.default_payroll_payable_account and company.cost_center, company.as_dict()
+	assert company.default_letter_head == name and frappe.db.exists("Letter Head", name), company.default_letter_head
+	assert company.default_holiday_list, "the company has no holiday list in force"
+	assert get_fiscal_year(today(), company=made, raise_on_missing=False), "no financial year covers today for it"
+	assert any(row.company == made for row in frappe.get_doc("Salary Component", "Basic Salary").accounts), "Basic Salary books nowhere for it"
+	invoice = frappe.new_doc("Sales Invoice")
+	invoice.update({"customer": frappe.db.get_value("Customer", {"customer_name": "Al Olaya Towers"}), "company": made, "currency": "SAR"})
+	invoice.append("items", {"item_code": "WIN-CS12", "qty": 2, "rate": 1150})
+	invoice.insert()
+	invoice.submit()
+	assert invoice.docstatus == 1 and invoice.debit_to.endswith(f" - {company.abbr}"), invoice.debit_to
+	starts = get_first_day(today())
+	employee = frappe.get_doc(
+		{
+			"doctype": "Employee",
+			"first_name": "Rakan",
+			"last_name": "Al-Otaibi",
+			"gender": "Male",
+			"date_of_birth": "1990-05-02",
+			"date_of_joining": add_days(starts, -60),
+			"company": made,
+		}
+	).insert()
+	structure = frappe.get_doc(
+		{
+			"doctype": "Salary Structure",
+			"__newname": f"{name} Pay",
+			"company": made,
+			"currency": "SAR",
+			"payroll_frequency": "Monthly",
+			"is_active": "Yes",
+			"earnings": [{"salary_component": "Basic Salary", "abbr": "BS", "amount_based_on_formula": 1, "formula": "base"}],
+		}
+	).insert()
+	structure.submit()
+	frappe.get_doc(
+		{
+			"doctype": "Salary Structure Assignment",
+			"employee": employee.name,
+			"salary_structure": structure.name,
+			"company": made,
+			"currency": "SAR",
+			"from_date": starts,
+			"base": 8000,
+			"payroll_payable_account": company.default_payroll_payable_account,
+		}
+	).insert().submit()
+	ends = get_last_day(starts)
+	slip = frappe.get_doc({"doctype": "Salary Slip", "employee": employee.name, "posting_date": ends, "start_date": starts, "end_date": ends, "payroll_frequency": "Monthly"})
+	slip.insert()
+	slip.submit()
+	assert slip.docstatus == 1 and slip.gross_pay > 0, (slip.docstatus, slip.gross_pay)

@@ -34,6 +34,7 @@ SECTIONS = [
 	("documents", _lt("Documents"), "id-card", "yours"),
 	("signin", _lt("Sign-in"), "key-round", "yours"),
 	("people", _lt("People"), "users", "workspace"),
+	("companies", _lt("Companies"), "building-2", "workspace"),
 	("devices", _lt("Devices"), "monitor-smartphone", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
@@ -86,6 +87,7 @@ def load(
 		**{part: _profile for part in PROFILE_PARTS},
 		"signin": _signin,
 		"people": _people,
+		"companies": _companies,
 		"plan": _plan,
 		"domains": _domains,
 		"devices": _devices,
@@ -724,6 +726,13 @@ def _domains() -> dict:
 		"last_heard": held.last_heard,
 		"linked": account.configured(),
 	}
+
+
+def _companies() -> dict:
+	"""The workspace's companies. See account_center/companies.py."""
+	from onedesk.account_center import companies
+
+	return companies.listed()
 
 
 def _devices() -> dict:

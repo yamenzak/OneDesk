@@ -175,9 +175,11 @@ def companies(answers: dict) -> None:
 
 def company(said: dict, days_off: list | None = None) -> str:
 	"""A company with its name, country, currency and chart (erpnext builds
-	the chart and hrms its payroll accounts on insert), its holiday list in
-	force when the week's days off are known, and its leave and payroll
-	periods. Once: a company that exists is left as it is."""
+	the chart and hrms its payroll accounts on insert), then what it needs
+	to pay payroll and send invoices (one/companies.py, ready): its
+	financial year, holiday list, leave and payroll periods, salary
+	accounts and letter head. AccountCenter's Companies makes one through
+	this too. Once: a company that exists is left as it is."""
 	if frappe.db.exists("Company", said["name"]):
 		return said["name"]
 	taken = set(frappe.get_all("Company", pluck="abbr"))
@@ -196,12 +198,9 @@ def company(said: dict, days_off: list | None = None) -> str:
 		doc.chart_of_accounts = said["chart"]
 	doc.insert(ignore_permissions=True)
 	frappe.db.set_value("Currency", doc.default_currency, "enabled", 1)
-	if days_off is not None:
-		from onedesk.one import setup_wizard
-		from onedesk.one_hr import periods
+	from onedesk.one.companies import ready
 
-		setup_wizard.holiday_list(doc.name, setup_wizard.days_off(days_off))
-		periods.make(doc.name, *periods.in_force(doc.name))
+	ready(doc.name, said, days_off)
 	return doc.name
 
 

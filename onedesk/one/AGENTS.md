@@ -64,7 +64,10 @@ part counted as done on an earlier try), `wizard` (frappe's own
 a user, so nobody gets System Manager), `owner` (account_center/owner.make:
 Desk User and Workspace Administrator, named, invited unless a password is
 given), `companies` (`setup_job.company`, which AccountCenter's Companies
-will call too), `apps` (apps.switch, the Apps screen's own), `steps` (each
+calls too; then `companies.ready` gives the company its financial year,
+holiday list, leave and payroll periods, salary component accounts and
+letter head, so it pays payroll and invoices, the days off its country's
+when the answers have no working day), `apps` (apps.switch, the Apps screen's own), `steps` (each
 app's `setup.py` STEPS through setup_steps.save, a step done already left)
 and `people` (AccountCenter's invite, as the owner; one refused, as for
 seats, is logged and left for People). Which are done is the

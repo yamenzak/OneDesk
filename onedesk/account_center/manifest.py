@@ -13,6 +13,7 @@ APP = App(
 		("overview", "info"),
 		("your-account", "user"),
 		("people-and-devices", "users"),
+		("companies", "building-2"),
 		("plan-and-credits", "credit-card"),
 		("who-can-do-what", "shield"),
 	),

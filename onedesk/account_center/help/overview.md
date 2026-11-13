@@ -19,11 +19,12 @@ Administrators also have these:
 
 - **People**: everybody in the workspace, what each may use, and inviting
   somebody new.
+- **Companies**: the workspace's companies, and adding another.
 - **Devices**: the company's computers and phones, and the passkeys on
   people's own.
 - **Plan and Credits**: the plan, its seats and storage, credits and
   the invoices.
 - **Domains**: the addresses the workspace opens at.
 
-Read more in [Your Account](your-account), [People and Devices](people-and-devices)
-and [Plan and Credits](plan-and-credits).
+Read more in [Your Account](your-account), [People and Devices](people-and-devices),
+[Companies](companies) and [Plan and Credits](plan-and-credits).

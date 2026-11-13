@@ -2695,6 +2695,12 @@ msgstr "إضافة تسجيل حضور لموظف آخر"
 msgid "Add Collection"
 msgstr "إضافة مجموعة"
 
+#: onedesk/public/js/account_center/account_center.js:1400
+#: onedesk/public/js/account_center/account_center.js:1423
+#: onedesk/public/js/account_center/account_center.js:1449
+msgid "Add Company"
+msgstr "إضافة شركة"
+
 #: frontend/src/project/Team.vue:59
 #: onedesk/public/js/one_project/project_actions.js:431
 #: onedesk/public/js/one_project/project_actions.js:452
@@ -10681,6 +10687,10 @@ msgstr ""
 msgid "Company Name"
 msgstr ""
 
+#: onedesk/account_center/companies.py:20
+msgid "Company Name is required."
+msgstr "اسم الشركة مطلوب."
+
 #. Label in the One Travel Request print format
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 msgid "Company Pays"
@@ -12075,6 +12085,10 @@ msgstr "العدّ"
 #: onedesk/public/js/one/one_control.js:21
 msgid "Country"
 msgstr ""
+
+#: onedesk/account_center/companies.py:22
+msgid "Country is required."
+msgstr "الدولة مطلوبة."
 
 #. Label in the One Training Event print format
 #. Label in the One Training Feedback print format
@@ -13831,6 +13845,10 @@ msgstr "الإعدادات الافتراضية"
 #: onedesk/one_display/doctype/display_source/display_source.json:238
 msgid "Defaults to the company currency."
 msgstr "الافتراضي هو عملة الشركة."
+
+#: onedesk/public/js/account_center/account_center.js:1438
+msgid "Defaults to the country's currency."
+msgstr "الافتراضي عملة الدولة."
 
 #. Label in the One Process Deferred Accounting print format
 #: onedesk/one_book/print_format/one_process_deferred_accounting/one_process_deferred_accounting.json
@@ -32066,6 +32084,10 @@ msgstr "بلا لون"
 msgid "No columns match “{0}”"
 msgstr "لا توجد أعمدة تطابق «{0}»"
 
+#: onedesk/public/js/account_center/account_center.js:1404
+msgid "No companies yet"
+msgstr "لا توجد شركات بعد"
+
 #: onedesk/public/js/account_center/account_center.js:1426
 msgid "No company devices yet. Open a browser under Other Browsers to name it."
 msgstr "لا توجد أجهزة للشركة بعد. افتح متصفحًا ضمن المتصفحات الأخرى لتسميته."
@@ -45112,6 +45134,11 @@ msgstr "الألقاب"
 msgid "Same as stock"
 msgstr "نفس وحدة المخزون"
 
+#: onedesk/public/js/account_center/account_center.js:1421
+#, python-brace-format
+msgid "Same as {0}"
+msgstr "مثل {0}"
+
 #: onedesk/public/js/doctype_settings.js:776
 #: onedesk/public/js/doctype_settings.js:804
 msgid "Same format as a series."
@@ -49345,6 +49372,14 @@ msgstr "ساعات العمل القياسية (في اليوم)"
 #: onedesk/public/js/account_center/account_center.js:435
 msgid "Standard apps"
 msgstr "التطبيقات القياسية"
+
+#: onedesk/public/js/account_center/account_center.js:1419
+msgid "Standard with Numbers"
+msgstr "قياسي مع أرقام"
+
+#: onedesk/public/js/account_center/account_center.js:1445
+msgid "Standard with Numbers gives each account a number."
+msgstr "يعطي «قياسي مع أرقام» كل حساب رقمًا."
 
 #: onedesk/public/js/setup_wizard.js:43
 msgid "Standard works for payroll in every country. Pick your country's chart only if your accountant files from it."
@@ -54553,6 +54588,10 @@ msgstr "صارت مساحة العمل تفتح على {domain}. لاستخدا�
 #: onedesk/public/js/apps.js:140
 msgid "The workspace's apps changed. Reload to see them."
 msgstr "تغيّرت تطبيقات مساحة العمل. أعد التحميل لرؤيتها."
+
+#: onedesk/public/js/account_center/account_center.js:1780
+msgid "The workspace's companies, and adding another."
+msgstr "شركات مساحة العمل، وإضافة شركة أخرى."
 
 #. Message of a notification
 #: onedesk/account_center/notifications.py
@@ -68199,6 +68238,11 @@ msgstr "يسمح {0} بحد أقصى {1} من ساعات العمل الإضاف
 msgid "{0} already belongs to {1}."
 msgstr "{0} يخص {1} بالفعل."
 
+#: onedesk/account_center/companies.py:87
+#, python-brace-format
+msgid "{0} already exists."
+msgstr "{0} موجودة بالفعل."
+
 #: onedesk/one_studio/customize.py:477
 #, python-brace-format
 msgid "{0} already has a field called {1}."
@@ -69717,10 +69761,25 @@ msgstr "لم يعد {0} يُرسل بالبريد إلى {1}."
 msgid "{0} is not a PDF or a picture."
 msgstr "{0} ليس ملف PDF ولا صورة."
 
+#: onedesk/account_center/companies.py:25
+#, python-brace-format
+msgid "{0} is not a chart of accounts a company can be made with."
+msgstr "{0} ليس دليل حسابات يمكن إنشاء شركة به."
+
 #: onedesk/one/head.py:200
 #, python-brace-format
 msgid "{0} is not a chart of {1}."
 msgstr "{0} ليس مخططًا لـ {1}."
+
+#: onedesk/account_center/companies.py:89
+#, python-brace-format
+msgid "{0} is not a country."
+msgstr "{0} ليست دولة."
+
+#: onedesk/account_center/companies.py:91
+#, python-brace-format
+msgid "{0} is not a currency."
+msgstr "{0} ليست عملة."
 
 #: onedesk/one_admin/hosts.py:78 onedesk/one_mail/connect.py:268
 #, python-brace-format
@@ -69781,6 +69840,11 @@ msgstr "{0} ليست مهمة."
 #, python-brace-format
 msgid "{0} is not a key."
 msgstr "{0} ليس مفتاحًا."
+
+#: onedesk/account_center/companies.py:28
+#, python-brace-format
+msgid "{0} is not a letter head choice."
+msgstr "{0} ليس خيارًا للترويسة."
 
 #: onedesk/one_cloud/library.py:20
 #, python-brace-format

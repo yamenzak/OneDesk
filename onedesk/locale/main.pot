@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 11:51+0000\n"
-"PO-Revision-Date: 2026-11-13 11:51+0000\n"
+"POT-Creation-Date: 2026-11-13 12:06+0000\n"
+"PO-Revision-Date: 2026-11-13 12:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2691,6 +2691,12 @@ msgstr ""
 msgid "Add Collection"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1400
+#: onedesk/public/js/account_center/account_center.js:1423
+#: onedesk/public/js/account_center/account_center.js:1449
+msgid "Add Company"
+msgstr ""
+
 #: frontend/src/project/Team.vue:59
 #: onedesk/public/js/one_project/project_actions.js:431
 #: onedesk/public/js/one_project/project_actions.js:452
@@ -2720,7 +2726,7 @@ msgstr ""
 msgid "Add Date"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1542
+#: onedesk/public/js/account_center/account_center.js:1611
 #: onedesk/public/js/one_mail/onemail_settings.js:1042
 #: onedesk/public/js/one_mail/onemail_settings.js:1069
 msgid "Add Domain"
@@ -3110,7 +3116,7 @@ msgstr ""
 msgid "Add the domain your company's mail is at, so people connect their mailbox there with its password alone."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1690
+#: onedesk/public/js/account_center/account_center.js:1759
 msgid "Add these records at your DNS provider."
 msgstr ""
 
@@ -3482,7 +3488,7 @@ msgstr ""
 msgid "Adjustments posted"
 msgstr ""
 
-#: onedesk/account_center/center.py:505 onedesk/one_mail/holders.py:278
+#: onedesk/account_center/center.py:507 onedesk/one_mail/holders.py:278
 #: onedesk/public/js/account_center/account_center.js:422
 #: onedesk/public/js/account_center/account_center.js:536
 msgid "Administrator"
@@ -4467,7 +4473,7 @@ msgstr ""
 msgid "An email address is needed."
 msgstr ""
 
-#: onedesk/account_center/center.py:391
+#: onedesk/account_center/center.py:393
 msgid "An emergency contact needs a name and a phone number, so HR can call them."
 msgstr ""
 
@@ -5766,7 +5772,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:251
-#: onedesk/public/js/account_center/account_center.js:1501
+#: onedesk/public/js/account_center/account_center.js:1570
 msgid "Asset"
 msgstr ""
 
@@ -5929,13 +5935,13 @@ msgstr ""
 #. Option for the 'Used By' (Select) field in DocType 'Device'
 #: frontend/src/mail/MailList.vue:84 frontend/src/mail/MailList.vue:96
 #: onedesk/account_center/doctype/device/device.json:37
-#: onedesk/public/js/account_center/account_center.js:1406
+#: onedesk/public/js/account_center/account_center.js:1475
 msgid "Assigned"
 msgstr ""
 
 #. Label of the user (Link) field in DocType 'Device'
 #: onedesk/account_center/doctype/device/device.json:45
-#: onedesk/public/js/account_center/account_center.js:1500
+#: onedesk/public/js/account_center/account_center.js:1569
 msgid "Assigned To"
 msgstr ""
 
@@ -7962,12 +7968,12 @@ msgstr ""
 #. Label of the agent (Small Text) field in DocType 'Legal Acceptance'
 #: onedesk/account_center/doctype/device/device.json:99
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:155
-#: onedesk/public/js/account_center/account_center.js:1442
+#: onedesk/public/js/account_center/account_center.js:1511
 #: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:82
 msgid "Browser"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1419
+#: onedesk/public/js/account_center/account_center.js:1488
 msgid "Browsers someone signed in on that nobody has named. Unnamed ones are forgotten after a month unseen."
 msgstr ""
 
@@ -8519,7 +8525,7 @@ msgstr ""
 msgid "Can include a field of the record, such as {0}."
 msgstr ""
 
-#: onedesk/account_center/center.py:506
+#: onedesk/account_center/center.py:508
 #, python-brace-format
 msgid "Can manage people, the plan, domains and {0}. Other administrators are notified."
 msgstr ""
@@ -9110,6 +9116,7 @@ msgid "Chart"
 msgstr ""
 
 #: onedesk/one_book/home.py:377
+#: onedesk/public/js/account_center/account_center.js:1442
 msgid "Chart of Accounts"
 msgstr ""
 
@@ -9180,7 +9187,7 @@ msgstr ""
 
 #: onedesk/one_admin/heads.py:533 onedesk/one_admin/home.py:418
 #: onedesk/public/js/account_center/account_center.js:691
-#: onedesk/public/js/account_center/account_center.js:1543
+#: onedesk/public/js/account_center/account_center.js:1612
 #: onedesk/public/js/trust_center/legal.js:71
 msgid "Check Again"
 msgstr ""
@@ -10608,6 +10615,7 @@ msgstr ""
 msgid "Compact Weather"
 msgstr ""
 
+#: onedesk/account_center/center.py:37
 #: onedesk/public/js/trust_center/trust_center.js:111
 msgid "Companies"
 msgstr ""
@@ -10645,6 +10653,7 @@ msgstr ""
 #: onedesk/one_quality/custom/non_conformance.json:6
 #: onedesk/one_quality/custom/quality_action.json:17
 #: onedesk/one_studio/letter_heads.py:586
+#: onedesk/public/js/account_center/account_center.js:1408
 #: onedesk/public/js/one/one_control.js:20
 #: onedesk/public/js/one/one_control.js:29
 #: onedesk/public/js/one_project/project_actions.js:445
@@ -10676,7 +10685,12 @@ msgid "Company Logo"
 msgstr ""
 
 #: onedesk/one_mail/signatures.py:26
+#: onedesk/public/js/account_center/account_center.js:1425
 msgid "Company Name"
+msgstr ""
+
+#: onedesk/account_center/companies.py:20
+msgid "Company Name is required."
 msgstr ""
 
 #. Label in the One Travel Request print format
@@ -12070,9 +12084,15 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json:174
 #: onedesk/one_hr/control.py:81
 #: onedesk/one_hr/custom/identification_document_type.json:7
+#: onedesk/public/js/account_center/account_center.js:1412
+#: onedesk/public/js/account_center/account_center.js:1430
 #: onedesk/public/js/one/news_add.js:207
 #: onedesk/public/js/one/one_control.js:21
 msgid "Country"
+msgstr ""
+
+#: onedesk/account_center/companies.py:22
+msgid "Country is required."
 msgstr ""
 
 #. Label in the One Training Event print format
@@ -12620,6 +12640,8 @@ msgstr ""
 #: onedesk/one_display/layout.py:67
 #: onedesk/one_hr/print_format/one_income_tax_slab/one_income_tax_slab.json
 #: onedesk/one_hr/print_format/one_salary_structure/one_salary_structure.json
+#: onedesk/public/js/account_center/account_center.js:1413
+#: onedesk/public/js/account_center/account_center.js:1438
 #: onedesk/public/js/one/one_control.js:22
 msgid "Currency"
 msgstr ""
@@ -13741,6 +13763,7 @@ msgstr ""
 #: frontend/src/inventory/supplier/SupplierItems.vue:28
 #: frontend/src/sheet/components/SheetEditor/ColorPicker.vue:84
 #: onedesk/one/ai_printing.py:238 onedesk/one_factory/manifest.py:72
+#: onedesk/public/js/account_center/account_center.js:1410
 #: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/doctype_settings.js:324
 #: onedesk/public/js/doctype_settings.js:346
@@ -13835,6 +13858,10 @@ msgstr ""
 #. Description of the 'Base Currency' (Link) field in DocType 'Display Source'
 #: onedesk/one_display/doctype/display_source/display_source.json:238
 msgid "Defaults to the company currency."
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1438
+msgid "Defaults to the country's currency."
 msgstr ""
 
 #. Label in the One Process Deferred Accounting print format
@@ -14929,7 +14956,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_screen/display_screen.json:121
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:68
 #: onedesk/public/js/account_center/account_center.js:372
-#: onedesk/public/js/account_center/account_center.js:1455
+#: onedesk/public/js/account_center/account_center.js:1524
 msgid "Device"
 msgstr ""
 
@@ -14943,7 +14970,7 @@ msgstr ""
 msgid "Device Memory (GB)"
 msgstr ""
 
-#: onedesk/account_center/center.py:37
+#: onedesk/account_center/center.py:38
 msgid "Devices"
 msgstr ""
 
@@ -15488,7 +15515,7 @@ msgstr ""
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
 #. Label of a Sidebar Item
-#: onedesk/account_center/center.py:39
+#: onedesk/account_center/center.py:40
 #: onedesk/account_center/doctype/workspace_account/workspace_account.json:313
 #: onedesk/one/account.py:585
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:131
@@ -16520,7 +16547,7 @@ msgstr ""
 msgid "Edit Before It Sends"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1486
+#: onedesk/public/js/account_center/account_center.js:1555
 msgid "Edit Device"
 msgstr ""
 
@@ -17190,7 +17217,7 @@ msgstr ""
 msgid "Employee Group"
 msgstr ""
 
-#: onedesk/account_center/center.py:342
+#: onedesk/account_center/center.py:344
 msgid "Employee ID"
 msgstr ""
 
@@ -18233,7 +18260,7 @@ msgstr ""
 msgid "Everyone in the workspace"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1710
+#: onedesk/public/js/account_center/account_center.js:1779
 msgid "Everyone in the workspace, and inviting someone new."
 msgstr ""
 
@@ -18637,7 +18664,7 @@ msgstr ""
 msgid "Expired {0}"
 msgstr ""
 
-#: onedesk/account_center/center.py:273
+#: onedesk/account_center/center.py:275
 #, python-brace-format
 msgid "Expired: {0}."
 msgstr ""
@@ -23618,7 +23645,7 @@ msgstr ""
 msgid "If yes"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1661
+#: onedesk/public/js/account_center/account_center.js:1730
 #, python-brace-format
 msgid "If yours doesn't, add www.{0} instead and redirect {0} to it."
 msgstr ""
@@ -26576,8 +26603,8 @@ msgstr ""
 #: onedesk/one_display/doctype/display_screen/display_screen.json:108
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:106
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:129
-#: onedesk/public/js/account_center/account_center.js:1431
-#: onedesk/public/js/account_center/account_center.js:1443
+#: onedesk/public/js/account_center/account_center.js:1500
+#: onedesk/public/js/account_center/account_center.js:1512
 msgid "Last Seen"
 msgstr ""
 
@@ -26610,7 +26637,7 @@ msgstr ""
 #: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:38
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:96
 #: onedesk/public/js/account_center/account_center.js:378
-#: onedesk/public/js/account_center/account_center.js:1462
+#: onedesk/public/js/account_center/account_center.js:1531
 msgid "Last Used"
 msgstr ""
 
@@ -27509,6 +27536,10 @@ msgstr ""
 msgid "Letter Date"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1447
+msgid "Letter Head"
+msgstr ""
+
 #: onedesk/public/js/one_studio/studio_control.js:87
 msgid "Letter Heads"
 msgstr ""
@@ -28250,7 +28281,7 @@ msgstr ""
 #: onedesk/account_center/doctype/device/device.json:66
 #: onedesk/one_crm/custom/sales_stage.json:28
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:74
-#: onedesk/public/js/account_center/account_center.js:1519
+#: onedesk/public/js/account_center/account_center.js:1588
 msgid "Lost"
 msgstr ""
 
@@ -28817,7 +28848,7 @@ msgstr ""
 msgid "Make It Again"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1619
+#: onedesk/public/js/account_center/account_center.js:1688
 msgid "Make Main Address"
 msgstr ""
 
@@ -28854,7 +28885,7 @@ msgstr ""
 msgid "Make This Slide a Timeline"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1486
+#: onedesk/public/js/account_center/account_center.js:1555
 msgid "Make a Company Device"
 msgstr ""
 
@@ -29204,7 +29235,7 @@ msgstr ""
 msgid "Mark resolved"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1521
+#: onedesk/public/js/account_center/account_center.js:1590
 #, python-brace-format
 msgid "Mark {0} as lost? Everyone on it is signed out."
 msgstr ""
@@ -29228,7 +29259,7 @@ msgstr ""
 msgid "Marked as checked"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1524
+#: onedesk/public/js/account_center/account_center.js:1593
 msgid "Marked as lost"
 msgstr ""
 
@@ -30600,9 +30631,9 @@ msgstr ""
 #: onedesk/one_project/report/workload/workload.py:174
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:47
 #: onedesk/one_studio/letter_heads.py:53
-#: onedesk/public/js/account_center/account_center.js:1429
-#: onedesk/public/js/account_center/account_center.js:1488
-#: onedesk/public/js/account_center/account_center.js:1654
+#: onedesk/public/js/account_center/account_center.js:1498
+#: onedesk/public/js/account_center/account_center.js:1557
+#: onedesk/public/js/account_center/account_center.js:1723
 #: onedesk/public/js/doctype_settings.js:705
 #: onedesk/public/js/one/access_center.js:285
 #: onedesk/public/js/one/access_center.js:366
@@ -30905,7 +30936,7 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:80 onedesk/one_inventory/heads.py:218
 #: onedesk/one_inventory/heads.py:985
 #: onedesk/public/js/account_center/account_center.js:425
-#: onedesk/public/js/account_center/account_center.js:1462
+#: onedesk/public/js/account_center/account_center.js:1531
 msgid "Never"
 msgstr ""
 
@@ -31106,6 +31137,7 @@ msgid "New Leaves Allocated"
 msgstr ""
 
 #: onedesk/one/ai_printing.py:198
+#: onedesk/public/js/account_center/account_center.js:1420
 #: onedesk/public/js/one_studio/studio_control.js:83
 #: onedesk/public/js/one_studio/studio_control.js:177
 msgid "New Letter Head"
@@ -32090,7 +32122,11 @@ msgstr ""
 msgid "No columns match “{0}”"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1426
+#: onedesk/public/js/account_center/account_center.js:1404
+msgid "No companies yet"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1495
 msgid "No company devices yet. Open a browser under Other Browsers to name it."
 msgstr ""
 
@@ -32802,7 +32838,7 @@ msgstr ""
 msgid "Nobody can upload a file until there is room, including people sending files through a link. Free some space or add storage in Plan and Credits."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1451
+#: onedesk/public/js/account_center/account_center.js:1520
 msgid "Nobody has a passkey yet"
 msgstr ""
 
@@ -32930,7 +32966,7 @@ msgstr ""
 msgid "None yet."
 msgstr ""
 
-#: onedesk/account_center/center.py:497
+#: onedesk/account_center/center.py:499
 msgid "None, set by hand"
 msgstr ""
 
@@ -33270,7 +33306,7 @@ msgstr ""
 msgid "Not kept anywhere yet"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1458
+#: onedesk/public/js/account_center/account_center.js:1527
 msgid "Not linked to a browser"
 msgstr ""
 
@@ -33360,7 +33396,7 @@ msgstr ""
 msgid "Not sending"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1494
+#: onedesk/public/js/account_center/account_center.js:1563
 msgid "Not set"
 msgstr ""
 
@@ -34767,7 +34803,7 @@ msgstr ""
 msgid "One per line. Applicants are rated against these, or against the description if empty."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1495
+#: onedesk/public/js/account_center/account_center.js:1564
 msgid "One person"
 msgstr ""
 
@@ -36613,7 +36649,7 @@ msgstr ""
 msgid "Other Actions"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1419
+#: onedesk/public/js/account_center/account_center.js:1488
 msgid "Other Browsers"
 msgstr ""
 
@@ -37731,9 +37767,9 @@ msgstr ""
 msgid "Passkey reset"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1421
-#: onedesk/public/js/account_center/account_center.js:1432
-#: onedesk/public/js/account_center/account_center.js:1444
+#: onedesk/public/js/account_center/account_center.js:1490
+#: onedesk/public/js/account_center/account_center.js:1501
+#: onedesk/public/js/account_center/account_center.js:1513
 #: onedesk/public/js/one/one_control.js:162
 msgid "Passkeys"
 msgstr ""
@@ -38640,7 +38676,7 @@ msgstr ""
 #: onedesk/one_mail/doctype/face/face.json:31
 #: onedesk/one_project/report/workload/workload.py:173
 #: onedesk/public/js/account_center/account_center.js:415
-#: onedesk/public/js/account_center/account_center.js:1453
+#: onedesk/public/js/account_center/account_center.js:1522
 #: onedesk/public/js/one_admin/admin_control.js:154
 msgid "Person"
 msgstr ""
@@ -39223,7 +39259,7 @@ msgstr ""
 msgid "Plan No"
 msgstr ""
 
-#: onedesk/account_center/access.py:27 onedesk/account_center/center.py:38
+#: onedesk/account_center/access.py:27 onedesk/account_center/center.py:39
 msgid "Plan and Credits"
 msgstr ""
 
@@ -40184,7 +40220,7 @@ msgid "Professional Services"
 msgstr ""
 
 #: frontend/portal/src/pages/Profile.vue:2 onedesk/account_center/center.py:31
-#: onedesk/account_center/center.py:496 onedesk/one_portal/portal.py:28
+#: onedesk/account_center/center.py:498 onedesk/one_portal/portal.py:28
 #: onedesk/public/js/one/access_center.js:309
 #: onedesk/public/js/one/access_center.js:469
 #: onedesk/templates/includes/admin_account_tabs.html:4
@@ -40638,7 +40674,7 @@ msgstr ""
 msgid "Provided"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1602
+#: onedesk/public/js/account_center/account_center.js:1671
 #, python-brace-format
 msgid "Provided by {0}"
 msgstr ""
@@ -42727,7 +42763,7 @@ msgstr ""
 
 #. Label of the registered_on (Datetime) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:89
-#: onedesk/public/js/account_center/account_center.js:1461
+#: onedesk/public/js/account_center/account_center.js:1530
 msgid "Registered On"
 msgstr ""
 
@@ -43006,7 +43042,7 @@ msgstr ""
 #: onedesk/public/js/account_center/account_center.js:270
 #: onedesk/public/js/account_center/account_center.js:635
 #: onedesk/public/js/account_center/account_center.js:867
-#: onedesk/public/js/account_center/account_center.js:1620
+#: onedesk/public/js/account_center/account_center.js:1689
 #: onedesk/public/js/module_settings.js:259
 #: onedesk/public/js/one_admin/admin_control.js:138
 #: onedesk/public/js/one_ai/panel/Panel.vue:182
@@ -44145,17 +44181,17 @@ msgstr ""
 msgid "Retention still held"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1466
-#: onedesk/public/js/account_center/account_center.js:1511
+#: onedesk/public/js/account_center/account_center.js:1535
+#: onedesk/public/js/account_center/account_center.js:1580
 msgid "Retire"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1474
+#: onedesk/public/js/account_center/account_center.js:1543
 #, python-brace-format
 msgid "Retire {0}'s passkey?"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1512
+#: onedesk/public/js/account_center/account_center.js:1581
 #, python-brace-format
 msgid "Retire {0}? It leaves the list, and passkeys on it stop working."
 msgstr ""
@@ -45099,6 +45135,11 @@ msgstr ""
 msgid "Same as stock"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1421
+#, python-brace-format
+msgid "Same as {0}"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:776
 #: onedesk/public/js/doctype_settings.js:804
 msgid "Same format as a series."
@@ -45154,7 +45195,7 @@ msgstr ""
 #: onedesk/public/js/account_center/account_center.js:935
 #: onedesk/public/js/account_center/account_center.js:971
 #: onedesk/public/js/account_center/account_center.js:1355
-#: onedesk/public/js/account_center/account_center.js:1503
+#: onedesk/public/js/account_center/account_center.js:1572
 #: onedesk/public/js/apps.js:68 onedesk/public/js/one/access_center.js:169
 #: onedesk/public/js/one/role_matrix.js:144
 #: onedesk/public/js/one_ai/ai_center.js:227
@@ -46950,7 +46991,7 @@ msgstr ""
 msgid "Set when the row was a module's before the workspace changed it."
 msgstr ""
 
-#: onedesk/account_center/center.py:498
+#: onedesk/account_center/center.py:500
 msgid "Sets every app below. Changing an app by hand removes the profile."
 msgstr ""
 
@@ -46973,6 +47014,7 @@ msgid "Setting up the workspace"
 msgstr ""
 
 #: onedesk/one/setup_wizard.py:14
+#: onedesk/public/js/account_center/account_center.js:1453
 #, python-brace-format
 msgid "Setting up {0}"
 msgstr ""
@@ -47088,7 +47130,7 @@ msgstr ""
 msgid "Several notices on a screen on its side."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1496
+#: onedesk/public/js/account_center/account_center.js:1565
 msgid "Several people"
 msgstr ""
 
@@ -47194,7 +47236,7 @@ msgstr ""
 #. Option for the 'Used By' (Select) field in DocType 'Device'
 #: frontend/src/cloud/CloudItems.vue:113
 #: onedesk/account_center/doctype/device/device.json:37
-#: onedesk/public/js/account_center/account_center.js:1406
+#: onedesk/public/js/account_center/account_center.js:1475
 #: onedesk/public/js/one_mail/onemail_settings.js:31
 #: onedesk/public/js/one_mail/onemail_settings.js:1187
 msgid "Shared"
@@ -47945,7 +47987,7 @@ msgstr ""
 msgid "Sign up in a minute"
 msgstr ""
 
-#: onedesk/account_center/center.py:579
+#: onedesk/account_center/center.py:581
 msgid "Sign yourself out from your own Sign-in page."
 msgstr ""
 
@@ -49318,6 +49360,7 @@ msgstr ""
 
 #: onedesk/one/ai_printing.py:149 onedesk/one_deck/decks.py:245
 #: onedesk/one_display/starters.py:626
+#: onedesk/public/js/account_center/account_center.js:1419
 #: onedesk/public/js/one_studio/studio_control.js:128
 msgid "Standard"
 msgstr ""
@@ -49351,6 +49394,14 @@ msgstr ""
 
 #: onedesk/public/js/account_center/account_center.js:435
 msgid "Standard apps"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1419
+msgid "Standard with Numbers"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1445
+msgid "Standard with Numbers gives each account a number."
 msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:43
@@ -49423,7 +49474,7 @@ msgstr ""
 msgid "Start From"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1737
+#: onedesk/public/js/account_center/account_center.js:1808
 #: onedesk/public/js/module_settings.js:186
 msgid "Start Here"
 msgstr ""
@@ -51154,7 +51205,7 @@ msgstr ""
 msgid "Switched off, so no item can have serial numbers or batches."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1457
+#: onedesk/public/js/account_center/account_center.js:1526
 msgid "Synced"
 msgstr ""
 
@@ -52358,7 +52409,7 @@ msgstr ""
 msgid "That is not a rescue kit."
 msgstr ""
 
-#: onedesk/account_center/center.py:624
+#: onedesk/account_center/center.py:626
 msgid "That is not an email address."
 msgstr ""
 
@@ -52708,7 +52759,7 @@ msgstr ""
 msgid "The addresses on the repeat, and its maker when it fails"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1713
+#: onedesk/public/js/account_center/account_center.js:1783
 msgid "The addresses the workspace answers on."
 msgstr ""
 
@@ -52900,7 +52951,7 @@ msgstr ""
 msgid "The company's bank accounts."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1711
+#: onedesk/public/js/account_center/account_center.js:1781
 msgid "The company's computers and phones, and the passkeys on people's own."
 msgstr ""
 
@@ -53525,7 +53576,7 @@ msgstr ""
 msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1567
+#: onedesk/public/js/account_center/account_center.js:1636
 msgid "The main address. Sign-in, invitations and links in emails use it."
 msgstr ""
 
@@ -53921,7 +53972,7 @@ msgstr ""
 msgid "The plan's monthly credits."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1712
+#: onedesk/public/js/account_center/account_center.js:1782
 msgid "The plan, its seats and storage, credits and invoices."
 msgstr ""
 
@@ -54568,6 +54619,10 @@ msgstr ""
 msgid "The workspace's apps changed. Reload to see them."
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1780
+msgid "The workspace's companies, and adding another."
+msgstr ""
+
 #. Message of a notification
 #: onedesk/account_center/notifications.py
 #, python-brace-format
@@ -54853,7 +54908,7 @@ msgstr ""
 msgid "There is no such picture style."
 msgstr ""
 
-#: onedesk/account_center/center.py:94 onedesk/one/access_center.py:156
+#: onedesk/account_center/center.py:96 onedesk/one/access_center.py:156
 #: onedesk/one/control.py:77 onedesk/one/notification_words.py:33
 #: onedesk/one_admin/control.py:123 onedesk/one_ai/yours.py:24
 #: onedesk/one_calendar/control.py:17 onedesk/one_hr/control.py:26
@@ -54911,7 +54966,7 @@ msgstr ""
 msgid "There is nothing to check in: you are {0} today."
 msgstr ""
 
-#: onedesk/account_center/center.py:111 onedesk/one/access_center.py:169
+#: onedesk/account_center/center.py:113 onedesk/one/access_center.py:169
 #: onedesk/one/access_center.py:344 onedesk/one/control.py:90
 #: onedesk/one/notification_words.py:46 onedesk/one/notification_words.py:161
 #: onedesk/one_admin/control.py:136 onedesk/one_hr/control.py:39
@@ -55054,7 +55109,7 @@ msgstr ""
 msgid "Third Party Apps"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1410
+#: onedesk/public/js/account_center/account_center.js:1479
 msgid "This Browser"
 msgstr ""
 
@@ -55726,7 +55781,7 @@ msgstr ""
 msgid "This workspace is not in your account."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1556
+#: onedesk/public/js/account_center/account_center.js:1625
 msgid "This workspace isn't connected to its account yet, so its addresses can't be shown."
 msgstr ""
 
@@ -55738,7 +55793,7 @@ msgstr ""
 msgid "This workspace isn't connected to its account yet, so this isn't available."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1554
+#: onedesk/public/js/account_center/account_center.js:1623
 #, python-brace-format
 msgid "This workspace isn't connected to its account. These are the addresses it last said, {0}. Adding or removing one waits until it's connected."
 msgstr ""
@@ -57375,7 +57430,7 @@ msgstr ""
 msgid "Turn on Weather in {0} to search for a place."
 msgstr ""
 
-#: onedesk/account_center/center.py:590
+#: onedesk/account_center/center.py:592
 msgid "Turn them on first."
 msgstr ""
 
@@ -57552,7 +57607,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:37
 #: onedesk/one_studio/print_blocks.py:61 onedesk/one_studio/print_blocks.py:100
-#: onedesk/public/js/account_center/account_center.js:1654
+#: onedesk/public/js/account_center/account_center.js:1723
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:282
 msgid "Type"
 msgstr ""
@@ -58512,8 +58567,8 @@ msgstr ""
 
 #. Label of the use (Select) field in DocType 'Device'
 #: onedesk/account_center/doctype/device/device.json:36
-#: onedesk/public/js/account_center/account_center.js:1430
-#: onedesk/public/js/account_center/account_center.js:1492
+#: onedesk/public/js/account_center/account_center.js:1499
+#: onedesk/public/js/account_center/account_center.js:1561
 msgid "Used By"
 msgstr ""
 
@@ -58761,7 +58816,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
 #: onedesk/one_studio/automations.py:121
-#: onedesk/public/js/account_center/account_center.js:1654
+#: onedesk/public/js/account_center/account_center.js:1723
 #: onedesk/public/js/doctype_settings.js:916
 msgid "Value"
 msgstr ""
@@ -62713,7 +62768,7 @@ msgstr ""
 msgid "Where you are could not be found. Type the place instead."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1706
+#: onedesk/public/js/account_center/account_center.js:1775
 msgid "Where you live, who to call and the details only HR sees."
 msgstr ""
 
@@ -64300,7 +64355,7 @@ msgstr ""
 #: onedesk/one_portal/access.py:21 onedesk/one_project/access.py:25
 #: onedesk/one_quality/access.py:19 onedesk/one_sheet/access.py:22
 #: onedesk/one_task/access.py:34
-#: onedesk/public/js/account_center/account_center.js:1735
+#: onedesk/public/js/account_center/account_center.js:1806
 #: onedesk/public/js/one/notification_center.js:108
 #: onedesk/public/js/one/notification_center.js:110
 #: onedesk/public/js/one/notification_center.js:141
@@ -65171,7 +65226,7 @@ msgstr ""
 msgid "You cannot open {0}."
 msgstr ""
 
-#: onedesk/account_center/center.py:599
+#: onedesk/account_center/center.py:601
 msgid "You cannot turn yourself off."
 msgstr ""
 
@@ -65466,7 +65521,7 @@ msgstr ""
 msgid "Your Fonts"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1708
+#: onedesk/public/js/account_center/account_center.js:1777
 msgid "Your ID, passport and permits. HR is told when you add or change one."
 msgstr ""
 
@@ -65745,7 +65800,7 @@ msgstr ""
 msgid "Your interview is on {when}"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1707
+#: onedesk/public/js/account_center/account_center.js:1776
 msgid "Your job as HR keeps it, and your education and past work."
 msgstr ""
 
@@ -65794,7 +65849,7 @@ msgstr ""
 msgid "Your name · your email · your phone"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1705
+#: onedesk/public/js/account_center/account_center.js:1774
 msgid "Your name, photo, bio and language."
 msgstr ""
 
@@ -65843,7 +65898,7 @@ msgstr ""
 msgid "Your password was changed"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1709
+#: onedesk/public/js/account_center/account_center.js:1778
 msgid "Your password, your passkey and where you are signed in."
 msgstr ""
 
@@ -66082,7 +66137,7 @@ msgstr ""
 msgid "Your {reason} from {from_date} to {to_date} was {status}"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1735
+#: onedesk/public/js/account_center/account_center.js:1806
 #: onedesk/public/js/one/notification_center.js:68
 #: onedesk/public/js/one/notification_center.js:70
 #: onedesk/public/js/one/notification_center.js:140
@@ -66472,7 +66527,7 @@ msgstr ""
 msgid "credits a month"
 msgstr ""
 
-#: onedesk/account_center/center.py:142
+#: onedesk/account_center/center.py:144
 msgid "current address"
 msgstr ""
 
@@ -66519,7 +66574,7 @@ msgstr ""
 msgid "document number"
 msgstr ""
 
-#: onedesk/account_center/center.py:149
+#: onedesk/account_center/center.py:151
 msgid "documents"
 msgstr ""
 
@@ -66576,7 +66631,7 @@ msgstr ""
 msgid "edits"
 msgstr ""
 
-#: onedesk/account_center/center.py:147
+#: onedesk/account_center/center.py:149
 msgid "education"
 msgstr ""
 
@@ -66589,8 +66644,8 @@ msgstr ""
 msgid "embedded files"
 msgstr ""
 
-#: onedesk/account_center/center.py:144 onedesk/account_center/center.py:145
-#: onedesk/account_center/center.py:146
+#: onedesk/account_center/center.py:146 onedesk/account_center/center.py:147
+#: onedesk/account_center/center.py:148
 msgid "emergency contact"
 msgstr ""
 
@@ -67289,7 +67344,7 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: onedesk/account_center/center.py:148
+#: onedesk/account_center/center.py:150
 msgid "past work"
 msgstr ""
 
@@ -67297,7 +67352,7 @@ msgstr ""
 msgid "percent"
 msgstr ""
 
-#: onedesk/account_center/center.py:143
+#: onedesk/account_center/center.py:145
 msgid "permanent address"
 msgstr ""
 
@@ -68197,6 +68252,7 @@ msgstr ""
 msgid "{0} add-ons"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1455
 #: onedesk/public/js/one_inventory/item_new.js:385
 #: onedesk/public/js/one_task/task_new.js:49
 #, python-brace-format
@@ -68234,6 +68290,11 @@ msgstr ""
 msgid "{0} already belongs to {1}."
 msgstr ""
 
+#: onedesk/account_center/companies.py:87
+#, python-brace-format
+msgid "{0} already exists."
+msgstr ""
+
 #: onedesk/one_studio/customize.py:477
 #, python-brace-format
 msgid "{0} already has a field called {1}."
@@ -68269,7 +68330,7 @@ msgstr ""
 msgid "{0} always sends this. It can't be turned off."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1568
+#: onedesk/public/js/account_center/account_center.js:1637
 #, python-brace-format
 msgid "{0} always works too."
 msgstr ""
@@ -69109,7 +69170,7 @@ msgstr ""
 msgid "{0} has already claimed {1}."
 msgstr ""
 
-#: onedesk/account_center/center.py:656
+#: onedesk/account_center/center.py:658
 #, python-brace-format
 msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
@@ -69408,7 +69469,7 @@ msgstr ""
 msgid "{0} is a retainer. Its hours are billed with its month."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1661
+#: onedesk/public/js/account_center/account_center.js:1730
 #, python-brace-format
 msgid "{0} is a root domain and needs a CNAME or ALIAS record, which not every DNS provider allows."
 msgstr ""
@@ -69503,7 +69564,7 @@ msgstr ""
 msgid "{0} is already on another workspace."
 msgstr ""
 
-#: onedesk/account_center/center.py:626
+#: onedesk/account_center/center.py:628
 #, python-brace-format
 msgid "{0} is already on the workspace."
 msgstr ""
@@ -69753,9 +69814,24 @@ msgstr ""
 msgid "{0} is not a PDF or a picture."
 msgstr ""
 
+#: onedesk/account_center/companies.py:25
+#, python-brace-format
+msgid "{0} is not a chart of accounts a company can be made with."
+msgstr ""
+
 #: onedesk/one/head.py:200
 #, python-brace-format
 msgid "{0} is not a chart of {1}."
+msgstr ""
+
+#: onedesk/account_center/companies.py:89
+#, python-brace-format
+msgid "{0} is not a country."
+msgstr ""
+
+#: onedesk/account_center/companies.py:91
+#, python-brace-format
+msgid "{0} is not a currency."
 msgstr ""
 
 #: onedesk/one_admin/hosts.py:78 onedesk/one_mail/connect.py:268
@@ -69816,6 +69892,11 @@ msgstr ""
 #: onedesk/one/shortcut_center.py:118
 #, python-brace-format
 msgid "{0} is not a key."
+msgstr ""
+
+#: onedesk/account_center/companies.py:28
+#, python-brace-format
+msgid "{0} is not a letter head choice."
 msgstr ""
 
 #: onedesk/one_cloud/library.py:20
@@ -70845,7 +70926,7 @@ msgstr ""
 msgid "{0} on the odometer since the last log."
 msgstr ""
 
-#: onedesk/account_center/center.py:264 onedesk/account_center/signin.py:40
+#: onedesk/account_center/center.py:266 onedesk/account_center/signin.py:40
 #: onedesk/one_ai/proposals.py:661 onedesk/one_quality/heads.py:61
 #: onedesk/public/js/one/deleted_document_list.js:10
 #: onedesk/public/js/one/push.js:41
@@ -70970,7 +71051,7 @@ msgstr ""
 msgid "{0} parts, {1} new"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1507
+#: onedesk/public/js/account_center/account_center.js:1576
 #, python-brace-format
 msgid "{0} passkeys on it stopped working"
 msgstr ""
