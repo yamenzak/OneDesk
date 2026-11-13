@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 16:51+0000\n"
-"PO-Revision-Date: 2026-11-13 16:51+0000\n"
+"POT-Creation-Date: 2026-11-13 17:21+0000\n"
+"PO-Revision-Date: 2026-11-13 17:21+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -52749,7 +52749,7 @@ msgstr ""
 msgid "That invoice has nothing to book."
 msgstr ""
 
-#: onedesk/one/update_window.py:55 onedesk/one_admin/proxy.py:274
+#: onedesk/one/update_window.py:60 onedesk/one_admin/proxy.py:274
 msgid "That is not a day and hour."
 msgstr ""
 

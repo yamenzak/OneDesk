@@ -88,6 +88,7 @@ def _each(chosen, failed, unkept) -> None:
 			frappe.local.response = frappe._dict({"docs": []})
 			frappe.set_user("Administrator")
 			frappe.local.flags = frappe._dict(flags)
+			frappe.local.cache = {}
 
 
 def _modules() -> None:
