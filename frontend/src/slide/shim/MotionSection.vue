@@ -1,4 +1,4 @@
-<!-- How the selected element comes in and goes out (shim/motion.js, one_slide/motion.json). One's own; VENDORED.md. -->
+<!-- How the selected element comes in and goes out (shim/motion.js, one_deck/motion.json). One's own; VENDORED.md. -->
 <template>
 	<Section :label="__('Motion')">
 		<PropertyRow :label="__('Comes In')">
@@ -37,7 +37,7 @@ import Section from "../components/controls/Section.vue";
 import { setElementProperty } from "../composables/editProperty";
 import { firstEditableElement } from "../stores/element";
 import { screen } from "../stores/presentation";
-import table from "../../../../onedesk/one_slide/motion.json";
+import table from "../../../../onedesk/one_deck/motion.json";
 import { __ } from "./words.js";
 
 const motion = computed(() => firstEditableElement.value?.motion || {});

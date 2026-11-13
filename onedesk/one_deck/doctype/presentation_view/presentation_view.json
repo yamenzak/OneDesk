@@ -1,0 +1,102 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-30 21:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-30 21:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Deck",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "name": "Presentation View",
+ "in_create": 1,
+ "read_only": 1,
+ "description": "One look at a presentation through a OneCloud link: when, by whom if they were invited, and how long each slide was on screen. Shown on the presentation as Views.",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "role": "System Manager",
+   "report": 1,
+   "email": 0,
+   "print": 0,
+   "export": 0,
+   "share": 0
+  }
+ ],
+ "fields": [
+  {
+   "fieldname": "presentation",
+   "fieldtype": "Link",
+   "label": "Presentation",
+   "options": "Presentation",
+   "search_index": 1,
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cloud_link",
+   "fieldtype": "Link",
+   "label": "Link",
+   "options": "Cloud Link"
+  },
+  {
+   "fieldname": "viewer",
+   "fieldtype": "Data",
+   "label": "Viewer",
+   "options": "Email",
+   "in_list_view": 1,
+   "description": "The invited email address used to open the presentation. Not set for link access."
+  },
+  {
+   "fieldname": "session",
+   "fieldtype": "Data",
+   "label": "Session",
+   "search_index": 1,
+   "description": "A number the page made when it opened, so one look is one row."
+  },
+  {
+   "fieldname": "opened_on",
+   "fieldtype": "Datetime",
+   "label": "Opened On",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "label": "Last Seen"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Int",
+   "label": "Seconds",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "seconds",
+   "fieldtype": "JSON",
+   "label": "Seconds on Each Slide"
+  }
+ ],
+ "field_order": [
+  "presentation",
+  "cloud_link",
+  "viewer",
+  "session",
+  "opened_on",
+  "last_seen",
+  "total",
+  "seconds"
+ ]
+}

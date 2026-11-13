@@ -39,8 +39,8 @@ APP = App(
 		},
 	},
 	hooks={
-		"one_slide_loaded": ("screen.loaded",),
-		"one_slide_saving": ("screen.saving",),
-		"one_slide_rows": ("screen.rows",),
+		"one_deck_loaded": ("screen.loaded",),
+		"one_deck_saving": ("screen.saving",),
+		"one_deck_rows": ("screen.rows",),
 	},
 )

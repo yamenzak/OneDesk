@@ -228,7 +228,7 @@ const updateDuration = () => {
 	const video = el.value
 	if (!video || !video.duration) return
 	duration.value = video.duration
-	// One: a screen holds a slide for a video that does not loop, so it keeps its length (one_slide/play.py)
+	// One: a screen holds a slide for a video that does not loop, so it keeps its length (one_deck/play.py)
 	const length = Math.round(video.duration * 10) / 10
 	if (!inViewerMode.value && isFinite(length) && element.value.length !== length) element.value.length = length
 }

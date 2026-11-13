@@ -35,7 +35,7 @@ own): OneBook, OneInventory, OneCRM, OneHR, OneProject, OneTask.
 
 **Custom.** Its records are ours and its screens are a product of their
 own, like a standalone SaaS app: OneMail, OneCloud, OneCalendar,
-OneDisplay, OneSlide, OneWriter, OneWorkbook, OneStudio, OneAI, OnePortal,
+OneDisplay, OneDeck, OneWriter, OneWorkbook, OneStudio, OneAI, OnePortal,
 and One's Home and centres.
 
 - **Its own UI, drawn the way the best app for the job does** (Gmail,

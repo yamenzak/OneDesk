@@ -33,7 +33,7 @@ instead, so looking at it never changes it.
 
 **Edit** is at the top of the preview, and in the file's right-click menu.
 
-- **Make a Presentation** makes a new OneSlide presentation from the slides.
+- **Make a Presentation** makes a new OneDeck presentation from the slides.
   The PowerPoint file stays as it is.
 - **Make a One Copy** makes a workbook or document of One's own from the
   file, next to it. The file stays as it is.
@@ -87,7 +87,7 @@ Until you choose, clicking the file opens it in the editor with the bar.
 | --- | --- | --- |
 | OneWorkbook | OneWorkbook | **Edit in OneWorkbook**, **Edit in OneOS**, **Download as Excel** |
 | OneWriter | OneWriter | **Edit in OneWriter**, **Edit in OneOS**, **Download as Word** |
-| OneSlide | OneSlide | **Edit in OneSlide**, **Edit in OneOS**, **Download as PowerPoint** |
+| OneDeck | OneDeck | **Edit in OneDeck**, **Edit in OneOS**, **Download as PowerPoint** |
 
 **New › Workbook** makes a workbook in the folder you are in. A workbook's
 menu also has **Download as CSV**.

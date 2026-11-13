@@ -1,6 +1,6 @@
 """Number and List are words on a screen now (D4 of SCRATCHPAD.md). A figure
 or a list from a Display Source is a text in the screen's editor whose
-chips the source fills (one_slide/data.py, a `rows` source), styled like
+chips the source fills (one_deck/data.py, a `rows` source), styled like
 any text, so there is no widget to learn for it. This writes the old
 widgets as such texts on a collection's backdrop, for the patch that moves
 them and for the demo."""
@@ -67,7 +67,7 @@ def listed(key: str, mapping: dict, heading: str, rows: int, box: tuple) -> list
 def onto(collection: str, blocks: list[dict], sources: list[dict]) -> None:
 	"""The blocks drawn as texts on the collection's backdrop, behind its
 	widgets, and their sources added to the backdrop's."""
-	from onedesk.one_slide import api, convert, data
+	from onedesk.one_deck import api, convert, data
 
 	doc = frappe.get_doc("Widget Collection", collection)
 	name = screen.backdrop(collection)["presentation"]

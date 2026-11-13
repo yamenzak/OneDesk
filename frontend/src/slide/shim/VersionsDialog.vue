@@ -37,7 +37,7 @@ const restoring = ref(null);
 const when = (at) => `${date(at)} · ${ago(at)}`;
 
 async function load() {
-	versions.value = await call("onedesk.one_slide.versions.listed", { name: props.name });
+	versions.value = await call("onedesk.one_deck.versions.listed", { name: props.name });
 }
 watch(open, (now) => now && load());
 
@@ -45,7 +45,7 @@ async function keep() {
 	if (!title.value.trim()) return;
 	keeping.value = true;
 	try {
-		await call("onedesk.one_slide.versions.keep", { name: props.name, title: title.value.trim() });
+		await call("onedesk.one_deck.versions.keep", { name: props.name, title: title.value.trim() });
 		title.value = "";
 		await load();
 	} finally {
@@ -56,7 +56,7 @@ async function keep() {
 async function restore(one) {
 	restoring.value = one.name;
 	try {
-		emit("restored", await call("onedesk.one_slide.versions.restore", { name: props.name, version: one.name }));
+		emit("restored", await call("onedesk.one_deck.versions.restore", { name: props.name, version: one.name }));
 		open.value = false;
 	} finally {
 		restoring.value = null;

@@ -37,7 +37,7 @@ def test_the_door_takes_a_tier_and_never_a_model_or_words():
 def test_every_job_is_a_kind_of_work_models_knows():
 	for key, job in jobs.JOBS.items():
 		assert job.kind in models.USE, f"{key} is {job.kind}, which models.USE does not name"
-		assert job.module in ("OneAI", "OneMail", "OneHR", "OneIntake", "One", "OneDisplay", "OneSlide", "OneCloud"), key
+		assert job.module in ("OneAI", "OneMail", "OneHR", "OneIntake", "One", "OneDisplay", "OneDeck", "OneCloud"), key
 
 
 def test_every_job_is_whole_and_every_word_has_a_job():

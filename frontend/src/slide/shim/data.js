@@ -1,4 +1,4 @@
-// Words on a slide that come from records (one_slide/data.py). The
+// Words on a slide that come from records (one_deck/data.py). The
 // presentation's sources, and what each chip says to whoever is looking:
 // filled where a text is drawn (TextElement, TableElement, a One: edit), and
 // asked for again when a record it read changes.
@@ -39,7 +39,7 @@ export function loadData(doc) {
 
 export async function refresh() {
 	if (!presentation || !sources.value.length) return;
-	const said = await call("onedesk.one_slide.data.values", { name: presentation, asked: [...asked] });
+	const said = await call("onedesk.one_deck.data.values", { name: presentation, asked: [...asked] });
 	values.value = said.values || {};
 	listen(said.watch);
 }
@@ -51,7 +51,7 @@ function soon() {
 }
 
 export async function saveSources(next) {
-	sources.value = await call("onedesk.one_slide.data.save_sources", { name: presentation, sources: next });
+	sources.value = await call("onedesk.one_deck.data.save_sources", { name: presentation, sources: next });
 	await refresh();
 }
 

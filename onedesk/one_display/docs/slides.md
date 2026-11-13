@@ -14,7 +14,7 @@ on the day it ends without anybody remembering to take it off. A row marked
 
 ## Making the Slides
 
-Slides are made in OneSlide, the same editor as any presentation in OneCloud.
+Slides are made in OneDeck, the same editor as any presentation in OneCloud.
 **New Presentation** on a playlist makes one filed on the playlist, adds it
 as a row, and opens it. **Open Presentation** goes back to any of the
 playlist's presentations. A row can also play a presentation you already
@@ -40,7 +40,7 @@ playlist.
 
 ## How Long Each Slide Stays
 
-Each slide stays up for its own **Advance** time in OneSlide, or for the
+Each slide stays up for its own **Advance** time in OneDeck, or for the
 row's **Seconds** when it has none. A video that does not loop is watched to
 its end first, then the slide waits its Advance. A slide changes with its own
 transition: a fade, a slide in from the side, or a cut; Magic Move fades on a

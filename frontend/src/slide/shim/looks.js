@@ -1,6 +1,6 @@
 // The Builder half of a slide's looks: fades, blur and free CSS, read the same
 // way here as by play.py and the screen's player. One's own; VENDORED.md.
-import rules from '../../../../onedesk/one_slide/css.json'
+import rules from '../../../../onedesk/one_deck/css.json'
 
 const allowed = new Set(rules.properties)
 

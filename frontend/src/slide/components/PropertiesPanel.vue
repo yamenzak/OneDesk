@@ -1,6 +1,6 @@
 <!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/components/PropertiesPanel.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-	<div data-tour="oneslide-panel" class="flex h-full w-72 flex-col border-l border-outline-elevation-1 bg-surface-elevation-1" @mousedown="keepEditorFocus">
+	<div data-tour="onedeck-panel" class="flex h-full w-72 flex-col border-l border-outline-elevation-1 bg-surface-elevation-1" @mousedown="keepEditorFocus">
 		<!-- One: the panel and Builder's Layers, shim/LayersPanel.vue; VENDORED.md -->
 		<div class="shrink-0 px-4 pt-3">
 			<TabButtons v-model="panel" :options="panels" class="w-full [&_button]:flex-1" />

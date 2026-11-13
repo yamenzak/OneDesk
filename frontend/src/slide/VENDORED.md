@@ -5,7 +5,7 @@ Taken from **frappe/suite** at `2831a5d` (29 October 2026),
 AGPL-3.0, like this repository. Every file says at its top what it was derived
 from. Nothing here may move to a permissive licence. The two themes, Light and
 Dark, are Suite's fixtures (`suite/fixtures/presentation.json`), kept in
-`onedesk/one_slide/templates/system.json`; their pictures and the Anton and
+`onedesk/one_deck/templates/system.json`; their pictures and the Anton and
 Courier Prime faces (OFL) are in `onedesk/public/slide/`.
 
 Left out: `SlidesShell.vue`, `router.ts`, `routes.ts`, `routerState.ts` and
@@ -37,7 +37,7 @@ One's root covers the window (`fixed inset-0`).
 | `@/apps/slides/router` | `shim/router.js` | the island's own router, held when the page mounts |
 | `@/apps/slides/components/EditorNavbar.vue` | `shim/EditorNavbar.vue` | One's head: the way back to the folder or record, the title, whether it is saved, Theme, Export and Present |
 | `@/apps/slides/stores/offlineCopy`, `@/apps/slides/utils/serviceWorker` | `shim/offlineCopy.js`, `shim/serviceWorker.js` | the desk registers no slides service worker |
-| `frappe-ui` | `shim/frappe-ui.js` | every server call Suite makes by Suite's name is answered by `onedesk/one_slide/api.py`; uploads go to `api.upload`; keyboard shortcuts ask the island what has focus |
+| `frappe-ui` | `shim/frappe-ui.js` | every server call Suite makes by Suite's name is answered by `onedesk/one_deck/api.py`; uploads go to `api.upload`; keyboard shortcuts ask the island what has focus |
 | `@/apps/slides/…` | this folder | Suite's alias for itself |
 
 ## Edits inside vendored files
@@ -60,7 +60,7 @@ Each is marked `One:` where it is.
   photographed at twice its size for a PDF or a screen.
 - `components/VideoElement.vue`: a video keeps its `length` on the element
   when it loads, so a screen can hold its slide while it plays
-  (`one_slide/play.py`, `length`).
+  (`one_deck/play.py`, `length`).
 - A presentation of any size (`shim/frame.js`, `shim/resize.js`):
   `stores/presentation.js` sets the frame from the presentation before the
   canvas mounts, `stores/slide.js` fits a layout drawn for another size to it,
@@ -123,7 +123,7 @@ Each is marked `One:` where it is.
   the presenter view tells it through `shim/presenter.js`.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
-- The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in
+- The Builder half (stage 3 of `docs/ONEDECK.md`), every piece of it ours in
   `shim/` and joined to Suite's files in these places:
   - `utils/shapeGeometry.js`, `utils/toolbarTools.js`, `stores/element.js`: a
     star and a block arrow, drawn as polygons on a unit box beside Suite's

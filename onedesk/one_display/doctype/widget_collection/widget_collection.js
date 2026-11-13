@@ -1,4 +1,4 @@
-// Widgets are placed in OneSlide's editor, where the screen is drawn
+// Widgets are placed in OneDeck's editor, where the screen is drawn
 // (one_display/screen.py); this form keeps the table for anybody who wants
 // the numbers.
 frappe.ui.form.on("Widget Collection", {

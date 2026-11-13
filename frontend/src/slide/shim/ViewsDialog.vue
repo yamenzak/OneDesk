@@ -1,5 +1,5 @@
 <!-- Who looked at the presentation through its OneCloud links, when and for
-     how long, and how long each slide held them (one_slide/shared.py views).
+     how long, and how long each slide held them (one_deck/shared.py views).
      One's own; VENDORED.md. -->
 <template>
 	<Dialog v-model:open="open" :title="__('Views')" size="lg">
@@ -37,7 +37,7 @@ const props = defineProps({ name: { type: String, required: true } });
 const said = ref({ looks: [], slides: [] });
 
 watch(open, async (now) => {
-	if (now) said.value = await call("onedesk.one_slide.shared.views", { name: props.name });
+	if (now) said.value = await call("onedesk.one_deck.shared.views", { name: props.name });
 });
 
 const when = (value) => ago(value);

@@ -100,7 +100,7 @@ NOBODY = {
 	"hrms / HR": 0,
 	"onedesk / One": 0,
 	"onedesk / One Sheet": 1,
-	"onedesk / One Slide": 1,
+	"onedesk / One Deck": 1,
 	"onedesk / One AI": 0,
 	"onedesk / One Mail": 0,
 }
@@ -166,7 +166,7 @@ UNHEARD = {
 	# Communication would wake it for every mail in the workspace.
 	"onemail": 6,
 	# The presentation editor reads the workspace's fonts, Files in OneCloud ›
-	# Fonts, once when it opens and again after it adds one (one_slide/fonts.py).
+	# Fonts, once when it opens and again after it adds one (one_deck/fonts.py).
 	"presentation": 1,
 }
 

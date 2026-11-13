@@ -977,7 +977,7 @@ body {
 	fill: var(--ink-green-6);
 }
 
-/* A presentation through a link (www/s.html, public/js/one_slide/viewer.js). */
+/* A presentation through a link (www/s.html, public/js/one_deck/viewer.js). */
 .one-portal.one-share:has(.one-deck) {
 	max-width: 72rem;
 }
@@ -1139,7 +1139,7 @@ body {
 	font-size: 0.85rem;
 }
 
-/* A presenter's phone as a remote (www/slide-remote.html, public/js/one_slide/remote.js). */
+/* A presenter's phone as a remote (www/slide-remote.html, public/js/one_deck/remote.js). */
 .one-remote {
 	display: flex;
 	flex-direction: column;

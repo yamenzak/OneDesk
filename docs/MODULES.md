@@ -234,6 +234,17 @@ No doctypes yet.
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
+## One Deck
+
+`onedesk/one_deck`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Presentation | 15 | document |
+| Presentation Slide | 13 | child |
+| Presentation Version | 5 | document |
+| Presentation View | 8 | document |
+
 ## One Doc
 
 `onedesk/one_doc`
@@ -267,17 +278,6 @@ No doctypes yet.
 | Workbook | 15 | document |
 | Workbook Change | 10 | document |
 | Workbook Version | 9 | document |
-
-## One Slide
-
-`onedesk/one_slide`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Presentation | 15 | document |
-| Presentation Slide | 13 | child |
-| Presentation Version | 5 | document |
-| Presentation View | 8 | document |
 
 ## Desk records shipped as fixtures
 
@@ -727,6 +727,65 @@ No doctypes yet.
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`
 * `onedesk.one_crm.story.read`
+* `onedesk.one_deck.ai.design`
+* `onedesk.one_deck.ai.picture`
+* `onedesk.one_deck.ai.video`
+* `onedesk.one_deck.api.download`
+* `onedesk.one_deck.api.get`
+* `onedesk.one_deck.api.get_editor_access`
+* `onedesk.one_deck.api.get_templates`
+* `onedesk.one_deck.api.get_updated_json`
+* `onedesk.one_deck.api.get_webp_doc`
+* `onedesk.one_deck.api.listed`
+* `onedesk.one_deck.api.make`
+* `onedesk.one_deck.api.media`
+* `onedesk.one_deck.api.rename_presentation`
+* `onedesk.one_deck.api.save_base64_image`
+* `onedesk.one_deck.api.save_presentation_thumbnail`
+* `onedesk.one_deck.api.save_slides`
+* `onedesk.one_deck.api.search`
+* `onedesk.one_deck.api.shown`
+* `onedesk.one_deck.api.update_slide_attachments`
+* `onedesk.one_deck.api.update_theme`
+* `onedesk.one_deck.api.update_title`
+* `onedesk.one_deck.api.upload`
+* `onedesk.one_deck.api.visited`
+* `onedesk.one_deck.data.fields`
+* `onedesk.one_deck.data.for_each`
+* `onedesk.one_deck.data.freeze`
+* `onedesk.one_deck.data.save_sources`
+* `onedesk.one_deck.data.values`
+* `onedesk.one_deck.fonts.css`
+* `onedesk.one_deck.fonts.face`
+* `onedesk.one_deck.fonts.google_add`
+* `onedesk.one_deck.fonts.google_search`
+* `onedesk.one_deck.fonts.library`
+* `onedesk.one_deck.fonts.upload`
+* `onedesk.one_deck.from_powerpoint.open_file`
+* `onedesk.one_deck.guides.keep`
+* `onedesk.one_deck.layouts.restyle`
+* `onedesk.one_deck.library.forget`
+* `onedesk.one_deck.library.keep`
+* `onedesk.one_deck.library.shelves`
+* `onedesk.one_deck.master.edit`
+* `onedesk.one_deck.paper.pdf`
+* `onedesk.one_deck.powerpoint.export`
+* `onedesk.one_deck.remote.admit`
+* `onedesk.one_deck.remote.notes`
+* `onedesk.one_deck.remote.pair`
+* `onedesk.one_deck.remote.pair_link`
+* `onedesk.one_deck.remote.unpair`
+* `onedesk.one_deck.resize.resize`
+* `onedesk.one_deck.shared.admit`
+* `onedesk.one_deck.shared.present_live`
+* `onedesk.one_deck.shared.stop_live`
+* `onedesk.one_deck.shared.viewed`
+* `onedesk.one_deck.shared.views`
+* `onedesk.one_deck.shared.where`
+* `onedesk.one_deck.templates.save_as`
+* `onedesk.one_deck.versions.keep`
+* `onedesk.one_deck.versions.listed`
+* `onedesk.one_deck.versions.restore`
 * `onedesk.one_demo.start.progress`
 * `onedesk.one_demo.start.start`
 * `onedesk.one_display.boards.change`
@@ -1091,65 +1150,6 @@ No doctypes yet.
 * `onedesk.one_sheet.versions.restore`
 * `onedesk.one_sheet.versions.state_at`
 * `onedesk.one_sheet.versions.timeline`
-* `onedesk.one_slide.ai.design`
-* `onedesk.one_slide.ai.picture`
-* `onedesk.one_slide.ai.video`
-* `onedesk.one_slide.api.download`
-* `onedesk.one_slide.api.get`
-* `onedesk.one_slide.api.get_editor_access`
-* `onedesk.one_slide.api.get_templates`
-* `onedesk.one_slide.api.get_updated_json`
-* `onedesk.one_slide.api.get_webp_doc`
-* `onedesk.one_slide.api.listed`
-* `onedesk.one_slide.api.make`
-* `onedesk.one_slide.api.media`
-* `onedesk.one_slide.api.rename_presentation`
-* `onedesk.one_slide.api.save_base64_image`
-* `onedesk.one_slide.api.save_presentation_thumbnail`
-* `onedesk.one_slide.api.save_slides`
-* `onedesk.one_slide.api.search`
-* `onedesk.one_slide.api.shown`
-* `onedesk.one_slide.api.update_slide_attachments`
-* `onedesk.one_slide.api.update_theme`
-* `onedesk.one_slide.api.update_title`
-* `onedesk.one_slide.api.upload`
-* `onedesk.one_slide.api.visited`
-* `onedesk.one_slide.data.fields`
-* `onedesk.one_slide.data.for_each`
-* `onedesk.one_slide.data.freeze`
-* `onedesk.one_slide.data.save_sources`
-* `onedesk.one_slide.data.values`
-* `onedesk.one_slide.fonts.css`
-* `onedesk.one_slide.fonts.face`
-* `onedesk.one_slide.fonts.google_add`
-* `onedesk.one_slide.fonts.google_search`
-* `onedesk.one_slide.fonts.library`
-* `onedesk.one_slide.fonts.upload`
-* `onedesk.one_slide.from_powerpoint.open_file`
-* `onedesk.one_slide.guides.keep`
-* `onedesk.one_slide.layouts.restyle`
-* `onedesk.one_slide.library.forget`
-* `onedesk.one_slide.library.keep`
-* `onedesk.one_slide.library.shelves`
-* `onedesk.one_slide.master.edit`
-* `onedesk.one_slide.paper.pdf`
-* `onedesk.one_slide.powerpoint.export`
-* `onedesk.one_slide.remote.admit`
-* `onedesk.one_slide.remote.notes`
-* `onedesk.one_slide.remote.pair`
-* `onedesk.one_slide.remote.pair_link`
-* `onedesk.one_slide.remote.unpair`
-* `onedesk.one_slide.resize.resize`
-* `onedesk.one_slide.shared.admit`
-* `onedesk.one_slide.shared.present_live`
-* `onedesk.one_slide.shared.stop_live`
-* `onedesk.one_slide.shared.viewed`
-* `onedesk.one_slide.shared.views`
-* `onedesk.one_slide.shared.where`
-* `onedesk.one_slide.templates.save_as`
-* `onedesk.one_slide.versions.keep`
-* `onedesk.one_slide.versions.listed`
-* `onedesk.one_slide.versions.restore`
 * `onedesk.one_studio.automations.steps`
 * `onedesk.one_studio.control.load`
 * `onedesk.one_studio.customize.export`

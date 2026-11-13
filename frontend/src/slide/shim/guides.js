@@ -1,7 +1,7 @@
 // A presentation's guides, and whether this person sees them and the rulers
 // they are dragged from (shim/Rulers.vue); hidden, they snap nothing. A guide
 // is an axis and a place in slide units, x a line down the slide and y one
-// across it, kept on the presentation (one_slide/guides.py) and snapped to
+// across it, kept on the presentation (one_deck/guides.py) and snapped to
 // while moving or sizing (composables/useSnapping.js, a One: edit).
 import { ref } from "vue";
 import { call, userSettings } from "../../kit/desk";
@@ -48,7 +48,7 @@ function keep() {
 	clearTimeout(timer);
 	if (!presentation) return;
 	const name = presentation;
-	timer = setTimeout(() => call("onedesk.one_slide.guides.keep", { name, guides: JSON.stringify(guides.value) }), 600);
+	timer = setTimeout(() => call("onedesk.one_deck.guides.keep", { name, guides: JSON.stringify(guides.value) }), 600);
 }
 
 const limit = (axis) => (axis === "x" ? frame.w : frame.h);

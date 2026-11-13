@@ -115,8 +115,8 @@ def slides(name: str | None, today=None, edge: int | None = None) -> dict | None
 
 
 def _presented(row, edge: int | None = None) -> list[dict]:
-	"""A presentation row's slides, as one_slide/play.py gives them to a screen."""
-	from onedesk.one_slide import api, play
+	"""A presentation row's slides, as one_deck/play.py gives them to a screen."""
+	from onedesk.one_deck import api, play
 
 	url = frappe.db.get_value("File", row.presentation, "file_url") if row.presentation else None
 	name = api.presentation_of(url)
@@ -423,8 +423,8 @@ PIXELS = re.compile(r"(\d+)\D+(\d+)\D+([\d.]+)x")
 def longest(channel: str) -> int:
 	"""How large a channel's pictures are asked for: the longest edge, in the
 	device's own pixels, of the largest screen showing it (screens._heard),
-	as one of the sizes pictures are copied at (one_slide/sized.py)."""
-	from onedesk.one_slide import sized
+	as one of the sizes pictures are copied at (one_deck/sized.py)."""
+	from onedesk.one_deck import sized
 
 	reported = frappe.get_all("Display Screen", filters={"channel": channel, "pixels": ["is", "set"]}, pluck="pixels")
 	return sized.bucket(max((_longest(one) for one in reported), default=0) or LONGEST)

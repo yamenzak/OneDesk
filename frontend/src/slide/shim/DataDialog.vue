@@ -1,5 +1,5 @@
 <!-- The presentation's sources, and their fields to put on a slide (shim/data.js,
-     one_slide/data.py): a field is put in as a chip, filled each time the slide
+     one_deck/data.py): a field is put in as a chip, filled each time the slide
      is drawn as whoever is looking. One's own; VENDORED.md. -->
 <template>
 	<Dialog v-model:open="open" :title="__('Data from Records')" size="xl">
@@ -51,7 +51,7 @@ async function learn() {
 			continue;
 		}
 		const doctype = doctypeOf(one);
-		if (doctype && !fieldsOf[one.key]) fieldsOf[one.key] = await call("onedesk.one_slide.data.fields", { doctype });
+		if (doctype && !fieldsOf[one.key]) fieldsOf[one.key] = await call("onedesk.one_deck.data.fields", { doctype });
 	}
 }
 watch([open, sources], () => open.value && learn(), { immediate: true });

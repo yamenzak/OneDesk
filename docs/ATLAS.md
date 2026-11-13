@@ -547,7 +547,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3 |  |
 | Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
-| File | through a form's link (Presentation: file) | everybody | class, events, 19 fields | no | taught |  | yes |  |  |  | Added to a Library, Closed in OneOS, Deleted While Open, File Ready, Shared With You |
+| File | through a form's link (Workbook: file) | everybody | class, events, 19 fields | no | taught |  | yes |  |  |  | Added to a Library, Closed in OneOS, Deleted While Open, File Ready, Shared With You |
 | File Blob | engine: a file's bytes under frappe's second way of storing files, which One leaves off; One keeps files in OneCloud | **nobody** | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Language | through a form's link (Print Format: default_print_language) | everybody | untouched | no | general |  | yes |  |  |  |  |
@@ -1011,6 +1011,16 @@ Pages: onecalendar (on a rail or a home).
 
 Pages: onecloud (on a rail or a home).
 
+## onedesk / One Deck
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Presentation | opened by our screens | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Presentation Version | engine: what a presentation's slides were at a moment, listed and restored from its Version History | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Presentation View | engine: one look at a presentation through a OneCloud link, read back as its Views in the editor | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+
+Pages: presentation (inside: a presentation opens on it from OneCloud).
+
 ## onedesk / One Display
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
@@ -1117,16 +1127,6 @@ Pages: onequality (on a rail or a home).
 | Workbook Version | engine: a workbook as it stood; its Version History lists them | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: workbook (inside: a workbook opens on it from OneCloud).
-
-## onedesk / One Slide
-
-| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Presentation | opened by our screens | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
-| Presentation Version | engine: what a presentation's slides were at a moment, listed and restored from its Version History | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-| Presentation View | engine: one look at a presentation through a OneCloud link, read back as its Views in the editor | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
-
-Pages: presentation (inside: a presentation opens on it from OneCloud).
 
 ## onedesk / One Studio
 

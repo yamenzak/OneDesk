@@ -249,7 +249,7 @@ const highlightElement = (element) => {
 // Offsets center the scaled slide, shifted for the side panels (edit: nav +
 // properties; readonly: nav only). Recompute if widths change.
 const slidePlace = computed(() => {
-	// a screen has no slides rail (stage 7 of docs/ONESLIDE.md)
+	// a screen has no slides rail (stage 7 of docs/ONEDECK.md)
 	const shift = screen.value || masterOf.value ? (inReadonlyMode.value ? 0 : 144) : inReadonlyMode.value ? -95.5 : 32
 	return {
 		...frameSize(),

@@ -55,6 +55,6 @@ that every module uses instead of writing its own.
 The first viewer exists without the doctype: a presentation opened through a
 OneCloud link (`/s/<token>`) is played on the link's page instead of being
 downloaded, drawn as a screen draws it, filled as the person who shared it,
-with Present Live and Views (`one_slide/shared.py`, `one_slide/AGENTS.md`).
+with Present Live and Views (`one_deck/shared.py`, `one_deck/AGENTS.md`).
 The link's gates are OneCloud's, unchanged. When `Share Link` and the
 `one_share_viewers` hook exist, this becomes the presentation's viewer.

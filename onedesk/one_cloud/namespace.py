@@ -383,7 +383,7 @@ def _document(item: dict) -> str | None:
 
 
 def _presentation(item: dict) -> str | None:
-	from onedesk.one_slide.api import presentation_of
+	from onedesk.one_deck.api import presentation_of
 
 	return None if item.get("is_folder") else presentation_of(item.get("file_url"))
 

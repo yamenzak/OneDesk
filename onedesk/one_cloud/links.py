@@ -318,13 +318,13 @@ def get(token: str, item: str | None = None, download: int = 0):
 		frappe.local.response.type = "download"
 		frappe.local.response.display_content_as = "attachment"
 		return None
-	from onedesk.one_slide import api as slides
+	from onedesk.one_deck import api as slides
 
 	if held := slides.presentation_of(found.file_url):
 		# a presentation is viewed on the link's page; what it downloads is PowerPoint
 		if not cint(download):
 			return redirect(f"/s/{quote(token)}" + (f"?in={quote(item, safe='')}" if item else ""), 302)
-		from onedesk.one_slide import powerpoint
+		from onedesk.one_deck import powerpoint
 
 		frappe.local.response.filename = found.file_name + ".pptx"
 		frappe.local.response.filecontent = powerpoint.build(held, reader=link.owner)[0]

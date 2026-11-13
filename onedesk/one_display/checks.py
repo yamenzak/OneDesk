@@ -221,7 +221,7 @@ def onedisplay_draws_any_size_and_pictures_as_sharp_as_the_screen():
 	from werkzeug.wrappers import Request
 
 	from onedesk.one_display import programme, sizes
-	from onedesk.one_slide import api, play, sized
+	from onedesk.one_deck import api, play, sized
 
 	assert sizes.pixels({"screen_size": "Bar"}) == (1920, 540) and sizes.editor({"screen_size": "Wall"}) == (1920, 540)
 	assert sizes.pixels({"screen_size": "Custom", "width": 99999, "height": 10}) == (sizes.LARGEST, sizes.SMALLEST)
@@ -251,7 +251,7 @@ def onedisplay_draws_any_size_and_pictures_as_sharp_as_the_screen():
 		sized.make(picture, 3840)
 		assert sized.served(picture, 3840) is None, "a picture never grows"
 		with as_user("Guest"):
-			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.shown", method="GET").get_environ())
+			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_deck.api.shown", method="GET").get_environ())
 			sent = api.shown(picture, play.seal(picture), edge=1920)
 			assert sent.status_code == 200 and Image.open(io.BytesIO(b"".join(sent.response))).size == (1920, 1280)
 		gone = frappe.get_doc("File", picture)
@@ -279,7 +279,7 @@ def onedisplay_shows_data_and_media_without_the_editor():
 	from PIL import Image
 
 	from onedesk.one_display import live, playlist, programme, sources
-	from onedesk.one_slide import api, data, play
+	from onedesk.one_deck import api, data, play
 
 	frappe.db.savepoint("onedisplay_data")
 	made = []
@@ -490,7 +490,7 @@ def onedisplay_plays_a_presentation():
 
 	from onedesk.one_display import programme
 	from onedesk.one_display.patches import presentations_on_screens as patch
-	from onedesk.one_slide import api, play
+	from onedesk.one_deck import api, play
 
 	dot = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
 	channel = frappe.get_doc("Display Channel", CHANNEL)
@@ -516,7 +516,7 @@ def onedisplay_plays_a_presentation():
 		assert any(one["type"] == "text" and "Frameless" in one["content"] for one in first), "the slide's words reach the screen"
 		file_id, sig = sealed[len(play.SHOWN) :].split("&sig=")
 		with as_user("Guest"):
-			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.shown", method="GET").get_environ())
+			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_deck.api.shown", method="GET").get_environ())
 			assert api.shown(file_id, sig).status_code == 200, "a screen fetches the picture as nobody"
 			try:
 				api.shown(file_id, "0" * 32)
@@ -599,15 +599,15 @@ def onedisplay_lays_out_a_collection_and_asks_oneai():
 
 
 @check
-def onedisplay_builds_a_screen_in_oneslide():
-	"""The workshop's screen opens in OneSlide's editor as its backdrop, made
+def onedisplay_builds_a_screen_in_onedeck():
+	"""The workshop's screen opens in OneDeck's editor as its backdrop, made
 	once: its widgets are on the one slide as widget elements at their
 	places. Saving a moved clock and a heading keeps the clock's row, by its
 	id, ten percent further left, and the heading in the backdrop, which the
-	screen draws under the widgets (stage 7 of docs/ONESLIDE.md)."""
+	screen draws under the widgets (stage 7 of docs/ONEDECK.md)."""
 	from onedesk.one_display import layout, programme, screen
 	from onedesk.one_display.demo import WORKSHOP
-	from onedesk.one_slide import api
+	from onedesk.one_deck import api
 
 	frappe.db.savepoint("screen_check")
 	try:

@@ -8,7 +8,7 @@ import uuid
 import frappe
 
 from onedesk.one_demo.base import as_user
-from onedesk.one_slide import api, setup
+from onedesk.one_deck import api, setup
 
 OWNER = "wsadmin@one.test"
 CHECKER = "karim@one.test"

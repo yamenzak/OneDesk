@@ -125,12 +125,12 @@ function onedesk_handlers(socket) {
 
 	// A guest on a presentation's link joins by the ticket its page was given
 	// once it passed the link's gates (only the session's cookie reaches
-	// frappe_request); it only hears where the presenter is (one_slide/shared.py).
+	// frappe_request); it only hears where the presenter is (one_deck/shared.py).
 	socket.on("onedesk_slide_join", async (token, item, ticket, ack) => {
 		const reply = typeof ack === "function" ? ack : () => {};
 		if (!token || !ticket) return reply({ ok: false });
 		try {
-			const res = await socket.frappe_request("/api/method/onedesk.one_slide.shared.admit", { token, item: item || "", ticket });
+			const res = await socket.frappe_request("/api/method/onedesk.one_deck.shared.admit", { token, item: item || "", ticket });
 			const { message } = await res.json();
 			if (!message || !message.ok) return reply({ ok: false });
 			for (const room of message.rooms || []) {
@@ -145,13 +145,13 @@ function onedesk_handlers(socket) {
 
 	// A phone and the screen it drives (the presenter view, or a page showing
 	// a presentation through a link) meet in the room of the phone's token,
-	// each with its own key (one_slide/remote.py admit). Only what a remote
+	// each with its own key (one_deck/remote.py admit). Only what a remote
 	// says passes, small, and never back to whoever said it.
 	socket.on("onedesk_remote_join", async (token, key, ack) => {
 		const reply = typeof ack === "function" ? ack : () => {};
 		if (!token || !key) return reply({ ok: false });
 		try {
-			const res = await socket.frappe_request("/api/method/onedesk.one_slide.remote.admit", { token, key });
+			const res = await socket.frappe_request("/api/method/onedesk.one_deck.remote.admit", { token, key });
 			const { message } = await res.json();
 			if (!message || !message.ok || !String(message.room).startsWith("onedesk:remote/")) return reply({ ok: false, taken: !!(message && message.taken) });
 			socket.onedesk_remote = message.room;

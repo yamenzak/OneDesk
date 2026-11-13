@@ -26,11 +26,11 @@ For the people who build OneCloud. OneAI's `how_to` reads `docs/`, never this fi
 
 **What OneAI makes** (`made.py`). Four jobs in `one_ai/jobs.py`,
 `cloud_picture`, `cloud_music`, `cloud_video` and `cloud_voice`, each with its
-words in `one_ai/words/`, billed through OneAdmin like OneSlide's and
+words in `one_ai/words/`, billed through OneAdmin like OneDeck's and
 OneDisplay's. A picture and speech are made in the request; music and a video
 on the long queue (`made_later`), and the asker hears `File Ready` or `File
-Not Made`. The video waits as OneSlide's
-does (`one_slide.ai._video`). Speech comes back as raw samples and is kept as
+Not Made`. The video waits as OneDeck's
+does (`one_deck.ai._video`). Speech comes back as raw samples and is kept as
 a WAV (`one_display.voices._wav`). The file goes in through `upload._place`,
 so the folder's add permission is the check.
 
@@ -170,7 +170,7 @@ the file had that was not kept (`outside_dropped`, shown until dismissed).
 ### Opening an office file (opening.py)
 
 `opening.way(file_name)`, pure, is what Edit offers by extension: `edit` in
-OneWorkbook (xlsx, csv) or OneWriter (docx), `make` a OneSlide deck (pptx,
+OneWorkbook (xlsx, csv) or OneWriter (docx), `make` a OneDeck deck (pptx,
 ppsx), `copy` into a workbook or document of One's own (xlsm, xltm, xls,
 docm, dotm). `namespace.node` puts it on the row as `office`, with `loses`
 once this version has been read. `opening.weigh` reads it the first time

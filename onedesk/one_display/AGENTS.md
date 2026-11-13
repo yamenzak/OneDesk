@@ -138,9 +138,9 @@ frozen page cannot save itself; that is a native wrapper's job.
 ### Pictures as sharp as the screen
 
 A picture is resized only when it is larger than the largest screen it is
-shown on (`one_slide/sized.py`, at the edges in `store.SCREEN_EDGES`, quality
+shown on (`one_deck/sized.py`, at the edges in `store.SCREEN_EDGES`, quality
 92), never made larger, the original kept, the copy served through
-`one_slide.api.shown` with the edge. Videos are not re-encoded; one larger
+`one_deck.api.shown` with the edge. Videos are not re-encoded; one larger
 than a screen says it shows is flagged on that screen.
 
 ### Offline
@@ -234,7 +234,7 @@ tells the board's people when an item passes its state's limit.
 
 ## Templates and ready-made widgets
 
-`starters.py` is the library of whole screens, built in code as OneSlide's
+`starters.py` is the library of whole screens, built in code as OneDeck's
 decks are, so each comes in the reader's language, the business's colour
 (`decks.brand`) and logo, and the frame of the collection it is put on. A
 `Canvas` lays a screen out in percent; words are sized on a short side of
@@ -251,7 +251,7 @@ the time on a pill that reads on the screen's ground; `_bare` is a widget
 with nothing around it, in one colour. The groups after the first five are
 places (`GROUPS`): shops, food and drink, clinics, offices, events, schools. `made` returns the slide for the editor, which puts it on the canvas
 as one command that undoes (`shim/ScreenTemplates.vue`); `apply` saves it
-as the editor would, through `api.save_slides` and the `one_slide_saving`
+as the editor would, through `api.save_slides` and the `one_deck_saving`
 hook. The editor opens an empty screen on its templates; `for_channel`
 makes a channel's layout the first time, for **Choose a Layout**.
 
@@ -279,17 +279,17 @@ and the canvas (`shim/WidgetElement.vue`) draw a widget with
 
 ## Data on screens
 
-A screen's editor offers OneSlide's data chips (`one_slide/data.py`) with a
-Display Source as one more kind (`rows`, through the `one_slide_rows`
+A screen's editor offers OneDeck's data chips (`one_deck/data.py`) with a
+Display Source as one more kind (`rows`, through the `one_deck_rows`
 hook). A source is read again on its own clock (`sources.KEPT`); a saved
 record a source reads (`live.record_saved`, on every doctype's save) drops
 its cache and wakes the screens showing it, once a request.
 
 ## Slides
 
-A slide playlist plays **presentations** from OneCloud, made in OneSlide,
-and web pages (docs/ONESLIDE.md, stage 5). A row links a presentation's
-**File**, picked through `one_slide.api.search`, which offers only what the
+A slide playlist plays **presentations** from OneCloud, made in OneDeck,
+and web pages (docs/ONEDECK.md, stage 5). A row links a presentation's
+**File**, picked through `one_deck.api.search`, which offers only what the
 person picking may open; the playlist's `validate` checks the same, so a
 playlist is never a way to show somebody's private slides. **New
 Presentation** on the playlist makes one filed on the playlist and opens it.
@@ -297,21 +297,21 @@ Presentation** on the playlist makes one filed on the playlist and opens it.
 Pictures and videos dropped on a playlist (`playlist.add_media`) become one
 presentation each, the file filling its slide, filed on the playlist.
 
-An element can come and go (OneSlide's Motion): `play.js` draws it on a box as
+An element can come and go (OneDeck's Motion): `play.js` draws it on a box as
 large as the slide moved by one keyframe track of `transform` and `opacity`;
 a screen has nobody clicking, so what waits for a click comes a second after
 the one before it.
 
 `programme.slides` gives a screen each of a presentation's slides in turn
-(`one_slide/play.py`, `for_screen`): the editor's own elements, cleaned
+(`one_deck/play.py`, `for_screen`): the editor's own elements, cleaned
 when they were saved, each slide as long as `play.length` says (a video that
 does not loop watched to its end, then the slide's Advance, else the row's
 seconds) and changing with its own transition (Magic Move fades), hidden
 elements left out, a table drawn to HTML, and its pictures
 and videos at addresses sealed with the site's key (`play.seal`,
-`one_slide.api.shown`), since a screen signs in as nobody.
+`one_deck.api.shown`), since a screen signs in as nobody.
 
-**One renderer.** `public/js/one_slide/play.js` is ES5 and draws a slide
+**One renderer.** `public/js/one_deck/play.js` is ES5 and draws a slide
 from its elements on the presentation's frame scaled to the screen: text as the
 sanitised HTML it is, shapes as SVG (Suite's and our star and block arrow),
 fades, blur, free CSS, pictures with their crop, videos joining the shared
@@ -323,15 +323,15 @@ TV keeps a video's decoder until then.
 The pictures, videos and designed slides playlists held before stage 5
 were turned into one-slide presentations filed on their playlist by
 `patches/presentations_on_screens.py`, a designed slide through
-`one_slide/convert.py`.
+`one_deck/convert.py`.
 
 ## What OneAI does
 
 `make.py` makes a Custom widget's code and a piece of music;
 `voices.record` records a voice ad. Each comes back as something a person
 keeps or not; nothing goes on a screen by itself. Pictures, videos and
-designed slides are made in a presentation, with OneSlide's own jobs
-(`one_slide/ai.py`).
+designed slides are made in a presentation, with OneDeck's own jobs
+(`one_deck/ai.py`).
 
 Music (Lyria) is one call, made in a `long` job. It arrives at the end of its
 playlist **Paused**, its length read from the file, and whoever asked is told
@@ -364,10 +364,10 @@ one).
 
 - **No Frappe Builder.** Builder's pages use flex `gap` and `:has()`, which a
   TV's Chromium ignores, its fonts come from Google, and installing it brings
-  pandas, duckdb and litellm. Slides are made in OneSlide, Suite's editor
+  pandas, duckdb and litellm. Slides are made in OneDeck, Suite's editor
   with our Builder half, and drawn on the screen by an ES5 renderer of what
   it saves; widgets are placed in the same editor, as elements on a screen's
-  backdrop presentation (`screen.py`, stage 7 of docs/ONESLIDE.md).
+  backdrop presentation (`screen.py`, stage 7 of docs/ONEDECK.md).
 - **No LightningJS.** WebGL cannot draw HTML from a design or a custom
   widget, its text does not shape Arabic, and cheap sticks have unreliable
   WebGL. The player is plain DOM with `transform` and `opacity`.
@@ -389,7 +389,7 @@ one).
 | `widgets.py` | Every widget kind: slots, settings, which sources fill it; the looks and the ready-made widgets |
 | `starters.py` | The templates: whole screens built in code, offered in the editor and put on a layout |
 | `layout.py` | A collection's widgets, read and saved back |
-| `screen.py` | A collection edited in OneSlide's editor: its backdrop presentation, widgets on and off its slide, what the TV draws behind them |
+| `screen.py` | A collection edited in OneDeck's editor: its backdrop presentation, widgets on and off its slide, what the TV draws behind them |
 | `live.py` | Waking screens over the socket |
 | `queue.py` | Tickets, the board, the counter's actions |
 | `voices.py`, `make.py` | What OneAI records and makes |
@@ -402,7 +402,7 @@ one).
 | `patches/presentations_on_screens.py` | Pictures, videos and designed slides, made presentations |
 | `patches/sizes_from_orientation.py`, `number_and_list_are_words.py`, `sound_in_zones.py`, `ads_on_their_record.py` | Orientation to sizes; Number and List to words; each channel's sound into a zone; ad recordings onto their ads |
 | `page/boards/` | The Boards island |
-| `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker; `../public/js/one_slide/play.js` draws a slide |
+| `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker; `../public/js/one_deck/play.js` draws a slide |
 | `../public/js/one_display/display_control.js` | Settings and the foot |
 | `../public/images/one_display/` | Each template's picture, and the abstract pictures templates start with |
 | `../../frontend/src/display/` | The counter and Boards |

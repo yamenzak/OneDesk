@@ -289,7 +289,7 @@ def _paired():
 
 def _showroom() -> None:
 	"""The lobby's slides, a presentation of three filed on the playlist."""
-	from onedesk.one_slide import api, convert
+	from onedesk.one_deck import api, convert
 
 	file = api.make_with(
 		"@records/Slide Playlist/Showroom", "Showroom slides", [convert.slide(_design(*one)) for one in SLIDES]
@@ -301,7 +301,7 @@ def _showroom() -> None:
 
 def _design(ground: str, eyebrow: str, title: str, line: str) -> dict:
 	"""A showroom slide as OneDisplay's blocks, as OneAI designs one, for
-	one_slide/convert.py to draw as a presentation's slide."""
+	one_deck/convert.py to draw as a presentation's slide."""
 	text = {"kind": "text", "colour": "#ffffff", "align": "start", "x": 6, "w": 54}
 	return {
 		"orientation": "Landscape",

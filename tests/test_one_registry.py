@@ -57,7 +57,7 @@ def _defined(dotted: str) -> bool:
 	return False
 
 
-@pytest.mark.parametrize("name", [*hooks.CONVENTIONS, "one_record_tabs", "one_homes", "one_slide_rows"])
+@pytest.mark.parametrize("name", [*hooks.CONVENTIONS, "one_record_tabs", "one_homes", "one_deck_rows"])
 def test_every_entry_a_hook_is_given_is_there(name):
 	missing = [entry for entry in hooks.hook(name) if not _defined(entry)]
 	assert hooks.hook(name) and not missing, missing

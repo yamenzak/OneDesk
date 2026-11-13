@@ -460,12 +460,12 @@ doc_events = {
 		"on_update": "onedesk.one_hr.tell.grievance_answered",
 	},
 	"File": {
-		"before_insert": ["onedesk.one_sheet.api.copied", "onedesk.one_doc.api.copied", "onedesk.one_slide.api.copied"],
+		"before_insert": ["onedesk.one_sheet.api.copied", "onedesk.one_doc.api.copied", "onedesk.one_deck.api.copied"],
 		"validate": ["onedesk.one_ai.reading.switches.file_switched", "onedesk.one_project.media.kept_shown"],
 		"after_insert": [
 			"onedesk.one_sheet.api.placed",
 			"onedesk.one_doc.api.placed",
-			"onedesk.one_slide.api.placed",
+			"onedesk.one_deck.api.placed",
 			"onedesk.one_ai.reading.pipeline.file_added",
 			"onedesk.one_project.media.changed",
 		],
@@ -482,7 +482,7 @@ doc_events = {
 			"onedesk.one_project.media.changed",
 			"onedesk.one_sheet.api.file_gone",
 			"onedesk.one_doc.api.file_gone",
-			"onedesk.one_slide.api.file_gone",
+			"onedesk.one_deck.api.file_gone",
 		]
 	},
 	"Employee Onboarding": {
@@ -666,6 +666,10 @@ standard_queries = {
 override_whitelisted_methods = {
 	"onedesk.one_storage.store.fetch": "onedesk.one_cloud.store.fetch",
 	"onedesk.one_storage.dav.serve": "onedesk.one_cloud.dav.serve",
+	"onedesk.one_slide.api.download": "onedesk.one_deck.api.download",
+	"onedesk.one_slide.api.media": "onedesk.one_deck.api.media",
+	"onedesk.one_slide.api.shown": "onedesk.one_deck.api.shown",
+	"onedesk.one_slide.fonts.face": "onedesk.one_deck.fonts.face",
 	"frappe.utils.global_search.search": "onedesk.one.outside.search",
 	"frappe.desk.page.setup_wizard.setup_wizard.setup_complete": "onedesk.one.setup_wizard.setup_complete",
 	"erpnext.stock.doctype.material_request.material_request.update_status": "onedesk.one_inventory.tell.update_status",
@@ -1135,12 +1139,12 @@ one_notification_types = ["onedesk.notifications.TYPES"]
 
 one_abilities = hook("one_abilities")
 
-# What another module adds to a presentation as OneSlide loads and saves it
-# (one_slide/api.py): OneDisplay's widgets on a screen's backdrop.
-one_slide_loaded = hook("one_slide_loaded")
-one_slide_saving = hook("one_slide_saving")
-# a presentation's `rows` source: a Display Source's rows, for chips on a screen (one_slide/data.py)
-one_slide_rows = hook("one_slide_rows")
+# What another module adds to a presentation as OneDeck loads and saves it
+# (one_deck/api.py): OneDisplay's widgets on a screen's backdrop.
+one_deck_loaded = hook("one_deck_loaded")
+one_deck_saving = hook("one_deck_saving")
+# a presentation's `rows` source: a Display Source's rows, for chips on a screen (one_deck/data.py)
+one_deck_rows = hook("one_deck_rows")
 
 # What each module shows on the portal, in its own portal.py's KINDS, read by
 # OnePortal's engine (one_portal/portal.py `kinds`).

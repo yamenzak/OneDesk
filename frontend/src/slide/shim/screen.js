@@ -1,4 +1,4 @@
-// A widget put on a screen's canvas (stage 7 of docs/ONESLIDE.md): centred,
+// A widget put on a screen's canvas (stage 7 of docs/ONEDECK.md): centred,
 // at its kind's size in percent of the screen, above everything, chosen, and
 // one undoable step like any element added from the bar.
 import { commandHistory } from "../stores/historyMeta";
