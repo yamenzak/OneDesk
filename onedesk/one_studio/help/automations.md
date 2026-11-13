@@ -51,7 +51,7 @@ it, it runs as you.
 
 **Tell People** notifies the people it names (team members, the record's
 creator or its assignee) in {one}, and by email if they chose (**Automation
-Notice** in NotificationCenter's **Words and Rules**). Give it a subject and
+Notice** in {notification_center}'s **Words and Rules**). Give it a subject and
 message, or a **Mail Template**. The template is filled in from the record the
 same way the email window does it, with amounts and dates as the record shows
 them.

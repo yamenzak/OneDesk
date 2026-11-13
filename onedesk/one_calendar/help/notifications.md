@@ -8,7 +8,7 @@
 - **Today's Events**: each morning, what's on your calendar that day. Not sent on a day with nothing on it.
 
 Whoever made a change isn't told of it. Each comes to the bell, and by email
-or push as you choose in NotificationCenter, which **Notifications** in
+or push as you choose in {notification_center}, which **Notifications** in
 {one_calendar}'s settings opens.
 
 ## Guests Outside

@@ -42,6 +42,9 @@ def test_the_one_of_a_name_is_light_everywhere():
 	assert '"/assets/onedesk/js/brand.js"' in hooks
 	brand = (tree.APP / "public" / "js" / "brand.js").read_text(encoding="utf-8")
 	assert "MutationObserver" in brand and '"one-light"' in brand and '"one-name"' in brand
+	for drawn in ("NAME", "CENTER"):
+		assert f"onedesk.brand.{drawn} = onedesk.brand.pattern(" in brand, f"brand.{drawn} is read from the registry"
+	assert "frappe.boot?.one_names" in brand.split("onedesk.brand.named_like", 1)[1].split(";", 1)[0]
 	for kept in ("input", "textarea", "[contenteditable]", "[data-v-app]"):
 		assert kept in brand
 	assert ".one-light {" in (tree.APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")

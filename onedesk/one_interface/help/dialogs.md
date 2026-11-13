@@ -28,7 +28,7 @@ what is still missing. The link under the fields opens the whole form.
 
 ## Centres
 
-AccessCenter, NotificationCenter, {trust_center}, AICenter and {account_center}
+{access_center}, {notification_center}, {trust_center}, {ai_center} and {account_center}
 open over the screen, with their sections down the left. A page inside a
 section has an arrow before its title that goes back. The question mark in
 the corner opens Help for the section, the arrows make a centre fill the

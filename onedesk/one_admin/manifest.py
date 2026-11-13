@@ -55,3 +55,7 @@ APP = App(
 		"Sales Stage",
 	),
 )
+
+PARTS = (
+	App(id="one_credits", name="OneCredits", kind="engine", module=""),
+)

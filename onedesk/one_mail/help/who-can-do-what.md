@@ -1,7 +1,7 @@
 # Who Can Do What
 
 What each person may change in {one_mail} is their {one_mail} role. A Workspace
-Administrator sets it in **AccessCenter**, opened from **Roles and Access** at
+Administrator sets it in **{access_center}**, opened from **Roles and Access** at
 the end of {one_mail}'s settings, or on the person's page in **{account_center} ›
 People**. Workspace Administrators can do everything.
 
@@ -15,18 +15,18 @@ People**. Workspace Administrators can do everything.
 ## What Each Role Starts With
 
 This is what {one_mail}'s roles hold when {one_mail} arrives in a workspace.
-**Roles** in AccessCenter changes any of it, and an update never undoes a
+**Roles** in {access_center} changes any of it, and an update never undoes a
 change you made.
 
 {roles}
 
 ## Your Own Roles
 
-A Workspace Administrator makes more roles under **Roles** in AccessCenter.
+A Workspace Administrator makes more roles under **Roles** in {access_center}.
 It's one table: what {one_mail} lets a role do down the side, every role across
 the top. **People** beside it shows everybody's {one_mail} role and changes it.
 
-![The Roles table in AccessCenter](who-can-do-what/roles.png)
+![The Roles table in {access_center}](who-can-do-what/roles.png)
 
 | Kind of row | Choices |
 | --- | --- |
@@ -44,7 +44,7 @@ On a shared mailbox's **Users** tab, each person shows their {one_mail} role, an
 **Edit Access** lets them change parts of that one mailbox, such as its
 signature or Automation, beyond what their role allows. It offers only what the
 role doesn't already, and taking them off the mailbox takes it away too.
-**On One Record** in AccessCenter lists everybody given more on one mailbox,
+**On One Record** in {access_center} lists everybody given more on one mailbox,
 and changes or takes it away there too.
 
 ## Other People's Mailboxes

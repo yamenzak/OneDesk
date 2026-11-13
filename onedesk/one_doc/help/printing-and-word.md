@@ -46,8 +46,8 @@ footnotes, a bar over the page names them, and what you write stays in
 | **Save Over Original** | Saves into the Word file and drops what the bar names. The file as it was is kept in its versions. |
 | **Save as Copy** | Saves a new Word file beside it and goes on in the copy. The original stays as it was. |
 
-A .docm file, which has macros, opens in OneOS rather than here. While
-somebody has the file open in OneOS, it opens read-only here and says who.
+A .docm file, which has macros, opens in {oneos} rather than here. While
+somebody has the file open in {oneos}, it opens read-only here and says who.
 
 **File › Download as HTML** and **Download as Markdown** save a copy of it
 to your computer.

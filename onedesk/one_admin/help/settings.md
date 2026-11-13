@@ -44,9 +44,9 @@ when it needs the code. Until the app is installed, servers use the
 field.
 
 You never add a secret to the repository on GitHub. Once the app is
-installed, production's {one_admin} writes the secrets the release and OneOS
+installed, production's {one_admin} writes the secrets the release and {oneos}
 image workflows use, and **Set Up Again** on the **Cloudflare** tab writes
-them again. The tile lists what was written. When OneOS's desktop hasn't been
+them again. The tile lists what was written. When {oneos}'s desktop hasn't been
 built for the current code, **Set Up Again** starts building it, and the next
 **Set Up Again** deploys it. An app made before this asks for **Secrets: Read
 and write** and **Actions: Read and write**: give it those on GitHub, accept

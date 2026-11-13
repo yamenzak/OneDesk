@@ -1,10 +1,10 @@
-# AICenter
+# {ai_center}
 
-Everything about {one_ai} that can be set is in **AICenter**, opened from its
+Everything about {one_ai} that can be set is in **{ai_center}**, opened from its
 row on {one}'s rail, from **{one_ai}** in a module's settings, and from the cog
 at the foot of Documents.
 
-![AICenter on its {one_ai} tab](settings/aicenter.png)
+![{ai_center} on its {one_ai} tab](settings/aicenter.png)
 
 ## What Each Tab Holds
 
@@ -24,6 +24,6 @@ for Workspace Administrators. Each change saves as you make it.
 
 ## For One Module
 
-**{one_ai}** in a module's settings opens AICenter on that module alone;
-**AICenter** on {one}'s rail opens the whole of it. The arrows by its name make
+**{one_ai}** in a module's settings opens {ai_center} on that module alone;
+**{ai_center}** on {one}'s rail opens the whole of it. The arrows by its name make
 the window larger, as on every centre.

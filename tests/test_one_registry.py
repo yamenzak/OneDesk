@@ -39,6 +39,17 @@ def test_names_are_read_from_the_manifest():
 	assert registry.of_module("Stock").id == "one_inventory"
 
 
+def test_a_centre_inside_another_folder_is_named_by_it():
+	"""ControlCenter, OneOS and the rest are their folder's manifest's PARTS:
+	named as an app is, and no app of their own."""
+	assert registry.name("control_center") == "ControlCenter" and registry.name("oneos") == "OneOS"
+	assert registry.names()["ai_center"] == "AICenter"
+	assert not {one.id for one in registry.parts()} & {one.id for one in registry.apps()}
+	for twin in (registry.App(id="x", name="OneBook", kind="centre", module=""), registry.App(id="y", name="Y", kind="room", module="")):
+		with pytest.raises(registry.Invalid):
+			registry._check_parts([twin], registry.apps())
+
+
 def _defined(dotted: str) -> bool:
 	"""Whether a dotted path is a module of ours, or a name a module of ours
 	defines at its top level."""

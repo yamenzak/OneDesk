@@ -9,12 +9,12 @@ who can do everything.
 | Role | Who has it | What they may do |
 | --- | --- | --- |
 | **User** | Everyone | Ask {one_ai}, approve their own cards, and keep their own memories. |
-| **Manager** | People you choose | Write Knowledge, and see what {one_ai} used, job by job, in AICenter. |
+| **Manager** | People you choose | Write Knowledge, and see what {one_ai} used, job by job, in {ai_center}. |
 
 ## What Each Role Starts With
 
 This is what {one_ai}'s roles hold when {one_ai} arrives in a workspace. **Roles**
-in AccessCenter changes any of it, and an update never undoes a change you
+in {access_center} changes any of it, and an update never undoes a change you
 made.
 
 {roles}

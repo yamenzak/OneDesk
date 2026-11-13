@@ -26,4 +26,4 @@ work out to, and only workbooks you may open.
 instead.
 
 Each question uses credits like any other. An administrator can turn {one_ai}
-off for {one_sheet} in AICenter.
+off for {one_sheet} in {ai_center}.

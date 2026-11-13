@@ -9,7 +9,7 @@ read. Click it to open the panel:
   record. That marks it read.
 - **Events** lists your events for today.
 - The double tick, **Mark all as read**, marks every one read.
-- The gear, **Notification Settings**, opens NotificationCenter, where
+- The gear, **Notification Settings**, opens {notification_center}, where
   you choose what also comes by email or push.
 
 ## Your Notifications
@@ -20,7 +20,7 @@ appears in {one}. Here you choose which ones you also get by **email** and by
 
 ## Push Notifications
 
-In NotificationCenter:
+In {notification_center}:
 
 - **Turn On Push** asks your browser for permission. After that, this browser
   gets the notifications you switch on for push.
@@ -35,7 +35,7 @@ In NotificationCenter:
 
 ## Choosing What You Get
 
-In NotificationCenter:
+In {notification_center}:
 
 - **Notifications** is the main switch. When it's off, you get no
   notifications and no emails, except the few that are always mailed.
@@ -65,7 +65,7 @@ offer the same as an Unsubscribe button. Emails that are always mailed have
 neither.
 
 Each switch is saved as you change it. Administrators choose what new people start
-with, and the text of each notification, in NotificationCenter's
+with, and the text of each notification, in {notification_center}'s
 **Words and Rules**.
 
 {one_ai} offers:
@@ -79,7 +79,7 @@ with, and the text of each notification, in NotificationCenter's
 ## The Workspace's Notifications
 
 Administrators see **Yours** and **Workspace** at the top of each app's page
-in NotificationCenter. **Workspace** lists everything the app sends here, with
+in {notification_center}. **Workspace** lists everything the app sends here, with
 three switches each: **Send**, and whether people may have it by **Email** and
 by **Push**. Click a notification to open its words.
 
@@ -129,7 +129,7 @@ three ways:
 
 ## Changing the Words
 
-In NotificationCenter's **Words and Rules**:
+In {notification_center}'s **Words and Rules**:
 
 Click a notification to open it, and save from the top right.
 
@@ -148,7 +148,7 @@ Click a notification to open it, and save from the top right.
   everybody starts with what is allowed. Turning a channel off stops it for
   everyone, including people who chose it. Turning it back on gives it to
   everyone again if new people start with it on. Each person changes their
-  own in NotificationCenter.
+  own in {notification_center}.
 
 ## Your Own Rules
 
@@ -169,7 +169,7 @@ a record type, they notify someone. They're at the top of the page. Click
    field of the record, such as `{{ doc.customer_name }}`. Nothing else can be
    used.
 5. **Channels**, as for any notification. The rule is then listed in
-   NotificationCenter with the others, so each person can choose how they get it.
+   {notification_center} with the others, so each person can choose how they get it.
 
 **Delete** removes a rule for good. With **Make a rule** in the {one_ai}
 panel, you describe the rule in your own words ("tell the
