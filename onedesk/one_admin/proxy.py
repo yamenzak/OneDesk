@@ -84,6 +84,23 @@ def setup_answers() -> dict:
 	return answers.of(held) or {}
 
 
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def agents_config() -> dict:
+	"""Where this workspace's agents run and the secret their calls are
+	signed with, its own, made from the Worker's (one_ai/agents/connect.py):
+	nothing until Set Up Cloudflare has deployed them."""
+	from onedesk.one_admin import vault
+	from onedesk.one_ai.agents import token
+
+	tenant = caller()
+	url = frappe.db.get_single_value("One Admin Settings", "agents_url")
+	master = vault.get("agents_secret")
+	if not url or not master:
+		return {}
+	return {"url": url, "secret": token.secret_for(master, tenant.name)}
+
+
 def _offered_token() -> str:
 	"""Our own header, because `Authorization` is already spoken for.
 

@@ -1005,6 +1005,13 @@ GUARDS = [
 		"tests/guards/test_ready.py::test_the_setup_tour_and_oneai_rules_catch_their_examples",
 	),
 	Guard(
+		"agent-levels",
+		16,
+		"an agent's action (a call REACH names, a tool TOOLS lists) with no level of Do it, Draft or Ask First",
+		"tests/guards/test_levels.py::test_every_action_of_an_agent_has_a_level",
+		"tests/guards/test_levels.py::test_the_level_rule_catches_its_examples",
+	),
+	Guard(
 		"roles-shipped",
 		18,
 		"a module whose roles do not ship from its access.py",

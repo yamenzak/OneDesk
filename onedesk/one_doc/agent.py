@@ -34,6 +34,11 @@ NOT_FOR_AI = {
 	"api.dismiss_dropped": "It puts away the note of what a save from the drive left out, in the editor.",
 }
 
+LEVELS = {
+	"api.make": "Draft",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
 #: The most characters of a document a read answers with.
 MOST_TEXT = 20_000
 

@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import tree
 
 ROLES = tree.APP / "one" / "roles.py"
-READS_IT = {tree.APP / "one" / "boot.py"}
+READS_IT = {tree.APP / "one" / "boot.py", tree.APP / "one" / "registry" / "agents.py"}
 
 
 def administrator(source: str) -> str | None:

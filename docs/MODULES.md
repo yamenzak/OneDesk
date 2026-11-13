@@ -179,7 +179,7 @@ No doctypes yet.
 | File Link | 4 | document |
 | Identifier | 6 | document |
 | Reading | 71 | document |
-| Reading Action | 19 | document |
+| Reading Action | 22 | document |
 | Reading Ask | 5 | child |
 | Reading Date | 6 | child |
 | Reading Lesson | 12 | document |
@@ -209,7 +209,7 @@ No doctypes yet.
 | Credit Reservation | 10 | document |
 | Health Check | 6 | document |
 | Offering | 25 | document |
-| One Admin Settings | 65 | single |
+| One Admin Settings | 67 | single |
 | OneOS Session | 29 | document |
 | Plan Feature | 1 | child |
 | Private App | 9 | document |
@@ -495,6 +495,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.update_now`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.private.new_code`
+* `onedesk.one_admin.proxy.agents_config`
 * `onedesk.one_admin.proxy.ai_begin`
 * `onedesk.one_admin.proxy.ai_collect`
 * `onedesk.one_admin.proxy.ai_embed`
@@ -573,6 +574,7 @@ No doctypes yet.
 * `onedesk.one_admin.testbed.new`
 * `onedesk.one_admin.testmail.read`
 * `onedesk.one_ai.actions.switch`
+* `onedesk.one_ai.agents.api.tool`
 * `onedesk.one_ai.brief.switch`
 * `onedesk.one_ai.center.drop_knowledge`
 * `onedesk.one_ai.center.keep_knowledge`

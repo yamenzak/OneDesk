@@ -9,6 +9,7 @@ import frappe
 from frappe import _lt
 
 from onedesk.one import registry
+from onedesk.one.registry import agents
 
 APP = registry.name("one_mail")
 
@@ -125,8 +126,14 @@ DEFAULTS = {
 
 
 def allowed(doc, ptype=None, user=None, debug=False) -> bool:
-	"""The has_permission hook for Communication. It can only refuse."""
+	"""The has_permission hook for Communication. It can only refuse. OneMail's
+	receptionist opens the messages of a mailbox OneAI reads, which is what
+	the mailbox's switch allows (gate.reads)."""
+	from onedesk.one_mail import gate
+
 	user = user or frappe.session.user
 	if user == "Administrator" or doc.communication_medium != "Email" or not doc.email_account:
 		return True
+	if user == agents.email("one_mail"):
+		return gate.reads(doc.email_account)
 	return bool(frappe.db.exists("User Email", {"parent": user, "email_account": doc.email_account}))

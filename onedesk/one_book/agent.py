@@ -23,6 +23,14 @@ NOT_FOR_AI = {
 	"ready.fix": "What Books Check fixes changes how the whole workspace keeps its books, so a manager presses Fix.",
 }
 
+TOOLS = ("draft_purchase_invoice",)
+"""What its agent calls in the workspace (one_ai/agents/api.py)."""
+
+LEVELS = {
+	"draft_purchase_invoice": "Draft",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
 HOME = "books"
 
 SALES, BUYING, LEDGER = "Sales Invoice", "Purchase Invoice", "GL Entry"
@@ -279,3 +287,31 @@ READS = (
 	"tax_now",
 )
 """The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+def draft_purchase_invoice(reading: str, asked_by: str | None = None) -> dict:
+	"""The accountant's job: a draft Purchase Invoice from an invoice
+	OneMail's receptionist handed on, as Intake's money planner reads it,
+	through the agents' door at the level LEVELS gives it. Nothing is made
+	where the mailbox does not let OneAI make money records, or a mail rule
+	already made the bill."""
+	from frappe.utils import cint
+
+	from onedesk.one_ai.agents import door
+	from onedesk.one_ai.reading import matters, money, planning
+	from onedesk.one_mail import gate
+
+	doc = frappe.get_doc("Reading", reading)
+	if doc.state != "Understood" or cint(doc.history) or not gate.does(gate.account_of("Reading", doc.name), "money"):
+		return {"drafts": []}
+	if BUYING in gate.made_by_rule(gate.message_of(doc.name)):
+		return {"drafts": []}
+	said = planning._said(doc)
+	ctx = planning.context(doc, said)
+	planning._money(ctx, doc)
+	made = []
+	for action in money.purchase(said, ctx):
+		action.key = matters.key(doc, action.key)
+		made.append(door.act_for("one_book", "draft_purchase_invoice", action, asked_by=asked_by, reading=doc))
+	rows = frappe.get_all("Reading Action", filters={"name": ["in", [one for one in made if one] or [""]]}, fields=["name", "level", "target_doctype", "target_name", "why"])
+	return {"drafts": rows}

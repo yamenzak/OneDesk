@@ -8,6 +8,7 @@ from frappe import _, _lt
 
 from onedesk.one import registry, roles, tell
 from onedesk.one.access import all_levels, companion
+from onedesk.one.registry import agents
 
 APPS = [(app.name, app.mark, app.roles.user, app.roles.manager) for app in registry.apps() if app.roles.user]
 """The apps a person is given a level in, with the roles each level means,
@@ -47,7 +48,7 @@ own switch (one/apps.py) until P8.3 retires it."""
 LEVELS = ("None", "User", "Manager")
 
 
-NOT_PEOPLE = ("Administrator", "Guest", "oneai@one.invalid")
+NOT_PEOPLE = ("Administrator", "Guest", "oneai@one.invalid", *(one.email for one in agents.listed()))
 
 
 def level_of(held: set, used: tuple, managed: tuple, levels: tuple | list = ()) -> str:

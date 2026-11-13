@@ -14,6 +14,7 @@ APP = App(
 	rail=110,
 	sidebar="OneProject",
 	roles=Roles(user=("Projects User",), manager=("Projects Manager",)),
+	agent=_lt("project coordinator"),
 	screens="project",
 	names=("one_project", "oneproject"),
 	help=(

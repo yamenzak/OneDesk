@@ -35,6 +35,12 @@ NOT_FOR_AI = {
 	"versions.restore": "Going back to a version is the person's call, from the editor's Version History.",
 }
 
+LEVELS = {
+	"api.make": "Draft",
+	"api.save_sheet": "Draft",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
 #: The most cells a read answers with, and a card writes.
 MOST_CELLS = 2000
 

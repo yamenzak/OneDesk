@@ -20,10 +20,10 @@ from onedesk.trust_center import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "12.1fd1c63f",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.3e332730",
+	"privacy": "27.f7f466d7",
 	"cookies": "2.946a434c",
 	"dpa": "7.a01dc637",
-	"subprocessors": "5.e5ff6950",
+	"subprocessors": "5.986a1865",
 	"ai": "25.cfb25ff5",
 	"licences": "1.c71daf62",
 }

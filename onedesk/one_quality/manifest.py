@@ -17,6 +17,7 @@ APP = App(
 	rail=70,
 	sidebar="OneQuality",
 	roles=Roles(user=("Quality User",), manager=("Quality Manager",)),
+	agent=_lt("quality inspector"),
 	screens="quality",
 	names=("one_quality", "onequality"),
 	help=(

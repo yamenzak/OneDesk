@@ -111,3 +111,27 @@ clause(
 		to Exa, and never a record, a document or a message. Each search is charged to your credits.
 	""",
 )
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneai-agents",
+	module=M,
+	body=f"""
+		Each app's agent, such as {registry.name("one_book")}'s accountant, works for your workspace from Cloudflare Workers. It
+		reads and changes your records only through your workspace, as a user of its own with its app's roles.
+		Every call it makes back is signed for your workspace alone and lasts two minutes at most. Cloudflare
+		keeps, for each agent, the work waiting for it and which mail and documents it was handed, by their
+		names in your workspace.
+	""",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="Workers and Durable Objects, where each app's agent runs and keeps the work it was handed",
+	data="The names of the mail and documents an agent was handed, and the work waiting for it",
+	where="Cloudflare's network, in the location nearest the workspace's server when the agent first worked",
+	safeguard=CLOUDFLARE,
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)

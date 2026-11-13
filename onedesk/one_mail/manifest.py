@@ -16,6 +16,7 @@ APP = App(
 	rail=30,
 	sidebar="OneMail",
 	roles=Roles(user=("OneMail User",), manager=("Mail Manager",)),
+	agent=_lt("receptionist"),
 	screens="mail",
 	names=("one_mail", "onemail"),
 	help=(

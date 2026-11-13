@@ -40,6 +40,7 @@ APP = App(
 	},
 	settle=(
 		Settle("reading.search.index"),
+		Settle("agents.users.ensure"),
 	),
 )
 

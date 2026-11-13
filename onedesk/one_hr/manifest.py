@@ -29,6 +29,7 @@ APP = App(
 	rail=90,
 	sidebar="OneHR",
 	roles=Roles(user=("HR User",), manager=("HR Manager",)),
+	agent=_lt("people officer"),
 	screens="hr",
 	names=("one_hr", "onehr"),
 	help=(

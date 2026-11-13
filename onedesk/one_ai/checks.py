@@ -634,3 +634,58 @@ def a_oneai_manager_writes_knowledge():
 	finally:
 		user.remove_roles("OneAI Manager")
 	assert "center.keep_knowledge" in agent.NOT_FOR_AI and "center.drop_knowledge" in agent.NOT_FOR_AI
+
+
+@check
+def the_agents_call_back_with_one_token_for_one_tool_once():
+	"""The Agents Worker's way back in (one_ai/agents/api.py): each agent is
+	a user turned off with its app's User roles alone; a token signed for
+	this workspace opens one tool of its agent, as that agent, for its own
+	body. OneMail's receptionist finds the kept sample invoice in its mail
+	and hands it on, a comment on the mail that can be undone; OneBook's
+	accountant finds the draft Intake made rather than making a second."""
+	import time
+	from types import SimpleNamespace
+	from unittest import mock
+
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import api, token
+	from onedesk.one_ai.reading import act
+	from onedesk.one_mail import gate
+
+	for agent in agents.listed():
+		assert not frappe.db.get_value("User", agent.email, "enabled"), agent.email
+		assert set(frappe.get_roles(agent.email)) - {"All", "Guest"} == set(agent.roles), agent.email
+	reading = _sample("new-supplier-invoice")
+	message = gate.message_of(reading)
+	secret = token.secret_for("check", "demo")
+
+	def called(app: str, tool: str, args: dict, body: str | None = None):
+		said = json.dumps({"tool": tool, "args": args})
+		signed = token.mint(secret, {"aud": "workspace", "ws": "demo", "agent": app, "tool": tool}, said, int(time.time()))
+		request = SimpleNamespace(method="POST", get_data=lambda as_text=False: body or said, headers={api.HEADER: signed})
+		config = {"one_agents": {"url": "https://agents.test", "secret": secret}, "one_tenant": "demo"}
+		with mock.patch.dict(frappe.local.conf, config), mock.patch.object(frappe, "request", request), mock.patch.object(frappe.local, "request_ip", "127.0.0.1", create=True):
+			try:
+				return api.tool(tool, args)
+			finally:
+				frappe.set_user("Administrator")
+
+	came = called("one_mail", "incoming", {"message": message})
+	assert reading in came["invoices"], came
+	for refused in (("one_mail", "draft_purchase_invoice", {"reading": reading}, None), ("one_book", "incoming", {"message": message}, None), ("one_mail", "incoming", {"message": message}, "{}")):
+		try:
+			called(*refused)
+			raise AssertionError(f"{refused} was let in")
+		except frappe.PermissionError:
+			pass
+	handed = called("one_mail", "hand_on", {"message": message, "reading": reading, "to": "one_book"})
+	row = frappe.get_doc("Reading Action", handed["action"])
+	assert (row.agent, row.agent_level, row.level, row.kind) == (agents.email("one_mail"), "Do it", "Done", "Comment"), row.as_dict()
+	assert frappe.db.get_value("Comment", json.loads(row.after)["comment"], "owner") == agents.email("one_mail")
+	with as_user(row.on_behalf_of):
+		assert act.undo_one(row.name)["undone"] == 1
+	bills = frappe.db.count("Purchase Invoice", {"bill_no": "GS-11873"})
+	drafted = called("one_book", "draft_purchase_invoice", {"reading": reading})["drafts"]
+	assert {one.target_doctype for one in drafted} <= {"Purchase Invoice"}, drafted
+	assert frappe.db.count("Purchase Invoice", {"bill_no": "GS-11873"}) == bills, "a second bill for the same invoice"

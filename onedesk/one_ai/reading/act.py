@@ -1,4 +1,5 @@
-"""The one door every Intake write goes through (onedesk/one_ai/reading/README.md §15.3).
+"""The one door every Intake and agent write goes through (onedesk/one_ai/reading/README.md §15.3;
+an agent comes in through one_ai/agents/door.py).
 
 A planner says what should happen as an `Action`; `apply` decides whether it
 happens, and is the only code in Intake that writes. `undo` takes one back.
@@ -568,11 +569,12 @@ def undo_one(action: str) -> dict:
 
 
 def take_back(row) -> str | None:
-	"""Undo one done action. None when it is undone, else why it stays."""
+	"""Undo one done action, as the agent that did it (one_ai/agents/door.py)
+	or as OneAI. None when it is undone, else why it stays."""
 	after = json.loads(row.after or "{}")
 	before = json.loads(row.before or "{}")
 	try:
-		with as_oneai():
+		with as_oneai(row.get("agent") or None):
 			why = UNDO[row.kind](row, before, after)
 	except frappe.LinkExistsError:
 		why = _("it's in use elsewhere")
@@ -592,9 +594,10 @@ def _undo_create(row, before, after) -> str | None:
 		return _("someone has checked it since")
 	if cint(doc.get("docstatus")) != 0:
 		return _("it has been submitted")
-	if not frappe.has_permission(row.target_doctype, "delete", doc=doc):
+	own = bool(row.get("agent")) and doc.owner == row.agent
+	if not own and not frappe.has_permission(row.target_doctype, "delete", doc=doc):
 		return _("your role doesn't allow deleting it")
-	frappe.delete_doc(row.target_doctype, row.target_name)
+	frappe.delete_doc(row.target_doctype, row.target_name, ignore_permissions=own)
 	return None
 
 
