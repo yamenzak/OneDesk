@@ -12,6 +12,7 @@ import re
 from functools import cache
 from pathlib import Path
 
+from onedesk.one.registry import features
 from onedesk.one.registry.model import COUNTRY, KINDS, REGIONS, UI, App
 
 FOLDERS = Path(__file__).resolve().parents[2]
@@ -125,6 +126,8 @@ def _check(found: list[App]) -> None:
 		for needed in one.needs:
 			if needed not in ids:
 				raise Invalid(f"{where}: needs {needed!r}, which has no manifest")
+		if features.unknown(one.plan):
+			raise Invalid(f"{where}: plan names {features.unknown(one.plan)[0]!r}, which is not one of {features.IDS}")
 		for country, state in one.countries.items():
 			if state not in COUNTRY:
 				raise Invalid(f"{where}: countries[{country!r}] is {state!r}, not one of {COUNTRY}")

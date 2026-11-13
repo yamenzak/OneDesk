@@ -20,7 +20,7 @@ def test_the_floor_catches_a_plan_sold_under_cost():
 
 
 def test_a_plan_too_big_to_share_a_server_needs_its_own():
-	big = dataclasses.replace(price_list.PLANS[-1], own_server=False)
+	big = dataclasses.replace(price_list.PLANS[-1], features=price_list.EVERY_PLAN)
 	with mock.patch.object(price_list, "PLANS", (*price_list.PLANS[:-1], big)):
 		assert "fits" in [one.rule for one in margins.findings() if one.offer == big.key]
 

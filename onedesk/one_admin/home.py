@@ -310,14 +310,13 @@ FILLING = 0.7
 def _own_servers(listed: list) -> list[dict]:
 	"""A workspace waiting for a server of its own, and a server kept for one
 	that has gone."""
-	from onedesk.one_admin import price_list
+	from onedesk.one_admin import features
 
 	row = lambda title, detail, label, method, args: {"kind": "storage", "doctype": "One Admin Settings", "name": "One Admin Settings", "title": title, "why": "", "detail": detail, "since": "", "badge": _("Waiting"), "action": {"label": label, "method": method, "args": args}}
 	has = {one.tenant for one in listed if one.tenant}
 	said = []
-	for tenant in frappe.get_all("Tenant", filters={"status": "Provisioning", "server": ["is", "not set"]}, fields=["name", "workspace_name", "offering"]):
-		key = frappe.db.get_value("Offering", tenant.offering, "key") if tenant.offering else None
-		if tenant.name not in has and price_list.has_own_server(key):
+	for tenant in frappe.get_all("Tenant", filters={"status": "Provisioning", "server": ["is", "not set"], "name": ["in", features.tenants_with("own_server") or [""]]}, fields=["name", "workspace_name"]):
+		if tenant.name not in has:
 			said.append(row(_("{0} needs its own server").format(tenant.workspace_name or tenant.name), _("Order it. It takes about 25 minutes."), _("Order Server"), "onedesk.one_admin.operator.order_server", {"tenant": tenant.name}))
 	return said
 

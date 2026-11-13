@@ -1,14 +1,15 @@
 """What a workspace may use: its plan, and the add-ons on it.
 
 The limits are a sum, copied onto `Tenant` at signup and whenever its plan or
-an add-on changes, and only then; everything that enforces a limit reads the
-copy. A zero on the plan is no limit.
+an add-on changes, and only then, with the plan's features (features.py);
+everything that enforces a limit reads the copy. A zero on the plan is no
+limit.
 """
 
 import frappe
 from frappe.utils import cint
 
-from onedesk.one_admin import site
+from onedesk.one_admin import features, site
 
 GB = 1000 * 1000 * 1000
 
@@ -34,7 +35,7 @@ def limits(tenant) -> dict:
 
 
 def apply(tenant) -> dict:
-	"""Write the limits onto the tenant."""
+	"""Write the limits onto the tenant, and its plan's features."""
 	site.require_admin()
 	tenant = _doc(tenant)
 	held = limits(tenant)
@@ -49,6 +50,7 @@ def apply(tenant) -> dict:
 		},
 		update_modified=False,
 	)
+	features.copy(tenant.name, tenant.offering)
 	return held
 
 

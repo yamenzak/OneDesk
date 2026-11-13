@@ -39,8 +39,25 @@ def about(app: str) -> dict:
 
 
 def offered() -> list[dict]:
-	"""The cards Apps shows for them: always on, and never to be turned off."""
-	return [{**about(app), "on": True, "kept": True} for app in names()]
+	"""The cards Apps shows for them: always on, and never to be turned off;
+	one whose plan feature the workspace's plan lacks is not shown."""
+	from onedesk.account_center import plan
+
+	return [{**about(app), "on": True, "kept": True} for app in names() if app not in _planless(plan.held())]
+
+
+def _planless(held) -> set:
+	from onedesk.one.registry import features
+
+	return set() if held is None else {app for app in names() if features.missing(_declared(app).plan, held)}
+
+
+def unplanned(held) -> list[str]:
+	"""The rail rows of the private apps whose manifest needs a plan feature
+	`held` lacks, for `apps.unplanned`."""
+	from frappe.desk.doctype.dock.dock import get_app_dock
+
+	return [row.get("link_to") for app in sorted(_planless(held)) for row in get_app_dock(app)]
 
 
 def rail() -> set:

@@ -11,9 +11,9 @@ from pathlib import Path
 from onedesk.one.registry import Invalid, _check, apps
 from onedesk.one.registry.model import App, Kept, Roles
 
-SAYS = ("id", "name", "kind", "module", "line", "mark", "needs", "kept", "roles")
+SAYS = ("id", "name", "kind", "module", "line", "mark", "needs", "kept", "roles", "plan")
 MADE = {"Kept": Kept, "Roles": Roles}
-TUPLES = ("needs",)
+TUPLES = ("needs", "plan")
 
 
 def parsed(source: str, where: str = "manifest.py") -> App:

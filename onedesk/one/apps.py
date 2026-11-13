@@ -41,13 +41,32 @@ LABELS = {INTAKE: _lt("Reading")}
 
 
 def hidden() -> list[str]:
-	"""The rail rows (Sidebar names) the workspace has turned off."""
+	"""The rail rows (Sidebar names) the workspace has turned off, and those
+	of the apps its plan doesn't include."""
 	try:
 		said = json.loads(frappe.db.get_default(KEY) or "[]")
 	except ValueError:
-		return []
+		said = []
 	off = [one for one in said if isinstance(one, str)]
-	return off + [one for one, needs in NEEDS.items() if needs in off and one not in off]
+	off += [one for one, needs in NEEDS.items() if needs in off and one not in off]
+	return off + [one for one in unplanned() if one not in off]
+
+
+def unplanned() -> list[str]:
+	"""The rail rows of One's apps and the private apps whose manifest needs
+	a plan feature (`plan=`) this workspace's plan lacks: not on the rail,
+	not offered as a switch, never refused with an error."""
+	from onedesk.account_center import plan, private
+
+	held = plan.held()
+	return [] if held is None else short(registry.apps(), held) + private.unplanned(held)
+
+
+def short(apps, held) -> list[str]:
+	"""The sidebars of those apps whose plan features `held` lacks. Pure."""
+	from onedesk.one.registry import features
+
+	return [one.sidebar for one in apps if one.sidebar and features.missing(one.plan, held)]
 
 
 def ai_on() -> bool:
@@ -79,6 +98,7 @@ def offered() -> list[dict]:
 
 	off = set(hidden())
 	theirs = private.rail()
+	planless = set(unplanned())
 	rail = [
 		{
 			"name": row.get("link_to"),
@@ -88,7 +108,10 @@ def offered() -> list[dict]:
 			"on": row.get("link_to") not in off,
 		}
 		for row in get_app_dock(HOST)
-		if row.get("link_type") == "Sidebar" and row.get("link_to") not in KEPT and row.get("link_to") not in theirs
+		if row.get("link_type") == "Sidebar"
+		and row.get("link_to") not in KEPT
+		and row.get("link_to") not in theirs
+		and row.get("link_to") not in planless
 	]
 	return rail + private.offered() + [
 		{
@@ -198,6 +221,7 @@ def save(off: str | list) -> dict:
 	off = frappe.parse_json(off) if isinstance(off, str) else off
 	off = list(off or [])
 	off += [one for one, needs in NEEDS.items() if needs in off and one not in off]
+	off = [one for one in off if one not in unplanned()]
 	allowed = {one["name"] for one in offered() if not one.get("kept")}
 	unknown = [one for one in off or [] if one not in allowed]
 	if unknown:

@@ -25,8 +25,12 @@ class Plan:
 	storage_gb: float
 	database_gb: float
 	credits_a_month: int
-	own_server: bool = False
+	features: tuple[str, ...] = ()
 	sold: bool = True
+
+	@property
+	def own_server(self) -> bool:
+		return "own_server" in self.features
 
 
 @dataclass(frozen=True)
@@ -55,11 +59,13 @@ class Service:
 	does: str
 
 
+EVERY_PLAN = ("training_copies", "demo")
+
 PLANS = (
-	Plan("starter@2026-12", "Starter", 109, 5, 50, 2, 500),
-	Plan("team@2026-12", "Team", 299, 15, 200, 5, 1500),
-	Plan("business@2026-12", "Business", 749, 40, 500, 15, 4000, own_server=True),
-	Plan("scale@2026-12", "Scale", 1699, 100, 1500, 40, 10000, own_server=True),
+	Plan("starter@2026-12", "Starter", 109, 5, 50, 2, 500, EVERY_PLAN),
+	Plan("team@2026-12", "Team", 299, 15, 200, 5, 1500, EVERY_PLAN),
+	Plan("business@2026-12", "Business", 749, 40, 500, 15, 4000, (*EVERY_PLAN, "own_server")),
+	Plan("scale@2026-12", "Scale", 1699, 100, 1500, 40, 10000, (*EVERY_PLAN, "own_server")),
 )
 
 ADDONS = (
@@ -94,6 +100,12 @@ PACK_CREDITS_LAST_DAYS = 365
 def has_own_server(key: str | None) -> bool:
 	"""Whether a plan runs on a server of its own. Pure."""
 	return any(one.key == key and one.own_server for one in PLANS)
+
+
+def features_of(key: str | None) -> tuple[str, ...]:
+	"""The plan features (registry/features.py) a plan has; what every plan
+	has for a key the price list does not declare. Pure."""
+	return next((one.features for one in PLANS if one.key == key), EVERY_PLAN)
 
 
 def credits_per_dollar() -> float:

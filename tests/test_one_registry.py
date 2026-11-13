@@ -98,6 +98,7 @@ def test_one_settles_first_and_what_reads_everything_last():
 		({"countries": {"AE": "maybe"}}, "countries"),
 		({"owns": ("Stock",)}, "owns"),
 		({"name": "OneMail"}, "name"),
+		({"plan": ("nowhere",)}, "plan"),
 	],
 )
 def test_a_wrong_manifest_is_refused_by_name(change, said):

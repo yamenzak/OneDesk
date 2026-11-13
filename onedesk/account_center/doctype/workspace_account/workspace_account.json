@@ -16,6 +16,7 @@
   "database_bytes",
   "database_limit",
   "plan_key",
+  "plan_features",
   "monthly",
   "plan_currency",
   "add_ons",
@@ -174,6 +175,13 @@
    "fieldname": "plan_key",
    "fieldtype": "Data",
    "label": "Plan Key",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "plan_features",
+   "fieldtype": "Small Text",
+   "label": "Plan Features",
    "read_only": 1,
    "hidden": 1
   },
@@ -396,7 +404,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-13 14:00:00.000000",
+ "modified": "2026-11-13 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "Account Center",
  "name": "Workspace Account",

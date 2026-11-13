@@ -208,14 +208,15 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Health Check | 6 | document |
-| Offering | 24 | document |
+| Offering | 25 | document |
 | One Admin Settings | 65 | single |
 | OneOS Session | 29 | document |
+| Plan Feature | 1 | child |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 65 | document |
+| Tenant | 66 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
@@ -230,7 +231,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Device | 13 | document |
-| Workspace Account | 52 | single |
+| Workspace Account | 53 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
