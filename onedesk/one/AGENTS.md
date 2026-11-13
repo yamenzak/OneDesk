@@ -5,7 +5,7 @@ bars, the dock), Home, the Address Book, Announcements and the Recycle
 Bin, and the centres that hold the workspace's settings
 (ControlCenter: Company, Branding, Region and Formats, Sign-in, Sharing), who may do what (AccessCenter, with the Audit
 Log) and how people are told (NotificationCenter). docs/ONE.md is how it was
-cut down to that, and docs/READY.md what it is held to.
+cut down to that, and docs/STANDARD.md what it is held to.
 
 Its Help pages, docs/ beside this file, are what people read and what OneAI
 answers "how do I…" from. This file is for the people who build One. Files

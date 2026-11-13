@@ -62,7 +62,7 @@ In the conversation, before touching anything:
   too big; split it.
 - **Standard.** This skill's lists, and the others it names: `ui`, `ux`,
   `wording`, `docs`, `changelog`, `legal`, the app's AGENTS.md,
-  `docs/PASSOVER.md`'s seventeen points, `docs/READY.md`.
+  `docs/STANDARD.md`'s twenty points, `docs/PASSOVER.md`, `docs/READY.md`.
 - **Done.** Usually: looked at, fixed, gates green, docs, version and
   translations written, stamped, committed.
 

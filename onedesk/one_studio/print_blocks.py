@@ -1,4 +1,4 @@
-"""What One's print blocks show (point 11, docs/PASSOVER.md).
+"""What One's print blocks show (point 12, docs/STANDARD.md).
 
 The parts frappe's print format builder cannot say, as frappe's own Print Format
 Field Templates, each drawn from `one_print_block` with frappe's formatted values.

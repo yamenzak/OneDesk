@@ -1,5 +1,5 @@
 """How each doctype is shown: its records and its collections
-(docs/PASSOVER.md, point 4).
+(docs/STANDARD.md, point 6).
 
 Where we do more than frappe it is declared here, and
 `tests/guards/test_tiers.py` fails on anything done and not declared.

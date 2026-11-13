@@ -1,20 +1,16 @@
 # Ready for live
 
-A module is ready for live when it passes the fourteen points below, and the
-registry (`onedesk/one/ready.py`, checked by `tests/guards/test_ready.py`)
-says so. OneMail is the first. From then on every change to a ready module
-goes through the same points, so it stays ready.
+A module is ready for live when it passes the points of `docs/STANDARD.md`
+held before live, and the registry (`onedesk/one/ready.py`, checked by
+`tests/guards/test_ready.py`) says so. OneMail is the first. From then on
+every change to a ready module goes through the same points, so it stays
+ready.
 
-`docs/PASSOVER.md` walks each screen against its seventeen points. This
-file says what a module needs on top of that before people outside the
-company use it, and, under **What finished looks like**, what each of the
-seventeen points looks like in a finished module. It took in what was
-`docs/STANDARD.md`, written when OneProject was closed.
-
-Most points are a mechanism first and a check second. The mechanisms are
-built once, for every module, and each section says what exists today and
-what is missing. The checklist at the end is what a module is checked
-against once they exist.
+The points are in `docs/STANDARD.md`, and `docs/PASSOVER.md` is how a screen
+is walked against them. This file is what is not a point: the order the
+mechanisms were built in and how each works, a module's folder, how a module
+is finished and what finished looks like, the gates, and what closing a
+module taught.
 
 ## The order
 
@@ -47,7 +43,7 @@ before it:
     Knowledge, credits, and what OneAI does in each module. Planned in
     `docs/AICENTER.md`.
 
-Then OneMail is taken through the fourteen points, and marked ready.
+Then OneMail is taken through the points held before live, and marked ready.
 
 ## A module's folder
 
@@ -105,34 +101,27 @@ the generated reference. OneInterface is a module like the others, in
 
 ### 1. Copy
 
-**Today.** `docs/WORDING.md` has the rules for labels, descriptions,
-notifications and screens. `tests/guards/test_wording.py` checks
-descriptions (130 characters, two sentences, no first person, no em dash)
-and screen text (140 characters, no joined clauses).
-
-**Missing.** A OneInterface section with hard limits and a tone, and a guard
-that reads the strings a screen actually shows, not only doctype JSON.
-
-**To build.**
+**Built.** `docs/WORDING.md` has the rules for labels, descriptions,
+notifications and screens, and the `wording` skill is how they are used.
+`tests/guards/test_wording.py` checks descriptions (130 characters, two
+sentences, no first person, no em dash) and screen text (140 characters, no
+joined clauses). A module on its way to ready is held to harder limits by
+`tests/guards/test_copy.py`, which reads the `title:`, `label:`,
+`description:` and heading strings passed to `__()` in its JS and Vue:
 
 - **Headings** are five words or fewer: tab titles, panel titles, dialog
   titles, section headings and tour steps.
 - **A description is one sentence.** It says what the thing is or what it
   does, never how to use the screen.
 - **A list of words we never show:** simply, just, easily, please, utilize,
-  leverage, seamless, powerful, robust, note that, in order to, functionality,
-  "Are you sure", "Something went wrong", and any word for our framework.
-- **Three before and after pairs** for the tone, taken from screens we
-  already fixed:
-  - "Only a Mail Manager or an administrator can change this." becomes
-    "Your role doesn't allow changing this."
-  - "Allow Private Mailboxes" as a row of its own becomes the switch beside
-    the title.
-  - "Gmail and Outlook require an app password." is kept: it says the fact
-    and nothing else.
-- **A guard** that reads `title:`, `label:`, `description:` and heading
-  strings passed to `__()` in a module's JS and Vue, and holds them to the
-  limits and the banned list.
+  leverage, seamless, powerful, robust, note that, in order to,
+  functionality, "Are you sure", "Something went wrong", and any word for
+  our framework.
+- **The tone**, from screens we fixed: "Only a Mail Manager or an
+  administrator can change this." became "Your role doesn't allow changing
+  this."; "Allow Private Mailboxes" as a row of its own became the switch
+  beside the title; "Gmail and Outlook require an app password." is kept: it
+  says the fact and nothing else.
 
 ### 2. One home per module
 
@@ -235,32 +224,6 @@ it is committed, so a later change that day is added to its words. On 6
 November 2026 one pass wrote seven OneInventory versions in a day; they
 were folded into 2.1.0.
 
-**Before.** Nothing per module. Frappe's own What's New dialog
-(`frappe/utils/change_log.py`) is per app and reads
-`<app>/change_log/v1/v1_2_3.md`.
-
-**To build.**
-
-- **Where entries live.** Each module keeps `docs/changelog/` with one
-  Markdown file per version, such as `one_mail/docs/changelog/1.4.0.md`. The
-  newest file is the version.
-- **What a file says.** Its front matter has the date, the kind (major,
-  minor or fix) and a title. The body is written for the people who use the
-  module, in English only: what they can do now, and what changed for them.
-  It never says which file, function or commit. A major version may have
-  screenshots beside it.
-- **Forced.** The front matter also carries a fingerprint of the module's
-  files. `tests/guards/test_ready.py` fails when the files and the newest
-  fingerprint disagree, so no change to a ready module goes in without a new
-  version. `scripts/version.py <module> minor` writes the next file with the
-  new fingerprint, and leaves its words for us to write.
-- **Seen in the app.** The version shows at the foot of the module's rail.
-  Clicking it opens a What's New dialog with the entries the reader hasn't
-  seen, marked with a dot until they have. Each reader's last-seen version
-  is kept per module.
-- **Docs follow.** When a version changes what a Help page says, the page
-  changes in the same commit.
-
 ### 4. Docs and Help
 
 **Done for OneMail.** Its README is gone:
@@ -313,24 +276,6 @@ New offers them under it as Read More; each of those pages ends with
 Changed In, the versions that named it, each opening What's New on that
 version. So writing `docs:` is what links both ways.
 
-**Before.** Every module has a `README.md`. Above `## Under the hood` it is
-written for users, and OneAI's `how_to` (`one_ai/guide.py`) searches that
-part. No module has a `docs/` folder.
-
-**To build.** Each module has two kinds of writing:
-
-- **`docs/`, the module's wiki.** One page per thing people do, written for
-  them: Connect a Mailbox, Out of Office, Automation, Mail Templates. It
-  follows the copy rules. The Help dialog shows it, opened from the module's
-  foot, from a `?` in its settings dialog, and from a tour's last step
-  (built: the foot and the settings dialog's head).
-  OneAI's `how_to` searches it.
-- **`AGENTS.md`, one file for agents.** That means OneAI and us: what the
-  module is, its records, its rules, where each file is, what OneAI may do
-  in it and why, and the decisions that cost something. It replaces
-  README's "Under the hood". The users' half of the README moves to
-  `docs/`, and the README itself goes (decided 2026-10-25).
-
 ### 5. The module's foot, and one settings dialog
 
 **Built.** `onedesk.module_settings.open({ module, may, tabs })`
@@ -378,20 +323,6 @@ setting it up takes (nothing), what OneAI may do (nothing of its own) and a
 tour, of the window itself, which waits for Help to offer it
 (`docs/BACKLOG.md`).
 
-**Before.** OneMail had a SettingsDialog (`onemail_settings.js`) with its
-helpers inside it, opened from Settings at the foot of its rail and from
-Workspace Settings › Access. Tabs showed by ability
-(`frappe.boot.one_mail_may`). No other module had one.
-
-**To build.**
-
-- **One way to make it.** `onedesk.module_settings(module, tabs)` builds the
-  dialog for any module. It holds the helpers OneMail's file defines today
-  (rows, views, a header switch, read-only values). Each tab declares the
-  ability it needs, and the dialog leaves out what the reader may not use.
-- **The foot of every module's rail** has the same three: **Settings**,
-  **Help** and the **version** (built as icons, with the tour beside them).
-
 ### 6. Legal in the module
 
 **Today.** Each module declares what it adds to the agreements in its own
@@ -419,23 +350,6 @@ records `legal:`, a hash of the module's own part of each agreement
 isn't the module's, and when a version moves it without its words naming
 the agreement.
 
-**Before.** Nothing in a module showed what it adds to the agreements.
-
-**As planned.**
-
-- **A Legal tab in every module's settings dialog.** It lists the module's
-  clauses under the agreement each sits in, and the companies it sends data
-  to, with what they get and where. Each agreement shows its current
-  version and opens in full. Everybody can read it, because the agreements
-  are everybody's.
-- **One call that answers it:** `one_legal.reading.of_module(module)`, read
-  from the same registry the documents are assembled from, so the tab and
-  the agreements can't disagree.
-- **A legal change is a module change.** `legal.py` is inside the module, so
-  changing it changes the fingerprint and needs a new module version. When
-  the change bumps a revision, the What's New entry says what people are
-  asked to agree to again.
-
 ### 7. Roles that ship
 
 **Built.** A module's roles come from its folder alone. `<module>/abilities.py`,
@@ -454,19 +368,6 @@ a ready module without abilities.py or its hook, with defaults naming an
 ability it doesn't declare, without `{roles}` in its Help, with a Role fixture,
 or writing a share itself.
 
-**Before.** The abilities engine (`one/rights.py`, the `one_abilities`
-hook, `docs/ROLES.md`). OneMail ships OneMail User, given to everyone, and
-Mail Manager. Roles are columns in the Roles matrix. The only override is a
-grant on one mailbox (Users › Edit Access).
-
-**To build.**
-
-- **Each ready module ships its roles** as fixtures, with the default
-  matrix in `docs/ROLES.md` checked against the fixtures.
-- **Overrides become one idea**: a grant to one person on one record, over
-  what their role says. OneMail's per-mailbox grant is the first, and every
-  module's overrides use the same `rights.grant`.
-
 ### 8. Notifications
 
 **Built.** A ready module's types live in its own `notifications.py`, and
@@ -484,33 +385,6 @@ channel or its sender, a channel off without a reason, a leftover flag, or
 a subject past the bell's line. The README in
 `onedesk/notifications/` has the table. OneMail's two about storage and
 credits are from One; the rest from the workspace.
-
-**Before.** `one/notify.py` is the one door. Each type is a file in
-`notifications/<module>/`, with who gets it, the button, and whether it
-mails and pushes. The channels are:
-
-- the bell (frappe's Notification Log);
-- email, through frappe's `email_notification_types`;
-- push (`one/push.py`, Web Push).
-
-`from_one` makes a mail wear One's mark. Anything else wears the workspace's.
-OneMail sends ten types.
-
-**To build.** This is the groundwork for the larger rework you have
-planned:
-
-- **Every type says its channels:** bell, email, push, and Telegram when it
-  comes. A channel left out says why, such as "no email: it is about mail".
-- **Every type says its sender:** `system` (Four Degree Labs, One's mark)
-  or `workspace` (the workspace's name and colour). This replaces
-  `from_one`.
-- **A look per channel**, written down once: the email layout we have, a
-  push's title and body limits, and the bell's line.
-- **Per module**, the types live in the module's home (mechanism 2).
-
-Once that exists, the point to check is short: the module tells people what
-they need to know, on the channels that make sense, only to the roles that
-should hear it.
 
 ### 9. Setup steps
 
@@ -531,20 +405,6 @@ domain, private mailboxes, and mail templates (no fields: a to-do only).
 `test_ready.py` fails on a ready module without `setup.py`, a step without
 its key, title, what it's for, ability or tab, a tab its settings don't
 have, or fields nothing saves.
-
-**Before.** The setup wizard has two slides of ours (look and working day).
-Nothing per module.
-
-**To build.** Each module declares its steps in `setup.py`. A step has a
-title, its fields, whether it can be left for later, and how to tell it's
-done. A step left for later shows as a to-do in the module's settings
-dialog. OneMail's steps would be:
-
-- the company's domains and Default Incoming and Outgoing;
-- whether private mailboxes are allowed;
-- the mail templates to start from.
-
-Which steps the wizard shows is decided when the wizard is built.
 
 ### 10. Tours
 
@@ -575,18 +435,6 @@ and `user.onboarding_status`, and its steps are found with
 `document.querySelector`, which can't see into an island. Steps as code
 beside the module are translated, guarded and versioned like the rest of it.
 
-**Before.** Frappe ships Form Tour (`ui_tour`, `page_route`), started from
-`frappe.boot.onboarding_tours` and remembered in `user.onboarding_status`.
-`frappe.Driver` is loaded on every page. We use none of it.
-
-**To build.**
-
-- **Each module ships one tour**, as a Form Tour fixture on its page. A step
-  points at a stable `data-tour` attribute, never a class.
-- **When it runs:** on the first visit. Help › Take the Tour runs it again.
-- **What a step says** follows the copy rules: a heading of five words or
-  fewer, and one sentence.
-
 ### 11. OneAI reach
 
 **Built.** A call of a module's that changes something is one whitelisted for
@@ -608,48 +456,28 @@ OneAI tab's own settings, and the Worker's call. The rule card now saves
 through `rules.save_rule`, so a rule asked for on an issued address waits
 for a Mail Manager as the page's does; it had been inserted straight.
 
-**Before.** OneMail's tools are open a conversation, what waits for an
-answer, draft a reply, suggest a rule, sign a mailbox, and templates
-(`hooks.py` `one_ai_reads` and `one_ai_suggests`, the `mail` group).
-
-**Missing:** out of office, folders, sharing, connection and the mailbox
-policy.
-
-**To build.** Every whitelisted method that changes something in a ready
-module either has an OneAI tool that does the same through the page's own
-code, or is named in the module's `NOT_FOR_AI` with the reason (a password
-is one). The guard reads both.
-
 ### 12. The registry
 
-**Built.** `onedesk/one/ready.py` holds the fourteen points as `POINTS`, in
-the order and by the names below, each with the guards that hold every
-module to it on every run. Four are held only in part, so a person looks at
-them too (`HAND`): copy, the demo, notifications and the OneInterface pass.
-A module's `checked` records each look: the day, the commit it was taken at,
-and who looked. `docs/REGISTRY.md` is generated from it (`scripts/docs.py`):
-per module, its version, whether it is ready, and per point, its guards and
-its last look.
+**Built.** The points are one list, `onedesk/one/standard.py`, written up in
+`docs/STANDARD.md`. Each point says whether a module is held to it before it
+is marked ready, and, where no rule can settle it, what a person looks at.
+`onedesk/one/ready.py` reads it: `POINTS` are the points held before live,
+`HAND` the five with a look (copy, the demo, notifications, the look of each
+screen, legal). The rules holding each point are `tests/guards/registry.py`'s
+`GUARDS`, each naming its point, listed in `docs/STANDARD-RULES.md`.
 
-`tests/guards/test_ready.py` fails when the points and this page disagree, a
-point has neither a guard nor a look, or a guard it names isn't a test; and,
-for a module marked `ready`, a hand point nobody has looked at, a look
-without who or with a commit git doesn't have, or a major or minor version
-added after the commit a look was taken at, which makes it stale. A fix
-leaves a look standing.
+A module's `checked`, in its manifest, records each look: the day, the
+commit it was taken at, and who looked (`scripts/close.py --looked`).
+`docs/REGISTRY.md` is generated from it (`scripts/docs.py`): per module, its
+version, whether it is ready, and per point, how many rules hold it and its
+last look.
 
-The guards each point names, as they stand:
-
-- **One home**: nothing of it outside its places, nothing outside named for
-  it, no Markdown but `AGENTS.md`, `SCRATCHPAD.md` and `docs/`.
-- **Versioned**, **What's New**: the fingerprint is current, versions follow
-  one another and are written for its people; one foot, which shows it.
-- **Documented**: `AGENTS.md` and `docs/`, every help page listed, sound and
-  free of code.
-- **Roles**: shipped from `abilities.py`, grants through abilities alone.
-- **OneAI**: every change in `REACH` or `NOT_FOR_AI`.
-- **Notifications**, **Setup steps**, **Tour**, **Settings**, **Legal**:
-  their declarations, as mechanisms 5 to 10 describe.
+`tests/guards/test_registry.py` fails when `docs/STANDARD.md` and the list
+disagree, a point has neither a rule nor a look, or a rule isn't a test.
+`tests/guards/test_ready.py` fails, for a module marked `ready`, on a hand
+point nobody has looked at, a look without who or with a commit git doesn't
+have, or a major or minor version added after the commit a look was taken
+at, which makes it stale. A fix leaves a look standing.
 
 ### 13. TrustCenter
 
@@ -711,16 +539,7 @@ old way and the switchover are removed and its companies are added to
 `documents.IN_EFFECT`. Nothing waits on anybody's yes: people are told,
 may object, and keep using One or leave.
 
-**Today, before this.** Mechanism 6 gives each module a **Legal** tab in its ControlCenter,
-and the eight agreements are read on the Agreements page (`/app/legal`).
-Every service One calls is in the agreements whether or not a workspace
-wants it: OneMail asks Gravatar for people's pictures and Google's favicon
-service for organisations' logos for every workspace. A clause says nothing
-of which law it is there for. A new revision of a workspace agreement mails
-the administrators (`gate.told_of_changes`) and then stops everybody at
-their next sign-in until it is agreed again.
-
-**To build.** Six parts.
+**As designed, in six parts.**
 
 **1. One center.** TrustCenter is a center like HelpCenter and ControlCenter
 (`onedesk.CENTERS`, `trust: "Trust"`), drawn by `onedesk.module_docs`'s
@@ -821,11 +640,12 @@ organisation, a defined term is capitalised and defined once, one duty to a
 sentence, a number where there is one (72 hours, 30 days), and nothing
 promised that isn't built. The rules go in `docs/WORDING.md` beside the copy
 rules, and `test_copy.py` reads `legal.py` too. Every module's `legal.py`
-is rewritten to them as it goes through the fourteen points.
+is rewritten to them as it goes through the points held before live.
 
-**6. The registry.** Point 14 is held by the guards above, and, since no
-guard can read whether a clause is true, by a look (`ready.HAND["legal"]`):
-what the module does with data, read against what its clauses say.
+**6. The registry.** Legal (point 19 of `docs/STANDARD.md`) is held by the
+guards above, and, since no guard can read whether a clause is true, by a
+look (`ready.HAND["legal"]`): what the module does with data, read against
+what its clauses say.
 
 **Still ours to confirm.** This is our own drafting. A lawyer reads the
 assembled agreements before an EU customer signs, and the laws list is
@@ -858,11 +678,6 @@ apps not yet ready, and frappe's per-doctype permissions stay where they
 were. `test_ready.py` fails on a ready module whose screens draw the role
 matrix, and the demo checks `access_center_finds_and_sets_roles`.
 
-**Before.** Who may do what was in three places: a module's own Roles tab
-(OneMail's, through `Settings.ROLES_IN`), Workspace Settings › Access, and
-a record's own screen for what one person was given on it (a shared
-mailbox's Users).
-
 ### 15. NotificationCenter
 
 **Built.** `public/js/one/notification_center.js` and
@@ -889,12 +704,6 @@ Workspace Settings › Notification Types keeps the words and the rules.
 `test_ready.py` fails on a ready module whose screens draw notification
 choices, and the demo checks
 `notification_center_sets_yours_and_the_workspace`.
-
-**Before.** A module declares its types in `notifications.py`, each with
-its channels (mechanism 8), and `Notification Type` holds what the
-workspace allows and starts people on. People chose on Settings › You ›
-Notifications and administrators on Workspace Settings › Notification
-Types, each one long page for all of One.
 
 ### 16. AICenter
 
@@ -967,10 +776,6 @@ another. Each centre's head has Help (mechanism 5).
 `test_ready.py` fails when One's rail lacks a centre, and when a module's
 Settings leaves one out.
 
-**Before.** The bottom bar had AICenter, AccessCenter and TrustCenter;
-the foot had a TrustCenter shield; One's rail had You and Workspace groups
-of rows that each opened a centre or a module's settings.
-
 ### 19. ShortcutCenter
 
 **Built.** Every module declares its keys in its own `shortcuts.py`
@@ -998,55 +803,10 @@ picture. A key another shortcut uses where this one works asks first. What a
 reader moves is theirs alone, kept as their default `one_shortcuts`; keys
 the browser keeps are refused (`RESERVED`).
 
-## The fourteen points
-
-A module is checked against these once the mechanisms exist. Each point
-names its mechanism.
-
-1. **One home.** All of the module is in its folder, apart from what frappe
-   forces elsewhere (mechanism 2).
-2. **Versioned.** A version and a What's New entry for every change, written
-   for its users (mechanism 3).
-3. **What's New in the app.** The version at its foot opens the entries
-   (mechanism 3).
-4. **Documented.** `AGENTS.md` for agents and a `docs/` wiki for people,
-   shown in Help (mechanism 4).
-5. **Copy.** Every heading and description it shows passes the copy rules
-   (mechanism 1), and reads right in Arabic and German on the screen itself:
-   the sense the screen means, the glossary's word for each term
-   (`onedesk/locale/glossary.csv`), and none of its strings left in
-   `onedesk/locale/glossary_debt.json`.
-6. **Roles.** Its roles ship, its overrides use grants, the matrix is
-   written down, and AccessCenter shows all of it (mechanisms 7 and 14).
-7. **OneAI.** Everything a person can do here, OneAI can do as a card, or
-   there is a stated reason not (mechanism 11).
-8. **Demo and tests.** The demo company uses every part of it, and a check
-   or test covers every behaviour (point 1 under **What finished looks
-   like**).
-9. **Notifications.** It tells people what they need, on the right channels,
-   only to the right roles, and NotificationCenter shows each type with its
-   channels (mechanisms 8 and 15).
-10. **OneInterface pass.** On OneInterface, tokens only, frappe-ui and frappe
-    controls, realtime where data changes under it, values formatted by
-    frappe, and the reader's date, number and time zone preferences. This is
-    checked in the browser, as each role, desktop and phone.
-11. **Setup steps.** What the setup wizard can ask is declared, with what can
-    wait (mechanism 9).
-12. **Tour.** A first-visit tour of each area of its screen, run again from
-    the foot (mechanism 10).
-13. **Settings.** One role-aware settings dialog where everything about the
-    module is managed, ending with the centers that find it: Roles and
-    Access, and Notifications (mechanisms 5, 14 and 15).
-14. **Legal.** Every fact about what it does with data that the agreements
-    must say is a clause or a subprocessor in its `legal.py`, written to the
-    legal copy rules and naming the laws it answers; everything optional it
-    sends out is a service, off until an administrator agrees; and
-    TrustCenter shows all of it (mechanisms 6 and 13).
-
 ## How a module is finished
 
 OneProject was the first module finished against every point of the
-passover, closed on 2026-10-09, and your word was "OneProject will be the
+standard, closed on 2026-10-09, and your word was "OneProject will be the
 standard". What follows is what finished means, taken from it.
 
 1. **The baseline.** Run the gates before touching anything, and write down
@@ -1063,9 +823,9 @@ standard". What follows is what finished means, taken from it.
    people who use it (OneProject used Samir, who runs projects, and Huda, who
    keeps the books), on a desktop and a phone, and read the code behind it.
    Write the findings in the screen's commit message. Each screen ends
-   with a table of all seventeen points, plus Everything follows frappe and
-   What ERPNext already does, saying what was looked at, even where nothing
-   was found. A point left out of the table is a point not checked.
+   with a table of all twenty points of `docs/STANDARD.md`, saying what was
+   looked at, even where nothing was found. A point left out of the table is
+   a point not checked.
 4. **Fix, then look again.** Fix every finding, see it in the browser, run the
    gates, commit and push, and show a screenshot.
 5. **Revisit.** OneProject's first three screens were walked before the rule
@@ -1077,31 +837,22 @@ standard". What follows is what finished means, taken from it.
 
 ## What finished looks like
 
+What each point of `docs/STANDARD.md` looked like in OneProject, the first
+module finished against every point. The numbers are the standard's.
+
 ### Works
 
-**1 Demo coverage.** The demo company holds a real case of every kind the
-module has. OneProject has a fixed price villa with sub-projects and a
-subcontract, a curtain wall tower counted by attendance on site, a time and
-materials showroom billed in euros, two retainers, an internal project, a
-completed one and a cancelled one. Each record is made by the person whose
-work it is, on the day it happened (`one_demo/history.py` moves it back).
+**1 Demo and tests.** OneProject has a fixed price villa with sub-projects
+and a subcontract, a curtain wall tower counted by attendance on site, a time
+and materials showroom billed in euros, two retainers, an internal project, a
+completed one and a cancelled one. Its checks run as the people who would do
+the work, with `bench … one_demo.check.run --kwargs "{'only': 'oneproject_'}"`,
+and each screen's walk added one, such as
+`oneproject_its_tasks_time_and_money_keep_their_rules`. The demo lied more
+than once: retention paid in full, the workshop's time on the handover tasks,
+a Berlin customer in Business Bay. The product was right each time.
 
-- Every whitelisted method and every OneAI tool is reached by a demo check
-  (`tests/guards/test_coverage.py`). OneProject's checks run as the people
-  who would do the work, with `bench … one_demo.check.run --kwargs "{'only':
-  'oneproject_'}"`.
-- Each screen's walk adds a check that says what the walk found, such as
-  `oneproject_its_tasks_time_and_money_keep_their_rules`.
-- **Watch for** demo data that lies. On OneProject every open task was
-  overdue, every invoice was due the day the demo was built, retention was
-  paid in full, the workshop's time sat on the handover tasks, and a Berlin
-  customer lived in Business Bay. The product was right each time and the
-  demo made it look wrong. Fix the builder, then repair the site the same
-  way, so a rebuilt demo and this one agree.
-
-**2 Rules on the server.** Every rule is on the record's own hooks in
-`hooks.py`, so the page, a bulk edit, a report cell and Data Import all meet
-it. OneProject keeps these there:
+**2 Rules on the server.** OneProject keeps these on its hooks:
 
 - a project isn't closed with open work, and an internal one bills nobody
   (`status.py`, `kinds.py`);
@@ -1119,247 +870,68 @@ it. OneProject keeps these there:
 - hours, budgets and bill shares are never below 0 (`non_negative` on the
   fields).
 
-Checked by `tests/guards/test_rules.py` and by the demo, each rule changed
-every way. **Watch for** a rule that lives in an endpoint behind a button.
-The button offers and orchestrates. The record decides.
+**3 Hand-offs.** The document a project hands on says the project at the
+top, by name, opening its page (`one_project/heads.py`). The last screen of
+the walk is from the other side of each hand-off, as the person who works
+there.
 
-**3 Hand-offs.** The README's **Connections** says where the module's data
-comes from and where it goes, one line per module. Each hand-off runs end to
-end on the demo (`one_demo/check.py` HANDOFFS, `tests/guards/test_handoffs.py`).
-The document a project hands on says the project at the top, by name,
-opening its page (`one_project/heads.py`). The last screen of the walk is from the
-other side of each hand-off, as the person who works there.
+**4 What ERPNext already does.** On OneProject this found euros read as
+dirhams, a draft timesheet counted as cost, cancelled tasks counted as
+planned hours, a retention date read as a due date, and a subcontract booked
+to the wrong cost type.
 
 ### Stays desk
 
-**4 Tier declared.** `onedesk/one/tiers.py` says how each record is shown and
-why, and every collection view frappe has, as frappe's own or ours.
-OneProject has two pages of their own (Project and Project Template), heads
-on the documents it hands on, Project's List, Report, Kanban, Calendar,
-Gantt, Tree, Image and Dashboard declared, and Task's List, Gantt and Kanban.
-No view frappe offers is taken away.
+**6 Tier declared.** OneProject had two pages of their own (Project and
+Project Template), heads on the documents it hands on, Project's List,
+Report, Kanban, Calendar, Gantt, Tree, Image and Dashboard declared, and
+Task's List, Gantt and Kanban. In November 2026 Item, Project and Project
+Template went back to their forms, with a head and parts in their tabs.
 
-**5 Our look.** The project page has its own look, built from frappe-ui. It
-is checked at 1440 wide and on a phone. **Watch for** text cut off in a
-column, a figure only a bar says, a large empty state where every other one
-is a line, and a list that only fits on a desktop.
+**8 Nothing lost, and extensible.** OneProject had a place for the page and
+one for each tab (Overview, Tasks, Time, Money, Invoices, Suppliers, Team,
+Files, Activity), and one each for the Projects list, a template and
+Workload.
 
-**One figure.** Set by the user on 2026-10-20: a record's head, a module's
-Home, a record page of ours and ERPNext's own overviews drew numbers three
-ways. A figure is one card everywhere: a small grey label, the number at
-20px, one line under it (a caption, or a change against last month), framed
-with 8px corners, with a bar or a sparkline below where there is one. On the
-desk it is frappe's `frappe.ui.stat_card`, so a head and ERPNext's Customer
-Overview are the same card; on an island it is frappe-ui's NumberCard in the
-same frame, through the kit's `Figures`. A number that warns is red-7,
-frappe's negative. `tests/guards/test_figures.py` holds it.
-
-**Money and tax.** Set by the user on 2026-10-20: One is sold to any country,
-in any currency, under any tax. An amount always carries its own currency;
-there is no heading that names the currency so the figures under it need not.
-A generic label says **Tax**, **Tax ID** and **Tax Return**, never VAT or TRN.
-What really is one country's (the UAE VAT 201, the UAE tax-invoice block, the
-documents a UAE employer files) stays, shown only where the workspace's
-country is that one. A figure that has a tax on it, or one shown before tax,
-is underlined dashed and says the other side on hover: `other` on the kit's
-`Figures`, and `head.taxed` on a desk record's head.
-`tests/guards/test_any_country.py` holds it, with the regional files listed
-and each one's reason.
-
-**A module's Home tells its story.** Set by the user on 2026-10-13, first on
-OneInventory. A Home opens on figures with sparklines (frappe-ui's
-NumberCard, each against last month), a button for each kind of thing that
-needs somebody, then the module's story in parts, top to bottom, each a row of
-frappe-ui's charts. Use the whole range (Number Card, Area, Bar stacked,
-grouped and horizontal, Donut and half Donut, Sankey, Heatmap, Funnel,
-Scatter) where each fits what it shows, and colour by what a chart shows: a
-kind keeps its hue, statuses keep theirs, magnitude runs light to dark. Never
-two value axes on one chart. Every figure keeps to what the workspace and
-the reader set (`docs/PASSOVER.md`, What ERPNext already does, Figures that
-add things up): the reader's company in its currency, worth across items
-rather than mixed units, and frappe's own formats. Every figure is read as the reader may see it,
-and a slice or a bar opens what it stands for. What needs somebody (Today)
-and the directory (Everything) stay beside it as tabs.
-
-**A screen of our own follows an app people know.** Set by the user on
-2026-10-13, first on Stock on Hand. Before a screen is drawn, the app that
-does the same job best is looked at (Shopify's Inventory and Katana's Stock
-for what the stores hold) and the screen follows its layout, built from
-frappe-ui. A list of records is not a wall of text: a picture or avatar, the
-name with its code quiet under it, one status as a coloured Badge, figures
-right-aligned with the unit smaller and grey and a dash for nothing, and
-filters as a picker and TabButtons above it rather than a long row of tabs.
-Its row in `docs/ISLANDS.md` names its model, which
-`tests/guards/test_islands.py` holds.
-
-**6 Nothing lost.** A page of its own keeps everything frappe's form gives.
-Its sidebar is frappe's own, its menu is frappe's under the page's, it saves
-against the `modified` it loaded, and it hears changes made elsewhere
-(`tests/guards/test_frame.py`). Today no record has one: a record opens on its
-form, and what One adds is a head and parts in its tabs.
-
-**Nothing upstream is lost either.** Set by the user on 2026-10-13. Every
-record type, report and page frappe, erpnext and hrms ship has a way in or a
-written answer (`docs/ATLAS.md`, drawn by `scripts/atlas.py`). A way in is
-seen (a rail, a Home, one of our screens) or found (a form's link, its
-Connections tab, a list's Related Reports); a record on a page of our own has
-no Connections tab, so what only its form led to has to be placed again.
-Anything else is answered in `onedesk/one/atlas.py` as engine, inside,
-replaced or left out, or waits. `tests/guards/test_atlas.py` holds what waits
-in each module to a count that only falls, and an upstream update that adds a
-record type fails until it is placed. **A module's walk is not done while its
-modules have anything waiting.**
-The same map says who may open each thing (from the demo site, kept the
-site's by a demo check): nothing reached may be open to nobody beyond each
-module's count. And no sentence frappe, erpnext or hrms say names them:
-`onedesk/translations/<lang>.csv`, generated from the snapshot, says One in
-English, Arabic and German, but for the outside names kept on purpose.
-And each of our own screens is read for what its server lists: every one it
-does not hear change, every number it prints bare, and every company's
-record it lists without the reader's company, each held to a count that only
-falls. Five of the points are read for every record type a person reaches as
-well: point 1, the demo has one; point 11, a document sent to a customer or
-supplier prints from a format of ours; point 5, its list says more than a
-number; point 12, its labels read in Arabic and German; and point 10, what is
-sent about it is listed. The first four are held to counts that only fall.
-
-**Changing a field where it is shown.** A field on a page is changed where it
-is shown, not in a dialog, and it is the record's own form field (set by the
-user on 2026-10-12, first on the item page).
-- The page holds the record's real desk form, out of sight
-  (`onedesk.record.form`, the kit's `useForm`), as frappe's own Data Import
-  dialog holds one. Its client scripts, queries, `depends_on` and
-  `set_df_property` all run.
-- Each field shows its value as the form formats it, with a pencil (a
-  chevron for a Link or Select). The pencil floats that form's own control
-  over the place (`onedesk.record.lend`, the kit's `FieldEdit`). It floats
-  rather than moves because a page's island has its own styles, which
-  desk's don't reach.
-- A change saves the form as desk saves it, against the `modified` it
-  loaded. Enter or leaving the field saves, Escape reloads it unchanged.
-  Long text gets Save and Cancel. A Check is frappe-ui's Switch, which sets
-  the form's value and saves.
-- A field the form hides is not shown, and one it locks has no pencil. A
-  script that locks or hides a field after the refresh is heard too.
-- A field of a table row is changed the same way, as the form's grid makes
-  its control (`onedesk.record.lend_row`, `FieldEdit` with `table` and
-  `row`). A new row is added as the grid adds one, and its fields go in
-  together with Save and Cancel (an item's reorder levels).
-- Each label sits on the left and its value on the right (`Facts`).
-- Something on or off is a Switch, never a checkbox, on a page as in a
-  filter (set by the user on 2026-10-12). A checkbox is only a step ticked
-  off a checklist or a task done (`test_a_setting_is_a_switch`).
-
-OneProject and OneTask follow this when they are next passed.
-
-**The head and the breadcrumb.** Set by the user on 2026-10-13, for every
-page.
-- Every crumb with somewhere to go is a switcher with a search box, as a
-  link field searches (`public/js/crumb_switch.js`). The place's crumb lists
-  the app's places. A record's crumb lists records of its kind, its own
-  suggestions first (a project's open projects), and finds any by typing.
-  **All …** stays at the foot. A page never draws a menu of its own on a
-  crumb; it gives the trail a `menu` and the switcher draws it.
-- On a phone the head is two bars, each its own height with a line under it
-  (`public/js/phone_head.js`). The trail splits over them. The first bar has
-  the panel's button, the place, the page's buttons and search. The second
-  is the record's: its name, its status and a scope such as a project's All
-  Work. A list's second bar has its view switch.
-- A page that gathers several kinds of record keeps frappe's view switch,
-  leading to their List and Report views (`public/js/page_views.js`).
-
-**7 Extensible.** Every view of a page is a place where OneStudio's
-extensions go, told what the view shows (`one_studio/places.py`, mapped to
-its source in `tests/guards/test_frame.py`). OneProject has one for the page
-and one for each tab (Overview, Tasks, Time, Money, Invoices, Suppliers,
-Team, Files, Activity), and one each for the Projects list, a template and
-Workload. A place's notes and buttons are drawn as frappe-ui's Alert and
-Button (`PlaceSpot`).
-
-**8 Built from frappe.** Every part comes from frappe-ui first, then the
-desk's own parts, then frappe's primitives. Every value goes through
-`frappe.format`. **Watch for** a number rounded by hand, a date written by
-hand, or an amount without its currency.
-
-**9 Overrides recorded.** Whatever of frappe's, ERPNext's or HRMS's the module
-changes is a row in `scripts/overrides.py`, and `python3 scripts/overrides.py
---check` passes. OneProject has 45 rows.
+**10 Overrides recorded.** OneProject has 45 rows.
 
 ### Speaks
 
-**10 Notifications.** Every event someone should hear about is one file in
-`onedesk/notifications/<module>/`, rendered by the hub, in the reader's
-language. OneProject has sixteen, from Added to Project to Bill Due, each
-listed under **Being told** in the README with who gets it. **Watch for**
-amounts in the site's currency instead of the company's, a notice sent to
-whoever did it, and a notice told during an install, a migrate or an import.
+**11 Notifications.** OneProject has sixteen, from Added to Project to Bill
+Due, each listed with who gets it.
 
-**11 Printed.** Every record that leaves the company has a print format we
-ship, laid out in frappe's print format builder and checked by
-`tests/guards/test_print.py`. A format is drawn from the builder's own pieces
-(One Sales Invoice is the first), or, until it is redrawn, from the print
-blocks (`one_studio/print_blocks.py`, `templates/one_print/`). What a native format
-cannot reach becomes a field on the record, never a block. For OneProject
-that is One Project Status, One Timesheet, OneCRM's One Contract, and the
-hours a time and materials invoice bills on One Sales Invoice. A print
-format's `modified` moves with every change to it, or a migrate leaves the
-site's copy as it was.
+**12 Printed.** For OneProject: One Project Status, One Timesheet, OneCRM's
+One Contract, and the hours a time and materials invoice bills on One Sales
+Invoice.
 
-**12 Plain words.** Every label is frappe's word where frappe has one
-(Assigned To, Parent Task, Depends On), and the rest follows
-`docs/WORDING.md` (`tests/guards/test_wording.py`). Every string is in Arabic
-and German before it is committed (`tests/guards/test_translations.py`).
+**13 Plain words.** Every label is frappe's word where frappe has one
+(Assigned To, Parent Task, Depends On), and every string is in Arabic and
+German before it is committed.
 
 ### Knows
 
-**13 Documented, and OneAI knows and does.** The README is the manual. Each
-screen has its section above `## Under the hood`, written for the people who
-use it, and the file map under the hood says what each file does. OneAI
-reads a project as its reader sees it on the page, and does what the page
-does as a card the reader approves: a project, its status, a milestone,
-time, a budget, a member, a contact, a reminder, a template
+**16 OneAI knows and does.** OneAI reads a project as its reader sees it on
+the page, and does what the page does as a card: a project, its status, a
+milestone, time, a budget, a member, a contact, a reminder, a template
 (`one_project/ai.py`, the `projects` group in `one_ai/groups.py`). Approving
-a card runs the page's own code (`one_studio/ai_setup.py`). Nothing is changed
-until it is approved.
+a card runs the page's own code (`one_studio/ai_setup.py`).
 
-**14 Intake.** Every mail or file that should make or change the module's
-records has a sample in `tests/samples/intake/<module>/`, and the demo has
-Intake read it. OneProject's is a scaffolding bill that names the villa.
+**17 Intake.** OneProject's sample is a scaffolding bill that names the
+villa.
 
 ### Rules
 
-**15 Permissions.** Each screen is walked as each person who uses it, and
-the server holds the line, not the screen. On OneProject a project is its
-members', the books read every project, totals show to every reader and
-documents open only for those who may read them (`members.py`,
-`money._figure`).
+**18 Permissions and roles.** On OneProject a project is its members', the
+books read every project, totals show to every reader and documents open
+only for those who may read them (`members.py`, `money._figure`).
 
-**16 Legal.** Whatever the module does that the agreements must say is a
-clause in its `legal.py`. OneProject has six, and each changes the AI
-Addendum or the Privacy Policy by a new revision when it says something new
-(`tests/guards/test_legal.py`). Everybody on the demo agrees again.
+**19 Legal.** OneProject has six clauses, and each changes the AI Addendum
+or the Privacy Policy by a new revision when it says something new.
+Everybody on the demo agrees again.
 
-**17 Clean code.** One layout per module, a file per concern, and lint clean
-(`ruff check onedesk/one_project onedesk/one_demo`). A helper said once
-(`money.currency` for the company's currency). A comment only where the code
-can't say why.
-
-### On top of the points
-
-**Everything follows frappe.** Fields are frappe's controls, a record being
-edited acts as a desk form, and every screen updates through
-`frappe.realtime` when what's under it changes. OneProject's tabs each
-follow the records they show.
-
-**What ERPNext already does.** Every screen checks currency (the party's on
-documents, `base_` amounts in figures), the company, drafts and cancelled
-and amended documents, ERPNext's own statuses, its mappers, payment terms,
-precision, dates, record access and units. On OneProject this found euros
-read as dirhams, a draft timesheet counted as cost, cancelled tasks counted
-as planned hours, a retention date read as a due date, and a subcontract
-booked to the wrong cost type. **Watch for** ERPNext's own checks on save
-that a fix written straight to the database skips, such as a task's dates
-inside its parent's.
+**20 One home, clean code.** `ruff check onedesk/one_project
+onedesk/one_demo` is clean, and a helper is said once (`money.currency` for
+the company's currency).
 
 ## The gates
 

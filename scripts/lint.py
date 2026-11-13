@@ -1,8 +1,8 @@
 """OneLint: One's standard, checked (docs/run/RUN.md, OneLint). Plain, a
 change runs what can see it: the guards naming it, its module's tests and the
 tests naming its folder. `--all` runs everything, the gate; `--list` and
-`--point N` show the rules by the point they serve (tests/guards/registry.py,
-until P3.3 moves them into onedesk/one/lint)."""
+`--point N` show the rules by the point of docs/STANDARD.md they serve
+(tests/guards/registry.py, until P3.3 moves them into onedesk/one/lint)."""
 
 import re
 import subprocess
@@ -51,15 +51,23 @@ def everything() -> list[str]:
 
 
 def rules(point: int | None = None) -> str:
-	sys.path.insert(0, str(GUARDS))
-	import registry
+	"""The standard's points (docs/STANDARD.md) and the rules holding each,
+	grouped as the standard groups them."""
+	sys.path.insert(0, str(ROOT))
+	from onedesk.one import standard
+	from tests.guards.registry import GUARDS
 
 	lines = []
-	for number, title in registry.POINTS.items():
-		if point is not None and number != point:
-			continue
-		lines.append(f"{number}. {title}")
-		lines += [f"   {guard.id}: {guard.what}  ({guard.runs})" for guard in registry.GUARDS if guard.point == number]
+	for group in standard.GROUPS:
+		shown = [one for one in standard.POINTS.values() if one.group == group and point in (None, one.number)]
+		if shown and point is None:
+			lines.append(group)
+		for one in shown:
+			said = ", ".join(word for word, on in (("before live", one.live), ("a look", bool(one.look))) if on)
+			lines.append(f"{one.number}. {one.title}" + (f"  ({said})" if said else ""))
+			lines += [f"   {guard.id}: {guard.what}  ({guard.runs})" for guard in GUARDS if guard.point == one.number]
+			if one.look:
+				lines.append(f"   look: {one.look}")
 	return "\n".join(lines)
 
 

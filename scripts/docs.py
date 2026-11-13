@@ -16,7 +16,8 @@ import tree
 
 sys.path.insert(0, str(tree.ROOT))
 
-from onedesk.one import ready, registry  # noqa: E402
+from onedesk.one import ready, registry, standard  # noqa: E402
+from tests.guards.registry import GUARDS, PLANNED  # noqa: E402
 
 DOCS = tree.ROOT / "docs"
 
@@ -108,26 +109,59 @@ def modules_page() -> str:
 	return "".join(out)
 
 
+def _rules(number: int) -> list[str]:
+	return [guard.id for guard in GUARDS if guard.point == number]
+
+
 def registry_page() -> str:
-	"""Where each module on its way to ready stands on the fourteen points
-	(onedesk/one/ready.py): the guards that hold it, and the looks a person
-	gives what no guard can settle."""
-	out = [HEADER, "# Registry\n", "\nThe fourteen points of docs/READY.md, for each module on its way to ready.\n"]
+	"""Where each module on its way to ready stands on the points it is held
+	to before live (docs/STANDARD.md): how many rules hold each, and the looks
+	a person gives what no rule can settle."""
+	out = [
+		HEADER,
+		"# Registry\n",
+		"\nThe points of docs/STANDARD.md a module is held to before live, for each module on its way to ready."
+		" Each point's rules are in docs/STANDARD-RULES.md.\n",
+	]
 	for module, spec in ready.MODULES.items():
 		out.append(f"\n## {module} {ready.current(module) or ''}\n")
 		out.append(f"\n{'Ready.' if spec.get('ready') else 'Not marked ready yet.'}\n")
-		out.append("\n| Point | Held by | Last looked at |\n|---|---|---|\n")
+		out.append("\n| Point | Rules | Last looked at |\n|---|--:|---|\n")
 		for one in ready.registry(module):
-			guards = ", ".join(f"`{guard.split('::')[1]}`" for guard in one["guards"]) or "—"
 			said = one["checked"]
 			looked = (
 				f"{said['on']}, `{said['commit'][:7]}`" if said else "not yet" if one["look"] else "—"
 			)
-			out.append(f"| {one['title']} | {guards} | {looked} |\n")
+			out.append(f"| {one['number']}. {one['title']} | {len(_rules(one['number']))} | {looked} |\n")
 		looks = [one for one in ready.registry(module) if one["look"]]
 		out.append("\nWhat a person looks at:\n\n")
 		out += [f"- **{one['title']}**: {one['look']}.\n" for one in looks]
 	out.append(switchovers_section())
+	return "".join(out)
+
+
+def standard_rules_page() -> str:
+	"""What holds each point of docs/STANDARD.md: its rules, by id, with what
+	each fails on and where it runs (tests/guards/registry.py), and the look a
+	person gives where no rule can settle it (onedesk/one/standard.py)."""
+	out = [
+		HEADER,
+		"# The standard's rules\n",
+		"\nWhat holds each point of docs/STANDARD.md. `python3 scripts/lint.py --point N` lists the same.\n",
+	]
+	for group in standard.GROUPS:
+		out.append(f"\n## {group}\n")
+		for point in standard.POINTS.values():
+			if point.group != group:
+				continue
+			out.append(f"\n### {point.number}. {point.title}\n\n")
+			if point.live:
+				out.append("A module is held to it before it is marked ready.\n\n")
+			if point.look:
+				out.append(f"A person looks: {point.look}.\n\n")
+			out += [f"- `{guard.id}`: {guard.what} (`{guard.runs}`)\n" for guard in GUARDS if guard.point == point.number]
+			if point.number in PLANNED:
+				out.append(f"- coming: {PLANNED[point.number]}\n")
 	return "".join(out)
 
 
@@ -231,6 +265,7 @@ PAGES = {
 	DOCS / "MODULES.md": modules_page,
 	DOCS / "UPSTREAM.md": upstream_page,
 	DOCS / "REGISTRY.md": registry_page,
+	DOCS / "STANDARD-RULES.md": standard_rules_page,
 	DOCS / "ATLAS.md": atlas.page,
 	atlas.SHOWN: atlas.shown_json,
 }
