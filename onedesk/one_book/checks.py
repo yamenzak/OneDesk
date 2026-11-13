@@ -102,7 +102,7 @@ def onebook_home_and_payments_for_the_accounts_team():
 			"profit this month": home.profit_this_month(),
 		}
 		assert all(one is not None for one in said.values()), said
-		invoice = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "outstanding_amount": [">", 0], "currency": "AED"}, fields=["name", "outstanding_amount"], limit=1)[0]
+		invoice = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "outstanding_amount": [">", 0], "currency": "AED", "company": COMPANY}, fields=["name", "outstanding_amount"], limit=1)[0]
 		bank = frappe.get_all("Account", filters={"account_type": "Bank", "is_group": 0, "company": COMPANY}, pluck="name", limit=1)[0]
 		paid.settle("Sales Invoice", invoice.name, invoice.outstanding_amount, bank, reference="CHK-001", on=today())
 		assert not frappe.db.get_value("Sales Invoice", invoice.name, "outstanding_amount")
@@ -130,8 +130,8 @@ def onebook_keeps_the_books_rules():
 	company = frappe.get_doc("Company", COMPANY)
 	with as_user(OWNER):
 		frappe.get_doc({"doctype": "Mode of Payment", "mode_of_payment": "Demo Transfer", "type": "Bank", "enabled": 1}).insert()
-		frappe.get_doc("Bank Account", {"is_company_account": 1, "is_default": 1}).save()
-		assert [one.default_account for one in frappe.get_doc("Mode of Payment", "Demo Transfer").accounts] == [company.default_bank_account or frappe.db.get_value("Bank Account", {"is_default": 1}, "account")]
+		frappe.get_doc("Bank Account", {"is_company_account": 1, "is_default": 1, "company": COMPANY}).save()
+		assert [one.default_account for one in frappe.get_doc("Mode of Payment", "Demo Transfer").accounts] == [company.default_bank_account or frappe.db.get_value("Bank Account", {"is_default": 1, "company": COMPANY}, "account")]
 	with as_user("huda@one.test"):
 		order = frappe.get_all("Sales Order", filters={"docstatus": 1}, pluck="name", limit=1)[0]
 		try:
@@ -210,7 +210,7 @@ def onebook_home_tells_how_the_money_is_doing():
 		assert abs(sum(cards["due_this_week"]["series"]) - cards["due_this_week"]["value"]) < 0.01, cards["due_this_week"]
 		aged = sum(one["owed"] for one in told["receivable"]["ages"])
 		assert abs(aged - cards["receivable"]["value"]) < 0.01, (aged, cards["receivable"])
-		overdue = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Overdue"}, pluck="name")
+		overdue = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Overdue", "company": COMPANY}, pluck="name")
 		assert overdue and said["needs"]["overdue"]["count"] == len(overdue), (said["needs"]["overdue"], overdue)
 		for row in said["everything"]:
 			kind = "DocType" if row["kind"] == "List" else row["kind"]

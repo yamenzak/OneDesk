@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 21:44+0000\n"
-"PO-Revision-Date: 2026-11-13 21:44+0000\n"
+"POT-Creation-Date: 2026-11-13 23:07+0000\n"
+"PO-Revision-Date: 2026-11-13 23:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4017,7 +4017,7 @@ msgstr ""
 msgid "All Agents"
 msgstr ""
 
-#: frontend/src/one/Home.vue:28 onedesk/public/js/one_interface/chrome.js:360
+#: frontend/src/one/Home.vue:28 onedesk/public/js/one_interface/chrome.js:381
 msgid "All Announcements"
 msgstr ""
 
@@ -4827,7 +4827,7 @@ msgstr ""
 #: frontend/src/one/Home.vue:28 onedesk/one/sidebar/one/one.json:25
 #: onedesk/one/tour.py:36 onedesk/public/js/one/note_list.js:12
 #: onedesk/public/js/one_interface/chrome.js:59
-#: onedesk/public/js/one_interface/chrome.js:262
+#: onedesk/public/js/one_interface/chrome.js:283
 msgid "Announcements"
 msgstr ""
 
@@ -9131,7 +9131,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json:155
 #: onedesk/public/js/one_interface/chrome.js:136
-#: onedesk/public/js/one_interface/chrome.js:186
+#: onedesk/public/js/one_interface/chrome.js:207
 msgid "Centers"
 msgstr ""
 
@@ -9877,8 +9877,8 @@ msgstr ""
 msgid "Choose For to show a table's rows."
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:292
-#: onedesk/public/js/one_interface/chrome.js:328
+#: onedesk/public/js/one_interface/chrome.js:313
+#: onedesk/public/js/one_interface/chrome.js:349
 msgid "Choose Sources"
 msgstr ""
 
@@ -9946,7 +9946,7 @@ msgstr ""
 msgid "Choose a type of source."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:133
+#: onedesk/one_admin/sessions.py:136
 msgid "Choose a workspace to copy."
 msgstr ""
 
@@ -10045,7 +10045,7 @@ msgstr ""
 msgid "Choose where a new work order takes its materials and puts what it makes, so nobody is asked each time."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:130
+#: onedesk/one_admin/sessions.py:133
 msgid "Choose where the session starts from and how long it lasts."
 msgstr ""
 
@@ -18486,7 +18486,7 @@ msgstr ""
 msgid "Every company that receives data, and whether yours uses it."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:83
+#: onedesk/one_admin/sessions.py:86
 msgid "Every connected server is full. Delete a session first."
 msgstr ""
 
@@ -23100,7 +23100,7 @@ msgstr ""
 #: frontend/src/doc/components/ToC.vue:12
 #: frontend/src/doc/components/ToC.vue:99
 #: frontend/src/slide/shim/LayersPanel.vue:46
-#: onedesk/public/js/one_interface/chrome.js:296
+#: onedesk/public/js/one_interface/chrome.js:317
 msgid "Hide"
 msgstr ""
 
@@ -32416,7 +32416,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_widget/display_widget.json:28
 #: onedesk/one_display/starters.py:1154 onedesk/one_display/widgets.py:65
 #: onedesk/one_display/widgets.py:74 onedesk/one_display/widgets.py:327
-#: onedesk/public/js/one_interface/chrome.js:262
+#: onedesk/public/js/one_interface/chrome.js:283
 msgid "News"
 msgstr ""
 
@@ -33574,7 +33574,7 @@ msgstr ""
 msgid "No server connections"
 msgstr ""
 
-#: frontend/src/admin/AdminSessions.vue:6 onedesk/one_admin/sessions.py:81
+#: frontend/src/admin/AdminSessions.vue:6 onedesk/one_admin/sessions.py:84
 msgid "No server is connected yet. Connect one under Servers."
 msgstr ""
 
@@ -36360,7 +36360,7 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:170
+#: onedesk/one_admin/sessions.py:173
 msgid "Only a running session can be stopped."
 msgstr ""
 
@@ -36372,7 +36372,7 @@ msgstr ""
 msgid "Only a saved report can be shown somewhere else."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:181
+#: onedesk/one_admin/sessions.py:184
 msgid "Only a stopped session can be started."
 msgstr ""
 
@@ -46440,7 +46440,7 @@ msgstr ""
 #: onedesk/public/js/one_crm/next_step.js:27
 #: onedesk/public/js/one_interface/arrange.js:74
 #: onedesk/public/js/one_interface/centre.js:344
-#: onedesk/public/js/one_interface/chrome.js:342
+#: onedesk/public/js/one_interface/chrome.js:363
 #: onedesk/public/js/one_interface/form.js:441
 #: onedesk/public/js/one_interface/list.js:255
 #: onedesk/public/js/one_inventory/lots_actions.js:53
@@ -48877,7 +48877,7 @@ msgstr ""
 msgid "Show All"
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:288
+#: onedesk/public/js/one_interface/chrome.js:309
 msgid "Show Announcements"
 msgstr ""
 
@@ -48934,7 +48934,7 @@ msgstr ""
 msgid "Show More"
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:288
+#: onedesk/public/js/one_interface/chrome.js:309
 msgid "Show News"
 msgstr ""
 
@@ -50500,7 +50500,7 @@ msgstr ""
 #. Label of the sources (Long Text) field in DocType 'Presentation'
 #: onedesk/one/sidebar/one/one.json:124
 #: onedesk/one_deck/doctype/presentation/presentation.json:98
-#: onedesk/public/js/one_interface/chrome.js:333
+#: onedesk/public/js/one_interface/chrome.js:354
 msgid "Sources"
 msgstr ""
 
@@ -54581,7 +54581,7 @@ msgstr ""
 msgid "The demo company goes only into a workspace that is not set up yet."
 msgstr ""
 
-#: onedesk/one/dev.py:15
+#: onedesk/one/dev.py:33
 msgid "The demo company is built on dev sites only."
 msgstr ""
 
@@ -58542,10 +58542,6 @@ msgstr ""
 msgid "Training Copies Agreed On"
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:186
-msgid "Training copy, ends {0}. Nothing here is real."
-msgstr ""
-
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:313 onedesk/one_hr/sidebar/onehr/onehr.json:1152
 msgid "Training Event"
@@ -58582,6 +58578,11 @@ msgstr ""
 #. Message of a notification
 #: onedesk/one_admin/notifications.py
 msgid "Training and disposable copies can now start on it. Open Sessions to start one."
+msgstr ""
+
+#: onedesk/public/js/one_interface/chrome.js:186
+#, python-brace-format
+msgid "Training copy, ends {0}. Nothing here is real."
 msgstr ""
 
 #. Task in the ERP Rollout project template
@@ -70387,7 +70388,7 @@ msgstr ""
 msgid "{0} can't be turned off. {1}"
 msgstr ""
 
-#: onedesk/one/marketplace.py:179
+#: onedesk/one/marketplace.py:186
 #, python-brace-format
 msgid "{0} can't be turned on or off."
 msgstr ""
@@ -71163,7 +71164,7 @@ msgstr ""
 msgid "{0} has not failed."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:138
+#: onedesk/one_admin/sessions.py:141
 #, python-brace-format
 msgid "{0} has not turned on Training Copies."
 msgstr ""
@@ -73834,7 +73835,7 @@ msgstr ""
 msgid "{0}'s config isn't copied: there is no Config Copy Key in Settings"
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:136
+#: onedesk/one_admin/sessions.py:139
 #, python-brace-format
 msgid "{0}'s plan doesn't include Training Copies."
 msgstr ""
@@ -73889,7 +73890,7 @@ msgstr ""
 msgid "{0}, from {1}: {2}."
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:218
+#: onedesk/public/js/one_interface/chrome.js:239
 #, python-brace-format
 msgid "{0}, high {1}, low {2}"
 msgstr ""

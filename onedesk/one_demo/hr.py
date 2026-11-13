@@ -398,7 +398,7 @@ def _hiring():
 				"job_title": title,
 				"designation": title if frappe.db.exists("Designation", title) else make({"doctype": "Designation", "designation_name": title}).name,
 				"company": COMPANY,
-				"department": frappe.db.get_value("Department", {"department_name": department}),
+				"department": frappe.db.get_value("Department", {"department_name": department, "company": COMPANY}),
 				"status": "Open",
 				"planned_vacancies": vacancies,
 				"description": said,
@@ -465,7 +465,7 @@ def _onboarding():
 			"employee_name": "Feras Odeh",
 			"designation": offer.designation,
 			"company": COMPANY,
-			"department": frappe.db.get_value("Department", {"department_name": "Projects"}),
+			"department": frappe.db.get_value("Department", {"department_name": "Projects", "company": COMPANY}),
 			"date_of_joining": ahead(30),
 			"boarding_begins_on": ahead(2),
 			"activities": [

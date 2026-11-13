@@ -167,10 +167,15 @@ def owner(answers: dict) -> None:
 
 
 def companies(answers: dict) -> None:
-	"""Every company after the first, made as the wizard makes the first."""
+	"""Every company after the first, made as the wizard makes the first,
+	then each joined to the group its answer names as its parent."""
+	from onedesk.one.companies import join
+
 	day = answers.get("working_day") or {}
 	for one in answers["companies"][1:]:
 		company(one, day.get("days_off"))
+	for name, parent in setup_answers.joined(answers["companies"]):
+		join(name, parent)
 
 
 def company(said: dict, days_off: list | None = None) -> str:

@@ -12,9 +12,11 @@ BUILDER = "faisal@one.test"
 
 
 def answers(password=None) -> dict:
-	"""What the demo's builder answers: Sahara Glass in Dubai, its working
-	week, and the team invited from People with the apps each one's work
-	needs (one_demo/people.py)."""
+	"""What the demo's builder answers: Sahara Glass in Dubai, first, and the
+	rest of Al Mansoori Holding's group (one_demo/group.py), its working week,
+	and the team invited from People with the apps each one's work needs
+	(one_demo/people.py), then each company's own people."""
+	from onedesk.one_demo import group
 	from onedesk.one_demo.people import OWNER, PEOPLE
 
 	return {
@@ -23,7 +25,10 @@ def answers(password=None) -> dict:
 		"time_zone": "Asia/Dubai",
 		"field": "contracting",
 		"theme": "Light",
-		"companies": [{"name": COMPANY, "abbr": ABBR, "country": "United Arab Emirates", "currency": CURRENCY, "year_starts": "01-01"}],
+		"companies": [
+			{"name": COMPANY, "abbr": ABBR, "country": "United Arab Emirates", "currency": CURRENCY, "year_starts": "01-01", "parent": group.HOLDING},
+			*group.answers(),
+		],
 		"working_day": {"starts": "08:00", "ends": "17:00", "days_off": ["Sunday"]},
 		"people": [
 			{
@@ -35,7 +40,8 @@ def answers(password=None) -> dict:
 			}
 			for first, last, email, *_rest, access in PEOPLE
 			if email
-		],
+		]
+		+ group.invited(),
 	}
 
 

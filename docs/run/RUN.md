@@ -454,5 +454,6 @@ Only what needs his own hands:
 
 ## Noticed
 - 13 Nov: the tunnel routes only one.4dl.dev since dev's OneAdmin was retired, so a site linked to https://admin.4dl.dev (run.localhost) gets 404 on every live OneAdmin call; the checks fake those answers. P4's gate (a signup on the dev OneAdmin, a box calling back) needs admin.4dl.dev routed again for the drill, or the drill against production's OneAdmin: decide at the P4 gate.
+- 13 Nov (P7.1): AccessCenter's hold refuses a Company (access.RECORD_KINDS), so nothing in One keeps a person to their company; the demo writes frappe's User Permission for the group's people. And a Contract names no company, so Palm Key's tenancies print under the workspace company's letter head (print_blocks._company).
 
 (one line each; things outside the current item)

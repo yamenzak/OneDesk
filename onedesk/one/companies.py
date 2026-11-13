@@ -30,6 +30,22 @@ def ready(company: str, said: dict, days_off: list | None = None) -> None:
 	_letter_head(company, said.get("letter_head") or LETTER_HEADS[0])
 
 
+def join(company: str, parent: str) -> None:
+	"""The company in the group of `parent`, which becomes a group company if
+	it is not one yet, as erpnext's company tree keeps them. Written to the
+	tree, not saved through the form: erpnext's save marks a company with a
+	parent as charted from it, and each keeps its own chart. Once."""
+	from frappe.utils.nestedset import rebuild_tree
+
+	if frappe.db.get_value("Company", company, "parent_company") == parent:
+		return
+	if not frappe.db.get_value("Company", parent, "is_group"):
+		frappe.db.set_value("Company", parent, "is_group", 1)
+	frappe.db.set_value("Company", company, "parent_company", parent)
+	rebuild_tree("Company")
+	frappe.clear_cache(doctype="Company")
+
+
 def starts_of(year_start: date | None) -> str | None:
 	"""A financial year's first day as the answers say it, MM-DD. Pure."""
 	return year_start.strftime("%m-%d") if year_start else None
