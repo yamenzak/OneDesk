@@ -10,12 +10,35 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from onedesk.one_interface import stamps  # noqa: E402
 
 
+def unstamped(passed: dict) -> list[str]:
+	"""Each stamp misnamed, saying other than `on` and `pass`, on no real day
+	or of no pass. Pure."""
+	out = []
+	for screen, said in passed.items():
+		if not stamps.SCREEN.match(screen):
+			out.append(f"{screen}: name a screen as Form/<doctype>, List/<doctype> or a page's route")
+		if set(said) != {"on", "pass"}:
+			out.append(f"{screen}: say `on` and `pass`, and nothing else")
+			continue
+		try:
+			datetime.date.fromisoformat(said["on"])
+		except (TypeError, ValueError):
+			out.append(f"{screen}: {said['on']!r} is not a day")
+		if not said["pass"].strip():
+			out.append(f"{screen}: say which pass finished it")
+	return out
+
+
 def test_every_passed_screen_is_named_with_its_day_and_pass():
-	for screen, said in stamps.PASSED.items():
-		assert stamps.SCREEN.match(screen), f"{screen}: name a screen as Form/<doctype>, List/<doctype> or a page's route"
-		assert set(said) == {"on", "pass"}, f"{screen}: say `on` and `pass`, and nothing else"
-		datetime.date.fromisoformat(said["on"])
-		assert said["pass"].strip(), f"{screen}: say which pass finished it"
+	found = unstamped(stamps.PASSED)
+	assert not found, found
+
+
+def test_the_stamp_rules_catch_their_examples():
+	good = {"on": "2026-11-13", "pass": "the November pass"}
+	assert unstamped({"Form/Task": good, "onemail": good}) == []
+	found = unstamped({"OneMail": good, "List/Task": {"on": "13 Nov", "pass": " "}, "Form/Lead": {"on": "2026-11-13"}})
+	assert len(found) == 4 and found[0].startswith("OneMail:")
 
 
 def test_screens_are_named_as_the_stamp_reads_them():

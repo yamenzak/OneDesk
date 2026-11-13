@@ -16,15 +16,30 @@ def _pages() -> set[str]:
 	return {json.loads(path.read_text())["name"] for path in APP.glob("*/page/*/*.json") if path.parent.name != "__pycache__" and "one_admin" not in path.parts}
 
 
+def unopened(pages: set[str], screens: str) -> list[str]:
+	"""The pages screens.mjs never opens. Pure."""
+	return sorted(pages - set(re.findall(r'page: "([^"]+)"', screens)))
+
+
 def test_every_page_of_ours_is_opened_in_the_browser():
-	opened = set(re.findall(r'page: "([^"]+)"', SCREENS))
-	missing = _pages() - opened
-	assert not missing, f"open these pages in tests/browser/screens.mjs: {sorted(missing)}"
+	missing = unopened(_pages(), SCREENS)
+	assert not missing, f"open these pages in tests/browser/screens.mjs: {missing}"
+
+
+def strangers(screens: str, people: str) -> set[str]:
+	"""Who screens.mjs opens a screen as that the demo's people.py does not make. Pure."""
+	who = set(re.findall(r'who: "([^"]+)"', screens))
+	return {one for one in who if f'"{one}"' not in people and one.split("@")[0] not in people}
 
 
 def test_every_screen_is_opened_as_a_demo_person():
 	people = (APP / "one_demo" / "people.py").read_text()
-	who = set(re.findall(r'who: "([^"]+)"', SCREENS))
-	assert who, "no screens"
-	strangers = {one for one in who if f'"{one}"' not in people and one.split("@")[0] not in people}
-	assert not strangers, strangers
+	assert re.findall(r'who: "([^"]+)"', SCREENS), "no screens"
+	found = strangers(SCREENS, people)
+	assert not found, found
+
+
+def test_the_browser_rules_catch_their_examples():
+	screens = '{ page: "one-home", who: "ana@demo.one" },\n{ page: "timers", who: "nobody@else.one" },'
+	assert unopened({"one-home", "one-stock"}, screens) == ["one-stock"]
+	assert strangers(screens, 'PEOPLE = ("ana", "sam")') == {"nobody@else.one"}

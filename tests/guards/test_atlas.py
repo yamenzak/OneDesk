@@ -44,6 +44,22 @@ WAITING = {
 KINDS = {"engine", "inside", "replaced", "left out", "the platform's"}
 
 
+def grown(now: dict, allowed: dict) -> dict:
+	"""What a count that only falls holds more of than allowed, `now` by key
+	with its names. Pure."""
+	return {key: names for key, names in now.items() if len(names) > allowed.get(key, 0)}
+
+
+def stale(now: dict, allowed: dict) -> dict:
+	"""(now, written) for each allowance higher than what it now holds. Pure."""
+	return {key: (len(now.get(key, [])), n) for key, n in allowed.items() if len(now.get(key, [])) < n}
+
+
+def out_of_date(written: str | None, drawn: str) -> bool:
+	"""Whether a generated file is missing or not what is drawn now. Pure."""
+	return written != drawn
+
+
 def test_nothing_waits_that_was_not_waiting():
 	now = {module: len(names) for module, names in atlas.waiting().items()}
 	grown = {module: (n, WAITING.get(module, 0)) for module, n in now.items() if n > WAITING.get(module, 0)}
@@ -53,20 +69,26 @@ def test_nothing_waits_that_was_not_waiting():
 
 
 def test_the_counts_are_lowered_as_things_are_placed():
-	now = {module: len(names) for module, names in atlas.waiting().items()}
-	stale = {module: (now.get(module, 0), n) for module, n in WAITING.items() if now.get(module, 0) < n}
-	assert not stale, f"lower WAITING to what is still waiting (now, written): {stale}"
+	found = stale(atlas.waiting(), WAITING)
+	assert not found, f"lower WAITING to what is still waiting (now, written): {found}"
 
 
 def test_every_answer_names_something_unreached():
 	"""An answer for something the map now reaches, or that no longer exists,
 	is a stale line."""
-	reached = {(row["kind"], row["name"]) for row in atlas.rows() if row["reach"]}
-	known = {(row["kind"], row["name"]) for row in atlas.rows()}
-	said = atlas.answers()
-	assert not set(said) - known, sorted(set(said) - known)
-	assert not set(said) & reached, f"reached now, take the answer out: {sorted(set(said) & reached)}"
-	assert {kind for kind, _ in said.values()} <= KINDS
+	found = stale_answers(atlas.rows(), atlas.answers())
+	assert not found, found
+
+
+def stale_answers(rows, said: dict) -> list[str]:
+	"""An answer for nothing the map knows, for something it reaches, or of a
+	kind not in KINDS. Pure."""
+	reached = {(row["kind"], row["name"]) for row in rows if row["reach"]}
+	known = {(row["kind"], row["name"]) for row in rows}
+	out = [f"no such thing: {one}" for one in sorted(set(said) - known)]
+	out += [f"reached now, take the answer out: {one}" for one in sorted(set(said) & reached)]
+	out += [f"no such kind: {kind}" for kind in sorted({kind for kind, _ in said.values()} - KINDS)]
+	return out
 
 
 def test_the_map_finds_a_way_in():
@@ -79,7 +101,7 @@ def test_the_map_finds_a_way_in():
 
 
 def test_the_atlas_is_current():
-	assert (atlas.tree.ROOT / "docs" / "ATLAS.md").read_text() == atlas.page(), "run python scripts/docs.py"
+	assert not out_of_date((atlas.tree.ROOT / "docs" / "ATLAS.md").read_text(), atlas.page()), "run python scripts/docs.py"
 
 
 OPERATOR = ("One Admin",)
@@ -117,40 +139,47 @@ def _nobody() -> dict:
 
 def test_what_is_reached_is_open_to_somebody():
 	now = _nobody()
-	grown = {m: names for m, names in now.items() if len(names) > NOBODY.get(m, 0)}
-	assert not grown, f"reached, but no role a workspace gives may open it: {grown}"
-	stale = {m: (len(now.get(m, [])), n) for m, n in NOBODY.items() if len(now.get(m, [])) < n}
-	assert not stale, f"lower NOBODY (now, written): {stale}"
+	assert not grown(now, NOBODY), f"reached, but no role a workspace gives may open it: {grown(now, NOBODY)}"
+	assert not stale(now, NOBODY), f"lower NOBODY (now, written): {stale(now, NOBODY)}"
 
 
 def test_who_may_open_what_was_read():
 	"""docs/atlas-site.json was read from the site; a demo check holds it to
 	the site's (one_atlas_knows_who_may_open_what)."""
-	assert atlas.readers()["doctypes"].get("Item"), "run python scripts/atlas.py --site"
+	assert was_read(atlas.readers()), "run python scripts/atlas.py --site"
+
+
+def was_read(readers: dict) -> bool:
+	"""Whether the site's readers were read: Item has some. Pure."""
+	return bool(readers["doctypes"].get("Item"))
 
 
 def test_the_brand_translations_are_current():
 	for lang, text in atlas.translation_files().items():
 		path = atlas.TRANSLATIONS / f"{lang}.csv"
-		assert path.exists() and path.read_text() == text, f"run python scripts/atlas.py --brand ({lang})"
+		assert not out_of_date(path.read_text() if path.exists() else None, text), f"run python scripts/atlas.py --brand ({lang})"
 
 
-def _unbranded(text: str) -> str:
-	for name in atlas._module_dict("OUTSIDE"):
+def _unbranded(text: str, outside) -> str:
+	for name in outside:
 		text = text.replace(name, "")
 	return text
+
+
+def still_branded(brand, said: dict, outside) -> list:
+	"""Each upstream sentence naming frappe, erpnext or hrms that One does not
+	swap, and each swap still naming one, but for an outside name. Pure."""
+	swapped = {msgid for msgid, _, _ in said["en"]}
+	out = [msgid for msgid in brand if msgid not in swapped and atlas.SAID_BRAND.search(_unbranded(msgid, outside))]
+	out += [(lang, msgid, text) for lang, rows in said.items() for msgid, text, _ in rows if atlas.SAID_BRAND.search(_unbranded(text, outside))]
+	return out
 
 
 def test_nothing_upstream_says_names_them():
 	"""Every sentence frappe, erpnext or hrms say naming themselves reads One,
 	in English, Arabic and German, but for an outside name kept on purpose."""
-	said = atlas.rebranded()
-	swapped = {msgid for msgid, _, _ in said["en"]}
-	for msgid in atlas.upstream()["brand"]:
-		assert msgid in swapped or not atlas.SAID_BRAND.search(_unbranded(msgid)), msgid
-	for lang, rows in said.items():
-		for msgid, text, _ in rows:
-			assert not atlas.SAID_BRAND.search(_unbranded(text)), (lang, msgid, text)
+	found = still_branded(atlas.upstream()["brand"], atlas.rebranded(), atlas._module_dict("OUTSIDE"))
+	assert not found, found
 
 
 UNHEARD = {
@@ -179,10 +208,8 @@ NOT_THE_COMPANYS = {
 
 def _held(key: str, allowed: dict) -> None:
 	now = {one["screen"]: one[key] for one in atlas.screens() if one[key]}
-	grown = {s: names for s, names in now.items() if len(names) > allowed.get(s, 0)}
-	assert not grown, f"{key} grew: {grown}"
-	stale = {s: (len(now.get(s, [])), n) for s, n in allowed.items() if len(now.get(s, [])) < n}
-	assert not stale, f"lower the count (now, written): {stale}"
+	assert not grown(now, allowed), f"{key} grew: {grown(now, allowed)}"
+	assert not stale(now, allowed), f"lower the count (now, written): {stale(now, allowed)}"
 
 
 def test_a_screen_hears_what_it_lists():
@@ -251,10 +278,8 @@ ENGLISH: dict = {}
 
 def _point(check: str, allowed: dict) -> None:
 	now = atlas.points()[check]
-	grown = {m: names for m, names in now.items() if len(names) > allowed.get(m, 0)}
-	assert not grown, f"{check} grew: {grown}"
-	stale = {m: (len(now.get(m, [])), n) for m, n in allowed.items() if len(now.get(m, [])) < n}
-	assert not stale, f"lower {check.upper()} (now, written): {stale}"
+	assert not grown(now, allowed), f"{check} grew: {grown(now, allowed)}"
+	assert not stale(now, allowed), f"lower {check.upper()} (now, written): {stale(now, allowed)}"
 
 
 def test_the_demo_has_one_of_everything_reached():
@@ -280,3 +305,26 @@ def test_the_points_are_read():
 	assert atlas.kept("Item") and atlas.kept("Putaway Rule") and not atlas.kept("Inventory Dimension")
 	assert atlas.goes_out("Purchase Order") and atlas.printed("Purchase Order")
 	assert "Order Late" in atlas.sends("Purchase Order")
+
+
+def test_the_counts_catch_their_examples():
+	"""A count that grew, a count left higher than what it holds, and one held."""
+	assert grown({"onemail": ["Communication", "Contact"]}, {"onemail": 1}) == {"onemail": ["Communication", "Contact"]}
+	assert stale({"onemail": ["Communication"]}, {"onemail": 2, "stock": 1}) == {"onemail": (1, 2), "stock": (0, 1)}
+	assert not grown({"stock": ["Bin"]}, {"stock": 1}) and not stale({"stock": ["Bin"]}, {"stock": 1})
+
+
+def test_the_answers_and_the_generated_files_catch_their_examples():
+	rows = [{"kind": "DocType", "name": "Item", "reach": "named"}, {"kind": "DocType", "name": "Bin", "reach": ""}]
+	said = {("DocType", "Item"): ("engine", ""), ("DocType", "Gone"): ("engine", ""), ("DocType", "Bin"): ("whim", "")}
+	assert stale_answers(rows, said) == [
+		"no such thing: ('DocType', 'Gone')",
+		"reached now, take the answer out: ('DocType', 'Item')",
+		"no such kind: whim",
+	]
+	assert not stale_answers(rows, {("DocType", "Bin"): ("inside", "")})
+	assert out_of_date(None, "x") and out_of_date("old", "new") and not out_of_date("same", "same")
+	assert not was_read({"doctypes": {}}) and was_read({"doctypes": {"Item": ["Stock User"]}})
+	said = {"en": [("Open ERPNext", "Open One", "")], "ar": [("Open ERPNext", "افتح ERPNext", "")]}
+	assert still_branded(["Open ERPNext", "Frappe HR", "Paid via Stripe"], said, ["Stripe"]) == ["Frappe HR", ("ar", "Open ERPNext", "افتح ERPNext")]
+	assert not still_branded(["Paid via Frappe Cloud"], {"en": []}, ["Frappe Cloud"])

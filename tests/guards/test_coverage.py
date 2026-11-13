@@ -112,12 +112,19 @@ def test_the_counts_are_lowered_as_checks_are_written():
 	if not tree.whole():
 		pytest.skip("the counts fall under --all")
 	left = {module: sum(1 for one in names if not reached(one)) for module, names in features().items()}
-	stale = {
-		module: (STILL[module], left.get(module, 0))
-		for module in STILL
-		if left.get(module, 0) < STILL[module]
-	}
-	assert not stale, f"lower STILL to what is left (was, now): {stale}"
+	found = stale(STILL, left)
+	assert not found, f"lower STILL to what is left (was, now): {found}"
+
+
+def stale(still: dict[str, int], left: dict[str, int]) -> dict[str, tuple[int, int]]:
+	"""Each module whose count still left is above what is left now. Pure."""
+	return {module: (still[module], left.get(module, 0)) for module in still if left.get(module, 0) < still[module]}
+
+
+def test_the_ratchet_catches_a_count_left_high():
+	assert stale({"one_hr": 3, "one_crm": 1}, {"one_hr": 1, "one_crm": 1}) == {"one_hr": (3, 1)}
+	assert stale({"one_task": 2}, {}) == {"one_task": (2, 0)}
+	assert stale({"one_hr": 1}, {"one_hr": 1}) == {}
 
 
 def test_the_scan_finds_a_call():

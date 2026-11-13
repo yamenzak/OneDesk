@@ -60,9 +60,13 @@ HOSTS = {
 }
 
 
+def moved(found: dict, recorded: dict) -> dict:
+	"""The documents whose version is not the one recorded, with both. Pure."""
+	return {key: (recorded.get(key), now) for key, now in found.items() if recorded.get(key) != now}
+
+
 def test_every_document_is_at_the_version_recorded():
-	found = {one["key"]: one["version"] for one in assemble.documents()}
-	changed = {key: (VERSIONS.get(key), now) for key, now in found.items() if VERSIONS.get(key) != now}
+	changed = moved({one["key"]: one["version"] for one in assemble.documents()}, VERSIONS)
 	assert not changed, (
 		"These documents changed: "
 		+ ", ".join(f"{key} {was} → {now}" for key, (was, now) in changed.items())
@@ -74,41 +78,74 @@ def test_every_document_is_at_the_version_recorded():
 	)
 
 
+def stray_clauses(clauses, sections: dict) -> list:
+	"""The (document, section) places clauses aim at that no document has. Pure."""
+	had = {(key, section) for key, rows in sections.items() for section, _heading in rows}
+	return [place for place in clauses if place not in had]
+
+
 def test_every_clause_is_in_a_section_its_document_has():
-	sections = {(key, section) for key, rows in documents.SECTIONS.items() for section, _heading in rows}
 	assemble.documents()
-	stray = [place for place in registry.CLAUSES if place not in sections]
+	stray = stray_clauses(registry.CLAUSES, documents.SECTIONS)
 	assert not stray, f"clauses aimed at sections that do not exist: {stray}"
+
+
+def hosts_called(source: str) -> set[str]:
+	"""The outside hosts a source calls over https, but frappe's, github's and examples. Pure."""
+	return {host for host in re.findall(r"https://([a-z0-9.-]+\.[a-z]+)/", source) if not host.endswith(("frappe.io", "github.com", "example.com"))}
+
+
+def unmapped(called: set, hosts: dict, declared: set) -> tuple[list, list]:
+	"""The hosts HOSTS does not map, and the companies mapped but not declared. Pure."""
+	unknown = sorted(host for host in called if host not in hosts)
+	undeclared = sorted({hosts[host] for host in called if host in hosts and hosts[host] and hosts[host] not in declared})
+	return unknown, undeclared
 
 
 def test_every_company_one_calls_is_a_declared_subprocessor():
 	assemble.documents()
-	declared = set(registry.SUBPROCESSORS)
 	called = set()
 	for path in tree.python():
 		if "trust_center" in path.parts or path.name == "trust.py":
 			continue
-		called |= set(re.findall(r"https://([a-z0-9.-]+\.[a-z]+)/", path.read_text(encoding="utf-8")))
-	outside = {host for host in called if not host.endswith(("frappe.io", "github.com", "example.com"))}
-	unknown = sorted(host for host in outside if host not in HOSTS)
+		called |= hosts_called(path.read_text(encoding="utf-8"))
+	unknown, undeclared = unmapped(called, HOSTS, set(registry.SUBPROCESSORS))
 	assert not unknown, f"One calls {unknown}: map each to its subprocessor in HOSTS, and declare it"
-	undeclared = sorted({HOSTS[host] for host in outside if HOSTS[host] and HOSTS[host] not in declared})
 	assert not undeclared, f"called but not in the Subprocessors list: {undeclared}"
+
+
+def unsaid_rungs(text: str, days: dict) -> list[str]:
+	"""The rungs of the ladder whose days the terms do not say. Pure."""
+	return [rung for rung in ("Overdue", "Suspended", "Archived") if f"{days[rung]} days" not in text]
 
 
 def test_the_lifecycle_the_terms_describe_is_the_one_the_code_runs():
 	from onedesk.one_admin.ladder import DAYS
 
-	text = assemble.text_of("terms")
-	for rung in ("Overdue", "Suspended", "Archived"):
-		assert f"{DAYS[rung]} days" in text, rung
+	wrong = unsaid_rungs(assemble.text_of("terms"), DAYS)
+	assert not wrong, wrong
+
+
+def wrong_audiences(declared: dict, sections: dict) -> list[str]:
+	"""What is wrong with who agrees to which document, and their order. Pure."""
+	audiences = {key: one["audience"] for key, one in declared.items()}
+	wrong = [key for key, who in (("privacy", "user"), ("terms", "customer"), ("aup", "both")) if audiences.get(key) != who]
+	wrong += ["licences is agreed to"] if audiences.get("licences") is not None else []
+	wrong += ["the documents and their sections are in different orders"] if list(declared) != list(sections) else []
+	return wrong
 
 
 def test_everybody_agrees_to_something_and_the_notices_to_nothing():
-	audiences = {key: one["audience"] for key, one in documents.DOCUMENTS.items()}
-	assert audiences["privacy"] == "user" and audiences["terms"] == "customer" and audiences["aup"] == "both"
-	assert audiences["licences"] is None
-	assert list(documents.DOCUMENTS) == [key for key in documents.SECTIONS]
+	wrong = wrong_audiences(documents.DOCUMENTS, documents.SECTIONS)
+	assert not wrong, wrong
+
+
+def promised(everything: str, ai: str) -> list[str]:
+	"""What the agreements promise that is not built, or leave unsaid that is. Pure."""
+	wrong = [said for said in ("full backup", "without somebody asking for it") if said in everything]
+	if "turns reading on, OneAI reads the mail and files that arrive and acts on them" not in ai:
+		wrong.append("OneAI's reading is not said")
+	return wrong
 
 
 def test_nobody_is_promised_what_is_not_built():
@@ -116,26 +153,61 @@ def test_nobody_is_promised_what_is_not_built():
 	ever written without somebody asking. Neither is true of OneDesk: OneAI's
 	reading acts without being asked each time."""
 	everything = " ".join(assemble.text_of(key) for key in documents.DOCUMENTS)
-	assert "full backup" not in everything
-	assert "without somebody asking for it" not in everything
-	assert "turns reading on, OneAI reads the mail and files that arrive and acts on them" in assemble.text_of("ai")
+	wrong = promised(everything, assemble.text_of("ai"))
+	assert not wrong, wrong
+
+
+def stops_on_a_revision(source: str) -> list[str]:
+	"""What a gate.py does that stops whoever agreed to an earlier revision,
+	or no longer tells a new revision from a new hash. Pure."""
+	import ast as _ast
+
+	space = {}
+	for node in _ast.parse(source).body:
+		if isinstance(node, _ast.FunctionDef) and node.name in ("revision", "agreed"):
+			exec(_ast.unparse(node), space)
+	if "agreed" not in space:
+		return ["no agreed"]
+	wrong = []
+	if not space["agreed"]("1.dcae3326", "1.94da7c45"):
+		wrong.append("a new hash asks again")
+	if space["agreed"]("1.dcae3326", "2.94da7c45"):
+		wrong.append("a new revision is taken as agreed")
+	if space["agreed"](None, "1.94da7c45"):
+		wrong.append("nobody agreeing is taken as agreed")
+	if not ('"accepted": bool(was)' in source and '"changed": bool(was) and not agreed(was, version)' in source):
+		wrong.append("a later revision is not told as a change")
+	return wrong
 
 
 def test_only_a_first_agreement_stops_anybody():
 	"""A later revision is notice, not a stop (docs/READY.md, mechanism 13):
 	whoever agreed to an earlier one stands agreed, and the gate tells them
 	it changed. `agreed` still tells a new revision from a new hash."""
-	import ast as _ast
-
 	source = (Path(__file__).resolve().parents[2] / "onedesk" / "trust_center" / "gate.py").read_text(encoding="utf-8")
-	space = {}
-	for node in _ast.parse(source).body:
-		if isinstance(node, _ast.FunctionDef) and node.name in ("revision", "agreed"):
-			exec(_ast.unparse(node), space)
-	assert space["agreed"]("1.dcae3326", "1.94da7c45")
-	assert not space["agreed"]("1.dcae3326", "2.94da7c45")
-	assert not space["agreed"](None, "1.94da7c45")
-	assert '"accepted": bool(was)' in source and '"changed": bool(was) and not agreed(was, version)' in source
+	wrong = stops_on_a_revision(source)
+	assert not wrong, wrong
+
+
+def badly_published(declared: dict, changes: list, baseline: dict, notice_days: int, production: bool, change_of) -> list[str]:
+	"""A change published before production, a revision with no change, too
+	little notice, or a change not said in one sentence. Pure."""
+	import datetime
+
+	wrong = []
+	if not production and changes:
+		wrong.append("Before production a change takes effect the day it is made: nothing goes in documents.CHANGES")
+	for key, one in declared.items():
+		if production and one["revision"] > baseline[key] and not change_of(key):
+			wrong.append(f"{key} is at revision {one['revision']}: add it to documents.CHANGES")
+	for change in changes:
+		key = change["document"]
+		published, effective = (datetime.date.fromisoformat(change[day]) for day in ("published", "effective"))
+		if declared[key]["audience"] in ("customer", "both") and (effective - published).days < notice_days:
+			wrong.append(f"{key} {change['revision']}: {notice_days} days' notice")
+		if not (change["says"].endswith(".") and len(re.findall(r"[.!?](?:\s|$)", change["says"])) == 1):
+			wrong.append(f"{key}: one sentence")
+	return wrong
 
 
 def test_a_change_is_published_ahead_of_the_day_it_takes_effect():
@@ -143,20 +215,13 @@ def test_a_change_is_published_ahead_of_the_day_it_takes_effect():
 	change, and one to what the workspace agrees to takes effect NOTICE_DAYS
 	after it is published, at least, with what changed said in a sentence.
 	Before it, the agreements change freely and nothing is published."""
-	import datetime
+	wrong = badly_published(documents.DOCUMENTS, documents.CHANGES, documents.BASELINE, documents.NOTICE_DAYS, ready.PRODUCTION, documents.change_of)
+	assert not wrong, wrong
 
-	if not ready.PRODUCTION:
-		assert not documents.CHANGES, "Before production a change takes effect the day it is made: nothing goes in documents.CHANGES"
-	for key, one in documents.DOCUMENTS.items():
-		if ready.PRODUCTION and one["revision"] > documents.BASELINE[key]:
-			change = documents.change_of(key)
-			assert change, f"{key} is at revision {one['revision']}: add it to documents.CHANGES"
-	for change in documents.CHANGES:
-		key = change["document"]
-		published, effective = (datetime.date.fromisoformat(change[day]) for day in ("published", "effective"))
-		if documents.DOCUMENTS[key]["audience"] in ("customer", "both"):
-			assert (effective - published).days >= documents.NOTICE_DAYS, f"{key} {change['revision']}: {documents.NOTICE_DAYS} days' notice"
-		assert change["says"].endswith(".") and len(re.findall(r"[.!?](?:\s|$)", change["says"])) == 1, f"{key}: one sentence"
+
+def unnamed_models(used, run_by, declared: set) -> dict:
+	"""The models OneAI uses whose runner is not a subprocessor. Pure."""
+	return {model: run_by(model) for model in used if run_by(model) not in declared}
 
 
 def test_every_company_that_runs_a_model_is_a_declared_subprocessor():
@@ -165,16 +230,47 @@ def test_every_company_that_runs_a_model_is_a_declared_subprocessor():
 	from onedesk.one_ai import models
 
 	assemble.documents()
-	declared = set(registry.SUBPROCESSORS)
-	unnamed = {model: models.run_by(model) for model in models.used() if models.run_by(model) not in declared}
+	unnamed = unnamed_models(models.used(), models.run_by, set(registry.SUBPROCESSORS))
 	assert not unnamed, f"Models run by a company that is not a subprocessor: {unnamed}"
+
+
+def unassembled(found: set, places) -> list[str]:
+	"""The folders with a trust.py the registry does not place. Pure."""
+	return sorted(found - set(places))
 
 
 def test_every_modules_legal_file_is_assembled():
 	from onedesk.trust_center.assemble import places
 
-	found = {path.parent.name for path in tree.APP.glob("one*/trust.py")}
-	assert found <= set(places()), f"not a folder or part in the registry: {sorted(found - set(places()))}"
+	wrong = unassembled({path.parent.name for path in tree.APP.glob("one*/trust.py")}, places())
+	assert not wrong, f"not a folder or part in the registry: {wrong}"
+
+
+def _sources() -> list[tuple[str, str]]:
+	return [(path.name, path.read_text(encoding="utf-8")) for path in tree.python()]
+
+
+def unserviced(services: dict, rows: list, hosts: dict, sources: list) -> list[str]:
+	"""A service half declared, sending to nobody named, or reached without
+	services.call, and a use naming a service nobody declared. Pure."""
+	wrong = []
+	for key, one in services.items():
+		if not (one["hosts"] and one["off"] and one["sends"]):
+			wrong.append(key)
+		companies = {row["name"] for row in rows for use in row["uses"] if use["service"] == key}
+		if not companies:
+			wrong.append(f"{key} sends to nobody the Subprocessors list names")
+		if not all(hosts.get(host) in companies for host in one["hosts"]):
+			wrong.append(f"{key}: each host is one of its companies'")
+		wrong += [
+			f"{name} calls {key}'s host without services.call"
+			for name, text in sources
+			if name != "trust.py" and any(host in text for host in one["hosts"]) and "services.call(" not in text
+		]
+	uses = {use["service"] for row in rows for use in row["uses"] if use["service"]}
+	if not uses <= set(services):
+		wrong.append(f"a use names a service nobody declared: {sorted(uses - set(services))}")
+	return wrong
 
 
 def test_a_service_is_reached_only_through_services_call():
@@ -183,17 +279,23 @@ def test_a_service_is_reached_only_through_services_call():
 	trust_center/services.call, each service sends to at least one declared
 	company, and what it says while off is said."""
 	assemble.documents()
-	for key, one in registry.SERVICES.items():
-		assert one["hosts"] and one["off"] and one["sends"], key
-		companies = {row["name"] for row in registry.subprocessor_rows() for use in row["uses"] if use["service"] == key}
-		assert companies, f"{key} sends to nobody the Subprocessors list names"
-		assert all(HOSTS.get(host) in companies for host in one["hosts"]), f"{key}: each host is one of its companies'"
-		for path in tree.python():
-			text = path.read_text(encoding="utf-8")
-			if path.name != "trust.py" and any(host in text for host in one["hosts"]):
-				assert "services.call(" in text, f"{path.name} calls {key}'s host without services.call"
-	uses = [use["service"] for row in registry.subprocessor_rows() for use in row["uses"] if use["service"]]
-	assert set(uses) <= set(registry.SERVICES), f"a use names a service nobody declared: {sorted(set(uses) - set(registry.SERVICES))}"
+	wrong = unserviced(registry.SERVICES, registry.subprocessor_rows(), HOSTS, _sources())
+	assert not wrong, wrong
+
+
+def unmet_duties(clauses: dict, laws: dict, duties) -> list[str]:
+	"""The duties no clause meets, and a law or duty not said in a sentence. Pure."""
+	met = {duty for rows in clauses.values() for one in rows for duty in one["meets"]}
+	wrong = [f"no clause meets {duty}" for duty in duties if duty not in met]
+	for law, one in laws.items():
+		if not (one["title"] and one["duties"]):
+			wrong.append(law)
+		wrong += [
+			f"{law}.{duty}: one sentence"
+			for duty, said in one["duties"].items()
+			if not (said.endswith((".", ")")) and len(re.findall(r"[.!?](?:\s|$)", said)) <= 2)
+		]
+	return wrong
 
 
 def test_every_duty_a_law_puts_on_us_is_met_by_a_clause():
@@ -203,19 +305,36 @@ def test_every_duty_a_law_puts_on_us_is_met_by_a_clause():
 	from onedesk.trust_center import laws
 
 	assemble.documents()
-	met = {duty for rows in registry.CLAUSES.values() for one in rows for duty in one["meets"]}
-	unmet = [duty for duty in laws.duties() if duty not in met]
-	assert not unmet, f"no clause meets these: {unmet}. Write one, or say which clause does with meets="
-	for law, one in laws.LAWS.items():
-		assert one["title"] and one["duties"], law
-		for duty, said in one["duties"].items():
-			assert said.endswith((".", ")")) and len(re.findall(r"[.!?](?:\s|$)", said)) <= 2, f"{law}.{duty}: one sentence"
+	wrong = unmet_duties(registry.CLAUSES, laws.LAWS, laws.duties())
+	assert not wrong, f"{wrong}. Write a clause, or say which clause meets a duty with meets="
 
 
 LEGALESE = (
 	"shall", "herein", "hereinafter", "hereby", "thereof", "whereas", "pursuant to", "notwithstanding",
 	"aforementioned", "forthwith", "in no event", "the Company", "the Customer", "the Provider",
 )  # fmt: skip
+
+
+def legalese(clauses: dict) -> list[str]:
+	"""Each word of LEGALESE a clause uses. Pure."""
+	return [
+		f"{one['module']} {one['key']}: {word}"
+		for rows in clauses.values()
+		for one in rows
+		for word in LEGALESE
+		if re.search(rf"\b{word}\b", one["body"], 0 if word != word.lower() else re.I)
+	]
+
+
+def long_sentences(texts: list, ours: set) -> list[str]:
+	"""The sentences over 30 words in a module going through docs/READY.md. Pure."""
+	return [
+		f"{module} {key}: {len(sentence.split())} words: {sentence[:60]}…"
+		for module, key, text in texts
+		if module in ours
+		for sentence in re.split(r"(?<=[.!?:])\s+", text)
+		if len(sentence.split()) > 30
+	]
 
 
 def test_the_agreements_are_plain():
@@ -225,27 +344,52 @@ def test_the_agreements_are_plain():
 	from onedesk.one import ready
 
 	assemble.documents()
-	ours = set(ready.MODULES)
-	found = []
-	for rows in registry.CLAUSES.values():
-		for one in rows:
-			found += [
-				f"{one['module']} {one['key']}: {word}"
-				for word in LEGALESE
-				if re.search(rf"\b{word}\b", one["body"], 0 if word != word.lower() else re.I)
-			]
+	found = legalese(registry.CLAUSES)
 	assert not found, f"legalese: {found}"
 	texts = [(one["module"], one["key"], one["body"]) for rows in registry.CLAUSES.values() for one in rows]
 	texts += [(use["module"], row["name"], use["purpose"] + ". " + use["data"]) for row in registry.subprocessor_rows() for use in row["uses"]]
 	texts += [(one["module"], one["key"], " ".join((one["does"], one["sends"], one["off"]))) for one in registry.SERVICES.values()]
-	long = [
-		f"{module} {key}: {len(sentence.split())} words: {sentence[:60]}…"
-		for module, key, text in texts
-		if module in ours
-		for sentence in re.split(r"(?<=[.!?:])\s+", text)
-		if len(sentence.split()) > 30
-	]
+	long = long_sentences(texts, set(ready.MODULES))
 	assert not long, "one point to a sentence, 30 words at most:\n" + "\n".join(long)
+
+
+def early_core(rows: list, in_effect, production: bool, declared_switchovers) -> list[str]:
+	"""A company One can't work without, new to the agreements in effect,
+	used before its switchover, and a use starting with one nobody declared. Pure."""
+	wrong = []
+	for row in rows:
+		core = [use for use in row["uses"] if not use["service"]]
+		if not production or row["name"] in in_effect or not core:
+			continue
+		early = [use["purpose"] for use in core if not use.get("starts")]
+		if early:
+			wrong.append(f"{row['name']} is new and One can't work without it, so it waits for its notice: give {early} starts= a switchover")
+	wrong += [
+		f"{row['name']} starts with {use['starts']}, which nobody declared"
+		for row in rows
+		for use in row["uses"]
+		if use.get("starts") and use["starts"] not in declared_switchovers
+	]
+	return wrong
+
+
+def switchover_wrong(one: dict, rows: list, hosts: dict, sources: list, today) -> list[str]:
+	"""A switchover whose hosts are not its companies', reached without
+	switchovers.when, or past its clean-by day. Pure."""
+	key = one["key"]
+	companies = {row["name"] for row in rows for use in row["uses"] if use.get("starts") == key}
+	wrong = [] if all(hosts.get(host) in companies for host in one["hosts"]) else [f"{key}: each host is one of the companies it starts"]
+	wrong += [
+		f"{name} calls {key}'s host before its day; go through switchovers.when"
+		for name, text in sources
+		if name != "trust.py" and any(host in text for host in one["hosts"]) and "switchovers.when(" not in text
+	]
+	if today > one["clean_by"]:
+		wrong.append(
+			f"{key} took effect on {one['effective']}: remove the old way and the switchover, drop starts= from its "
+			f"companies' uses and add them to documents.IN_EFFECT"
+		)
+	return wrong
 
 
 def test_a_core_change_waits_for_its_day():
@@ -262,28 +406,28 @@ def test_a_core_change_waits_for_its_day():
 	from onedesk.trust_center import switchovers
 
 	assemble.documents()
-	for row in registry.subprocessor_rows():
-		core = [use for use in row["uses"] if not use["service"]]
-		if not ready.PRODUCTION or row["name"] in documents.IN_EFFECT or not core:
-			continue
-		early = [use["purpose"] for use in core if not use.get("starts")]
-		assert not early, f"{row['name']} is new and One can't work without it, so it waits for its notice: give {early} starts= a switchover"
-	for row in registry.subprocessor_rows():
-		for use in row["uses"]:
-			assert not use.get("starts") or use["starts"] in registry.SWITCHOVERS, f"{row['name']} starts with {use['starts']}, which nobody declared"
+	rows = registry.subprocessor_rows()
+	wrong = early_core(rows, documents.IN_EFFECT, ready.PRODUCTION, registry.SWITCHOVERS)
 	today = datetime.date.today()
-	for one in switchovers.all_of(today):
-		key = one["key"]
-		companies = {row["name"] for row in registry.subprocessor_rows() for use in row["uses"] if use.get("starts") == key}
-		assert all(HOSTS.get(host) in companies for host in one["hosts"]), f"{key}: each host is one of the companies it starts"
-		for path in tree.python():
-			text = path.read_text(encoding="utf-8")
-			if path.name != "trust.py" and any(host in text for host in one["hosts"]):
-				assert "switchovers.when(" in text, f"{path.name} calls {key}'s host before its day; go through switchovers.when"
-		assert today <= one["clean_by"], (
-			f"{key} took effect on {one['effective']}: remove the old way and the switchover, drop starts= from its "
-			f"companies' uses and add them to documents.IN_EFFECT"
-		)
+	running = switchovers.all_of(today)
+	sources = _sources() if running else []
+	for one in running:
+		wrong += switchover_wrong(one, rows, HOSTS, sources, today)
+	assert not wrong, wrong
+
+
+def misread_day(live, effective, key: str, day) -> list[str]:
+	"""What a switchover's `live` and `effective` get wrong about its day. Pure."""
+	import datetime
+
+	wrong = []
+	if live(key, day - datetime.timedelta(days=1)):
+		wrong.append("new before its day")
+	if not live(key, day):
+		wrong.append("old on its day")
+	if effective(key) != day:
+		wrong.append("its day misread")
+	return wrong
 
 
 def test_a_switchover_runs_the_old_way_until_its_day():
@@ -298,10 +442,66 @@ def test_a_switchover_runs_the_old_way_until_its_day():
 	documents.CHANGES.append(change)
 	registry.SWITCHOVERS["test-switch"] = {"key": "test-switch", "module": "one", "document": change["document"], "revision": change["revision"], "does": "", "hosts": ()}
 	try:
-		day = datetime.date.fromisoformat(change["effective"])
-		assert not switchovers.live("test-switch", day - datetime.timedelta(days=1))
-		assert switchovers.live("test-switch", day)
-		assert switchovers.effective("test-switch") == day
+		wrong = misread_day(switchovers.live, switchovers.effective, "test-switch", datetime.date.fromisoformat(change["effective"]))
+		assert not wrong, wrong
 	finally:
 		del registry.SWITCHOVERS["test-switch"]
 		documents.CHANGES.remove(change)
+
+
+def test_the_legal_rules_catch_their_examples():
+	import datetime
+
+	assert moved({"terms": "2.b", "aup": "1.a"}, {"terms": "1.a", "aup": "1.a"}) == {"terms": ("1.a", "2.b")}
+	assert stray_clauses({("terms", "gone"): [], ("terms", "use"): []}, {"terms": [("use", "Use")]}) == [("terms", "gone")]
+	assert hosts_called('x = "https://api.stripe.com/v1" + "https://github.com/a/"') == {"api.stripe.com"}
+	assert unmapped({"api.new.com", "api.stripe.com"}, {"api.stripe.com": "Stripe, Inc."}, set()) == (["api.new.com"], ["Stripe, Inc."])
+	assert unmapped({"api.stripe.com"}, {"api.stripe.com": "Stripe, Inc."}, {"Stripe, Inc."}) == ([], [])
+	assert unsaid_rungs("Overdue after 7 days, suspended after 30 days.", {"Overdue": 7, "Suspended": 30, "Archived": 90}) == ["Archived"]
+	good = {"privacy": {"audience": "user"}, "terms": {"audience": "customer"}, "aup": {"audience": "both"}, "licences": {"audience": None}}
+	assert wrong_audiences(good, dict.fromkeys(good)) == []
+	assert wrong_audiences({**good, "licences": {"audience": "user"}}, dict.fromkeys(reversed(good))) == [
+		"licences is agreed to",
+		"the documents and their sections are in different orders",
+	]
+	reading = "When an administrator turns reading on, OneAI reads the mail and files that arrive and acts on them."
+	assert promised("Take a full backup from the settings.", reading) == ["full backup"]
+	assert promised("", "") == ["OneAI's reading is not said"]
+	gate = 'def revision(v):\n\treturn v.split(".", 1)[0] if v else None\n\ndef agreed(was, now):\n\treturn bool(was) and revision(was) == revision(now)\n'
+	told = 'row = {"accepted": bool(was), "changed": bool(was) and not agreed(was, version)}\n'
+	assert stops_on_a_revision(gate + told) == []
+	assert stops_on_a_revision(gate.replace("revision(was) == revision(now)", "was == now") + told) == ["a new hash asks again"]
+	assert stops_on_a_revision(gate) == ["a later revision is not told as a change"]
+	docs = {"terms": {"revision": 2, "audience": "customer"}}
+	change = {"document": "terms", "revision": 2, "published": "2026-01-01", "effective": "2026-01-10", "says": "We changed it. Twice."}
+	assert badly_published(docs, [change], {"terms": 1}, 30, True, lambda _key: change) == ["terms 2: 30 days' notice", "terms: one sentence"]
+	assert badly_published(docs, [], {"terms": 1}, 30, True, lambda _key: None) == ["terms is at revision 2: add it to documents.CHANGES"]
+	assert badly_published(docs, [change], {"terms": 1}, 30, False, lambda _key: None)[0].startswith("Before production")
+	assert unnamed_models(["m1", "m2"], {"m1": "Anthropic", "m2": "Nobody"}.get, {"Anthropic"}) == {"m2": "Nobody"}
+	assert unassembled({"one_hr", "one_new"}, ["one_hr"]) == ["one_new"]
+	service = {"hosts": ("api.exa.ai",), "off": "Off.", "sends": "A query."}
+	rows = [{"name": "Exa Labs, Inc.", "uses": [{"service": "search"}]}]
+	hosts = {"api.exa.ai": "Exa Labs, Inc."}
+	assert unserviced({"search": service}, rows, hosts, [("a.py", "services.call('search', 'https://api.exa.ai/')")]) == []
+	assert unserviced({"search": service}, rows, hosts, [("a.py", "get('https://api.exa.ai/')")]) == ["a.py calls search's host without services.call"]
+	assert unserviced({}, rows, hosts, []) == ["a use names a service nobody declared: ['search']"]
+	laws = {"gdpr": {"title": "GDPR", "duties": {"notice": "Say what is kept.", "erase": "Erase on request"}}}
+	clauses = {("privacy", "use"): [{"meets": ["notice"]}]}
+	assert unmet_duties(clauses, laws, ["notice", "erase"]) == ["no clause meets erase", "gdpr.erase: one sentence"]
+	assert legalese({("terms", "use"): [{"module": "one", "key": "use", "body": "Then the Customer shall pay."}]}) == ["one use: shall", "one use: the Customer"]
+	assert long_sentences([("one", "use", " ".join(["word"] * 31) + ".")], {"one"}) == ["one use: 31 words: " + ("word " * 12)[:60] + "…"]
+	assert long_sentences([("one", "use", " ".join(["word"] * 31) + ".")], set()) == []
+	new = [{"name": "New Co", "uses": [{"service": "", "purpose": "Runs it", "starts": ""}]}]
+	assert early_core(new, set(), True, {}) == ["New Co is new and One can't work without it, so it waits for its notice: give ['Runs it'] starts= a switchover"]
+	assert early_core(new, set(), False, {}) == []
+	assert early_core([{"name": "New Co", "uses": [{"service": "", "purpose": "Runs it", "starts": "x"}]}], set(), True, {}) == ["New Co starts with x, which nobody declared"]
+	day = datetime.date(2026, 1, 31)
+	switch = {"key": "x", "hosts": ("api.new.com",), "clean_by": day, "effective": day}
+	started = [{"name": "New Co", "uses": [{"starts": "x"}]}]
+	assert switchover_wrong(switch, started, {"api.new.com": "New Co"}, [("a.py", "switchovers.when('x', 'https://api.new.com/')")], day) == []
+	assert switchover_wrong(switch, started, {"api.new.com": "New Co"}, [("a.py", "get('https://api.new.com/')")], day + datetime.timedelta(days=1)) == [
+		"a.py calls x's host before its day; go through switchovers.when",
+		"x took effect on 2026-01-31: remove the old way and the switchover, drop starts= from its companies' uses and add them to documents.IN_EFFECT",
+	]
+	assert misread_day(lambda _key, on: on >= day, lambda _key: day, "x", day) == []
+	assert misread_day(lambda _key, _on: True, lambda _key: day, "x", day) == ["new before its day"]

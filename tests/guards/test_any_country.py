@@ -71,36 +71,58 @@ def _ours():
 		yield path
 
 
+def country_lines(where: str, text: str) -> list[str]:
+	"""Each line of a file that names one country, its dirham or its VAT. Pure."""
+	if not COUNTRY.search(text):
+		return []
+	return [f"{where}:{n}: {line.strip()[:120]}" for n, line in enumerate(text.splitlines(), 1) if COUNTRY.search(line)]
+
+
+def no_longer_regional(texts: dict[str, str]) -> list[str]:
+	"""The regional files, by their text, that name no country now. Pure."""
+	return [where for where, text in texts.items() if not COUNTRY.search(text)]
+
+
+def names_the_currency_above(source: str) -> bool:
+	"""Whether an island heads its figures with the currency. Pure."""
+	return bool(re.search(r"""__\(\s*["']Amounts? in\b""", source))
+
+
+def hover_problems(figures: str, band: str, css: str, head: str) -> list[str]:
+	"""Where a taxed figure no longer shows the other side on hover. Pure."""
+	out = []
+	if not ("<Tooltip" in figures and "one.other" in figures and "decoration-dashed" in figures):
+		out.append("the kit's Figures")
+	if not ("one-taxed" in band and '.attr("title", other)' in band):
+		out.append("band.js")
+	if not re.search(r"\.one-taxed \{[^}]*underline dashed", css):
+		out.append("desk.css")
+	if "def taxed(" not in head:
+		out.append("one/head.py")
+	return out
+
+
 def test_nothing_generic_names_one_country():
 	found = []
 	for path in _ours():
 		where = str(path.relative_to(APP if APP in path.parents else ROOT))
-		if where in REGIONAL:
-			continue
-		text = path.read_text(encoding="utf-8")
-		if not COUNTRY.search(text):
-			continue
-		for n, line in enumerate(text.splitlines(), 1):
-			if COUNTRY.search(line):
-				found.append(f"{where}:{n}: {line.strip()[:120]}")
+		if where not in REGIONAL:
+			found += country_lines(where, path.read_text(encoding="utf-8"))
 	assert not found, "say Tax, Tax ID and the record's own currency, or gate it by country:\n" + "\n".join(
 		found
 	)
 
 
 def test_every_regional_file_still_needs_it():
-	for where in REGIONAL:
-		assert COUNTRY.search((APP / where).read_text(encoding="utf-8")), (
-			f"{where} names no country now; drop it from REGIONAL"
-		)
+	gone = no_longer_regional({where: (APP / where).read_text(encoding="utf-8") for where in REGIONAL})
+	assert not gone, f"{gone} name no country now; drop them from REGIONAL"
 
 
 def test_a_money_figure_carries_its_currency():
 	"""A heading that names the currency so the figures under it need not was
 	how a page said AED once; every amount says its own now."""
 	for path in tree.scoped(SRC.rglob("*.vue")):
-		source = path.read_text(encoding="utf-8")
-		assert not re.search(r"""__\(\s*["']Amounts? in\b""", source), (
+		assert not names_the_currency_above(path.read_text(encoding="utf-8")), (
 			f"{path.relative_to(SRC)} names the currency above its figures"
 		)
 	assert "export const plain" not in (SRC / "kit" / "desk.js").read_text(encoding="utf-8"), (
@@ -109,11 +131,23 @@ def test_a_money_figure_carries_its_currency():
 
 
 def test_a_taxed_figure_says_the_other_side_on_hover():
-	figures = (SRC / "kit" / "Figures.vue").read_text(encoding="utf-8")
-	assert "<Tooltip" in figures and "one.other" in figures and "decoration-dashed" in figures
-	band = (APP / "public" / "js" / "band.js").read_text(encoding="utf-8")
-	assert "one-taxed" in band and '.attr("title", other)' in band
-	css = (APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")
-	assert re.search(r"\.one-taxed \{[^}]*underline dashed", css)
-	head = (APP / "one" / "head.py").read_text(encoding="utf-8")
-	assert "def taxed(" in head
+	found = hover_problems(
+		(SRC / "kit" / "Figures.vue").read_text(encoding="utf-8"),
+		(APP / "public" / "js" / "band.js").read_text(encoding="utf-8"),
+		(APP / "public" / "css" / "desk.css").read_text(encoding="utf-8"),
+		(APP / "one" / "head.py").read_text(encoding="utf-8"),
+	)
+	assert not found, f"a taxed figure lost its hover in {found}"
+
+
+def test_the_country_rules_catch_their_examples():
+	assert country_lines("one/x.py", 'label = "VAT"\nother = 1\n') == ['one/x.py:1: label = "VAT"']
+	assert not country_lines("one/x.py", 'label = "Tax"\n')
+	assert no_longer_regional({"a.py": "Tax", "b.py": "the UAE"}) == ["a.py"]
+	assert names_the_currency_above("{{ __('Amounts in AED') }}")
+	assert not names_the_currency_above("{{ __('Amount') }}")
+	figures = "<Tooltip :text='one.other' class='decoration-dashed'>"
+	band = '$("<span class=one-taxed>").attr("title", other)'
+	css = ".one-taxed { text-decoration: underline dashed; }"
+	assert not hover_problems(figures, band, css, "def taxed(x):")
+	assert hover_problems("", band, css, "") == ["the kit's Figures", "one/head.py"]

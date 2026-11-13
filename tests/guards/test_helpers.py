@@ -105,12 +105,19 @@ def test_a_shared_helper_is_not_copied():
 def test_the_default_company_is_asked_of_one_place():
 	"""One function names the reader's company, so the day it changes (a
 	company switch, several companies) it changes once."""
-	elsewhere = [
-		str(path.relative_to(ROOT))
-		for path in _ours()
-		if path != COMPANY and "get_default_company" in tree.text(path)
-	]
+	elsewhere = [str(path.relative_to(ROOT)) for path in _ours() if asks_elsewhere(path, tree.text(path))]
 	assert not elsewhere, elsewhere
+
+
+def asks_elsewhere(path: Path, source: str) -> bool:
+	"""Whether a file other than one/company.py asks for the default company. Pure."""
+	return path != COMPANY and "get_default_company" in source
+
+
+def test_the_one_place_rule_catches_its_example():
+	assert asks_elsewhere(APP / "one_hr" / "x.py", "company = erpnext.get_default_company()")
+	assert not asks_elsewhere(COMPANY, "company = erpnext.get_default_company()")
+	assert not asks_elsewhere(APP / "one_hr" / "x.py", "company = reader_company()")
 
 
 def test_each_rule_catches_its_own_example():

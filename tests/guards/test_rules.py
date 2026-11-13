@@ -55,12 +55,12 @@ ALLOWED = {
 }
 
 
-def _hooked(doctype: str, path: str) -> bool:
-	start = HOOKS.find(f'\t"{doctype}": {{')
+def _hooked(doctype: str, path: str, hooks: str = HOOKS) -> bool:
+	start = hooks.find(f'\t"{doctype}": {{')
 	if start < 0:
 		return False
-	end = HOOKS.find("\n\t},", start)
-	return f'"{path}"' in HOOKS[start:end]
+	end = hooks.find("\n\t},", start)
+	return f'"{path}"' in hooks[start:end]
 
 
 def test_every_rule_is_on_its_records_hooks():
@@ -68,9 +68,15 @@ def test_every_rule_is_on_its_records_hooks():
 	assert not missing, missing
 
 
+def unchanged(rules, suite: str) -> list[str]:
+	"""The checks the rules name that the suite does not have, and WAYS if the
+	suite does not change a record every way. Pure."""
+	out = [] if 'WAYS = ("bulk edit", "report view", "import")' in suite else ["WAYS"]
+	return out + [check for *_r, check in rules if check and f"def {check}(" not in suite]
+
+
 def test_every_rule_is_changed_every_way_on_the_demo():
-	assert 'WAYS = ("bulk edit", "report view", "import")' in SUITE
-	missing = [check for *_r, check in RULES if check and f"def {check}(" not in SUITE]
+	missing = unchanged(RULES, SUITE)
 	assert not missing, missing
 
 
@@ -98,13 +104,33 @@ def test_no_endpoint_writes_round_a_rule():
 			continue
 		if "set_value" not in tree.text(path):
 			continue
-		for fn in tree.walked(path):
-			if not isinstance(fn, ast.FunctionDef):
-				continue
-			for call in ast.walk(fn):
-				if not (isinstance(call, ast.Call) and ast.unparse(call.func) == "frappe.db.set_value" and call.args):
-					continue
-				doctype = getattr(call.args[0], "value", None)
-				if _fields(call) & owned.get(doctype, set()) and (rel, fn.name) not in ALLOWED:
-					found.append(f"{rel}:{call.lineno} {fn.name}")
+		found += round_a_rule(tree.walked(path), rel, owned, ALLOWED)
 	assert not found, found
+
+
+def round_a_rule(nodes, rel: str, owned: dict, allowed: dict) -> list[str]:
+	"""Each frappe.db.set_value among a file's nodes on a field a rule owns,
+	in a function not allowed it. Pure."""
+	found = []
+	for fn in nodes:
+		if not isinstance(fn, ast.FunctionDef):
+			continue
+		for call in ast.walk(fn):
+			if not (isinstance(call, ast.Call) and ast.unparse(call.func) == "frappe.db.set_value" and call.args):
+				continue
+			doctype = getattr(call.args[0], "value", None)
+			if _fields(call) & owned.get(doctype, set()) and (rel, fn.name) not in allowed:
+				found.append(f"{rel}:{call.lineno} {fn.name}")
+	return found
+
+
+def test_the_rules_rules_catch_their_examples():
+	hooks = 'doc_events = {\n\t"Task": {\n\t\t"validate": "onedesk.a.held",\n\t},\n\t"Note": {\n\t},\n}'
+	assert _hooked("Task", "onedesk.a.held", hooks) and not _hooked("Note", "onedesk.a.held", hooks)
+	rules = (("Task", "onedesk.a.held", {"status"}, "a_task_holds"),)
+	assert unchanged(rules, "def a_task_holds(") == ["WAYS"]
+	assert unchanged(rules, 'WAYS = ("bulk edit", "report view", "import")\n') == ["a_task_holds"]
+	source = 'def close(name):\n\tfrappe.db.set_value("Task", name, "status", "Closed")\n'
+	nodes = tuple(ast.walk(ast.parse(source)))
+	assert round_a_rule(nodes, "one_task/x.py", {"Task": {"status"}}, {}) == ["one_task/x.py:2 close"]
+	assert round_a_rule(nodes, "one_task/x.py", {"Task": {"status"}}, {("one_task/x.py", "close"): "why"}) == []

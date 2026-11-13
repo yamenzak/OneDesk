@@ -33,10 +33,15 @@ def test_every_job_we_stop_is_still_scheduled_upstream():
 	if not (APPS / "erpnext").exists():
 		pytest.skip("erpnext is not checked out beside this app")
 	assert len(_stopped()) >= len(STOPS), "a stop's constant moved; update STOPS"
-	gone = []
-	for method in _stopped():
-		app = method.split(".")[0]
-		hooks = (APPS / app / app / "hooks.py").read_text()
-		if f'"{method}"' not in hooks:
-			gone.append(method)
+	gone = unscheduled(_stopped(), lambda app: (APPS / app / app / "hooks.py").read_text())
 	assert not gone, f"no longer in its app's scheduler_events: {gone}"
+
+
+def unscheduled(stopped: list[str], hooks) -> list[str]:
+	"""The stopped jobs their app's hooks (`hooks(app)`) no longer name. Pure but for `hooks`."""
+	return [method for method in stopped if f'"{method}"' not in hooks(method.split(".")[0])]
+
+
+def test_the_stopped_job_rule_catches_its_example():
+	hooks = {"erpnext": 'scheduler_events = {"daily": ["erpnext.crm.utils.open_leads"]}'}
+	assert unscheduled(["erpnext.crm.utils.open_leads", "erpnext.crm.utils.renamed"], hooks.get) == ["erpnext.crm.utils.renamed"]

@@ -103,10 +103,15 @@ def unmarked(name: str, items: list[dict], drawn: frozenset[str]) -> list[str]:
 	return wrong
 
 
+def untiled(dock: dict, ours: set[str]) -> list[str]:
+	"""The sidebars of ours the Dock record names no tile for. Pure."""
+	named = {row["link_to"] for row in dock["items"] if row["link_type"] == "Sidebar"}
+	return sorted(ours - named)
+
+
 def test_every_sidebar_of_ours_has_a_tile_on_the_rail():
-	named = {row["link_to"] for row in json.loads(DOCK.read_text())["items"] if row["link_type"] == "Sidebar"}
-	ours = {json.loads(path.read_text())["name"] for path in tree.APP.glob("*/sidebar/*/*.json")}
-	assert not ours - named, f"sidebars with no tile on the rail: {sorted(ours - named)}"
+	found = untiled(json.loads(DOCK.read_text()), {json.loads(path.read_text())["name"] for path in tree.APP.glob("*/sidebar/*/*.json")})
+	assert not found, f"sidebars with no tile on the rail: {found}"
 
 
 def test_every_page_opens_in_its_own_apps_rail():
@@ -119,9 +124,20 @@ def test_a_page_listed_only_in_another_apps_rail_is_caught():
 	assert example == ["onemail (One Mail) is listed in One, not in a rail of One Mail"]
 
 
+def asks_to_be_listed(desk: str) -> bool:
+	"""Whether desk.js still opens a page in a rail only when it lists it. Pure."""
+	return "shell_can_show(shell, route, opts = {})" in desk and "listed_only: true" in desk
+
+
 def test_the_desk_still_asks_a_page_to_be_listed():
-	desk = (tree.APP / "public" / "js" / "desk.js").read_text(encoding="utf-8")
-	assert "shell_can_show(shell, route, opts = {})" in desk and "listed_only: true" in desk
+	assert asks_to_be_listed((tree.APP / "public" / "js" / "desk.js").read_text(encoding="utf-8"))
+
+
+def test_the_tile_and_listing_rules_catch_their_examples():
+	dock = {"items": [{"link_type": "Sidebar", "link_to": "One"}, {"link_type": "Page", "link_to": "OneMail"}]}
+	assert untiled(dock, {"One", "OneMail"}) == ["OneMail"] and untiled(dock, {"One"}) == []
+	assert asks_to_be_listed("shell_can_show(shell, route, opts = {}) { listed_only: true }")
+	assert not asks_to_be_listed("shell_can_show(shell, route) {}")
 
 
 def test_a_top_row_has_an_icon_frappe_draws():

@@ -35,12 +35,16 @@ def _python():
 			yield path
 
 
+def sends_elsewhere(source: str) -> list[str]:
+	"""The ways of sending past one/notify.py a source uses. Pure."""
+	return [pattern.pattern for pattern in FORBIDDEN if pattern.search(source)]
+
+
 def test_nothing_else_sends():
 	found = [
-		f"{path.relative_to(tree.APP)}: {pattern.pattern}"
+		f"{path.relative_to(tree.APP)}: {pattern}"
 		for path in _python()
-		for pattern in FORBIDDEN
-		if pattern.search(path.read_text(encoding="utf-8"))
+		for pattern in sends_elsewhere(path.read_text(encoding="utf-8"))
 	]
 	assert not found, "send through one/notify.py instead:\n" + "\n".join(found)
 
@@ -59,23 +63,43 @@ def _layout():
 	return layout
 
 
+def out_of_layout(declared: dict, layout, modules: set[str], hooks: str) -> list[str]:
+	"""The types not under a module, not in their own file or not written as
+	the layout writes them, and hooks not naming the types. Pure."""
+	wrong = []
+	for name, one in declared.items():
+		path = one["file"]
+		if one["module"] not in modules:
+			wrong.append(f"{name} is under {one['module']}, which is no module")
+			continue
+		if path.name == "notifications.py":
+			typed = {key: value for key, value in one.items() if key not in ("module", "file", *layout.MODULE_KEYS)}
+			if layout.read(layout.write(typed)) != typed:
+				wrong.append(f"{name} in {path} is not in the one layout")
+			continue
+		if path.name != layout.slug(name):
+			wrong.append(f"{name} is in {path.name}")
+			continue
+		text = path.read_text(encoding="utf-8")
+		if text != layout.write(layout.read(text)):
+			wrong.append(f"{path.name} is not in the one layout")
+	if not re.search(r'one_notification_types = \["onedesk\.notifications\.TYPES"\]', hooks):
+		wrong.append("hooks.py does not name onedesk.notifications.TYPES")
+	return wrong
+
+
 def test_every_notification_is_one_file_in_one_layout():
 	"""One folder, a file a type, under the module that sends it, named for
 	the type and written exactly as the layout writes it, so the header keys
 	are always in one order and a message always wraps the same way."""
-	layout = _layout()
 	modules = {path.name for path in tree.APP.iterdir() if (path / "__init__.py").exists()}
-	for name, one in _declared().items():
-		path = one["file"]
-		assert one["module"] in modules, f"{name} is under {one['module']}, which is no module"
-		if path.name == "notifications.py":
-			typed = {key: value for key, value in one.items() if key not in ("module", "file", *layout.MODULE_KEYS)}
-			assert layout.read(layout.write(typed)) == typed, f"{name} in {path} is not in the one layout"
-			continue
-		assert path.name == layout.slug(name), f"{name} is in {path.name}"
-		text = path.read_text(encoding="utf-8")
-		assert text == layout.write(layout.read(text)), f"{path.name} is not in the one layout"
-	assert re.search(r'one_notification_types = \["onedesk\.notifications\.TYPES"\]', HOOKS)
+	wrong = out_of_layout(_declared(), _layout(), modules, HOOKS)
+	assert not wrong, wrong
+
+
+def declares_elsewhere(path: Path, source: str, moved: set) -> bool:
+	"""Whether a file lists notification types outside onedesk/notifications/. Pure."""
+	return path not in moved and (path.name == "notifications.py" or bool(re.search(r'"subject": _lt\(', source)))
 
 
 def test_nothing_declares_a_notification_anywhere_else():
@@ -83,12 +107,7 @@ def test_nothing_declares_a_notification_anywhere_else():
 	for a module on its way to ready, whose notifications.py replaces its
 	files (docs/READY.md, A module's folder)."""
 	moved = {path for _folder, path in tree.declared_notifications()}
-	stray = [
-		str(path.relative_to(tree.APP))
-		for path in _python()
-		if path not in moved
-		and (path.name == "notifications.py" or re.search(r'"subject": _lt\(', path.read_text(encoding="utf-8")))
-	]
+	stray = [str(path.relative_to(tree.APP)) for path in _python() if declares_elsewhere(path, path.read_text(encoding="utf-8"), moved)]
 	assert not stray, stray
 
 
@@ -99,48 +118,73 @@ KEYS = {
 }  # fmt: skip
 
 
-def test_every_type_says_what_it_needs():
-	for name, one in _declared().items():
-		extra = {"module", "file"} | (set(_layout().MODULE_KEYS) if one["file"].name == "notifications.py" else set())
-		assert set(one) - extra <= KEYS, f"{name}: {sorted(set(one) - KEYS - extra)}"
+def wanting(declared: dict, module_keys) -> list[str]:
+	"""The types with a key nobody reads or without what they need. Pure."""
+	wrong = []
+	for name, one in declared.items():
+		extra = {"module", "file"} | (set(module_keys) if one["file"].name == "notifications.py" else set())
 		upstream = one.get("mailed_by") or one.get("words")
-		assert {"name", "app", "about"} <= set(one), name
-		assert bool(one.get("subject")) != bool(upstream), name
-		assert not (one.get("outside") and one.get("push_default")), (
-			f"{name} goes outside and cannot be pushed"
-		)
-		assert not (one.get("mailed_by") and one.get("rule")), (
-			f"{name}: a rule is told, not mailed by its app"
-		)
-		assert not one.get("rule") or one.get("words"), f"{name}: a rule is in its app's words"
-		for doctype, field in [
-			*(one.get("replaces") or ()),
-			*filter(None, [one.get("switch"), one.get("starts_as")]),
-		]:
-			assert doctype.endswith("Settings") and field, name
-		for rule in one.get("replaces_rules") or ():
-			assert isinstance(rule, str) and rule and not rule.endswith("Settings"), name
+		pairs = [*(one.get("replaces") or ()), *filter(None, [one.get("switch"), one.get("starts_as")])]
+		said = [
+			(set(one) - extra <= KEYS, f"{name}: {sorted(set(one) - KEYS - extra)}"),
+			({"name", "app", "about"} <= set(one), name),
+			(bool(one.get("subject")) != bool(upstream), name),
+			(not (one.get("outside") and one.get("push_default")), f"{name} goes outside and cannot be pushed"),
+			(not (one.get("mailed_by") and one.get("rule")), f"{name}: a rule is told, not mailed by its app"),
+			(not one.get("rule") or one.get("words"), f"{name}: a rule is in its app's words"),
+			*((doctype.endswith("Settings") and field, name) for doctype, field in pairs),
+			*((isinstance(rule, str) and rule and not rule.endswith("Settings"), name) for rule in one.get("replaces_rules") or ()),
+		]
+		wrong += [message for held, message in said if not held]
+	return wrong
+
+
+def test_every_type_says_what_it_needs():
+	wrong = wanting(_declared(), _layout().MODULE_KEYS)
+	assert not wrong, wrong
+
+
+OPENING = ("When ", "On ", "Once ", "Every ", "Before ", "Shortly ", "The day ", "As often ")
+
+
+def said_otherwise(declared: dict) -> list[str]:
+	"""The types whose `about` or `to` breaks the one way of saying them. Pure."""
+	wrong = []
+	for name, one in declared.items():
+		about = one.get("about") or ""
+		if not about.startswith(OPENING):
+			wrong.append(f"{name}: {about}")
+		if "the same" in about.lower():
+			wrong.append(f"{name} says it is the same as another")
+		if not one.get("to"):
+			wrong.append(f"{name} does not say who it is sent to")
+		if "Sent to" in about:
+			wrong.append(f"{name}: who it goes to is `to`")
+	return wrong
 
 
 def test_every_type_says_when_and_to_whom_the_same_way():
 	"""One way of saying a type (docs/WORDING.md): `about` is when it is sent,
 	one sentence from the reader's side, never "the same" as another; `to` is
 	who, apart, because on a person's own page it is always them."""
-	opening = ("When ", "On ", "Once ", "Every ", "Before ", "Shortly ", "The day ", "As often ")
-	for name, one in _declared().items():
-		assert one["about"].startswith(opening), f"{name}: {one['about']}"
-		assert "the same" not in one["about"].lower(), name
-		assert one.get("to"), f"{name} does not say who it is sent to"
-		assert "Sent to" not in one["about"], f"{name}: who it goes to is `to`"
+	wrong = said_otherwise(_declared())
+	assert not wrong, wrong
 
 
-def test_a_twin_follows_a_kind_of_its_own_app():
-	declared = _declared()
+def stray_twins(declared: dict) -> list[str]:
+	"""The twins following a type of another app, a twin, or other roles. Pure."""
+	wrong = []
 	for name, one in declared.items():
 		if one.get("follows"):
 			followed = declared[one["follows"]]
-			assert followed["app"] == one["app"] and not followed.get("follows"), name
-			assert followed.get("roles") == one.get("roles"), name
+			if not (followed["app"] == one["app"] and not followed.get("follows") and followed.get("roles") == one.get("roles")):
+				wrong.append(name)
+	return wrong
+
+
+def test_a_twin_follows_a_kind_of_its_own_app():
+	wrong = stray_twins(_declared())
+	assert not wrong, wrong
 
 
 @functools.cache
@@ -197,24 +241,68 @@ def _constants(path, attr: str) -> list[str]:
 	return found
 
 
+def undeclared(sent, declared: dict) -> list[str]:
+	"""The type names sent that no file declares. Pure."""
+	return sorted({name for _way, names in sent for name in names} - set(declared))
+
+
 def test_every_type_sent_is_declared():
-	declared = _declared()
-	sent = {name for _way, names in _sent() for name in names}
-	assert sent, "nothing sends through notify"
-	assert not sent - set(declared), f"sent but not declared: {sorted(sent - set(declared))}"
+	sent = _sent()
+	assert {name for _way, names in sent for name in names}, "nothing sends through notify"
+	missing = undeclared(sent, _declared())
+	assert not missing, f"sent but not declared: {missing}"
+
+
+def pushed_outside(sent, declared: dict) -> list[str]:
+	"""The types going to outside addresses that are not mailed. Pure."""
+	return [name for way, names in sent for name in names if way != "mail" and declared[name].get("outside")]
 
 
 def test_outside_types_are_mailed_and_the_rest_notified():
-	declared = _declared()
-	for way, names in _sent():
-		for name in names:
-			outside = bool(declared[name].get("outside"))
-			assert way == "mail" or not outside, f"{name} goes to outside addresses, so it is mailed"
+	wrong = pushed_outside(_sent(), _declared())
+	assert not wrong, f"{wrong} go to outside addresses, so they are mailed"
+
+
+def unnamed_slots(declared: dict) -> list[str]:
+	"""The types whose default subject or message has a slot like `{0}`. Pure."""
+	return [f"{name} {key}" for name, one in declared.items() for key in ("subject", "message") if re.search(r"\{\d*\}", one.get(key) or "")]
 
 
 def test_slots_are_named():
 	"""A default text's slots are names, never `{0}`: the administrator edits
 	it as `{{ name }}`, and a number would not say what goes there."""
-	for name, one in _declared().items():
-		for key in ("subject", "message"):
-			assert not re.search(r"\{\d*\}", one.get(key) or ""), f"{name} {key} has an unnamed slot"
+	wrong = unnamed_slots(_declared())
+	assert not wrong, f"an unnamed slot: {wrong}"
+
+
+def test_the_notification_rules_catch_their_examples(tmp_path):
+	assert sends_elsewhere("frappe.sendmail(recipients=[x])") == [r"frappe\.sendmail\("]
+	assert sends_elsewhere("notify.notify('x', to)") == []
+	layout = _layout()
+	good = {"name": "Leave Approved", "app": "OneHR", "about": "When a leave is approved.", "to": "The employee", "subject": "Approved {{ name }}"}
+	path = tmp_path / layout.slug(good["name"])
+	path.write_text(layout.write(good), encoding="utf-8")
+	hooks = 'one_notification_types = ["onedesk.notifications.TYPES"]'
+	assert out_of_layout({good["name"]: {**good, "module": "one_hr", "file": path}}, layout, {"one_hr"}, hooks) == []
+	assert out_of_layout({good["name"]: {**good, "module": "gone", "file": path}}, layout, {"one_hr"}, hooks) == ["Leave Approved is under gone, which is no module"]
+	assert out_of_layout({}, layout, set(), "") == ["hooks.py does not name onedesk.notifications.TYPES"]
+	path.write_text(layout.write(good) + "\n\n", encoding="utf-8")
+	assert out_of_layout({good["name"]: {**good, "module": "one_hr", "file": path}}, layout, {"one_hr"}, hooks) == [f"{path.name} is not in the one layout"]
+	assert declares_elsewhere(Path("one_hr/leave.py"), 'TYPES = [{"subject": _lt("Hi")}]', set())
+	assert not declares_elsewhere(Path("one_hr/notifications.py"), "", {Path("one_hr/notifications.py")})
+	declared = {"x": {**good, "file": Path("x.md")}}
+	assert wanting(declared, ()) == []
+	assert wanting({"x": {**good, "file": Path("x.md"), "colour": "red"}}, ()) == ["x: ['colour']"]
+	assert wanting({"x": {**good, "file": Path("x.md"), "outside": 1, "push_default": 1}}, ()) == ["x goes outside and cannot be pushed"]
+	assert said_otherwise(declared) == []
+	assert said_otherwise({"x": {**good, "about": "Sent to the employee.", "to": ""}}) == [
+		"x: Sent to the employee.",
+		"x does not say who it is sent to",
+		"x: who it goes to is `to`",
+	]
+	twins = {"a": {"app": "OneHR", "roles": ["HR"]}, "b": {"app": "OneCRM", "roles": ["HR"], "follows": "a"}}
+	assert stray_twins(twins) == ["b"]
+	assert stray_twins({**twins, "b": {**twins["b"], "app": "OneHR"}}) == []
+	assert undeclared([("notify", ["x", "y"])], {"x": {}}) == ["y"]
+	assert pushed_outside([("notify", ["x"]), ("mail", ["x"])], {"x": {"outside": 1}}) == ["x"]
+	assert unnamed_slots({"x": {"subject": "Hi {0}", "message": "Hi {{ name }}"}}) == ["x subject"]
