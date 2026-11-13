@@ -164,7 +164,7 @@ def agent(app: str) -> dict:
 		"app": app,
 		"module": registry.name(app),
 		"name": users.full_name(held),
-		"line": str(registry.get(app).line or ""),
+		"line": _(str(registry.get(app).line or "")),
 		"roles": [_(role) for role in held.roles],
 		"approver": _person(door.approver(app)),
 		"actions": _actions(app, held.email),

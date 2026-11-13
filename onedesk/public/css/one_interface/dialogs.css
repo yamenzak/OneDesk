@@ -45,7 +45,8 @@
 .one-dialog .settings-dialog-panel-header { padding-inline-end: 112px; }
 
 /* Back, before a panel's title once it is a page deep (`panel.one_back`). */
-.one-dialog .settings-dialog-panel-title { display: flex; align-items: center; gap: 4px; }
+.one-dialog .settings-dialog-panel-title { display: block; }
+.one-dialog .settings-dialog-panel-title > .one-set-head-switch { display: inline-flex; vertical-align: middle; margin-inline-start: 6px; }
 .one-dialog-back { margin-inline-start: -8px; flex: none; }
 .one-dialog .settings-dialog-panel-heading:has(.one-dialog-back) .settings-dialog-panel-description { padding-inline-start: 28px; }
 
@@ -144,5 +145,4 @@
 	.one-dialog .settings-dialog-panel-header > .settings-dialog-panel-heading { flex-basis: 100%; }
 	.one-dialog .one-set-row:has(> .one-set-end :is(.one-set-value, .one-set-buttons)) { flex-wrap: wrap; }
 	.one-dialog .one-set-row:has(> .one-set-end :is(.one-set-value, .one-set-buttons)) > .one-set-end { flex-basis: 100%; padding-inline-start: 44px; }
-	.one-dialog .one-set-row:has(> .one-set-end .one-set-buttons) .one-set-title { white-space: normal; }
 }

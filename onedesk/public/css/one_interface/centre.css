@@ -98,12 +98,10 @@
 }
 
 .one-set .one-set-title {
-	overflow: hidden;
 	color: var(--one-ink);
 	font-size: var(--text-base);
 	font-weight: var(--weight-medium);
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	overflow-wrap: anywhere;
 }
 
 .one-set .one-set-sub {
