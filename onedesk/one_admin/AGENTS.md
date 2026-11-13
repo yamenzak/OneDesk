@@ -307,6 +307,8 @@ opens the page as a customer sees it.
 
 **Price Check** shows whether the price list makes sense. For every enabled
 offering it shows what it **Includes**, its **Price**, its monthly **Cost**,
+its **Agent Cost** (what OneAI's agents cost of it on Cloudflare: a plan's
+with every seat working, an add-on's seats, a pack's credits spent on agents),
 its **Margin** (price as a multiple of cost) and, for a plan, how much it
 **Saves** over the plan below plus add-ons. Problems come first: **Wrong** in
 red, **Close Calls** in orange.
@@ -335,7 +337,9 @@ we change?** on the report.
 **Storage (GB)**, **Database (GB)** and **Monthly Credits** they need. It
 lists every plan with the add-ons that reach those needs, cheapest first,
 showing what the plan **Includes**, the **Add-ons**, the **Monthly** price,
-the **Cost**, the **Margin** and the **Difference** from the cheapest. Credit
+the **Cost**, the **Agent Cost** that is part of it, the **Margin** and the
+**Difference** from the cheapest. The summary's **Agent Cost** is what the
+agents cost a month for a workspace of that many seats. Credit
 packs aren't included because they're bought once.
 
 It's the same calculation a workspace's Plan and Credits page uses when an
@@ -2397,6 +2401,24 @@ the dollar and most of what we pay is in dollars:
 - A GB of files is two GB of R2: the file and its backup copy.
 - Cloudflare's fixed charges (Workers Paid, Advanced Certificate Manager) are
   spread over only 20 workspaces, so a price holds while there are few.
+- The agents (`agent_costs.py`): one Durable Object per agent per workspace
+  on the Agents SDK, with its SQLite database, reached through a Worker.
+  Cloudflare's Workers Paid prices, read 13 Nov 2026
+  (developers.cloudflare.com/durable-objects/platform/pricing/ and
+  /workers/platform/pricing/; /agents/ says each agent is a Durable Object
+  and the SDK has no meter of its own): Durable Object requests 1M included
+  then $0.15/M; duration 400,000 GB-s then $12.50/M GB-s, each object at
+  128 MB; SQLite rows read 25B then $0.001/M, rows written 50M then $1.00/M,
+  storage 5 GB-month then $0.20; Worker requests 10M then $0.30/M, CPU 30M ms
+  then $0.02/M. The allowances are the account's, so each workspace gets the
+  share it pays of the $5 (1/20). Use is declared once in `agent_costs.Use`:
+  20 agents, 20 messages a person a workday, 4 tool calls a message, 30 s in
+  memory a message waiting on the model, an hourly wake of 5 s an agent,
+  50 MB stored an agent. A plan counts its agents with every seat working;
+  an add-on's seats at the rate past the allowance; a credit spent on an
+  agent's message carries that message's Cloudflare cost, at the cheapest
+  model tier, where it weighs most (2.2% on the model's cost). The models
+  themselves are charged in credits like any OneAI call.
 - Stripe, for an account in the UAE (stripe.com/en-ae/pricing, 8 Nov 2026):
   2.9% + AED 1 a card payment, +1% for an international card, +1% for a
   currency conversion, and Billing's 0.7%. The worst case, an international
@@ -2406,7 +2428,9 @@ the dollar and most of what we pay is in dollars:
 worst: every seat working, storage and database full, every credit a plan
 gives spent. A OneCredit spent on any kind of usage is priced at its cost
 times `MARKUP` for that kind, and must also keep 40% when bought in the
-smallest pack at the worst fee. The ladder rules of `plans.py` still hold:
+smallest pack at the worst fee. A OneCredit is AED 0.039 since 13 Nov 2026
+(it was 0.04): once a credit carried its agent's Cloudflare cost, the
+20,000-credit pack kept 39.7%, under the floor; at 0.039 it keeps 41.0%. The ladder rules of `plans.py` still hold:
 moving up beats buying the difference as add-ons, and a bigger add-on is
 cheaper per unit.
 

@@ -3707,6 +3707,11 @@ msgstr "مقابل {invoice}. تم تسجيل الدفعة ولا يلزم أي 
 msgid "Ageing"
 msgstr "أعمار الديون"
 
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
+#: onedesk/one_admin/report/price_check/price_check.py
+msgid "Agent Cost"
+msgstr "تكلفة الوكلاء"
+
 #: onedesk/one_deck/decks.py:23 onedesk/one_deck/decks.py:176
 #: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
 msgid "Agenda"

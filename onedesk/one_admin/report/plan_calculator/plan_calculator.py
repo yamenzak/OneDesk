@@ -13,7 +13,7 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import cint, flt, fmt_money
 
-from onedesk.one_admin import billing, offerings, plans, site
+from onedesk.one_admin import agent_costs, billing, offerings, plans, site
 
 GB = 1024**3
 
@@ -44,6 +44,7 @@ def execute(filters=None):
 				or _("Nothing"),
 				"monthly": option["monthly"],
 				"costs_us": ours,
+				"agents": option["agents"],
 				"margin": f"{option['monthly'] / ours:.1f}×" if ours else "",
 				"dearer_by": _("Short of {0}").format(", ".join(str(SHORT[one]) for one in option["unmet"]))
 				if option["unmet"]
@@ -67,6 +68,9 @@ def quote(needs: dict) -> tuple[list[dict], str]:
 		ours = plans.cost(option.plan, costs) + sum(
 			plans.cost(one, costs) * count for one, count in option.extras
 		)
+		agents = plans.agents(option.plan, costs) + sum(
+			plans.agents(one, costs) * count for one, count in option.extras
+		)
 		said.append(
 			{
 				"plan": option.plan,
@@ -74,6 +78,7 @@ def quote(needs: dict) -> tuple[list[dict], str]:
 				"unmet": option.unmet,
 				"monthly": option.monthly,
 				"costs_us": round(ours, 2),
+				"agents": round(agents, 2),
 			}
 		)
 	return said, offerings.currency()
@@ -118,6 +123,13 @@ def _summary(needs: dict, options: list[dict], currency: str, held) -> list[dict
 		},
 		{"label": _("Monthly Credits"), "value": f"{cint(needs['credits_a_month']):,}", "datatype": "Data"},
 	]
+	said.append(
+		{
+			"label": _("Agent Cost"),
+			"value": fmt_money(agent_costs.total(cint(needs["seats"])), currency=currency),
+			"datatype": "Data",
+		}
+	)
 	reached = [one for one in options if not one["unmet"]]
 	if reached:
 		said.append(
@@ -170,6 +182,13 @@ def _columns(workspace: bool) -> list[dict]:
 			"fieldtype": "Currency",
 			"options": "currency",
 			"width": 90,
+		},
+		{
+			"fieldname": "agents",
+			"label": _("Agent Cost"),
+			"fieldtype": "Currency",
+			"options": "currency",
+			"width": 95,
 		},
 		{"fieldname": "margin", "label": _("Margin"), "fieldtype": "Data", "width": 75},
 		{"fieldname": "dearer_by", "label": _("Difference"), "fieldtype": "Data", "width": 125},

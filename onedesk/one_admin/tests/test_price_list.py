@@ -35,5 +35,5 @@ def test_every_key_is_versioned_and_sold_once():
 def test_stripe_takes_its_worst_and_a_credit_is_worth_its_dirhams():
 	assert costs.stripe_fee(100) == round(100 * 0.056 + 1, 4)
 	assert costs.stripe_fee(100, worst=False) == round(100 * 0.036 + 1, 4)
-	assert price_list.credits_per_dollar() == round(3.6725 / 0.04, 4)
+	assert price_list.credits_per_dollar() == round(3.6725 / 0.039, 4)
 	assert price_list.yearly(109) == 1090

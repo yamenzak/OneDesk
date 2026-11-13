@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 CURRENCY = "AED"
 EUR_PER_AED = 0.235
 
-ONECREDIT = 0.04
+ONECREDIT = 0.039
 MARGIN_FLOOR = 0.40
 
 YEARLY_MONTHS = 10

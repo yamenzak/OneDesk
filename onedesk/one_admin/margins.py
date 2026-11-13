@@ -7,7 +7,7 @@ and the price list's test refuses it. Pure."""
 
 from dataclasses import dataclass, field
 
-from onedesk.one_admin import price_list, costs, plans
+from onedesk.one_admin import agent_costs, price_list, costs, plans
 
 
 @dataclass
@@ -34,9 +34,15 @@ def credit_cost(credits: float) -> float:
 	return credits * price_list.ONECREDIT / min(price_list.MARKUP.values())
 
 
+def agent_credit() -> float:
+	"""The Cloudflare cost a credit spent on an agent's message carries. Pure."""
+	return agent_costs.per_credit(price_list.ONECREDIT / price_list.MARKUP["ai"])
+
+
 def _resources(seats=0, storage_gb=0, database_gb=0) -> dict:
 	return {
 		"seats": seats * costs.COST["server_seat"],
+		"agents": seats * agent_costs.seat(),
 		"storage": storage_gb * costs.COST["storage_gb"],
 		"database": database_gb * costs.COST["database_gb"],
 	}
@@ -57,6 +63,7 @@ def plan(one: price_list.Plan) -> Priced:
 			"storage": one.storage_gb * costs.COST["storage_gb"],
 			"database": backups,
 			"credits": credit_cost(one.credits_a_month),
+			"agents": agent_costs.total(one.seats),
 		}
 	else:
 		lines = {
@@ -64,6 +71,7 @@ def plan(one: price_list.Plan) -> Priced:
 			"cloudflare": costs.COST["cloudflare_fixed"],
 			**_resources(one.seats, one.storage_gb, one.database_gb),
 			"credits": credit_cost(one.credits_a_month),
+			"agents": agent_costs.total(one.seats),
 		}
 	return Priced(one.key, one.label, one.price, costs.stripe_fee(one.price), {k: round(v, 4) for k, v in lines.items()})
 
@@ -74,15 +82,17 @@ def addon(one: price_list.AddOn) -> Priced:
 
 
 def pack(one: price_list.Pack) -> Priced:
-	return Priced(one.key, one.label, one.price, costs.stripe_fee(one.price), {"credits": round(credit_cost(one.credits), 4)})
+	return Priced(one.key, one.label, one.price, costs.stripe_fee(one.price), {"credits": round(credit_cost(one.credits), 4), "agents": round(one.credits * agent_credit(), 4)})
 
 
 def usage(kind: str) -> float:
 	"""What is left of a OneCredit spent on `kind`, bought in the smallest
-	pack at the worst fee, as a share. Pure."""
+	pack at the worst fee, as a share; a credit spent on OneAI carries an
+	agent's Cloudflare cost too. Pure."""
 	smallest = min(price_list.PACKS, key=lambda one: one.price)
 	paid = (smallest.price - costs.stripe_fee(smallest.price)) / smallest.credits
-	return round(1 - (price_list.ONECREDIT / price_list.MARKUP[kind]) / paid, 4)
+	carried = agent_credit() if kind == "ai" else 0.0
+	return round(1 - (price_list.ONECREDIT / price_list.MARKUP[kind] + carried) / paid, 4)
 
 
 def priced() -> list[Priced]:
@@ -124,6 +134,20 @@ def findings(floor: float = price_list.MARGIN_FLOOR) -> list[plans.Finding]:
 	return found + ladder
 
 
+def agents_table() -> list[str]:
+	"""What the agents cost a workspace a month at each plan's size, at
+	typical use (agent_costs.TYPICAL), for a person to read. Pure."""
+	rows = [f"agents, {agent_costs.TYPICAL.agents} a workspace, at Cloudflare's prices of {agent_costs.READ_ON}"]
+	for one in price_list.PLANS:
+		bill = agent_costs.monthly(one.seats)
+		rows.append(f"  {one.label:<12}{one.seats:>4} people  {price_list.CURRENCY} {bill.total:>7.2f} a month, {bill.per_agent():.4f} an agent")
+	worst = agent_costs.cheapest()
+	rows.append(f"  a message   {price_list.CURRENCY} {agent_costs.a_message():.6f} past the allowance, beside {agent_costs.model_cost():.4f} of model ({worst}: {agent_costs.model_cost(tier=worst):.4f})")
+	share = agent_credit() / (price_list.ONECREDIT / price_list.MARKUP["ai"])
+	rows.append(f"  a credit    {price_list.CURRENCY} {agent_credit():.6f} carried at worst, {share:.1%} on its model cost")
+	return rows
+
+
 def table() -> str:
 	"""Every price and what is left of it, for a person to read. Pure."""
 	rows = [f"{'':<22}{'price':>9}{'stripe':>9}{'cost':>9}{'margin':>9}"]
@@ -133,6 +157,8 @@ def table() -> str:
 	rows += [f"a OneCredit on {kind:<11}keeps {usage(kind):.0%}" for kind in price_list.MARKUP]
 	rows.append("")
 	rows += [f"{line.key:<20}{price_list.CURRENCY} {line.amount:>8.4f} a {line.per}{'' if line.measured else '  (estimate)'}" for line in costs.LINES]
+	rows.append("")
+	rows += agents_table()
 	said = findings()
 	rows.append("")
 	rows += [f"{one.level.upper():<7}{one.said}" for one in said] or ["Nothing loses money or makes no sense."]
