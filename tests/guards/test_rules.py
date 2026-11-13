@@ -96,7 +96,9 @@ def test_no_endpoint_writes_round_a_rule():
 		rel = path.relative_to(APP).as_posix()
 		if rel.startswith("one_demo/") or path.name in ("checks.py", "demo.py") or "/patches/" in f"/{rel}":
 			continue
-		for fn in ast.walk(ast.parse(path.read_text())):
+		if "set_value" not in tree.text(path):
+			continue
+		for fn in tree.walked(path):
 			if not isinstance(fn, ast.FunctionDef):
 				continue
 			for call in ast.walk(fn):

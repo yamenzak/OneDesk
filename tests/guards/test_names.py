@@ -54,9 +54,9 @@ def named(text: str) -> int:
 	return len(NAMED.findall(text or "")) + len(ONE.findall(text or ""))
 
 
-def _docstrings(tree_: ast.AST) -> set[int]:
+def _docstrings(source: str) -> set[int]:
 	found = set()
-	for node in ast.walk(tree_):
+	for node in tree.nodes(source):
 		body = getattr(node, "body", None)
 		for one in body if isinstance(body, list) else []:
 			if isinstance(one, ast.Expr) and isinstance(one.value, ast.Constant):
@@ -69,14 +69,13 @@ def _called(node: ast.Call) -> str:
 
 
 def in_python(file: str, source: str) -> int:
-	parsed = ast.parse(source)
-	docs, words = _docstrings(parsed), set()
-	for node in ast.walk(parsed):
+	docs, words = _docstrings(source), set()
+	for node in tree.nodes(source):
 		if isinstance(node, ast.Call) and _called(node) in WORD_CALLS and node.args:
 			words.add(id(node.args[0]))
 	told = file.endswith("notifications.py")
 	count = 0
-	for node in ast.walk(parsed):
+	for node in tree.nodes(source):
 		if not isinstance(node, ast.Constant) or not isinstance(node.value, str) or id(node) in docs:
 			continue
 		if id(node) in words or told:
@@ -161,7 +160,7 @@ def sources() -> dict[str, str]:
 			if path.suffix in READERS and path.is_file() and not any(part in tree.SKIP_DIRS for part in path.parts):
 				if prefix and tree.vendored(path):
 					continue
-				found[prefix + str(path.relative_to(base))] = path.read_text(encoding="utf-8")
+				found[prefix + str(path.relative_to(base))] = tree.text(path)
 	return found
 
 

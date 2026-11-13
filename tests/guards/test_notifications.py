@@ -146,7 +146,7 @@ def _sent():
 	"""Every `notify.notify(...)` and `notify.mail(...)`: which way, and the
 	type names its first argument can be (a name, or `a if x else b`)."""
 	for path in _python():
-		for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+		for node in tree.walked(path):
 			func = getattr(node, "func", None)
 			if (
 				isinstance(node, ast.Call)
@@ -171,7 +171,7 @@ def _sent():
 def _constants(path, attr: str) -> list[str]:
 	"""Every string a module assigns to `attr`, alone or in a tuple."""
 	found = []
-	for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+	for node in tree.walked(path):
 		if not isinstance(node, ast.Assign):
 			continue
 		for target in node.targets:

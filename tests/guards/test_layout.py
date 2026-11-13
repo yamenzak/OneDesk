@@ -25,7 +25,7 @@ def _python():
 def _calls(path: Path, owner: str, names: tuple[str, ...]) -> list[int]:
 	return [
 		node.lineno
-		for node in ast.walk(ast.parse(path.read_text()))
+		for node in tree.walked(path)
 		if isinstance(node, ast.Call)
 		and isinstance(node.func, ast.Attribute)
 		and node.func.attr in names
@@ -60,7 +60,7 @@ def test_oneai_hooks_point_at_ai_files():
 def _writes(path: Path) -> list[int]:
 	return [
 		node.lineno
-		for node in ast.walk(ast.parse(path.read_text()))
+		for node in tree.walked(path)
 		if isinstance(node, ast.Call) and getattr(node.func, "id", getattr(node.func, "attr", "")) in WRITERS
 	]
 

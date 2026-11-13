@@ -19,3 +19,18 @@ def icons() -> frozenset[str] | None:
 	for one in json.loads(MARKS.read_text()):
 		drawn |= {one["name"], one.get("icon_name") or one["name"]}
 	return frozenset(drawn)
+
+
+@cache
+def _doctypes() -> dict[str, tuple[Path, ...]]:
+	found: dict[str, list[Path]] = {}
+	for path in APPS.glob("*/*/*/doctype/*/*.json"):
+		if path.stem == path.parent.name:
+			found.setdefault(path.stem, []).append(path)
+	return {scrub: tuple(paths) for scrub, paths in found.items()}
+
+
+def doctype_json(scrub: str) -> tuple[Path, ...]:
+	"""Each checked-out app's JSON of a record type, by its scrubbed name, in
+	the order `APPS.glob("*/*/*/doctype/<scrub>/<scrub>.json")` gives them."""
+	return _doctypes().get(scrub, ())

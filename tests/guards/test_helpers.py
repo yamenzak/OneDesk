@@ -5,9 +5,13 @@ hash frappe's `sha256_hash`, and the plain `_lt` of a pure file
 one/registry/model.py's. These read the code."""
 
 import ast
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
 APP = ROOT / "onedesk"
 COMPANY = APP / "one" / "company.py"
 LT = APP / "one" / "registry" / "model.py"
@@ -77,7 +81,7 @@ RULES = {
 def copies(source: str, path: Path | None = None) -> list[str]:
 	"""Every function in `source` that keeps its own copy of a shared helper."""
 	found = []
-	for node in ast.walk(ast.parse(source)):
+	for node in tree.nodes(source):
 		if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
 			continue
 		value = _returned(node)
@@ -94,7 +98,7 @@ def _ours():
 
 
 def test_a_shared_helper_is_not_copied():
-	found = [f"{path.relative_to(ROOT)}: {one}" for path in _ours() for one in copies(path.read_text(encoding="utf-8"), path)]
+	found = [f"{path.relative_to(ROOT)}: {one}" for path in _ours() for one in copies(tree.text(path), path)]
 	assert not found, found
 
 
@@ -104,7 +108,7 @@ def test_the_default_company_is_asked_of_one_place():
 	elsewhere = [
 		str(path.relative_to(ROOT))
 		for path in _ours()
-		if path != COMPANY and "get_default_company" in path.read_text(encoding="utf-8")
+		if path != COMPANY and "get_default_company" in tree.text(path)
 	]
 	assert not elsewhere, elsewhere
 

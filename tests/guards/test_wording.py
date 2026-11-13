@@ -192,7 +192,7 @@ def _keyed(node):
 
 def _python():
 	for path in _files(".py"):
-		for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+		for node in tree.walked(path):
 			field = _keyed(node)
 			if "fieldtype" not in field:
 				continue

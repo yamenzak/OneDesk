@@ -478,8 +478,8 @@ def _changers(module: str) -> set[str]:
 
 	folder = ROOT / "onedesk" / ready.MODULES[module]["folder"]
 	found = set()
-	for path in (one for one in ready.files(module) if one.parent == folder and one.suffix == ".py"):
-		for node in ast.parse(path.read_text(encoding="utf-8")).body:
+	for path in (one for one in folder.glob("*.py") if one.is_file() and not ready.shared(str(one.relative_to(ROOT)))):
+		for node in tree.parsed(path).body:
 			if isinstance(node, ast.FunctionDef) and any(
 				"whitelist" in ast.unparse(one) and "POST" in ast.unparse(one) for one in node.decorator_list
 			):

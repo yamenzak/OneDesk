@@ -74,7 +74,7 @@ def missing_function(path: str) -> str | None:
 		return f"{path}: no module at {source.relative_to(ROOT)}"
 	defined = {
 		node.name
-		for node in ast.parse(source.read_text(encoding="utf-8")).body
+		for node in tree.parsed(source).body
 		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)
 	}
 	return None if function in defined else f"{path}: {source.name} defines no {function}()"

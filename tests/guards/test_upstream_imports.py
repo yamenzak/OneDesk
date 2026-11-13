@@ -5,6 +5,7 @@ that function runs. These read the code against the bench's checkout."""
 
 import ast
 import re
+import sys
 from functools import cache
 from pathlib import Path
 
@@ -12,6 +13,9 @@ import pytest
 from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
 UPSTREAM = ("frappe", "erpnext", "hrms")
 
 
@@ -60,7 +64,7 @@ def _defines(module: str) -> frozenset[str]:
 
 def _imports():
 	for path in sorted((ROOT / "onedesk").rglob("*.py")):
-		for node in ast.walk(ast.parse(path.read_text())):
+		for node in tree.walked(path):
 			if isinstance(node, ast.ImportFrom) and node.level == 0 and (node.module or "").split(".")[0] in UPSTREAM:
 				yield path, node.lineno, node.module, [alias.name for alias in node.names]
 			elif isinstance(node, ast.Import):

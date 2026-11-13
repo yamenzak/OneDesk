@@ -13,10 +13,9 @@ from functools import cache
 from pathlib import Path
 
 import pytest
-from tests.bench import icons
+from tests.bench import doctype_json, icons
 
 ROOT = Path(__file__).resolve().parents[2]
-APPS = ROOT.parent
 
 
 def _ready():
@@ -31,16 +30,22 @@ DECLARED = READY.interface()
 
 
 @cache
+def _custom_fields() -> tuple[list[dict], ...]:
+	"""Every custom_field.json of the app, read."""
+	return tuple(json.loads(path.read_text()) for path in (ROOT / "onedesk").glob("**/custom_field.json"))
+
+
+@cache
 def _fields(doctype: str) -> dict | None:
 	"""A record type's fields by name, as its own JSON and One's custom
 	fields declare them. None when the type's JSON is not on this bench."""
 	scrub = doctype.lower().replace(" ", "_")
-	found = next(APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"), None)
+	found = next(iter(doctype_json(scrub)), None)
 	if not found:
 		return None
 	fields = {one["fieldname"]: one for one in json.loads(found.read_text())["fields"]}
-	for path in (ROOT / "onedesk").glob("**/custom_field.json"):
-		fields.update({one["fieldname"]: one for one in json.loads(path.read_text()) if one.get("dt") == doctype})
+	for rows in _custom_fields():
+		fields.update({one["fieldname"]: one for one in rows if one.get("dt") == doctype})
 	return fields
 
 
@@ -50,12 +55,12 @@ def _fieldnames(doctype: str) -> set[str] | None:
 	custom_field.json or a module's custom/<type>.json) name them. None when
 	the type's JSON is not on this bench."""
 	scrub = doctype.lower().replace(" ", "_")
-	found = next(APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"), None)
+	found = next(iter(doctype_json(scrub)), None)
 	if not found:
 		return None
 	names = {one["fieldname"] for one in json.loads(found.read_text())["fields"]}
-	for path in (ROOT / "onedesk").glob("**/custom_field.json"):
-		names |= {one["fieldname"] for one in json.loads(path.read_text()) if one.get("dt") == doctype}
+	for rows in _custom_fields():
+		names |= {one["fieldname"] for one in rows if one.get("dt") == doctype}
 	for path in (ROOT / "onedesk").glob(f"*/custom/{scrub}.json"):
 		names |= {one["fieldname"] for one in json.loads(path.read_text()).get("custom_fields", []) if one.get("dt") == doctype}
 	return names | {"__details"}

@@ -70,7 +70,10 @@ def test_nothing_generic_names_one_country():
 		where = str(path.relative_to(APP if APP in path.parents else ROOT))
 		if where in REGIONAL:
 			continue
-		for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+		text = path.read_text(encoding="utf-8")
+		if not COUNTRY.search(text):
+			continue
+		for n, line in enumerate(text.splitlines(), 1):
 			if COUNTRY.search(line):
 				found.append(f"{where}:{n}: {line.strip()[:120]}")
 	assert not found, "say Tax, Tax ID and the record's own currency, or gate it by country:\n" + "\n".join(

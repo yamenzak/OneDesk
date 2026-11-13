@@ -304,27 +304,27 @@ PAGES = {
 }
 
 
+def stale() -> list[str]:
+	"""Each generated file that is not what its builder makes now."""
+	return [
+		str(where.relative_to(tree.ROOT)) for where, build in PAGES.items() if not where.exists() or where.read_text() != build()
+	]
+
+
 def main() -> int:
 	args = argparse.ArgumentParser()
 	args.add_argument("--check", action="store_true")
 	opts = args.parse_args()
 
+	if opts.check:
+		found = stale()
+		if found:
+			print(f"stale: {', '.join(found)}. Run `python scripts/docs.py`.")
+		return 1 if found else 0
 	DOCS.mkdir(exist_ok=True)
-	stale = []
 	for where, build in PAGES.items():
-		want = build()
-		name = str(where.relative_to(tree.ROOT))
-		if opts.check:
-			if not where.exists() or where.read_text() != want:
-				stale.append(name)
-		else:
-			where.write_text(want)
-
-	if opts.check and stale:
-		print(f"stale: {', '.join(stale)}. Run `python scripts/docs.py`.")
-		return 1
-	if not opts.check:
-		print(f"wrote {', '.join(str(where.relative_to(tree.ROOT)) for where in PAGES)}")
+		where.write_text(build())
+	print(f"wrote {', '.join(str(where.relative_to(tree.ROOT)) for where in PAGES)}")
 	return 0
 
 

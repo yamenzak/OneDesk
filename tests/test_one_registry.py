@@ -11,6 +11,9 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
 
 from onedesk.one import registry  # noqa: E402
 from onedesk.one.registry import hooks  # noqa: E402
@@ -62,7 +65,7 @@ def _defined(dotted: str) -> bool:
 				return True
 			names = {
 				getattr(node, "name", None) or getattr(getattr(node, "targets", [None])[0], "id", None)
-				for node in ast.parse(path.read_text(encoding="utf-8")).body
+				for node in tree.parsed(path).body
 			}
 			return len(rest) == 1 and rest[0] in names
 	return False
@@ -133,7 +136,7 @@ ALLOWED = {
 
 def _named_twice(path: Path, names: set) -> list[int]:
 	lines = []
-	for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+	for node in tree.walked(path):
 		elts = node.elts if isinstance(node, ast.List | ast.Tuple | ast.Set) else node.keys if isinstance(node, ast.Dict) else None
 		said = [one.value for one in elts or () if isinstance(one, ast.Constant) and isinstance(one.value, str)]
 		if sum(one in names for one in said) >= 2:

@@ -73,7 +73,7 @@ def rules(point: int | None = None) -> str:
 
 
 def pytest(targets: list[str]) -> int:
-	return subprocess.call([sys.executable, "-m", "pytest", "-q", "-n", "auto", *targets, *SKIP], cwd=ROOT)
+	return subprocess.call([sys.executable, "-m", "pytest", "-q", "-n", "auto", "--dist", "loadfile", *targets, *SKIP], cwd=ROOT)
 
 
 def main(argv: list[str]) -> int:

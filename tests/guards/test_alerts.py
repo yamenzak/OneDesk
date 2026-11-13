@@ -94,13 +94,18 @@ SOURCES = (ROOT / "onedesk" / "public", ROOT / "frontend" / "src")
 SUFFIXES = (".css", ".scss", ".less", ".vue")
 UP_OR_DOWN = {"margin-top", "margin-bottom", "margin-block", "margin-block-start", "margin-block-end"}
 SIDES = {"margin", "margin-inline", "margin-left", "margin-right", "margin-inline-start", "margin-inline-end"}
+RULE = re.compile(r"(?<![^{}])([^{}]+)\{([^{}]*)\}")
+"""A selector and its body. Only a brace or the text's start can begin one, so
+looking only there finds the same rules without trying every letter."""
 ICON = re.compile(r"\.icon(?![\w-])(:[\w-]+(\([^)]*\))?)*\s*$")
 
 
 def _rules(text: str):
 	text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
-	for match in re.finditer(r"([^{}]+)\{([^{}]*)\}", text):
-		yield text[: match.start()].count("\n") + 1, match.group(1).strip(), match.group(2)
+	line, read = 1, 0
+	for match in RULE.finditer(text):
+		line, read = line + text.count("\n", read, match.start()), match.start()
+		yield line, match.group(1).strip(), match.group(2)
 
 
 def _lopsided(text: str) -> list[str]:

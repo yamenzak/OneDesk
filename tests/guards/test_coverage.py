@@ -5,6 +5,7 @@ only falls: a new feature arrives with its check, and a check written lowers
 it. These read the code."""
 
 import ast
+import functools
 import re
 import sys
 from pathlib import Path
@@ -42,7 +43,7 @@ def _whitelisted() -> dict[str, set[str]]:
 		parts = path.relative_to(APP).parts
 		if len(parts) < 2 or parts[0] in ("one_demo", "patches") or path.name.startswith("test_"):
 			continue
-		for node in ast.parse(path.read_text()).body:
+		for node in tree.parsed(path).body:
 			if isinstance(node, ast.FunctionDef) and any(
 				"whitelist" in ast.unparse(one) for one in node.decorator_list
 			):
@@ -62,6 +63,7 @@ def _tools() -> dict[str, set[str]]:
 	return found
 
 
+@functools.cache
 def features() -> dict[str, set[str]]:
 	"""Every feature a person reaches, by module: `file.function`."""
 	found = _whitelisted()
@@ -73,7 +75,17 @@ def features() -> dict[str, set[str]]:
 def reached(name: str) -> bool:
 	"""A check calls it, as `file.function(`, or through an alias ending in
 	the file's name (`mail_agent.function(` for one_mail/agent.py)."""
-	return re.search(rf"(?<![A-Za-z0-9]){re.escape(name)}\(", SUITE) is not None
+	return name in _called()
+
+
+@functools.cache
+def _called() -> frozenset[str]:
+	"""Every tail of a dotted name called in the suite that starts after
+	something other than a letter or a digit."""
+	found = set()
+	for called in set(re.findall(r"([\w.]+)\(", SUITE)):
+		found.update(called[at:] for at in range(len(called)) if at == 0 or not (called[at - 1].isascii() and called[at - 1].isalnum()))
+	return frozenset(found)
 
 
 def test_no_module_has_more_left_to_cover_than_it_had():

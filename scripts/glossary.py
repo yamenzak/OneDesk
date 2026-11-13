@@ -69,7 +69,7 @@ def found(msgid: str) -> list[dict]:
 	short = len(msgid.split()) <= LABEL_WORDS
 	hits = []
 	for row in terms():
-		if row["scope"] == "label" and not short:
+		if row["term"] not in msgid or (row["scope"] == "label" and not short):
 			continue
 		skip = NOT_THE_TERM.get(row["term"])
 		if row["pattern"].search(skip.sub(" ", msgid) if skip else msgid):
@@ -116,6 +116,7 @@ def unescape(text: str) -> str:
 	return text.replace('\\"', '"').replace("\\n", "\n").replace("\\t", "\t").replace("\\\\", "\\")
 
 
-def wrong() -> set[tuple[str, str]]:
+@cache
+def wrong() -> frozenset[tuple[str, str]]:
 	"""Every (lang, msgid) whose translation misses a glossary term."""
-	return {(lang, msgid) for lang in ("ar", "de") for msgid, msgstr in catalogue(lang).items() if missed(msgid, msgstr, lang)}
+	return frozenset((lang, msgid) for lang in ("ar", "de") for msgid, msgstr in catalogue(lang).items() if missed(msgid, msgstr, lang))

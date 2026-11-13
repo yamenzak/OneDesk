@@ -6,10 +6,15 @@ a site."""
 import ast
 import json
 import subprocess
+import sys
 from functools import cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
+
 APP = ROOT / "onedesk"
 SYNCED = ("doctype", "page", "report", "sidebar", "workspace", "print_format", "notification", "number_card", "dashboard_chart", "module_onboarding", "onboarding_step", "web_form")
 
@@ -17,7 +22,7 @@ SYNCED = ("doctype", "page", "report", "sidebar", "workspace", "print_format", "
 @cache
 def _top_names(path: Path) -> set[str]:
 	names = set()
-	for node in ast.parse(path.read_text(encoding="utf-8")).body:
+	for node in tree.parsed(path).body:
 		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef | ast.ClassDef):
 			names.add(node.name)
 		elif isinstance(node, ast.Assign | ast.AnnAssign):
@@ -52,15 +57,15 @@ def missing_names(source: str) -> list[str]:
 	function reading it, and NAME is not at that module's top level. An alias
 	the function also assigns is a variable, not the module. Pure but for
 	reading our files."""
-	tree = ast.parse(source)
-	top = _aliases(tree.body)
+	top = _aliases(tree.syntax(source).body)
 	wrong = []
-	scopes = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)]
+	scopes = [node for node in tree.nodes(source) if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)]
 	for scope in scopes:
-		aliases = {**top, **_aliases(ast.walk(scope))}
-		shadowed = {node.id for node in ast.walk(scope) if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store)}
-		shadowed |= {arg.arg for node in ast.walk(scope) if isinstance(node, ast.arguments) for arg in (*node.args, *node.kwonlyargs)}
-		for node in ast.walk(scope):
+		inside = tuple(ast.walk(scope))
+		aliases = {**top, **_aliases(inside)}
+		shadowed = {node.id for node in inside if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store)}
+		shadowed |= {arg.arg for node in inside if isinstance(node, ast.arguments) for arg in (*node.args, *node.kwonlyargs)}
+		for node in inside:
 			if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) and node.value.id in aliases and node.value.id not in shadowed:
 				if node.attr not in _top_names(aliases[node.value.id]):
 					wrong.append(f"{node.value.id}.{node.attr} (line {node.lineno})")
@@ -72,7 +77,7 @@ def test_a_check_reads_only_names_that_are_there():
 	from under one breaks it unseen (P3.6 moved story.MONTHS and home.FEW)."""
 	found = {}
 	for path in [*APP.glob("*/checks.py"), APP / "one_demo" / "check.py"]:
-		wrong = missing_names(path.read_text(encoding="utf-8"))
+		wrong = missing_names(tree.text(path))
 		if wrong:
 			found[str(path.relative_to(ROOT))] = wrong
 	assert not found, f"a check reads a name its module no longer has: {found}"

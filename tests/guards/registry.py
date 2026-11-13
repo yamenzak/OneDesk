@@ -1778,6 +1778,7 @@ GUARDS = [
 		20,
 		"a desk script that does not parse, which kills its form or report",
 		"tests/guards/test_source_style.py::test_every_desk_script_parses",
+		"tests/guards/test_source_style.py::test_the_parse_check_catches_a_broken_script",
 	),
 	Guard(
 		"stamps-dated",

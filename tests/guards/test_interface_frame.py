@@ -395,7 +395,10 @@ def test_the_interface_has_one_name():
 				continue
 			if {"dist", "frontend", "node_modules", "__pycache__", "patches"} & set(path.relative_to(tree.ROOT).parts[1:-1]) or path == Path(__file__):
 				continue
-			for number, line in enumerate(path.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
+			text = path.read_text(encoding="utf-8", errors="ignore")
+			if not OLD_NAMES.search(text):
+				continue
+			for number, line in enumerate(text.splitlines(), 1):
 				if OLD_NAMES.search(line):
 					found.append(f"{path.relative_to(tree.ROOT)}:{number}")
 	assert not found, f"the window's old name is still used: {found[:20]}"

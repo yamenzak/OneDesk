@@ -111,15 +111,17 @@ def test_only_the_ledger_knows_a_balance_is_made_of_rows():
 
 
 def _code(path: Path) -> str:
-	body = ast.parse(path.read_text(encoding="utf-8"))
-	for node in ast.walk(body):
+	"""The file's texts and bytes, but for the statements that are only a
+	constant (docstrings): the only place a name with spaces can be in code."""
+	said = set()
+	for node in tree.walked(path):
 		if isinstance(node, ast.Module | ast.ClassDef | ast.FunctionDef | ast.AsyncFunctionDef):
-			node.body = [
-				n
-				for n in node.body
-				if not (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant))
-			]
-	return ast.unparse(body)
+			said.update(id(n.value) for n in node.body if isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant))
+	return "\n".join(
+		str(node.value)
+		for node in tree.walked(path)
+		if isinstance(node, ast.Constant) and isinstance(node.value, str | bytes) and id(node) not in said
+	)
 
 
 def test_a_hold_that_never_came_back_is_let_go():

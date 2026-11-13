@@ -1,5 +1,10 @@
-"""Where the app's own source is, for every tool that walks it."""
+"""Where the app's own source is, for every tool that walks it, and each
+file's text and syntax tree, read once a process and again only when the file
+changes."""
 
+import ast
+import functools
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -17,13 +22,17 @@ OURS_IN_VENDORED = ("WorkbookPage.vue", "DocumentPage.vue", "PresentationPage.vu
 
 
 def vendored(path: Path) -> bool:
-	for root in VENDORED:
-		try:
-			rest = str(Path(path).resolve().relative_to(root.resolve()))
-		except ValueError:
-			continue
-		return not any(rest == one or rest.startswith(one) for one in OURS_IN_VENDORED)
+	where = str(Path(path).resolve())
+	for root in _vendored_roots():
+		if where == root or where.startswith(root + os.sep):
+			rest = where[len(root) + 1 :] or "."
+			return not any(rest == one or rest.startswith(one) for one in OURS_IN_VENDORED)
 	return False
+
+
+@functools.cache
+def _vendored_roots() -> tuple[str, ...]:
+	return tuple(str(root.resolve()) for root in VENDORED)
 
 
 def sources() -> list[Path]:
@@ -47,11 +56,40 @@ def module_dir(module: str) -> Path:
 	return APP / module.lower().replace(" ", "_").replace("-", "_")
 
 
-def _walk():
-	for path in sorted(APP.rglob("*")):
-		if not path.is_file() or any(part in SKIP_DIRS for part in path.parts):
-			continue
-		yield path
+@functools.cache
+def _walk() -> tuple[Path, ...]:
+	return tuple(path for path in sorted(APP.rglob("*")) if path.is_file() and not any(part in SKIP_DIRS for part in path.parts))
+
+
+def text(path: Path) -> str:
+	path = Path(path)
+	stat = path.stat()
+	return _text(path, stat.st_mtime_ns, stat.st_size)
+
+
+@functools.cache
+def _text(path: Path, _mtime: int, _size: int) -> str:
+	return path.read_text(encoding="utf-8")
+
+
+@functools.cache
+def syntax(source: str) -> ast.Module:
+	"""The source's tree, shared by every caller: read it, never change it."""
+	return ast.parse(source)
+
+
+@functools.cache
+def nodes(source: str) -> tuple[ast.AST, ...]:
+	"""Every node of the source's tree, in `ast.walk`'s order."""
+	return tuple(ast.walk(syntax(source)))
+
+
+def parsed(path: Path) -> ast.Module:
+	return syntax(text(path))
+
+
+def walked(path: Path) -> tuple[ast.AST, ...]:
+	return nodes(text(path))
 
 
 def notifications() -> dict[str, dict]:
@@ -96,7 +134,6 @@ def declared_notifications() -> list[tuple[str, Path]]:
 def literal(node):
 	"""`ast.literal_eval` of a node that may name an app as
 	`registry.name("one_doc")`, read as the name the registry gives it."""
-	import ast
 	import copy
 	import sys
 
@@ -115,9 +152,7 @@ def literal(node):
 
 def granted() -> dict:
 	"""What one/access.py gives the workspace administrator, by doctype."""
-	import ast
-
-	for node in ast.parse((APP / "one" / "access.py").read_text()).body:
+	for node in parsed(APP / "one" / "access.py").body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "ADMINISTRATOR":
 			return ast.literal_eval(node.value)
 	raise AssertionError("one/access.py has no ADMINISTRATOR")

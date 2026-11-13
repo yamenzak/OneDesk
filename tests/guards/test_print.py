@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 import pytest
-from tests.bench import APPS
+from tests.bench import APPS, doctype_json
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import tree  # noqa: E402
@@ -143,7 +143,7 @@ def test_a_native_format_asks_only_what_frappe_can_answer():
 def _fields(doctype: str) -> set:
 	scrub = _scrub(doctype)
 	found = {"name", "idx", "owner", "creation", "modified", "modified_by", "docstatus"}
-	for path in APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"):
+	for path in doctype_json(scrub):
 		found |= {one["fieldname"] for one in json.loads(path.read_text())["fields"]}
 	for path in APP.glob(f"*/custom/{scrub}.json"):
 		found |= {one["fieldname"] for one in json.loads(path.read_text()).get("custom_fields") or []}
@@ -152,7 +152,7 @@ def _fields(doctype: str) -> set:
 
 def _child(doctype: str, table: str) -> str:
 	scrub = _scrub(doctype)
-	for path in APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"):
+	for path in doctype_json(scrub):
 		for one in json.loads(path.read_text())["fields"]:
 			if one["fieldname"] == table:
 				return one["options"]

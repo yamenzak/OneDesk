@@ -638,6 +638,7 @@ def _way(row: dict, said: dict) -> str:
 	return "**waiting**"
 
 
+@cache
 def page() -> str:
 	said = answers()
 	by_module: dict = {}
@@ -804,7 +805,7 @@ def _sent() -> dict:
 	for path in tree.python():
 		if "one_demo" in path.parts:
 			continue
-		for node in ast.walk(ast.parse(path.read_text())):
+		for node in tree.walked(path):
 			if not isinstance(node, ast.Call):
 				continue
 			fn = node.func.attr if isinstance(node.func, ast.Attribute) else getattr(node.func, "id", "")
@@ -896,7 +897,7 @@ def _files(start: Path) -> list[Path]:
 
 @cache
 def _module(path: Path):
-	return ast.parse(path.read_text()) if path.exists() else None
+	return tree.parsed(path) if path.exists() else None
 
 
 _TABLE = re.compile(r"`tab([^`]+)`")
@@ -935,7 +936,7 @@ def method_reads(method: str) -> tuple[bool, list[tuple[str, bool]]]:
 	module = _module(path)
 	if module is None:
 		return False, []
-	source = path.read_text()
+	source = tree.text(path)
 	defs = {node.name: node for node in module.body if isinstance(node, ast.FunctionDef)}
 	if parts[-1] not in defs:
 		return False, []

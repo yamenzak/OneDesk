@@ -73,6 +73,9 @@ SECRET_GIVEN = re.compile(
 	r"(?:secret|token|api_?key|password|passwd|private_?key|access_?key|signing_?key)\w*[\"']?\s*(?::|=)\s*[\"'](?P<value>[^\"'\s]{20,})[\"']",
 	re.I,
 )
+SECRET_TAIL = re.compile(r"[:=]\s*[\"'][^\"'\s]{20,}[\"']")
+"""What every SECRET_GIVEN ends with, found far faster: a file without it is
+not read for SECRET_GIVEN."""
 SECRET_SHAPES = re.compile(
 	r"(?<![\w-])("
 	r"sk_(?:live|test)_[0-9A-Za-z]{16,}"
@@ -149,7 +152,7 @@ class Code:
 		self.trees: dict[str, ast.Module] = {}
 		for file, source in sources.items():
 			module = ".".join(("onedesk", *Path(file).with_suffix("").parts)).removesuffix(".__init__")
-			body = ast.parse(source)
+			body = tree.syntax(source)
 			self.trees[file] = body
 			package = module if file.endswith("__init__.py") else module.rsplit(".", 1)[0]
 			walked = []
@@ -175,7 +178,7 @@ class Code:
 	def of_app(cls) -> "Code":
 		return cls(
 			{
-				str(path.relative_to(tree.APP)): path.read_text(encoding="utf-8")
+				str(path.relative_to(tree.APP)): tree.text(path)
 				for path in tree.python()
 				if "tests" not in path.relative_to(tree.APP).parts and not path.name.startswith("test_")
 			}
@@ -454,7 +457,8 @@ def secrets(sources: dict[str, str]) -> set[str]:
 	not Python), never the value."""
 	found = set()
 	for file, source in sources.items():
-		for match in (*SECRET_SHAPES.finditer(source), *SECRET_GIVEN.finditer(source)):
+		given = SECRET_GIVEN.finditer(source) if SECRET_TAIL.search(source) else ()
+		for match in (*SECRET_SHAPES.finditer(source), *given):
 			if match.re is SECRET_SHAPES or _looks_secret(match.group("value")):
 				line = source.count(chr(10), 0, match.start()) + 1
 				found.add(f"{file}:{_function_at(file, source, line) or line}")
@@ -466,11 +470,11 @@ def _function_at(file: str, source: str, line: int) -> str | None:
 	if not file.endswith(".py"):
 		return None
 	try:
-		parsed = ast.parse(source)
+		nodes = tree.nodes(source)
 	except SyntaxError:
 		return None
 	held = [
-		node for node in ast.walk(parsed)
+		node for node in nodes
 		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef) and node.lineno <= line <= (node.end_lineno or node.lineno)
 	]
 	return max(held, key=lambda node: node.lineno).name if held else None
@@ -481,7 +485,7 @@ def _secret_sources() -> dict[str, str]:
 	found = {}
 	for root in roots:
 		for path in sorted(root.rglob("*")):
-			parts = path.relative_to(tree.ROOT).parts
+			parts = path.parts[len(tree.ROOT.parts) :]
 			if (
 				path.is_file()
 				and path.suffix in SECRET_SUFFIXES

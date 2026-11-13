@@ -16,8 +16,13 @@ def _run(script: str, *args: str) -> subprocess.CompletedProcess:
 
 
 def test_docs_are_current():
-	out = _run("docs.py", "--check")
-	assert out.returncode == 0, out.stdout + out.stderr
+	"""Read in this process, so the atlas and the parsed code are shared with
+	the guards beside it."""
+	sys.path.insert(0, str(ROOT / "scripts"))
+	import docs
+
+	found = docs.stale()
+	assert not found, f"stale: {', '.join(found)}. Run `python scripts/docs.py`."
 
 
 def test_the_framework_reference_is_current():

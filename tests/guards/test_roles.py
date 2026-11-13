@@ -20,18 +20,25 @@ READS_IT = {tree.APP / "one" / "boot.py"}
 
 
 def _administrator() -> str:
-	for node in ast.walk(ast.parse(ROLES.read_text(encoding="utf-8"))):
+	for node in tree.walked(ROLES):
 		if isinstance(node, ast.Assign) and node.targets[0].id == "ADMINISTRATOR":
 			return node.value.value
 	raise AssertionError("roles.ADMINISTRATOR is gone")
 
 
 def _code(path: Path) -> str:
-	body = ast.parse(path.read_text(encoding="utf-8"))
-	for node in ast.walk(body):
-		if isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef)) and ast.get_docstring(node):
-			node.body = node.body[1:]
-	return ast.unparse(body)
+	"""The file's texts and bytes but its docstrings: the only place a name
+	with a space in it can be in code."""
+	docs = {
+		id(node.body[0].value)
+		for node in tree.walked(path)
+		if isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef)) and ast.get_docstring(node)
+	}
+	return "\n".join(
+		str(node.value)
+		for node in tree.walked(path)
+		if isinstance(node, ast.Constant) and isinstance(node.value, str | bytes) and id(node) not in docs
+	)
 
 
 def test_the_role_is_not_frappes_own():
