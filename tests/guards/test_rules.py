@@ -92,7 +92,7 @@ def test_no_endpoint_writes_round_a_rule():
 	for doctype, _p, fields, _c in RULES:
 		owned.setdefault(doctype, set()).update(fields)
 	found = []
-	for path in APP.rglob("*.py"):
+	for path in tree.scoped(APP.rglob("*.py")):
 		rel = path.relative_to(APP).as_posix()
 		if rel.startswith("one_demo/") or path.name in ("checks.py", "demo.py") or "/patches/" in f"/{rel}":
 			continue

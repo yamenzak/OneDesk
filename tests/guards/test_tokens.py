@@ -183,7 +183,7 @@ def problems(path: Path, text: str) -> list[str]:
 
 def test_every_screen_is_drawn_in_frappe_uis_tokens():
 	found = {}
-	for path in _screens():
+	for path in tree.scoped(_screens()):
 		wrong = problems(path, path.read_text(encoding="utf-8", errors="ignore"))
 		if wrong:
 			found[str(path.relative_to(tree.ROOT))] = wrong
@@ -197,14 +197,14 @@ def test_every_token_of_ours_is_defined():
 	for path in _screens():
 		text = path.read_text(encoding="utf-8", errors="ignore")
 		defined |= set(re.findall(r"(--one-[\w-]+)\s*:", text))
-		for name in re.findall(r"var\(\s*(--one-[\w-]+)", text):
+		for name in re.findall(r"var\(\s*(--one-[\w-]+)", text) if tree.judged(path) else ():
 			used.setdefault(name, str(path.relative_to(tree.ROOT)))
 	assert not {name: where for name, where in used.items() if name not in defined}
 
 
 def test_an_overlay_is_frappe_uis():
 	wrong = []
-	for path in _screens():
+	for path in tree.scoped(_screens()):
 		for name, value in re.findall(
 			r"--one-over-([\w-]+)\s*:\s*([^;]+);", path.read_text(encoding="utf-8", errors="ignore")
 		):
@@ -220,13 +220,13 @@ def test_a_chart_is_coloured_by_frappe_uis_hues():
 	coloured by token, as a screen is."""
 	hues = set(HUES.split("|")) | {"gray"}
 	wrong = []
-	for path in tree.APP.rglob("dashboard_chart/*/*.json"):
+	for path in tree.scoped(tree.APP.rglob("dashboard_chart/*/*.json")):
 		options = json.loads(json.loads(path.read_text()).get("custom_options") or "{}")
 		wrong += [
 			f"{path.name}: {one}" for one in (options.get("one_colors") or {}).values() if one not in hues
 		]
 		wrong += [f"{path.name}: {one}" for one in options.get("colors") or []]
-	for path in tree.APP.rglob("report/*/*.py"):
+	for path in tree.scoped(tree.APP.rglob("report/*/*.py")):
 		text = path.read_text()
 		wrong += [f"{path.name}: {one}" for one in LITERAL.findall(text)]
 		wrong += [

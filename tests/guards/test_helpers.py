@@ -94,7 +94,7 @@ def copies(source: str, path: Path | None = None) -> list[str]:
 
 
 def _ours():
-	return [path for path in sorted(APP.rglob("*.py")) if "node_modules" not in path.parts]
+	return [path for path in tree.scoped(sorted(APP.rglob("*.py"))) if "node_modules" not in path.parts]
 
 
 def test_a_shared_helper_is_not_copied():

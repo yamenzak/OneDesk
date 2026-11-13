@@ -5,11 +5,15 @@ parts that really are one country's are in the files below, each shown only
 where the workspace's country is that one. docs/STANDARD.md, Money and tax."""
 
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
 SRC = ROOT / "frontend" / "src"
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import tree  # noqa: E402
 
 COUNTRY = re.compile(r"\bAED\b|\bUAE\b|United Arab Emirates|\bVAT\b|Emirat|\bTRN\b|\bFTA\b|dirham", re.I)
 
@@ -61,7 +65,7 @@ SKIP = ("locale", "one_demo", "fixtures", "dist", "tests")
 
 
 def _ours():
-	for path in [*APP.rglob("*"), *SRC.rglob("*")]:
+	for path in tree.scoped([*APP.rglob("*"), *SRC.rglob("*")]):
 		if path.suffix not in (".py", ".js", ".vue", ".json", ".html") or set(path.parts) & set(SKIP):
 			continue
 		yield path
@@ -94,7 +98,7 @@ def test_every_regional_file_still_needs_it():
 def test_a_money_figure_carries_its_currency():
 	"""A heading that names the currency so the figures under it need not was
 	how a page said AED once; every amount says its own now."""
-	for path in SRC.rglob("*.vue"):
+	for path in tree.scoped(SRC.rglob("*.vue")):
 		source = path.read_text(encoding="utf-8")
 		assert not re.search(r"""__\(\s*["']Amounts? in\b""", source), (
 			f"{path.relative_to(SRC)} names the currency above its figures"

@@ -60,10 +60,10 @@ def sentence(label: str) -> bool:
 
 def _fields():
 	"""(where, label, description) for every field the app defines or adds."""
-	for path in sorted(tree.APP.glob("*/custom/*.json")):
+	for path in tree.scoped(sorted(tree.APP.glob("*/custom/*.json"))):
 		for one in json.loads(path.read_text(encoding="utf-8")).get("custom_fields", []):
 			yield f"{path.stem}.{one['fieldname']}", one.get("label") or "", one.get("description") or ""
-	for path in sorted(tree.APP.glob("*/doctype/*/*.json")):
+	for path in tree.scoped(sorted(tree.APP.glob("*/doctype/*/*.json"))):
 		spec = json.loads(path.read_text(encoding="utf-8"))
 		if spec.get("doctype") != "DocType":
 			continue
@@ -112,7 +112,7 @@ def described_in(file: str, source: str) -> list[str]:
 
 def _described() -> dict[str, str]:
 	found = {}
-	for path in [*tree.APP.glob("*/custom/*.json"), *tree.APP.glob("*/doctype/*/*.json")]:
+	for path in tree.scoped([*tree.APP.glob("*/custom/*.json"), *tree.APP.glob("*/doctype/*/*.json")]):
 		found[str(path.relative_to(tree.APP.parent))] = path.read_text(encoding="utf-8")
 	for path in sorted(set(_files(".js", ".vue")) | {one for _module, one, _text in _read()}):
 		if path.suffix in (".js", ".vue", ".py") and not path.name.startswith("test_"):
@@ -126,7 +126,8 @@ def over_one_sentence(files: dict[str, str]) -> dict[str, int]:
 
 
 def test_a_description_is_one_sentence():
-	found, allowed = over_one_sentence(_described()), wording_allowed.ALLOWED
+	found = over_one_sentence(_described())
+	allowed = {file: count for file, count in wording_allowed.ALLOWED.items() if tree.judged(tree.ROOT / file)}
 	over = {file: (count, allowed.get(file, 0)) for file, count in found.items() if count > allowed.get(file, 0)}
 	assert not over, "a description, hint or note of more than one sentence (docs/WORDING.md): " + ", ".join(
 		f"{file} has {count} (allowed {was})" for file, (count, was) in sorted(over.items())
@@ -168,7 +169,7 @@ def test_every_label_is_a_name_not_a_sentence():
 def _files(*suffixes):
 	for root in ROOTS:
 		for path in root.rglob("*"):
-			if path.suffix in suffixes and path.is_file() and not SKIPPED & set(path.parts):
+			if path.suffix in suffixes and path.is_file() and not SKIPPED & set(path.parts) and tree.judged(path):
 				yield path
 
 
@@ -206,11 +207,11 @@ def _python():
 
 def _options():
 	"""(where, option) for every Select option a doctype or custom field has."""
-	for path in sorted(tree.APP.glob("*/custom/*.json")):
+	for path in tree.scoped(sorted(tree.APP.glob("*/custom/*.json"))):
 		for one in json.loads(path.read_text(encoding="utf-8")).get("custom_fields", []):
 			if one.get("fieldtype") == "Select":
 				yield from ((path, option) for option in (one.get("options") or "").split("\n") if option)
-	for path in sorted(tree.APP.parent.glob("**/doctype/*/*.json")):
+	for path in tree.scoped(sorted(tree.APP.parent.glob("**/doctype/*/*.json"))):
 		if SKIPPED & set(path.parts):
 			continue
 		spec = json.loads(path.read_text(encoding="utf-8"))
@@ -274,7 +275,7 @@ def test_what_a_screen_says_is_plain():
 	root = tree.APP
 	found = []
 	paths = [*(root / "public" / "js").rglob("*.js"), *root.glob("*/doctype/*/*.js")]
-	for path in sorted(paths):
+	for path in tree.scoped(sorted(paths)):
 		for one in SCREEN.finditer(path.read_text(encoding="utf-8")):
 			text = one.group(1)
 			if LABELLED.match(text):
@@ -305,7 +306,7 @@ def test_a_message_says_what_happened():
 	a person's turn of phrase."""
 	found = []
 	paths = [*tree.APP.rglob("*.py"), *(tree.APP / "public" / "js").rglob("*.js"), *(tree.APP.parent / "frontend" / "src").rglob("*.vue"), *(tree.APP.parent / "frontend" / "src").rglob("*.js")]
-	for path in sorted(paths):
+	for path in tree.scoped(sorted(paths)):
 		if any(part in SKIPPED for part in path.parts) or tree.vendored(path) or path.name.startswith("test_"):
 			continue
 		for one in MESSAGE.finditer(path.read_text(encoding="utf-8")):
@@ -336,7 +337,7 @@ def test_no_screen_text_reads_like_a_commit_message():
 	wrong = []
 	for folder in sorted(one.name for one in (tree.APP / "one_admin" / "doctype").iterdir() if one.is_dir()):
 		path = tree.APP / "one_admin" / "doctype" / folder / f"{folder}.json"
-		if not path.exists():
+		if not path.exists() or not tree.judged(path):
 			continue
 		doc = json.loads(path.read_text(encoding="utf-8"))
 		said = [("[doctype]", doc.get("description") or "")]
@@ -371,7 +372,7 @@ REGISTERED = tuple(sorted(one.parent.name for one in tree.APP.glob("*/doctype"))
 def test_field_help_says_what_the_system_does():
 	wrong = []
 	for module in REGISTERED:
-		for path in sorted((tree.APP / module).glob("doctype/*/*.json")):
+		for path in tree.scoped(sorted((tree.APP / module).glob("doctype/*/*.json"))):
 			spec = json.loads(path.read_text(encoding="utf-8"))
 			if spec.get("doctype") != "DocType":
 				continue
@@ -401,7 +402,7 @@ def _read():
 	"""Every script of every module in onedesk/one/ready.py, ready or on its
 	way, so a module being made ready is held to them from the start."""
 	for module in ready.MODULES:
-		for path in ready.files(module):
+		for path in tree.scoped(ready.files(module)):
 			if path.suffix in (".js", ".vue", ".py") and not path.name.startswith("test_"):
 				yield module, path, path.read_text(encoding="utf-8")
 

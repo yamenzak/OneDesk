@@ -157,7 +157,7 @@ def sources() -> dict[str, str]:
 	found = {}
 	for base, prefix in ((tree.APP, ""), (ROOT / "frontend" / "src", "frontend/src/")):
 		for path in sorted(base.rglob("*")):
-			if path.suffix in READERS and path.is_file() and not any(part in tree.SKIP_DIRS for part in path.parts):
+			if path.suffix in READERS and tree.judged(path) and path.is_file() and not any(part in tree.SKIP_DIRS for part in path.parts):
 				if prefix and tree.vendored(path):
 					continue
 				found[prefix + str(path.relative_to(base))] = tree.text(path)
@@ -165,7 +165,8 @@ def sources() -> dict[str, str]:
 
 
 def test_no_name_is_typed_where_people_read_it():
-	found, allowed = typed(sources()), names_allowed.ALLOWED
+	found = typed(sources())
+	allowed = {file: count for file, count in names_allowed.ALLOWED.items() if tree.judged(ROOT / file if file.startswith("frontend/") else tree.APP / file)}
 	over = {file: (count, allowed.get(file, 0)) for file, count in found.items() if count > allowed.get(file, 0)}
 	assert not over, "a name typed where people read it, rather than read from the registry: " + ", ".join(
 		f"{file} has {count} (allowed {was})" for file, (count, was) in sorted(over.items())

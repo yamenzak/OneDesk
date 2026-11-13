@@ -313,7 +313,7 @@ def test_the_shell_has_its_parts_and_is_loaded_everywhere():
 
 
 def test_only_the_shell_styles_the_shell():
-	for path in tree.APP.rglob("*.css"):
+	for path in tree.scoped(tree.APP.rglob("*.css")):
 		if path == SHELL_CSS:
 			continue
 		for line in path.read_text(encoding="utf-8").splitlines():
@@ -348,7 +348,7 @@ def test_the_old_names_are_gone():
 	old = re.compile(
 		r"\bos-(row|card|quiet|empty|content|section|actions|chevron|form|columns|part|conflict|alert-row)\b(?!-)"
 	)
-	for path in [*tree.APP.rglob("*.js"), *tree.APP.rglob("*.css"), *tree.APP.rglob("*.py")]:
+	for path in tree.scoped([*tree.APP.rglob("*.js"), *tree.APP.rglob("*.css"), *tree.APP.rglob("*.py")]):
 		if "node_modules" in path.parts:
 			continue
 		found = old.search(path.read_text(encoding="utf-8"))
@@ -384,7 +384,7 @@ PANE_LISTS = {"record_mail.js"}
 
 def _ours(*patterns):
 	for pattern in patterns:
-		for path in tree.APP.rglob(pattern):
+		for path in tree.scoped(tree.APP.rglob(pattern)):
 			if "node_modules" in path.parts or "dist" in path.parts:
 				continue
 			yield path

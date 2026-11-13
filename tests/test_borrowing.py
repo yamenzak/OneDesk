@@ -111,7 +111,7 @@ LOOKED = {
 
 def _offenders(pattern: str, suffixes: set[str], what: str = "") -> list[str]:
 	found = []
-	for path in tree.sources():
+	for path in tree.scoped(tree.sources()):
 		if path.suffix not in suffixes:
 			continue
 		if str(path.relative_to(tree.ROOT)) in DEFINES_TOKENS:

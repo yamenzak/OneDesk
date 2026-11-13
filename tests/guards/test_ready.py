@@ -301,7 +301,7 @@ def test_a_module_grants_through_abilities_alone():
 	rights.grant, a share frappe answers (docs/READY.md, mechanism 7). A
 	module writes no share of its own."""
 	for module in ready.MODULES:
-		for path in ready.files(module):
+		for path in tree.scoped(ready.files(module)):
 			if path.suffix == ".py" and "tests" not in path.parts:
 				hit = SHARES.search(path.read_text(encoding="utf-8"))
 				assert not hit, f"{path.relative_to(ROOT)} writes a share itself ({hit.group(0)}); use rights.grant"
@@ -348,7 +348,7 @@ def test_a_module_leaves_roles_and_notifications_to_their_centers():
 	module declares, and drawn once (docs/READY.md, mechanisms 14 and 15):
 	a ready module's screens draw neither, and ControlCenter offers both."""
 	for module in ready.MODULES:
-		for path in ready.files(module):
+		for path in tree.scoped(ready.files(module)):
 			if path.suffix not in (".js", ".vue") or (module == "One" and path.name in DRAWN_BY):
 				continue
 			text = path.read_text(encoding="utf-8")
@@ -371,7 +371,7 @@ def test_only_aicenter_draws_oneais_settings_and_only_oneai_reaches_the_gateway(
 	declares; a module's screens open it, and only one_ai and the operator's
 	door call the gateway (docs/AICENTER.md, stage 3)."""
 	center = ROOT / "onedesk" / "public" / "js" / "one_ai" / "ai_center.js"
-	for path in (ROOT / "onedesk").rglob("*"):
+	for path in tree.scoped((ROOT / "onedesk").rglob("*")):
 		if path.suffix not in (".js", ".vue") or path == center or "node_modules" in path.parts:
 			continue
 		hit = AI_DRAWN.search(path.read_text(encoding="utf-8", errors="ignore"))
@@ -379,7 +379,7 @@ def test_only_aicenter_draws_oneais_settings_and_only_oneai_reaches_the_gateway(
 	kit = (ROOT / "onedesk" / "public" / "js" / "module_settings.js").read_text(encoding="utf-8")
 	assert "onedesk.ai_center.open({ module })" in kit, "ControlCenter no longer offers AICenter on its own"
 	door = re.compile(r"\bgateway\.(?:talk|call|embed|see|hear|speak)\(|from onedesk\.one_admin import gateway|one_admin\.gateway import")
-	for path in (ROOT / "onedesk").rglob("*.py"):
+	for path in tree.scoped((ROOT / "onedesk").rglob("*.py")):
 		if path.parts[-2] in ("one_admin", "one_ai") or "one_admin" in path.parts or "one_ai" in path.parts:
 			continue
 		hit = door.search(path.read_text(encoding="utf-8"))
@@ -491,13 +491,18 @@ def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 	"""Every call of a ready module that changes something (whitelisted for
 	POST alone) is a card OneAI suggests, in its agent.py's REACH: the tool is
 	hooked, and approving its card makes that very call. Or it is in
-	NOT_FOR_AI with the reason in one sentence (docs/READY.md, mechanism 11)."""
+	NOT_FOR_AI with the reason in one sentence (docs/READY.md, mechanism 11).
+	A change-mode run reads the modules with a changed file of their own,
+	or all of them when hooks.py or one_ai/proposals.py changed."""
 	import ast
 
 	hooks = tree.hooks()
 	approving = (ROOT / "onedesk" / "one_ai" / "proposals.py").read_text(encoding="utf-8")
+	every = tree.judged(ROOT / "onedesk" / "hooks.py") or tree.judged(ROOT / "onedesk" / "one_ai" / "proposals.py")
 	for module, spec in ready.MODULES.items():
 		folder = ROOT / "onedesk" / spec["folder"]
+		if not every and not tree.scoped(folder.glob("*.py")):
+			continue
 		path = folder / "agent.py"
 		assert path.exists(), f"{module} says nothing of OneAI: write {path.relative_to(ROOT)}"
 		source = path.read_text(encoding="utf-8")
