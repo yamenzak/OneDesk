@@ -4582,13 +4582,15 @@ def notification_center_sets_yours_and_the_workspace():
 
 def _modules() -> None:
 	"""A module's own checks, in its folder (docs/READY.md, A module's folder),
-	registered by importing them."""
+	registered by importing them. OneCloud's still sit in this file until P3.7
+	moves each module's into its own."""
 	import importlib
 
 	from onedesk.one import ready
 
 	for spec in ready.MODULES.values():
-		importlib.import_module(f"onedesk.{spec['folder']}.checks")
+		if (ready.APP / spec["folder"] / "checks.py").exists():
+			importlib.import_module(f"onedesk.{spec['folder']}.checks")
 
 
 _modules()

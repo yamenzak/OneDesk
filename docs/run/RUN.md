@@ -387,13 +387,16 @@ Only what needs his own hands:
   listed here, ready to merge; until then everything lives on `arcs`,
   pushed daily. Ready: **P0** (gate passed 13 Nov 00:03, 313 of 314; the
   merge brings the queue fix that matters most to every workspace's
-  migrate).
+  migrate). **P1** (gate passed 13 Nov 02:40, 312 of 314, both D3's; the
+  registry, every list of apps read from it, OneCloud and OneStudio as
+  modules).
 - The real-use gates of P8.1 and P8.2 (50 real invoices; a week on OneChat).
 
 ## Deferred
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
 
+- [ ] D6 OneCloud's checks move out of one_demo/check.py into its own checks.py, as every other module's are; check.py imports a module's checks only where the file exists until then — at P3.7: check.py is split there.
 - [ ] D3 Two demo checks pass alone and fail inside a full run (one_atlas_knows_who_may_open_what, onecloud_a_document_of_ones_own_is_edited_in_oneos): an earlier check leaves state a rollback doesn't undo (frappe's SQLite logs, or a commit inside a check); find which and make each check leave the site as it found it — at P3.3: the checks are reworked there.
 - [ ] D2 A manifest's shipped fields (interface, help, roles, companies) count toward its module's fingerprint again; manifest.py is left out while P1 moves ready.MODULES into manifests, since that moved no module's version before — at P3.4: readiness is reworked there.
 - [ ] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it.

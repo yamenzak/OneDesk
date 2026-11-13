@@ -64,3 +64,12 @@ detail.
 - Running: two agents in worktrees give OneCloud and OneStudio the module
   layout (P1.10); the gate on arcs as it stands (fresh install, modules.txt
   in the rail's order) into /tmp/gate.log.
+
+## 13 Nov 2026, 02:40 — P1 gate passed
+
+- P1.10 merged from two agents (e28723ef), translated (b4648270).
+- The fresh-install gate found the demo's check loader importing a
+  checks.py OneCloud doesn't have yet (D6); fixed, then 312 of 314, both
+  D3's order-dependent checks. P1 is ready to merge, listed for Yamen.
+- P2.1 (one_storage → one_cloud) done by an agent on its branch
+  (3865a5b8); merging and testing it on run.localhost next.
