@@ -245,7 +245,7 @@ hooks, fixtures, patches, notifications folders, public and frontend paths,
 routes, translations, docs. The old dotted path stays importable for one
 release through a thin module, removed in P2.9.
 
-- [ ] P2.1 one_storage → one_cloud, Module "One Cloud", shown OneCloud. — no "one_storage", "One Storage", "onestorage" in code; DAV, share links, the editors and demo checks pass.
+- [x] P2.1 one_storage → one_cloud, Module "One Cloud", shown OneCloud. — no "one_storage", "One Storage", "onestorage" in code; DAV, share links, the editors and demo checks pass. (13 Nov, an agent, 3865a5b8: 228 files; storage_is_cloud merges the Module Def and moves what holds it as text; R2 file URLs and DAV keep their address through override_whitelisted_methods, site-config keys keep theirs; run.localhost and one.4dl.dev migrated, 313 of 314.)
 - [ ] P2.2 one_slide → one_deck, Module "One Deck", shown OneDeck; doctypes keep "Presentation*" (a presentation is the thing). — no OneSlide/oneslide in code.
 - [ ] P2.3 OneDoc: "OneWriter" leaves code; frontend/src/writer → doc; doctypes Writer Document(*) → Document(*) only if `frappe.rename_doc` on run.localhost keeps links, versions and shares (measured; else kept and noted). — no OneWriter in code.
 - [ ] P2.4 OneSheet: "OneWorkbook" leaves code; doctypes Workbook* stay (a workbook is the thing). — no OneWorkbook in code.

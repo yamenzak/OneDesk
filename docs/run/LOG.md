@@ -73,3 +73,10 @@ detail.
   D3's order-dependent checks. P1 is ready to merge, listed for Yamen.
 - P2.1 (one_storage → one_cloud) done by an agent on its branch
   (3865a5b8); merging and testing it on run.localhost next.
+
+## 13 Nov 2026, 03:30
+
+- P2.1 merged (4539c5ea) and migrated on run.localhost and one.4dl.dev:
+  only storage_is_cloud ran, One Storage is gone, the old file address
+  reaches the same fetch; 313 of 314 (D3).
+- Running: an agent renames one_slide to one_deck (OneDeck, P2.2).
