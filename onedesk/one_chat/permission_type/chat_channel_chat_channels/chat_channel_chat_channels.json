@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "chat_channel_chat_channels",
+ "doc_type": "Chat Channel",
+ "perm_type": "chat_channels",
+ "modified": "2026-11-13 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-11-13 12:00:00.000000"
+}

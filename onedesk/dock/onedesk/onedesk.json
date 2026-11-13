@@ -32,6 +32,14 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "onechat",
+   "link_to": "OneChat",
+   "link_type": "Sidebar",
+   "title": "OneChat"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "onebook",
    "link_to": "OneBook",
    "link_type": "Sidebar",
@@ -142,7 +150,7 @@
    "title": "OneAdmin"
   }
  ],
- "modified": "2026-11-13 07:00:00.000000",
+ "modified": "2026-11-13 19:04:06.027900",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

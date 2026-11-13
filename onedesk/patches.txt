@@ -9,6 +9,7 @@ onedesk.one_ai.patches.intake_is_reading
 onedesk.one_ai.patches.reading_names
 onedesk.account_center.patches.account_is_a_module
 onedesk.one_display.patches.roles
+onedesk.one_chat.patches.roles
 
 [post_model_sync]
 onedesk.one_display.patches.widgets_from_queue
@@ -133,3 +134,4 @@ onedesk.one_admin.patches.servers_say_connected
 onedesk.one_admin.patches.plans_have_features
 onedesk.one_cloud.patches.one_lease_on_file
 onedesk.one_cloud.patches.excel_weighed_again
+onedesk.one_chat.patches.conversations

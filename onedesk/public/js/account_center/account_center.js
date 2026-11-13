@@ -128,7 +128,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 	}
 
 	// Write My Bio (account_center/agent.py): on Bio's label row, at its end, opening
-	// OneAI's quick panel; Use puts the words in the field, unsaved.
+	// OneAI's one-line ask; Use puts the words in the field, unsaved.
 	write_bio($card) {
 		const html = onedesk.oneai.action("write_bio", __("Write My Bio"), { css_class: "one-ai-field-action" });
 		const field = this.group.fields_dict.bio;
@@ -138,7 +138,6 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		$(`<div class="one-field-head"></div>`).insertBefore($label).append($label, $button);
 		onedesk.oneai.quick($button, {
 			title: __("Write My Bio"),
-			ask: __("Say a little about yourself and your work."),
 			run: (told) => frappe.xcall("onedesk.account_center.agent.write_bio", { told }),
 			use: (words) => {
 				this.group.set_value("bio", words);

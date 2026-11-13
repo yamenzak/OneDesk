@@ -10,6 +10,7 @@ export const SCREENS = [
 	{ who: "wsadmin@one.test", path: "/desk/legal", page: "legal", sees: ["Terms of Service"] },
 	{ who: "wsadmin@one.test", path: "/desk/intake", page: "intake", sees: ["Taxi back from Bayview"] },
 	{ who: "wsadmin@one.test", path: "/desk/onemail", page: "onemail", sees: ["Lobby glazing at Bayview Tower"] },
+	{ who: "huda@one.test", path: "/desk/onechat", page: "onechat", sees: ["Agents", "Una"] },
 	{ who: "huda@one.test", path: "/desk/onecloud", page: "onecloud", sees: ["Bank Statements"] },
 	{ who: "huda@one.test", path: "/desk/query-report/Ready to Submit", sees: ["Ready to Submit"] },
 	{ who: "samir@one.test", path: "/desk/project", sees: ["Mansour Villa Windows and Doors", "Bayview Tower Curtain Wall"], panel: true, phone: PROJECT_PLACES },

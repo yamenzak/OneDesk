@@ -1143,4 +1143,6 @@ def _keep(doc, turns: list[dict], spent: float) -> None:
 	doc.last_said_on = now_datetime()
 	doc.spent = round((doc.spent or 0) + spent, 6)
 	doc.save()
+	for kept in frappe.get_hooks("one_ai_chat_kept"):
+		frappe.get_attr(kept)(doc, turns)
 	frappe.db.commit()

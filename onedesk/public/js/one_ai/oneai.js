@@ -170,39 +170,47 @@ onedesk.oneai.action = (key, label, opts = {}) =>
 				})
 		  ).attr("data-theme", "oneai")[0].outerHTML;
 
-// Its quick panel, beside the button: what to tell OneAI, then what it
-// wrote, to Use or Try Again. `run(told)` returns the words; `use(words)`
-// puts them where they go. Nothing is saved here.
-onedesk.oneai.quick = ($button, { title, ask, placeholder, run, use }) => {
-	const esc = frappe.utils.escape_html;
+// Its one-line ask, beside the button (docs/ARC-AI.md, OneChat): "Ask
+// {app}" on one line, and the answer in place under it, to Use. Asking
+// again takes the line as it is now. `run(told)` returns the words, by the
+// call it always made; `use(words)` puts them where they go. Nothing is
+// saved here.
+onedesk.oneai.quick = ($button, { title, app, run, use }) => {
+	const asked = __("Ask {0}", [onedesk.names.of(app || "one_ai")]);
 	const $panel = $(`<div class="one-ai-quick"></div>`);
-	let told = "";
-	const button = (label, variant, click) => $(frappe.ui.button.html({ label, variant, size: "sm" })).on("click", click);
-	const head = (line) =>
-		`<div class="es-popover__header"><div class="es-popover__title">${esc(title)}</div>${line ? `<p class="es-popover__description">${esc(line)}</p>` : ""}</div>`;
-	const asking = () => {
-		$panel.empty().append(head(ask));
-		const $text = $(`<textarea class="form-control"></textarea>`).attr({ placeholder: placeholder || "", "aria-label": ask }).val(told).appendTo($panel);
-		$(`<div class="one-ai-quick-actions"></div>`).append(button(__("Write"), "solid", () => write($text.val()))).appendTo($panel);
-		setTimeout(() => $text.trigger("focus"));
-	};
-	const write = async (said) => {
-		told = said || "";
-		$panel.empty().append(head(__("Writing…")));
-		let words = "";
+	const $line = $(`<input type="text" class="form-control" />`).attr({ placeholder: asked, "aria-label": title || asked });
+	const $said = $(`<div class="one-ai-quick-said hide" aria-live="polite"></div>`);
+	const $use = $(frappe.ui.button.html({ label: __("Use"), variant: "solid", size: "sm" })).addClass("hide");
+	let words = "";
+	const answer = async () => {
+		$line.prop("disabled", true);
+		$use.addClass("hide");
+		$said.removeClass("hide").text(__("Writing…"));
 		try {
-			words = await run(told);
+			words = (await run($line.val() || "")) || "";
+			$said.text(words || __("{0} wrote nothing. Tell it a little more.", [onedesk.names.of(app || "one_ai")]));
+			$use.toggleClass("hide", !words);
 		} catch (e) {
-			return asking();
+			$said.addClass("hide");
+		} finally {
+			$line.prop("disabled", false).trigger("focus");
 		}
-		$panel.empty().append(head(""));
-		$(`<div class="one-ai-quick-said"></div>`).text(words || __("{0} wrote nothing. Tell it a little more.", [onedesk.names.of("one_ai")])).appendTo($panel);
-		$(`<div class="one-ai-quick-actions"></div>`)
-			.append(button(__("Try Again"), "ghost", () => asking()))
-			.append(words ? button(__("Use"), "solid", () => (use(words), popover.close())) : "")
-			.appendTo($panel);
 	};
-	const popover = new frappe.ui.Popover({ trigger: $button, side: "bottom", align: "end", css_class: "one-ai-quick-panel", content: () => $panel, on_open: () => asking() });
+	$line.on("keydown", (event) => {
+		if (event.key !== "Enter") return;
+		event.preventDefault();
+		answer();
+	});
+	$use.on("click", () => (use(words), popover.close()));
+	$panel.append($line, $said, $(`<div class="one-ai-quick-actions"></div>`).append($use));
+	const popover = new frappe.ui.Popover({
+		trigger: $button,
+		side: "bottom",
+		align: "end",
+		css_class: "one-ai-quick-panel",
+		content: () => $panel,
+		on_open: () => setTimeout(() => $line.trigger("focus")),
+	});
 	return popover;
 };
 

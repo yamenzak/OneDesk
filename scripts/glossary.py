@@ -32,7 +32,7 @@ ALEF = str.maketrans("أإآٱ", "اااا")
 # "Board Item" is a thing on a board, not a stock item; "Act on" is reacting,
 # not the agents' level. Cut out before matching.
 NOT_THE_TERM = {
-	"Leave": re.compile(r"\bLeave (empty|blank|unchecked|it|this|as|out|the|them|a|an|both|all)\b", re.I),
+	"Leave": re.compile(r"\bLeave (empty|blank|unchecked|it|this|as|out|the|them|a|an|both|all|channel)\b", re.I),
 	"Draft": re.compile(r"\bDraft (a|an|the|it|from|with|one|my|your|our)\b"),
 	"Share": re.compile(r"\bShare (Transfer|Ledger|Type|Balance|Holder|Allocation|of)\b"),
 	"Shift": re.compile(r"\bShift\+"),

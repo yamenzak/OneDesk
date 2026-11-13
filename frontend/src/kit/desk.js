@@ -67,6 +67,23 @@ export function listen(event, heard) {
 	return () => frappe().realtime.off(event, heard);
 }
 
+// Events published to one record's room (frappe's doc room), which socket.io
+// lets only a reader of the record join. Counted, so two parts of a screen
+// on the same room do not leave it for each other.
+const rooms = new Map();
+
+export function listenTo(doctype, name, events) {
+	const key = `${doctype}/${name}`;
+	if (!rooms.get(key)) frappe().realtime.doc_subscribe(doctype, name);
+	rooms.set(key, (rooms.get(key) || 0) + 1);
+	const stops = Object.entries(events).map(([event, heard]) => listen(event, heard));
+	return () => {
+		stops.forEach((stop) => stop());
+		rooms.set(key, rooms.get(key) - 1);
+		if (!rooms.get(key)) frappe().realtime.doc_unsubscribe(doctype, name);
+	};
+}
+
 export const newDoc = (doctype, values) => frappe().new_doc(doctype, values);
 
 // The desk's quick entry for a new record called `name`; `made` gets it once saved.

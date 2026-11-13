@@ -37,6 +37,11 @@
 	flex: 0 0 auto;
 }
 
+.one-ai-face {
+	border-radius: var(--radius-full);
+	background: var(--surface-gray-2);
+}
+
 .one-ai-head__title {
 	flex: 1 1 auto;
 	min-width: 0;
@@ -1205,8 +1210,8 @@ body.one-ai-composing .one-ai-panel {
 	--bt-focus: var(--focus-outline-violet);
 }
 
-/* Its quick panel (onedesk.oneai.quick): frappe's popover, wider, with what
-   to tell OneAI, then what it wrote. */
+/* Its one-line ask (onedesk.oneai.quick): frappe's popover, wider, with
+   one line to ask on and the answer under it. */
 .es-popover.one-ai-quick-panel {
 	width: calc(var(--spacing) * 96);
 }
@@ -1215,15 +1220,6 @@ body.one-ai-composing .one-ai-panel {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--spacing) * 3);
-}
-
-.one-ai-quick .es-popover__header {
-	margin-bottom: 0;
-}
-
-.one-ai-quick textarea {
-	min-height: calc(var(--spacing) * 24);
-	resize: vertical;
 }
 
 .one-ai-quick-said {

@@ -168,6 +168,8 @@ doc_events = {
 	"Work Order": {"before_validate": "onedesk.one_factory.making.steps"},
 	"BOM": {"onload": "onedesk.one_factory.costs.onload"},
 	"Quality Action": {"before_validate": "onedesk.one_quality.company.fill"},
+	# An agent's draft or question lands in its conversation in OneChat (one_chat/cards.py).
+	"Reading Action": {"after_insert": "onedesk.one_chat.cards.posted"},
 	"Non Conformance": {
 		"before_validate": "onedesk.one_quality.company.fill",
 		"validate": "onedesk.one_quality.resolve.guard",
@@ -707,6 +709,8 @@ has_permission = {
 	"Personal Data Deletion Request": "onedesk.one.privacy.has_permission",
 	"Personal Data Download Request": "onedesk.one.privacy.has_permission",
 	"Reading Action": "onedesk.one_ai.reading.act.has_permission",
+	"Chat Channel": "onedesk.one_chat.channels.has_permission",
+	"Chat Message": "onedesk.one_chat.channels.message_permission",
 	"Communication": "onedesk.one_mail.access.allowed",
 	"Mail Rule": "onedesk.one_mail.rules.rule_allowed",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
@@ -763,6 +767,8 @@ permission_query_conditions = {
 	"Personal Data Deletion Request": "onedesk.one.privacy.query",
 	"Personal Data Download Request": "onedesk.one.privacy.query",
 	"Reading Action": "onedesk.one_ai.reading.act.query",
+	"Chat Channel": "onedesk.one_chat.channels.query",
+	"Chat Message": "onedesk.one_chat.channels.message_query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"Salary Slip": "onedesk.one_hr.everybody.pay_query",
@@ -1057,6 +1063,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_inventory/inventory_control.js",
 	"/assets/onedesk/js/one_factory/factory_control.js",
 	"/assets/onedesk/js/one_quality/quality_control.js",
+	"/assets/onedesk/js/one_chat/chat_control.js",
 	"/assets/onedesk/js/one_book/book_control.js",
 	"/assets/onedesk/js/one_crm/crm_control.js",
 	"/assets/onedesk/js/one_display/display_control.js",
@@ -1129,6 +1136,10 @@ one_ai_reads = hook("one_ai_reads")
 one_ai_reader = hook("one_ai_reader")
 
 one_ai_workspace = hook("one_ai_workspace")
+
+# What keeps OneAI's answer where it was asked: OneChat posts it into the
+# conversation (one_chat/answers.py).
+one_ai_chat_kept = hook("one_ai_chat_kept")
 
 # Each app's OneAI actions, the buttons that do one thing in place, which
 # AICenter lists and an administrator turns off (one_ai/actions.py).

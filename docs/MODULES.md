@@ -49,6 +49,18 @@
 | Mail Folder | 15 | document |
 | Mail Rule | 8 | document |
 
+## One Chat
+
+`onedesk/one_chat`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Chat Channel | 11 | document |
+| Chat Channel Member | 3 | child |
+| Chat File | 1 | child |
+| Chat Mention | 2 | child |
+| Chat Message | 17 | document |
+
 ## One Book
 
 `onedesk/one_book`
@@ -284,7 +296,7 @@ No doctypes yet.
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onedisplay, onefactory, onehr, oneinventory, onemail, oneportal, oneproject, onequality, onestudio, onetask
+* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onechat, onecloud, onecrm, onedisplay, onefactory, onehr, oneinventory, onemail, oneportal, oneproject, onequality, onestudio, onetask
 * **workspace** — one_admin, onehr_setup
 
 ## Whitelisted methods
@@ -674,6 +686,29 @@ No doctypes yet.
 * `onedesk.one_calendar.layers.entries`
 * `onedesk.one_calendar.layers.layers`
 * `onedesk.one_calendar.layers.move`
+* `onedesk.one_chat.api.add`
+* `onedesk.one_chat.api.approve`
+* `onedesk.one_chat.api.browse`
+* `onedesk.one_chat.api.change`
+* `onedesk.one_chat.api.channel`
+* `onedesk.one_chat.api.conversations`
+* `onedesk.one_chat.api.direct`
+* `onedesk.one_chat.api.dismiss`
+* `onedesk.one_chat.api.join`
+* `onedesk.one_chat.api.leave`
+* `onedesk.one_chat.api.make`
+* `onedesk.one_chat.api.react`
+* `onedesk.one_chat.api.seen`
+* `onedesk.one_chat.api.send`
+* `onedesk.one_chat.api.start`
+* `onedesk.one_chat.api.talk`
+* `onedesk.one_chat.panel.actions`
+* `onedesk.one_chat.panel.agent_for`
+* `onedesk.one_chat.panel.conversations`
+* `onedesk.one_chat.panel.opened`
+* `onedesk.one_chat.panel.rename`
+* `onedesk.one_chat.panel.say`
+* `onedesk.one_chat.panel.start`
 * `onedesk.one_cloud.api.attach`
 * `onedesk.one_cloud.api.capacity`
 * `onedesk.one_cloud.api.color`

@@ -1,6 +1,7 @@
 One
 One Cloud
 One Mail
+One Chat
 One Book
 One Inventory
 One Factory

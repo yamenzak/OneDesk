@@ -1,0 +1,175 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-11-13 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "channel",
+  "sender",
+  "agent",
+  "thread",
+  "column_break_text",
+  "replies",
+  "last_reply_on",
+  "section_text",
+  "text",
+  "mentions",
+  "files",
+  "reactions",
+  "section_agent",
+  "action",
+  "asks",
+  "ai_chat",
+  "parts"
+ ],
+ "fields": [
+  {
+   "fieldname": "channel",
+   "fieldtype": "Link",
+   "label": "Channel",
+   "options": "Chat Channel",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "sender",
+   "fieldtype": "Link",
+   "label": "Sender",
+   "options": "User",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "agent",
+   "fieldtype": "Data",
+   "label": "Agent",
+   "read_only": 1,
+   "description": "The agent that wrote it."
+  },
+  {
+   "fieldname": "thread",
+   "fieldtype": "Link",
+   "label": "Thread",
+   "options": "Chat Message",
+   "search_index": 1,
+   "set_only_once": 1,
+   "description": "The message it replies to."
+  },
+  {
+   "fieldname": "column_break_text",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "replies",
+   "fieldtype": "Int",
+   "label": "Replies",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "last_reply_on",
+   "fieldtype": "Datetime",
+   "label": "Last Reply On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_text",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "text",
+   "fieldtype": "Long Text",
+   "label": "Text",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "mentions",
+   "fieldtype": "Table",
+   "label": "Mentions",
+   "options": "Chat Mention",
+   "read_only": 1
+  },
+  {
+   "fieldname": "files",
+   "fieldtype": "Table",
+   "label": "Files",
+   "options": "Chat File"
+  },
+  {
+   "fieldname": "reactions",
+   "fieldtype": "JSON",
+   "label": "Reactions",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_agent",
+   "fieldtype": "Section Break",
+   "label": "Agent",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "Link",
+   "label": "Reading Action",
+   "options": "Reading Action",
+   "read_only": 1,
+   "description": "What the agent waits for a person to approve."
+  },
+  {
+   "fieldname": "asks",
+   "fieldtype": "Data",
+   "label": "Asks",
+   "read_only": 1,
+   "description": "The agent this message asks."
+  },
+  {
+   "fieldname": "ai_chat",
+   "fieldtype": "Link",
+   "label": "AI Chat",
+   "options": "AI Chat",
+   "read_only": 1
+  },
+  {
+   "fieldname": "parts",
+   "fieldtype": "JSON",
+   "label": "Parts",
+   "read_only": 1,
+   "description": "What the agent looked up and suggested in this answer."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-13 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Chat",
+ "name": "Chat Message",
+ "owner": "Administrator",
+ "states": [],
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "description": "One message in a conversation.",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "write": 1,
+   "role": "OneChat User"
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

@@ -25,6 +25,7 @@ NAMED = (
 	Named("one/page/one_hub/one_hub.json", "title", "one_hub"),
 	Named("one_book/page/books/books.json", "title", "one_book"),
 	Named("one_calendar/page/onecalendar/onecalendar.json", "title", "one_calendar"),
+	Named("one_chat/page/onechat/onechat.json", "title", "one_chat"),
 	Named("one_cloud/page/onecloud/onecloud.json", "title", "one_cloud"),
 	Named("one_crm/page/onecrm/onecrm.json", "title", "one_crm"),
 	Named("one_deck/page/presentation/presentation.json", "title", "one_deck"),
