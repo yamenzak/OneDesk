@@ -29,7 +29,8 @@ MARKS = re.compile("[ً-ْٰـ]")
 ALEF = str.maketrans("أإآٱ", "اااا")
 # Where the English word is not the term: "Leave empty" is the verb, not time
 # off; "Draft a reply" is writing, not a draft; "No Show" is an absence; and a
-# "Board Item" is a thing on a board, not a stock item. Cut out before matching.
+# "Board Item" is a thing on a board, not a stock item; "Act on" is reacting,
+# not the agents' level. Cut out before matching.
 NOT_THE_TERM = {
 	"Leave": re.compile(r"\bLeave (empty|blank|unchecked|it|this|as|out|the|them|a|an|both|all)\b", re.I),
 	"Draft": re.compile(r"\bDraft (a|an|the|it|from|with|one|my|your|our)\b"),
@@ -37,6 +38,7 @@ NOT_THE_TERM = {
 	"Shift": re.compile(r"\bShift\+"),
 	"Report": re.compile(r"\bReport (any|it|a|an|the|this|to)\b"),
 	"Show": re.compile(r"\bNo Show\b"),
+	"Act": re.compile(r"\bAct (on|After|as|upon)\b"),
 	"Item": re.compile(r"(?<!\w)(?!(?:Stock|Sales|Purchase|Service|Variant|Template|New|Each|Every|Any|One|No|All|Your|This|Add|Find|View|Edit) )[A-Z][a-z]+ Items?\b"),
 }
 NOT_THE_TERM["Items"] = NOT_THE_TERM["Item"]
