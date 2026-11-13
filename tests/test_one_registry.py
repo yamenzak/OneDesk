@@ -101,7 +101,6 @@ def test_the_dock_and_the_module_list_are_the_registrys():
 
 
 ALLOWED = {
-	"onedesk/one/ready.py": "NOT_YET, the folders P1.10 gives the module layout",
 	"onedesk/one_admin/setup.py": "Cloudflare token names, which share apps' names",
 	"onedesk/one_ai/groups.py": "the tool group of each app's records, until P8 gives each app its agent",
 	"onedesk/one_ai/yours.py": "the marks drawn beside a reading; P2.11 turns names into ids",

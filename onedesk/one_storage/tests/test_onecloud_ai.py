@@ -1,18 +1,14 @@
 """OneCloud's passover: what OneAI is offered there, the Records counts, and
-where requested files land.
-
-The panel is told the folder and the chosen file by the explorer itself
-(`OneCloud.here`), and offers a file's suggestions only with one chosen: the
-section `file` is what keys them. Records never counts a file on a record the
-reader may not open, and never lists a conversation's uploads or an
-assignment's as records.
-"""
+where requested files land. The panel is told the folder and the chosen file
+by the explorer itself, and offers a file's suggestions only with one chosen.
+Records never counts a file on a record the reader may not open, nor lists a
+conversation's uploads or an assignment's as records."""
 
 import ast
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 
 import tree
 
@@ -21,7 +17,7 @@ NAMESPACE = tree.APP / "one_storage" / "namespace.py"
 REQUESTS = tree.APP / "one_storage" / "file_requests.py"
 LAUNCHER = tree.APP / "public" / "js" / "one_ai" / "oneai.js"
 EXPLORER = tree.ROOT / "frontend" / "src" / "cloud" / "OneCloud.vue"
-DIALOGS = tree.APP / "public" / "js" / "onecloud_dialogs.js"
+DIALOGS = tree.APP / "public" / "js" / "one_storage" / "onecloud_dialogs.js"
 
 
 def _function(where: Path, name: str) -> str:

@@ -3,7 +3,7 @@ its app's lock, a save from a version the file no longer holds (its
 If-Match, else what the person last downloaded) goes beside it as "Name
 (Huda's copy).ext". Safe saves (a temporary file moved over the file, or
 the file moved aside or deleted and another moved into its name) stay
-saves of the same File. README, Under the hood, dav_saves.py."""
+saves of the same File. AGENTS.md, Under the hood, dav_saves.py."""
 
 import hashlib
 import time

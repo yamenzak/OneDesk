@@ -121,7 +121,7 @@ def folders(node: str = ns.ROOT) -> list[dict]:
 def capacity() -> list[dict]:
 	"""How full the workspace is, for the bars at the foot of OneCloud's rail:
 	files and database against the plan. A limit of nothing draws a size with
-	no bar. Where each number comes from is in the README, Under the hood."""
+	no bar. Where each number comes from is in AGENTS.md, Under the hood."""
 	from frappe.utils import cint
 
 	from onedesk.one import account

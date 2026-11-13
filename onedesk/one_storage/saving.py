@@ -2,7 +2,7 @@
 place without losing what nobody chose to lose: read-only for macros and
 older formats, Save Over Original or Save as Copy for a file with parts the
 editor drops (fidelity.py), and a note on One's own record of what a save
-from the drive or OneOS left out. README, Under the hood, Nothing lost
+from the drive or OneOS left out. AGENTS.md, Under the hood, Nothing lost
 silently."""
 
 import json

@@ -199,7 +199,7 @@ break each other's imports on sites that carry only one of them.
   those. If a fact has to be typed by
   hand in two places, one of them is wrong.
 - A **module's README** is written by hand, lives beside the module and says so
-  in its first line — `onedesk/one_studio/README.md` is one. Everything above its
+  in its first line — `onedesk/one_demo/README.md` is one. Everything above its
   `## Under the hood` heading is written for the people who use the module,
   because OneAI's `how_to` tool reads it to answer them; the rest is for us.
   A module keeps one README rather than plans and audits in `docs/`: git keeps
@@ -229,7 +229,7 @@ break each other's imports on sites that carry only one of them.
   administrator writes runs; an extension is kept off until guard.py has read
   it and a second model has passed it, its code is at a level only System
   Manager reads, and a tool's code argument is `unshown`. Read
-  `one_studio/README.md` before touching scripts, DocTypes or what OneAI may
+  `one_studio/AGENTS.md` before touching scripts, DocTypes or what OneAI may
   write.
 - **`docs/ACCOUNTS.md` is where a company's accounts come from**, and why
   onboarding must not default to the country's chart of accounts. Read it

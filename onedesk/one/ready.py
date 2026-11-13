@@ -25,9 +25,6 @@ ROOT = APP.parent
 # agreements change freely (docs/READY.md, Before production).
 PRODUCTION = False
 
-NOT_YET = ("one_storage", "one_demo")
-"""Folders without READY.md's module layout yet. Until P1.10 gives them
-theirs, they are in the registry but not here."""
 
 
 def _entry(app) -> dict:
@@ -52,7 +49,9 @@ def _entry(app) -> dict:
 	return entry
 
 
-MODULES = {app.name: _entry(app) for app in registry.apps() if app.id not in NOT_YET}
+MODULES = {app.name: _entry(app) for app in registry.apps() if app.kind != "engine" or app.help}
+"""Every app and centre, and every engine with Help of its own: an engine
+nobody reads about, such as the demo, is not a module."""
 
 # The fourteen points a module is held to before it is marked ready
 # (docs/READY.md, The fourteen points), in that order: what each is called,
@@ -209,6 +208,7 @@ SHARED = {
 	"docs/ONESLIDE.md": "the plan that made OneSlide and moved OneDisplay's slides into it, across both modules",
 	"brand/onedoc.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onesheet.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/onestorage.svg": "every product's mark is drawn in brand/, into one sprite",
 	"tests/samples/intake/one_calendar/site-meeting.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_calendar/site-meeting.json": "reading's samples sit with every module's, under tests/samples",
 	"brand/onetask.svg": "every product's mark is drawn in brand/, into one sprite",

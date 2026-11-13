@@ -1,7 +1,7 @@
 frappe.provide("onedesk");
 
 // OneCloud is an island (frontend/src/cloud); its frappe dialogs are desk's.
-onedesk.cloud_assets = ["/assets/onedesk/js/onecloud_dialogs.js", "/assets/onedesk/css/onecloud_dialogs.css"];
+onedesk.cloud_assets = ["/assets/onedesk/js/one_storage/onecloud_dialogs.js", "/assets/onedesk/css/one_storage/onecloud_dialogs.css"];
 
 // OneCloud inside something else: a record's files, or the picker. `props`
 // are the island's (room, picker, onListed). Resolves to its handle.

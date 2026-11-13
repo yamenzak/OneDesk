@@ -56,7 +56,7 @@
     <div class="flex min-h-0 flex-1" :class="{ 'px-2.5 pb-2': win }">
       <ContextMenu :options="picker ? [] : menu" class="min-w-0 flex-1">
         <template #trigger>
-          <div class="h-full min-w-0 flex-1">
+          <div class="h-full min-w-0 flex-1" data-tour="onecloud-items">
             <CloudItems
               ref="list"
               :card="!!win"
@@ -173,6 +173,7 @@ import {
   interfaceHandles,
   interfaceHeading,
   interfaceMeters,
+  interfaceModuleFoot,
   interfaceSearch,
   interfaceStatus,
   interfaceTree,
@@ -466,6 +467,7 @@ async function measure() {
   if (props.win) interfaceMeters(props.win, await get(API + "capacity"));
 }
 measure();
+interfaceModuleFoot(props.win, { module: "OneCloud", onSettings: () => onedesk().cloud.settings() });
 
 async function drawTree() {
   if (!kids["@root"]) kids["@root"] = await call(API + "folders", { node: "@root" });
@@ -1087,7 +1089,7 @@ function editChoices(one) {
       label: __("Make a Presentation"),
       short: __("Make a Presentation"),
       icon: "lucide-presentation",
-      description: __("A new OneSlide presentation. The file stays as it is."),
+      description: __("A new OneSlide presentation, with the file kept as it is."),
       onClick: () => NATIVE.presentation(one),
     });
   }

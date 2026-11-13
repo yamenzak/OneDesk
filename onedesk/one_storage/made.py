@@ -1,7 +1,7 @@
 """What OneAI makes into a OneCloud folder from a description: a picture,
 music, a short video, or words read aloud. A picture and speech are made
 while the person waits; music and a video in the background, and whoever
-asked is told when the file is there (README, Under the hood)."""
+asked is told when the file is there (AGENTS.md, Under the hood)."""
 
 import base64
 

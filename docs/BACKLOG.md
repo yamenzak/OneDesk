@@ -326,8 +326,7 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
   but a System Manager; hrms's new Employee Overview tab beside One's head;
   a Supplier Overview beside the customer one; the picker's paging and
   pictures if frappe's combobox is turned on (`one/apps.search_link`); the
-  rail's flat mark, now 2px smaller than frappe's; OneCloud's WebDAV upload
-  streamed rather than read whole (`streaming_request_paths`); and a
+  rail's flat mark, now 2px smaller than frappe's; and a
   password set by an administrator, which frappe now tells the person in
   the bell, beside One's own Password Changed.
 
@@ -358,11 +357,6 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
   have none in the demo (`EMPTY` in `tests/guards/test_atlas.py`). Each
   goes in the step of the person whose work it is, with the next demo
   rebuild.
-
-- **OneCloud inside something else** (a record's files, the picker) still
-  draws its own bar, frappe-ui's white view toggle and a filled preview;
-  on its page it wears the list's head and card since 8 November 2026. Give
-  the dialog the same card, band and outlined preview.
 
 ## Upstream's, not ours
 

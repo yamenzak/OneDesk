@@ -234,7 +234,7 @@ Status: `[ ]` open, `[~]` in progress, `[x]` done (hash), `[!]` blocked
 - [x] P1.7 Generated and checked from the registry: the Dock fixture, modules.txt, custom_icon.json (scripts/icons.py), docs/MODULES.md. — `docs.py --check` fails on a drift. (13 Nov: the Dock and modules.txt are written by docs.py; custom_icon.json stays scripts/icons.py's from brand/, and a test holds every manifest's mark to a file there. The centres and engines have no mark until P10.1.)
 - [x] P1.8 Centre participation declared, not computed in four ways (one/boot.py `one_centers`, one_ai/center.PARTS, the OneMail literal). — boot reads the registry. (13 Nov: AccessCenter and NotificationCenter already follow a module's abilities.py and its notification types; AICenter's PARTS come from an ai.py that declares JOBS, and OneMail says `centres=("ai",)` in its manifest.)
 - [x] P1.9 The guard: no list of app names, folder names or marks outside manifests and generated files (allow-list by reason). — it catches its example. (13 Nov: tests/test_one_registry.py; it found one_makes_records, 109 record types each naming their makers, which moved into the manifests as `makes`.)
-- [ ] P1.10 OneCloud and OneStudio get the module folder (AGENTS.md, SCRATCHPAD.md, docs/ from their READMEs; abilities, notifications, setup, tour). — test_ready covers them.
+- [x] P1.10 OneCloud and OneStudio get the module folder (AGENTS.md, SCRATCHPAD.md, docs/ from their READMEs; abilities, notifications, setup, tour). — test_ready covers them. (13 Nov, two agents: OneCloud 15 Help pages, OneStudio 13; both 1.0.0, not ready; no roles of their own, said in `no_roles`; Help has no pictures yet, listed in their SCRATCHPADs. ready.MODULES is every app and centre and every engine with Help, so the demo stays out by rule.)
 - **Gate P1:** every former registry reads manifests; hooks unchanged in effect; demo from scratch green; the guard holds.
 
 ### P2. Names (foundation)
@@ -369,6 +369,11 @@ registry.
   agent, and the calculator counts Durable Objects and re-prices OneCredit;
   scoped checks while working, the whole suite at gates; the three ways a
   screen is made.
+- 13 Nov, Claude: OneCloud's and OneStudio's clauses split into sentences
+  of 30 words or fewer, saying the same, are recorded as new hashes, not a
+  new revision: nobody has agreed to anything yet, so nobody is asked again.
+- 13 Nov, Claude: the optional services, the People screen and every other
+  list of apps follow the rail's order.
 - 12 Nov, Claude: an app is one self-contained folder whose parts are named
   for their centres (Folders); OneOS keeps its name for opening files and
   OneGuard is protection only (P9.4).

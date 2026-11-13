@@ -1,11 +1,10 @@
 """Team libraries: a folder people are members of."""
 
 import frappe
-import frappe.share
 from frappe import _
 from frappe.utils import get_fullname
 
-from onedesk.one import roles
+from onedesk.one import rights, roles
 from onedesk.one_storage import api, tell
 from onedesk.one_storage import namespace as ns
 
@@ -49,9 +48,7 @@ def make(name: str) -> dict:
 
 def _give(library: str, user: str, role: str) -> None:
 	write, share = ns.ROLES[role]
-	frappe.share.add_docshare(
-		"File", library, user, read=1, write=write, share=share, flags={"ignore_share_permission": True}
-	)
+	rights.share("File", library, user, write=write, share=share)
 
 
 @frappe.whitelist()
@@ -110,7 +107,7 @@ def remove(node: str, user: str) -> None:
 		frappe.throw(_("{0} is the last owner of {1}. Make someone else an owner first.").format(
 			get_fullname(user), item.file_name
 		))
-	frappe.share.remove("File", item.name, user, flags={"ignore_permissions": True})
+	rights.unshare("File", item.name, user, flags={"ignore_permissions": True})
 	ns.forget()
 
 

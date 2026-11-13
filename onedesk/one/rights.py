@@ -190,6 +190,24 @@ def grant(app: str, name: str, user: str, keys: list[str]) -> list[str]:
 	return list(keys)
 
 
+def share(doctype: str, name: str, user: str, *, write: int = 0, share: int = 0) -> None:
+	"""Somebody given frappe's own read, and write or share if said, on one
+	record, as a share frappe answers: the grant of a module whose people
+	are given those bits alone, such as a file, a folder or a library in
+	OneCloud."""
+	import frappe.share
+
+	frappe.share.add_docshare(doctype, name, user, read=1, write=write, share=share, flags={"ignore_share_permission": True})
+
+
+def unshare(doctype: str, name: str, user: str, *, flags: dict) -> None:
+	"""Somebody's share of one record taken away, with the flags its caller
+	has already checked for."""
+	import frappe.share
+
+	frappe.share.remove(doctype, name, user, flags=flags)
+
+
 def settle(*_args) -> None:
 	"""after_migrate: each module's own roles, made from its `abilities.py`
 	(its DEFAULTS name them, docs/READY.md mechanism 7), and given their

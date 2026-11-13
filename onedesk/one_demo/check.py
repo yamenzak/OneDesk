@@ -4450,7 +4450,7 @@ def setup_steps_are_slides_then_to_dos():
 	with patch("frappe.is_setup_complete", return_value=False):
 		slides = setup_steps.for_wizard()
 	names = [field["fieldname"] for slide in slides for field in slide["fields"]]
-	assert names == ["one_mail_domains_domain", "one_mail_private_allowed", "one_service_weather", "one_service_google_news", "one_service_training_copies", "one_service_web_search", "one_service_gravatar", "one_service_logos", "one_service_google_fonts"], names
+	assert names == ["one_mail_domains_domain", "one_mail_private_allowed", "one_service_weather", "one_service_google_news", "one_service_gravatar", "one_service_logos", "one_service_web_search", "one_service_training_copies", "one_service_google_fonts"], names
 	assert slides[-1]["name"] == "one_services" and not any(field["default"] for field in slides[-1]["fields"]), "the optional services start off"
 	was = frappe.db.get_default(addresses.EXTERNAL)
 	flags = {key: frappe.db.get_default(setup_steps.FLAG.format("one_mail", key)) for key in ("private", "templates")}

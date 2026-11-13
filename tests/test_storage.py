@@ -234,7 +234,7 @@ def test_a_share_is_read_before_a_home_says_no_and_never_for_a_portal_user():
 
 def test_sharing_is_for_the_team_and_a_records_file_goes_with_its_record():
 	body = _body(SHARE, "share")
-	assert "ignore_share_permission" in body, "our rule decided, so Frappe's is not asked again"
+	assert "rights.share(" in body and "ignore_share_permission" in _body(tree.APP / "one" / "rights.py", "share"), "our rule decided, so Frappe's is not asked again"
 	assert "tell.shared(user, item)" in body
 	tell = tree.APP / "one_storage" / "tell.py"
 	assert "/desk/onecloud?node=" in _body(tell, "shared"), "the notification opens the explorer"
@@ -617,7 +617,7 @@ def test_the_explorer_listens_on_its_own_event_not_list_update():
 	assert "after_commit.add(_send)" in source and 'room=get_doctype_room("File")' in source
 
 
-PICKER = tree.APP / "public" / "js" / "onecloud_picker.js"
+PICKER = tree.APP / "public" / "js" / "one_storage" / "onecloud_picker.js"
 
 
 def test_the_upload_dialog_chooses_from_onecloud_instead_of_its_library():
@@ -626,7 +626,7 @@ def test_the_upload_dialog_chooses_from_onecloud_instead_of_its_library():
 	assert "disable_file_browser: true" in js, "Frappe's Library asked Frappe's File permission"
 	assert '"onedesk.one_storage.api.attach"' in js and "on_success" in js
 	assert 'frappe.require("file_uploader.bundle.js")' in js
-	assert "/assets/onedesk/js/onecloud_picker.js" in HOOKS
+	assert "/assets/onedesk/js/one_storage/onecloud_picker.js" in HOOKS
 	assert "if (props.picker) return props.picker.onPick?.(" in EXPLORER
 	assert "if (props.picker) return;" in EXPLORER
 

@@ -3,7 +3,7 @@ LOCK takes the `dav` lease with the lock's token and timeout, a refresh
 renews it, UNLOCK or expiry ends it. A LOCK while somebody else has the
 file alone, or anybody writes in it live, is refused 423, and the file's
 lock discovery names them, so Word and Excel open it read-only and say
-who. README, Under the hood, dav_locks.py."""
+who. AGENTS.md, Under the hood, dav_locks.py."""
 
 from urllib.parse import unquote
 
