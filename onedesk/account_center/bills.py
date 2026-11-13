@@ -19,7 +19,8 @@ ITEM = "One Subscription"
 def invoices() -> dict:
 	"""The invoices, newest first, each with the bill it is in this
 	workspace's books, when there is one. Whoever may read Plan and Credits
-	sees them."""
+	sees them. Unreached when the account can't be asked: the page says so
+	rather than an error."""
 	from onedesk.account_center.center import _sees_plan
 
 	if not _sees_plan():
@@ -28,7 +29,13 @@ def invoices() -> dict:
 
 	if not account.configured():
 		return {"invoices": [], "linked": False}
-	said = account.ask("onedesk.one_admin.proxy.billing_invoices") or {}
+	from onedesk.one_admin import faults
+
+	try:
+		said = account.ask("onedesk.one_admin.proxy.billing_invoices") or {}
+	except (faults.Again, faults.Refused):
+		frappe.clear_last_message()
+		return {"invoices": [], "linked": True, "reached": False}
 	for one in said.get("invoices") or []:
 		one["bill"] = _bill(one.get("number"))
 	return said

@@ -1095,6 +1095,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			return $into.html(`<div class="one-shell-quiet">${esc(__("Couldn't load invoices."))}</div>`);
 		}
 		if (said.linked === false) return $into.html(`<div class="one-shell-quiet">${esc(__("Not Connected Yet"))}</div>`);
+		if (said.reached === false) return $into.html(`<div class="one-shell-quiet">${esc(__("Couldn't load invoices."))}</div>`);
 		const themes = { paid: "green", open: "orange", uncollectible: "red", void: "gray" };
 		const states = { paid: __("Paid"), open: __("Due"), uncollectible: __("Unpaid"), void: __("Void") };
 		const list = await onedesk.shell.table($into.empty(), {
