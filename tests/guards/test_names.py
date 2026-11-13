@@ -11,7 +11,8 @@ The rule reads what people read: in Python the text given to `_()` or `_lt()`,
 every text of a module's notifications.py, and a text that is only a name; in
 desk JS and an island the text given to `__()`, a text that is only a name,
 and an island's template; in synced JSON a label, title, description,
-heading, subject, message or content; and Help pages. A name is each manifest's coined `name` (OneDoc, TrustCenter),
+heading, subject, message or content; and Help pages. A name is each manifest's coined `name` (OneDoc, TrustCenter), its parts' too
+(ControlCenter, OneOS),
 and "One" alone mid-sentence ("by One", "your One account"). Manifests,
 generated files, tests and checks, translations, patches, old versions
 (updates/) and the plans in docs/ are history or the place a name is typed,
@@ -37,7 +38,7 @@ from onedesk.one.registry import labels  # noqa: E402
 from tests.guards import names_allowed  # noqa: E402
 
 COINED = re.compile(r"[A-Z][a-z]+[A-Z]\w*")
-NAMES = sorted((one.name for one in registry.apps() if COINED.fullmatch(one.name)), key=len, reverse=True)
+NAMES = sorted((one for one in registry.names().values() if COINED.fullmatch(one)), key=len, reverse=True)
 NAMED = re.compile(r"(?<![\w./-])(" + "|".join(NAMES) + r")(?![\w-])")
 ONE = re.compile(r"(?<=[a-z] )One(?![\w-])(?! [A-Z])")
 BARE = set(NAMES)

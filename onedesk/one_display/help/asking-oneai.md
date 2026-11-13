@@ -14,4 +14,4 @@ itself: what it makes is kept only when you keep it.
 | Write a spoken ad about… | {one_ai} suggests a voice ad as a card; approving it keeps the ad. |
 
 Each of these uses credits, and an administrator can turn {one_ai} off for
-{one_display} in AICenter.
+{one_display} in {ai_center}.

@@ -4,9 +4,9 @@ The cog at the foot of the rail opens {one_project}'s settings.
 
 | You see | What it is |
 | --- | --- |
-| **Notifications** | NotificationCenter, on {one_project}'s part of it: what you're told, and how. See [Being Told](notifications). |
-| **Roles and Access** | AccessCenter, for an administrator: who sees every project. See [Who Can Do What](who-can-do-what). |
-| **{one_ai}** | AICenter, on what {one_ai} may do in projects. See [Asking {one_ai}](asking-oneai). |
+| **Notifications** | {notification_center}, on {one_project}'s part of it: what you're told, and how. See [Being Told](notifications). |
+| **Roles and Access** | {access_center}, for an administrator: who sees every project. See [Who Can Do What](who-can-do-what). |
+| **{one_ai}** | {ai_center}, on what {one_ai} may do in projects. See [Asking {one_ai}](asking-oneai). |
 | **Your Data** | {trust_center}, on {one_project}'s part of the agreements. |
 
 ## Projects Settings

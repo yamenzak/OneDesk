@@ -10,7 +10,7 @@ version, and so does **Upload new version** (right-click a file). A replaced
 file keeps its shares and links.
 
 Saves by one person in one sitting are one version: in {one_sheet} or
-{one_doc}, in OneOS or from the drive, each save less than 10 minutes after
+{one_doc}, in {oneos} or from the drive, each save less than 10 minutes after
 the one before takes the place of the last. The version from before you
 started is always kept.
 
@@ -18,7 +18,7 @@ started is always kept.
 
 The preview pane shows a file's versions. You can open any of them, or
 **Restore** one, which keeps the current file as a version. A version can't
-be restored while somebody is editing the file in OneOS.
+be restored while somebody is editing the file in {oneos}.
 
 ## A File's Activity
 

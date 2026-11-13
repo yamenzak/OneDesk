@@ -26,4 +26,4 @@ a sentence and a shape (wide, square or tall) and puts the picture {one_ai} make
 where your cursor is. It is kept in the document like a picture you put in.
 
 Each question uses credits like any other. An administrator can turn {one_ai}
-off for {one_doc} in AICenter.
+off for {one_doc} in {ai_center}.

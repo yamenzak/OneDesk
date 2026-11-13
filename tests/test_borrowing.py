@@ -5,7 +5,6 @@ a judgement belongs somewhere a person has to edit on purpose. Adding a rule
 here is how we record that we looked.
 """
 
-import json
 import re
 import sys
 from pathlib import Path
@@ -15,7 +14,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
-from tests.bench import APPS
+from tests.bench import icons
 
 RULES = [
 	(
@@ -156,8 +155,6 @@ def test_every_rule_would_catch_its_own_example():
 		assert re.search(pattern, examples[what]), f"{what} no longer matches its example"
 
 
-LUCIDE = APPS / "frappe/frappe/public/icons/lucide/icons.svg"
-
 NAMED = (
 	r"<Icon\s+name=\"([\w-]+)\"",
 	r"<Icon\s+:name=\"[^\"]*\"",
@@ -186,11 +183,9 @@ def _named() -> dict[str, str]:
 
 def test_every_icon_is_in_the_sprite():
 	"""A name the sprite lacks draws nothing, silently. Lucide or a fixture."""
-	if not LUCIDE.exists():
+	have = icons()
+	if have is None:
 		pytest.skip("no frappe checkout beside this one")
-	have = set(re.findall(r'id="icon-([\w-]+)"', LUCIDE.read_text()))
-	custom = json.loads((tree.APP / "fixtures" / "custom_icon.json").read_text())
-	have |= {one["icon_name"] for one in custom}
 	missing = {name: where for name, where in _named().items() if name not in have}
 	assert not missing, "not in Lucide or fixtures/custom_icon.json:\n" + "\n".join(
 		f"  {name} ({where})" for name, where in sorted(missing.items())

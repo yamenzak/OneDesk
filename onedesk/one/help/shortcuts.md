@@ -1,8 +1,8 @@
 # Keyboard Shortcuts
 
-## ShortcutCenter
+## {shortcut_center}
 
-**ShortcutCenter** lists every key {one} answers to, app by app, and where each
+**{shortcut_center}** lists every key {one} answers to, app by app, and where each
 one works: **Anywhere**, **In a List**, **In a Record**, **In a Calendar**, or
 in one app's own screen, like {one_mail}. A key made for the screen you're on
 comes before one that works anywhere.

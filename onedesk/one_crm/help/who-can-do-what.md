@@ -12,6 +12,6 @@ Access can give it to others.
 ## What Each Role Starts With
 
 This is what {one_crm}'s roles hold when it arrives in a workspace. **Roles** in
-AccessCenter changes any of it, and an update never undoes a change you made.
+{access_center} changes any of it, and an update never undoes a change you made.
 
 {roles}

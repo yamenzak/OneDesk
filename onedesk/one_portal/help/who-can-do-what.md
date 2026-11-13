@@ -14,7 +14,7 @@ for fewer people.
 ## What Each Role Starts With
 
 This is what {one_portal}'s roles hold when the portal arrives in a workspace.
-**Roles** in AccessCenter changes any of it, and an update never undoes a
+**Roles** in {access_center} changes any of it, and an update never undoes a
 change you made.
 
 {roles}

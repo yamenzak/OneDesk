@@ -10,18 +10,18 @@ notifications are a Workspace Administrator's, who can do everything.
 | Role | Who has it | What they may do |
 | --- | --- | --- |
 | **User** | Everyone | Read the announcements, use Home and the Address Book, and keep their own notifications. |
-| **Manager** | People you choose, under People in AccessCenter | Also see and put back what anybody deleted. |
+| **Manager** | People you choose, under People in {access_center} | Also see and put back what anybody deleted. |
 
 ## What Each Role Starts With
 
 This is what {one}'s roles hold when a workspace begins. **Roles** in
-AccessCenter changes any of it, and an update never undoes a change you
+{access_center} changes any of it, and an update never undoes a change you
 made.
 
 {roles}
 
 ## What Stays With Administrators
 
-General, Sign-in Rules and Start Again, AccessCenter and the Audit Log,
-NotificationCenter's Words and Rules, One's Lists, and turning
+General, Sign-in Rules and Start Again, {access_center} and the Audit Log,
+{notification_center}'s Words and Rules, One's Lists, and turning
 apps off are always a Workspace Administrator's.

@@ -28,7 +28,7 @@ Portal).
 
 The short lists records pick their values from: a contact's salutation, a
 customer's group, an item's unit, an employee's department. Each app keeps its
-own, at the end of its ControlCenter under **Lists**. Every app's rail but
+own, at the end of its {control_center} under **Lists**. Every app's rail but
 One's also has a **Lists** row that opens them.
 
 - **One**: Salutations, Genders and Address Templates, the Address Book's.
@@ -66,7 +66,7 @@ list.
 ## Address Templates
 
 Print headings are in {one_studio}'s **Lists**, address templates in {one}'s
-(ControlCenter › **Lists**).
+({control_center} › **Lists**).
 
 **Print Headings**: the title printed above a document, such as **Tax
 Invoice** or **Proforma Invoice**. A print format picks one.

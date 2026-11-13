@@ -17,5 +17,5 @@ next.
 ## Which Records Have One
 
 An administrator turns summaries on or off for each kind of record in
-[AICenter](settings) under **Summaries**, which also shows how many records
+[{ai_center}](settings) under **Summaries**, which also shows how many records
 have one. Each summary uses credits.

@@ -42,3 +42,7 @@ APP = App(
 		Settle("reading.search.index"),
 	),
 )
+
+PARTS = (
+	App(id="ai_center", name="AICenter", kind="centre", module=""),
+)

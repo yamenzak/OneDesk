@@ -1,18 +1,18 @@
-"""Every dotted path in hooks.py points at a function that exists.
+"""Every dotted path in hooks.py points at a function that exists, and every
+asset it names is on disk.
 
 A typo in `scheduler_events` does not fail a migration or a page load. The job
 runs, raises, and lands in a log nobody opens — which for `leaving.nightly`
 would mean people who left months ago quietly still holding a login.
 
 Read with AST rather than imported: the app's modules import frappe, and this
-suite runs without a site on purpose.
+suite runs without a site on purpose. One test per kind, failing with the
+whole list of what is missing.
 """
 
 import ast
 import sys
 from pathlib import Path
-
-import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
@@ -34,62 +34,6 @@ CALLABLE_HOOKS = (
 	"extend_bootinfo",
 )
 
-
-def _paths(node) -> list[str]:
-	"""Every string under this node that looks like one of ours."""
-	found = []
-	for child in ast.walk(node):
-		if isinstance(child, ast.Constant) and isinstance(child.value, str):
-			if child.value.startswith("onedesk."):
-				found.append(child.value)
-	return found
-
-
-def declared() -> list[str]:
-	tree_ = ast.parse(tree.hooks())
-	found = []
-	for node in tree_.body:
-		if not isinstance(node, ast.Assign):
-			continue
-		names = [t.id for t in node.targets if isinstance(t, ast.Name)]
-		if any(name in CALLABLE_HOOKS for name in names):
-			found.extend(_paths(node.value))
-	return sorted(set(found) | set(registry_hooks.settles(install=True)))
-
-
-def test_hooks_declare_some_callables():
-	"""If this ever finds nothing, the parser has stopped matching the file."""
-	assert len(declared()) >= 4
-
-
-@pytest.mark.parametrize("path", declared())
-def test_the_function_exists(path):
-	for old, now in registry.moved().items():
-		path = path.replace(f"onedesk.{old}.", f"{now}.")
-	module, _, function = path.rpartition(".")
-	source = ROOT / Path(*module.split(".")).with_suffix(".py")
-	assert source.exists(), f"{path}: no module at {source.relative_to(ROOT)}"
-
-	defined = {
-		node.name
-		for node in ast.parse(source.read_text(encoding="utf-8")).body
-		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)
-	}
-	assert function in defined, f"{path}: {source.name} defines no {function}()"
-
-
-def test_the_scan_would_catch_a_typo():
-	"""The guard is only worth having if a wrong name fails it."""
-	module, _, _function = declared()[0].rpartition(".")
-	source = ROOT / Path(*module.split(".")).with_suffix(".py")
-	defined = {
-		node.name
-		for node in ast.parse(source.read_text(encoding="utf-8")).body
-		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)
-	}
-	assert "nightlyy" not in defined
-
-
 ASSET_HOOKS = (
 	"doctype_js",
 	"doctype_list_js",
@@ -99,51 +43,75 @@ ASSET_HOOKS = (
 	"web_include_css",
 )
 
-SERVED_FROM = APP
 
-
-def _assets(node) -> list[str]:
+def _strings(hooks: tuple[str, ...], keep) -> list[str]:
 	found = []
-	for child in ast.walk(node):
-		if not (isinstance(child, ast.Constant) and isinstance(child.value, str)):
-			continue
-		said = child.value
-		if said.endswith((".js", ".css")):
-			found.append(said)
-	return found
-
-
-def assets() -> list[str]:
-	tree_ = ast.parse(tree.hooks())
-	found = []
-	for node in tree_.body:
-		if not isinstance(node, ast.Assign):
-			continue
-		names = [t.id for t in node.targets if isinstance(t, ast.Name)]
-		if any(name in ASSET_HOOKS for name in names):
-			found.extend(_assets(node.value))
+	for node in ast.parse(tree.hooks()).body:
+		if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id in hooks for t in node.targets):
+			found += [
+				child.value
+				for child in ast.walk(node.value)
+				if isinstance(child, ast.Constant) and isinstance(child.value, str) and keep(child.value)
+			]
 	return sorted(set(found))
 
 
-def test_hooks_declare_some_assets():
-	assert len(assets()) >= 10
+def declared() -> list[str]:
+	found = _strings(CALLABLE_HOOKS, lambda said: said.startswith("onedesk."))
+	return sorted(set(found) | set(registry_hooks.settles(install=True)))
 
 
-@pytest.mark.parametrize("said", assets())
-def test_the_asset_exists(said):
+def assets() -> list[str]:
+	return _strings(ASSET_HOOKS, lambda said: said.endswith((".js", ".css")))
+
+
+def missing_function(path: str) -> str | None:
+	for old, now in registry.moved().items():
+		path = path.replace(f"onedesk.{old}.", f"{now}.")
+	module, _, function = path.rpartition(".")
+	source = ROOT / Path(*module.split(".")).with_suffix(".py")
+	if not source.exists():
+		return f"{path}: no module at {source.relative_to(ROOT)}"
+	defined = {
+		node.name
+		for node in ast.parse(source.read_text(encoding="utf-8")).body
+		if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)
+	}
+	return None if function in defined else f"{path}: {source.name} defines no {function}()"
+
+
+def missing_asset(said: str) -> str | None:
 	"""`/assets/onedesk/js/x.js` and `public/js/x.js` are the same file."""
 	relative = said.removeprefix("/assets/onedesk/").removeprefix("assets/onedesk/")
 	if not relative.startswith("public/"):
 		relative = "public/" + relative
-	on_disk = SERVED_FROM / relative
-	assert on_disk.exists(), f"{said}: nothing at {on_disk.relative_to(ROOT)}"
+	return None if (APP / relative).exists() else f"{said}: nothing at onedesk/{relative}"
+
+
+def test_every_function_a_hook_names_exists():
+	paths = declared()
+	assert len(paths) >= 4, "the parser has stopped matching hooks.py"
+	gone = [said for said in map(missing_function, paths) if said]
+	assert not gone, "\n".join(gone)
+
+
+def test_every_asset_a_hook_names_exists():
+	named = assets()
+	assert len(named) >= 10, "the parser has stopped matching hooks.py"
+	gone = [said for said in map(missing_asset, named) if said]
+	assert not gone, "\n".join(gone)
+
+
+def test_the_scans_would_catch_a_typo():
+	"""Each kind fails on a wrong name."""
+	assert missing_function(declared()[0] + "y")
+	assert missing_function("onedesk.nowhere.at_all")
+	assert missing_asset("/assets/onedesk/js/nowhere.js")
+	assert missing_asset(assets()[0] + ".gone.js")
 
 
 def test_no_hook_table_names_a_doctype_twice():
-	import ast
-
-	tree_ = ast.parse(tree.hooks())
-	for node in tree_.body:
+	for node in ast.parse(tree.hooks()).body:
 		if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
 			keys = [key.value for key in node.value.keys if isinstance(key, ast.Constant)]
 			twice = {key for key in keys if keys.count(key) > 1}

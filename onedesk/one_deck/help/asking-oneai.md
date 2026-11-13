@@ -31,4 +31,4 @@ words in the panel too, such as "make the third slide figures". Before
 **Make a Picture with {one_ai}** is in {one_doc} too, in the menu that adds a
 picture to a document.
 
-An administrator can turn {one_ai} off for {one_deck} in AICenter.
+An administrator can turn {one_ai} off for {one_deck} in {ai_center}.

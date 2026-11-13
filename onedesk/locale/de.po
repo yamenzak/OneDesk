@@ -3956,8 +3956,8 @@ msgid "All borders"
 msgstr "Alle Rahmenlinien"
 
 #: onedesk/public/js/doctype_settings.js:910
-msgid "All conditions must match. Leave empty to always apply."
-msgstr "Alle Bedingungen müssen zutreffen. Leer lassen, um immer anzuwenden."
+msgid "Applies when every condition matches, or always when empty."
+msgstr "Gilt, wenn alle Bedingungen zutreffen, oder immer, wenn leer."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:12
 msgid "All conversations"
@@ -18176,8 +18176,8 @@ msgstr "Alle haben {4}, {0}, {1}, {2} und {3}."
 
 #: onedesk/public/js/setup_wizard.js:151
 #, python-brace-format
-msgid "Everyone in the demo company signs in with it. The owner is {0}."
-msgstr "Alle im Demounternehmen melden sich damit an. Inhaber ist {0}."
+msgid "Everyone in the demo company signs in with it, the owner as {0}."
+msgstr "Alle im Demounternehmen melden sich damit an, der Inhaber als {0}."
 
 #. Who a notification is sent to
 #: onedesk/one/notifications.py onedesk/trust_center/notifications.py
@@ -45466,8 +45466,8 @@ msgid "Scan with your banking app"
 msgstr "Mit der Banking-App scannen"
 
 #: onedesk/public/js/account_center/account_center.js:124
-msgid "Scans and papers HR keeps for you. Add any here."
-msgstr "Scans und Unterlagen, die die Personalabteilung für Sie aufbewahrt. Fügen Sie hier welche hinzu."
+msgid "Scans and papers HR keeps for you."
+msgstr "Scans und Unterlagen, die die Personalabteilung für Sie aufbewahrt."
 
 #. Description of the 'Read Attachments' (Check) field in DocType 'Email
 #. Account'
@@ -53213,8 +53213,8 @@ msgid "The folder must be in the rule's mailbox."
 msgstr "Der Ordner muss im Postfach der Regel liegen."
 
 #: onedesk/public/js/doctype_settings.js:712
-msgid "The format to copy. It opens in the builder."
-msgstr "Das zu kopierende Format. Es öffnet sich im Builder."
+msgid "The format to copy, opened in the builder."
+msgstr "Das zu kopierende Format, geöffnet im Builder."
 
 #: frontend/src/sheet/shim/problems.js:9
 msgid "The formula contains an unknown function or range name. Check the spelling."

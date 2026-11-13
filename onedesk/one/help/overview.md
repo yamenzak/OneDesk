@@ -10,9 +10,9 @@ One's rail has these groups:
 - **Address Book**: the workspace's **Contacts** and **Addresses**. Customers,
   suppliers, companies and employees all use them, so they live here rather
   than in one app. You see the ones your work lets you open.
-- **Centers**: {account_center}, ControlCenter, NotificationCenter,
-  AccessCenter, {trust_center}, AICenter, HelpCenter and UpdateCenter. Each
-  opens over the page you are on. AccessCenter is for administrators.
+- **Centers**: {account_center}, {control_center}, {notification_center},
+  {access_center}, {trust_center}, {ai_center}, {help_center} and {update_center}. Each
+  opens over the page you are on. {access_center} is for administrators.
 
 Click a group's name to fold it away.
 
@@ -45,7 +45,7 @@ shift has started and you haven't, and *Late* once you are late. On a phone
 there are no bars: their tools are at the top of **Apps**.
 
 The frame's colour is the workspace's to choose: **Frame Colour** under
-One's ControlCenter › Branding. Its writing turns dark on a light
+One's {control_center} › Branding. Its writing turns dark on a light
 colour, and in a dark theme the colour is deepened. Leave it empty for {one}'s
 own.
 

@@ -1,10 +1,13 @@
 """OneAI is a rail of its own (docs/ONE.md, stage 6): Documents, the
 conversations, suggestions and knowledge, its reports and AICenter, which
 were One's OneAI group. What the operator does lives in OneAdmin.
-"""
+
+What is AI is drawn one way: onedesk.oneai.tag and onedesk.oneai.button
+(public/js/one_ai/oneai.js, oneai.css). docs/STANDARD.md, point 16."""
 
 import ast
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -92,8 +95,6 @@ def test_no_oneai_button_on_a_page():
 	person looking for help looks in one place. A suggestion with `run` covers
 	the things that are a job rather than a question; see one_ai/suggest.py.
 	"""
-	import re
-
 	found = []
 	for path in sorted((tree.APP / "public" / "js").rglob("*.js")):
 		text = path.read_text(encoding="utf-8")
@@ -101,3 +102,33 @@ def test_no_oneai_button_on_a_page():
 			if re.search(r"__\(\"OneAI\"\)|onedesk\.one_ai|one_hr\.hiring\.|oneai\.", call.group(1)):
 				found.append(f"{path.relative_to(tree.APP)}: {call.group(1)[:80]!r}")
 	assert not found, "offer these in the OneAI panel instead:\n" + "\n".join(found)
+
+
+JS = tree.APP / "public" / "js"
+
+
+def test_the_tag_and_the_button_are_frappes_own_in_oneais_colours():
+	oneai = (JS / "one_ai" / "oneai.js").read_text(encoding="utf-8")
+	assert "onedesk.oneai.tag = " in oneai and "frappe.ui.badge.html(" in oneai
+	assert "onedesk.oneai.button = " in oneai and "frappe.ui.button.html(" in oneai
+	assert '"[data-one-ai-ask]"' in oneai, "a button asks its question wherever it is drawn"
+	css = (tree.APP / "public" / "css" / "one_ai" / "oneai.css").read_text(encoding="utf-8")
+	for part in (".es-badge.one-ai-tag", ".es-button.one-ai-button"):
+		assert part in css
+	assert "var(--one-ai-spectrum) border-box" in css
+
+
+def test_nothing_badges_oneai_by_hand():
+	for path in sorted(JS.rglob("*.js")):
+		source = path.read_text(encoding="utf-8")
+		for badge in re.findall(r"frappe\.ui\.badge\.html\(\{[^}]*\}", source):
+			assert "OneAI" not in badge, f"{path.name}: use onedesk.oneai.tag for {badge}"
+
+
+def test_no_oneai_button_is_drawn_by_hand():
+	for path in sorted(JS.rglob("*.js")):
+		source = path.read_text(encoding="utf-8")
+		for call in re.findall(r"onedesk\.shell\.button\([^;]*?\)", source):
+			assert "OneAI" not in call and '"sparkles"' not in call, (
+				f"{path.name}: use onedesk.oneai.button for {call}"
+			)

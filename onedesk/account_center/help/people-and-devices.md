@@ -21,7 +21,7 @@ time they sign in, and are told), sends them a password reset, sends a new invit
 turns them off. A person turned off can't sign in, and everything they made
 stays.
 
-What each role of an app may do is set in AccessCenter.
+What each role of an app may do is set in {access_center}.
 
 ## The Company's Devices
 

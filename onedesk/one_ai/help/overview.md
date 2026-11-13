@@ -34,4 +34,4 @@ that arrive, and files them where they belong.
 | Let {one_ai} look things up online | [Web Search](web-search) |
 | Know what an answer costs | [Tiers and Credits](tiers-and-credits) |
 | Decide who sees {one_ai}'s usage | [Who Can Do What](who-can-do-what) |
-| Change how {one_ai} works here | [AICenter](settings) |
+| Change how {one_ai} works here | [{ai_center}](settings) |

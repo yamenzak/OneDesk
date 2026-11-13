@@ -7,12 +7,22 @@ onedesk.names.mark = (id) => frappe.boot?.one_names?.[id]?.mark || "";
 
 onedesk.names.sidebar = (id) => frappe.boot?.one_names?.[id]?.sidebar || onedesk.names.of(id);
 
-onedesk.brand.NAME = /\bOne(AI|Admin|Book|Calendar|Cloud|Code|CRM|DB|Desk|Display|Doc|Fit|Forms|Governance|HR|Inventory|Legal|Mail|Market|Mobility|Project|Scratchpad|Sheet|Signature|Slide|Studio|Study|Task|Ticket|Workbook|Writer)\b/g;
+/** The names in the registry (frappe.boot.one_names, OneRegistry) that
+ * `shape` matches, as the part it captures: "Cloud" of OneCloud, "Help" of
+ * HelpCenter. Longest first, so a shorter name never takes a longer's place. */
+onedesk.brand.named_like = (shape) =>
+	Object.values(frappe.boot?.one_names || {})
+		.map((one) => (one.name || "").match(shape)?.[1])
+		.filter(Boolean)
+		.sort((a, b) => b.length - a.length);
 
+onedesk.brand.pattern = (shape, wrap) => {
+	const found = onedesk.brand.named_like(shape);
+	return found.length ? new RegExp(wrap(found.join("|")), "g") : /(?!)/g;
+};
 
-// One's centres (module_settings.js CENTERS), drawn as a product's name is:
-// One's mark, the first word light and Center after it.
-onedesk.brand.CENTER = /\b(Help|Control|Account|Update|Trust|Access|Notification|AI)Center\b/g;
+onedesk.brand.NAME = onedesk.brand.pattern(/^One([A-Z]\w*)$/, (rests) => `\\bOne(${rests})\\b`);
+onedesk.brand.CENTER = onedesk.brand.pattern(/^(\w+)Center$/, (firsts) => `\\b(${firsts})Center\\b`);
 
 onedesk.brand.VERBS = new Set(
 	"opens added may can cannot keeps sends reads shows asks uses does doesn't is isn't will won't has hasn't holds makes gives tells writes stores checks knows works needs puts takes turns brings finds counts books bills pays says sees saves signs".split(" "),
@@ -91,13 +101,10 @@ onedesk.brand.text = (node, inside = false) => {
 	parent.replaceChild(into, node);
 };
 
-/** The sprite's mark for a product: its name lowered, but for the three
- * whose id is older than their name (scripts/gen_brand.py, ALIAS). */
-onedesk.brand.MARK_IDS = { Cloud: "onecloud", Writer: "onedoc", Workbook: "onesheet" };
-
+/** The sprite's mark for a product, as its manifest names it. */
 onedesk.brand.mark_of = (rest) => {
-	const id = onedesk.brand.MARK_IDS[rest] || `one${rest.toLowerCase()}`;
-	return document.getElementById(`icon-${id}`) ? id : null;
+	const id = Object.values(frappe.boot?.one_names || {}).find((one) => one.name === `One${rest}`)?.mark;
+	return id && document.getElementById(`icon-${id}`) ? id : null;
 };
 
 /** A product's name: One light. In a sentence its mark goes before it, as

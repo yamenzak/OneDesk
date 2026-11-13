@@ -8,12 +8,12 @@ workspace is a Workspace Administrator's, who can do everything.
 | Role | Who has it | What they may do |
 | --- | --- | --- |
 | **User** | Everyone | Keep their own profile and sign-in. |
-| **Manager** | People you choose, under People in AccessCenter | Also read Plan and Credits and the invoices. |
+| **Manager** | People you choose, under People in {access_center} | Also read Plan and Credits and the invoices. |
 
 ## What Each Role Starts With
 
 This is what {account_center}'s roles hold when {account_center} arrives in a workspace.
-**Roles** in AccessCenter changes any of it, and an update never undoes a
+**Roles** in {access_center} changes any of it, and an update never undoes a
 change you made.
 
 {roles}

@@ -148,7 +148,7 @@ onedesk.setup.load_demo = function () {
 				fieldtype: "Password",
 				label: __("Password"),
 				reqd: 1,
-				description: __("Everyone in the demo company signs in with it. The owner is {0}.", ["wsadmin@one.test"]),
+				description: __("Everyone in the demo company signs in with it, the owner as {0}.", ["wsadmin@one.test"]),
 			},
 		],
 		primary_action_label: __("Load"),

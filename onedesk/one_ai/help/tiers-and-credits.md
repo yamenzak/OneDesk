@@ -12,12 +12,12 @@ tier, and the tier decides how strong the models are that talk and write.
 | **Full** | The strongest models for the hardest questions, at the highest cost |
 
 A workspace is on **Balanced** until an administrator chooses another in
-[AICenter](settings), which shows about what an answer costs at each. Reading
+[{ai_center}](settings), which shows about what an answer costs at each. Reading
 what arrives and searching use the same small models at every tier.
 
 ## Credits
 
 Every answer uses credits. The plan gives some each month, and more can be
 bought in {account_center}, under **Plan and Credits**. When none are left, {one_ai}
-can't answer until credits are added. **Usage** in AICenter shows what each
+can't answer until credits are added. **Usage** in {ai_center} shows what each
 job used in the last thirty days.

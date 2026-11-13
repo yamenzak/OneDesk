@@ -12,4 +12,4 @@
 | **Emergency Alert Sent** | Everybody who may send an alert, but whoever sent it | An alert went up on every screen. |
 
 Each comes to the bell, and by email or to your phone as you choose in
-NotificationCenter, from **Settings**.
+{notification_center}, from **Settings**.

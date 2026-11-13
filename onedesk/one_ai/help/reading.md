@@ -12,8 +12,8 @@ from a sick note.
 | What | Where it is switched on |
 | --- | --- |
 | A mailbox | {one_mail}'s **Settings**, the mailbox, then **{one_ai}** |
-| A folder | AICenter's **What It Reads**, then **Add Folder** |
-| Every mailbox and folder at once | [AICenter](settings) under **Reading**, for an administrator |
+| A folder | {ai_center}'s **What It Reads**, then **Add Folder** |
+| Every mailbox and folder at once | [{ai_center}](settings) under **Reading**, for an administrator |
 
 {one_ai} only does what the person who switched it on may do. Only you can
 switch it on for your own files and your own mailbox. A folder {one_ai} reads

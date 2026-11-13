@@ -32,7 +32,7 @@ Open Setup › **Approvals**, or a record type's **Settings › Approvals**.
 
 People with the role see the action on the record. Each step waiting on their
 role counts in **Approvals Waiting** on their Home. They're also told in {one},
-and by email if they chose (**Approval Waiting** in NotificationCenter's
+and by email if they chose (**Approval Waiting** in {notification_center}'s
 **Words and Rules**), when a record reaches their step. Whoever made the
 record, and whoever sent it to the step, hear where it went next (**Approval
 Answered**).

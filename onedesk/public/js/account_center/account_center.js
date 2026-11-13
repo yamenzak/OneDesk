@@ -121,7 +121,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 	draw_documents(data) {
 		const $card = this.part(data, ["one_documents"], [
 			["one_documents"],
-			{ heading: __("Your Files"), note: __("Scans and papers HR keeps for you. Add any here.") },
+			{ heading: __("Your Files"), note: __("Scans and papers HR keeps for you.") },
 			{ html: `<div class="one-account-files" data-your-files></div>` },
 		]);
 		onedesk.mount_cloud($card.find("[data-your-files]"), { room: `@records/Employee/${data.employee.name}` });

@@ -709,7 +709,7 @@ onedesk.printing.new_format = async (panel, doctype) => {
 				label: __("Start From"),
 				options: [...starts.map((one) => ({ label: one.name, value: one.name })), { label: every, value: "" }],
 				default: starts.length ? starts[0].name : "",
-				description: __("The format to copy. It opens in the builder.", [__(doctype)]),
+				description: __("The format to copy, opened in the builder.", [__(doctype)]),
 			},
 		],
 		primary_action_label: __("Create"),
@@ -907,7 +907,7 @@ onedesk.numbering.rule = async (doctype, name, done) => {
 				fieldtype: "Table",
 				fieldname: "conditions",
 				label: __("When"),
-				description: __("All conditions must match. Leave empty to always apply."),
+				description: __("Applies when every condition matches, or always when empty."),
 				cannot_add_rows: false,
 				in_place_edit: true,
 				fields: [

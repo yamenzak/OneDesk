@@ -26,10 +26,10 @@ instead, so looking at it never changes it.
 
 | File | Clicking it | **Edit** offers |
 | --- | --- | --- |
-| Excel (.xlsx), CSV, Word (.docx) | {one_sheet} or {one_doc}, or the preview if they would drop something | **Edit in {one_sheet}** or **Edit in {one_doc}**, **Edit in OneOS**, **Download** |
-| PowerPoint (.pptx) | The preview | **Make a Presentation**, **Edit in OneOS**, **Download** |
-| With macros (.xlsm, .docm), older Excel (.xls) | The preview | **Edit in OneOS**, **Download**, **Make a {one} Copy** |
-| OpenDocument, older Word and PowerPoint (.doc, .ppt) | The preview | **Edit in OneOS**, **Download** |
+| Excel (.xlsx), CSV, Word (.docx) | {one_sheet} or {one_doc}, or the preview if they would drop something | **Edit in {one_sheet}** or **Edit in {one_doc}**, **Edit in {oneos}**, **Download** |
+| PowerPoint (.pptx) | The preview | **Make a Presentation**, **Edit in {oneos}**, **Download** |
+| With macros (.xlsm, .docm), older Excel (.xls) | The preview | **Edit in {oneos}**, **Download**, **Make a {one} Copy** |
+| OpenDocument, older Word and PowerPoint (.doc, .ppt) | The preview | **Edit in {oneos}**, **Download** |
 
 **Edit** is at the top of the preview, and in the file's right-click menu.
 
@@ -37,8 +37,8 @@ instead, so looking at it never changes it.
   The PowerPoint file stays as it is.
 - **Make a {one} Copy** makes a workbook or document of {one}'s own from the
   file, next to it. The file stays as it is.
-- **Edit in OneOS** says what an hour of it costs. See
-  [Editing in OneOS](editing-in-oneos).
+- **Edit in {oneos}** says what an hour of it costs. See
+  [Editing in {oneos}](editing-in-oneos).
 
 A file somebody is editing says so under its name, such as **Huda is
 editing in {one_sheet}**.
@@ -66,7 +66,7 @@ can't keep.*
 
 | Button | What it does |
 | --- | --- |
-| **Edit in OneOS** | Opens the file in a full office app, which keeps everything. |
+| **Edit in {oneos}** | Opens the file in a full office app, which keeps everything. |
 | **Edit Here Anyway** | Opens it in {one_sheet} or {one_doc}. Nothing is dropped until you choose Save Over Original. |
 
 In the editor, a bar over it names what would go, and your changes stay
@@ -85,15 +85,15 @@ Until you choose, clicking the file opens it in the editor with the bar.
 
 | Made in | Clicking it | **Edit** offers |
 | --- | --- | --- |
-| {one_sheet} | {one_sheet} | **Edit in {one_sheet}**, **Edit in OneOS**, **Download as Excel** |
-| {one_doc} | {one_doc} | **Edit in {one_doc}**, **Edit in OneOS**, **Download as Word** |
-| {one_deck} | {one_deck} | **Edit in {one_deck}**, **Edit in OneOS**, **Download as PowerPoint** |
+| {one_sheet} | {one_sheet} | **Edit in {one_sheet}**, **Edit in {oneos}**, **Download as Excel** |
+| {one_doc} | {one_doc} | **Edit in {one_doc}**, **Edit in {oneos}**, **Download as Word** |
+| {one_deck} | {one_deck} | **Edit in {one_deck}**, **Edit in {oneos}**, **Download as PowerPoint** |
 
 **New › Workbook** makes a workbook in the folder you are in. A workbook's
 menu also has **Download as CSV**.
 
 A workbook, document or presentation made in {one} and saved from Excel,
-Word or PowerPoint on the drive, or in OneOS, keeps what it was as a version
+Word or PowerPoint on the drive, or in {oneos}, keeps what it was as a version
 first. If the file had something {one} doesn't keep, the bar says so the next
 time it is opened.
 

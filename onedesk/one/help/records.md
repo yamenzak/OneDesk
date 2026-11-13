@@ -115,7 +115,7 @@ part appears once the workspace can use it.
   can be printed with or starred, but not changed. To change one, open it in
   the builder and save it under a new name.
 - **Notifications**: the workspace's notification rules for this record type.
-  Opening one, or clicking **New Rule**, opens it in NotificationCenter's
+  Opening one, or clicking **New Rule**, opens it in {notification_center}'s
   Words and Rules, set to this record type.
 - **Mail Templates**: the email templates for this record type. **New**
   creates one, and clicking one opens it. **Set as Default** makes the email
@@ -155,4 +155,4 @@ record later.
 3. Click **Create**.
 
 When it's due you get a **Reminder** notification that opens the record. It
-comes by email and push too, as you chose in NotificationCenter.
+comes by email and push too, as you chose in {notification_center}.

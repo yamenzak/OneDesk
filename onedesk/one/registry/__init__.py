@@ -2,10 +2,9 @@
 manifest.py in its own folder (docs/run/RUN.md, OneRegistry). Pure, so
 hooks.py, the guards and the scripts read it without a site.
 
-`apps()` in the rail's order, `get(id)`, `name(id)` (the only place a name is
-typed), `names()` and `filled(text)` for words that name an app as `{one_doc}`,
-`by_name(name)`, `of_module(module)`, and `moved()`, the folders kept one
-release after a rename."""
+`apps()` in the rail's order, `parts()` (centres inside another's folder),
+`get(id)`, `name(id)`, `names()`, `filled(text)` for `{one_doc}`,
+`by_name(name)`, `of_module(module)`, and `moved()`, renamed folders."""
 
 import ast
 import importlib
@@ -31,6 +30,20 @@ def apps() -> tuple[App, ...]:
 
 
 @cache
+def parts() -> tuple[App, ...]:
+	"""The centres and engines that live inside another app's folder
+	(ControlCenter in One's, OneOS in OneCloud's), each an App in its
+	folder's manifest.py `PARTS`. Their names are code as an app's are;
+	their module, Help, versions and roles are their folder's app's, so they
+	are not in apps()."""
+	found = []
+	for path in sorted(FOLDERS.glob("*/manifest.py")):
+		found += getattr(importlib.import_module(f"onedesk.{path.parent.name}.manifest"), "PARTS", ())
+	_check_parts(found, apps())
+	return tuple(found)
+
+
+@cache
 def moved() -> dict[str, str]:
 	"""Each folder that is only an old name kept one release, read from the
 	`MOVED_TO` its __init__.py declares, and the package it now names. Such a
@@ -44,7 +57,7 @@ def moved() -> dict[str, str]:
 
 
 def get(id: str) -> App:
-	for one in apps():
+	for one in (*apps(), *parts()):
 		if one.id == id:
 			return one
 	raise KeyError(id)
@@ -56,8 +69,8 @@ def name(id: str) -> str:
 
 @cache
 def names() -> dict[str, str]:
-	"""Every app's, centre's and engine's name by its id."""
-	return {one.id: one.name for one in apps()}
+	"""Every app's, centre's and engine's name by its id, its parts' too."""
+	return {one.id: one.name for one in (*apps(), *parts())}
 
 
 SLOT = re.compile(r"\{([a-z][a-z_]*)\}")
@@ -72,7 +85,7 @@ def filled(text: str) -> str:
 
 
 def by_name(name: str) -> App:
-	for one in apps():
+	for one in (*apps(), *parts()):
 		if one.name == name:
 			return one
 	raise KeyError(name)
@@ -131,3 +144,13 @@ def _check(found: list[App]) -> None:
 		twins = [other.id for other in found if other.id != one.id and other.name == one.name]
 		if twins:
 			raise Invalid(f"{where}: the name {one.name!r} is also {twins[0]}'s")
+
+
+def _check_parts(found: list, apps: tuple[App, ...]) -> None:
+	taken = {one.id: one.name for one in apps}
+	for one in found:
+		if not isinstance(one, App) or one.kind not in KINDS or not one.name:
+			raise Invalid(f"a part must be an App with a name and a kind of {KINDS}: {one!r}")
+		if one.id in taken or one.name in taken.values():
+			raise Invalid(f"the part {one.id} ({one.name}) has the id or the name of another")
+		taken[one.id] = one.name

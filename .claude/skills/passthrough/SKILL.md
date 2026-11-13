@@ -239,7 +239,7 @@ Each screen in scope gets these, whichever kind its app is.
 - **Back and links.** Back returns to where the person was, in that app's
   own rail; a link to another app's page opens it in that app's rail; the
   screen's own back arrow and the browser's agree. `tests/browser/routes.mjs`
-  walks every app this way, and `tests/guards/test_routes.py` holds each
+  walks every app this way, and `tests/guards/test_rail.py` holds each
   page to a rail of its own.
 
 ### Together

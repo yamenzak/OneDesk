@@ -31,8 +31,8 @@ or PowerPoint file, and saving it there saves it back into {one}.
 
 While you have a file open from the drive in Word, Excel or LibreOffice,
 nobody else can change it: their app opens it read-only and says it's
-yours, and OneOS and the editors in {one_cloud} do the same. If somebody is
-editing it in {one_sheet}, {one_doc} or OneOS, your app opens it read-only
+yours, and {oneos} and the editors in {one_cloud} do the same. If somebody is
+editing it in {one_sheet}, {one_doc} or {oneos}, your app opens it read-only
 and says who. Your saves while it's open are one version.
 
 An app that doesn't hold the file open, such as one on a phone, never saves

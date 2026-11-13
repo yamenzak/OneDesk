@@ -32,8 +32,8 @@ and your changes stay in the workbook until you choose:
 | **Save as Copy** | Saves a new Excel file beside it and goes on in the copy. The original stays as it was. |
 
 A file with macros (.xlsm) or in the older Excel format (.xls) opens
-read-only: open it in OneOS to change it. While somebody has the file open in
-OneOS, it opens read-only here and says who.
+read-only: open it in {oneos} to change it. While somebody has the file open in
+{oneos}, it opens read-only here and says who.
 
 ## Exporting and Importing
 

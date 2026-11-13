@@ -784,7 +784,7 @@ parts in `public/js/one_ai/oneai.js`:
   opens the panel on `ask`, the same question the page's suggestion asks.
   Inside a dialog it closes the dialog first.
 
-`tests/guards/test_ai_look.py` fails on anything that badges OneAI by hand.
+`tests/guards/test_ai_place.py` fails on anything that badges OneAI by hand.
 
 ### What is deliberately not here
 

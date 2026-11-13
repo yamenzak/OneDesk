@@ -58,3 +58,12 @@ APP = App(
 		"Shift Type",
 	),
 )
+
+PARTS = (
+	App(id="control_center", name="ControlCenter", kind="centre", module=""),
+	App(id="notification_center", name="NotificationCenter", kind="centre", module=""),
+	App(id="access_center", name="AccessCenter", kind="centre", module=""),
+	App(id="shortcut_center", name="ShortcutCenter", kind="centre", module=""),
+	App(id="help_center", name="HelpCenter", kind="centre", module=""),
+	App(id="update_center", name="UpdateCenter", kind="centre", module=""),
+)

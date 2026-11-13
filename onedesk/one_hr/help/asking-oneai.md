@@ -32,7 +32,7 @@ names where it came from. When nothing covers the question, {one_ai} says so.
 
 ## What {one_ai} Does Alone
 
-**What runs on its own**, each with a switch on AICenter › Reading, under
+**What runs on its own**, each with a switch on {ai_center} › Reading, under
 {one_hr}, with the rest of what {one_ai} does by itself when something arrives:
 
 | When | What | Switch |

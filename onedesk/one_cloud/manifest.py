@@ -43,3 +43,7 @@ APP = App(
 		Settle("store.unlimit"),
 	),
 )
+
+PARTS = (
+	App(id="oneos", name="OneOS", kind="engine", module=""),
+)

@@ -3,7 +3,7 @@
 ## Access
 
 People gives each person a role in {one_crm}, {one_book}, {one_inventory}, {one_project},
-{one_hr} and {one_mail}. **AccessCenter**, on {one}'s rail, is where roles are made and
+{one_hr} and {one_mail}. **{access_center}**, on {one}'s rail, is where roles are made and
 changed, with profiles, groups and user permissions, each below. Only
 administrators see it.
 
@@ -28,10 +28,10 @@ made, the card says so and makes no change.
 ## Roles
 
 Each app has a **User** and a **Manager** role, listed in
-AccessCenter with each one's people, and a workspace can add its own between them.
+{access_center} with each one's people, and a workspace can add its own between them.
 {one_mail} has roles too; everyone is at least its User.
 
-**An app's roles are built in AccessCenter**: open the app under **Apps**,
+**An app's roles are built in {access_center}**: open the app under **Apps**,
 where **Roles**, **People** and **On One Record** are at the top right.
 Roles is a table with what the app lets a role do down the side and its roles across the top,
 each cell a dropdown or a switch that saves as it changes. Signatures and
@@ -77,7 +77,7 @@ read.
 ## Access Profiles
 
 A profile is a job's role in every app at once, such as Accountant with
-{one_book} as Manager and {one_inventory} as User. Make one in AccessCenter, then
+{one_book} as Manager and {one_inventory} as User. Make one in {access_center}, then
 choose it under **Profile** on a person's page to set every app at once.
 
 - Changing the profile later updates everyone on it.
@@ -88,7 +88,7 @@ choose it under **Profile** on a person's page to set every app at once.
 ## Groups
 
 A group is a named team, such as Sales Gulf, and its members. Make one under
-AccessCenter. Assign a record to everyone in it from **Assign To**, or
+{access_center}. Assign a record to everyone in it from **Assign To**, or
 @mention the group in a comment to notify them all. A group doesn't grant any
 permissions.
 

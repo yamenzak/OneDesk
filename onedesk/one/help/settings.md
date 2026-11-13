@@ -2,7 +2,7 @@
 
 ## The Workspace's Settings
 
-One's ControlCenter holds the workspace's own settings, a tab for each, and
+One's {control_center} holds the workspace's own settings, a tab for each, and
 only administrators see it. Each tab saves on its own, from the top right.
 
 - **Company**: the workspace's name, company, country and currency, set when
@@ -35,7 +35,7 @@ instead of saving over their change.
 
 ## Sign-in Rules
 
-**Sign-in**, in {one}'s ControlCenter, sets how everyone signs in, a tile for
+**Sign-in**, in {one}'s {control_center}, sets how everyone signs in, a tile for
 each part. Save from the top right.
 
 - **Two-Factor** asks for a code after the password, for administrators only
@@ -83,7 +83,7 @@ click one to use it. **None**, the letters, is the default.
 
 ## Starting Again
 
-**Start Again** is at the foot of the Company tab in {one}'s ControlCenter. **Delete All
+**Start Again** is at the foot of the Company tab in {one}'s {control_center}. **Delete All
 Transactions** deletes every sale, purchase, stock move, project, payslip,
 lead and asset, for a workspace that tried {one} with made-up records.
 Customers, suppliers, items, employees, accounts and settings stay. It is a

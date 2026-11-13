@@ -15,5 +15,5 @@ each one. No one is told of their own change.
 | **Form Customized** | When another administrator changes a form for everyone, or resets it. | No |
 
 **Approval Waiting**, **Approval Answered**, **Automation Notice** and
-**Webhooks Failing** are listed under {one} in NotificationCenter. See
+**Webhooks Failing** are listed under {one} in {notification_center}. See
 [Approvals](approvals), [Automations](automations) and [Webhooks](webhooks).

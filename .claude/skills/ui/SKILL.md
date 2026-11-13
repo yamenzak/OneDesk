@@ -428,8 +428,8 @@ The UI guards take seconds:
 
     python3 -m pytest -q tests/guards/test_tokens.py tests/guards/test_interface_frame.py \
       tests/guards/test_interface.py tests/guards/test_islands.py tests/guards/test_layout.py \
-      tests/guards/test_shell.py tests/guards/test_record_page.py tests/guards/test_rail.py \
-      tests/guards/test_icon_margins.py tests/guards/test_overrides_recorded.py \
+      tests/guards/test_frame.py tests/guards/test_record_page.py tests/guards/test_rail.py \
+      tests/guards/test_alerts.py tests/guards/test_overrides_recorded.py \
       tests/guards/test_palettes.py tests/guards/test_layers.py
 
 A guard failure means the screen is wrong, not the guard.
