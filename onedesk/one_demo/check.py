@@ -66,6 +66,7 @@ def _unsent():
 
 def _each(chosen, failed, unkept) -> None:
 	for fn in chosen:
+		flags = frappe._dict(frappe.flags)
 		try:
 			with unkept():
 				fn()
@@ -86,6 +87,7 @@ def _each(chosen, failed, unkept) -> None:
 			_unasked()
 			frappe.local.response = frappe._dict({"docs": []})
 			frappe.set_user("Administrator")
+			frappe.local.flags = frappe._dict(flags)
 
 
 def _modules() -> None:

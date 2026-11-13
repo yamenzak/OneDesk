@@ -575,7 +575,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Role Profile | through a form's link (User: role_profile) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | SMS Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  | **only an ID** |  |  |
 | SMS Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Scheduled Job Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Scheduled Job Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Scheduled Job Type | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Scheduler Event | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Security Settings | the platform's: the site's security.txt, the same for every workspace | **nobody** | untouched | no | general |  |  |  |  | ar 1 |  |
@@ -941,7 +941,7 @@ Pages: one (on a rail or a home).
 | AI Memory | inside: AICenter › Yours lists and forgets what OneAI remembers | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  | yes |  |  |  |  |
 | AI Touch | engine: what OneAI wrote into a record, read back as the AI badge on it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | **none** |  |  |  |  |
+| File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
 | Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | general |  | yes |  |  |  |  |

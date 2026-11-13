@@ -59,7 +59,9 @@ def _bulk(doctype: str, name: str, action: str, values: dict | None = None) -> N
 
 def _imported(doctype: str, name: str, values: dict) -> None:
 	"""One row of Update Existing Records, as Data Import reads and saves it,
-	short of its commit."""
+	short of its commit. frappe's before_import sets in_import and
+	mute_emails and only the end of an import clears them, so they are put
+	back here: left on, every insert after it skips its defaults."""
 	import csv
 	import tempfile
 
@@ -71,9 +73,13 @@ def _imported(doctype: str, name: str, values: dict) -> None:
 		out.writerow([name, *values.values()])
 	plan = frappe.get_doc({"doctype": "Data Import", "reference_doctype": doctype, "import_type": "Update Existing Records"})
 	importer = Importer(doctype, data_import=plan, file_path=f.name, console=True)
-	importer.before_import()
-	for payload in importer.import_file.get_payloads_for_import():
-		importer.process_doc(payload.doc)
+	held = {key: frappe.flags.get(key) for key in ("in_import", "mute_emails")}
+	try:
+		importer.before_import()
+		for payload in importer.import_file.get_payloads_for_import():
+			importer.process_doc(payload.doc)
+	finally:
+		frappe.flags.update(held)
 
 
 def _each_way(user: str, doctype: str, name: str, values: dict, read: tuple = ()) -> dict:
