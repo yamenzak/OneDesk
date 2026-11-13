@@ -7,7 +7,6 @@ APP = App(
 	name="OneLegal",
 	kind="centre",
 	module="One Legal",
-	mark="onelegal",
 	screens="legal",
 	names=("one_legal", "onelegal"),
 	help=(

@@ -16,7 +16,7 @@ import tree
 
 sys.path.insert(0, str(tree.ROOT))
 
-from onedesk.one import ready  # noqa: E402
+from onedesk.one import ready, registry  # noqa: E402
 
 DOCS = tree.ROOT / "docs"
 
@@ -207,7 +207,27 @@ def upstream_page() -> str:
 	return "".join(out)
 
 
+def dock_fixture() -> str:
+	"""The Dock One ships: a row for each app with a place on the rail, in the
+	rail's order, from the manifests (onedesk/one/registry)."""
+	path = tree.APP / "dock" / "onedesk" / "onedesk.json"
+	shipped = json.loads(path.read_text())
+	shipped["items"] = [
+		{"added": 0, "hidden": 0, "icon": app.mark, "link_to": app.sidebar, "link_type": "Sidebar", "title": app.name}
+		for app in registry.apps()
+		if app.rail is not None
+	]
+	return json.dumps(shipped, indent=1, sort_keys=True, ensure_ascii=False) + "\n"
+
+
+def modules_txt() -> str:
+	"""frappe's list of One's modules: each manifest's module, in the rail's order."""
+	return "".join(f"{app.module}\n" for app in registry.apps() if app.module)
+
+
 PAGES = {
+	tree.APP / "dock" / "onedesk" / "onedesk.json": dock_fixture,
+	tree.APP / "modules.txt": modules_txt,
 	DOCS / "MODULES.md": modules_page,
 	DOCS / "UPSTREAM.md": upstream_page,
 	DOCS / "REGISTRY.md": registry_page,

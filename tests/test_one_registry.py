@@ -80,3 +80,21 @@ def test_a_wrong_manifest_is_refused_by_name(change, said):
 	apps[apps.index(book)] = replace(book, **change)
 	with pytest.raises(registry.Invalid, match=said):
 		registry._check(apps)
+
+
+def test_every_mark_is_drawn():
+	"""A manifest's mark is a file in brand/, which scripts/icons.py makes
+	into the Custom Icon the rail and the marks draw."""
+	missing = [f"{one.id}: {one.mark}" for one in registry.apps() if one.mark and not (ROOT / "brand" / f"{one.mark}.svg").exists()]
+	assert not missing, missing
+
+
+def test_the_dock_and_the_module_list_are_the_registrys():
+	"""The Dock fixture and modules.txt are written by scripts/docs.py from
+	the manifests; docs.py --check fails when either drifts."""
+	import json
+
+	rows = json.loads((ROOT / "onedesk" / "dock" / "onedesk" / "onedesk.json").read_text())["items"]
+	assert [row["title"] for row in rows] == [one.name for one in registry.apps() if one.rail is not None]
+	listed = (ROOT / "onedesk" / "modules.txt").read_text().split()
+	assert " ".join(listed) == " ".join(one.module for one in registry.apps() if one.module)

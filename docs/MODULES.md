@@ -21,122 +21,6 @@
 | Weather Place | 8 | document |
 | Workspace Customization | 5 | document |
 
-## One HR
-
-`onedesk/one_hr`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Attendance Reason | 5 | document |
-| Clock Attempt | 41 | document |
-| Clock Device | 25 | document |
-| Clock Network | 15 | document |
-| Clock Place | 20 | document |
-| Clock Reason | 5 | document |
-| Clock Signal | 3 | child |
-| Employee Document | 7 | child |
-| Employee Letter | 14 | submittable |
-| Interview Recording | 19 | document |
-| Interview Recording Part | 5 | child |
-| Shift Location Place | 1 | child |
-
-## One CRM
-
-`onedesk/one_crm`
-
-No doctypes yet.
-
-## One Admin
-
-`onedesk/one_admin`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Account Request | 21 | document |
-| Credit Ledger Entry | 15 | submittable |
-| Credit Reservation | 10 | document |
-| Health Check | 6 | document |
-| Offering | 24 | document |
-| One Admin Settings | 65 | single |
-| OneOS Session | 29 | document |
-| Private App | 9 | document |
-| Private App Grant | 8 | child |
-| Provisioning Job | 15 | document |
-| Stripe Webhook Event | 7 | document |
-| Tenant | 65 | document |
-| Tenant Add-on | 3 | child |
-| Tenant Domain | 10 | document |
-| Tenant Event | 9 | document |
-| Workspace Error | 10 | document |
-| Workspace Server | 22 | document |
-| Workspace Session | 18 | document |
-
-## One AI
-
-`onedesk/one_ai`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| AI Chat | 10 | document |
-| AI Chunk | 6 | document |
-| AI Knowledge | 6 | document |
-| AI Memory | 5 | document |
-| AI Proposal | 21 | document |
-| AI Touch | 8 | document |
-| File Link | 4 | document |
-| Identifier | 6 | document |
-| Reading | 71 | document |
-| Reading Action | 19 | document |
-| Reading Ask | 5 | child |
-| Reading Date | 6 | child |
-| Reading Lesson | 12 | document |
-| Reading Line | 7 | child |
-| Reading Party | 19 | child |
-| Reading Reference | 3 | child |
-| Reading Settings | 8 | single |
-
-## One Calendar
-
-`onedesk/one_calendar`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Calendar Feed | 6 | document |
-
-## One Task
-
-`onedesk/one_task`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Task Step | 3 | child |
-
-## One Project
-
-`onedesk/one_project`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Project Contact | 7 | child |
-
-## One Book
-
-`onedesk/one_book`
-
-No doctypes yet.
-
-## One Inventory
-
-`onedesk/one_inventory`
-
-No doctypes yet.
-
-## One Factory
-
-`onedesk/one_factory`
-
-No doctypes yet.
-
 ## One Storage
 
 `onedesk/one_storage`
@@ -165,62 +49,78 @@ No doctypes yet.
 | Mail Folder | 15 | document |
 | Mail Rule | 8 | document |
 
-## One Legal
+## One Book
 
-`onedesk/one_legal`
+`onedesk/one_book`
 
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Legal Acceptance | 9 | document |
-| Legal Document Version | 8 | document |
+No doctypes yet.
 
-## One Portal
+## One Inventory
 
-`onedesk/one_portal`
+`onedesk/one_inventory`
 
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Portal Link | 16 | document |
+No doctypes yet.
 
-## One Studio
+## One Factory
 
-`onedesk/one_studio`
+`onedesk/one_factory`
 
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Extension | 22 | document |
-| Record Type | 6 | document |
-| Workspace Field | 7 | document |
+No doctypes yet.
 
-## One Sheet
+## One Quality
 
-`onedesk/one_sheet`
+`onedesk/one_quality`
 
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Workbook | 15 | document |
-| Workbook Change | 10 | document |
-| Workbook Version | 9 | document |
+No doctypes yet.
 
-## One Doc
+## One CRM
 
-`onedesk/one_doc`
+`onedesk/one_crm`
+
+No doctypes yet.
+
+## One HR
+
+`onedesk/one_hr`
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Writer Document | 15 | document |
-| Writer Document Version | 4 | document |
+| Attendance Reason | 5 | document |
+| Clock Attempt | 41 | document |
+| Clock Device | 25 | document |
+| Clock Network | 15 | document |
+| Clock Place | 20 | document |
+| Clock Reason | 5 | document |
+| Clock Signal | 3 | child |
+| Employee Document | 7 | child |
+| Employee Letter | 14 | submittable |
+| Interview Recording | 19 | document |
+| Interview Recording Part | 5 | child |
+| Shift Location Place | 1 | child |
 
-## One Account
+## One Task
 
-`onedesk/one_account`
+`onedesk/one_task`
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Device | 13 | document |
-| Workspace Account | 52 | single |
-| Workspace Add-on | 4 | child |
-| Workspace Domain | 5 | child |
+| Task Step | 3 | child |
+
+## One Project
+
+`onedesk/one_project`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Project Contact | 7 | child |
+
+## One Calendar
+
+`onedesk/one_calendar`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Calendar Feed | 6 | document |
 
 ## One Display
 
@@ -256,6 +156,118 @@ No doctypes yet.
 | Voice Pack Clip | 4 | child |
 | Widget Collection | 7 | document |
 
+## One Portal
+
+`onedesk/one_portal`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Portal Link | 16 | document |
+
+## One AI
+
+`onedesk/one_ai`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| AI Chat | 10 | document |
+| AI Chunk | 6 | document |
+| AI Knowledge | 6 | document |
+| AI Memory | 5 | document |
+| AI Proposal | 21 | document |
+| AI Touch | 8 | document |
+| File Link | 4 | document |
+| Identifier | 6 | document |
+| Reading | 71 | document |
+| Reading Action | 19 | document |
+| Reading Ask | 5 | child |
+| Reading Date | 6 | child |
+| Reading Lesson | 12 | document |
+| Reading Line | 7 | child |
+| Reading Party | 19 | child |
+| Reading Reference | 3 | child |
+| Reading Settings | 8 | single |
+
+## One Studio
+
+`onedesk/one_studio`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Extension | 22 | document |
+| Record Type | 6 | document |
+| Workspace Field | 7 | document |
+
+## One Admin
+
+`onedesk/one_admin`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Account Request | 21 | document |
+| Credit Ledger Entry | 15 | submittable |
+| Credit Reservation | 10 | document |
+| Health Check | 6 | document |
+| Offering | 24 | document |
+| One Admin Settings | 65 | single |
+| OneOS Session | 29 | document |
+| Private App | 9 | document |
+| Private App Grant | 8 | child |
+| Provisioning Job | 15 | document |
+| Stripe Webhook Event | 7 | document |
+| Tenant | 65 | document |
+| Tenant Add-on | 3 | child |
+| Tenant Domain | 10 | document |
+| Tenant Event | 9 | document |
+| Workspace Error | 10 | document |
+| Workspace Server | 22 | document |
+| Workspace Session | 18 | document |
+
+## One Account
+
+`onedesk/one_account`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Device | 13 | document |
+| Workspace Account | 52 | single |
+| Workspace Add-on | 4 | child |
+| Workspace Domain | 5 | child |
+
+## One Doc
+
+`onedesk/one_doc`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Writer Document | 15 | document |
+| Writer Document Version | 4 | document |
+
+## One Interface
+
+`onedesk/one_interface`
+
+No doctypes yet.
+
+## One Legal
+
+`onedesk/one_legal`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Legal Acceptance | 9 | document |
+| Legal Document Version | 8 | document |
+
+## One Sheet
+
+`onedesk/one_sheet`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Workbook | 15 | document |
+| Workbook Change | 10 | document |
+| Workbook Version | 9 | document |
+
 ## One Slide
 
 `onedesk/one_slide`
@@ -266,18 +278,6 @@ No doctypes yet.
 | Presentation Slide | 13 | child |
 | Presentation Version | 5 | document |
 | Presentation View | 8 | document |
-
-## One Interface
-
-`onedesk/one_interface`
-
-No doctypes yet.
-
-## One Quality
-
-`onedesk/one_quality`
-
-No doctypes yet.
 
 ## Desk records shipped as fixtures
 

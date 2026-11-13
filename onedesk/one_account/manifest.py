@@ -7,7 +7,6 @@ APP = App(
 	name="OneAccount",
 	kind="centre",
 	module="One Account",
-	mark="oneaccount",
 	screens="account",
 	names=("one_account", "oneaccount"),
 	help=(

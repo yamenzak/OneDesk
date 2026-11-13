@@ -7,5 +7,4 @@ APP = App(
 	name="Demo",
 	kind="engine",
 	module="",
-	mark="demo",
 )

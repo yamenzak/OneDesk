@@ -7,7 +7,6 @@ APP = App(
 	name="OneInterface",
 	kind="engine",
 	module="One Interface",
-	mark="oneinterface",
 	screens="interface",
 	names=("one_interface", "oneinterface"),
 	help=(
