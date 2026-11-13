@@ -2,12 +2,12 @@
 <template>
   <div class="flex flex-col w-full bg-surface-base" @keydown.capture="openCommandPalette">
     <!-- One: data-tour marks the tour's steps, one_doc/tour.py; VENDORED.md -->
-    <TextEditorFixedMenu v-if="editable" data-tour="onewriter-toolbar"
+    <TextEditorFixedMenu v-if="editable" data-tour="onedoc-toolbar"
       class="w-full max-w-[100vw] py-1.5 !px-4 md:px-0 overflow-x-auto flex shrink-0 border-b border-outline-elevation-2"
       :editor="editor" :items="menuButtons" />
     <div class="relative flex flex-1 overflow-hidden">
-      <ToC v-if="editor" data-tour="onewriter-outline" :editor :anchors />
-      <div id="editor-scroll-container" data-tour="onewriter-page"
+      <ToC v-if="editor" data-tour="onedoc-outline" :editor :anchors />
+      <div id="editor-scroll-container" data-tour="onedoc-page"
         class="relative flex-1 min-w-0 overflow-y-auto overflow-x-hidden md:border-l border-outline-gray-2">
         <div class="min-h-full flex flex-col md:grid md:grid-rows-[1fr]" :style="gridStyle" @click="onBackgroundClick">
           <div class="hidden md:block" />

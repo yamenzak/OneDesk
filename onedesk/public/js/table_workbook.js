@@ -94,7 +94,7 @@ frappe.ui.form.on("*", {
 		for (const df of frm.meta.fields) {
 			const grid = df.fieldtype === "Table" && frm.fields_dict[df.fieldname]?.grid;
 			if (!grid || grid.one_workbook) continue;
-			grid.one_workbook = grid.add_custom_button(__("Open in OneWorkbook"), () =>
+			grid.one_workbook = grid.add_custom_button(__("Open in OneSheet"), () =>
 				onedesk.table_workbook.open(frm, df.fieldname)
 			);
 		}

@@ -71,10 +71,10 @@ msgid "One Cloud"
 msgstr "OneCloud"
 
 msgid "One Sheet"
-msgstr "OneWorkbook"
+msgstr "OneSheet"
 
 msgid "One Doc"
-msgstr "OneWriter"
+msgstr "OneDoc"
 
 msgid "One Mail"
 msgstr "OneMail"

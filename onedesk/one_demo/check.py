@@ -1411,9 +1411,9 @@ def onecloud_a_letter_is_edited_in_oneos():
 
 @check
 def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
-	"""Rania has a letter open in OneWriter, so Samir's Open in OneOS tells
+	"""Rania has a letter open in OneDoc, so Samir's Open in OneOS tells
 	him she is editing it there. Once her editor leaves, his session has it
-	alone: her OneWriter opens it read-only saying he is editing it in OneOS,
+	alone: her OneDoc opens it read-only saying he is editing it in OneOS,
 	refuses her save, and no version of it is restored under him. Saves from
 	his session are one version. All undone afterwards."""
 	from urllib.parse import parse_qs, urlparse
@@ -1449,10 +1449,10 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 				document = word.open_file(file)["document"]
 				assert live.admit("document", document, sid="lease-check")["write"]
 				live.here(json.dumps([["document", document]]), sid="lease-check")
-				assert lease.of(file)["mode"] == "live" and lease.of(file)["live"][0]["app"] == "OneWriter"
+				assert lease.of(file)["mode"] == "live" and lease.of(file)["live"][0]["app"] == "OneDoc"
 			with as_user(demo.PM):
 				held = oneos.start(file)["held"]
-				assert held["by"] == frappe.utils.get_fullname(rania) and held["where"] == "OneWriter", held
+				assert held["by"] == frappe.utils.get_fullname(rania) and held["where"] == "OneDoc", held
 			with as_user(rania):
 				live.leave("document", document, sid="lease-check")
 			with as_user(demo.PM):
@@ -1488,10 +1488,10 @@ def onecloud_one_lease_keeps_oneos_and_the_editors_apart():
 @check
 def onecloud_a_document_of_ones_own_is_edited_in_oneos():
 	"""Samir's handover note is a document of One's own. While Rania writes
-	in it in OneWriter, his Edit in OneOS tells him so; once she leaves,
+	in it in OneDoc, his Edit in OneOS tells him so; once she leaves,
 	OneOS gets it as a Word file, his save comes back into the document with
 	what it said before kept as "Before a OneOS save", the header Word gave
-	it is noted as dropped, and Rania's OneWriter reads while he has it. A
+	it is noted as dropped, and Rania's OneDoc reads while he has it. A
 	document with a record's fields is refused. All undone afterwards."""
 	from urllib.parse import parse_qs, urlparse
 
@@ -1530,7 +1530,7 @@ def onecloud_a_document_of_ones_own_is_edited_in_oneos():
 				assert live.admit("document", document, sid="own-check")["write"]
 			with as_user(demo.PM):
 				held = oneos.start(file)["held"]
-				assert held["by"] == frappe.utils.get_fullname(rania) and held["where"] == "OneWriter", held
+				assert held["by"] == frappe.utils.get_fullname(rania) and held["where"] == "OneDoc", held
 			with as_user(rania):
 				live.leave("document", document, sid="own-check")
 			with as_user(demo.PM):
@@ -1594,7 +1594,7 @@ def onecloud_the_drives_locks_join_the_lease():
 	refused naming her, her saves are one version, Word's and the Mac's safe
 	saves keep the same File and lease. Unlocked, Samir saving from an older
 	version, or with an old If-Match, gets "(Samir's copy)" beside it. While
-	Samir is live in OneWriter her Word is refused naming him; deleting it
+	Samir is live in OneDoc her Word is refused naming him; deleting it
 	in OneCloud while she has it tells her. All undone afterwards."""
 	from urllib.parse import quote
 
@@ -1697,7 +1697,7 @@ def onecloud_the_drives_locks_join_the_lease():
 			with as_user(rania):
 				assert drive("LOCK", path, LOCKINFO, Timeout="Second-600", Depth="0")[0] == 423
 				named = drive("PROPFIND", path, DISCOVERY, Depth="0")[2].decode()
-				assert frappe.utils.get_fullname(demo.PM) in named and "OneWriter" in named, named
+				assert frappe.utils.get_fullname(demo.PM) in named and "OneDoc" in named, named
 			with as_user(demo.PM):
 				live.leave("document", document, sid="drive-check")
 
@@ -1720,7 +1720,7 @@ def onecloud_the_drives_locks_join_the_lease():
 
 @check
 def onecloud_an_office_file_opens_where_nothing_is_lost():
-	"""Samir's plain workbook opens in OneWorkbook, but one with comments
+	"""Samir's plain workbook opens in OneSheet, but one with comments
 	asks first, naming them, and is read once for that version: the listing
 	says so after. A macro workbook is copied into One as a workbook of its
 	own, the file left as it was. While OneOS is off, Edit in OneOS is
@@ -1753,7 +1753,7 @@ def onecloud_an_office_file_opens_where_nothing_is_lost():
 			noted = upload._place(root, None, {"file_name": "Rent notes check.xlsx", "content": book(chart=True)})["id"]
 			assert opening.weigh(plain)["loses"] == []
 			said = opening.weigh(noted)
-			assert said["loses"] == ["charts"] and said["said"] == "This file has charts OneWorkbook can't keep.", said
+			assert said["loses"] == ["charts"] and said["said"] == "This file has charts OneSheet can't keep.", said
 			row = next(one for one in api.listing(root)["items"] if one["id"] == noted)
 			assert row["office"] == {"edit": "workbook", "make": None, "copy": None, "loses": ["charts"]}, row["office"]
 			macros = upload._place(root, None, {"file_name": "Rent model check.xlsm", "content": book()})["id"]

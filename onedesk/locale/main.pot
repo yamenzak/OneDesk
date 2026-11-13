@@ -797,7 +797,7 @@ msgid "A document of One's own from this file."
 msgstr ""
 
 #: onedesk/one_cloud/opening.py:158 onedesk/one_doc/word.py:255
-msgid "A document with a record's fields in it can only be edited in OneWriter."
+msgid "A document with a record's fields in it can only be edited in OneDoc."
 msgstr ""
 
 #. Description of a DocType
@@ -927,7 +927,7 @@ msgstr ""
 msgid "A field of this record. The section goes at the end of its tab, or of the first tab when empty."
 msgstr ""
 
-#: frontend/src/writer/shim/FieldDialog.vue:6
+#: frontend/src/doc/shim/FieldDialog.vue:6
 #, python-brace-format
 msgid "A field prints what {0} says when the document is printed."
 msgstr ""
@@ -1228,7 +1228,7 @@ msgstr ""
 msgid "A move to another department or branch."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:37
+#: frontend/src/doc/components/WriterSettings.vue:37
 msgid "A multiple of single spacing, like 1.15 or 1.5."
 msgstr ""
 
@@ -1506,7 +1506,7 @@ msgid "A record's head is drawn on its form: each time the record is opened or s
 msgstr ""
 
 #: onedesk/one_cloud/opening.py:154 onedesk/one_sheet/excel.py:341
-msgid "A record's workbook can only be edited in OneWorkbook."
+msgid "A record's workbook can only be edited in OneSheet."
 msgstr ""
 
 #. Description of a DocType
@@ -1830,7 +1830,7 @@ msgstr ""
 msgid "A version needs a name."
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:352
+#: frontend/src/doc/components/CoreEditor.vue:352
 msgid "A version of this document could not be kept. Try again later."
 msgstr ""
 
@@ -2090,8 +2090,8 @@ msgstr ""
 msgid "About {0} an answer"
 msgstr ""
 
-#: frontend/src/writer/components/SpacingDialog.vue:34
-#: frontend/src/writer/components/WriterSettings.vue:49
+#: frontend/src/doc/components/SpacingDialog.vue:34
+#: frontend/src/doc/components/WriterSettings.vue:49
 msgid "Above"
 msgstr ""
 
@@ -2914,11 +2914,11 @@ msgstr ""
 msgid "Add a lead from each of these business cards."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:124
+#: frontend/src/doc/components/WriterSettings.vue:124
 msgid "Add a line above the footer when printing."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:118
+#: frontend/src/doc/components/WriterSettings.vue:118
 msgid "Add a line below the header when printing."
 msgstr ""
 
@@ -3767,7 +3767,7 @@ msgstr ""
 
 #: frontend/src/slide/components/ElementContextMenu.vue:176
 #: frontend/src/slide/components/ParagraphSection.vue:4
-#: frontend/src/writer/components/core-editor/menu-buttons.js:106
+#: frontend/src/doc/components/core-editor/menu-buttons.js:106
 #: onedesk/one_display/widgets.py:97
 msgid "Align"
 msgstr ""
@@ -6003,7 +6003,7 @@ msgid "Attach Files to Records"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:19
-#: frontend/src/writer/shim/PrintDialog.vue:16
+#: frontend/src/doc/shim/PrintDialog.vue:16
 #, python-brace-format
 msgid "Attach PDF to {0}"
 msgstr ""
@@ -6346,9 +6346,9 @@ msgstr ""
 msgid "Automated"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:26
-#: frontend/src/writer/components/WriterSettings.vue:36
-#: frontend/src/writer/components/WriterSettings.vue:189
+#: frontend/src/doc/components/WriterSettings.vue:26
+#: frontend/src/doc/components/WriterSettings.vue:36
+#: frontend/src/doc/components/WriterSettings.vue:189
 msgid "Automatic"
 msgstr ""
 
@@ -6357,7 +6357,7 @@ msgctxt "A colour chosen for you"
 msgid "Automatic"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:43
+#: frontend/src/doc/components/VersionsSidebar.vue:43
 msgctxt "Versions taken while writing"
 msgid "Automatic"
 msgstr ""
@@ -6577,7 +6577,7 @@ msgstr ""
 #: frontend/src/slide/components/SlideshowEndScreen.vue:5
 #: frontend/src/slide/shim/EditorNavbar.vue:4
 #: frontend/src/slide/shim/PresenterView.vue:44
-#: frontend/src/writer/DocumentPage.vue:5 onedesk/one_interface/shortcuts.py:16
+#: frontend/src/doc/DocumentPage.vue:5 onedesk/one_interface/shortcuts.py:16
 #: onedesk/public/js/one/news_add.js:33
 #: onedesk/public/js/one_interface/dialogs.js:91
 #: onedesk/public/js/one_interface/frame.js:477
@@ -7186,8 +7186,8 @@ msgstr ""
 msgid "Belongs to the workspace rather than to one person. A workspace administrator chooses who holds it."
 msgstr ""
 
-#: frontend/src/writer/components/SpacingDialog.vue:42
-#: frontend/src/writer/components/WriterSettings.vue:58
+#: frontend/src/doc/components/SpacingDialog.vue:42
+#: frontend/src/doc/components/WriterSettings.vue:58
 msgid "Below"
 msgstr ""
 
@@ -7763,11 +7763,11 @@ msgstr ""
 msgid "Bottom border"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:91
+#: frontend/src/doc/components/WriterSettings.vue:91
 msgid "Bottom left"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:99
+#: frontend/src/doc/components/WriterSettings.vue:99
 msgid "Bottom right"
 msgstr ""
 
@@ -9564,11 +9564,11 @@ msgstr ""
 msgid "Choose the date you need it by, today or later."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:19
+#: frontend/src/doc/components/WriterSettings.vue:19
 msgid "Choose the default font family for new documents."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:19
+#: frontend/src/doc/components/WriterSettings.vue:19
 msgid "Choose the default font family for this document."
 msgstr ""
 
@@ -9753,7 +9753,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:262
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:63
-#: frontend/src/writer/components/core-editor/menu-buttons.js:125
+#: frontend/src/doc/components/core-editor/menu-buttons.js:125
 msgid "Clear formatting"
 msgstr ""
 
@@ -10472,7 +10472,7 @@ msgstr ""
 #: frontend/src/kit/ActivityComposer.vue:10
 #: frontend/src/sheet/components/SheetEditor/index.vue:1095
 #: frontend/src/sheet/components/SheetEditor/index.vue:1124
-#: frontend/src/writer/components/CoreEditor.vue:297
+#: frontend/src/doc/components/CoreEditor.vue:297
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 msgid "Comment"
@@ -10505,7 +10505,7 @@ msgstr ""
 #. Label of the comments (Long Text) field in DocType 'Writer Document'
 #. Label in the One Training Result print format
 #. Label in the One Travel Request print format
-#: frontend/src/writer/components/CoreEditor.vue:180
+#: frontend/src/doc/components/CoreEditor.vue:180
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:64
 #: onedesk/one_hr/print_format/one_training_result/one_training_result.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
@@ -10640,7 +10640,7 @@ msgid "Company Stamp"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:59
-#: frontend/src/writer/shim/PrintDialog.vue:47
+#: frontend/src/doc/shim/PrintDialog.vue:47
 msgid "Company details"
 msgstr ""
 
@@ -11472,7 +11472,7 @@ msgstr ""
 msgid "Copy Command"
 msgstr ""
 
-#: frontend/src/writer/components/ToC.vue:363
+#: frontend/src/doc/components/ToC.vue:363
 #: onedesk/public/js/calendar_link.js:17
 #: onedesk/public/js/one_calendar/calendar_control.js:25
 msgid "Copy Link"
@@ -11729,8 +11729,8 @@ msgstr ""
 msgid "Could not open {0}: {1}"
 msgstr ""
 
-#: frontend/src/writer/shim/PrintDialog.vue:91
-#: frontend/src/writer/shim/PrintDialog.vue:98
+#: frontend/src/doc/shim/PrintDialog.vue:91
+#: frontend/src/doc/shim/PrintDialog.vue:98
 msgid "Could not print the document."
 msgstr ""
 
@@ -11760,20 +11760,20 @@ msgid "Could not read {0}."
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:156
-#: frontend/src/writer/shim/PrintDialog.vue:111
+#: frontend/src/doc/shim/PrintDialog.vue:111
 msgid "Could not save the PDF."
 msgstr ""
 
-#: frontend/src/writer/shim/yjs.js:146
+#: frontend/src/doc/shim/yjs.js:146
 msgid "Could not save the document."
 msgstr ""
 
 #: frontend/src/sheet/shim/TemplateDialog.vue:49
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:49
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:49
 msgid "Could not save the template."
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:415
+#: frontend/src/doc/DocumentPage.vue:415
 #, python-brace-format
 msgid "Could not write {0} back: {1}"
 msgstr ""
@@ -12067,7 +12067,7 @@ msgstr ""
 #. Task in the Marketing Campaign project template
 #: frontend/src/mail/MailPanel.vue:39 frontend/src/mail/MailPanel.vue:41
 #: frontend/src/mail/OneMail.vue:359
-#: frontend/src/writer/components/NewVersionDialog.vue:8
+#: frontend/src/doc/components/NewVersionDialog.vue:8
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:55
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
@@ -12154,7 +12154,7 @@ msgstr ""
 msgid "Create Tasks"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:63
+#: frontend/src/doc/components/VersionsSidebar.vue:63
 msgid "Create Version"
 msgstr ""
 
@@ -12630,8 +12630,8 @@ msgstr ""
 msgid "Custom Separator"
 msgstr ""
 
-#: frontend/src/writer/components/SpacingDialog.vue:9
-#: frontend/src/writer/components/core-editor/menu-buttons.js:166
+#: frontend/src/doc/components/SpacingDialog.vue:9
+#: frontend/src/doc/components/core-editor/menu-buttons.js:166
 msgid "Custom Spacing"
 msgstr ""
 
@@ -13591,7 +13591,7 @@ msgstr ""
 msgid "Decrease decimal places"
 msgstr ""
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:67
+#: frontend/src/doc/components/core-editor/menu-buttons.js:67
 msgid "Dedent"
 msgstr ""
 
@@ -13773,9 +13773,9 @@ msgstr ""
 #: frontend/src/slide/components/PresentationPreview.vue:141
 #: frontend/src/slide/stores/presentation.js:494
 #: frontend/src/slide/utils/slideMenu.js:23 frontend/src/template/Tasks.vue:160
-#: frontend/src/writer/components/FloatingComments.vue:54
-#: frontend/src/writer/components/FloatingComments.vue:106
-#: frontend/src/writer/components/ToC.vue:375
+#: frontend/src/doc/components/FloatingComments.vue:54
+#: frontend/src/doc/components/FloatingComments.vue:106
+#: frontend/src/doc/components/ToC.vue:375
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
 #: onedesk/one_mail/shortcuts.py:17
@@ -14466,7 +14466,7 @@ msgid "Depreciations Booked"
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:380
-#: frontend/src/writer/components/CoreEditor.vue:282
+#: frontend/src/doc/components/CoreEditor.vue:282
 msgid "Describe It"
 msgstr ""
 
@@ -15055,7 +15055,7 @@ msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:32
 #: frontend/src/sheet/components/SheetEditor/index.vue:170
-#: frontend/src/writer/DocumentPage.vue:34
+#: frontend/src/doc/DocumentPage.vue:34
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:8
 msgid "Dismiss"
 msgstr ""
@@ -15545,11 +15545,11 @@ msgstr ""
 msgid "Download as Excel"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:290
+#: frontend/src/doc/DocumentPage.vue:290
 msgid "Download as HTML"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:291
+#: frontend/src/doc/DocumentPage.vue:291
 msgid "Download as Markdown"
 msgstr ""
 
@@ -16386,8 +16386,8 @@ msgstr ""
 #: frontend/src/slide/composables/useShortcuts.js:430
 #: frontend/src/slide/composables/useShortcuts.js:437
 #: frontend/src/slide/composables/useShortcuts.js:443
-#: frontend/src/writer/components/FloatingComments.vue:100
-#: frontend/src/writer/components/FloatingComments.vue:128
+#: frontend/src/doc/components/FloatingComments.vue:100
+#: frontend/src/doc/components/FloatingComments.vue:128
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/public/js/doctype_settings.js:253
 #: onedesk/public/js/one/access_center.js:103
@@ -16561,7 +16561,7 @@ msgstr ""
 msgid "Editing in another tab"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:17
+#: frontend/src/doc/components/VersionsSidebar.vue:17
 msgid "Editing is disabled until you exit."
 msgstr ""
 
@@ -18229,7 +18229,7 @@ msgstr ""
 msgid "Everything you keep, buy, sell or make."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:181
+#: frontend/src/doc/components/WriterSettings.vue:181
 msgid "Everywhere"
 msgstr ""
 
@@ -18335,7 +18335,7 @@ msgstr ""
 msgid "Exists"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:22
+#: frontend/src/doc/components/VersionsSidebar.vue:22
 msgid "Exit"
 msgstr ""
 
@@ -18627,7 +18627,7 @@ msgid "Explanation"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1950
-#: frontend/src/writer/DocumentPage.vue:288
+#: frontend/src/doc/DocumentPage.vue:288
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 #: onedesk/public/js/doctype_settings.js:253
 msgid "Export"
@@ -19120,7 +19120,7 @@ msgstr ""
 #: frontend/src/cloud/cloud.js:115
 #: frontend/src/sheet/components/SheetEditor/index.vue:95
 #: frontend/src/slide/shim/EditorNavbar.vue:27
-#: frontend/src/writer/DocumentPage.vue:21
+#: frontend/src/doc/DocumentPage.vue:21
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:62
 #: onedesk/one_ai/doctype/file_link/file_link.json:20
 #: onedesk/one_ai/reading/bundle.py:74
@@ -19933,12 +19933,12 @@ msgid "Font"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:203
-#: frontend/src/writer/components/WriterSettings.vue:18
+#: frontend/src/doc/components/WriterSettings.vue:18
 msgid "Font family"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:206
-#: frontend/src/writer/components/WriterSettings.vue:24
+#: frontend/src/doc/components/WriterSettings.vue:24
 msgid "Font size"
 msgstr ""
 
@@ -19957,15 +19957,15 @@ msgstr ""
 msgid "Footer"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:90
+#: frontend/src/doc/components/WriterSettings.vue:90
 msgid "Footer left"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:98
+#: frontend/src/doc/components/WriterSettings.vue:98
 msgid "Footer right"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:123
+#: frontend/src/doc/components/WriterSettings.vue:123
 msgid "Footer separator line"
 msgstr ""
 
@@ -21293,7 +21293,7 @@ msgstr ""
 msgid "Gmail and Outlook require an app password."
 msgstr ""
 
-#: frontend/src/writer/components/FloatingComments.vue:336
+#: frontend/src/doc/components/FloatingComments.vue:336
 msgid "Go"
 msgstr ""
 
@@ -21988,19 +21988,19 @@ msgstr ""
 msgid "Header"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:71
+#: frontend/src/doc/components/WriterSettings.vue:71
 msgid "Header & footer"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:76
+#: frontend/src/doc/components/WriterSettings.vue:76
 msgid "Header left"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:83
+#: frontend/src/doc/components/WriterSettings.vue:83
 msgid "Header right"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:117
+#: frontend/src/doc/components/WriterSettings.vue:117
 msgid "Header separator line"
 msgstr ""
 
@@ -22010,7 +22010,7 @@ msgid "Headers"
 msgstr ""
 
 #. Label of the label (Data) field in DocType 'Record Head Linked'
-#: frontend/src/writer/components/core-editor/menu-buttons.js:88
+#: frontend/src/doc/components/core-editor/menu-buttons.js:88
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:18
 #: onedesk/one_display/widgets.py:38 onedesk/one_display/widgets.py:52
 #: onedesk/one_display/widgets.py:80
@@ -22276,8 +22276,8 @@ msgid "Hidden. This headline is not shown on the top bar or on screens."
 msgstr ""
 
 #: frontend/src/slide/shim/LayersPanel.vue:46
-#: frontend/src/writer/components/ToC.vue:12
-#: frontend/src/writer/components/ToC.vue:99
+#: frontend/src/doc/components/ToC.vue:12
+#: frontend/src/doc/components/ToC.vue:99
 #: onedesk/public/js/one_interface/chrome.js:281
 msgid "Hide"
 msgstr ""
@@ -24000,7 +24000,7 @@ msgstr ""
 msgid "Increment Field Value"
 msgstr ""
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:74
+#: frontend/src/doc/components/core-editor/menu-buttons.js:74
 msgid "Indent"
 msgstr ""
 
@@ -24096,12 +24096,12 @@ msgstr ""
 msgid "Insert Table"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:298
-#: frontend/src/writer/shim/FieldDialog.vue:3
+#: frontend/src/doc/DocumentPage.vue:298
+#: frontend/src/doc/shim/FieldDialog.vue:3
 msgid "Insert a Field"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:302
+#: frontend/src/doc/DocumentPage.vue:302
 msgid "Insert a Template"
 msgstr ""
 
@@ -25030,7 +25030,7 @@ msgstr ""
 msgid "It is paused until you play it. Look at it first, then clear Paused."
 msgstr ""
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:9
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:9
 msgid "It is saved to OneCloud › Document Templates and is available to everyone in the company."
 msgstr ""
 
@@ -26143,7 +26143,7 @@ msgstr ""
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/sheet/shim/PrintDialog.vue:65
-#: frontend/src/writer/shim/PrintDialog.vue:52
+#: frontend/src/doc/shim/PrintDialog.vue:52
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Landscape"
@@ -27373,7 +27373,7 @@ msgid "Letter Type"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:10
-#: frontend/src/writer/shim/PrintDialog.vue:6
+#: frontend/src/doc/shim/PrintDialog.vue:6
 msgid "Letter head"
 msgstr ""
 
@@ -27488,8 +27488,8 @@ msgstr ""
 msgid "Line Type"
 msgstr ""
 
-#: frontend/src/writer/components/SpacingDialog.vue:23
-#: frontend/src/writer/components/WriterSettings.vue:32
+#: frontend/src/doc/components/SpacingDialog.vue:23
+#: frontend/src/doc/components/WriterSettings.vue:32
 msgid "Line spacing"
 msgstr ""
 
@@ -27685,7 +27685,7 @@ msgid "Linux"
 msgstr ""
 
 #. Option for the 'View' (Select) field in DocType 'Extension'
-#: frontend/src/writer/components/CommentEditor.vue:92
+#: frontend/src/doc/components/CommentEditor.vue:92
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:173
 #: onedesk/one_display/widgets.py:51 onedesk/one_display/widgets.py:130
 #: onedesk/one_studio/doctype/extension/extension.json:78
@@ -27777,7 +27777,7 @@ msgstr ""
 msgid "Loading preview…"
 msgstr ""
 
-#: frontend/src/writer/components/DocumentList.vue:24
+#: frontend/src/doc/components/DocumentList.vue:24
 #: onedesk/public/js/crumb_switch.js:105
 msgid "Loading..."
 msgstr ""
@@ -27785,7 +27785,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/CellHistoryPopover.vue:5
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:13
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:6
-#: frontend/src/writer/shim/FieldDialog.vue:18
+#: frontend/src/doc/shim/FieldDialog.vue:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:268
 #: onedesk/public/js/center_section.js:95 onedesk/public/js/one/news_add.js:199
 #: onedesk/public/js/one_account/account_center.js:829
@@ -27837,7 +27837,7 @@ msgstr ""
 #: frontend/src/slide/components/ElementContextMenu.vue:183
 #: frontend/src/slide/components/PropertiesPanel.vue:17
 #: frontend/src/slide/shim/LayersPanel.vue:56
-#: frontend/src/writer/DocumentPage.vue:306
+#: frontend/src/doc/DocumentPage.vue:306
 #: onedesk/one_book/report/tax_return/tax_return.js:63
 msgid "Lock"
 msgstr ""
@@ -28622,7 +28622,7 @@ msgstr ""
 #: frontend/src/slide/shim/EditorNavbar.vue:301
 #: frontend/src/slide/shim/EditorNavbar.vue:403
 #: frontend/src/slide/shim/EditorNavbar.vue:410
-#: frontend/src/writer/components/CoreEditor.vue:291
+#: frontend/src/doc/components/CoreEditor.vue:291
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:40
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:55
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
@@ -28706,7 +28706,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:587
 #: frontend/src/slide/shim/EditorNavbar.vue:329
 #: frontend/src/slide/shim/EditorNavbar.vue:403
-#: frontend/src/writer/components/CoreEditor.vue:290 onedesk/one_ai/jobs.py:77
+#: frontend/src/doc/components/CoreEditor.vue:290 onedesk/one_ai/jobs.py:77
 msgid "Make a Picture"
 msgstr ""
 
@@ -28714,7 +28714,7 @@ msgstr ""
 msgid "Make a Picture for a Slide"
 msgstr ""
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:153
+#: frontend/src/doc/components/core-editor/menu-buttons.js:153
 msgid "Make a Picture with OneAI"
 msgstr ""
 
@@ -28896,7 +28896,7 @@ msgstr ""
 msgid "Manager"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:44
+#: frontend/src/doc/components/VersionsSidebar.vue:44
 msgid "Manual"
 msgstr ""
 
@@ -30404,8 +30404,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:13
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:51
 #: frontend/src/sheet/shim/TemplateDialog.vue:6
-#: frontend/src/writer/components/NewVersionDialog.vue:3
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:6
+#: frontend/src/doc/components/NewVersionDialog.vue:3
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:6
 #: onedesk/one/access_center.py:215 onedesk/one/access_center.py:235
 #: onedesk/one/access_center.py:269 onedesk/one/notification_words.py:260
 #: onedesk/one_account/doctype/device/device.json:28
@@ -31985,7 +31985,7 @@ msgstr ""
 msgid "No documents"
 msgstr ""
 
-#: frontend/src/writer/components/DocumentList.vue:6
+#: frontend/src/doc/components/DocumentList.vue:6
 msgid "No documents found"
 msgstr ""
 
@@ -32029,7 +32029,7 @@ msgstr ""
 msgid "No feeds found."
 msgstr ""
 
-#: frontend/src/writer/shim/FieldDialog.vue:18
+#: frontend/src/doc/shim/FieldDialog.vue:18
 msgid "No field matches."
 msgstr ""
 
@@ -32710,7 +32710,7 @@ msgstr ""
 #: frontend/src/slide/components/controls/LineStyleSelect.vue:11
 #: frontend/src/slide/components/controls/LineStyleSelect.vue:16
 #: frontend/src/slide/shim/MotionSection.vue:46
-#: frontend/src/writer/shim/PrintDialog.vue:48 onedesk/one/ai.py:2576
+#: frontend/src/doc/shim/PrintDialog.vue:48 onedesk/one/ai.py:2576
 #: onedesk/one_book/heads.py:486
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:23
 #: onedesk/one_studio/ai_setup.py:129
@@ -32745,7 +32745,7 @@ msgstr ""
 msgid "None yet"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:78
+#: frontend/src/doc/components/VersionsSidebar.vue:78
 msgid "None yet."
 msgstr ""
 
@@ -33745,7 +33745,7 @@ msgstr ""
 msgid "Number Reading"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:112
+#: frontend/src/doc/components/WriterSettings.vue:112
 msgid "Number each page at the bottom right when printing."
 msgstr ""
 
@@ -34870,7 +34870,7 @@ msgid "OneAI is generating the music. You will be notified when it is added to t
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:607
-#: frontend/src/writer/components/CoreEditor.vue:286
+#: frontend/src/doc/components/CoreEditor.vue:286
 msgid "OneAI is making it…"
 msgstr ""
 
@@ -35331,11 +35331,11 @@ msgid "OneTask"
 msgstr ""
 
 #: onedesk/one_sheet/page/workbook/workbook.js:4
-msgid "OneWorkbook"
+msgid "OneSheet"
 msgstr ""
 
 #: onedesk/one_doc/page/document/document.js:4
-msgid "OneWriter"
+msgid "OneDoc"
 msgstr ""
 
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:78
@@ -36010,11 +36010,11 @@ msgid "Open in OneOS"
 msgstr ""
 
 #: onedesk/public/js/table_workbook.js:97
-msgid "Open in OneWorkbook"
+msgid "Open in OneSheet"
 msgstr ""
 
 #: onedesk/public/js/text_writer.js:24
-msgid "Open in OneWriter"
+msgid "Open in OneDoc"
 msgstr ""
 
 #: onedesk/public/js/account_request.js:11
@@ -36684,7 +36684,7 @@ msgid "Organization Name"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:7
-#: frontend/src/writer/shim/PrintDialog.vue:7
+#: frontend/src/doc/shim/PrintDialog.vue:7
 msgid "Orientation"
 msgstr ""
 
@@ -36969,7 +36969,7 @@ msgstr ""
 msgid "Outcome"
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:194
+#: frontend/src/doc/components/CoreEditor.vue:194
 #: onedesk/public/js/one_ai/ai_proposal_list.js:10
 msgid "Outdated"
 msgstr ""
@@ -37290,7 +37290,7 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:161
+#: frontend/src/doc/components/core-editor/menu-buttons.js:161
 msgid "Page Break"
 msgstr ""
 
@@ -37305,7 +37305,7 @@ msgid "Page Memory Limit (MB)"
 msgstr ""
 
 #. Label of the settings (JSON) field in DocType 'Writer Document'
-#: frontend/src/writer/DocumentPage.vue:301
+#: frontend/src/doc/DocumentPage.vue:301
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:59
 msgid "Page Setup"
 msgstr ""
@@ -37555,7 +37555,7 @@ msgstr ""
 msgid "Paid. The credits arrive in a moment."
 msgstr ""
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:116
+#: frontend/src/doc/components/core-editor/menu-buttons.js:116
 msgid "Paint Styles"
 msgstr ""
 
@@ -37612,11 +37612,11 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: frontend/src/writer/components/SpacingDialog.vue:26
+#: frontend/src/doc/components/SpacingDialog.vue:26
 msgid "Paragraph Spacing"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:40
+#: frontend/src/doc/components/WriterSettings.vue:40
 msgid "Paragraph spacing"
 msgstr ""
 
@@ -39544,7 +39544,7 @@ msgstr ""
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/sheet/shim/PrintDialog.vue:64
-#: frontend/src/writer/shim/PrintDialog.vue:51
+#: frontend/src/doc/shim/PrintDialog.vue:51
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Portrait"
@@ -40011,9 +40011,9 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1948
 #: frontend/src/sheet/shim/PrintDialog.vue:3
 #: frontend/src/sheet/shim/PrintDialog.vue:17
-#: frontend/src/writer/DocumentPage.vue:297
-#: frontend/src/writer/shim/PrintDialog.vue:3
-#: frontend/src/writer/shim/PrintDialog.vue:15
+#: frontend/src/doc/DocumentPage.vue:297
+#: frontend/src/doc/shim/PrintDialog.vue:3
+#: frontend/src/doc/shim/PrintDialog.vue:15
 #: onedesk/one_display/doctype/display_board/display_board.js:10
 #: onedesk/one_interface/shortcuts.py:28
 #: onedesk/public/js/one_legal/trust_center.js:239
@@ -40053,7 +40053,7 @@ msgstr ""
 msgid "Print formats here set no global variables. An HTML block reads the record itself."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:69
+#: frontend/src/doc/components/WriterSettings.vue:69
 msgid "Print settings"
 msgstr ""
 
@@ -41827,7 +41827,7 @@ msgid "Read on behalf of {0}"
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:87
-#: frontend/src/writer/DocumentPage.vue:200
+#: frontend/src/doc/DocumentPage.vue:200
 msgid "Read only"
 msgstr ""
 
@@ -43242,8 +43242,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:759
 #: frontend/src/slide/components/PresentationPreview.vue:131
 #: frontend/src/slide/shim/EditorNavbar.vue:157
-#: frontend/src/writer/DocumentPage.vue:303
-#: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1852
+#: frontend/src/doc/DocumentPage.vue:303
+#: frontend/src/doc/components/ToC.vue:358 onedesk/one/ai.py:1852
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 #: onedesk/public/js/one_ai/panel/Panel.vue:23
@@ -43478,7 +43478,7 @@ msgstr ""
 #: frontend/src/mail/MailConversation.vue:83
 #: frontend/src/mail/MailConversation.vue:124
 #: frontend/src/sheet/components/SheetEditor/index.vue:1124
-#: frontend/src/writer/components/FloatingComments.vue:157
+#: frontend/src/doc/components/FloatingComments.vue:157
 #: onedesk/one_ai/chat.py:316
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
@@ -43512,7 +43512,7 @@ msgstr ""
 msgid "Reply with"
 msgstr ""
 
-#: frontend/src/writer/components/FloatingComments.vue:62
+#: frontend/src/doc/components/FloatingComments.vue:62
 msgid "Replying to:"
 msgstr ""
 
@@ -43936,7 +43936,7 @@ msgstr ""
 msgid "Resolutions Done"
 msgstr ""
 
-#: frontend/src/writer/components/FloatingComments.vue:34
+#: frontend/src/doc/components/FloatingComments.vue:34
 msgid "Resolve"
 msgstr ""
 
@@ -43945,7 +43945,7 @@ msgid "Resolve Non Conformances"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1096
-#: frontend/src/writer/components/CoreEditor.vue:187
+#: frontend/src/doc/components/CoreEditor.vue:187
 msgid "Resolved"
 msgstr ""
 
@@ -43990,8 +43990,8 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: frontend/src/cloud/CloudPreview.vue:34 frontend/src/cloud/OneCloud.vue:689
 #: frontend/src/cloud/OneCloud.vue:755
-#: frontend/src/writer/components/VersionsSidebar.vue:29
-#: frontend/src/writer/components/VersionsSidebar.vue:300
+#: frontend/src/doc/components/VersionsSidebar.vue:29
+#: frontend/src/doc/components/VersionsSidebar.vue:300
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
 #: onedesk/one_admin/heads.py:492 onedesk/public/js/deleted_document.js:3
 #: onedesk/public/js/deleted_document.js:5
@@ -44011,7 +44011,7 @@ msgstr ""
 msgid "Restore this version"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:293
+#: frontend/src/doc/components/VersionsSidebar.vue:293
 msgid "Restore this version?"
 msgstr ""
 
@@ -44030,7 +44030,7 @@ msgstr ""
 msgid "Restored 1 item"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:305
+#: frontend/src/doc/components/VersionsSidebar.vue:305
 #, python-brace-format
 msgid "Restored {0}"
 msgstr ""
@@ -45278,12 +45278,12 @@ msgid "Save Layout"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:165
-#: frontend/src/writer/DocumentPage.vue:29
+#: frontend/src/doc/DocumentPage.vue:29
 msgid "Save Over Original"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:18
-#: frontend/src/writer/shim/PrintDialog.vue:17
+#: frontend/src/doc/shim/PrintDialog.vue:17
 msgid "Save PDF to OneCloud"
 msgstr ""
 
@@ -45301,7 +45301,7 @@ msgstr ""
 
 #: frontend/src/cloud/CloudViewer.vue:19
 #: frontend/src/sheet/components/SheetEditor/index.vue:166
-#: frontend/src/writer/DocumentPage.vue:30
+#: frontend/src/doc/DocumentPage.vue:30
 msgid "Save as Copy"
 msgstr ""
 
@@ -45310,9 +45310,9 @@ msgstr ""
 #: frontend/src/sheet/shim/TemplateDialog.vue:15
 #: frontend/src/slide/shim/EditorNavbar.vue:156
 #: frontend/src/slide/shim/EditorNavbar.vue:315
-#: frontend/src/writer/DocumentPage.vue:310
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:3
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:15
+#: frontend/src/doc/DocumentPage.vue:310
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:3
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:15
 #: onedesk/public/js/project.js:55 onedesk/public/js/project_actions.js:59
 msgid "Save as Template"
 msgstr ""
@@ -45354,7 +45354,7 @@ msgstr ""
 #: frontend/portal/src/parts/WebForm.vue:118
 #: frontend/src/sheet/components/SheetEditor/index.vue:65
 #: frontend/src/slide/shim/EditorNavbar.vue:90
-#: frontend/src/writer/DocumentPage.vue:202
+#: frontend/src/doc/DocumentPage.vue:202
 #: onedesk/public/js/module_settings.js:219
 #: onedesk/public/js/one/one_control.js:251
 #: onedesk/public/js/one/role_matrix.js:44
@@ -45392,12 +45392,12 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:1134
 #: frontend/src/sheet/components/SheetEditor/index.vue:2090
-#: frontend/src/writer/DocumentPage.vue:409
+#: frontend/src/doc/DocumentPage.vue:409
 #, python-brace-format
 msgid "Saved as {0}."
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:442
+#: frontend/src/doc/components/CoreEditor.vue:442
 msgid "Saved document"
 msgstr ""
 
@@ -45407,7 +45407,7 @@ msgid "Saved from the drive: slides {0} had parts that could not be brought in."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:2092
-#: frontend/src/writer/DocumentPage.vue:411
+#: frontend/src/doc/DocumentPage.vue:411
 #, python-brace-format
 msgid "Saved over {0}."
 msgstr ""
@@ -45450,7 +45450,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:61
 #: frontend/src/slide/shim/EditorNavbar.vue:89
-#: frontend/src/writer/DocumentPage.vue:201 onedesk/public/js/hiring.js:215
+#: frontend/src/doc/DocumentPage.vue:201 onedesk/public/js/hiring.js:215
 msgid "Saving…"
 msgstr ""
 
@@ -45853,7 +45853,7 @@ msgstr ""
 msgid "Search everywhere"
 msgstr ""
 
-#: frontend/src/writer/shim/FieldDialog.vue:7
+#: frontend/src/doc/shim/FieldDialog.vue:7
 msgid "Search fields"
 msgstr ""
 
@@ -45861,7 +45861,7 @@ msgstr ""
 msgid "Search fields…"
 msgstr ""
 
-#: frontend/src/writer/components/TemplateDialog.vue:14
+#: frontend/src/doc/components/TemplateDialog.vue:14
 msgid "Search templates..."
 msgstr ""
 
@@ -46966,15 +46966,15 @@ msgstr ""
 msgid "Set the date range."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:62
+#: frontend/src/doc/components/WriterSettings.vue:62
 msgid "Set the default spacing around paragraphs."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:27
+#: frontend/src/doc/components/WriterSettings.vue:27
 msgid "Set the font size of the editor (px)."
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:104
+#: frontend/src/doc/components/WriterSettings.vue:104
 msgid "Set the text to appear in headers and footers when printing."
 msgstr ""
 
@@ -47058,8 +47058,8 @@ msgstr ""
 
 #. Label of the settings (Code) field in DocType 'Display Widget'
 #. Label of a Card Break in the OneHR Setup Workspace
-#: frontend/src/writer/components/WriterSettings.vue:5
-#: frontend/src/writer/components/core-editor/menu-buttons.js:177
+#: frontend/src/doc/components/WriterSettings.vue:5
+#: frontend/src/doc/components/core-editor/menu-buttons.js:177
 #: onedesk/one_book/home.py:257 onedesk/one_crm/home.py:65
 #: onedesk/one_display/doctype/display_widget/display_widget.json:88
 #: onedesk/one_hr/home.py:40
@@ -47178,7 +47178,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:601
 #: frontend/src/slide/components/PropertiesPanel.vue:176
 #: frontend/src/slide/shim/LayersPanel.vue:116
-#: frontend/src/writer/components/CoreEditor.vue:283
+#: frontend/src/doc/components/CoreEditor.vue:283
 msgid "Shape"
 msgstr ""
 
@@ -47250,7 +47250,7 @@ msgstr ""
 msgid "Share this sheet"
 msgstr ""
 
-#: frontend/src/writer/components/FloatingComments.vue:334
+#: frontend/src/doc/components/FloatingComments.vue:334
 msgid "Share with the tagged people?"
 msgstr ""
 
@@ -47763,7 +47763,7 @@ msgstr ""
 msgid "Show or Hide the Sidebar"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:111
+#: frontend/src/doc/components/WriterSettings.vue:111
 msgid "Show page numbers"
 msgstr ""
 
@@ -49342,7 +49342,7 @@ msgstr ""
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/cloud/OneCloud.vue:592 frontend/src/slide/shim/frame.js:18
-#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/doc/components/CoreEditor.vue:279
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Square"
@@ -49560,7 +49560,7 @@ msgstr ""
 msgid "Start recording"
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:16
+#: frontend/src/doc/components/CoreEditor.vue:16
 msgid "Start thinking..."
 msgstr ""
 
@@ -51305,7 +51305,7 @@ msgstr ""
 msgid "Tab colour"
 msgstr ""
 
-#: frontend/src/writer/components/ToC.vue:56
+#: frontend/src/doc/components/ToC.vue:56
 msgid "Tab options"
 msgstr ""
 
@@ -51318,9 +51318,9 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: frontend/src/writer/components/ToC.vue:7
-#: frontend/src/writer/components/ToC.vue:11
-#: frontend/src/writer/components/core-editor/menu-buttons.js:60
+#: frontend/src/doc/components/ToC.vue:7
+#: frontend/src/doc/components/ToC.vue:11
+#: frontend/src/doc/components/core-editor/menu-buttons.js:60
 msgid "Table of Contents"
 msgstr ""
 
@@ -51432,7 +51432,7 @@ msgid "Taking It With You"
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:592
-#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/doc/components/CoreEditor.vue:279
 msgid "Tall"
 msgstr ""
 
@@ -51479,7 +51479,7 @@ msgstr ""
 msgid "Task Given"
 msgstr ""
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:53
+#: frontend/src/doc/components/core-editor/menu-buttons.js:53
 msgid "Task List"
 msgstr ""
 
@@ -52007,7 +52007,7 @@ msgstr ""
 msgid "Template error: {0}"
 msgstr ""
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:46
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:46
 #, python-brace-format
 msgid "Template {0} saved."
 msgstr ""
@@ -53251,7 +53251,7 @@ msgstr ""
 msgid "The expense is booked and the money is owed to them."
 msgstr ""
 
-#: frontend/src/writer/shim/PrintDialog.vue:8
+#: frontend/src/doc/shim/PrintDialog.vue:8
 #, python-brace-format
 msgid "The fields in this document are filled from {0}."
 msgstr ""
@@ -54402,7 +54402,7 @@ msgstr ""
 msgid "The template includes every sheet except {0}, which belongs to the record."
 msgstr ""
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:8
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:8
 msgid "The template includes the whole document as it is now."
 msgstr ""
 
@@ -55190,12 +55190,12 @@ msgstr ""
 msgid "This copy is gone"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:295
-#: frontend/src/writer/components/WriterSettings.vue:182
+#: frontend/src/doc/DocumentPage.vue:295
+#: frontend/src/doc/components/WriterSettings.vue:182
 msgid "This document"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:229
+#: frontend/src/doc/DocumentPage.vue:229
 msgid "This document could not be opened."
 msgstr ""
 
@@ -55311,7 +55311,7 @@ msgstr ""
 msgid "This invitation was withdrawn"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:15
+#: frontend/src/doc/components/VersionsSidebar.vue:15
 #, python-brace-format
 msgid "This is an automatic snapshot of this document from {0}."
 msgstr ""
@@ -55349,7 +55349,7 @@ msgstr ""
 msgid "This is taking longer than usual. We will mail {0} when it is ready."
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:108
+#: frontend/src/doc/components/VersionsSidebar.vue:108
 msgid "This is the current version."
 msgstr ""
 
@@ -56674,11 +56674,11 @@ msgstr ""
 msgid "Top border"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:77
+#: frontend/src/doc/components/WriterSettings.vue:77
 msgid "Top left"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:84
+#: frontend/src/doc/components/WriterSettings.vue:84
 msgid "Top right"
 msgstr ""
 
@@ -57747,7 +57747,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:119
 #: frontend/src/slide/components/FontSection.vue:89
 #: frontend/src/slide/composables/useShortcuts.js:465
-#: frontend/src/writer/components/core-editor/menu-buttons.js:45
+#: frontend/src/doc/components/core-editor/menu-buttons.js:45
 msgid "Underline"
 msgstr ""
 
@@ -57996,8 +57996,8 @@ msgstr ""
 #: frontend/src/slide/components/LockBadge.vue:7
 #: frontend/src/slide/components/PropertiesPanel.vue:17
 #: frontend/src/slide/shim/LayersPanel.vue:56
-#: frontend/src/writer/DocumentPage.vue:19
-#: frontend/src/writer/DocumentPage.vue:305
+#: frontend/src/doc/DocumentPage.vue:19
+#: frontend/src/doc/DocumentPage.vue:305
 #: onedesk/one_book/report/tax_return/tax_return.js:65
 msgid "Unlock"
 msgstr ""
@@ -58066,7 +58066,7 @@ msgstr ""
 msgid "Unreconciled Bank Transactions"
 msgstr ""
 
-#: frontend/src/writer/components/FloatingComments.vue:44
+#: frontend/src/doc/components/FloatingComments.vue:44
 msgid "Unresolve"
 msgstr ""
 
@@ -58122,13 +58122,13 @@ msgstr ""
 msgid "Until {0}"
 msgstr ""
 
-#: frontend/src/writer/components/ToC.vue:96
+#: frontend/src/doc/components/ToC.vue:96
 #: onedesk/public/js/one_ai/panel/Panel.vue:46
 msgid "Untitled"
 msgstr ""
 
-#: frontend/src/writer/DocumentPage.vue:266
-#: frontend/src/writer/components/CoreEditor.vue:369 onedesk/one_doc/api.py:81
+#: frontend/src/doc/DocumentPage.vue:266
+#: frontend/src/doc/components/CoreEditor.vue:369 onedesk/one_doc/api.py:81
 #: onedesk/public/js/workbooks.js:17
 msgid "Untitled Document"
 msgstr ""
@@ -58214,7 +58214,7 @@ msgstr ""
 #. Label in the One Project Update print format
 #: frontend/portal/src/pages/Password.vue:4
 #: frontend/src/admin/ServerMetrics.vue:115
-#: frontend/src/writer/components/WriterSettings.vue:134
+#: frontend/src/doc/components/WriterSettings.vue:134
 #: onedesk/one_ai/chat.py:336
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading/reading.json:324
@@ -58922,7 +58922,7 @@ msgstr ""
 #: frontend/src/slide/shim/EditorNavbar.vue:141
 #: frontend/src/slide/shim/EditorNavbar.vue:154
 #: frontend/src/slide/shim/VersionsDialog.vue:3
-#: frontend/src/writer/DocumentPage.vue:309
+#: frontend/src/doc/DocumentPage.vue:309
 msgid "Version History"
 msgstr ""
 
@@ -59911,7 +59911,7 @@ msgstr ""
 
 #. Description of the 'Editor Would Drop' (Small Text) field in DocType 'File'
 #: onedesk/one_cloud/custom/file.json:173
-msgid "What OneWorkbook or OneWriter would drop from this version of the file."
+msgid "What OneSheet or OneDoc would drop from this version of the file."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:297
@@ -62185,7 +62185,7 @@ msgstr ""
 
 #. When a notification is sent
 #: onedesk/one_cloud/notifications.py
-msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook or OneWriter."
+msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneSheet or OneDoc."
 msgstr ""
 
 #. When a notification is sent
@@ -63611,8 +63611,8 @@ msgid "Wi-Fi Code"
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:592
-#: frontend/src/writer/components/CoreEditor.vue:279
-#: frontend/src/writer/components/CoreEditor.vue:283
+#: frontend/src/doc/components/CoreEditor.vue:279
+#: frontend/src/doc/components/CoreEditor.vue:283
 msgid "Wide"
 msgstr ""
 
@@ -65013,17 +65013,17 @@ msgstr ""
 msgid "You are outside every location this shift may check in from."
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:297
+#: frontend/src/doc/components/VersionsSidebar.vue:297
 #, python-brace-format
 msgid "You are restoring the document to how it was at {0}."
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:296
+#: frontend/src/doc/components/VersionsSidebar.vue:296
 #, python-brace-format
 msgid "You are restoring to a previous version: {0}."
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:8
+#: frontend/src/doc/components/VersionsSidebar.vue:8
 msgid "You are viewing the version history of"
 msgstr ""
 
@@ -66491,7 +66491,7 @@ msgstr ""
 msgid "e.g. Costing"
 msgstr ""
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:6
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:6
 msgid "e.g. Cover letter"
 msgstr ""
 
@@ -66563,7 +66563,7 @@ msgstr ""
 msgid "equations"
 msgstr ""
 
-#: frontend/src/writer/components/TemplateDialog.vue:84
+#: frontend/src/doc/components/TemplateDialog.vue:84
 msgid "esc"
 msgstr ""
 
@@ -67622,15 +67622,15 @@ msgstr ""
 msgid "title"
 msgstr ""
 
-#: frontend/src/writer/components/TemplateDialog.vue:85
+#: frontend/src/doc/components/TemplateDialog.vue:85
 msgid "to close"
 msgstr ""
 
-#: frontend/src/writer/components/TemplateDialog.vue:81
+#: frontend/src/doc/components/TemplateDialog.vue:81
 msgid "to insert"
 msgstr ""
 
-#: frontend/src/writer/components/TemplateDialog.vue:75
+#: frontend/src/doc/components/TemplateDialog.vue:75
 msgid "to navigate"
 msgstr ""
 
@@ -67814,7 +67814,7 @@ msgid "{0} (copy)"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:59
-#: frontend/src/writer/shim/PrintDialog.vue:47
+#: frontend/src/doc/shim/PrintDialog.vue:47
 #, python-brace-format
 msgid "{0} (default)"
 msgstr ""
@@ -68326,7 +68326,7 @@ msgid "{0} at {1}"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:153
-#: frontend/src/writer/shim/PrintDialog.vue:109
+#: frontend/src/doc/shim/PrintDialog.vue:109
 #, python-brace-format
 msgid "{0} attached to {1}."
 msgstr ""
@@ -70935,7 +70935,7 @@ msgstr ""
 msgid "{0} saved this in OneOS on {1}. Its {2} could not be kept. What it held before is in Version History."
 msgstr ""
 
-#: frontend/src/writer/shim/PrintDialog.vue:109
+#: frontend/src/doc/shim/PrintDialog.vue:109
 #, python-brace-format
 msgid "{0} saved to OneCloud, in the same folder as this document."
 msgstr ""

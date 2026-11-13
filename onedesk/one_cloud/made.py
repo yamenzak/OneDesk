@@ -31,7 +31,7 @@ def named(name: str | None, description: str) -> str:
 
 
 def making(kind: str, description: str, shape: str | None, voice: str | None, reference: str | None = None) -> tuple[bytes, str]:
-	"""Make it: the bytes and their extension. OneWriter's pictures are made
+	"""Make it: the bytes and their extension. OneDoc's pictures are made
 	here too, under their own reference."""
 	from onedesk.one_ai import run
 	from onedesk.one_display.make import EXTENSIONS

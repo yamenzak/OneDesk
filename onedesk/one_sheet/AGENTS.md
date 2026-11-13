@@ -1,9 +1,9 @@
-# OneWorkbook
+# OneSheet
 
-What OneWorkbook is, how it works and why; for agents, OneAI and us. What is
+What OneSheet is, how it works and why; for agents, OneAI and us. What is
 known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
 
-OneWorkbook is One's spreadsheet: sheets, formulas, formatting, charts, pivot
+OneSheet is One's spreadsheet: sheets, formulas, formatting, charts, pivot
 tables and notes, in a workbook that lives in OneCloud with the rest of your
 files.
 
@@ -19,7 +19,7 @@ content. Deleting it sends it to the Recycle Bin with everything else.
 
 ## Excel and CSV files
 
-An Excel (.xlsx, .xls, .xlsm) or CSV file in OneCloud opens in OneWorkbook
+An Excel (.xlsx, .xls, .xlsm) or CSV file in OneCloud opens in OneSheet
 when you open it, sheets, formulas, number formats and merged cells and
 all. What you change is saved into the same file, a minute after you stop
 and again when you leave, so downloading it, or opening it in Excel, gets
@@ -79,14 +79,14 @@ workbook has **Attach PDF to** the record instead.
 On a network drive connected to OneCloud, through a public link, and
 attached to an email, a workbook is an Excel file: `Glass prices.xlsx`. Excel, LibreOffice and
 Numbers open it with its formulas, number formats, merged cells and column
-widths. A formula only OneWorkbook knows (RECORD, FIELD, BRAND, IMAGE) is
+widths. A formula only OneSheet knows (RECORD, FIELD, BRAND, IMAGE) is
 written as the value it last showed.
 
 Saving it from Excel saves into the workbook: values and formulas come back,
 the workbook's own formatting stays as it was, and the earlier state is kept
 in Version History. A formula Excel only saw as a value keeps its formula if
 the value was not changed. A record's workbook opens read-only on the drive;
-its table is edited in OneWorkbook.
+its table is edited in OneSheet.
 
 ## Who can open a record's workbook
 
@@ -100,12 +100,12 @@ The path at the top says where the workbook belongs, and each step is a
 way back. A record's workbook reads `Quotation / RC-QTN-2600002 / Items`:
 the record's number goes back to its form. Any other reads
 `OneCloud / My Files / Glass prices`: a folder opens OneCloud there.
-OneWorkbook's mark goes one step back, to the record or the folder.
+OneSheet's mark goes one step back, to the record or the folder.
 
 ## Leaving a workbook to look something up
 
 Go anywhere else: the workbook is saved as you go, and waits on the bar,
-after the date, under OneWorkbook's mark and its name. Click it to come back; × takes it off. Leave
+after the date, under OneSheet's mark and its name. Click it to come back; × takes it off. Leave
 several and the bar says how many, with a list to pick from. The bar
 remembers the last five you left, in every tab and on every device you
 sign in on.
@@ -217,7 +217,7 @@ lines into a record's table, type the formula in the table, such as
 **File › Save as Template** keeps a copy of the workbook in OneCloud ›
 Workbook Templates, where everyone in the company can start from it; you,
 and administrators, can change it there like any workbook. Keeping one is
-OneWorkbook's one ability, `template` (`abilities.py`, the Permission Type
+OneSheet's one ability, `template` (`abilities.py`, the Permission Type
 `sheet_template` on Workbook): a Manager has it, a User does not, and the
 item is left out of **File** for whoever lacks it. **New ›
 Workbook** in OneCloud then asks which template to start from, or a blank
@@ -225,7 +225,7 @@ one.
 
 A template is its own sheets and nothing else. Saved from a record's table
 workbook, it keeps the sheets beside the table and leaves the table out,
-since the table is the record's. **Open in OneWorkbook** under a table
+since the table is the record's. **Open in OneSheet** under a table
 opens the table as it is; templates are added from inside.
 
 ## Branded sheets
@@ -593,7 +593,7 @@ usePersistence) beside the cells, since only the browser can work a
 formula out. `excel.build` writes the workbook with XlsxWriter: a formula
 with that value cached, so a previewer that does not calculate still shows
 it; an open-ended range such as `H6:H`, which Excel does not have, closed at
-row 1,048,576; a OneWorkbook-only formula as its value. `xlsx` keeps the
+row 1,048,576; a OneSheet-only formula as its value. `xlsx` keeps the
 bytes in the cache until the workbook changes. `dav._as_file` names the
 node `Name.xlsx`, `Document` serves those bytes and sends a save to
 `excel.write`, `links.get` hands them to a link, and `one_cloud/file.py`'s
@@ -601,7 +601,7 @@ node `Name.xlsx`, `Document` serves those bytes and sends a save to
 attachment above all, naming it `Name.xlsx` while it is read. `excel.read` takes
 Excel's save back with openpyxl: values and formulas in, `_xlfn.` dropped
 and the range opened again, the other slices (formats, widths, notes)
-kept, and a OneWorkbook-only formula restored where Excel's value equals
+kept, and a OneSheet-only formula restored where Excel's value equals
 the one sent. `write` goes through `save_sheet`, so a change and a version
 are kept, and refuses a record's workbook. Tested with a direct save, as
 Windows' drive and LibreOffice save; an app that saves by writing a new
@@ -610,7 +610,7 @@ which goes to the Recycle Bin.
 
 ### Back to a workbook, `public/js/workbooks.js`
 
-OneWorkbook has no sidebar of its own: frappe would make one listing
+OneSheet has no sidebar of its own: frappe would make one listing
 Workbook, Workbook Change and Workbook Version raw, so `outside.UNSHELLED`
 leaves it out and `one_module_heirs` opens its records in OneCloud.
 
@@ -632,7 +632,7 @@ answer for the workbook's File); `draft_workbook`, `write_cells` and
 `comment_on_cell` write a Setup card (`one/ai_setup.apply` hands it back to
 `ai.approved`), which on approval writes into the saved shape (`written`,
 `noted`) through `save_sheet`, so it is a version like any save, and tells
-the approver's open editor (`one_workbook_written`), which reloads when it has nothing
+the approver's open editor (`one_sheet_written`), which reloads when it has nothing
 unsaved. The tools are the `workbooks` group (`one_ai/groups.py`), given
 on the workbook page or when a request says sheet, formula, cell or the
 like. A cell's result is worked out only in the browser, so a read says a

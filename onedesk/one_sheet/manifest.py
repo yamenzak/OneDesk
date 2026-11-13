@@ -1,10 +1,10 @@
-"""OneWorkbook's place in One (docs/run/RUN.md, OneRegistry)."""
+"""OneSheet's place in One (docs/run/RUN.md, OneRegistry)."""
 
 from onedesk.one.registry.model import App
 
 APP = App(
 	id="one_sheet",
-	name="OneWorkbook",
+	name="OneSheet",
 	kind="app",
 	module="One Sheet",
 	mark="onesheet",
@@ -21,7 +21,7 @@ APP = App(
 		("asking-oneai", "sparkles"),
 		("who-can-do-what", "shield"),
 	),
-	windowless="A workbook opens from OneCloud in an editor that fills the window, so OneWorkbook's foot and settings are OneCloud's.",
+	windowless="A workbook opens from OneCloud in an editor that fills the window, so OneSheet's foot and settings are OneCloud's.",
 	ready={
 		"ready": True,
 		"checked": {

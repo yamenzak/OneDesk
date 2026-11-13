@@ -118,7 +118,7 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 
 
 def _weighed(name: str, item: dict) -> None:
-	"""What the Excel file about to be read in has that OneWorkbook drops."""
+	"""What the Excel file about to be read in has that OneSheet drops."""
 	from onedesk.one_cloud import api as cloud
 	from onedesk.one_cloud import fidelity, saving
 

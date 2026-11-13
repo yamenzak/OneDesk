@@ -1,7 +1,7 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/index.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
   <!-- One: data-tour marks the tour's steps, one_sheet/tour.py; VENDORED.md -->
-  <div class="sn-root" data-tour="oneworkbook-editor">
+  <div class="sn-root" data-tour="onesheet-editor">
 
     <!-- Load-time error state: the sheet doesn't exist, the caller lacks
          access to it, or the request failed for some other reason. We
@@ -35,7 +35,7 @@
     <div class="sn-topbar">
       <div class="sn-topbar-left">
         <div class="sn-identity">
-          <!-- One: the OneWorkbook mark, one step back (Suite's app menu is the desk's here). -->
+          <!-- One: the OneSheet mark, one step back (Suite's app menu is the desk's here). -->
           <a class="sn-app-menu-trigger" href="#" :title="__('Back')" @click.prevent="goBack" v-html="oneMark" />
           <!-- One: on a phone the path is the workbook's name alone; the mark still goes back -->
           <Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr] max-md:[&>:not(:last-child)]:hidden max-md:[&>div:last-child>:not(:last-child)]:hidden" v-if="!isTitleEditing" :items="sheetBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template></Breadcrumbs>
@@ -88,7 +88,7 @@
           </Badge>
         </Tooltip>
       </div>
-      <div class="sn-topbar-right" data-tour="oneworkbook-head">
+      <div class="sn-topbar-right" data-tour="onesheet-head">
         <!-- One: OneAI is asked from its own panel, which is told the selection (aiSees) -->
         <Dropdown :options="fileDropdownOptions" align="end">
           <template #default="{ open }">
@@ -174,7 +174,7 @@
     <!-- Read-only viewers: dim the whole bar and swallow pointer events so no
          formatting/insert/chart action is reachable. Undo/Redo and dropdowns
          come along for free without touching each button. -->
-    <div class="sn-toolbar" data-tour="oneworkbook-toolbar" :class="{ 'sn-toolbar--readonly': readOnly }"
+    <div class="sn-toolbar" data-tour="onesheet-toolbar" :class="{ 'sn-toolbar--readonly': readOnly }"
          :aria-disabled="readOnly || undefined">
 
       <!-- Number format -->
@@ -307,7 +307,7 @@
     </div>
 
     <!-- Bar 3 · Formula bar -->
-    <div class="sn-formula-bar" data-tour="oneworkbook-formula">
+    <div class="sn-formula-bar" data-tour="onesheet-formula">
       <Tooltip :text="__('Active cell {0}', [activeCell])">
         <span class="sn-cell-ref">{{ activeCell }}</span>
       </Tooltip>
@@ -636,7 +636,7 @@
     </div>
 
     <!-- Bottom · sheet tabs + selection stats -->
-    <div class="sn-bottom" data-tour="oneworkbook-tabs">
+    <div class="sn-bottom" data-tour="onesheet-tabs">
       <!-- Pinned outside the scroll track so it stays reachable no matter
            how many tabs there are. The wrapper owns the divider + margins so
            the Button itself stays a clean square pill (frappe-ui puts our
@@ -1326,7 +1326,7 @@ import { useChartIntegration } from './useChartIntegration.js'
 import ChartDialog             from './ChartDialog.vue'
 import ChartOverlay            from './ChartOverlay.vue'
 import InlineRenameInput       from '@/apps/drive/components/InlineRenameInput.vue'
-import { mark } from '../../shim/mark.js' // One: the OneWorkbook mark
+import { mark } from '../../shim/mark.js' // One: the OneSheet mark
 import { __, aiSees } from '../../../kit/desk'
 import { createNamedRanges }   from '../../engine/named-ranges.js'
 import { getFunctionNames }    from '../../engine/formula.js'
@@ -2053,8 +2053,8 @@ const _written = async (said) => {
   syncNames()
   _repopulateGrid()
 }
-window.frappe?.realtime?.on?.('one_workbook_written', _written)
-onBeforeUnmount(() => window.frappe?.realtime?.off?.('one_workbook_written', _written))
+window.frappe?.realtime?.on?.('one_sheet_written', _written)
+onBeforeUnmount(() => window.frappe?.realtime?.off?.('one_sheet_written', _written))
 
 // A desk page stays mounted when it is left, so leaving is a route change,
 // or the tab going out of sight.
@@ -2066,7 +2066,7 @@ onBeforeUnmount(() => {
   window.frappe?.router?.off?.('change', _leave)
   document.removeEventListener('visibilitychange', _hidden)
 })
-// One: a file with parts OneWorkbook drops is saved over only when the
+// One: a file with parts OneSheet drops is saved over only when the
 // person chooses Save Over Original or Save as Copy (one_cloud/saving.py).
 const heldBack = ref('')
 async function writeBack(choice = '') {

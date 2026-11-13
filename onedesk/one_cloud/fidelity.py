@@ -1,6 +1,6 @@
-"""What OneWorkbook or OneWriter would drop from an office file it saves over,
-read from the file's parts when it is opened. OneWorkbook writes what was
-changed into the Excel file itself, and OneWriter keeps text, headings,
+"""What OneSheet or OneDoc would drop from an office file it saves over,
+read from the file's parts when it is opened. OneSheet writes what was
+changed into the Excel file itself, and OneDoc keeps text, headings,
 lists, tables and pictures; everything listed here is not kept. While
 a file has something on its list, the editor does not save over it by itself
 (one_sheet/api.py and one_doc/word.py write_back)."""
@@ -41,7 +41,7 @@ EXTENDED = {
 
 
 def workbook(content: bytes) -> list[str]:
-	"""What saving over an Excel file from OneWorkbook drops. The file is
+	"""What saving over an Excel file from OneSheet drops. The file is
 	opened as it is and only what the editor changed is written into it
 	(one_sheet/patching.py), so fonts, fills, borders, comments, data
 	validation, conditional formatting, tables, pivot tables, defined names,
@@ -104,7 +104,7 @@ def read_in(content: bytes) -> list[str]:
 
 
 def document(content: bytes, messages: list | None = None, built: tuple = (), formatting: bool = True) -> list[str]:
-	"""What OneWriter drops from a Word file: each by its code, from its parts
+	"""What OneDoc drops from a Word file: each by its code, from its parts
 	and from what the reader said while reading it (`messages`, mammoth's,
 	of which only styles it did not know matter, less those in `built`, the
 	styles One writes itself). `formatting` counts fonts, sizes and colours,

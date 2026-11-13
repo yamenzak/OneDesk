@@ -303,7 +303,7 @@ def make_picture(file_id: str, description: str, shape: str | None = None) -> di
 	if not description:
 		frappe.throw(_("Describe what OneAI should make."))
 	try:
-		content, extension = maker.making("picture", description, shape, None, reference="OneWriter picture")
+		content, extension = maker.making("picture", description, shape, None, reference="OneDoc picture")
 	except frappe.ValidationError:
 		frappe.throw(_("OneAI could not make it. Try again, or describe it differently."))
 	made = frappe.get_doc(

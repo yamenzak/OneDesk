@@ -25,7 +25,7 @@ NOT_FOR_AI = {
 	"api.add_picture": "It answers a picture put into the document in the editor.",
 	"api.make_picture": "It is OneAI making a picture, asked from the editor's picture button.",
 	"api.drop_pictures": "It answers pictures taken out of the document in the editor.",
-	"field.open_field": "A record's text opens in OneWriter from the record's form, by the person reading it.",
+	"field.open_field": "A record's text opens in OneDoc from the record's form, by the person reading it.",
 	"paper.pdf": "Printing is the person's choice of letter head and page, made in the editor's Print dialog.",
 	"templates.save_as": "A template is kept from the editor's File menu by whoever may keep company templates.",
 	"versions.new_version": "A version is taken while somebody writes, or named by them in Version History.",
@@ -328,12 +328,12 @@ def page(said: dict) -> str | None:
 	name = (said.get("record") or "").strip()
 	item = _readable(name) if name else None
 	if not item:
-		return "The reader is on a document's page in OneWriter."
+		return "The reader is on a document's page in OneDoc."
 	from onedesk.one_doc import paper
 
 	held = frappe.db.get_value(api.DOCUMENT, name, ["html", "bound_doctype", "bound_field"], as_dict=True)
 	text = text_of(held.html)
-	where = f'The reader has the document "{item["file_name"]}" open in OneWriter (its id is {name})'
+	where = f'The reader has the document "{item["file_name"]}" open in OneDoc (its id is {name})'
 	record = paper.record_of(name)
 	if held.bound_doctype and record is not None:
 		where += f", which is the {held.bound_field} text of {record.doctype} {record.name}; what is written there goes into that field"
@@ -351,7 +351,7 @@ def page(said: dict) -> str | None:
 		where += f'\nThe reader\'s cursor is in the paragraph: """{selected["block"][:500]}"""; write_document with where=after puts new words after it.'
 	return where + (
 		"\nwrite_document writes into it as a card; draft_document makes a new one, in a folder or on a record, "
-		"from a template or not. How OneWriter works is in its documentation (how_to)."
+		"from a template or not. How OneDoc works is in its documentation (how_to)."
 	)
 
 

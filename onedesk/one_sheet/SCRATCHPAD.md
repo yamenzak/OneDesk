@@ -1,4 +1,4 @@
-# OneWorkbook — scratchpad
+# OneSheet — scratchpad
 
 What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 

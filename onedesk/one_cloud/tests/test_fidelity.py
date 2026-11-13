@@ -1,4 +1,4 @@
-"""What OneWorkbook and OneWriter would drop from an office file they save
+"""What OneSheet and OneDoc would drop from an office file they save
 over (one_cloud/fidelity.py), read from the file's parts."""
 
 import io

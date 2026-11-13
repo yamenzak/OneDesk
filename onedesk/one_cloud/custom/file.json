@@ -170,7 +170,7 @@
    "no_copy": 1,
    "module": "One Cloud",
    "name": "File-one_fidelity",
-   "description": "What OneWorkbook or OneWriter would drop from this version of the file."
+   "description": "What OneSheet or OneDoc would drop from this version of the file."
   },
   {
    "doctype": "Custom Field",

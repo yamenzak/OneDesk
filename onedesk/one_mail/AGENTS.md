@@ -427,7 +427,7 @@ Left behind on purpose: per-person read state on a shared address (one read
 state per mailbox was decided); sending as a customer's own domain from the
 mail domain (their own server does that, connected); complaints and
 soft-bounce backoff (no feedback loop reaches us); formal letters
-(Correspondence), which are OneWriter's rather than mail's; and the AI lane.
+(Correspondence), which are OneDoc's rather than mail's; and the AI lane.
 
 Stage 10, drafts and the team inbox, is built (November 2026).
 

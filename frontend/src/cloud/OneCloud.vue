@@ -1021,7 +1021,7 @@ const NATIVE = {
   document: (one) => call("onedesk.one_doc.word.open_file", { file: one.id }).then((made) => goTo("document", made.document)),
   presentation: (one) => call("onedesk.one_deck.from_powerpoint.open_file", { file: one.id }).then((made) => openedDeck({ ...made, name: one.name })),
 };
-const APPS = { workbook: "OneWorkbook", document: "OneWriter" };
+const APPS = { workbook: "OneSheet", document: "OneDoc" };
 
 async function weigh(one) {
   if (Array.isArray(one.office.loses) && !one.office.loses.length) return { loses: [] };
@@ -1054,8 +1054,8 @@ async function oneCopy(one) {
 }
 
 const OWN = {
-  workbook: { app: "OneWorkbook", suffix: ".xlsx", download: () => __("Download as Excel") },
-  document: { app: "OneWriter", suffix: ".docx", download: () => __("Download as Word") },
+  workbook: { app: "OneSheet", suffix: ".xlsx", download: () => __("Download as Excel") },
+  document: { app: "OneDoc", suffix: ".docx", download: () => __("Download as Word") },
   presentation: { app: "OneDeck", suffix: ".pptx", download: () => __("Download as PowerPoint") },
 };
 const ownKind = (one) => (one && !one.folder ? Object.keys(OWN).find((kind) => one[kind]) : null);

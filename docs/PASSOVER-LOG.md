@@ -32,7 +32,7 @@ commit message; the log of every walk up to 18 October 2026 is
 | One and OneAccount (AccountCenter), the end of `docs/ONE.md` | ready, both released at 1.0.0 | 2026-10-26 |
 | OneCalendar, OnePortal, OneTask, OneProject | ready, walked on OneInterface | 2026-10-28 |
 | OneInventory, OneBook, OneCRM, OneHR | ready; the full walk by five walkers, every finding fixed | 2026-10-29 |
-| OneDisplay, OneDeck, OneWriter, OneWorkbook | ready, looks taken at each version | 2026-10-30 |
+| OneDisplay, OneDeck, OneDoc, OneSheet | ready, looks taken at each version | 2026-10-30 |
 | OneInterface: Canvas, palettes, the record, every field, every view | walked in light and dark; not marked ready | 2026-11-02 |
 | OneInterface on a phone and a tablet | every view at 390 and the tablet, light and dark | 2026-11-02 |
 | ShortcutCenter, and the keys of One, OneInterface, OneMail and OneAI | built; looks re-taken for One, OneMail, OneAI | 2026-11-02 |

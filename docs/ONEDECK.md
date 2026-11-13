@@ -1,10 +1,10 @@
 # OneDeck
 
-A presentation is a file in OneCloud, the way a document is a OneWriter file
-and a workbook a OneWorkbook file. OneDeck is the editor that opens it.
+A presentation is a file in OneCloud, the way a document is a OneDoc file
+and a workbook a OneSheet file. OneDeck is the editor that opens it.
 OneDisplay stops drawing slides of its own: a playlist links presentations
 and plays them. Pictures and videos made with OneAI are made in OneDeck,
-and the picture half is offered in OneWriter too.
+and the picture half is offered in OneDoc too.
 
 This is the plan. Each stage is marked as it is built.
 
@@ -90,7 +90,7 @@ links it. `blocks.py`, `blocks.js`, `slides.py`'s designer endpoints and
 | Job | Moves to | Also in |
 |---|---|---|
 | Design a slide from a sentence (`slide_design`) | OneDeck, writing Suite's element JSON | |
-| Make a picture | OneDeck's Image section | OneWriter's insert menu |
+| Make a picture | OneDeck's Image section | OneDoc's insert menu |
 | Make a video (Veo, minutes, in the background) | OneDeck; the video arrives as an element on a new slide | |
 | Make music | stays in OneDisplay: it is a playlist's soundtrack, not a slide | |
 | Speak (calls and announcements) | stays in OneDisplay | |
@@ -158,18 +158,18 @@ channel's schedule, slide playlist and music stay on the channel's form.
    presentation filed on a record.
 3. **The Builder half.** The four shapes, fades, blur, free CSS, Layers
    with names, hide and lock.
-4. **OneAI.** Design a slide, make a picture (also in OneWriter), make a
+4. **OneAI.** Design a slide, make a picture (also in OneDoc), make a
    video, all through the existing jobs.
 5. **OneDisplay plays presentations.** The link field, `play.js`, the
    patches that convert designed, image and video rows, the old designer
    deleted, the TV tests.
 6. **OneDeck as a product.** Its mark and name in `gen_brand.py`, the
-   registry next to OneWriter and OneWorkbook, READY's fourteen points,
+   registry next to OneDoc and OneSheet, READY's fourteen points,
    translations into ar and de, Help with pictures, the demo.
 7. **The channel builder** on the same engine: one frame, the widget element,
    load and save through the backdrop, and one editor.
 
-Stage 6's registry work is done for OneWriter and OneWorkbook in the same
+Stage 6's registry work is done for OneDoc and OneSheet in the same
 pass, since neither is registered yet and all three share the same pieces.
 
 All seven are built. What came after them (any size, speaker notes and the

@@ -97,7 +97,7 @@ def _named(item: dict) -> str:
 def start(node: str, copy: int = 0) -> dict:
 	"""Open a file in OneOS: the lease taken, the session started in
 	OneAdmin and the address to open in a new tab. Somebody else's lease, or
-	somebody in it in OneWorkbook or OneWriter, or a file the reader may not
+	somebody in it in OneSheet or OneDoc, or a file the reader may not
 	change, answers with `held` instead, and `copy` opens a copy of it."""
 	item = _openable(node)
 	if not offered():

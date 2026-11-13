@@ -9,4 +9,4 @@ export const useThemeMenuOption = () => null;
 export const useSettingsMenuOption = () => null;
 export const useRootStore = () => root;
 export const setupTheme = () => {};
-export const appPageMeta = (title) => ({ title: title ? `${title} · OneWriter` : "OneWriter" });
+export const appPageMeta = (title) => ({ title: title ? `${title} · OneDoc` : "OneDoc" });

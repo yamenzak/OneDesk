@@ -1,4 +1,4 @@
-"""What OneWorkbook lets a role do beyond its records (one/rights.py,
+"""What OneSheet lets a role do beyond its records (one/rights.py,
 docs/ROLES.md): a workbook is a file in OneCloud, so who may open, change,
 share or delete one is whoever may do that to its File (namespace.may). Its
 one ability is one of frappe's Permission Types on Workbook, declared in
@@ -7,11 +7,11 @@ without."""
 
 from frappe import _lt
 
-APP = "OneWorkbook"
+APP = "OneSheet"
 
 # Everybody keeps workbooks: its User role is given to every person
 # (rights.everyone).
-EVERYONE = "OneWorkbook User"
+EVERYONE = "OneSheet User"
 
 DOCTYPE = "Workbook"
 
@@ -32,12 +32,12 @@ ABILITIES = [
 	},
 ]
 
-# Nothing of OneWorkbook's is given on one record.
+# Nothing of OneSheet's is given on one record.
 SHARED = ()
 
-# OneWorkbook's roles and what each starts with: made and written once on
+# OneSheet's roles and what each starts with: made and written once on
 # migrate (rights.settle), and shown in Help ({roles}).
 DEFAULTS = {
-	"OneWorkbook User": {},
-	"OneWorkbook Manager": {"template": 1},
+	"OneSheet User": {},
+	"OneSheet Manager": {"template": 1},
 }

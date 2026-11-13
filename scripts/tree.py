@@ -12,7 +12,7 @@ SOURCE_SUFFIXES = {".py", ".js", ".ts", ".vue", ".css", ".scss"}
 #: Code taken whole from another project, held to that project's own rules and
 #: refreshed by copying (frontend/src/sheet/VENDORED.md). What we wrote around
 #: it, the page and the shims, is ours and checked like the rest.
-VENDORED = (ROOT / "frontend" / "src" / "sheet", ROOT / "frontend" / "src" / "writer", ROOT / "frontend" / "src" / "slide")
+VENDORED = (ROOT / "frontend" / "src" / "sheet", ROOT / "frontend" / "src" / "doc", ROOT / "frontend" / "src" / "slide")
 OURS_IN_VENDORED = ("WorkbookPage.vue", "DocumentPage.vue", "PresentationPage.vue", "seams.mjs", "shim/")
 
 

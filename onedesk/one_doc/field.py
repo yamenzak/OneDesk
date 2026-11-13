@@ -1,4 +1,4 @@
-"""A record's long text written in OneWriter: a Text Editor field opens as a
+"""A record's long text written in OneDoc: a Text Editor field opens as a
 document filed on the record, and what is written goes back into the field
 through the record's own save, as the workbook does for a table. AGENTS.md,
 On a record.
@@ -9,7 +9,7 @@ from frappe import _
 
 from onedesk.one_doc import api
 
-#: The fields that open in OneWriter: those that already hold HTML.
+#: The fields that open in OneDoc: those that already hold HTML.
 LONG = ("Text Editor",)
 
 SAVEPOINT = "one_doc_field"

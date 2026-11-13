@@ -347,7 +347,7 @@ def approved(changes: dict) -> str:
 	else:
 		data = noted(data, changes["sheet"], changes["cell"], changes["text"], frappe.session.user, get_fullname(), str(now_datetime()))
 	api.save_sheet(item["file_name"], json.dumps(data), name)
-	frappe.publish_realtime("one_workbook_written", {"workbook": name}, user=frappe.session.user, after_commit=True)
+	frappe.publish_realtime("one_sheet_written", {"workbook": name}, user=frappe.session.user, after_commit=True)
 	return name
 
 
@@ -364,12 +364,12 @@ def page(said: dict) -> str | None:
 	name = (said.get("record") or "").strip()
 	item = _readable(name) if name else None
 	if not item:
-		return "The reader is on a workbook's page in OneWorkbook."
+		return "The reader is on a workbook's page in OneSheet."
 	from onedesk.one_sheet import table
 
 	data = _data(name)
 	names = _sheets(data)
-	where = f'The reader has the workbook "{item["file_name"]}" open in OneWorkbook (its id is {name}); its sheets are {", ".join(names)}'
+	where = f'The reader has the workbook "{item["file_name"]}" open in OneSheet (its id is {name}); its sheets are {", ".join(names)}'
 	bound = table.bound(name)
 	if bound:
 		where += f'. The sheet {bound["sheet"]} is the {bound["label"]} table of {bound["doctype"]} {bound["name"]}, changed from the record, never by write_cells'
@@ -384,7 +384,7 @@ def page(said: dict) -> str | None:
 		)
 	return where + (
 		". read_workbook reads any sheet; write_cells writes values, formulas and formatting, and comment_on_cell "
-		"leaves a note, each as a card. How OneWorkbook works is in its documentation (how_to)."
+		"leaves a note, each as a card. How OneSheet works is in its documentation (how_to)."
 	)
 
 

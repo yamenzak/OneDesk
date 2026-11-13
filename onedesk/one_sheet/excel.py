@@ -1,4 +1,4 @@
-"""A OneWorkbook workbook as an Excel file, for what cannot run the editor:
+"""A OneSheet workbook as an Excel file, for what cannot run the editor:
 the network drive and a public link. Written from what the editor saved,
 formulas with the values it last worked out, and read back into the
 workbook when Excel saves over it. AGENTS.md, excel.py.
@@ -18,7 +18,7 @@ SUFFIX = ".xlsx"
 
 MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
-#: Functions only OneWorkbook knows: Excel would show #NAME?, so such a cell
+#: Functions only OneSheet knows: Excel would show #NAME?, so such a cell
 #: goes as the value it last showed, and comes back as its formula.
 OURS = re.compile(r"\b(RECORD|FIELD|BRAND|IMAGE|SPARKLINE)\s*\(", re.I)
 
@@ -273,7 +273,7 @@ def _plain(value):
 def read(name: str, content: bytes) -> dict:
 	"""What Excel saved, as the workbook's content: its values and formulas
 	in place of the sheets', everything else the workbook keeps (formats,
-	widths, notes) as it was. A cell OneWorkbook alone can work out, sent as
+	widths, notes) as it was. A cell OneSheet alone can work out, sent as
 	its value, gets its formula back when the value is unchanged."""
 	from openpyxl import load_workbook
 
@@ -338,7 +338,7 @@ def write(name: str, content: bytes) -> None:
 	from onedesk.one_cloud import fidelity, saving
 
 	if frappe.db.get_value(api.WORKBOOK, name, "bound_doctype"):
-		frappe.throw(_("A record's workbook can only be edited in OneWorkbook."), frappe.PermissionError)
+		frappe.throw(_("A record's workbook can only be edited in OneSheet."), frappe.PermissionError)
 	item = api._may(name, "write")
 	data = read(name, content)
 	if frappe.db.get_value(api.WORKBOOK, name, "sheets_data"):

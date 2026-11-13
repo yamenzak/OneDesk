@@ -1,6 +1,6 @@
 """One lease per File: who has it open to change, and how (a workbook or
-document leases the File it sits behind). `live`: anybody in OneWorkbook or
-OneWriter, kept while their editor says so each minute. `alone`: one holder,
+document leases the File it sits behind). `live`: anybody in OneSheet or
+OneDoc, kept while their editor says so each minute. `alone`: one holder,
 a OneOS session or a lock on the drive, kept on the File itself. Alone is
 refused while anybody may write live; while it is held, the editors read.
 AGENTS.md, Under the hood, One lease per file."""
@@ -15,7 +15,7 @@ LIVE_SECONDS = 2 * 60
 ONEOS, DAV = "oneos", "dav"
 KINDS = (ONEOS, DAV)
 FIELDS = ("one_lease_kind", "one_lease_lock", "one_lease_session", "one_lease_user", "one_lease_until")
-APPS = {"workbook": "OneWorkbook", "document": "OneWriter"}
+APPS = {"workbook": "OneSheet", "document": "OneDoc"}
 WHERE = {ONEOS: "OneOS"}
 
 

@@ -23,7 +23,7 @@ stays right when the quotation changes.
 ## A Record's Text
 
 A text with a formatting bar on a saved record, such as a quotation's terms,
-has **Open in OneWriter** under it. What you write there becomes the text,
+has **Open in OneDoc** under it. What you write there becomes the text,
 saved through the record two seconds after you stop typing. If the record
 refuses it, the reason shows under the head and nothing is written.
 
