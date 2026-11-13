@@ -204,7 +204,8 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Account Request | 21 | document |
+| Account Request | 27 | document |
+| Account Request Step | 3 | child |
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Health Check | 6 | document |
@@ -556,13 +557,19 @@ No doctypes yet.
 * `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.pay`
-* `onedesk.one_admin.signup.start`
 * `onedesk.one_admin.signup.state`
 * `onedesk.one_admin.site.make_operator`
 * `onedesk.one_admin.site.operators`
 * `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_admin.testbed.new`
 * `onedesk.one_admin.testmail.read`
+* `onedesk.one_admin.wizard.finish`
+* `onedesk.one_admin.wizard.note`
+* `onedesk.one_admin.wizard.offer`
+* `onedesk.one_admin.wizard.pay`
+* `onedesk.one_admin.wizard.resume`
+* `onedesk.one_admin.wizard.save`
+* `onedesk.one_admin.wizard.start`
 * `onedesk.one_ai.actions.switch`
 * `onedesk.one_ai.brief.switch`
 * `onedesk.one_ai.center.drop_knowledge`

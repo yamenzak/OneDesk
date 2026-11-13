@@ -1,5 +1,5 @@
-"""Our own customers, in our own OneCRM: somebody signing up is a lead, their
-checkout is a deal, and paying makes them a customer.
+"""Our own customers, in our own OneCRM: somebody signing up is a lead, the
+plan they choose is a deal, and paying makes them a customer.
 
 Nothing here stops a signup: a CRM that cannot take a record logs the failure.
 """
@@ -17,18 +17,34 @@ ABANDONED = "Checkout Abandoned"
 
 
 def signed_up(request: str) -> None:
-	"""The lead and the deal for a signup just taken."""
+	"""The lead for a signup just taken, and its deal once it has a plan
+	(wizard.py); a deal made already follows a plan changed."""
 	if not site.is_admin():
 		return
 	try:
 		asked = frappe.get_doc("Account Request", request)
 		lead = asked.lead or _lead(asked)
-		deal = asked.deal or _deal(asked, lead)
+		deal = asked.deal or (_deal(asked, lead) if asked.offering else None)
+		if asked.deal and asked.offering:
+			_repriced(asked)
 		frappe.db.set_value(
 			"Account Request", asked.name, {"lead": lead, "deal": deal}, update_modified=False
 		)
 	except Exception:
 		frappe.log_error(title=f"The lead and deal for {request}")
+
+
+def noted(asked, said: str) -> None:
+	"""A line on the signup's lead and deal, such as where it left the
+	setup (wizard.py)."""
+	if not site.is_admin():
+		return
+	for doctype, name in (("Lead", asked.lead), ("Opportunity", asked.deal)):
+		if name and frappe.db.exists(doctype, name):
+			try:
+				frappe.get_doc(doctype, name).add_comment("Info", said)
+			except Exception:
+				frappe.log_error(title=f"A note on {doctype} {name}")
 
 
 def paid(request: str, tenant: str) -> str | None:
@@ -109,10 +125,12 @@ def _lead(asked) -> str:
 	if held:
 		return held
 	plan = frappe.db.get_value("Offering", asked.offering, "label") if asked.offering else None
+	owner = (frappe.parse_json(asked.get("answers") or "{}") or {}).get("owner") or {}
 	lead = frappe.get_doc(
 		{
 			"doctype": "Lead",
-			"first_name": asked.email.split("@")[0],
+			"first_name": owner.get("first_name") or asked.email.split("@")[0],
+			"last_name": owner.get("last_name"),
 			"email_id": asked.email,
 			"company_name": asked.workspace_name,
 			"source": "Website",
@@ -151,6 +169,19 @@ def _deal(asked, lead: str) -> str:
 	deal.flags.ignore_permissions = True
 	deal.insert()
 	return deal.name
+
+
+def _repriced(asked) -> None:
+	"""The deal's amount and title follow the plan chosen last."""
+	sold = frappe.db.get_value("Offering", asked.offering, ["label", "amount", "recurring"], as_dict=True)
+	held = frappe.db.get_value("Opportunity", asked.deal, ["status"], as_dict=True)
+	if not sold or not held or held.status in ("Lost", "Converted", "Closed"):
+		return
+	frappe.db.set_value(
+		"Opportunity",
+		asked.deal,
+		{"opportunity_amount": flt(sold.amount) * (12 if sold.recurring else 1), "title": f"{asked.workspace_name}: {sold.label}"},
+	)
 
 
 def _won(deal: str, customer: str) -> None:

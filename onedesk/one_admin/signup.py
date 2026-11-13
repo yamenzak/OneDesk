@@ -288,39 +288,3 @@ def remind() -> None:
 			"Account Request", asked.name, "reminded_on", now_datetime(), update_modified=False
 		)
 	frappe.db.commit()
-
-
-@frappe.whitelist(allow_guest=True, methods=["POST"])
-@rate_limit(limit=STARTS_A_MINUTE, seconds=A_MINUTE)
-def start(workspace_name: str, offering: str, jurisdiction: str = "Global", email: str | None = None, time_zone: str | None = None) -> dict:
-	"""Take a signup and hand back somewhere to pay.
-
-	The request is written before the customer is sent to Stripe. Somebody signed
-	in to their One account signs up as that account (accounts.hold, at payment).
-	"""
-	site.require_admin()
-	if frappe.session.user != "Guest":
-		email = frappe.db.get_value("User", frappe.session.user, "email") or frappe.session.user
-	if not email:
-		frappe.throw(frappe._("An email address is needed."))
-	sold = frappe.db.get_value("Offering", offering, ["name", "enabled"], as_dict=True)
-	if not sold or not sold.enabled:
-		frappe.throw(frappe._("That isn't on offer."))
-
-	asked = frappe.get_doc(
-		{
-			"doctype": "Account Request",
-			"email": email,
-			"workspace_name": workspace_name,
-			"slug": workspace_name,
-			"offering": sold.name,
-			"jurisdiction": jurisdiction if jurisdiction in ("Global", "EU") else "Global",
-			"time_zone": zone(time_zone),
-			"status": "New",
-		}
-	).insert(ignore_permissions=True)
-
-	from onedesk.one_admin import sales, stripe
-
-	sales.signed_up(asked.name)
-	return {"request": asked.name, "checkout": stripe.checkout(asked.name)}

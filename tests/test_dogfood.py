@@ -42,10 +42,10 @@ def test_a_stripe_object_is_booked_once():
 
 def test_our_crm_never_stops_a_signup():
 	sales = _read("sales.py")
-	for name in ("def signed_up", "def paid"):
+	for name in ("def signed_up", "def paid", "def noted"):
 		body = sales.split(name, 1)[1].split("\ndef ", 1)[0]
 		assert "except Exception" in body and "log_error" in body, name
-	assert "sales.signed_up(" in _read("signup.py")
+	assert "sales.signed_up(" in _read("wizard.py")
 	assert "sales.paid(" in _read("stripe.py")
 
 

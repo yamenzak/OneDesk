@@ -75,10 +75,12 @@ A new site runs it from its build: OneAdmin's `set_up` step, between
 `push_config` and `invite_owner`, posts `setup_job.wake` (guest, rate
 limited, takes nothing but `start`), and the site enqueues `from_admin`,
 which refreshes the account and asks `proxy.setup_answers` with its own
-token. OneAdmin builds those answers from the Tenant and Account Request
-(one_admin/answers.py): the workspace's name as the company, the country
-said or the one its time zone is in alone, English. A signup with no
-country to tell is left to frappe's wizard on the site.
+token. OneAdmin hands over the answers typed into its wizard
+(one_admin/wizard.py), kept on the Account Request, with the workspace's
+owner as the owner (one_admin/answers.py). A signup from before the wizard
+is set up from the Tenant and Account Request: the workspace's name as the
+company, the country said or the one its time zone is in alone, English. A
+signup with no country to tell is left to frappe's wizard on the site.
 
 **Pictures** (`avatars.py`, One's settings › Pictures). The tab also switches
 Gravatar and Google's logos through `onedesk.trust.switch`, TrustCenter's own
@@ -217,7 +219,7 @@ time the employee is saved.
 ### www/legal.py
 
 `/start` asks a person to agree to the Terms of Service and the Privacy Policy
-before they pay, and a person cannot agree to what they cannot read. Inside a
+on its first page, and a person cannot agree to what they cannot read. Inside a
 workspace the documents are read in TrustCenter's own page, which needs a sign-in;
 `/legal` is the same text, rendered by the same `assemble.render`, for a guest.
 
@@ -230,15 +232,11 @@ records nothing.
 
 A tenant workspace carries this file like every other, and answers 404 for it:
 `one_admin.site.is_admin` decides, and a workspace offering its own customers a
-signup form would be a confusing thing to stumble onto.
-
-Nothing here decides a price. The offerings are read as they are, and the page
-draws what it is given — so a plan withdrawn in OneAdmin is a plan that stops
-being offered without anybody editing a template.
-
-The quota line is built here rather than in the template because it is four
-translated fragments joined by a separator, and a template that does that reads
-worse than the Python does.
+signup form would be a confusing thing to stumble onto. On the admin site it
+sends the reader to the setup wizard at `/portal/start` (`one_admin/wizard.py`),
+keeping a plan or a name the address carried; what the wizard offers, the plans
+among it, is read as it is (`one_admin/wizard_offer.py`), so a plan withdrawn in
+OneAdmin stops being offered without anybody editing a page.
 
 ### www/welcome.py
 

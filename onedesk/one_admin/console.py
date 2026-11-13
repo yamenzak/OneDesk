@@ -4,10 +4,9 @@ list; nothing here changes anything."""
 from collections import Counter
 
 import frappe
-from frappe import _lt
 from frappe.utils import add_days, add_months, get_first_day, getdate, today
 
-from onedesk.one_admin import earnings, fleet, health, home, ledger, operator, price_list, rollout
+from onedesk.one_admin import earnings, fleet, health, home, ledger, operator, price_list, rollout, wizard_answers
 
 MONTHS = 12
 GONE = ("Archived", "Dropped", "Failed")
@@ -16,7 +15,6 @@ ERROR_DAYS = 30
 MOST_ERRORS = 8
 PAID = ("Paid", "Provisioning", "Done")
 SERVING = ("Live", "Overdue")
-STAGES = {"Started": _lt("Started"), "Checkout": _lt("Checkout"), "Paid": _lt("Paid"), "Live": _lt("Live")}
 
 
 def months(count: int = MONTHS) -> list[str]:
@@ -42,18 +40,6 @@ def _paid(one) -> bool:
 	return one.status in PAID or bool(one.tenant)
 
 
-def funnel(asked: list, serving: set) -> list[dict]:
-	"""How far each signup got: started, went to pay, paid, then serving its
-	workspace. Each stage counts those that reached it. Pure."""
-	paid = [one for one in asked if _paid(one)]
-	return [
-		{"stage": "Started", "signups": len(asked)},
-		{"stage": "Checkout", "signups": sum(1 for one in asked if one.stripe_session or _paid(one))},
-		{"stage": "Paid", "signups": len(paid)},
-		{"stage": "Live", "signups": sum(1 for one in paid if one.tenant in serving)},
-	]
-
-
 def by_month(asked: list, upto: list[str]) -> list[dict]:
 	"""Signups started and paid in each month. Pure."""
 	return [
@@ -66,13 +52,32 @@ def by_month(asked: list, upto: list[str]) -> list[dict]:
 	]
 
 
+def signups(asked: list, steps: dict, serving: set) -> list[tuple]:
+	"""Each signup as the wizard's funnel reads it: its steps, whether it
+	was paid for and whether its workspace serves. Pure."""
+	return [(steps.get(one.name, []), _paid(one), bool(one.tenant) and one.tenant in serving) for one in asked]
+
+
+def _steps(names: list[str]) -> dict:
+	found: dict[str, list] = {}
+	for row in frappe.get_all("Account Request Step", filters={"parenttype": "Account Request", "parent": ["in", names or [""]]}, fields=["parent", "step", "event"], order_by="idx asc"):
+		found.setdefault(row.parent, []).append({"step": row.step, "event": row.event})
+	return found
+
+
+def _staged(rows: list[dict]) -> list[dict]:
+	labels = {stage: frappe._(label) for stage, label in wizard_answers.STAGE_LABELS.items()}
+	return [{**one, "stage": labels[one.get("stage")]} for one in rows]
+
+
 def _signups(span: list[str], tenants: list) -> dict:
-	asked = frappe.get_all("Account Request", filters={"creation": [">=", span[0]]}, fields=["status", "tenant", "stripe_session", "creation"])
+	asked = frappe.get_all("Account Request", filters={"creation": [">=", span[0]]}, fields=["name", "status", "tenant", "stripe_session", "creation"])
 	since = str(add_days(today(), -FUNNEL_DAYS))
 	serving = {one.name for one in tenants if one.status in SERVING}
 	recent = [one for one in asked if str(one.creation) >= since]
 	month = [one for one in asked if str(one.creation) >= str(add_days(today(), -30))]
-	return {"funnel": [{**one, "stage": str(STAGES[one["stage"]])} for one in funnel(recent, serving)], "signups": by_month(asked, span), "signups_now": len(month)}
+	each = signups(recent, _steps([one.name for one in recent]), serving)
+	return {"funnel": _staged(wizard_answers.funnel(each)), "stopped": _staged(wizard_answers.stopped(each)), "signups": by_month(asked, span), "signups_now": len(month)}
 
 
 def _errors(names: dict) -> dict:

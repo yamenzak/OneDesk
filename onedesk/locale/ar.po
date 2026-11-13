@@ -2386,6 +2386,11 @@ msgstr ""
 msgid "Account Request"
 msgstr "طلب حساب"
 
+#. Name of a DocType
+#: onedesk/one_admin/doctype/account_request_step/account_request_step.json:48
+msgid "Account Request Step"
+msgstr "خطوة طلب الحساب"
+
 #: frontend/portal/src/pages/YourData.vue:19
 #: onedesk/public/js/account_center/account_center.js:158
 #, python-brace-format
@@ -2695,6 +2700,10 @@ msgstr "إضافة تسجيل حضور لموظف آخر"
 msgid "Add Collection"
 msgstr "إضافة مجموعة"
 
+#: frontend/portal/src/start/Companies.vue:11
+msgid "Add Company"
+msgstr "إضافة شركة"
+
 #: frontend/src/project/Team.vue:59
 #: onedesk/public/js/one_project/project_actions.js:431
 #: onedesk/public/js/one_project/project_actions.js:452
@@ -2780,6 +2789,10 @@ msgstr "إضافة مصدر أخبار"
 #: onedesk/public/js/one_admin/admin_control.js:149
 msgid "Add Operator"
 msgstr "إضافة مشغّل"
+
+#: frontend/portal/src/start/People.vue:27
+msgid "Add Person"
+msgstr "إضافة شخص"
 
 #: onedesk/public/js/account_center/account_center.js:49
 msgid "Add Photo"
@@ -3034,6 +3047,10 @@ msgstr "أضف شخصًا واحدًا على الأقل إلى المجموعة
 #: frontend/src/slide/composables/useShortcuts.js:307
 msgid "Add connector"
 msgstr "إضافة موصل"
+
+#: frontend/portal/src/pages/Start.vue:74
+msgid "Add each other company the workspace keeps books for."
+msgstr "أضف كل شركة أخرى تمسك مساحة العمل دفاترها."
 
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:55
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:75
@@ -4465,10 +4482,6 @@ msgstr "تقرر الأتمتة هنا بقواعد حقولها، لا بالش
 #: onedesk/one_mail/doctype/face/face.json:25
 msgid "An email address for a person, a domain for an organisation."
 msgstr "عنوان بريد لشخص، ونطاق لجهة."
-
-#: onedesk/one_admin/signup.py:304
-msgid "An email address is needed."
-msgstr "مطلوب عنوان بريد إلكتروني."
 
 #: onedesk/account_center/center.py:391
 msgid "An emergency contact needs a name and a phone number, so HR can call them."
@@ -8074,6 +8087,10 @@ msgstr "إنشاء {0} متوقف"
 msgid "Building {0} is taking hours"
 msgstr "بناء {0} يستغرق ساعات"
 
+#: onedesk/one/registry/fields.py:28
+msgid "Builds or installs on a customer's site."
+msgstr "تبني أو تركّب في موقع العميل."
+
 #: frontend/src/admin/ReleaseCard.vue:61
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/heads.py:40
@@ -8197,6 +8214,10 @@ msgstr ""
 #: onedesk/public/js/one_inventory/item_new.js:200
 msgid "Buying, Selling and Stock"
 msgstr "الشراء والبيع والمخزون"
+
+#: onedesk/one/registry/fields.py:27
+msgid "Buys and sells goods."
+msgstr "تشتري البضائع وتبيعها."
 
 #. Label of the by (Select) field in DocType 'Tenant Event'
 #. Label of the by_date (Date) field in DocType 'Reading Ask'
@@ -8559,6 +8580,10 @@ msgstr "يمكنه الرفع"
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:64
 msgid "Can view"
 msgstr "يمكنه العرض"
+
+#: frontend/portal/src/start/Apps.vue:32
+msgid "Can't be turned off once it holds records."
+msgstr "لا يمكن إيقافه بعد أن يحتوي على سجلات."
 
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/cloud/CloudViewer.vue:18
@@ -9236,6 +9261,14 @@ msgstr "التحقق مما وصل قبل التصرف"
 msgid "Check bill from {0}"
 msgstr "راجع فاتورة {0}"
 
+#: onedesk/one_admin/wizard.py:24
+msgid "Check each company's name and country."
+msgstr "تحقق من اسم كل شركة وبلدها."
+
+#: onedesk/one_admin/wizard.py:27
+msgid "Check each person's email address and name."
+msgstr "تحقق من البريد الإلكتروني والاسم لكل شخص."
+
 #: frontend/src/hr/HrHome.vue:244 onedesk/public/js/desk.js:208
 #: onedesk/public/js/desk.js:215
 #, python-brace-format
@@ -9246,6 +9279,10 @@ msgstr "سجّل حضورك قبل {0}"
 #, python-brace-format
 msgid "Check invoice to {0}"
 msgstr "راجع الفاتورة إلى {0}"
+
+#: onedesk/one_admin/wizard.py:237
+msgid "Check the answers and try again."
+msgstr "تحقق من الإجابات وحاول مرة أخرى."
 
 #: onedesk/public/js/account_center/account_center.js:1167
 msgid "Check the connection and try again."
@@ -9259,6 +9296,10 @@ msgstr "تحقق من الموقع على خادمه."
 #, python-brace-format
 msgid "Check the unordered delivery from {0}"
 msgstr "تحقق من التسليم غير المطلوب من {0}"
+
+#: onedesk/one_admin/wizard.py:26
+msgid "Check the working day's start and end."
+msgstr "تحقق من بداية يوم العمل ونهايته."
 
 #: onedesk/one_hr/agent.py:234
 msgid "Check this payroll"
@@ -9453,10 +9494,6 @@ msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا ا�
 msgid "Checklist"
 msgstr "قائمة التحقق"
 
-#: onedesk/one_admin/console.py:19
-msgid "Checkout"
-msgstr "الدفع"
-
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:361
@@ -9519,6 +9556,10 @@ msgstr "اختر المصادر"
 msgid "Choose a Layout"
 msgstr "اختر تخطيطًا"
 
+#: frontend/portal/src/start/Company.vue:4
+msgid "Choose a country"
+msgstr "اختر بلدًا"
+
 #: onedesk/one_portal/share.py:270
 msgid "Choose a day that hasn't passed."
 msgstr "اختر يوماً لم يمضِ بعد."
@@ -9543,6 +9584,10 @@ msgstr "اختر مجلدًا."
 msgid "Choose a month and a year."
 msgstr "اختر شهراً وسنة."
 
+#: onedesk/one_admin/wizard.py:156
+msgid "Choose a plan first."
+msgstr "اختر خطة أولًا."
+
 #: onedesk/one_display/starters.py:393
 msgid "Choose a service"
 msgstr "اختر خدمة"
@@ -9558,6 +9603,10 @@ msgstr "اختر قالبًا من القائمة."
 #: onedesk/one_mail/team.py:148 onedesk/one_mail/team.py:162
 msgid "Choose a time still to come."
 msgstr "اختر وقتاً لم يأتِ بعد."
+
+#: onedesk/one_admin/wizard.py:25
+msgid "Choose a time zone."
+msgstr "اختر منطقة زمنية."
 
 #: onedesk/one/news/adding.py:111
 msgid "Choose a type of source."
@@ -9710,6 +9759,10 @@ msgstr "اختيار خادم"
 #: onedesk/one_hr/print_format/one_employee_benefit_application/one_employee_benefit_application.json
 msgid "Chosen"
 msgstr "المختار"
+
+#: frontend/portal/src/start/People.vue:44
+msgid "Chosen for Each App"
+msgstr "محدد لكل تطبيق"
 
 #: onedesk/one_book/home.py:415
 msgid "Chosen transactions posted to the books again."
@@ -9866,6 +9919,10 @@ msgstr "مراجعة العميل والتعديلات"
 #: onedesk/one_project/doctype/project_contact/project_contact.json:22
 msgid "Client's Representative"
 msgstr "ممثل العميل"
+
+#: onedesk/one/registry/fields.py:24
+msgid "Clinic"
+msgstr "عيادة"
 
 #: onedesk/one_display/starters.py:1185
 msgid "Clinic Waiting Room"
@@ -10703,6 +10760,11 @@ msgstr "ختم الشركة"
 msgid "Company details"
 msgstr "بيانات الشركة"
 
+#: frontend/portal/src/start/Companies.vue:5
+#, python-brace-format
+msgid "Company {0}"
+msgstr "الشركة {0}"
+
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Company, chart of accounts and taxes"
@@ -11402,6 +11464,10 @@ msgstr "العقد موقّع"
 #, python-brace-format
 msgid "Contract signed, ends {0}"
 msgstr "العقد موقّع، ينتهي في {0}"
+
+#: onedesk/one/registry/fields.py:28
+msgid "Contracting"
+msgstr "مقاولات"
 
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
@@ -16182,6 +16248,10 @@ msgstr "حاوية الاتحاد الأوروبي"
 msgid "Each"
 msgstr "لكل واحدة"
 
+#: onedesk/one_admin/wizard_answers.py:27
+msgid "Each App's Setup"
+msgstr "إعداد كل تطبيق"
+
 #: onedesk/one_inventory/tour.py:51
 msgid "Each Item"
 msgstr "كل صنف"
@@ -16316,6 +16386,10 @@ msgstr "كل شخص أُضيف، عدا من أضافه"
 #: onedesk/public/js/one/notification_center.js:292
 msgid "Each person chooses"
 msgstr "يختار كل شخص"
+
+#: frontend/portal/src/pages/Start.vue:80
+msgid "Each person gets an invitation by email once the workspace is ready."
+msgstr "يتلقى كل شخص دعوة بالبريد الإلكتروني عندما تجهز مساحة العمل."
 
 #. Who a notification is sent to
 #: onedesk/one_mail/notifications.py
@@ -19704,6 +19778,10 @@ msgstr "إنهاء {0}"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:103
 msgid "Finished"
 msgstr "انتهى"
+
+#: onedesk/one_admin/wizard.py:181
+msgid "Finished the setup."
+msgstr "أنهى الإعداد."
 
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
@@ -24058,6 +24136,11 @@ msgstr "يتضمن"
 msgid "Includes follow-ups promised in sent mail."
 msgstr "تشمل المتابعات الموعودة في البريد المرسل."
 
+#: frontend/portal/src/start/Plan.vue:16
+#, python-brace-format
+msgid "Includes {0}."
+msgstr "يشمل {0}."
+
 #: frontend/portal/src/pages/Rfq.vue:93
 #, python-brace-format
 msgid "Including {0}"
@@ -26313,6 +26396,11 @@ msgstr "أفقي"
 msgid "Language"
 msgstr ""
 
+#: frontend/portal/src/pages/Start.vue:72
+#: onedesk/one_admin/wizard_answers.py:19
+msgid "Language and Currency"
+msgstr "اللغة والعملة"
+
 #: onedesk/public/js/account_center/account_center.js:59
 msgid "Language and Time"
 msgstr "اللغة والوقت"
@@ -26354,10 +26442,6 @@ msgstr "آخر 24 ساعة"
 #: frontend/src/admin/AdminStatus.vue:22 frontend/src/admin/ServiceCard.vue:16
 msgid "Last 30 Days"
 msgstr "آخر 30 يومًا"
-
-#: frontend/src/admin/AdminHome.vue:25
-msgid "Last 90 Days"
-msgstr "آخر 90 يومًا"
 
 #: onedesk/public/js/account_center/account_center.js:424
 msgid "Last Active"
@@ -26578,6 +26662,11 @@ msgstr "آخر إرسال"
 #: onedesk/public/js/one_admin/admin_control.js:178
 msgid "Last Setup"
 msgstr "آخر إعداد"
+
+#. Label of the step (Data) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:133
+msgid "Last Step"
+msgstr "آخر خطوة"
 
 #: onedesk/one_inventory/heads.py:1357
 msgid "Last Stock Entry"
@@ -27304,6 +27393,11 @@ msgstr "إن تُرك فارغًا تُرسل الرسالة المعتادة."
 #: onedesk/public/js/one_inventory/lots_actions.js:102
 msgid "Left empty, worked out from how long the item keeps."
 msgstr "إن تُرك فارغًا يُحسب من مدة صلاحية الصنف."
+
+#: onedesk/one_admin/wizard.py:143
+#, python-brace-format
+msgid "Left the setup at {0}."
+msgstr "غادر الإعداد عند {0}."
 
 #: frontend/src/project/Suppliers.vue:206
 #: onedesk/one_studio/print_blocks.py:733
@@ -29005,6 +29099,10 @@ msgstr "أنشئ {0}"
 msgid "Makes"
 msgstr "يصنع"
 
+#: onedesk/one/registry/fields.py:26
+msgid "Makes what it sells, on a shop floor."
+msgstr "تصنع ما تبيعه في ورشة إنتاج."
+
 #: onedesk/one_factory/home.py:16 onedesk/one_inventory/story.py:408
 msgid "Making"
 msgstr "التصنيع"
@@ -29045,6 +29143,10 @@ msgstr "الرد على خطاب الإدارة"
 #: onedesk/public/js/one_project/project_new.js:138
 msgid "Manager"
 msgstr "المدير"
+
+#: frontend/portal/src/start/People.vue:42
+msgid "Manager of Every App"
+msgstr "مدير في كل تطبيق"
 
 #: frontend/src/doc/components/VersionsSidebar.vue:44
 msgid "Manual"
@@ -30119,6 +30221,11 @@ msgstr "الأشهر"
 #: onedesk/public/js/one_portal/portal.js:135
 msgid "More"
 msgstr "المزيد"
+
+#: frontend/portal/src/pages/Start.vue:74
+#: onedesk/one_admin/wizard_answers.py:21
+msgid "More Companies"
+msgstr "شركات أخرى"
 
 #: onedesk/one_ai/tour.py:24
 msgid "More Room"
@@ -34332,6 +34439,11 @@ msgstr "حسب جدول الحملة، بالقوالب التي تحددها."
 msgid "On a schedule"
 msgstr "حسب جدول"
 
+#: frontend/portal/src/start/Apps.vue:31
+#, python-brace-format
+msgid "On because {0} needs it."
+msgstr "مُفعّل لأن {0} يحتاج إليه."
+
 #: frontend/src/slide/components/SlidePlaybackSection.vue:59
 msgid "On click"
 msgstr "عند النقر"
@@ -37884,6 +37996,10 @@ msgstr "المسار"
 msgid "Patient"
 msgstr "المريض"
 
+#: onedesk/one/registry/fields.py:24
+msgid "Patients, appointments and a waiting room."
+msgstr "مرضى ومواعيد وغرفة انتظار."
+
 #: frontend/src/factory/floor/FloorSteps.vue:98
 #: frontend/src/slide/shim/PresenterView.vue:12
 msgid "Pause"
@@ -38664,6 +38780,11 @@ msgstr "الشخص"
 msgid "Person Deleted"
 msgstr "تم حذف شخص"
 
+#: frontend/portal/src/start/People.vue:5
+#, python-brace-format
+msgid "Person {0}"
+msgstr "الشخص {0}"
+
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #. Label of the 'personal_details' field in DocType 'Employee'
 #: onedesk/one_ai/doctype/reading/reading.json:266
@@ -38847,10 +38968,6 @@ msgstr "اختر قالب عقد لعقد المورّد."
 #, python-brace-format
 msgid "Pick a contract template, or give {0} its terms and conditions."
 msgstr "اختر قالب عقد، أو حدّد الشروط والأحكام لـ {0}."
-
-#: onedesk/www/start.html:20
-msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
-msgstr "اختر اسماً وخطة. وتُنشأ مساحة العمل فور قبول البطاقة."
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:178
 msgid "Pick a series to see a preview"
@@ -40572,6 +40689,10 @@ msgstr "الإثبات"
 msgid "Proofs"
 msgstr "الإثباتات"
 
+#: onedesk/one/registry/fields.py:25
+msgid "Properties, owners and tenants."
+msgstr "عقارات وملّاك ومستأجرون."
+
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 msgid "Property Not Returned"
@@ -41589,6 +41710,11 @@ msgstr "جارٍ إعادة تسجيل {0} مقطعًا."
 #, python-brace-format
 msgid "Re: {0}"
 msgstr ""
+
+#. Option for the 'Event' (Select) field in DocType 'Account Request Step'
+#: onedesk/one_admin/doctype/account_request_step/account_request_step.json:27
+msgid "Reached"
+msgstr "وصل"
 
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: frontend/src/admin/ServerMetrics.vue:105
@@ -44039,6 +44165,10 @@ msgstr ""
 msgid "Resume {0} from the step it stopped on?"
 msgstr "استئناف {0} من الخطوة التي توقف عندها؟"
 
+#: onedesk/one/registry/fields.py:30
+msgid "Retail"
+msgstr "تجزئة"
+
 #. Option for the 'Kind' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json:55
 msgid "Retainer"
@@ -46077,6 +46207,14 @@ msgstr ""
 msgid "Selling, buying and stock set up"
 msgstr "إعداد المبيعات والمشتريات والمخزون"
 
+#: onedesk/one/registry/fields.py:29
+msgid "Sells time and expertise."
+msgstr "تبيع الوقت والخبرة."
+
+#: onedesk/one/registry/fields.py:30
+msgid "Sells to customers in a shop."
+msgstr "تبيع للعملاء في متجر."
+
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:62
 msgid "Semicolon"
 msgstr "فاصلة منقوطة"
@@ -46824,6 +46962,10 @@ msgstr "لم ينشئ إعداد Cloudflare نطاق بريد الاختبار �
 msgid "Set Up Cloudflare makes and locks it. Only the keeper adds to it, and nothing deletes from it."
 msgstr "ينشئها إعداد Cloudflare ويقفلها. لا يضيف إليها إلا الحارس، ولا شيء يحذف منها."
 
+#: frontend/portal/src/pages/Start.vue:21
+msgid "Set Up Later"
+msgstr "الإعداد لاحقًا"
+
 #: onedesk/public/js/doctype_settings.js:729
 #: onedesk/public/js/one_studio/studio_control.js:32
 msgid "Set Up Naming"
@@ -47084,6 +47226,16 @@ msgstr "يسدّد"
 msgid "Setup"
 msgstr "الإعداد"
 
+#. Label of the answered_on (Datetime) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:141
+msgid "Setup Answered On"
+msgstr "تاريخ الإجابة عن الإعداد"
+
+#. Label of the answers (JSON) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:152
+msgid "Setup Answers"
+msgstr "إجابات الإعداد"
+
 #: onedesk/public/js/outside.js:70
 msgid "Setup Auto Email"
 msgstr ""
@@ -47091,6 +47243,10 @@ msgstr ""
 #: onedesk/one_admin/accounts.py:179
 msgid "Setup hit a problem on our side. We're working on it."
 msgstr "واجه الإعداد مشكلة من جهتنا. نحن نعمل على حلها."
+
+#: frontend/src/admin/AdminHome.vue:25
+msgid "Setup, Last 90 Days"
+msgstr "الإعداد، آخر 90 يومًا"
 
 #. Label of the several (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:41
@@ -48129,6 +48285,10 @@ msgstr "تسجيل لم يُبنَ"
 msgid "Signups"
 msgstr "التسجيلات"
 
+#: frontend/portal/src/pages/Start.vue:136
+msgid "Signups are not taken here."
+msgstr "لا تُقبل طلبات التسجيل هنا."
+
 #: frontend/src/admin/AdminHome.vue:28
 msgid "Signups by Month"
 msgstr "التسجيلات حسب الشهر"
@@ -48952,6 +49112,10 @@ msgstr "أمر تراجع عنه شخص أو رفضه، يُتذكَّر للم�
 #: onedesk/one_quality/home.py:24
 msgid "Something done wrong, what caused it and what stops it again."
 msgstr "عمل نُفذ بشكل خاطئ، وسببه، وما يمنع تكراره."
+
+#: onedesk/one/registry/fields.py:31
+msgid "Something else."
+msgstr "شيء آخر."
 
 #: onedesk/one_display/starters.py:500
 msgid "Something new is coming"
@@ -52721,6 +52885,11 @@ msgstr "انتهى التنبيه."
 msgid "The alert is showing on all screens."
 msgstr "التنبيه معروض على جميع الشاشات."
 
+#. Description of the 'Setup Answers' (JSON) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:155
+msgid "The answers typed into the setup wizard, which the workspace is set up from."
+msgstr "الإجابات المكتوبة في معالج الإعداد، والتي تُعدّ مساحة العمل منها."
+
 #. Description of the 'Level Of' (Data) field in DocType 'Role'
 #: onedesk/one/custom/role.json:4
 msgid "The app this workspace level belongs to. Its people hold the app's user roles and this one, never more than its manager."
@@ -52749,6 +52918,10 @@ msgstr "المتقدّم"
 #, python-brace-format
 msgid "The approvals on {0} have changed since this was suggested, so it no longer applies."
 msgstr "تغيّرت الموافقات على {0} منذ اقتراح هذا، فلم يعد ساريًا."
+
+#: frontend/portal/src/pages/Start.vue:73
+msgid "The apps that suit it are turned on. You can change them next."
+msgstr "تُفعَّل التطبيقات التي تناسبها. يمكنك تغييرها في الخطوة التالية."
 
 #: frontend/src/slide/shim/PresenterView.vue:21
 msgid "The audience's window was closed."
@@ -53885,6 +54058,15 @@ msgstr "الخطة"
 msgid "The plan and its add-ons."
 msgstr "الخطة وإضافاتها."
 
+#: frontend/portal/src/start/People.vue:28 onedesk/one_admin/wizard.py:273
+#, python-brace-format
+msgid "The plan has room for {0} people, you among them."
+msgstr "تتسع الخطة لـ {0} أشخاص، وأنت منهم."
+
+#: onedesk/one_admin/wizard.py:256
+msgid "The plan was chosen before payment."
+msgstr "اختيرت الخطة قبل الدفع."
+
 #: onedesk/one/account.py:478
 msgid "The plan was not changed"
 msgstr "لم تتغيّر الخطة"
@@ -54188,6 +54370,11 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:50
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
+
+#. Description of the 'Last Step' (Data) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:136
+msgid "The setup step the signup was on last."
+msgstr "آخر خطوة إعداد وصل إليها طلب التسجيل."
 
 #: onedesk/one_admin/setup.py:410
 msgid "The setup token was made but Cloudflare does not accept it yet. Set up again."
@@ -54509,6 +54696,10 @@ msgstr "يجري إنشاء مساحة العمل."
 msgid "The workspace is billed to this account. Change who pays in Plan and Credits in {0} first."
 msgstr "تُفوتر مساحة العمل على هذا الحساب. غيّر من يدفع في الخطة والأرصدة في {0} أولًا."
 
+#: frontend/portal/src/pages/Start.vue:78
+msgid "The workspace is built once the payment is accepted."
+msgstr "تُبنى مساحة العمل بعد قبول الدفع."
+
 #: onedesk/public/js/account_center/account_center.js:978
 msgid "The workspace is offline for a few minutes."
 msgstr "تصبح مساحة العمل غير متاحة لبضع دقائق."
@@ -54549,6 +54740,10 @@ msgstr "لدى مساحة العمل الآن {balance} رصيد.{note}"
 #, python-brace-format
 msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Domains in {account_center}."
 msgstr "صارت مساحة العمل تفتح على {domain}. لاستخدامه في تسجيل الدخول والروابط في البريد، اجعله العنوان الرئيسي في النطاقات في {account_center}."
+
+#: frontend/portal/src/pages/Start.vue:71
+msgid "The workspace takes its name, and its address starts with it."
+msgstr "تأخذ مساحة العمل اسمها، ويبدأ عنوانها به."
 
 #: onedesk/public/js/apps.js:140
 msgid "The workspace's apps changed. Reload to see them."
@@ -55536,6 +55731,10 @@ msgstr "هذه الورقة محمية"
 #: onedesk/one_hr/notifications.py
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "لهذه المناوبة تسجيلات حضور لكنها لا تقرأها، فلا يُكتب أي سجل حضور وتبقى كل الأرقام التي تعتمد عليه فارغة. افتح المناوبة واضغط قراءة تسجيلات الحضور."
+
+#: onedesk/one_admin/wizard.py:189
+msgid "This signup can no longer be changed. Start again."
+msgstr "لم يعد من الممكن تغيير طلب التسجيل هذا. ابدأ من جديد."
 
 #: onedesk/one_admin/signup.py:242
 msgid "This signup can no longer be paid for. Start again."
@@ -56590,10 +56789,6 @@ msgstr "تعديلات كثيرة جدًا في عملية حفظ واحدة."
 msgid "Too many emails?"
 msgstr "رسائل بريد كثيرة؟"
 
-#: onedesk/www/start.html:114
-msgid "Too many tries in a minute. Wait a moment and try again."
-msgstr "محاولات كثيرة خلال دقيقة. انتظر لحظة ثم حاول مرة أخرى."
-
 #: onedesk/www/your_data.html:78
 msgid "Too many tries. Try again in an hour."
 msgstr "محاولات كثيرة جدًا. حاول مرة أخرى بعد ساعة."
@@ -56920,6 +57115,10 @@ msgstr "المقاطع"
 #: onedesk/one_display/doctype/music_playlist/music_playlist.json:77
 msgid "Tracks played in a sound zone."
 msgstr "مقاطع تُشغَّل في منطقة صوت."
+
+#: onedesk/one/registry/fields.py:27
+msgid "Trading"
+msgstr "تجارة"
 
 #: frontend/src/admin/AdminServers.vue:10
 msgid "Traffic"
@@ -57360,6 +57559,10 @@ msgstr "فعّل Advanced Certificate Manager للنطاق {0} في Cloudflare،
 #, python-brace-format
 msgid "Turn on Weather in {0} to search for a place."
 msgstr "فعّل الطقس في {0} للبحث عن مكان."
+
+#: frontend/portal/src/pages/Start.vue:75
+msgid "Turn on what the company will use. Any app can be turned on later."
+msgstr "فعّل ما ستستخدمه الشركة. يمكن تفعيل أي تطبيق لاحقًا."
 
 #: onedesk/account_center/center.py:590
 msgid "Turn them on first."
@@ -58527,6 +58730,10 @@ msgstr "يستخدمه {0}."
 msgid "Used by {1}, {0} calls"
 msgstr "استخدمه {1}، {0} طلبات"
 
+#: frontend/portal/src/pages/Start.vue:79
+msgid "Used for attendance, leave and the calendar."
+msgstr "يُستخدم للحضور والإجازات والتقويم."
+
 #: frontend/src/inventory/to_order/ToOrderPage.vue:163
 msgid "Used for lines without a default supplier."
 msgstr "يُستخدم للبنود التي ليس لها مورد افتراضي."
@@ -58534,6 +58741,10 @@ msgstr "يُستخدم للبنود التي ليس لها مورد افتراض
 #: onedesk/one/control.py:325
 msgid "Used for the company name, lines and banner in letter heads."
 msgstr "يُستخدم لاسم الشركة والخطوط والشريط في الترويسات."
+
+#: frontend/portal/src/pages/Start.vue:72
+msgid "Used for the workspace, its books and its dates."
+msgstr "يُستخدم لمساحة العمل ودفاترها وتواريخها."
 
 #. Description of the 'Duration (Seconds)' (Int) field in DocType 'Display
 #. Slide'
@@ -58621,6 +58832,10 @@ msgstr "مسارات المستخدم والمخططات الأولية"
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:528
 msgid "User name"
 msgstr "اسم المستخدم"
+
+#: frontend/portal/src/start/People.vue:41
+msgid "User of Every App"
+msgstr "مستخدم في كل تطبيق"
 
 #. Task in the Mobile App project template
 #: onedesk/one_project/library/mobile_app.json
@@ -60417,6 +60632,10 @@ msgstr "ما سيضيفه اعتماد هذا إلى كشف الرواتب ال�
 #: onedesk/one_book/home.py:318
 msgid "What suppliers have billed you."
 msgstr "ما فوترك به الموردون."
+
+#: frontend/portal/src/pages/Start.vue:73
+msgid "What the Company Does"
+msgstr "نشاط الشركة"
 
 #: onedesk/one/tour.py:12
 msgid "What the Workspace Needs"
@@ -62504,6 +62723,11 @@ msgstr "عندما تنشر {one} إصدارًا جديدًا من اتفاقي�
 msgid "Where"
 msgstr "الموقع"
 
+#: frontend/portal/src/pages/Start.vue:77
+#: onedesk/one_admin/wizard_answers.py:24
+msgid "Where Data Is Kept"
+msgstr "مكان حفظ البيانات"
+
 #: frontend/src/inventory/home/InventoryStory.vue:34
 msgid "Where Goods Came From and Went"
 msgstr "من أين جاءت البضائع وإلى أين ذهبت"
@@ -62527,6 +62751,10 @@ msgstr "أين المخزون"
 #: onedesk/one_hr/tour.py:39
 msgid "Where They Stand"
 msgstr "أين يقف"
+
+#: frontend/src/admin/AdminHome.vue:28
+msgid "Where Unpaid Signups Stop"
+msgstr "أين تتوقف طلبات التسجيل غير المدفوعة"
 
 #: onedesk/trust_center/tour.py:11
 msgid "Where You Stand"
@@ -62558,6 +62786,10 @@ msgstr "أين يُخزَّن المخزون الوارد وكم يتسع كل �
 #: onedesk/one_display/doctype/queue/queue.json:34
 msgid "Where calls from this queue are announced."
 msgstr "حيث يُعلن عن نداءات هذا الطابور."
+
+#: onedesk/one_admin/wizard.py:264
+msgid "Where data is kept was chosen before payment."
+msgstr "اختير مكان حفظ البيانات قبل الدفع."
 
 #: onedesk/one_admin/agent.py:191
 msgid "Where did the credits go?"
@@ -62610,10 +62842,6 @@ msgstr "أين يوجد كل شيء، لشاشة عمودية."
 #: onedesk/one_book/home.py:409
 msgid "Where exchange rates are fetched from."
 msgstr "مصدر جلب أسعار الصرف."
-
-#: onedesk/www/start.html:45
-msgid "Where files are kept"
-msgstr "أين تُحفظ الملفات"
 
 #: onedesk/one_inventory/agent.py:208
 msgid "Where is each numbered piece?"
@@ -64173,6 +64401,11 @@ msgstr "أيام العمل"
 msgid "Working Hours"
 msgstr ""
 
+#: frontend/portal/src/pages/Start.vue:79
+#: onedesk/one_admin/wizard_answers.py:26
+msgid "Working Week"
+msgstr "أسبوع العمل"
+
 #: onedesk/public/js/one_interface/chrome.js:50
 #, python-brace-format
 msgid "Working in {0}."
@@ -64494,10 +64727,6 @@ msgstr "عناوين مساحة العمل والعناوين الخارجية"
 #: onedesk/public/js/account_center/account_center.js:1081
 msgid "Workspace closing. Everyone is notified."
 msgstr "مساحة العمل قيد الإغلاق. يتلقى الجميع إشعارًا."
-
-#: onedesk/www/start.html:30
-msgid "Workspace name"
-msgstr "اسم مساحة العمل"
 
 #: onedesk/public/js/one/notification_center.js:459
 msgid "Workspace rule"
@@ -65319,6 +65548,10 @@ msgstr "بدأت إعداد {workspace} على {one} ولم تُكمل الدف�
 msgid "You were marked absent on {date}"
 msgstr "سُجّلت غائبًا في {date}"
 
+#: frontend/portal/src/pages/Start.vue:70
+msgid "You will be the workspace's first administrator."
+msgstr "ستكون أول مسؤول عن مساحة العمل."
+
 #. Message of a notification
 #: onedesk/one_cloud/notifications.py
 msgid "You'll get a sign-in code at this address when you open it."
@@ -65377,6 +65610,10 @@ msgstr "رابط تقويمك"
 #: onedesk/one_calendar/tour.py:12
 msgid "Your Calendars"
 msgstr "تقاويمك"
+
+#: frontend/portal/src/pages/Start.vue:71
+msgid "Your Company"
+msgstr "شركتك"
 
 #: onedesk/one_mail/setup.py:28
 msgid "Your Company's Mail"
@@ -65534,10 +65771,6 @@ msgstr "تحديثك"
 msgid "Your Workspace"
 msgstr "مساحة عملك"
 
-#: onedesk/www/start.html:23
-msgid "Your account"
-msgstr "حسابك"
-
 #: onedesk/one/privacy_copy.py:16
 msgid "Your account and profile"
 msgstr "حسابك وملفك الشخصي"
@@ -65680,6 +65913,10 @@ msgstr "رأيك يساعدنا على التحسن."
 #, python-brace-format
 msgid "Your feedback on {applicant}'s interview is due"
 msgstr "تقييمك لمقابلة {applicant} مستحق"
+
+#: onedesk/one_admin/wizard.py:22
+msgid "Your first name is needed."
+msgstr "الاسم الأول مطلوب."
 
 #. Subject of a notification
 #: onedesk/one_admin/notifications.py

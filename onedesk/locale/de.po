@@ -2386,6 +2386,11 @@ msgstr ""
 msgid "Account Request"
 msgstr "Kontoanfrage"
 
+#. Name of a DocType
+#: onedesk/one_admin/doctype/account_request_step/account_request_step.json:48
+msgid "Account Request Step"
+msgstr "Schritt der Kontoanfrage"
+
 #: frontend/portal/src/pages/YourData.vue:19
 #: onedesk/public/js/account_center/account_center.js:158
 #, python-brace-format
@@ -2695,6 +2700,10 @@ msgstr "Stempelung für andere Mitarbeitende hinzufügen"
 msgid "Add Collection"
 msgstr "Sammlung hinzufügen"
 
+#: frontend/portal/src/start/Companies.vue:11
+msgid "Add Company"
+msgstr "Unternehmen hinzufügen"
+
 #: frontend/src/project/Team.vue:59
 #: onedesk/public/js/one_project/project_actions.js:431
 #: onedesk/public/js/one_project/project_actions.js:452
@@ -2780,6 +2789,10 @@ msgstr "Nachrichtenquelle hinzufügen"
 #: onedesk/public/js/one_admin/admin_control.js:149
 msgid "Add Operator"
 msgstr "Operator hinzufügen"
+
+#: frontend/portal/src/start/People.vue:27
+msgid "Add Person"
+msgstr "Person hinzufügen"
 
 #: onedesk/public/js/account_center/account_center.js:49
 msgid "Add Photo"
@@ -3034,6 +3047,10 @@ msgstr "Fügen Sie der Gruppe mindestens eine Person hinzu."
 #: frontend/src/slide/composables/useShortcuts.js:307
 msgid "Add connector"
 msgstr "Verbinder hinzufügen"
+
+#: frontend/portal/src/pages/Start.vue:74
+msgid "Add each other company the workspace keeps books for."
+msgstr "Fügen Sie jedes weitere Unternehmen hinzu, dessen Bücher der Arbeitsbereich führt."
 
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:55
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:75
@@ -4465,10 +4482,6 @@ msgstr "Eine Automatisierung entscheidet hier nach ihren Feldregeln, nicht durch
 #: onedesk/one_mail/doctype/face/face.json:25
 msgid "An email address for a person, a domain for an organisation."
 msgstr "Eine E-Mail-Adresse für eine Person, eine Domain für eine Organisation."
-
-#: onedesk/one_admin/signup.py:304
-msgid "An email address is needed."
-msgstr "Eine E-Mail-Adresse wird benötigt."
 
 #: onedesk/account_center/center.py:391
 msgid "An emergency contact needs a name and a phone number, so HR can call them."
@@ -8074,6 +8087,10 @@ msgstr "Erstellung von {0} hängt"
 msgid "Building {0} is taking hours"
 msgstr "Der Aufbau von {0} dauert Stunden"
 
+#: onedesk/one/registry/fields.py:28
+msgid "Builds or installs on a customer's site."
+msgstr "Baut oder montiert beim Kunden vor Ort."
+
 #: frontend/src/admin/ReleaseCard.vue:61
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:12
 #: onedesk/one_admin/heads.py:40
@@ -8197,6 +8214,10 @@ msgstr ""
 #: onedesk/public/js/one_inventory/item_new.js:200
 msgid "Buying, Selling and Stock"
 msgstr "Einkauf, Verkauf und Lager"
+
+#: onedesk/one/registry/fields.py:27
+msgid "Buys and sells goods."
+msgstr "Kauft und verkauft Waren."
 
 #. Label of the by (Select) field in DocType 'Tenant Event'
 #. Label of the by_date (Date) field in DocType 'Reading Ask'
@@ -8559,6 +8580,10 @@ msgstr "Kann hochladen"
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:64
 msgid "Can view"
 msgstr "Kann ansehen"
+
+#: frontend/portal/src/start/Apps.vue:32
+msgid "Can't be turned off once it holds records."
+msgstr "Kann nicht ausgeschaltet werden, sobald es Datensätze enthält."
 
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #: frontend/src/cloud/CloudViewer.vue:18
@@ -9236,6 +9261,14 @@ msgstr "Prüfen, was ankam, bevor gehandelt wird"
 msgid "Check bill from {0}"
 msgstr "Rechnung von {0} prüfen"
 
+#: onedesk/one_admin/wizard.py:24
+msgid "Check each company's name and country."
+msgstr "Prüfen Sie Namen und Land jedes Unternehmens."
+
+#: onedesk/one_admin/wizard.py:27
+msgid "Check each person's email address and name."
+msgstr "Prüfen Sie E-Mail-Adresse und Namen jeder Person."
+
 #: frontend/src/hr/HrHome.vue:244 onedesk/public/js/desk.js:208
 #: onedesk/public/js/desk.js:215
 #, python-brace-format
@@ -9246,6 +9279,10 @@ msgstr "Einstempeln bis {0}"
 #, python-brace-format
 msgid "Check invoice to {0}"
 msgstr "Rechnung an {0} prüfen"
+
+#: onedesk/one_admin/wizard.py:237
+msgid "Check the answers and try again."
+msgstr "Prüfen Sie die Antworten und versuchen Sie es erneut."
 
 #: onedesk/public/js/account_center/account_center.js:1167
 msgid "Check the connection and try again."
@@ -9259,6 +9296,10 @@ msgstr "Prüfen Sie die Website auf ihrem Server."
 #, python-brace-format
 msgid "Check the unordered delivery from {0}"
 msgstr "Nicht bestellte Lieferung von {0} prüfen"
+
+#: onedesk/one_admin/wizard.py:26
+msgid "Check the working day's start and end."
+msgstr "Prüfen Sie Beginn und Ende des Arbeitstags."
 
 #: onedesk/one_hr/agent.py:234
 msgid "Check this payroll"
@@ -9453,10 +9494,6 @@ msgstr "Selbstständiges Einchecken ist auf dieser Site nicht aktiviert."
 msgid "Checklist"
 msgstr "Checkliste"
 
-#: onedesk/one_admin/console.py:19
-msgid "Checkout"
-msgstr "Kasse"
-
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:361
@@ -9519,6 +9556,10 @@ msgstr "Quellen wählen"
 msgid "Choose a Layout"
 msgstr "Layout wählen"
 
+#: frontend/portal/src/start/Company.vue:4
+msgid "Choose a country"
+msgstr "Land wählen"
+
 #: onedesk/one_portal/share.py:270
 msgid "Choose a day that hasn't passed."
 msgstr "Wählen Sie einen Tag, der noch nicht vorbei ist."
@@ -9543,6 +9584,10 @@ msgstr "Wählen Sie einen Ordner."
 msgid "Choose a month and a year."
 msgstr "Wählen Sie Monat und Jahr."
 
+#: onedesk/one_admin/wizard.py:156
+msgid "Choose a plan first."
+msgstr "Wählen Sie zuerst einen Tarif."
+
 #: onedesk/one_display/starters.py:393
 msgid "Choose a service"
 msgstr "Dienst wählen"
@@ -9558,6 +9603,10 @@ msgstr "Wählen Sie eine Vorlage aus der Liste."
 #: onedesk/one_mail/team.py:148 onedesk/one_mail/team.py:162
 msgid "Choose a time still to come."
 msgstr "Wählen Sie einen Zeitpunkt in der Zukunft."
+
+#: onedesk/one_admin/wizard.py:25
+msgid "Choose a time zone."
+msgstr "Wählen Sie eine Zeitzone."
 
 #: onedesk/one/news/adding.py:111
 msgid "Choose a type of source."
@@ -9710,6 +9759,10 @@ msgstr "Server wird ausgewählt"
 #: onedesk/one_hr/print_format/one_employee_benefit_application/one_employee_benefit_application.json
 msgid "Chosen"
 msgstr "Ausgewählt"
+
+#: frontend/portal/src/start/People.vue:44
+msgid "Chosen for Each App"
+msgstr "Je App festgelegt"
 
 #: onedesk/one_book/home.py:415
 msgid "Chosen transactions posted to the books again."
@@ -9866,6 +9919,10 @@ msgstr "Kundenprüfung und Korrekturen"
 #: onedesk/one_project/doctype/project_contact/project_contact.json:22
 msgid "Client's Representative"
 msgstr "Vertreter des Auftraggebers"
+
+#: onedesk/one/registry/fields.py:24
+msgid "Clinic"
+msgstr "Klinik"
 
 #: onedesk/one_display/starters.py:1185
 msgid "Clinic Waiting Room"
@@ -10703,6 +10760,11 @@ msgstr "Firmenstempel"
 msgid "Company details"
 msgstr "Firmendaten"
 
+#: frontend/portal/src/start/Companies.vue:5
+#, python-brace-format
+msgid "Company {0}"
+msgstr "Unternehmen {0}"
+
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Company, chart of accounts and taxes"
@@ -11402,6 +11464,10 @@ msgstr "Vertrag unterschrieben"
 #, python-brace-format
 msgid "Contract signed, ends {0}"
 msgstr "Vertrag unterschrieben, endet am {0}"
+
+#: onedesk/one/registry/fields.py:28
+msgid "Contracting"
+msgstr "Bau und Montage"
 
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
@@ -16182,6 +16248,10 @@ msgstr "EU-Bucket"
 msgid "Each"
 msgstr "Je Stück"
 
+#: onedesk/one_admin/wizard_answers.py:27
+msgid "Each App's Setup"
+msgstr "Einrichtung jeder App"
+
 #: onedesk/one_inventory/tour.py:51
 msgid "Each Item"
 msgstr "Jeder Artikel"
@@ -16316,6 +16386,10 @@ msgstr "Jede hinzugefügte Person, außer der, die sie hinzugefügt hat"
 #: onedesk/public/js/one/notification_center.js:292
 msgid "Each person chooses"
 msgstr "Jede Person wählt"
+
+#: frontend/portal/src/pages/Start.vue:80
+msgid "Each person gets an invitation by email once the workspace is ready."
+msgstr "Jede Person erhält eine Einladung per E-Mail, sobald der Arbeitsbereich bereit ist."
 
 #. Who a notification is sent to
 #: onedesk/one_mail/notifications.py
@@ -19704,6 +19778,10 @@ msgstr "{0} abschließen"
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:103
 msgid "Finished"
 msgstr "Beendet"
+
+#: onedesk/one_admin/wizard.py:181
+msgid "Finished the setup."
+msgstr "Hat die Einrichtung abgeschlossen."
 
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
@@ -24058,6 +24136,11 @@ msgstr "Enthält"
 msgid "Includes follow-ups promised in sent mail."
 msgstr "Einschließlich Nachfassungen, die in gesendeten E-Mails zugesagt wurden."
 
+#: frontend/portal/src/start/Plan.vue:16
+#, python-brace-format
+msgid "Includes {0}."
+msgstr "Enthält {0}."
+
 #: frontend/portal/src/pages/Rfq.vue:93
 #, python-brace-format
 msgid "Including {0}"
@@ -26313,6 +26396,11 @@ msgstr "Querformat"
 msgid "Language"
 msgstr ""
 
+#: frontend/portal/src/pages/Start.vue:72
+#: onedesk/one_admin/wizard_answers.py:19
+msgid "Language and Currency"
+msgstr "Sprache und Währung"
+
 #: onedesk/public/js/account_center/account_center.js:59
 msgid "Language and Time"
 msgstr "Sprache und Zeit"
@@ -26354,10 +26442,6 @@ msgstr "Letzte 24 Stunden"
 #: frontend/src/admin/AdminStatus.vue:22 frontend/src/admin/ServiceCard.vue:16
 msgid "Last 30 Days"
 msgstr "Letzte 30 Tage"
-
-#: frontend/src/admin/AdminHome.vue:25
-msgid "Last 90 Days"
-msgstr "Letzte 90 Tage"
 
 #: onedesk/public/js/account_center/account_center.js:424
 msgid "Last Active"
@@ -26578,6 +26662,11 @@ msgstr "Zuletzt gesendet"
 #: onedesk/public/js/one_admin/admin_control.js:178
 msgid "Last Setup"
 msgstr "Letzte Einrichtung"
+
+#. Label of the step (Data) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:133
+msgid "Last Step"
+msgstr "Letzter Schritt"
 
 #: onedesk/one_inventory/heads.py:1357
 msgid "Last Stock Entry"
@@ -27304,6 +27393,11 @@ msgstr "Leer gelassen, wird die übliche Nachricht gesendet."
 #: onedesk/public/js/one_inventory/lots_actions.js:102
 msgid "Left empty, worked out from how long the item keeps."
 msgstr "Leer gelassen, aus der Haltbarkeit des Artikels berechnet."
+
+#: onedesk/one_admin/wizard.py:143
+#, python-brace-format
+msgid "Left the setup at {0}."
+msgstr "Hat die Einrichtung bei {0} verlassen."
 
 #: frontend/src/project/Suppliers.vue:206
 #: onedesk/one_studio/print_blocks.py:733
@@ -29005,6 +29099,10 @@ msgstr "{0} anlegen"
 msgid "Makes"
 msgstr "Fertigt"
 
+#: onedesk/one/registry/fields.py:26
+msgid "Makes what it sells, on a shop floor."
+msgstr "Stellt her, was es verkauft, in der eigenen Fertigung."
+
 #: onedesk/one_factory/home.py:16 onedesk/one_inventory/story.py:408
 msgid "Making"
 msgstr "Fertigung"
@@ -29045,6 +29143,10 @@ msgstr "Management Letter beantwortet"
 #: onedesk/public/js/one_project/project_new.js:138
 msgid "Manager"
 msgstr "Leitung"
+
+#: frontend/portal/src/start/People.vue:42
+msgid "Manager of Every App"
+msgstr "Manager in jeder App"
 
 #: frontend/src/doc/components/VersionsSidebar.vue:44
 msgid "Manual"
@@ -30119,6 +30221,11 @@ msgstr "Monate"
 #: onedesk/public/js/one_portal/portal.js:135
 msgid "More"
 msgstr "Mehr"
+
+#: frontend/portal/src/pages/Start.vue:74
+#: onedesk/one_admin/wizard_answers.py:21
+msgid "More Companies"
+msgstr "Weitere Unternehmen"
 
 #: onedesk/one_ai/tour.py:24
 msgid "More Room"
@@ -34332,6 +34439,11 @@ msgstr "Nach dem Zeitplan einer Kampagne, in den Vorlagen, die sie nennt."
 msgid "On a schedule"
 msgstr "Nach Zeitplan"
 
+#: frontend/portal/src/start/Apps.vue:31
+#, python-brace-format
+msgid "On because {0} needs it."
+msgstr "Eingeschaltet, weil {0} es braucht."
+
 #: frontend/src/slide/components/SlidePlaybackSection.vue:59
 msgid "On click"
 msgstr "Per Klick"
@@ -37884,6 +37996,10 @@ msgstr "Pfad"
 msgid "Patient"
 msgstr "Patient"
 
+#: onedesk/one/registry/fields.py:24
+msgid "Patients, appointments and a waiting room."
+msgstr "Patienten, Termine und ein Wartezimmer."
+
 #: frontend/src/factory/floor/FloorSteps.vue:98
 #: frontend/src/slide/shim/PresenterView.vue:12
 msgid "Pause"
@@ -38664,6 +38780,11 @@ msgstr "Person"
 msgid "Person Deleted"
 msgstr "Person gelöscht"
 
+#: frontend/portal/src/start/People.vue:5
+#, python-brace-format
+msgid "Person {0}"
+msgstr "Person {0}"
+
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #. Label of the 'personal_details' field in DocType 'Employee'
 #: onedesk/one_ai/doctype/reading/reading.json:266
@@ -38847,10 +38968,6 @@ msgstr "Wählen Sie eine Vertragsvorlage für den Vertrag eines Lieferanten."
 #, python-brace-format
 msgid "Pick a contract template, or give {0} its terms and conditions."
 msgstr "Wählen Sie eine Vertragsvorlage oder geben Sie {0} seine Geschäftsbedingungen."
-
-#: onedesk/www/start.html:20
-msgid "Pick a name and a plan. The workspace is built as soon as the card is accepted."
-msgstr "Wählen Sie einen Namen und einen Tarif. Der Arbeitsbereich wird angelegt, sobald die Karte akzeptiert ist."
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:178
 msgid "Pick a series to see a preview"
@@ -40572,6 +40689,10 @@ msgstr "Nachweis"
 msgid "Proofs"
 msgstr "Nachweise"
 
+#: onedesk/one/registry/fields.py:25
+msgid "Properties, owners and tenants."
+msgstr "Immobilien, Eigentümer und Mieter."
+
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 msgid "Property Not Returned"
@@ -41589,6 +41710,11 @@ msgstr "{0} Clips werden neu aufgenommen."
 #, python-brace-format
 msgid "Re: {0}"
 msgstr ""
+
+#. Option for the 'Event' (Select) field in DocType 'Account Request Step'
+#: onedesk/one_admin/doctype/account_request_step/account_request_step.json:27
+msgid "Reached"
+msgstr "Erreicht"
 
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: frontend/src/admin/ServerMetrics.vue:105
@@ -44039,6 +44165,10 @@ msgstr ""
 msgid "Resume {0} from the step it stopped on?"
 msgstr "{0} ab dem Schritt fortsetzen, an dem er angehalten hat?"
 
+#: onedesk/one/registry/fields.py:30
+msgid "Retail"
+msgstr "Einzelhandel"
+
 #. Option for the 'Kind' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json:55
 msgid "Retainer"
@@ -46077,6 +46207,14 @@ msgstr ""
 msgid "Selling, buying and stock set up"
 msgstr "Verkauf, Einkauf und Lager eingerichtet"
 
+#: onedesk/one/registry/fields.py:29
+msgid "Sells time and expertise."
+msgstr "Verkauft Zeit und Fachwissen."
+
+#: onedesk/one/registry/fields.py:30
+msgid "Sells to customers in a shop."
+msgstr "Verkauft an Kunden in einem Geschäft."
+
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:62
 msgid "Semicolon"
 msgstr "Semikolon"
@@ -46824,6 +46962,10 @@ msgstr "Cloudflare einrichten hat die Test-Maildomain noch nicht angelegt."
 msgid "Set Up Cloudflare makes and locks it. Only the keeper adds to it, and nothing deletes from it."
 msgstr "Wird von „Cloudflare einrichten“ angelegt und gesperrt. Nur der Hüter fügt hinzu, und nichts löscht daraus."
 
+#: frontend/portal/src/pages/Start.vue:21
+msgid "Set Up Later"
+msgstr "Später einrichten"
+
 #: onedesk/public/js/doctype_settings.js:729
 #: onedesk/public/js/one_studio/studio_control.js:32
 msgid "Set Up Naming"
@@ -47084,6 +47226,16 @@ msgstr "Begleicht"
 msgid "Setup"
 msgstr "Einrichtung"
 
+#. Label of the answered_on (Datetime) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:141
+msgid "Setup Answered On"
+msgstr "Einrichtung beantwortet am"
+
+#. Label of the answers (JSON) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:152
+msgid "Setup Answers"
+msgstr "Antworten zur Einrichtung"
+
 #: onedesk/public/js/outside.js:70
 msgid "Setup Auto Email"
 msgstr ""
@@ -47091,6 +47243,10 @@ msgstr ""
 #: onedesk/one_admin/accounts.py:179
 msgid "Setup hit a problem on our side. We're working on it."
 msgstr "Bei der Einrichtung ist bei uns ein Problem aufgetreten. Wir arbeiten daran."
+
+#: frontend/src/admin/AdminHome.vue:25
+msgid "Setup, Last 90 Days"
+msgstr "Einrichtung, letzte 90 Tage"
 
 #. Label of the several (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:41
@@ -48129,6 +48285,10 @@ msgstr "Registrierung nicht aufgebaut"
 msgid "Signups"
 msgstr "Anmeldungen"
 
+#: frontend/portal/src/pages/Start.vue:136
+msgid "Signups are not taken here."
+msgstr "Hier werden keine Anmeldungen angenommen."
+
 #: frontend/src/admin/AdminHome.vue:28
 msgid "Signups by Month"
 msgstr "Anmeldungen pro Monat"
@@ -48952,6 +49112,10 @@ msgstr "Etwas, das eine Person zurückgenommen oder abgelehnt hat, gemerkt für 
 #: onedesk/one_quality/home.py:24
 msgid "Something done wrong, what caused it and what stops it again."
 msgstr "Etwas, das falsch gemacht wurde, warum, und was es künftig verhindert."
+
+#: onedesk/one/registry/fields.py:31
+msgid "Something else."
+msgstr "Etwas anderes."
 
 #: onedesk/one_display/starters.py:500
 msgid "Something new is coming"
@@ -52721,6 +52885,11 @@ msgstr "Die Warnung ist beendet."
 msgid "The alert is showing on all screens."
 msgstr "Der Alarm wird auf allen Bildschirmen angezeigt."
 
+#. Description of the 'Setup Answers' (JSON) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:155
+msgid "The answers typed into the setup wizard, which the workspace is set up from."
+msgstr "Die im Einrichtungsassistenten eingegebenen Antworten, nach denen der Arbeitsbereich eingerichtet wird."
+
 #. Description of the 'Level Of' (Data) field in DocType 'Role'
 #: onedesk/one/custom/role.json:4
 msgid "The app this workspace level belongs to. Its people hold the app's user roles and this one, never more than its manager."
@@ -52749,6 +52918,10 @@ msgstr "Der Bewerber"
 #, python-brace-format
 msgid "The approvals on {0} have changed since this was suggested, so it no longer applies."
 msgstr "Die Freigaben für {0} haben sich seit diesem Vorschlag geändert, er gilt daher nicht mehr."
+
+#: frontend/portal/src/pages/Start.vue:73
+msgid "The apps that suit it are turned on. You can change them next."
+msgstr "Die passenden Apps werden eingeschaltet. Im nächsten Schritt können Sie sie ändern."
 
 #: frontend/src/slide/shim/PresenterView.vue:21
 msgid "The audience's window was closed."
@@ -53885,6 +54058,15 @@ msgstr "Der Plan"
 msgid "The plan and its add-ons."
 msgstr "Der Tarif und seine Zusatzpakete."
 
+#: frontend/portal/src/start/People.vue:28 onedesk/one_admin/wizard.py:273
+#, python-brace-format
+msgid "The plan has room for {0} people, you among them."
+msgstr "Der Tarif bietet Platz für {0} Personen, Sie eingeschlossen."
+
+#: onedesk/one_admin/wizard.py:256
+msgid "The plan was chosen before payment."
+msgstr "Der Tarif wurde vor der Zahlung gewählt."
+
 #: onedesk/one/account.py:478
 msgid "The plan was not changed"
 msgstr "Der Tarif wurde nicht geändert"
@@ -54188,6 +54370,11 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:50
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
+
+#. Description of the 'Last Step' (Data) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:136
+msgid "The setup step the signup was on last."
+msgstr "Der Einrichtungsschritt, bei dem die Anmeldung zuletzt war."
 
 #: onedesk/one_admin/setup.py:410
 msgid "The setup token was made but Cloudflare does not accept it yet. Set up again."
@@ -54509,6 +54696,10 @@ msgstr "Der Arbeitsbereich wird erstellt."
 msgid "The workspace is billed to this account. Change who pays in Plan and Credits in {0} first."
 msgstr "Der Arbeitsbereich wird diesem Konto in Rechnung gestellt. Ändern Sie zuerst unter Tarif und Guthaben in {0}, wer zahlt."
 
+#: frontend/portal/src/pages/Start.vue:78
+msgid "The workspace is built once the payment is accepted."
+msgstr "Der Arbeitsbereich wird erstellt, sobald die Zahlung angenommen ist."
+
 #: onedesk/public/js/account_center/account_center.js:978
 msgid "The workspace is offline for a few minutes."
 msgstr "Der Arbeitsbereich ist einige Minuten offline."
@@ -54549,6 +54740,10 @@ msgstr "Der Arbeitsbereich hat jetzt {balance} Credits.{note}"
 #, python-brace-format
 msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Domains in {account_center}."
 msgstr "Der Arbeitsbereich ist jetzt unter {domain} erreichbar. Damit Anmeldung und Links in E-Mails sie nutzen, machen Sie sie unter Domains in {account_center} zur Hauptadresse."
+
+#: frontend/portal/src/pages/Start.vue:71
+msgid "The workspace takes its name, and its address starts with it."
+msgstr "Der Arbeitsbereich erhält seinen Namen, und seine Adresse beginnt damit."
 
 #: onedesk/public/js/apps.js:140
 msgid "The workspace's apps changed. Reload to see them."
@@ -55536,6 +55731,10 @@ msgstr "Dieses Tabellenblatt ist geschützt"
 #: onedesk/one_hr/notifications.py
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "In dieser Schicht wird eingecheckt, aber nicht ausgewertet: Es wird keine Anwesenheit erfasst und jede Auswertung darüber bleibt leer. Öffnen Sie die Schicht und klicken Sie auf Einchecken auswerten."
+
+#: onedesk/one_admin/wizard.py:189
+msgid "This signup can no longer be changed. Start again."
+msgstr "Diese Anmeldung kann nicht mehr geändert werden. Beginnen Sie neu."
 
 #: onedesk/one_admin/signup.py:242
 msgid "This signup can no longer be paid for. Start again."
@@ -56590,10 +56789,6 @@ msgstr "Zu viele Bearbeitungen in einem Speichervorgang."
 msgid "Too many emails?"
 msgstr "Zu viele E-Mails?"
 
-#: onedesk/www/start.html:114
-msgid "Too many tries in a minute. Wait a moment and try again."
-msgstr "Zu viele Versuche in einer Minute. Warten Sie einen Moment und versuchen Sie es erneut."
-
 #: onedesk/www/your_data.html:78
 msgid "Too many tries. Try again in an hour."
 msgstr "Zu viele Versuche. Versuchen Sie es in einer Stunde erneut."
@@ -56920,6 +57115,10 @@ msgstr "Titel"
 #: onedesk/one_display/doctype/music_playlist/music_playlist.json:77
 msgid "Tracks played in a sound zone."
 msgstr "In einer Klangzone gespielte Titel."
+
+#: onedesk/one/registry/fields.py:27
+msgid "Trading"
+msgstr "Handel"
 
 #: frontend/src/admin/AdminServers.vue:10
 msgid "Traffic"
@@ -57360,6 +57559,10 @@ msgstr "Aktivieren Sie Advanced Certificate Manager für {0} in Cloudflare und r
 #, python-brace-format
 msgid "Turn on Weather in {0} to search for a place."
 msgstr "Schalten Sie Wetter im {0} ein, um nach einem Ort zu suchen."
+
+#: frontend/portal/src/pages/Start.vue:75
+msgid "Turn on what the company will use. Any app can be turned on later."
+msgstr "Schalten Sie ein, was das Unternehmen nutzen wird. Jede App kann später eingeschaltet werden."
 
 #: onedesk/account_center/center.py:590
 msgid "Turn them on first."
@@ -58527,6 +58730,10 @@ msgstr "Verwendet von {0}."
 msgid "Used by {1}, {0} calls"
 msgstr "Von {1} verbraucht, {0} Aufrufe"
 
+#: frontend/portal/src/pages/Start.vue:79
+msgid "Used for attendance, leave and the calendar."
+msgstr "Wird für Anwesenheit, Urlaub und den Kalender verwendet."
+
 #: frontend/src/inventory/to_order/ToOrderPage.vue:163
 msgid "Used for lines without a default supplier."
 msgstr "Wird für Positionen ohne Standardlieferanten verwendet."
@@ -58534,6 +58741,10 @@ msgstr "Wird für Positionen ohne Standardlieferanten verwendet."
 #: onedesk/one/control.py:325
 msgid "Used for the company name, lines and banner in letter heads."
 msgstr "Wird für Firmenname, Linien und Banner im Briefkopf verwendet."
+
+#: frontend/portal/src/pages/Start.vue:72
+msgid "Used for the workspace, its books and its dates."
+msgstr "Wird für den Arbeitsbereich, seine Bücher und seine Datumsangaben verwendet."
 
 #. Description of the 'Duration (Seconds)' (Int) field in DocType 'Display
 #. Slide'
@@ -58621,6 +58832,10 @@ msgstr "User Journeys und Wireframes"
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:528
 msgid "User name"
 msgstr "Benutzername"
+
+#: frontend/portal/src/start/People.vue:41
+msgid "User of Every App"
+msgstr "Benutzer in jeder App"
 
 #. Task in the Mobile App project template
 #: onedesk/one_project/library/mobile_app.json
@@ -60417,6 +60632,10 @@ msgstr "Was das Buchen der nächsten Abrechnung hinzufügt, aus Satz und Faktore
 #: onedesk/one_book/home.py:318
 msgid "What suppliers have billed you."
 msgstr "Was Lieferanten Ihnen berechnet haben."
+
+#: frontend/portal/src/pages/Start.vue:73
+msgid "What the Company Does"
+msgstr "Was das Unternehmen macht"
 
 #: onedesk/one/tour.py:12
 msgid "What the Workspace Needs"
@@ -62504,6 +62723,11 @@ msgstr "Wenn {one} eine neue Fassung einer Vereinbarung veröffentlicht, die der
 msgid "Where"
 msgstr "Wo"
 
+#: frontend/portal/src/pages/Start.vue:77
+#: onedesk/one_admin/wizard_answers.py:24
+msgid "Where Data Is Kept"
+msgstr "Wo die Daten liegen"
+
 #: frontend/src/inventory/home/InventoryStory.vue:34
 msgid "Where Goods Came From and Went"
 msgstr "Woher die Ware kam und wohin sie ging"
@@ -62527,6 +62751,10 @@ msgstr "Wo der Bestand ist"
 #: onedesk/one_hr/tour.py:39
 msgid "Where They Stand"
 msgstr "Wo die Person steht"
+
+#: frontend/src/admin/AdminHome.vue:28
+msgid "Where Unpaid Signups Stop"
+msgstr "Wo unbezahlte Anmeldungen aufhören"
 
 #: onedesk/trust_center/tour.py:11
 msgid "Where You Stand"
@@ -62558,6 +62786,10 @@ msgstr "Wohin eingehender Bestand kommt und wie viel jedes Lager fasst."
 #: onedesk/one_display/doctype/queue/queue.json:34
 msgid "Where calls from this queue are announced."
 msgstr "Wo Aufrufe dieser Warteschlange angesagt werden."
+
+#: onedesk/one_admin/wizard.py:264
+msgid "Where data is kept was chosen before payment."
+msgstr "Der Speicherort der Daten wurde vor der Zahlung gewählt."
 
 #: onedesk/one_admin/agent.py:191
 msgid "Where did the credits go?"
@@ -62610,10 +62842,6 @@ msgstr "Wo alles ist, für einen Hochformat-Bildschirm."
 #: onedesk/one_book/home.py:409
 msgid "Where exchange rates are fetched from."
 msgstr "Woher Wechselkurse abgerufen werden."
-
-#: onedesk/www/start.html:45
-msgid "Where files are kept"
-msgstr "Wo die Dateien gespeichert werden"
 
 #: onedesk/one_inventory/agent.py:208
 msgid "Where is each numbered piece?"
@@ -64173,6 +64401,11 @@ msgstr "Arbeitstage"
 msgid "Working Hours"
 msgstr ""
 
+#: frontend/portal/src/pages/Start.vue:79
+#: onedesk/one_admin/wizard_answers.py:26
+msgid "Working Week"
+msgstr "Arbeitswoche"
+
 #: onedesk/public/js/one_interface/chrome.js:50
 #, python-brace-format
 msgid "Working in {0}."
@@ -64494,10 +64727,6 @@ msgstr "Arbeitsbereich- und externe Adressen"
 #: onedesk/public/js/account_center/account_center.js:1081
 msgid "Workspace closing. Everyone is notified."
 msgstr "Arbeitsbereich wird geschlossen. Alle werden benachrichtigt."
-
-#: onedesk/www/start.html:30
-msgid "Workspace name"
-msgstr "Name des Arbeitsbereichs"
 
 #: onedesk/public/js/one/notification_center.js:459
 msgid "Workspace rule"
@@ -65319,6 +65548,10 @@ msgstr "Sie haben begonnen, {workspace} auf {one} einzurichten, aber die Zahlung
 msgid "You were marked absent on {date}"
 msgstr "Sie wurden am {date} als abwesend markiert"
 
+#: frontend/portal/src/pages/Start.vue:70
+msgid "You will be the workspace's first administrator."
+msgstr "Sie verwalten den Arbeitsbereich als erste Person."
+
 #. Message of a notification
 #: onedesk/one_cloud/notifications.py
 msgid "You'll get a sign-in code at this address when you open it."
@@ -65377,6 +65610,10 @@ msgstr "Ihr Kalender-Link"
 #: onedesk/one_calendar/tour.py:12
 msgid "Your Calendars"
 msgstr "Ihre Kalender"
+
+#: frontend/portal/src/pages/Start.vue:71
+msgid "Your Company"
+msgstr "Ihr Unternehmen"
 
 #: onedesk/one_mail/setup.py:28
 msgid "Your Company's Mail"
@@ -65534,10 +65771,6 @@ msgstr "Ihr Update"
 msgid "Your Workspace"
 msgstr "Ihr Arbeitsbereich"
 
-#: onedesk/www/start.html:23
-msgid "Your account"
-msgstr "Ihr Konto"
-
 #: onedesk/one/privacy_copy.py:16
 msgid "Your account and profile"
 msgstr "Ihr Konto und Profil"
@@ -65680,6 +65913,10 @@ msgstr "Ihr Feedback hilft uns, besser zu werden."
 #, python-brace-format
 msgid "Your feedback on {applicant}'s interview is due"
 msgstr "Ihr Feedback zum Vorstellungsgespräch mit {applicant} ist fällig"
+
+#: onedesk/one_admin/wizard.py:22
+msgid "Your first name is needed."
+msgstr "Ihr Vorname wird benötigt."
 
 #. Subject of a notification
 #: onedesk/one_admin/notifications.py

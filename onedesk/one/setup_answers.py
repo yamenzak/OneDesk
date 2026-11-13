@@ -7,9 +7,10 @@ from datetime import date, timedelta
 from zoneinfo import available_timezones
 
 from onedesk.one import registry
+from onedesk.one.registry import fields
 
-FIELDS = ("clinic", "real_estate", "manufacturer", "trading", "contracting", "services", "retail", "other")
-"""A company's field, the wizard's first question (docs/ARC-FIRST-EXPERIENCE.md)."""
+FIELDS = fields.IDS
+"""A company's field (one/registry/fields.py)."""
 
 CHARTS = ("Standard", "Standard with Numbers")
 """The two charts that carry both payroll accounts (docs/ACCOUNTS.md)."""
@@ -27,17 +28,23 @@ PERSON = ("email", "first_name", "last_name", "levels", "admin")
 
 
 class Invalid(ValueError):
-	"""Answers that can't be set up from; the message names every problem."""
+	"""Answers that can't be set up from; the message names every problem,
+	and `wrong` holds them one by one, each starting with where it is."""
+
+	def __init__(self, message: str, wrong: list[str] | None = None):
+		super().__init__(message)
+		self.wrong = wrong or [message]
 
 
-def check(answers: dict) -> dict:
+def check(answers: dict, partial: bool = False) -> dict:
 	"""The answers, or Invalid naming each unknown key and each missing or
-	wrong answer. Pure."""
+	wrong answer; `partial`, as the wizard keeps them while it asks, leaves
+	out what is not answered yet. Pure."""
 	wrong: list[str] = []
 	if not isinstance(answers, dict):
 		raise Invalid("the answers must be a dict")
 	_keys(answers, TOP, "the answers", wrong)
-	wrong += [f"{key} is missing" for key in NEEDED if not answers.get(key)]
+	wrong += [f"{key} is missing" for key in NEEDED if not answers.get(key) and not partial]
 	owner = answers.get("owner") or {}
 	if _is(owner, dict, "owner", wrong):
 		_keys(owner, OWNER, "owner", wrong)
@@ -57,7 +64,7 @@ def check(answers: dict) -> dict:
 	_steps(answers.get("steps"), wrong)
 	_people(answers.get("people"), wrong)
 	if wrong:
-		raise Invalid("; ".join(wrong))
+		raise Invalid("; ".join(wrong), wrong)
 	return answers
 
 
