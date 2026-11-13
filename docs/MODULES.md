@@ -313,6 +313,8 @@ No doctypes yet.
 * `onedesk.account_center.closing.keep`
 * `onedesk.account_center.closing.prepare`
 * `onedesk.account_center.closing.state`
+* `onedesk.account_center.companies.currency`
+* `onedesk.account_center.companies.make`
 * `onedesk.account_center.devices.lost`
 * `onedesk.account_center.devices.retire`
 * `onedesk.account_center.devices.retire_passkey`

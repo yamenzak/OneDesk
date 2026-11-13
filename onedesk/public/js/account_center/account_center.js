@@ -1395,6 +1395,75 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		dialog.show();
 	}
 
+	draw_companies(data) {
+		const esc = frappe.utils.escape_html;
+		this.$content.html('<div class="one-shell-section" data-list="companies"></div>');
+		this.page.set_primary_action(__("Add Company"), () => this.add_company(data), "plus");
+		onedesk.shell.table(this.$content.find('[data-list="companies"]'), {
+			rows: data.companies || [],
+			icon: "building-2",
+			empty: __("No companies yet"),
+			open: (one) => this.leave(() => frappe.set_route("Form", "Company", one.name)),
+			columns: [
+				{
+					label: __("Company"),
+					render: (one) =>
+						`<div>${esc(one.name)}${one.default ? ` ${frappe.ui.badge.html({ label: __("Default"), theme: "gray" })}` : ""}</div><div class="one-shell-quiet">${esc(one.abbr || "")}</div>`,
+				},
+				{ label: __("Country"), render: (one) => esc(one.country ? __(one.country) : "-") },
+				{ label: __("Currency"), render: (one) => esc(one.default_currency || "-") },
+			],
+		});
+	}
+
+	add_company(data) {
+		const charts = { Standard: __("Standard"), "Standard with Numbers": __("Standard with Numbers") };
+		const heads = [{ value: "own", label: __("New Letter Head") }];
+		if (data.letter_head) heads.push({ value: "first", label: __("Same as {0}", [data.letter_head]) });
+		const dialog = new frappe.ui.Dialog({
+			title: __("Add Company"),
+			fields: [
+				{ fieldname: "company_name", fieldtype: "Data", label: __("Company Name"), reqd: 1 },
+				{
+					fieldname: "country",
+					fieldtype: "Link",
+					options: "Country",
+					label: __("Country"),
+					reqd: 1,
+					default: data.country,
+					onchange: async () => {
+						const country = dialog.get_value("country");
+						if (country) dialog.set_value("currency", (await frappe.xcall("onedesk.account_center.companies.currency", { country })) || "");
+					},
+				},
+				{ fieldname: "currency", fieldtype: "Link", options: "Currency", label: __("Currency"), reqd: 1, description: __("Defaults to the country's currency.") },
+				{
+					fieldname: "chart",
+					fieldtype: "Select",
+					label: __("Chart of Accounts"),
+					options: (data.charts || Object.keys(charts)).map((value) => ({ value, label: charts[value] || value })),
+					default: "Standard",
+					description: __("Standard with Numbers gives each account a number."),
+				},
+				{ fieldname: "letter_head", fieldtype: "Select", label: __("Letter Head"), options: heads, default: "own" },
+			],
+			primary_action_label: __("Add Company"),
+			primary_action: async (values) => {
+				dialog.disable_primary_action();
+				try {
+					const made = await frappe.xcall("onedesk.account_center.companies.make", values, "POST", { freeze: true, freeze_message: __("Setting up {0}", [values.company_name]) });
+					dialog.hide();
+					frappe.show_alert({ message: __("{0} added", [made]), indicator: "green" });
+					this.refresh();
+				} finally {
+					dialog.enable_primary_action();
+				}
+			},
+		});
+		dialog.show();
+		if (data.country) dialog.fields_dict.country.df.onchange();
+	}
+
 	// Devices (account_center/devices.py): the company's computers and phones,
 	// then the browsers nobody has named yet, then every passkey. A device
 	// opens to be named, sorted, marked lost or retired.
@@ -1709,6 +1778,7 @@ onedesk.account_center.SECTIONS = [
 	{ id: "documents", about: __("Your ID, passport and permits. HR is told when you add or change one.") },
 	{ id: "signin", about: __("Your password, your passkey and where you are signed in.") },
 	{ id: "people", about: __("Everyone in the workspace, and inviting someone new.") },
+	{ id: "companies", about: __("The workspace's companies, and adding another.") },
 	{ id: "devices", about: __("The company's computers and phones, and the passkeys on people's own.") },
 	{ id: "plan", about: __("The plan, its seats and storage, credits and invoices.") },
 	{ id: "domains", about: __("The addresses the workspace answers on.") },
@@ -1722,6 +1792,7 @@ onedesk.account_center.HELP = {
 	documents: "your-account",
 	signin: "your-account",
 	people: "people-and-devices",
+	companies: "companies",
 	devices: "people-and-devices",
 	plan: "plan-and-credits",
 	domains: "plan-and-credits",

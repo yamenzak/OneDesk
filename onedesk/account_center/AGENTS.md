@@ -69,6 +69,9 @@ the title, the primary action, and the record's actions as menus.
   workspace, what the account says above its fields, closing the workspace,
   and private apps.
 - `doctype/`: Device, Workspace Account, Workspace Add-on, Workspace Domain.
+- `companies.py`: Companies, the workspace's companies and Add Company,
+  which makes one through `setup_job.company` (one/AGENTS.md, The setup
+  job), an administrator's alone.
 - `access.py`: one ability, `plan`, so a role can read Plan and Credits
   without being an administrator.
 - `notifications.py`, `trust.py`, `setup.py`, `tour.py`, `agent.py`: what it

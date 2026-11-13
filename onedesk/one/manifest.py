@@ -56,6 +56,7 @@ APP = App(
 	makes=(
 		"Address",
 		"Company",
+		"Fiscal Year",
 		"Shift Type",
 	),
 )
