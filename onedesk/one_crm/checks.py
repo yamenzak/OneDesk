@@ -5,6 +5,7 @@ one ability."""
 import frappe
 from frappe.utils import add_days, add_to_date, flt, getdate, now_datetime, today
 
+from onedesk.one import story as stories
 from onedesk.one_demo.base import as_user
 from onedesk.one_demo.check import CENTS, check
 
@@ -73,7 +74,7 @@ def onecrm_home_tells_how_selling_is_going():
 		said = home.read()
 		cards = told["cards"]
 		assert set(cards) == {"leads", "pipeline", "weighted", "won", "rate", "average"}, set(cards)
-		assert len(cards["won"]["series"]) == story.MONTHS and sum(1 for one in cards["won"]["series"] if one) >= 5, cards["won"]
+		assert len(cards["won"]["series"]) == stories.MONTHS and sum(1 for one in cards["won"]["series"] if one) >= 5, cards["won"]
 		alive = sum(measure.value(one) for one in measure.deals(measure.alive()))
 		assert abs(cards["pipeline"]["value"] - alive) < 0.01
 		staged = sum(one["value"] for one in told["pipeline"]["stages"] if not one["held"])

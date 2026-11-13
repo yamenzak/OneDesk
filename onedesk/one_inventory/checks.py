@@ -6,6 +6,8 @@ ability."""
 import frappe
 from frappe.utils import add_days, flt, getdate, today
 
+from onedesk.one import needs_you
+from onedesk.one import story as stories
 from onedesk.one_demo.base import COMPANY, as_user, wh
 from onedesk.one_demo.check import CENTS, VILLA, _Told, check
 from onedesk.one_demo.people import OWNER
@@ -239,7 +241,7 @@ def oneinventory_home_says_what_needs_somebody_and_where_everything_is():
 		assert needs["late"]["count"] == ai.late_orders()["count"] == said["figures"]["late"] > 0, needs["late"]
 		assert needs["low"]["count"] == ai.running_low()["count"] == said["figures"]["low"] > 0, needs["low"]
 		assert needs["lots"]["count"] == len(batches.dated()) == said["figures"]["going_off"] > 0, needs["lots"]
-		assert len(needs["late"]["rows"]) <= home.FEW
+		assert len(needs["late"]["rows"]) <= needs_you.FEW
 		assert said["figures"]["worth"] > 0
 		shown = {one["target"] for one in said["everything"]}
 		assert {"Item", "Warehouse", "Stock Ledger", "to-order", "stock-on-hand"} <= shown, shown
@@ -277,7 +279,7 @@ def oneinventory_home_tells_the_story_of_the_stock():
 		for key, name in story.CARDS:
 			assert frappe.db.get_value("Number Card", name, "module") == "One Inventory", name
 			assert said[key]["value"] == cards[key]["value"] and cards[key]["card"] == name, (name, said[key], cards[key])
-		assert len(cards["worth"]["series"]) == len(told["months"]) <= story.MONTHS
+		assert len(cards["worth"]["series"]) == len(told["months"]) <= stories.MONTHS
 		where = told["where"]
 		assert round(sum(one["worth"] for one in where["warehouses"])) == round(worth)
 		assert round(sum(one["worth"] for one in where["groups"])) == round(worth)

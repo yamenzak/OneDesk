@@ -5,6 +5,7 @@ currencies, as their people read them, and the two abilities."""
 import frappe
 from frappe.utils import add_days, date_diff, flt, getdate, today
 
+from onedesk.one import story as stories
 from onedesk.one.company import company_currency, reader_company
 from onedesk.one_demo.base import COMPANY, as_user, on
 from onedesk.one_demo.check import CENTS, _abroad, check
@@ -129,7 +130,7 @@ def onebook_home_tells_how_the_money_is_doing():
 		assert abs(cards["cash"]["value"] - home.cash()["value"]) < 0.01, (cards["cash"], home.cash())
 		assert abs(cards["profit"]["value"] - home.profit_this_month()["value"]) < 0.01
 		assert abs(cards["receivable"]["value"] - home.owed_to_us()["value"]) < 0.01
-		assert len(cards["cash"]["series"]) == story.MONTHS
+		assert len(cards["cash"]["series"]) == stories.MONTHS
 		assert abs(sum(cards["overdue"]["series"]) - cards["overdue"]["value"]) < 0.01, cards["overdue"]
 		assert len(cards["due_this_week"]["series"]) == home.WEEK, cards["due_this_week"]
 		assert abs(sum(cards["due_this_week"]["series"]) - cards["due_this_week"]["value"]) < 0.01, cards["due_this_week"]
