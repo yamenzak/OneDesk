@@ -28,7 +28,7 @@ a card first, the change after you approve it. You can ask in your own
 words in the panel too, such as "make the third slide figures". Before
 OneAI changes slides, what they were is kept in **Version History**.
 
-**Make a Picture with OneAI** is in OneWriter too, in the menu that adds a
+**Make a Picture with OneAI** is in OneDoc too, in the menu that adds a
 picture to a document.
 
 An administrator can turn OneAI off for OneDeck in AICenter.

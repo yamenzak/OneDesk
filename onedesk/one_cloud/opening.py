@@ -1,5 +1,5 @@
 """How an office file opens in OneCloud and what Edit offers on it: in
-OneWorkbook or OneWriter when it has nothing they would drop, else as its
+OneSheet or OneDoc when it has nothing they would drop, else as its
 exact PDF; Edit there, Edit in OneOS or a copy of One's own. What the
 editor would drop is read once for each version of the file and kept on
 it. A workbook, document or presentation of One's own leaves as the Excel,
@@ -21,7 +21,7 @@ EDITS = {"xlsx": "workbook", "csv": "workbook", "docx": "document"}
 MAKES = {"pptx": "presentation", "ppsx": "presentation"}
 COPIES = {"xlsm": "workbook", "xltm": "workbook", "xls": "workbook", "docm": "document", "dotm": "document"}
 WEIGHED = ("xlsx", "docx")
-APPS = {"workbook": "OneWorkbook", "document": "OneWriter"}
+APPS = {"workbook": "OneSheet", "document": "OneDoc"}
 HELD_BY = {"workbook": "Workbook", "document": "Writer Document"}
 
 
@@ -56,9 +56,9 @@ def kept(item: dict) -> list | None:
 
 
 def weighed(item: dict) -> list:
-	"""What OneWorkbook or OneWriter would drop from the file, read from its
+	"""What OneSheet or OneDoc would drop from the file, read from its
 	parts the first time this version is opened. A Word file's styles the
-	reader does not know are only found once OneWriter reads it in."""
+	reader does not know are only found once OneDoc reads it in."""
 	found = kept(item)
 	if found is not None:
 		return found
@@ -105,7 +105,7 @@ def weigh(node: str) -> dict:
 
 
 def waiting(file: str, kind: str) -> bool:
-	"""Whether edits made to the file in OneWorkbook or OneWriter wait to be
+	"""Whether edits made to the file in OneSheet or OneDoc wait to be
 	saved over it or as a copy."""
 	return bool(frappe.db.exists(HELD_BY[kind], {"file": file, "held_back": ["is", "set"]}))
 
@@ -151,11 +151,11 @@ def kept_inside(kind: str, name: str) -> str | None:
 	record's table, a document with a record's fields, a presentation with
 	words from records. None when an outside save may come back into it."""
 	if kind == "workbook" and frappe.db.get_value("Workbook", name, "bound_doctype"):
-		return _("A record's workbook can only be edited in OneWorkbook.")
+		return _("A record's workbook can only be edited in OneSheet.")
 	if kind == "document":
 		held = frappe.db.get_value("Writer Document", name, ["html", "bound_doctype"], as_dict=True) or frappe._dict()
 		if held.bound_doctype or 'data-field="' in (held.html or ""):
-			return _("A document with a record's fields in it can only be edited in OneWriter.")
+			return _("A document with a record's fields in it can only be edited in OneDoc.")
 	if kind == "presentation":
 		from onedesk.one_deck import data
 
@@ -182,7 +182,7 @@ def download(node: str) -> None:
 
 def editing(items: list[dict]) -> None:
 	"""Who is in each office file, workbook or document of a listing in
-	OneWorkbook or OneWriter to change it, put on its row."""
+	OneSheet or OneDoc to change it, put on its row."""
 	files = [one["id"] for one in items if not one.get("folder") and (one.get("office") or one.get("workbook") or one.get("document"))]
 	if not files:
 		return
@@ -211,7 +211,7 @@ def editing(items: list[dict]) -> None:
 
 
 def redraw(file: str) -> None:
-	"""Somebody came into or left a file in OneWorkbook or OneWriter: the
+	"""Somebody came into or left a file in OneSheet or OneDoc: the
 	folders it shows in redraw its row."""
 	from onedesk.one_cloud import live
 

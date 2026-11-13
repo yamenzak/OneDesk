@@ -17,8 +17,8 @@ const SEAMS = {
 	"@/apps/writer/router": "./shim/router.js",
 };
 
-export const writerSeams = {
-	name: "onedesk-writer-seams",
+export const docSeams = {
+	name: "onedesk-doc-seams",
 	enforce: "pre",
 	async resolveId(source, importer, options) {
 		if (SEAMS[source]) return here(SEAMS[source]);

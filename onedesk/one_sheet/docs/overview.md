@@ -1,10 +1,10 @@
-# What OneWorkbook Is
+# What OneSheet Is
 
-OneWorkbook is the business's spreadsheet: sheets, formulas, formatting,
+OneSheet is the business's spreadsheet: sheets, formulas, formatting,
 charts, pivot tables and notes, in a workbook kept in OneCloud with the rest
 of your files and opened by anybody it is shared with.
 
-![The Bayview tower costing open in OneWorkbook, a formula in the bar above the grid](overview/workbook.png)
+![The Bayview tower costing open in OneSheet, a formula in the bar above the grid](overview/workbook.png)
 
 ## A New Workbook
 
@@ -20,7 +20,7 @@ say where it stands, and if a save fails, **Retry** sends it again.
 
 | You see | What it is |
 | --- | --- |
-| **The path** | Where the workbook is kept. Each step is a way back, and OneWorkbook's mark goes one step back. |
+| **The path** | Where the workbook is kept. Each step is a way back, and OneSheet's mark goes one step back. |
 | **The bar** | Number formats, fonts, colours, borders, filters, charts and pivot tables. |
 | **The formula bar** | What the cell you are on holds. See [Working in a Workbook](working-in-a-workbook). |
 | **File** | Print, export, import and templates. |

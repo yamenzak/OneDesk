@@ -18,7 +18,7 @@ as a version, and **Save as Copy** makes a new file next to it.
 
 ## Office Files
 
-An Excel or CSV file opens in OneWorkbook, and a Word file in OneWriter,
+An Excel or CSV file opens in OneSheet, and a Word file in OneDoc,
 when they keep everything in it. What is changed is saved back into the same
 file, and what it held before is kept as a version. A file with something
 they don't keep, such as comments or charts, opens as an exact preview
@@ -26,7 +26,7 @@ instead, so looking at it never changes it.
 
 | File | Clicking it | **Edit** offers |
 | --- | --- | --- |
-| Excel (.xlsx), CSV, Word (.docx) | OneWorkbook or OneWriter, or the preview if they would drop something | **Edit in OneWorkbook** or **Edit in OneWriter**, **Edit in OneOS**, **Download** |
+| Excel (.xlsx), CSV, Word (.docx) | OneSheet or OneDoc, or the preview if they would drop something | **Edit in OneSheet** or **Edit in OneDoc**, **Edit in OneOS**, **Download** |
 | PowerPoint (.pptx) | The preview | **Make a Presentation**, **Edit in OneOS**, **Download** |
 | With macros (.xlsm, .docm), older Excel (.xls) | The preview | **Edit in OneOS**, **Download**, **Make a One Copy** |
 | OpenDocument, older Word and PowerPoint (.doc, .ppt) | The preview | **Edit in OneOS**, **Download** |
@@ -41,11 +41,11 @@ instead, so looking at it never changes it.
   [Editing in OneOS](editing-in-oneos).
 
 A file somebody is editing says so under its name, such as **Huda is
-editing in OneWorkbook**.
+editing in OneSheet**.
 
 ## Previews and PDFs
 
-A Word, Excel, PowerPoint or OpenDocument file that OneWorkbook or OneWriter
+A Word, Excel, PowerPoint or OpenDocument file that OneSheet or OneDoc
 can't show as it is opens as a PDF preview straight away, for 1 credit.
 Each version of a file is turned into a PDF once, so opening it again is
 free. Other files in the viewer offer **Preview**.
@@ -56,18 +56,18 @@ free. Other files in the viewer offer **Preview**.
 
 ## When an Editor Drops Something
 
-OneWorkbook and OneWriter don't keep everything an Excel or Word file can
-hold. OneWorkbook keeps an Excel file's look and changes only the cells you
-edit, but charts, slicers, shapes and a few more change or go. OneWriter
+OneSheet and OneDoc don't keep everything an Excel or Word file can
+hold. OneSheet keeps an Excel file's look and changes only the cells you
+edit, but charts, slicers, shapes and a few more change or go. OneDoc
 drops comments, tracked changes, headers and footers and the like.
-Choosing **Edit in OneWorkbook** or **Edit in OneWriter** on such a file
-first names them, such as *This file has charts and slicers OneWorkbook
+Choosing **Edit in OneSheet** or **Edit in OneDoc** on such a file
+first names them, such as *This file has charts and slicers OneSheet
 can't keep.*
 
 | Button | What it does |
 | --- | --- |
 | **Edit in OneOS** | Opens the file in a full office app, which keeps everything. |
-| **Edit Here Anyway** | Opens it in OneWorkbook or OneWriter. Nothing is dropped until you choose Save Over Original. |
+| **Edit Here Anyway** | Opens it in OneSheet or OneDoc. Nothing is dropped until you choose Save Over Original. |
 
 In the editor, a bar over it names what would go, and your changes stay
 there until you choose:
@@ -85,8 +85,8 @@ Until you choose, clicking the file opens it in the editor with the bar.
 
 | Made in | Clicking it | **Edit** offers |
 | --- | --- | --- |
-| OneWorkbook | OneWorkbook | **Edit in OneWorkbook**, **Edit in OneOS**, **Download as Excel** |
-| OneWriter | OneWriter | **Edit in OneWriter**, **Edit in OneOS**, **Download as Word** |
+| OneSheet | OneSheet | **Edit in OneSheet**, **Edit in OneOS**, **Download as Excel** |
+| OneDoc | OneDoc | **Edit in OneDoc**, **Edit in OneOS**, **Download as Word** |
 | OneDeck | OneDeck | **Edit in OneDeck**, **Edit in OneOS**, **Download as PowerPoint** |
 
 **New › Workbook** makes a workbook in the folder you are in. A workbook's

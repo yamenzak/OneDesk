@@ -7,4 +7,4 @@ export const useThemeMenuOption = () => null;
 export const useSettingsMenuOption = () => null;
 export const useRootStore = () => ({ registerPaletteGroups: () => () => {} });
 export const setupTheme = () => {};
-export const appPageMeta = (title) => ({ title: title ? `${title} · OneWorkbook` : "OneWorkbook" });
+export const appPageMeta = (title) => ({ title: title ? `${title} · OneSheet` : "OneSheet" });

@@ -39,7 +39,7 @@ in the same places everywhere and a change to one is a change to all.
    switch. Nothing here names a doctype (`test_the_engine_names_no_doctype`).
 2. **A Vue island.** Only for a screen that is genuinely more than a list or
    a form: a product (OneMail, OneCloud, OneCalendar), a space's home, an
-   editor (OneWorkbook, OneWriter), a record page that is run from all day
+   editor (OneSheet, OneDoc), a record page that is run from all day
    (`tiers.PAGES`). It is built from frappe's Vue parts first (frappe-ui,
    `@framework/ui`), ours last, mounted by `island_page`, and declared in
    `tiers.SCREENS` with the reason it is not a list or a form.

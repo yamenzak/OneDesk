@@ -1,4 +1,4 @@
-"""An Excel file with what OneWorkbook changed written into it, so that
+"""An Excel file with what OneSheet changed written into it, so that
 everything else the file holds stays as it was: its fonts, fills, borders,
 comments, data validation, conditional formatting, tables, defined names,
 freeze panes and print settings. Each cell the editor holds is set where its

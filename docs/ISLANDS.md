@@ -112,7 +112,7 @@ that exists.
 |---|---|
 | `portal/src/App.vue` | frappe-ui's own shells, as Helpdesk and Gameplan use them |
 | `src/sheet/WorkbookPage.vue` | Frappe Suite's Sheets, taken whole (src/sheet/VENDORED.md): Google Sheets' grid, formula bar, tabs, notes and version history |
-| `src/writer/DocumentPage.vue` | Frappe Suite's Writer, taken whole (src/writer/VENDORED.md): Google Docs' page, toolbar, outline, comments in the margin and page setup |
+| `src/doc/DocumentPage.vue` | Frappe Suite's Writer, taken whole (src/doc/VENDORED.md): Google Docs' page, toolbar, outline, comments in the margin and page setup |
 | `src/slide/PresentationPage.vue` | Frappe Suite's Slides, taken whole (src/slide/VENDORED.md): Google Slides' rail of slides, canvas, floating toolbar, properties panel and present mode |
 | `portal/src/pages/Address.vue` | Shopify's customer account addresses: one form, Save |
 | `portal/src/pages/Apps.vue` | GitHub's Authorized OAuth Apps: a line an app, Revoke |

@@ -230,7 +230,7 @@ def read(name: str, content: bytes, heard: list | None = None) -> str:
 
 
 def dropped(content: bytes, heard: list, own: bool) -> list[str]:
-	"""What OneWriter does not keep of a Word file, but for the styles
+	"""What OneDoc does not keep of a Word file, but for the styles
 	`build` writes itself; a document of One's own never had fonts and
 	colours to lose."""
 	from onedesk.one_cloud import fidelity
@@ -252,7 +252,7 @@ def write(name: str, content: bytes) -> None:
 	saving.check(api.DOCUMENT, name, item)
 	held = frappe.db.get_value(api.DOCUMENT, name, ["html", "bound_doctype"], as_dict=True)
 	if held.bound_doctype or 'data-field="' in (held.html or ""):
-		frappe.throw(_("A document with a record's fields in it can only be edited in OneWriter."), frappe.PermissionError)
+		frappe.throw(_("A document with a record's fields in it can only be edited in OneDoc."), frappe.PermissionError)
 	heard = []
 	html = read(name, content, heard)
 	if held.html:

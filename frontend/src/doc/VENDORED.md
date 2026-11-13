@@ -63,7 +63,7 @@ Each is marked `One:` where it is.
 - `components/CoreEditor.vue`: Ctrl+P's `print-file` no longer prints
   through the browser; the page's Print dialog answers it.
 - `components/CoreEditor.vue`: `data-tour` marks on the toolbar, the outline
-  and the page, for OneWriter's tour (`one_doc/tour.py`).
+  and the page, for OneDoc's tour (`one_doc/tour.py`).
 - `components/CoreEditor.vue`: a version that could not be kept says so
   without "please", by the copy rules.
 - `components/CoreEditor.vue`, `VersionsSidebar.vue`: the page and the

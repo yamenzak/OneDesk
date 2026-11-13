@@ -1,6 +1,6 @@
-# OneWriter
+# OneDoc
 
-What OneWriter is, how it works and why; for agents, OneAI and us. What is
+What OneDoc is, how it works and why; for agents, OneAI and us. What is
 known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
 
 Documents in OneCloud: a scope of works, a covering letter, a method
@@ -15,7 +15,7 @@ in OneCloud, in a record's Files, from a link in a mail.
 
 The path at the top says where the document belongs, and each step is a way
 back: `OneCloud / My Files / Scope of works`, or for a record's document
-`Quotation / RC-QTN-2600002 / Covering letter`. OneWriter's mark goes one step
+`Quotation / RC-QTN-2600002 / Covering letter`. OneDoc's mark goes one step
 back.
 
 An untitled document takes its name from its first line when you press Enter
@@ -25,7 +25,7 @@ It saves itself two seconds after you stop typing, and when you leave it.
 The head says **Saving…** and then **Saved**.
 
 A document left for another screen waits on the bar under its title, with
-OneWriter's mark, as a workbook does; clicking it goes back, and × drops it.
+OneDoc's mark, as a workbook does; clicking it goes back, and × drops it.
 
 ## Writing
 
@@ -46,7 +46,7 @@ typing until somebody unlocks it.
 Templates, where everyone in the company can start from it. **File › Insert
 a Template** puts a template's content where the cursor is; **New › Document**
 offers them too. A template is its own content and nothing else.
-Keeping one is OneWriter's one ability, `template` (`abilities.py`, the
+Keeping one is OneDoc's one ability, `template` (`abilities.py`, the
 Permission Type `doc_template` on Writer Document): a Manager has it, a User
 does not, and the item is left out of **File** for whoever lacks it.
 
@@ -58,7 +58,7 @@ project. Whoever may open the record may open its documents, and whoever may
 change the record may change them.
 
 Every text with a formatting toolbar on a saved record, a quotation's terms
-or a project's notes, has **Open in OneWriter** under it. The text opens as
+or a project's notes, has **Open in OneDoc** under it. The text opens as
 a document filed on the record, and what is written there becomes the text
 through the record's own save, two seconds after you stop typing. The record
 checks it as it checks a save from its form; if it refuses, the reason shows
@@ -101,13 +101,13 @@ lists, tables, pictures and page breaks come with it, and a record's fields
 are filled in as on paper. Open it in Word, change it and save: the document
 takes Word's version, and what it said before is kept in Version History as
 **Before a Word save**. A document with a record's fields in it opens in Word
-but can only be changed in OneWriter, since Word would keep the values and
+but can only be changed in OneDoc, since Word would keep the values and
 lose the fields.
 
-A Word file put into OneCloud opens in OneWriter, and what you write is saved
+A Word file put into OneCloud opens in OneDoc, and what you write is saved
 back into the same file when you leave it, its old content kept in the file's
 versions. A new version of it put in from Word is read in the next time it
-opens. When the Word file has what OneWriter doesn't keep (comments, tracked
+opens. When the Word file has what OneDoc doesn't keep (comments, tracked
 changes, headers and footers, and the rest `one_cloud/fidelity.py` reads
 for), nothing is saved over it until the person chooses **Save Over
 Original** or **Save as Copy**; a .docm never opens here, and the file opens
@@ -154,12 +154,12 @@ quotation says. Each question costs credits like any other OneAI request.
 for a sentence and a shape (wide, square or tall) and puts the picture OneAI
 makes where the cursor is. It is kept on the document as an uploaded picture
 is (`api.make_picture`, with OneCloud's picture job through
-`one_cloud/made.py`, billed as "OneWriter picture").
+`one_cloud/made.py`, billed as "OneDoc picture").
 
 ## Connections
 
 - **From OneCloud**: A document is made, kept, moved, copied, shared and deleted in OneCloud, and opens from it.
-- **From OneCRM**: A quotation's terms, like any record's formatted text, open in OneWriter and go back through the record's save.
+- **From OneCRM**: A quotation's terms, like any record's formatted text, open in OneDoc and go back through the record's save.
 - **To OneCloud**: A document lists in its folder with the other files, and its pictures go with it to the Recycle Bin.
 
 ## Under the hood
@@ -197,7 +197,7 @@ may open the document.
 
 ### The editor
 
-`frontend/src/writer/` is Frappe Suite's Writer editor, taken whole
+`frontend/src/doc/` is Frappe Suite's Writer editor, taken whole
 (`VENDORED.md` says what was left out, where Suite's shell is replaced, and
 the few edits inside its files). `DocumentPage.vue` is ours: the head, the
 File menu, and the document and file objects the editor reads, over

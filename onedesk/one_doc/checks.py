@@ -1,4 +1,4 @@
-"""OneWriter's part of the integration suite (one_demo/check.py runs it): a
+"""OneDoc's part of the integration suite (one_demo/check.py runs it): a
 document written, versioned, kept as a template, printed with a record's
 fields and read as a Word file in OneCloud; a record's text written through
 the record's save; and OneAI's cards on a document, asked with nothing sent
@@ -64,7 +64,7 @@ def a_document_is_written_in_onecloud():
 				frappe.clear_messages()
 			karim = frappe.get_doc("User", "karim@one.test")
 			karim.flags.ignore_permissions = True
-			karim.add_roles("OneWriter Manager")
+			karim.add_roles("OneDoc Manager")
 			assert api.get_document(his)["can_template"], "a Manager keeps them"
 			assert not frappe.has_permission(api.DOCUMENT, "read"), "keeping templates opens no document the File doesn't"
 			kept = templates.save_as(his, "His template")
@@ -150,7 +150,7 @@ def a_document_keeps_its_versions_and_asks_oneai():
 			assert 'data-field="grand_total"' in frappe.db.get_value(api.DOCUMENT, letter, "html"), "from the template"
 		with as_user("rania@one.test"):
 			assert ai.my_documents("Minutes check") == [] and "error" in ai.read_document(name)
-			assert ai.page({"page": "document", "record": name}) == "The reader is on a document's page in OneWriter."
+			assert ai.page({"page": "document", "record": name}) == "The reader is on a document's page in OneDoc."
 			try:
 				versions.listed(name)
 				raise AssertionError("Rania read Layla's versions")
@@ -161,7 +161,7 @@ def a_document_keeps_its_versions_and_asks_oneai():
 
 
 @check
-def a_records_text_is_written_in_onewriter():
+def a_records_text_is_written_in_onedoc():
 	"""A draft quotation's terms open as a document filed on it. What Omar
 	writes there becomes the terms through the quotation's save; terms
 	changed on the quotation meanwhile are not written over, and opening it
@@ -312,14 +312,14 @@ def a_document_is_a_word_file_on_the_drive():
 			opened = word.open_file(upload.name)["document"]
 			assert word.open_file(upload.name)["document"] == opened, "one file, one document"
 			assert "Changed in Word." in api.get_document(opened)["html"] and api.get_document(opened)["word"]
-			api.save_document(opened, "CCC=", "<p>Written in OneWriter.</p>")
+			api.save_document(opened, "CCC=", "<p>Written in OneDoc.</p>")
 			assert api.rename_document(opened, "Letter checked")["title"] == "Letter checked.docx", "a Word file keeps its .docx"
 			word.write_back(opened)
 			back = Document(io.BytesIO(frappe.get_doc("File", upload.name).get_content()))
-			assert [one.text for one in back.paragraphs] == ["Written in OneWriter."], "written back into itself"
+			assert [one.text for one in back.paragraphs] == ["Written in OneDoc."], "written back into itself"
 			assert frappe.db.count("Cloud File Version", {"file": upload.name}) == 1, "what it held kept as a version"
 			word.file_replaced(upload.name)
-			assert "Written in OneWriter." in api.get_document(opened)["html"], "a new version from outside is read in again"
+			assert "Written in OneDoc." in api.get_document(opened)["html"], "a new version from outside is read in again"
 			frappe.delete_doc("File", upload.name, ignore_permissions=True, force=True)
 			assert not frappe.db.exists(api.DOCUMENT, opened), "and its document goes with the file"
 	finally:
@@ -328,7 +328,7 @@ def a_document_is_a_word_file_on_the_drive():
 
 @check
 def a_word_file_is_never_saved_over_with_less():
-	"""A Word file with comments opens in OneWriter saying what saving over
+	"""A Word file with comments opens in OneDoc saying what saving over
 	it would drop, and waits: the file stays as it was until the owner
 	chooses Save as Copy, which leaves it alone, or Save Over Original. A
 	new version arriving while changes wait keeps them as a copy. A .docm
@@ -384,7 +384,7 @@ def a_word_file_is_never_saved_over_with_less():
 			macro.insert()
 			try:
 				word.open_file(macro.name)
-				raise AssertionError("a .docm opened in OneWriter")
+				raise AssertionError("a .docm opened in OneDoc")
 			except frappe.ValidationError:
 				pass
 			own = api.make("@my", "Own check")["document"]

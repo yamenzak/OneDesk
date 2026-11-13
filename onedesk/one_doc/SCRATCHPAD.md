@@ -1,8 +1,8 @@
-# OneWriter — scratchpad
+# OneDoc — scratchpad
 
 What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 
-- A Word file's comments and tracked changes do not come into OneWriter, and
+- A Word file's comments and tracked changes do not come into OneDoc, and
   older `.doc`, `.odt` and `.rtf` files do not open in it; they open as files.
 - A card OneAI writes is put into the stored HTML; somebody else with the
   document open at that moment saves over it with what their copy holds.

@@ -33,7 +33,7 @@ def test_a_lock_is_refused_while_somebody_else_has_it_alone_or_writes_live():
 def test_the_app_is_told_who_holds_it_another_way():
 	names = {"samir@one.test": "Samir Haddad"}
 	assert dav_locks.shown({"user": "samir@one.test", "kind": lease.ONEOS}, names) == ("Samir Haddad", "OneOS")
-	assert dav_locks.shown({"user": "samir@one.test", "app": "workbook"}, names) == ("Samir Haddad", "OneWorkbook")
+	assert dav_locks.shown({"user": "samir@one.test", "app": "workbook"}, names) == ("Samir Haddad", "OneSheet")
 	assert dav_locks.shown({"user": "samir@one.test", "kind": lease.DAV}, names) is None, "wsgidav lists a drive lock itself"
 	assert dav_locks.shown(None, names) is None
 	assert dav_locks.owner("Samir & Co", "OneOS") == b'<D:owner xmlns:D="DAV:"><D:href>Samir &amp; Co (OneOS)</D:href></D:owner>'

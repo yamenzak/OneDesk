@@ -1,7 +1,7 @@
 <!-- A document in the desk: Suite's writer, opened on the document the route names, under a head that leads back to where the document belongs. -->
 <template>
-	<div ref="pageEl" data-tour="onewriter-editor" class="one-document flex h-full flex-col bg-surface-base">
-		<div data-tour="onewriter-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 px-4">
+	<div ref="pageEl" data-tour="onedoc-editor" class="one-document flex h-full flex-col bg-surface-base">
+		<div data-tour="onedoc-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 px-4">
 			<button class="flex size-6 shrink-0 items-center justify-center [&_svg]:size-full" :title="__('Back')" @click="goBack" v-html="oneMark" />
 			<Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr] max-md:[&>div:last-child>:not(:last-child)]:hidden" v-if="state && !renaming" :items="crumbs">
 				<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
@@ -381,7 +381,7 @@ const stopWritten = listen("one_document_written", (said) => {
 
 // A Word file opened from OneCloud is written back into itself when it is
 // left, once the last save is in (one_doc/word.py, write_back). One with
-// parts OneWriter drops waits for Save Over Original or Save as Copy
+// parts OneDoc drops waits for Save Over Original or Save as Copy
 // (one_cloud/saving.py), and only a save after the editor's first paint
 // is somebody's change to keep.
 const PAINTED_MS = 8000;

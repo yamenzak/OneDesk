@@ -17,7 +17,7 @@ folder).
 - **To OneMail**: An attachment too large to send goes as a link to the file instead.
 - **To OneAI**: Every new file can be found by its text. A folder OneAI reads has each new file handled in Intake.
 - **To OneProject**: Photos and videos in a project's Featured Media folder are shown on its page and its portal. The newest photo is its cover.
-- **To OneWorkbook**: New › Workbook makes a workbook in the folder you are in, and opening one opens it in OneWorkbook.
+- **To OneSheet**: New › Workbook makes a workbook in the folder you are in, and opening one opens it in OneSheet.
 - **To OneAI**: OneAI answers questions about a file you can open and finds files by what they say. It also lists your largest files and how full the storage is.
 
 ## Under the hood
@@ -111,7 +111,7 @@ desktop app's WebDAV lock (`dav`, dav_locks.py below), kept on the
 File (`one_lease_kind`, `_lock`, `_session`, `_user`, `_until`,
 custom/file.json; patches/one_lease_on_file moved OneOS's own fields onto
 it), so it outlives the cache and a restart. **Live** is anybody in
-OneWorkbook or OneWriter, in the cache as a hash per File of `user|socket id`
+OneSheet or OneDoc, in the cache as a hash per File of `user|socket id`
 to `{seen, write, app}`: realtime/handlers.js asks `one_sheet/live.admit`
 on join (which records it), `live.here` every minute while the room is open,
 and `live.leave` on leave and on disconnect; a holder not heard from for two
@@ -141,7 +141,7 @@ The version from before the sitting is the one the first save kept.
 
 `fidelity.workbook` and `fidelity.document` read an office file's parts
 (zip names and a few XML markers) for what the native editors drop, pure
-and tested in tests/test_fidelity.py. OneWorkbook writes into the Excel file
+and tested in tests/test_fidelity.py. OneSheet writes into the Excel file
 itself with openpyxl (one_sheet/patching.py), so for Excel it is what
 openpyxl does not save: macros, threaded comments (the plain note stays),
 charts (rewritten through its model), slicers and timelines, WMF and EMF
@@ -170,17 +170,17 @@ the file had that was not kept (`outside_dropped`, shown until dismissed).
 ### Opening an office file (opening.py)
 
 `opening.way(file_name)`, pure, is what Edit offers by extension: `edit` in
-OneWorkbook (xlsx, csv) or OneWriter (docx), `make` a OneDeck deck (pptx,
+OneSheet (xlsx, csv) or OneDoc (docx), `make` a OneDeck deck (pptx,
 ppsx), `copy` into a workbook or document of One's own (xlsm, xltm, xls,
 docm, dotm). `namespace.node` puts it on the row as `office`, with `loses`
 once this version has been read. `opening.weigh` reads it the first time
 (`fidelity.workbook`, `fidelity.document` without mammoth's messages, so a
-style it does not know is only found when OneWriter reads the file in) and
+style it does not know is only found when OneDoc reads the file in) and
 keeps the list on the File (`one_fidelity`) with the version it was read
 from (`one_fidelity_of`, the `content_hash`, else the URL), so a listing
 never opens a file. The island (`OneCloud.vue` openItems, editChoices)
 opens a file with nothing to lose in its editor and anything else in
-CloudViewer's PDF preview; Edit in OneWorkbook on a file with losses asks
+CloudViewer's PDF preview; Edit in OneSheet on a file with losses asks
 first (`onecloud_dialogs.js` edit_anyway), and step 1's bar does the rest.
 `opening.one_copy` makes One's own workbook (`excel.read`, an .xls through
 xlrd as values) or document (`word.read`) beside the file. `opening.editing`

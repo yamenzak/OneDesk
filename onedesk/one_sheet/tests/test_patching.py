@@ -1,4 +1,4 @@
-"""OneWorkbook writes an Excel file back by writing what changed into the
+"""OneSheet writes an Excel file back by writing what changed into the
 file itself (one_sheet/patching.py), so what it does not edit stays."""
 
 import io

@@ -497,22 +497,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneWriter 1.1.0
+## OneDoc 1.2.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.1.0 |
+| 1. Demo and tests | 11 | not yet |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | in 1.1.0 |
-| 11. Notifications | 6 | in 1.1.0 |
-| 13. Plain words | 13 | in 1.1.0 |
+| 7. Our look | 11 | not yet |
+| 11. Notifications | 6 | not yet |
+| 13. Plain words | 13 | not yet |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | in 1.1.0 |
+| 19. Legal | 5 | not yet |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -575,22 +575,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneWorkbook 1.1.0
+## OneSheet 1.2.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.1.0 |
+| 1. Demo and tests | 11 | not yet |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | in 1.1.0 |
-| 11. Notifications | 6 | in 1.1.0 |
-| 13. Plain words | 13 | in 1.1.0 |
+| 7. Our look | 11 | not yet |
+| 11. Notifications | 6 | not yet |
+| 13. Plain words | 13 | not yet |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | in 1.1.0 |
+| 19. Legal | 5 | not yet |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:

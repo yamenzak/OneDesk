@@ -343,8 +343,8 @@ def _children(node_id: str) -> list[dict]:
 
 
 def _as_file(node: dict) -> dict:
-	"""A workbook made in OneWorkbook is an Excel file on the drive
-	(one_sheet/excel.py), a document made in OneWriter a Word file
+	"""A workbook made in OneSheet is an Excel file on the drive
+	(one_sheet/excel.py), a document made in OneDoc a Word file
 	(one_doc/word.py), and a presentation made in OneDeck a PowerPoint file
 	(one_deck/drive.py)."""
 	from onedesk.one_doc import word

@@ -799,8 +799,8 @@ msgid "A document of One's own from this file."
 msgstr "مستند خاص بـ One من هذا الملف."
 
 #: onedesk/one_cloud/opening.py:158 onedesk/one_doc/word.py:255
-msgid "A document with a record's fields in it can only be edited in OneWriter."
-msgstr "لا يمكن تحرير مستند يحتوي على حقول سجل إلا في OneWriter."
+msgid "A document with a record's fields in it can only be edited in OneDoc."
+msgstr "لا يمكن تحرير مستند يحتوي على حقول سجل إلا في OneDoc."
 
 #. Description of a DocType
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:10
@@ -931,7 +931,7 @@ msgstr "حقل من السجل، أو من السجل المرتبط به، أو
 msgid "A field of this record. The section goes at the end of its tab, or of the first tab when empty."
 msgstr "حقل من هذا السجل. يأتي القسم في آخر تبويبه، أو في آخر التبويب الأول إن تُرك فارغًا."
 
-#: frontend/src/writer/shim/FieldDialog.vue:6
+#: frontend/src/doc/shim/FieldDialog.vue:6
 #, python-brace-format
 msgid "A field prints what {0} says when the document is printed."
 msgstr "يطبع الحقل ما يقوله {0} عند طباعة المستند."
@@ -1232,7 +1232,7 @@ msgstr "رسوم شهرية مقابل عدد محدد من الساعات."
 msgid "A move to another department or branch."
 msgstr "انتقال إلى قسم أو فرع آخر."
 
-#: frontend/src/writer/components/WriterSettings.vue:37
+#: frontend/src/doc/components/WriterSettings.vue:37
 msgid "A multiple of single spacing, like 1.15 or 1.5."
 msgstr "مضاعف للتباعد المفرد، مثل 1.15 أو 1.5."
 
@@ -1510,8 +1510,8 @@ msgid "A record's head is drawn on its form: each time the record is opened or s
 msgstr "يُرسم رأس السجل في نموذجه: في كل مرة يُفتح فيها السجل أو يُحفظ."
 
 #: onedesk/one_cloud/opening.py:154 onedesk/one_sheet/excel.py:341
-msgid "A record's workbook can only be edited in OneWorkbook."
-msgstr "لا يمكن تعديل مصنف السجل إلا في OneWorkbook."
+msgid "A record's workbook can only be edited in OneSheet."
+msgstr "لا يمكن تعديل مصنف السجل إلا في OneSheet."
 
 #. Description of a DocType
 #: onedesk/one_display/doctype/display_voice/display_voice.json:95
@@ -1834,7 +1834,7 @@ msgstr "إجراء سجّلته وحدة باسمه. يحدد بنفسه متى 
 msgid "A version needs a name."
 msgstr "تحتاج النسخة إلى اسم."
 
-#: frontend/src/writer/components/CoreEditor.vue:352
+#: frontend/src/doc/components/CoreEditor.vue:352
 msgid "A version of this document could not be kept. Try again later."
 msgstr "تعذّر حفظ نسخة من هذا المستند. حاول مرة أخرى لاحقًا."
 
@@ -2094,8 +2094,8 @@ msgstr "بخصوص {0}"
 msgid "About {0} an answer"
 msgstr "نحو {0} للإجابة"
 
-#: frontend/src/writer/components/SpacingDialog.vue:34
-#: frontend/src/writer/components/WriterSettings.vue:49
+#: frontend/src/doc/components/SpacingDialog.vue:34
+#: frontend/src/doc/components/WriterSettings.vue:49
 msgid "Above"
 msgstr "فوق"
 
@@ -2918,11 +2918,11 @@ msgstr "أضف عميلًا محتملًا من توقيع بريد"
 msgid "Add a lead from each of these business cards."
 msgstr "أضف عميلًا محتملًا من كل بطاقة عمل من هذه البطاقات."
 
-#: frontend/src/writer/components/WriterSettings.vue:124
+#: frontend/src/doc/components/WriterSettings.vue:124
 msgid "Add a line above the footer when printing."
 msgstr "أضف خطًا فوق التذييل عند الطباعة."
 
-#: frontend/src/writer/components/WriterSettings.vue:118
+#: frontend/src/doc/components/WriterSettings.vue:118
 msgid "Add a line below the header when printing."
 msgstr "أضف خطًا تحت الترويسة عند الطباعة."
 
@@ -3771,7 +3771,7 @@ msgstr "شريط تنبيه"
 
 #: frontend/src/slide/components/ElementContextMenu.vue:176
 #: frontend/src/slide/components/ParagraphSection.vue:4
-#: frontend/src/writer/components/core-editor/menu-buttons.js:106
+#: frontend/src/doc/components/core-editor/menu-buttons.js:106
 #: onedesk/one_display/widgets.py:97
 msgid "Align"
 msgstr "محاذاة"
@@ -6007,7 +6007,7 @@ msgid "Attach Files to Records"
 msgstr "إرفاق الملفات بالسجلات"
 
 #: frontend/src/sheet/shim/PrintDialog.vue:19
-#: frontend/src/writer/shim/PrintDialog.vue:16
+#: frontend/src/doc/shim/PrintDialog.vue:16
 #, python-brace-format
 msgid "Attach PDF to {0}"
 msgstr "إرفاق PDF بـ {0}"
@@ -6350,9 +6350,9 @@ msgstr "احتواء العرض تلقائيًا"
 msgid "Automated"
 msgstr "آلي"
 
-#: frontend/src/writer/components/WriterSettings.vue:26
-#: frontend/src/writer/components/WriterSettings.vue:36
-#: frontend/src/writer/components/WriterSettings.vue:189
+#: frontend/src/doc/components/WriterSettings.vue:26
+#: frontend/src/doc/components/WriterSettings.vue:36
+#: frontend/src/doc/components/WriterSettings.vue:189
 msgid "Automatic"
 msgstr ""
 
@@ -6361,7 +6361,7 @@ msgctxt "A colour chosen for you"
 msgid "Automatic"
 msgstr "تلقائي"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:43
+#: frontend/src/doc/components/VersionsSidebar.vue:43
 msgctxt "Versions taken while writing"
 msgid "Automatic"
 msgstr "تلقائية"
@@ -6581,7 +6581,7 @@ msgstr ""
 #: frontend/src/slide/components/SlideshowEndScreen.vue:5
 #: frontend/src/slide/shim/EditorNavbar.vue:4
 #: frontend/src/slide/shim/PresenterView.vue:44
-#: frontend/src/writer/DocumentPage.vue:5 onedesk/one_interface/shortcuts.py:16
+#: frontend/src/doc/DocumentPage.vue:5 onedesk/one_interface/shortcuts.py:16
 #: onedesk/public/js/one/news_add.js:33
 #: onedesk/public/js/one_interface/dialogs.js:91
 #: onedesk/public/js/one_interface/frame.js:477
@@ -7190,8 +7190,8 @@ msgstr "يخص"
 msgid "Belongs to the workspace rather than to one person. A workspace administrator chooses who holds it."
 msgstr "يخص مساحة العمل لا شخصًا واحدًا. يختار مسؤول مساحة العمل من يحمله."
 
-#: frontend/src/writer/components/SpacingDialog.vue:42
-#: frontend/src/writer/components/WriterSettings.vue:58
+#: frontend/src/doc/components/SpacingDialog.vue:42
+#: frontend/src/doc/components/WriterSettings.vue:58
 msgid "Below"
 msgstr "تحت"
 
@@ -7767,11 +7767,11 @@ msgstr "أسفل"
 msgid "Bottom border"
 msgstr "الحد السفلي"
 
-#: frontend/src/writer/components/WriterSettings.vue:91
+#: frontend/src/doc/components/WriterSettings.vue:91
 msgid "Bottom left"
 msgstr "أسفل اليسار"
 
-#: frontend/src/writer/components/WriterSettings.vue:99
+#: frontend/src/doc/components/WriterSettings.vue:99
 msgid "Bottom right"
 msgstr "أسفل اليمين"
 
@@ -9568,11 +9568,11 @@ msgstr "اختر البلد أولًا."
 msgid "Choose the date you need it by, today or later."
 msgstr "اختر التاريخ الذي تحتاجه بحلوله، اليوم أو بعده."
 
-#: frontend/src/writer/components/WriterSettings.vue:19
+#: frontend/src/doc/components/WriterSettings.vue:19
 msgid "Choose the default font family for new documents."
 msgstr "اختر الخط الافتراضي للمستندات الجديدة."
 
-#: frontend/src/writer/components/WriterSettings.vue:19
+#: frontend/src/doc/components/WriterSettings.vue:19
 msgid "Choose the default font family for this document."
 msgstr "اختر الخط الافتراضي لهذا المستند."
 
@@ -9757,7 +9757,7 @@ msgstr "أزل التحديد لخطة تُدفع مرة واحدة. الحزم�
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:262
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:63
-#: frontend/src/writer/components/core-editor/menu-buttons.js:125
+#: frontend/src/doc/components/core-editor/menu-buttons.js:125
 msgid "Clear formatting"
 msgstr "مسح التنسيق"
 
@@ -10476,7 +10476,7 @@ msgstr "وقت إرسال الأمر"
 #: frontend/src/kit/ActivityComposer.vue:10
 #: frontend/src/sheet/components/SheetEditor/index.vue:1095
 #: frontend/src/sheet/components/SheetEditor/index.vue:1124
-#: frontend/src/writer/components/CoreEditor.vue:297
+#: frontend/src/doc/components/CoreEditor.vue:297
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 msgid "Comment"
@@ -10509,7 +10509,7 @@ msgstr "علّق على {0}"
 #. Label of the comments (Long Text) field in DocType 'Writer Document'
 #. Label in the One Training Result print format
 #. Label in the One Travel Request print format
-#: frontend/src/writer/components/CoreEditor.vue:180
+#: frontend/src/doc/components/CoreEditor.vue:180
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:64
 #: onedesk/one_hr/print_format/one_training_result/one_training_result.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
@@ -10644,7 +10644,7 @@ msgid "Company Stamp"
 msgstr "ختم الشركة"
 
 #: frontend/src/sheet/shim/PrintDialog.vue:59
-#: frontend/src/writer/shim/PrintDialog.vue:47
+#: frontend/src/doc/shim/PrintDialog.vue:47
 msgid "Company details"
 msgstr "بيانات الشركة"
 
@@ -11476,7 +11476,7 @@ msgstr "نسخ اللون"
 msgid "Copy Command"
 msgstr "نسخ الأمر"
 
-#: frontend/src/writer/components/ToC.vue:363
+#: frontend/src/doc/components/ToC.vue:363
 #: onedesk/public/js/calendar_link.js:17
 #: onedesk/public/js/one_calendar/calendar_control.js:25
 msgid "Copy Link"
@@ -11733,8 +11733,8 @@ msgstr "تعذّر فتح هذه الورقة"
 msgid "Could not open {0}: {1}"
 msgstr "تعذّر فتح {0}: {1}"
 
-#: frontend/src/writer/shim/PrintDialog.vue:91
-#: frontend/src/writer/shim/PrintDialog.vue:98
+#: frontend/src/doc/shim/PrintDialog.vue:91
+#: frontend/src/doc/shim/PrintDialog.vue:98
 msgid "Could not print the document."
 msgstr "تعذّرت طباعة المستند."
 
@@ -11764,20 +11764,20 @@ msgid "Could not read {0}."
 msgstr "تعذّرت قراءة {0}."
 
 #: frontend/src/sheet/shim/PrintDialog.vue:156
-#: frontend/src/writer/shim/PrintDialog.vue:111
+#: frontend/src/doc/shim/PrintDialog.vue:111
 msgid "Could not save the PDF."
 msgstr "تعذر حفظ ملف PDF."
 
-#: frontend/src/writer/shim/yjs.js:146
+#: frontend/src/doc/shim/yjs.js:146
 msgid "Could not save the document."
 msgstr "تعذّر حفظ المستند."
 
 #: frontend/src/sheet/shim/TemplateDialog.vue:49
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:49
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:49
 msgid "Could not save the template."
 msgstr "تعذر حفظ القالب."
 
-#: frontend/src/writer/DocumentPage.vue:415
+#: frontend/src/doc/DocumentPage.vue:415
 #, python-brace-format
 msgid "Could not write {0} back: {1}"
 msgstr "تعذّر حفظ {0} في الملف: {1}"
@@ -12071,7 +12071,7 @@ msgstr "يغطي حتى {0}"
 #. Task in the Marketing Campaign project template
 #: frontend/src/mail/MailPanel.vue:39 frontend/src/mail/MailPanel.vue:41
 #: frontend/src/mail/OneMail.vue:359
-#: frontend/src/writer/components/NewVersionDialog.vue:8
+#: frontend/src/doc/components/NewVersionDialog.vue:8
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:55
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
@@ -12158,7 +12158,7 @@ msgstr "إنشاء المشروع"
 msgid "Create Tasks"
 msgstr "إنشاء المهام"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:63
+#: frontend/src/doc/components/VersionsSidebar.vue:63
 msgid "Create Version"
 msgstr "إنشاء نسخة"
 
@@ -12634,8 +12634,8 @@ msgstr "معرّف اسم المضيف المخصص"
 msgid "Custom Separator"
 msgstr "فاصل مخصص"
 
-#: frontend/src/writer/components/SpacingDialog.vue:9
-#: frontend/src/writer/components/core-editor/menu-buttons.js:166
+#: frontend/src/doc/components/SpacingDialog.vue:9
+#: frontend/src/doc/components/core-editor/menu-buttons.js:166
 msgid "Custom Spacing"
 msgstr "تباعد مخصص"
 
@@ -13595,7 +13595,7 @@ msgstr "رُفض عبر البوابة."
 msgid "Decrease decimal places"
 msgstr "إنقاص المنازل العشرية"
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:67
+#: frontend/src/doc/components/core-editor/menu-buttons.js:67
 msgid "Dedent"
 msgstr "إنقاص المسافة البادئة"
 
@@ -13777,9 +13777,9 @@ msgstr ""
 #: frontend/src/slide/components/PresentationPreview.vue:141
 #: frontend/src/slide/stores/presentation.js:494
 #: frontend/src/slide/utils/slideMenu.js:23 frontend/src/template/Tasks.vue:160
-#: frontend/src/writer/components/FloatingComments.vue:54
-#: frontend/src/writer/components/FloatingComments.vue:106
-#: frontend/src/writer/components/ToC.vue:375
+#: frontend/src/doc/components/FloatingComments.vue:54
+#: frontend/src/doc/components/FloatingComments.vue:106
+#: frontend/src/doc/components/ToC.vue:375
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
 #: onedesk/one_mail/shortcuts.py:17
@@ -14470,7 +14470,7 @@ msgid "Depreciations Booked"
 msgstr "الاستهلاكات المسجلة"
 
 #: frontend/src/slide/shim/EditorNavbar.vue:380
-#: frontend/src/writer/components/CoreEditor.vue:282
+#: frontend/src/doc/components/CoreEditor.vue:282
 msgid "Describe It"
 msgstr "صِفه"
 
@@ -15059,7 +15059,7 @@ msgstr "المستخدم من القرص"
 
 #: frontend/src/intake/IntakeReading.vue:32
 #: frontend/src/sheet/components/SheetEditor/index.vue:170
-#: frontend/src/writer/DocumentPage.vue:34
+#: frontend/src/doc/DocumentPage.vue:34
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:8
 msgid "Dismiss"
 msgstr "تجاهل"
@@ -15549,11 +15549,11 @@ msgstr "تنزيل بصيغة CSV"
 msgid "Download as Excel"
 msgstr "تنزيل بصيغة Excel"
 
-#: frontend/src/writer/DocumentPage.vue:290
+#: frontend/src/doc/DocumentPage.vue:290
 msgid "Download as HTML"
 msgstr "تنزيل بصيغة HTML"
 
-#: frontend/src/writer/DocumentPage.vue:291
+#: frontend/src/doc/DocumentPage.vue:291
 msgid "Download as Markdown"
 msgstr "تنزيل بصيغة Markdown"
 
@@ -16390,8 +16390,8 @@ msgstr "موجّه الحافة"
 #: frontend/src/slide/composables/useShortcuts.js:430
 #: frontend/src/slide/composables/useShortcuts.js:437
 #: frontend/src/slide/composables/useShortcuts.js:443
-#: frontend/src/writer/components/FloatingComments.vue:100
-#: frontend/src/writer/components/FloatingComments.vue:128
+#: frontend/src/doc/components/FloatingComments.vue:100
+#: frontend/src/doc/components/FloatingComments.vue:128
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/public/js/doctype_settings.js:253
 #: onedesk/public/js/one/access_center.js:103
@@ -16565,7 +16565,7 @@ msgstr "التحرير"
 msgid "Editing in another tab"
 msgstr "يجري التعديل في علامة تبويب أخرى"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:17
+#: frontend/src/doc/components/VersionsSidebar.vue:17
 msgid "Editing is disabled until you exit."
 msgstr "التحرير معطّل حتى تخرج."
 
@@ -18233,7 +18233,7 @@ msgstr "كل ما عُرض على {0} مطلوب بالفعل."
 msgid "Everything you keep, buy, sell or make."
 msgstr "كل ما تحتفظ به أو تشتريه أو تبيعه أو تصنعه."
 
-#: frontend/src/writer/components/WriterSettings.vue:181
+#: frontend/src/doc/components/WriterSettings.vue:181
 msgid "Everywhere"
 msgstr "في كل مكان"
 
@@ -18339,7 +18339,7 @@ msgstr "تحتفظ السجلات الموجودة بأسمائها. تُعرض 
 msgid "Exists"
 msgstr "موجود"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:22
+#: frontend/src/doc/components/VersionsSidebar.vue:22
 msgid "Exit"
 msgstr "خروج"
 
@@ -18631,7 +18631,7 @@ msgid "Explanation"
 msgstr "الشرح"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1950
-#: frontend/src/writer/DocumentPage.vue:288
+#: frontend/src/doc/DocumentPage.vue:288
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:24
 #: onedesk/public/js/doctype_settings.js:253
 msgid "Export"
@@ -19124,7 +19124,7 @@ msgstr "الأرقام"
 #: frontend/src/cloud/cloud.js:115
 #: frontend/src/sheet/components/SheetEditor/index.vue:95
 #: frontend/src/slide/shim/EditorNavbar.vue:27
-#: frontend/src/writer/DocumentPage.vue:21
+#: frontend/src/doc/DocumentPage.vue:21
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:62
 #: onedesk/one_ai/doctype/file_link/file_link.json:20
 #: onedesk/one_ai/reading/bundle.py:74
@@ -19936,12 +19936,12 @@ msgid "Font"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:203
-#: frontend/src/writer/components/WriterSettings.vue:18
+#: frontend/src/doc/components/WriterSettings.vue:18
 msgid "Font family"
 msgstr "نوع الخط"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:206
-#: frontend/src/writer/components/WriterSettings.vue:24
+#: frontend/src/doc/components/WriterSettings.vue:24
 msgid "Font size"
 msgstr "حجم الخط"
 
@@ -19960,15 +19960,15 @@ msgstr "نمط التذييل"
 msgid "Footer"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:90
+#: frontend/src/doc/components/WriterSettings.vue:90
 msgid "Footer left"
 msgstr "التذييل يسارًا"
 
-#: frontend/src/writer/components/WriterSettings.vue:98
+#: frontend/src/doc/components/WriterSettings.vue:98
 msgid "Footer right"
 msgstr "التذييل يمينًا"
 
-#: frontend/src/writer/components/WriterSettings.vue:123
+#: frontend/src/doc/components/WriterSettings.vue:123
 msgid "Footer separator line"
 msgstr "خط فاصل للتذييل"
 
@@ -21296,7 +21296,7 @@ msgstr "الحاوية العالمية"
 msgid "Gmail and Outlook require an app password."
 msgstr "يتطلب Gmail وOutlook كلمة مرور تطبيق."
 
-#: frontend/src/writer/components/FloatingComments.vue:336
+#: frontend/src/doc/components/FloatingComments.vue:336
 msgid "Go"
 msgstr "انتقال"
 
@@ -21991,19 +21991,19 @@ msgstr "عدد الموظفين حسب القسم أو الفرع أو الدر�
 msgid "Header"
 msgstr ""
 
-#: frontend/src/writer/components/WriterSettings.vue:71
+#: frontend/src/doc/components/WriterSettings.vue:71
 msgid "Header & footer"
 msgstr "الترويسة والتذييل"
 
-#: frontend/src/writer/components/WriterSettings.vue:76
+#: frontend/src/doc/components/WriterSettings.vue:76
 msgid "Header left"
 msgstr "الترويسة يسارًا"
 
-#: frontend/src/writer/components/WriterSettings.vue:83
+#: frontend/src/doc/components/WriterSettings.vue:83
 msgid "Header right"
 msgstr "الترويسة يمينًا"
 
-#: frontend/src/writer/components/WriterSettings.vue:117
+#: frontend/src/doc/components/WriterSettings.vue:117
 msgid "Header separator line"
 msgstr "خط فاصل للترويسة"
 
@@ -22013,7 +22013,7 @@ msgid "Headers"
 msgstr ""
 
 #. Label of the label (Data) field in DocType 'Record Head Linked'
-#: frontend/src/writer/components/core-editor/menu-buttons.js:88
+#: frontend/src/doc/components/core-editor/menu-buttons.js:88
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:18
 #: onedesk/one_display/widgets.py:38 onedesk/one_display/widgets.py:52
 #: onedesk/one_display/widgets.py:80
@@ -22273,8 +22273,8 @@ msgid "Hidden. This headline is not shown on the top bar or on screens."
 msgstr "مخفي. هذا العنوان لا يظهر في الشريط العلوي ولا على الشاشات."
 
 #: frontend/src/slide/shim/LayersPanel.vue:46
-#: frontend/src/writer/components/ToC.vue:12
-#: frontend/src/writer/components/ToC.vue:99
+#: frontend/src/doc/components/ToC.vue:12
+#: frontend/src/doc/components/ToC.vue:99
 #: onedesk/public/js/one_interface/chrome.js:281
 msgid "Hide"
 msgstr "إخفاء"
@@ -23997,7 +23997,7 @@ msgstr "زيادة المنازل العشرية"
 msgid "Increment Field Value"
 msgstr "زيادة قيمة حقل"
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:74
+#: frontend/src/doc/components/core-editor/menu-buttons.js:74
 msgid "Indent"
 msgstr "إزاحة"
 
@@ -24093,12 +24093,12 @@ msgstr "إدراج N صفوف…"
 msgid "Insert Table"
 msgstr "إدراج جدول"
 
-#: frontend/src/writer/DocumentPage.vue:298
-#: frontend/src/writer/shim/FieldDialog.vue:3
+#: frontend/src/doc/DocumentPage.vue:298
+#: frontend/src/doc/shim/FieldDialog.vue:3
 msgid "Insert a Field"
 msgstr "إدراج حقل"
 
-#: frontend/src/writer/DocumentPage.vue:302
+#: frontend/src/doc/DocumentPage.vue:302
 msgid "Insert a Template"
 msgstr "إدراج قالب"
 
@@ -25027,7 +25027,7 @@ msgstr "إنه على شريحة جديدة في النهاية. ألقِ نظر
 msgid "It is paused until you play it. Look at it first, then clear Paused."
 msgstr "يبقى متوقفاً حتى تشغّله. اطّلع عليه أولاً، ثم ألغِ «متوقف»."
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:9
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:9
 msgid "It is saved to OneCloud › Document Templates and is available to everyone in the company."
 msgstr "يُحفظ في OneCloud › قوالب المستندات ويكون متاحًا لكل من في الشركة."
 
@@ -26140,7 +26140,7 @@ msgstr "موافقات المالك والجهات الرسمية"
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/sheet/shim/PrintDialog.vue:65
-#: frontend/src/writer/shim/PrintDialog.vue:52
+#: frontend/src/doc/shim/PrintDialog.vue:52
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Landscape"
@@ -27366,7 +27366,7 @@ msgid "Letter Type"
 msgstr "نوع الخطاب"
 
 #: frontend/src/sheet/shim/PrintDialog.vue:10
-#: frontend/src/writer/shim/PrintDialog.vue:6
+#: frontend/src/doc/shim/PrintDialog.vue:6
 msgid "Letter head"
 msgstr "ترويسة الرسائل"
 
@@ -27481,8 +27481,8 @@ msgstr "بداية الخط"
 msgid "Line Type"
 msgstr "نوع الخط"
 
-#: frontend/src/writer/components/SpacingDialog.vue:23
-#: frontend/src/writer/components/WriterSettings.vue:32
+#: frontend/src/doc/components/SpacingDialog.vue:23
+#: frontend/src/doc/components/WriterSettings.vue:32
 msgid "Line spacing"
 msgstr "تباعد الأسطر"
 
@@ -27678,7 +27678,7 @@ msgid "Linux"
 msgstr "Linux"
 
 #. Option for the 'View' (Select) field in DocType 'Extension'
-#: frontend/src/writer/components/CommentEditor.vue:92
+#: frontend/src/doc/components/CommentEditor.vue:92
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:173
 #: onedesk/one_display/widgets.py:51 onedesk/one_display/widgets.py:130
 #: onedesk/one_studio/doctype/extension/extension.json:78
@@ -27770,7 +27770,7 @@ msgstr "تحميل الشركة التجريبية"
 msgid "Loading preview…"
 msgstr "جارٍ تحميل المعاينة…"
 
-#: frontend/src/writer/components/DocumentList.vue:24
+#: frontend/src/doc/components/DocumentList.vue:24
 #: onedesk/public/js/crumb_switch.js:105
 msgid "Loading..."
 msgstr ""
@@ -27778,7 +27778,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/CellHistoryPopover.vue:5
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:13
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:6
-#: frontend/src/writer/shim/FieldDialog.vue:18
+#: frontend/src/doc/shim/FieldDialog.vue:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:268
 #: onedesk/public/js/center_section.js:95 onedesk/public/js/one/news_add.js:199
 #: onedesk/public/js/one_account/account_center.js:829
@@ -27830,7 +27830,7 @@ msgstr "المواقع التي يجوز للموظفين تسجيل الحضو�
 #: frontend/src/slide/components/ElementContextMenu.vue:183
 #: frontend/src/slide/components/PropertiesPanel.vue:17
 #: frontend/src/slide/shim/LayersPanel.vue:56
-#: frontend/src/writer/DocumentPage.vue:306
+#: frontend/src/doc/DocumentPage.vue:306
 #: onedesk/one_book/report/tax_return/tax_return.js:63
 msgid "Lock"
 msgstr "قفل"
@@ -28614,7 +28614,7 @@ msgstr "رئيسي"
 #: frontend/src/slide/shim/EditorNavbar.vue:301
 #: frontend/src/slide/shim/EditorNavbar.vue:403
 #: frontend/src/slide/shim/EditorNavbar.vue:410
-#: frontend/src/writer/components/CoreEditor.vue:291
+#: frontend/src/doc/components/CoreEditor.vue:291
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:40
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:55
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
@@ -28698,7 +28698,7 @@ msgstr "إنشاء نسخة في One"
 #: frontend/src/cloud/OneCloud.vue:587
 #: frontend/src/slide/shim/EditorNavbar.vue:329
 #: frontend/src/slide/shim/EditorNavbar.vue:403
-#: frontend/src/writer/components/CoreEditor.vue:290 onedesk/one_ai/jobs.py:77
+#: frontend/src/doc/components/CoreEditor.vue:290 onedesk/one_ai/jobs.py:77
 msgid "Make a Picture"
 msgstr "صنع صورة"
 
@@ -28706,7 +28706,7 @@ msgstr "صنع صورة"
 msgid "Make a Picture for a Slide"
 msgstr "صنع صورة لشريحة"
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:153
+#: frontend/src/doc/components/core-editor/menu-buttons.js:153
 msgid "Make a Picture with OneAI"
 msgstr "إنشاء صورة باستخدام OneAI"
 
@@ -28888,7 +28888,7 @@ msgstr "الرد على خطاب الإدارة"
 msgid "Manager"
 msgstr "المدير"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:44
+#: frontend/src/doc/components/VersionsSidebar.vue:44
 msgid "Manual"
 msgstr "يدوية"
 
@@ -30395,8 +30395,8 @@ msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:13
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:51
 #: frontend/src/sheet/shim/TemplateDialog.vue:6
-#: frontend/src/writer/components/NewVersionDialog.vue:3
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:6
+#: frontend/src/doc/components/NewVersionDialog.vue:3
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:6
 #: onedesk/one/access_center.py:215 onedesk/one/access_center.py:235
 #: onedesk/one/access_center.py:269 onedesk/one/notification_words.py:260
 #: onedesk/one_account/doctype/device/device.json:28
@@ -31976,7 +31976,7 @@ msgstr "لم يتم تحديد مستند"
 msgid "No documents"
 msgstr "لا توجد مستندات"
 
-#: frontend/src/writer/components/DocumentList.vue:6
+#: frontend/src/doc/components/DocumentList.vue:6
 msgid "No documents found"
 msgstr "لم يُعثر على مستندات"
 
@@ -32020,7 +32020,7 @@ msgstr "لم يُعثر على خلاصة في هذا العنوان. جرّب �
 msgid "No feeds found."
 msgstr "لم يُعثر على خلاصات."
 
-#: frontend/src/writer/shim/FieldDialog.vue:18
+#: frontend/src/doc/shim/FieldDialog.vue:18
 msgid "No field matches."
 msgstr "لا يوجد حقل مطابق."
 
@@ -32701,7 +32701,7 @@ msgstr "تم حل عدم المطابقة"
 #: frontend/src/slide/components/controls/LineStyleSelect.vue:11
 #: frontend/src/slide/components/controls/LineStyleSelect.vue:16
 #: frontend/src/slide/shim/MotionSection.vue:46
-#: frontend/src/writer/shim/PrintDialog.vue:48 onedesk/one/ai.py:2576
+#: frontend/src/doc/shim/PrintDialog.vue:48 onedesk/one/ai.py:2576
 #: onedesk/one_book/heads.py:486
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:23
 #: onedesk/one_studio/ai_setup.py:129
@@ -32736,7 +32736,7 @@ msgstr "لا شيء مخطط"
 msgid "None yet"
 msgstr "لا شيء بعد"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:78
+#: frontend/src/doc/components/VersionsSidebar.vue:78
 msgid "None yet."
 msgstr "لا شيء بعد."
 
@@ -33736,7 +33736,7 @@ msgstr ""
 msgid "Number Reading"
 msgstr "قراءة الأرقام"
 
-#: frontend/src/writer/components/WriterSettings.vue:112
+#: frontend/src/doc/components/WriterSettings.vue:112
 msgid "Number each page at the bottom right when printing."
 msgstr "رقّم كل صفحة أسفل اليمين عند الطباعة."
 
@@ -34861,7 +34861,7 @@ msgid "OneAI is generating the music. You will be notified when it is added to t
 msgstr "يُنشئ OneAI الموسيقى. ستُبلَّغ عند إضافتها إلى قائمة التشغيل."
 
 #: frontend/src/cloud/OneCloud.vue:607
-#: frontend/src/writer/components/CoreEditor.vue:286
+#: frontend/src/doc/components/CoreEditor.vue:286
 msgid "OneAI is making it…"
 msgstr "يعمل OneAI على إنشائه…"
 
@@ -35322,12 +35322,12 @@ msgid "OneTask"
 msgstr "OneTask"
 
 #: onedesk/one_sheet/page/workbook/workbook.js:4
-msgid "OneWorkbook"
-msgstr "OneWorkbook"
+msgid "OneSheet"
+msgstr "OneSheet"
 
 #: onedesk/one_doc/page/document/document.js:4
-msgid "OneWriter"
-msgstr "OneWriter"
+msgid "OneDoc"
+msgstr "OneDoc"
 
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:78
 msgid "Online"
@@ -36001,12 +36001,12 @@ msgid "Open in OneOS"
 msgstr "فتح في OneOS"
 
 #: onedesk/public/js/table_workbook.js:97
-msgid "Open in OneWorkbook"
-msgstr "فتح في OneWorkbook"
+msgid "Open in OneSheet"
+msgstr "فتح في OneSheet"
 
 #: onedesk/public/js/text_writer.js:24
-msgid "Open in OneWriter"
-msgstr "فتح في OneWriter"
+msgid "Open in OneDoc"
+msgstr "فتح في OneDoc"
 
 #: onedesk/public/js/account_request.js:11
 #: onedesk/public/js/credit_ledger_entry.js:11
@@ -36675,7 +36675,7 @@ msgid "Organization Name"
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:7
-#: frontend/src/writer/shim/PrintDialog.vue:7
+#: frontend/src/doc/shim/PrintDialog.vue:7
 msgid "Orientation"
 msgstr "الاتجاه"
 
@@ -36960,7 +36960,7 @@ msgstr "لدى الموردين"
 msgid "Outcome"
 msgstr "النتيجة"
 
-#: frontend/src/writer/components/CoreEditor.vue:194
+#: frontend/src/doc/components/CoreEditor.vue:194
 #: onedesk/public/js/one_ai/ai_proposal_list.js:10
 msgid "Outdated"
 msgstr "قديم"
@@ -37281,7 +37281,7 @@ msgstr "الحشو"
 msgid "Page"
 msgstr ""
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:161
+#: frontend/src/doc/components/core-editor/menu-buttons.js:161
 msgid "Page Break"
 msgstr "فاصل صفحة"
 
@@ -37296,7 +37296,7 @@ msgid "Page Memory Limit (MB)"
 msgstr "حدّ ذاكرة الصفحة (ميغابايت)"
 
 #. Label of the settings (JSON) field in DocType 'Writer Document'
-#: frontend/src/writer/DocumentPage.vue:301
+#: frontend/src/doc/DocumentPage.vue:301
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:59
 msgid "Page Setup"
 msgstr "إعداد الصفحة"
@@ -37546,7 +37546,7 @@ msgstr "مدفوع، غير مُنشأ"
 msgid "Paid. The credits arrive in a moment."
 msgstr "تم الدفع. سيصل الرصيد بعد لحظات."
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:116
+#: frontend/src/doc/components/core-editor/menu-buttons.js:116
 msgid "Paint Styles"
 msgstr "نسخ التنسيق"
 
@@ -37603,11 +37603,11 @@ msgstr "المستندات حسب النوع"
 msgid "Paragraph"
 msgstr "الفقرة"
 
-#: frontend/src/writer/components/SpacingDialog.vue:26
+#: frontend/src/doc/components/SpacingDialog.vue:26
 msgid "Paragraph Spacing"
 msgstr "تباعد الفقرات"
 
-#: frontend/src/writer/components/WriterSettings.vue:40
+#: frontend/src/doc/components/WriterSettings.vue:40
 msgid "Paragraph spacing"
 msgstr "تباعد الفقرات"
 
@@ -39532,7 +39532,7 @@ msgstr "رابط البوابة"
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/sheet/shim/PrintDialog.vue:64
-#: frontend/src/writer/shim/PrintDialog.vue:51
+#: frontend/src/doc/shim/PrintDialog.vue:51
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Portrait"
@@ -39999,9 +39999,9 @@ msgstr "النطاق الرئيسي"
 #: frontend/src/sheet/components/SheetEditor/index.vue:1948
 #: frontend/src/sheet/shim/PrintDialog.vue:3
 #: frontend/src/sheet/shim/PrintDialog.vue:17
-#: frontend/src/writer/DocumentPage.vue:297
-#: frontend/src/writer/shim/PrintDialog.vue:3
-#: frontend/src/writer/shim/PrintDialog.vue:15
+#: frontend/src/doc/DocumentPage.vue:297
+#: frontend/src/doc/shim/PrintDialog.vue:3
+#: frontend/src/doc/shim/PrintDialog.vue:15
 #: onedesk/one_display/doctype/display_board/display_board.js:10
 #: onedesk/one_interface/shortcuts.py:28
 #: onedesk/public/js/one_legal/trust_center.js:239
@@ -40041,7 +40041,7 @@ msgstr "لا يمكن إنشاء تنسيقات الطباعة إلا لأنوا
 msgid "Print formats here set no global variables. An HTML block reads the record itself."
 msgstr "لا تضبط تنسيقات الطباعة هنا متغيرات عامة. كتلة HTML تقرأ السجل نفسه."
 
-#: frontend/src/writer/components/WriterSettings.vue:69
+#: frontend/src/doc/components/WriterSettings.vue:69
 msgid "Print settings"
 msgstr "إعدادات الطباعة"
 
@@ -41815,7 +41815,7 @@ msgid "Read on behalf of {0}"
 msgstr "يُقرأ نيابةً عن {0}"
 
 #: frontend/src/slide/shim/EditorNavbar.vue:87
-#: frontend/src/writer/DocumentPage.vue:200
+#: frontend/src/doc/DocumentPage.vue:200
 msgid "Read only"
 msgstr "للقراءة فقط"
 
@@ -43230,8 +43230,8 @@ msgstr "إزالة الموقع القديم"
 #: frontend/src/sheet/components/SheetEditor/index.vue:759
 #: frontend/src/slide/components/PresentationPreview.vue:131
 #: frontend/src/slide/shim/EditorNavbar.vue:157
-#: frontend/src/writer/DocumentPage.vue:303
-#: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1852
+#: frontend/src/doc/DocumentPage.vue:303
+#: frontend/src/doc/components/ToC.vue:358 onedesk/one/ai.py:1852
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 #: onedesk/public/js/one_ai/panel/Panel.vue:23
@@ -43466,7 +43466,7 @@ msgstr "تصل الردود على الإشعارات إلى صندوق البر
 #: frontend/src/mail/MailConversation.vue:83
 #: frontend/src/mail/MailConversation.vue:124
 #: frontend/src/sheet/components/SheetEditor/index.vue:1124
-#: frontend/src/writer/components/FloatingComments.vue:157
+#: frontend/src/doc/components/FloatingComments.vue:157
 #: onedesk/one_ai/chat.py:316
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
@@ -43500,7 +43500,7 @@ msgstr "رد يقول…"
 msgid "Reply with"
 msgstr "رد بـ"
 
-#: frontend/src/writer/components/FloatingComments.vue:62
+#: frontend/src/doc/components/FloatingComments.vue:62
 msgid "Replying to:"
 msgstr "ردًا على:"
 
@@ -43924,7 +43924,7 @@ msgstr ""
 msgid "Resolutions Done"
 msgstr "الحلول المنجزة"
 
-#: frontend/src/writer/components/FloatingComments.vue:34
+#: frontend/src/doc/components/FloatingComments.vue:34
 msgid "Resolve"
 msgstr "حلّ"
 
@@ -43933,7 +43933,7 @@ msgid "Resolve Non Conformances"
 msgstr "معالجة حالات عدم المطابقة"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1096
-#: frontend/src/writer/components/CoreEditor.vue:187
+#: frontend/src/doc/components/CoreEditor.vue:187
 msgid "Resolved"
 msgstr "تم الحل"
 
@@ -43978,8 +43978,8 @@ msgstr "المطعم"
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: frontend/src/cloud/CloudPreview.vue:34 frontend/src/cloud/OneCloud.vue:689
 #: frontend/src/cloud/OneCloud.vue:755
-#: frontend/src/writer/components/VersionsSidebar.vue:29
-#: frontend/src/writer/components/VersionsSidebar.vue:300
+#: frontend/src/doc/components/VersionsSidebar.vue:29
+#: frontend/src/doc/components/VersionsSidebar.vue:300
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
 #: onedesk/one_admin/heads.py:492 onedesk/public/js/deleted_document.js:3
 #: onedesk/public/js/deleted_document.js:5
@@ -43999,7 +43999,7 @@ msgstr "فشلت الاستعادة"
 msgid "Restore this version"
 msgstr "استعادة هذا الإصدار"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:293
+#: frontend/src/doc/components/VersionsSidebar.vue:293
 msgid "Restore this version?"
 msgstr "استعادة هذه النسخة؟"
 
@@ -44018,7 +44018,7 @@ msgstr "مستعاد"
 msgid "Restored 1 item"
 msgstr "تمت استعادة عنصر واحد"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:305
+#: frontend/src/doc/components/VersionsSidebar.vue:305
 #, python-brace-format
 msgid "Restored {0}"
 msgstr "استُعيدت {0}"
@@ -45264,12 +45264,12 @@ msgid "Save Layout"
 msgstr "حفظ التخطيط"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:165
-#: frontend/src/writer/DocumentPage.vue:29
+#: frontend/src/doc/DocumentPage.vue:29
 msgid "Save Over Original"
 msgstr "حفظ فوق الأصل"
 
 #: frontend/src/sheet/shim/PrintDialog.vue:18
-#: frontend/src/writer/shim/PrintDialog.vue:17
+#: frontend/src/doc/shim/PrintDialog.vue:17
 msgid "Save PDF to OneCloud"
 msgstr "حفظ PDF في OneCloud"
 
@@ -45287,7 +45287,7 @@ msgstr "حفظ مصنف كقالب يمكن لكل من في مساحة العم
 
 #: frontend/src/cloud/CloudViewer.vue:19
 #: frontend/src/sheet/components/SheetEditor/index.vue:166
-#: frontend/src/writer/DocumentPage.vue:30
+#: frontend/src/doc/DocumentPage.vue:30
 msgid "Save as Copy"
 msgstr "حفظ كنسخة"
 
@@ -45296,9 +45296,9 @@ msgstr "حفظ كنسخة"
 #: frontend/src/sheet/shim/TemplateDialog.vue:15
 #: frontend/src/slide/shim/EditorNavbar.vue:156
 #: frontend/src/slide/shim/EditorNavbar.vue:315
-#: frontend/src/writer/DocumentPage.vue:310
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:3
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:15
+#: frontend/src/doc/DocumentPage.vue:310
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:3
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:15
 #: onedesk/public/js/project.js:55 onedesk/public/js/project_actions.js:59
 msgid "Save as Template"
 msgstr "حفظ كقالب"
@@ -45340,7 +45340,7 @@ msgstr "حفظ في ملفاتي"
 #: frontend/portal/src/parts/WebForm.vue:118
 #: frontend/src/sheet/components/SheetEditor/index.vue:65
 #: frontend/src/slide/shim/EditorNavbar.vue:90
-#: frontend/src/writer/DocumentPage.vue:202
+#: frontend/src/doc/DocumentPage.vue:202
 #: onedesk/public/js/module_settings.js:219
 #: onedesk/public/js/one/one_control.js:251
 #: onedesk/public/js/one/role_matrix.js:44
@@ -45378,12 +45378,12 @@ msgstr "تُحفظ كمسودات في جاهز للإرسال، وتُوقف ا
 
 #: frontend/src/cloud/OneCloud.vue:1134
 #: frontend/src/sheet/components/SheetEditor/index.vue:2090
-#: frontend/src/writer/DocumentPage.vue:409
+#: frontend/src/doc/DocumentPage.vue:409
 #, python-brace-format
 msgid "Saved as {0}."
 msgstr "تم الحفظ باسم {0}."
 
-#: frontend/src/writer/components/CoreEditor.vue:442
+#: frontend/src/doc/components/CoreEditor.vue:442
 msgid "Saved document"
 msgstr "حُفظ المستند"
 
@@ -45393,7 +45393,7 @@ msgid "Saved from the drive: slides {0} had parts that could not be brought in."
 msgstr "حُفظ من محرك الأقراص: تضمنت الشرائح {0} أجزاء تعذّر نقلها."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:2092
-#: frontend/src/writer/DocumentPage.vue:411
+#: frontend/src/doc/DocumentPage.vue:411
 #, python-brace-format
 msgid "Saved over {0}."
 msgstr "تم الحفظ فوق {0}."
@@ -45436,7 +45436,7 @@ msgstr "الحفظ يحدّث كل من لديه هذا الملف."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:61
 #: frontend/src/slide/shim/EditorNavbar.vue:89
-#: frontend/src/writer/DocumentPage.vue:201 onedesk/public/js/hiring.js:215
+#: frontend/src/doc/DocumentPage.vue:201 onedesk/public/js/hiring.js:215
 msgid "Saving…"
 msgstr "جارٍ الحفظ…"
 
@@ -45839,7 +45839,7 @@ msgstr "ابحث في كل اتفاقية بكلمة منها."
 msgid "Search everywhere"
 msgstr "البحث في كل مكان"
 
-#: frontend/src/writer/shim/FieldDialog.vue:7
+#: frontend/src/doc/shim/FieldDialog.vue:7
 msgid "Search fields"
 msgstr "ابحث في الحقول"
 
@@ -45847,7 +45847,7 @@ msgstr "ابحث في الحقول"
 msgid "Search fields…"
 msgstr "البحث في الحقول…"
 
-#: frontend/src/writer/components/TemplateDialog.vue:14
+#: frontend/src/doc/components/TemplateDialog.vue:14
 msgid "Search templates..."
 msgstr "ابحث في القوالب..."
 
@@ -46952,15 +46952,15 @@ msgstr "حدّد فقط ما تضيفه هذه الإضافة."
 msgid "Set the date range."
 msgstr "حدّد المدة الزمنية."
 
-#: frontend/src/writer/components/WriterSettings.vue:62
+#: frontend/src/doc/components/WriterSettings.vue:62
 msgid "Set the default spacing around paragraphs."
 msgstr "اضبط التباعد الافتراضي حول الفقرات."
 
-#: frontend/src/writer/components/WriterSettings.vue:27
+#: frontend/src/doc/components/WriterSettings.vue:27
 msgid "Set the font size of the editor (px)."
 msgstr "اضبط حجم خط المحرر (px)."
 
-#: frontend/src/writer/components/WriterSettings.vue:104
+#: frontend/src/doc/components/WriterSettings.vue:104
 msgid "Set the text to appear in headers and footers when printing."
 msgstr "اضبط النص الذي يظهر في الترويسة والتذييل عند الطباعة."
 
@@ -47044,8 +47044,8 @@ msgstr "إعداد العنوان"
 
 #. Label of the settings (Code) field in DocType 'Display Widget'
 #. Label of a Card Break in the OneHR Setup Workspace
-#: frontend/src/writer/components/WriterSettings.vue:5
-#: frontend/src/writer/components/core-editor/menu-buttons.js:177
+#: frontend/src/doc/components/WriterSettings.vue:5
+#: frontend/src/doc/components/core-editor/menu-buttons.js:177
 #: onedesk/one_book/home.py:257 onedesk/one_crm/home.py:65
 #: onedesk/one_display/doctype/display_widget/display_widget.json:88
 #: onedesk/one_hr/home.py:40
@@ -47164,7 +47164,7 @@ msgstr "الظل"
 #: frontend/src/cloud/OneCloud.vue:601
 #: frontend/src/slide/components/PropertiesPanel.vue:176
 #: frontend/src/slide/shim/LayersPanel.vue:116
-#: frontend/src/writer/components/CoreEditor.vue:283
+#: frontend/src/doc/components/CoreEditor.vue:283
 msgid "Shape"
 msgstr "شكل"
 
@@ -47235,7 +47235,7 @@ msgstr "حصة من المحتجز"
 msgid "Share this sheet"
 msgstr "مشاركة هذه الورقة"
 
-#: frontend/src/writer/components/FloatingComments.vue:334
+#: frontend/src/doc/components/FloatingComments.vue:334
 msgid "Share with the tagged people?"
 msgstr "هل تريد المشاركة مع الأشخاص المُشار إليهم؟"
 
@@ -47748,7 +47748,7 @@ msgstr "إظهار التفاصيل أو إخفاء التفاصيل"
 msgid "Show or Hide the Sidebar"
 msgstr "إظهار الشريط الجانبي أو إخفاؤه"
 
-#: frontend/src/writer/components/WriterSettings.vue:111
+#: frontend/src/doc/components/WriterSettings.vue:111
 msgid "Show page numbers"
 msgstr "إظهار أرقام الصفحات"
 
@@ -49308,7 +49308,7 @@ msgstr "جدول بيانات"
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/cloud/OneCloud.vue:592 frontend/src/slide/shim/frame.js:18
-#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/doc/components/CoreEditor.vue:279
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Square"
@@ -49526,7 +49526,7 @@ msgstr "ابدأ واحدًا من مهمة بزر التشغيل. يبقى يع
 msgid "Start recording"
 msgstr "بدء التسجيل"
 
-#: frontend/src/writer/components/CoreEditor.vue:16
+#: frontend/src/doc/components/CoreEditor.vue:16
 msgid "Start thinking..."
 msgstr "ابدأ الكتابة..."
 
@@ -51271,7 +51271,7 @@ msgstr "علامة جدولة"
 msgid "Tab colour"
 msgstr "لون التبويب"
 
-#: frontend/src/writer/components/ToC.vue:56
+#: frontend/src/doc/components/ToC.vue:56
 msgid "Tab options"
 msgstr "خيارات علامة التبويب"
 
@@ -51284,9 +51284,9 @@ msgstr "خيارات علامة التبويب"
 msgid "Table"
 msgstr "جدول"
 
-#: frontend/src/writer/components/ToC.vue:7
-#: frontend/src/writer/components/ToC.vue:11
-#: frontend/src/writer/components/core-editor/menu-buttons.js:60
+#: frontend/src/doc/components/ToC.vue:7
+#: frontend/src/doc/components/ToC.vue:11
+#: frontend/src/doc/components/core-editor/menu-buttons.js:60
 msgid "Table of Contents"
 msgstr "جدول المحتويات"
 
@@ -51398,7 +51398,7 @@ msgid "Taking It With You"
 msgstr "أخذها معك"
 
 #: frontend/src/cloud/OneCloud.vue:592
-#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/doc/components/CoreEditor.vue:279
 msgid "Tall"
 msgstr "طولي"
 
@@ -51445,7 +51445,7 @@ msgstr "مهمة مكتملة"
 msgid "Task Given"
 msgstr "مهمة مُسندة"
 
-#: frontend/src/writer/components/core-editor/menu-buttons.js:53
+#: frontend/src/doc/components/core-editor/menu-buttons.js:53
 msgid "Task List"
 msgstr "قائمة مهام"
 
@@ -51973,7 +51973,7 @@ msgstr "اسم القالب"
 msgid "Template error: {0}"
 msgstr "خطأ في القالب: {0}"
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:46
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:46
 #, python-brace-format
 msgid "Template {0} saved."
 msgstr "حُفظ القالب {0}."
@@ -53210,7 +53210,7 @@ msgstr "اسم الفعالية والوقت ورمز للبرنامج."
 msgid "The expense is booked and the money is owed to them."
 msgstr "تُسجَّل المصروفات ويصبح المبلغ مستحقًا لهم."
 
-#: frontend/src/writer/shim/PrintDialog.vue:8
+#: frontend/src/doc/shim/PrintDialog.vue:8
 #, python-brace-format
 msgid "The fields in this document are filled from {0}."
 msgstr "تُملأ الحقول في هذا المستند من {0}."
@@ -54361,7 +54361,7 @@ msgstr "يتضمن القالب كل الأوراق بحالتها الحالي�
 msgid "The template includes every sheet except {0}, which belongs to the record."
 msgstr "يتضمن القالب كل الأوراق ما عدا {0}، فهي تخص السجل."
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:8
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:8
 msgid "The template includes the whole document as it is now."
 msgstr "يتضمن القالب المستند كاملًا كما هو الآن."
 
@@ -55149,12 +55149,12 @@ msgstr "هذا الرمز غير صحيح أو انتهت صلاحيته."
 msgid "This copy is gone"
 msgstr "لم تعد هذه النسخة متاحة"
 
-#: frontend/src/writer/DocumentPage.vue:295
-#: frontend/src/writer/components/WriterSettings.vue:182
+#: frontend/src/doc/DocumentPage.vue:295
+#: frontend/src/doc/components/WriterSettings.vue:182
 msgid "This document"
 msgstr "هذا المستند"
 
-#: frontend/src/writer/DocumentPage.vue:229
+#: frontend/src/doc/DocumentPage.vue:229
 msgid "This document could not be opened."
 msgstr "تعذّر فتح هذا المستند."
 
@@ -55270,7 +55270,7 @@ msgstr "انتهت صلاحية هذه الدعوة"
 msgid "This invitation was withdrawn"
 msgstr "سُحبت هذه الدعوة"
 
-#: frontend/src/writer/components/VersionsSidebar.vue:15
+#: frontend/src/doc/components/VersionsSidebar.vue:15
 #, python-brace-format
 msgid "This is an automatic snapshot of this document from {0}."
 msgstr "هذه لقطة تلقائية لهذا المستند من {0}."
@@ -55308,7 +55308,7 @@ msgstr "هذه الدفعة بعملة أخرى. استخدم إنشاء › د�
 msgid "This is taking longer than usual. We will mail {0} when it is ready."
 msgstr "يستغرق هذا وقتًا أطول من المعتاد. سنراسل {0} عندما تصبح جاهزة."
 
-#: frontend/src/writer/components/VersionsSidebar.vue:108
+#: frontend/src/doc/components/VersionsSidebar.vue:108
 msgid "This is the current version."
 msgstr "هذه هي النسخة الحالية."
 
@@ -56633,11 +56633,11 @@ msgstr "أهم الأخبار"
 msgid "Top border"
 msgstr "الحد العلوي"
 
-#: frontend/src/writer/components/WriterSettings.vue:77
+#: frontend/src/doc/components/WriterSettings.vue:77
 msgid "Top left"
 msgstr "أعلى اليسار"
 
-#: frontend/src/writer/components/WriterSettings.vue:84
+#: frontend/src/doc/components/WriterSettings.vue:84
 msgid "Top right"
 msgstr "أعلى اليمين"
 
@@ -57706,7 +57706,7 @@ msgstr "تحت العنوان"
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:119
 #: frontend/src/slide/components/FontSection.vue:89
 #: frontend/src/slide/composables/useShortcuts.js:465
-#: frontend/src/writer/components/core-editor/menu-buttons.js:45
+#: frontend/src/doc/components/core-editor/menu-buttons.js:45
 msgid "Underline"
 msgstr "تسطير"
 
@@ -57955,8 +57955,8 @@ msgstr "إلغاء الربط"
 #: frontend/src/slide/components/LockBadge.vue:7
 #: frontend/src/slide/components/PropertiesPanel.vue:17
 #: frontend/src/slide/shim/LayersPanel.vue:56
-#: frontend/src/writer/DocumentPage.vue:19
-#: frontend/src/writer/DocumentPage.vue:305
+#: frontend/src/doc/DocumentPage.vue:19
+#: frontend/src/doc/DocumentPage.vue:305
 #: onedesk/one_book/report/tax_return/tax_return.js:65
 msgid "Unlock"
 msgstr "فتح القفل"
@@ -58025,7 +58025,7 @@ msgstr ""
 msgid "Unreconciled Bank Transactions"
 msgstr "معاملات بنكية غير مسواة"
 
-#: frontend/src/writer/components/FloatingComments.vue:44
+#: frontend/src/doc/components/FloatingComments.vue:44
 msgid "Unresolve"
 msgstr "إعادة فتح"
 
@@ -58081,13 +58081,13 @@ msgstr "حتى ذلك الحين، تسري {0}."
 msgid "Until {0}"
 msgstr "حتى {0}"
 
-#: frontend/src/writer/components/ToC.vue:96
+#: frontend/src/doc/components/ToC.vue:96
 #: onedesk/public/js/one_ai/panel/Panel.vue:46
 msgid "Untitled"
 msgstr "بلا عنوان"
 
-#: frontend/src/writer/DocumentPage.vue:266
-#: frontend/src/writer/components/CoreEditor.vue:369 onedesk/one_doc/api.py:81
+#: frontend/src/doc/DocumentPage.vue:266
+#: frontend/src/doc/components/CoreEditor.vue:369 onedesk/one_doc/api.py:81
 #: onedesk/public/js/workbooks.js:17
 msgid "Untitled Document"
 msgstr "مستند بلا عنوان"
@@ -58173,7 +58173,7 @@ msgstr "حتى {0}"
 #. Label in the One Project Update print format
 #: frontend/portal/src/pages/Password.vue:4
 #: frontend/src/admin/ServerMetrics.vue:115
-#: frontend/src/writer/components/WriterSettings.vue:134
+#: frontend/src/doc/components/WriterSettings.vue:134
 #: onedesk/one_ai/chat.py:336
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading/reading.json:324
@@ -58881,7 +58881,7 @@ msgstr "الإصدار"
 #: frontend/src/slide/shim/EditorNavbar.vue:141
 #: frontend/src/slide/shim/EditorNavbar.vue:154
 #: frontend/src/slide/shim/VersionsDialog.vue:3
-#: frontend/src/writer/DocumentPage.vue:309
+#: frontend/src/doc/DocumentPage.vue:309
 msgid "Version History"
 msgstr "سجل النسخ"
 
@@ -59870,8 +59870,8 @@ msgstr "ما يجب أن يفعله رد OneAI، مثل الإجابة من طل
 
 #. Description of the 'Editor Would Drop' (Small Text) field in DocType 'File'
 #: onedesk/one_cloud/custom/file.json:173
-msgid "What OneWorkbook or OneWriter would drop from this version of the file."
-msgstr "ما سيحذفه OneWorkbook أو OneWriter من هذه النسخة من الملف."
+msgid "What OneSheet or OneDoc would drop from this version of the file."
+msgstr "ما سيحذفه OneSheet أو OneDoc من هذه النسخة من الملف."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:297
 msgid "What They Get"
@@ -62132,8 +62132,8 @@ msgstr "عندما يذكرك شخص في تعليق."
 
 #. When a notification is sent
 #: onedesk/one_cloud/notifications.py
-msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook or OneWriter."
-msgstr "عندما ينقل أحدهم إلى سلة المحذوفات ملفًا مفتوحًا لديك في OneOS أو على محرك الأقراص أو في OneWorkbook أو OneWriter."
+msgid "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneSheet or OneDoc."
+msgstr "عندما ينقل أحدهم إلى سلة المحذوفات ملفًا مفتوحًا لديك في OneOS أو على محرك الأقراص أو في OneSheet أو OneDoc."
 
 #. When a notification is sent
 #: onedesk/one_admin/notifications.py
@@ -63558,8 +63558,8 @@ msgid "Wi-Fi Code"
 msgstr "رمز الواي فاي"
 
 #: frontend/src/cloud/OneCloud.vue:592
-#: frontend/src/writer/components/CoreEditor.vue:279
-#: frontend/src/writer/components/CoreEditor.vue:283
+#: frontend/src/doc/components/CoreEditor.vue:279
+#: frontend/src/doc/components/CoreEditor.vue:283
 msgid "Wide"
 msgstr "عريض"
 
@@ -64747,12 +64747,12 @@ msgstr "كتابة {0} شرائح في {1}"
 #. Name of a DocType
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:134
 msgid "Writer Document"
-msgstr "مستند Writer"
+msgstr "مستند"
 
 #. Name of a DocType
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json:51
 msgid "Writer Document Version"
-msgstr "نسخة مستند Writer"
+msgstr "نسخة مستند"
 
 #: onedesk/one_doc/ai.py:229
 msgid "Writes"
@@ -64956,17 +64956,17 @@ msgstr "أنت تحرر {0} في {1}. أنشئ نسخة لتحريرها في On
 msgid "You are outside every location this shift may check in from."
 msgstr "أنت خارج جميع المواقع التي يجوز لهذه المناوبة تسجيل الحضور منها."
 
-#: frontend/src/writer/components/VersionsSidebar.vue:297
+#: frontend/src/doc/components/VersionsSidebar.vue:297
 #, python-brace-format
 msgid "You are restoring the document to how it was at {0}."
 msgstr "ستعيد المستند إلى ما كان عليه في {0}."
 
-#: frontend/src/writer/components/VersionsSidebar.vue:296
+#: frontend/src/doc/components/VersionsSidebar.vue:296
 #, python-brace-format
 msgid "You are restoring to a previous version: {0}."
 msgstr "ستستعيد نسخة سابقة: {0}."
 
-#: frontend/src/writer/components/VersionsSidebar.vue:8
+#: frontend/src/doc/components/VersionsSidebar.vue:8
 msgid "You are viewing the version history of"
 msgstr "أنت تعرض سجل نسخ"
 
@@ -66434,7 +66434,7 @@ msgstr "مثلًا"
 msgid "e.g. Costing"
 msgstr "مثل التكلفة"
 
-#: frontend/src/writer/shim/SaveTemplateDialog.vue:6
+#: frontend/src/doc/shim/SaveTemplateDialog.vue:6
 msgid "e.g. Cover letter"
 msgstr "مثلًا: خطاب تغطية"
 
@@ -66506,7 +66506,7 @@ msgstr "ينتهي بـ {0}"
 msgid "equations"
 msgstr "المعادلات"
 
-#: frontend/src/writer/components/TemplateDialog.vue:84
+#: frontend/src/doc/components/TemplateDialog.vue:84
 msgid "esc"
 msgstr "esc"
 
@@ -67565,15 +67565,15 @@ msgstr "المحادثة"
 msgid "title"
 msgstr ""
 
-#: frontend/src/writer/components/TemplateDialog.vue:85
+#: frontend/src/doc/components/TemplateDialog.vue:85
 msgid "to close"
 msgstr "للإغلاق"
 
-#: frontend/src/writer/components/TemplateDialog.vue:81
+#: frontend/src/doc/components/TemplateDialog.vue:81
 msgid "to insert"
 msgstr "للإدراج"
 
-#: frontend/src/writer/components/TemplateDialog.vue:75
+#: frontend/src/doc/components/TemplateDialog.vue:75
 msgid "to navigate"
 msgstr "للتنقل"
 
@@ -67757,7 +67757,7 @@ msgid "{0} (copy)"
 msgstr "{0} (نسخة)"
 
 #: frontend/src/sheet/shim/PrintDialog.vue:59
-#: frontend/src/writer/shim/PrintDialog.vue:47
+#: frontend/src/doc/shim/PrintDialog.vue:47
 #, python-brace-format
 msgid "{0} (default)"
 msgstr "{0} (الافتراضي)"
@@ -68269,7 +68269,7 @@ msgid "{0} at {1}"
 msgstr "{0} في {1}"
 
 #: frontend/src/sheet/shim/PrintDialog.vue:153
-#: frontend/src/writer/shim/PrintDialog.vue:109
+#: frontend/src/doc/shim/PrintDialog.vue:109
 #, python-brace-format
 msgid "{0} attached to {1}."
 msgstr "أُرفق {0} بـ {1}."
@@ -70878,7 +70878,7 @@ msgstr "حفظ {0} هذا من محرك الأقراص في {1}. تعذر الا
 msgid "{0} saved this in OneOS on {1}. Its {2} could not be kept. What it held before is in Version History."
 msgstr "حفظ {0} هذا في OneOS في {1}. تعذر الاحتفاظ بـ{2}. ما كان يحتويه من قبل موجود في سجل النسخ."
 
-#: frontend/src/writer/shim/PrintDialog.vue:109
+#: frontend/src/doc/shim/PrintDialog.vue:109
 #, python-brace-format
 msgid "{0} saved to OneCloud, in the same folder as this document."
 msgstr "حُفظ {0} في OneCloud، في المجلد نفسه الذي فيه هذا المستند."

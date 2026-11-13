@@ -56,8 +56,8 @@ TYPES = [
 	{
 		"name": "Deleted While Open",
 		"app": "OneCloud",
-		"about": "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneWorkbook "
-		"or OneWriter.",
+		"about": "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneSheet "
+		"or OneDoc.",
 		"to": "Whoever had it open",
 		"button": "Open",
 		"channels": ALL,

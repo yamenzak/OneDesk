@@ -453,7 +453,7 @@ shapes as Suite's or ours, a fade as a fade, a QR code as a picture of one
 video is made in the background, put on a slide of its own across the whole
 of it, and whoever asked is told (`tell.py`; the kinds are with OneCloud's
 in `notifications/one_cloud` until OneDeck is a module of its own).
-OneWriter's **Make a Picture with OneAI** is the same picture job
+OneDoc's **Make a Picture with OneAI** is the same picture job
 (`one_doc/api.py`, `make_picture`).
 
 In OneAI's panel (the `presentations` group in `one_ai/groups.py`), `page`

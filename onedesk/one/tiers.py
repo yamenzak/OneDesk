@@ -168,8 +168,8 @@ COLLECTIONS = {
 }
 
 SCREENS = {
-	"workbook": "a workbook from OneCloud, in OneWorkbook's editor (Workbook)",
-	"document": "a document from OneCloud, in OneWriter's editor (Writer Document)",
+	"workbook": "a workbook from OneCloud, in OneSheet's editor (Workbook)",
+	"document": "a document from OneCloud, in OneDoc's editor (Writer Document)",
 	"presentation": "a presentation from OneCloud, in OneDeck's editor (Presentation)",
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
 	"one": "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)",

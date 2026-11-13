@@ -1,4 +1,4 @@
-"""OneWorkbook's pure parts: how a workbook's File names it, how the history
+"""OneSheet's pure parts: how a workbook's File names it, how the history
 thins, and what Ask shows the model and keeps of its answer."""
 
 import ast

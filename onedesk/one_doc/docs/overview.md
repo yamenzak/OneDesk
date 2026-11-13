@@ -1,11 +1,11 @@
-# What OneWriter Is
+# What OneDoc Is
 
-OneWriter writes documents: a scope of works, a covering letter, a method
+OneDoc writes documents: a scope of works, a covering letter, a method
 statement, the minutes of a meeting. A document is a file in OneCloud, kept
 beside everything else the business has, and opened by anybody it is shared
 with.
 
-![Minutes open in OneWriter, the outline on the left and a comment in the margin](overview/document.png)
+![Minutes open in OneDoc, the outline on the left and a comment in the margin](overview/document.png)
 
 ## A New Document
 
@@ -28,4 +28,4 @@ from its first line when you press Enter at the end of it.
 | **File** | Print, Page Setup, Version History and templates. See [History and Templates](history-and-templates). |
 
 A document left for another screen waits on the bar under its title, with
-OneWriter's mark, as a workbook does. Click it to go back, or × to drop it.
+OneDoc's mark, as a workbook does. Click it to go back, or × to drop it.

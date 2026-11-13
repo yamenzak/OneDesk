@@ -1,4 +1,4 @@
-"""OneWorkbook's part of the integration suite (one_demo/check.py runs it):
+"""OneSheet's part of the integration suite (one_demo/check.py runs it):
 a workbook made, saved, versioned, copied and printed in OneCloud; an Excel
 or CSV file edited in place and a workbook read as Excel on the drive; a
 record's table edited as a sheet; templates; and OneAI's cards on a
@@ -118,7 +118,7 @@ def a_table_keeps_its_formulas():
 				frappe.clear_messages()
 			karim = frappe.get_doc("User", "karim@one.test")
 			karim.flags.ignore_permissions = True
-			karim.add_roles("OneWorkbook Manager")
+			karim.add_roles("OneSheet Manager")
 			assert api.get_sheet(his)["can_template"], "a Manager keeps them"
 			assert not frappe.has_permission(api.WORKBOOK, "read"), "keeping templates opens no workbook the File doesn't"
 			kept = templates.save_as(his, "His template")
@@ -207,7 +207,7 @@ def a_spreadsheet_file_opens_and_saves_back_into_itself():
 
 @check
 def an_excel_file_is_never_saved_over_with_less():
-	"""An Excel file with a chart opens in OneWorkbook saying
+	"""An Excel file with a chart opens in OneSheet saying
 	what saving over it would drop, and is not saved over until somebody
 	chooses; an .xlsm opens read-only and refuses a save. Saves by one person
 	in one sitting are one version, the one from before the sitting kept. A
@@ -268,7 +268,7 @@ def an_excel_file_is_never_saved_over_with_less():
 			assert not said["can_write"] and "macros" in said["notice"], said["notice"]
 			try:
 				api.save_sheet("Macros check.xlsm", sheets, locked)
-				raise AssertionError("a workbook with macros was saved in OneWorkbook")
+				raise AssertionError("a workbook with macros was saved in OneSheet")
 			except frappe.PermissionError:
 				frappe.clear_last_message()
 			own = api.make("@my", "Own rates check")["workbook"]
@@ -285,7 +285,7 @@ def an_excel_file_is_never_saved_over_with_less():
 @check
 def an_excel_file_keeps_its_look_when_saved_over():
 	"""Huda's budget, with its bold header, number formats and widths, edited
-	in OneWorkbook and saved over: the file has the edit and still has its
+	in OneSheet and saved over: the file has the edit and still has its
 	look and its formulas. All undone afterwards."""
 	import io
 
@@ -382,7 +382,7 @@ def a_workbook_left_open_waits_on_the_bar():
 @check
 def a_workbook_is_an_excel_file_on_the_drive():
 	"""On the network drive a workbook is "Name.xlsx": its formulas with the
-	values the editor last worked out, a OneWorkbook-only formula as its
+	values the editor last worked out, a OneSheet-only formula as its
 	value. Saved over from Excel, the values and formulas come back with a
 	version kept, and the formula Excel only saw as a value keeps its
 	formula. A record's workbook is not written from the drive. All undone

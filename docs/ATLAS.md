@@ -61,7 +61,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | boards (`frontend/src/display/Boards.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
-| document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
+| document (`frontend/src/doc/DocumentPage.vue`) | Letter Head | – | – | – |
 | presentation (`frontend/src/slide/PresentationPage.vue`) | File | File | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |

@@ -38,7 +38,7 @@ top of the **☰** menu. In the middle run the announcements. On the right are
 The bottom bar is the screen you are on and what is running, like a taskbar.
 On the left is what the screen says about itself: how many rows a list
 shows and its paging, or how many files a folder holds. Then any workbook
-you left for another screen, under OneWorkbook's mark. On the right are **Check In** and **Timers**,
+you left for another screen, under OneSheet's mark. On the right are **Check In** and **Timers**,
 then **OneAI**, and at the end today's date and the time, which open OneCalendar. A number on
 an icon says how much waits there. **Check In** says *Check In* when your
 shift has started and you haven't, and *Late* once you are late. On a phone

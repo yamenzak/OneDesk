@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 import { buildIslands } from "@framework/ui/vite/island";
 import { lucideIconsPlugin } from "frappe-ui/vite/lucideIconsPlugin";
 import { sheetSeams } from "./src/sheet/seams.mjs";
-import { writerSeams } from "./src/writer/seams.mjs";
+import { docSeams } from "./src/doc/seams.mjs";
 import { slideSeams } from "./src/slide/seams.mjs";
 
 const COMPOSER = fileURLToPath(import.meta.resolve("@framework/ui/ActivityTimeline")).replace(
@@ -50,7 +50,7 @@ await buildIslands({
 	app: "onedesk",
 	root: import.meta.dirname,
 	entries: ISLANDS,
-	plugins: [slideSeams, sheetSeams, writerSeams, lucideIconsPlugin(), { name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
+	plugins: [slideSeams, sheetSeams, docSeams, lucideIconsPlugin(), { name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
 	production: process.argv.includes("--production"),
 	watch: process.argv.includes("--watch"),
 });

@@ -25,14 +25,14 @@ words from records are edited only in their own editor.
 | --- | --- |
 | **You are editing in OneOS** under the file's name | You have it open. Choose Edit in OneOS again to go back to it. |
 | **Huda is editing in OneOS** | Someone else has it open. You can **Make a Copy** and edit that, or **View Read-Only**. |
-| **Huda is editing it in OneWorkbook** when you open it in OneOS | Someone has it open to change it there. Make a copy, or wait until they leave it. |
-| **Samir is editing this in OneOS** over the editor | It opens read-only in OneWorkbook or OneWriter until he closes it. |
+| **Huda is editing it in OneSheet** when you open it in OneOS | Someone has it open to change it there. Make a copy, or wait until they leave it. |
+| **Samir is editing this in OneOS** over the editor | It opens read-only in OneSheet or OneDoc until he closes it. |
 | A warning that it closes in 5 minutes | Nothing was typed or clicked for 10 minutes. Use it to keep it open. |
 
 ## One Person at a Time
 
 Only one person edits a file in OneOS at a time, and never while somebody
-has it open to change in OneWorkbook or OneWriter. A file you can only read
+has it open to change in OneSheet or OneDoc. A file you can only read
 offers **Make a Copy** too, put next to it or in My Files. While a file is
 open in OneOS, saving it from the drive is refused.
 

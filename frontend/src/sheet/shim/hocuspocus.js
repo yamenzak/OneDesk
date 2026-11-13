@@ -2,6 +2,6 @@
 // desk's socket instead (useCollaboration.js), so this path is never taken.
 export class HocuspocusProvider {
 	constructor() {
-		throw new Error("OneWorkbook co-edits over the desk's own socket.");
+		throw new Error("OneSheet co-edits over the desk's own socket.");
 	}
 }

@@ -1,4 +1,6 @@
 [pre_model_sync]
+onedesk.one_doc.patches.writer_is_doc
+onedesk.one_sheet.patches.workbook_is_sheet
 onedesk.one_deck.patches.slide_is_deck
 onedesk.one_cloud.patches.storage_is_cloud
 onedesk.one_ai.patches.intake_is_reading

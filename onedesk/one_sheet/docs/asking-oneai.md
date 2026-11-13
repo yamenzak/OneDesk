@@ -26,4 +26,4 @@ OneAI never writes into a record's table sheet: ask it to change the record
 instead.
 
 Each question uses credits like any other. An administrator can turn OneAI
-off for OneWorkbook in AICenter.
+off for OneSheet in AICenter.
