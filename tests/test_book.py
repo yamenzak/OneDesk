@@ -13,7 +13,7 @@ import tree
 from tests.bench import APPS
 
 BOOK = tree.APP / "one_book"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 READY = BOOK / "ready.py"
 RAIL = json.loads((BOOK / "sidebar" / "onebook" / "onebook.json").read_text())
 

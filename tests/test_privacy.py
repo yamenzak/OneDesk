@@ -14,7 +14,7 @@ import tree
 SOURCE = (tree.APP / "one" / "privacy.py").read_text()
 COPY = (tree.APP / "one" / "privacy_copy.py").read_text()
 TELL = (tree.APP / "one" / "tell.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def _body(name: str, source: str = SOURCE) -> str:

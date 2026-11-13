@@ -38,7 +38,7 @@ def test_every_module_id_has_its_products_name():
 
 
 def test_the_one_of_a_name_is_light_everywhere():
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert '"/assets/onedesk/js/brand.js"' in hooks
 	brand = (tree.APP / "public" / "js" / "brand.js").read_text(encoding="utf-8")
 	assert "MutationObserver" in brand and '"one-light"' in brand and '"one-name"' in brand

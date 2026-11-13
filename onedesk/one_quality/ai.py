@@ -78,3 +78,9 @@ def quality_now() -> dict:
 		"goals_failing": needs["failing"]["rows"],
 		"meetings_open": [one["name"] for one in needs["meetings"]["rows"]],
 	}
+
+
+READS = (
+	"quality_now",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""

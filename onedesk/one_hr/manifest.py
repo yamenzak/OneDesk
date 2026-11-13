@@ -1,6 +1,6 @@
 """OneHR's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Roles, _lt
+from onedesk.one.registry.model import App, Settle, Roles, _lt
 
 APP = App(
 	id="one_hr",
@@ -226,4 +226,21 @@ APP = App(
 			"states": {"field": "event_status", "order": ("Scheduled", "Completed"), "hide": ("Cancelled",)},
 		},
 	},
+	hooks={
+		"one_ai_reader": ("ai.reader",),
+		"one_ai_workspace": ("ai.workspace",),
+	},
+	settle=(
+		Settle("names.hide"),
+		Settle("money.hide"),
+		Settle("policy.seed"),
+		Settle("papers.settle"),
+		Settle("leave.encashable"),
+		Settle("accounts.ready"),
+		Settle("accounts.components"),
+		Settle("accounts.year"),
+		Settle("hiring.ensure"),
+		Settle("access.settle"),
+		Settle("lifecycle.settle_boardings"),
+	),
 )

@@ -5,10 +5,13 @@ submit read it as a yes. These read the code."""
 
 import re
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 HR = ROOT / "onedesk" / "one_hr"
-HOOKS = (ROOT / "onedesk" / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def _answers():

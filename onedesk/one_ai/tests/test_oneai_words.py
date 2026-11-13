@@ -20,7 +20,7 @@ GENERIC = ("one_ai/tools.py", "one_ai/memory.py", "one_ai/guide.py")
 
 def _hooked() -> dict[str, set[str]]:
 	"""Each module file with a tool in it, and the tools it holds."""
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	out: dict[str, set[str]] = {}
 	for key in ("one_ai_reads", "one_ai_suggests"):
 		block = re.search(key + r"\s*=\s*\[(.*?)\n\]", hooks, re.S).group(1)

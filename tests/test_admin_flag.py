@@ -111,7 +111,7 @@ def test_a_child_table_is_not_gated_on_its_own():
 	"""
 	import ast
 
-	body = ast.parse((tree.APP / "hooks.py").read_text(encoding="utf-8"))
+	body = ast.parse(tree.hooks())
 	children = {name for name, spec in admin_doctypes() if spec.get("istable")}
 	assert children, "no child tables in the module — this guard is guarding nothing"
 	for hook in ("has_permission", "permission_query_conditions"):

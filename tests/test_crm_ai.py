@@ -18,7 +18,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 AI = tree.APP / "one_crm" / "ai.py"
-HOOKS = tree.APP / "hooks.py"
 ACCESS = tree.APP / "one_crm" / "access.py"
 
 
@@ -56,7 +55,7 @@ def test_a_deal_is_quiet_when_nobody_spoke_and_nothing_is_planned(spoke, next_on
 
 
 def test_every_tool_is_registered_as_a_read_or_a_card():
-	hooks = HOOKS.read_text()
+	hooks = tree.hooks()
 	reads = hooks.split("one_ai_reads = [", 1)[1].split("]", 1)[0]
 	suggests = hooks.split("one_ai_suggests = [", 1)[1].split("]", 1)[0]
 	for name in ("crm_facts", "gone_quiet", "why_we_lose"):

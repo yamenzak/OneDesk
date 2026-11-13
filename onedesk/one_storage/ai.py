@@ -245,3 +245,11 @@ def largest_files() -> dict:
 		"workspace_limit_bytes": cint(held.storage_limit) if held else None,
 		"note": "The Recycle Bin counts until it is emptied, or for thirty days.",
 	}
+
+
+READS = (
+	"open_file",
+	"who_can_see",
+	"largest_files",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""

@@ -30,7 +30,7 @@ def ours() -> dict:
 				"title": one["title"],
 				"html": md_to_html(media.pictured(module, one["body"], one["path"])),
 			}
-			for one in ready.versions(module)
+			for one in ready.shown(module)
 		]
 	return out
 

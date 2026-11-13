@@ -1,6 +1,6 @@
 """One's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App
+from onedesk.one.registry.model import App, Settle
 
 APP = App(
 	id="one",
@@ -38,4 +38,22 @@ APP = App(
 			"legal": {"on": "2026-11-10", "commit": "bc85304106b7", "by": "Claude, for Yamen"},
 		},
 	},
+	hooks={
+		"one_homes": ("lists.homes",),
+		"one_record_tabs": ("tabs.TABS",),
+	},
+	settle=(
+		Settle("roles.ensure"),
+		Settle("notify.install"),
+		Settle("access.settle"),
+		Settle("rights.settle"),
+		Settle("rights.everyone"),
+		Settle("recycle.settle"),
+		Settle("head.install"),
+		Settle("brand.quiet_errors"),
+		Settle("company.hide"),
+		Settle("brand.apply", install_only=True, last=True),
+		Settle("declutter.apply", install_only=True, last=True),
+		Settle("companions.apply", last=True),
+	),
 )

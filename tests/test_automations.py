@@ -13,7 +13,7 @@ import tree
 SOURCE = (tree.APP / "one_studio" / "automations.py").read_text()
 STEPS = (tree.APP / "one_studio" / "automation_steps.py").read_text()
 TELL = (tree.APP / "one" / "tell.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def test_tell_people_is_a_step_of_the_engine_and_goes_through_the_hub():

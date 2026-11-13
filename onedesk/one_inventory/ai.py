@@ -1481,3 +1481,30 @@ def plan_handover(
 		"assets": [row],
 	}
 	return {"proposal": proposals.propose("Create", "Asset Movement", changes=changes, why=why), "state": "Proposed"}
+
+
+READS = (
+	"item_facts",
+	"stock_on_hand",
+	"running_low",
+	"receipt_facts",
+	"still_to_arrive",
+	"still_to_deliver",
+	"lots_and_numbers",
+	"quotes_now",
+	"upkeep_now",
+	"asset_facts",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"plan_item_change",
+	"plan_receipt",
+	"plan_delivery",
+	"plan_transfer",
+	"plan_count",
+	"plan_quote_request",
+	"plan_handover",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

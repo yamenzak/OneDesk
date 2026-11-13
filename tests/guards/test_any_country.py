@@ -16,6 +16,7 @@ COUNTRY = re.compile(r"\bAED\b|\bUAE\b|United Arab Emirates|\bVAT\b|Emirat|\bTRN
 # Each is one country's, or the EU's, and is shown only there.
 REGIONAL = {
 	"hooks.py": "UAE VAT Settings, homed in OneBook",
+	"one_book/manifest.py": "OneBook's step that keeps the emirate to UAE companies",
 	"one/countries.py": "which regional doctypes and reports each country sees",
 	"one/shown.json": "what the rails show, generated, and the rails gate them by country",
 	"one_hr/holidays.py": "the holiday names a country's calendar ships",

@@ -328,3 +328,18 @@ def _project(said: str) -> str | None:
 		return said
 	found = frappe.get_list("Project", filters={"project_name": ["like", f"%{said}%"]}, pluck="name", limit=2)
 	return found[0] if len(found) == 1 else None
+
+
+READS = (
+	"my_tasks",
+	"task_facts",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"plan_task",
+	"plan_steps",
+	"assign_task",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

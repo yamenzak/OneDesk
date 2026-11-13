@@ -165,3 +165,16 @@ def plan_voice_ad(
 		"state": "Proposed",
 		"next": "Tell them approving the card keeps the ad, and it plays once it is added to a channel's ads.",
 	}
+
+
+READS = (
+	"queue_now",
+	"screens_now",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"plan_voice_ad",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

@@ -44,7 +44,7 @@ def test_the_index_holds_the_text_and_vectors_and_mariadb_only_which():
 
 
 def test_the_index_is_tidied_each_night():
-	assert '"onedesk.one_ai.vectors.tidy"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_ai.vectors.tidy"' in tree.hooks()
 	tidy = _body(VECTORS, "tidy")
 	assert "optimize()" in tidy and "create_fts_index" in tidy
 

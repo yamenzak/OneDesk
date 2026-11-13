@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one" / "audit.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 LOGS = ("Version", "Activity Log", "Access Log")
 
 

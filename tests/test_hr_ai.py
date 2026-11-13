@@ -17,7 +17,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 AI = tree.APP / "one_hr" / "ai.py"
-HOOKS = tree.APP / "hooks.py"
 SUGGEST = tree.APP / "one_ai" / "suggest.py"
 PROPOSALS = tree.APP / "one_ai" / "proposals.py"
 GATEWAY = tree.APP / "one_admin" / "gateway.py"
@@ -75,7 +74,7 @@ def test_another_currency_is_said_rather_than_converted():
 
 
 def test_ohr_registers_its_own_tool_and_suggestion():
-	hooks = HOOKS.read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	suggests = hooks.split("one_ai_suggests =", 1)[1].split("]", 1)[0]
 	for tool in ("claim_expense", "book_leave", "add_applicant"):
 		assert f'"onedesk.one_hr.ai.{tool}"' in suggests, tool
@@ -217,7 +216,7 @@ def test_why_people_leave_is_read_as_the_reader_and_counts_each_person_once():
 	said = _source(AI, "why_people_leave")
 	assert "frappe.get_all" not in said and "ignore_permissions" not in said
 	assert "one.name not in heard" in said, "an interviewed leaver is not counted twice"
-	assert '"onedesk.one_hr.ai.why_people_leave"' in HOOKS.read_text()
+	assert '"onedesk.one_hr.ai.why_people_leave"' in tree.hooks()
 
 
 def test_a_model_that_asks_the_person_something_is_not_pressed_for_the_card():

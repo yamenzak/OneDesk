@@ -48,7 +48,7 @@ def whats_new(module: str) -> dict:
 	before = ready.number(was) if was else (0, 0, 0)
 	titles = {page["id"]: page["title"] for page in ready.help_pages(module)}
 	entries = []
-	for one in ready.versions(module):
+	for one in ready.shown(module):
 		entries.append(
 			{
 				"version": one["version"],
@@ -111,7 +111,7 @@ def help_pages(module: str) -> dict:
 	its Help (docs/READY.md, Docs and Help)."""
 	_known(module)
 	changed = {}
-	for one in ready.versions(module):
+	for one in ready.shown(module):
 		for page in one["docs"]:
 			changed.setdefault(page, []).append({"version": one["version"], "title": one["title"], "date": one["date"]})
 	return {

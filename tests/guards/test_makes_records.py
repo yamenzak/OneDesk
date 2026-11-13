@@ -11,6 +11,7 @@ leaves it out. A new insert of a kind not on the list fails here, naming the
 file, until the list names it.
 """
 
+import sys
 import ast
 import json
 import re
@@ -20,6 +21,8 @@ import pytest
 from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2] / "onedesk"
+sys.path.insert(0, str(ROOT.parent / "scripts"))
+import tree  # noqa: E402
 
 FILLS = ("one_ai/reading",)
 
@@ -29,8 +32,8 @@ MADE = re.compile(r'(?:get_doc\(\s*\{\s*"doctype":\s*"|new_doc\("|"doctype":\s*"
 
 
 def _declared() -> dict:
-	tree = ast.parse((ROOT / "hooks.py").read_text())
-	for node in tree.body:
+	parsed = ast.parse(tree.hooks())
+	for node in parsed.body:
 		if isinstance(node, ast.Assign) and any(
 			isinstance(one, ast.Name) and one.id == "one_makes_records" for one in node.targets
 		):

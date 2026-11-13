@@ -23,7 +23,6 @@ import tree
 
 CHAT = tree.APP / "one_ai" / "chat.py"
 DOCTYPE = tree.APP / "one_ai" / "doctype" / "ai_chat" / "ai_chat.json"
-HOOKS = tree.APP / "hooks.py"
 LAUNCHER = tree.APP / "public" / "js" / "one_ai" / "oneai.js"
 BUNDLE = tree.APP / "public" / "js" / "one_ai" / "oneai.bundle.js"
 PANEL = tree.APP / "public" / "js" / "one_ai" / "panel" / "Panel.vue"
@@ -135,7 +134,7 @@ def test_a_chat_belongs_to_whoever_started_it():
 
 def test_only_the_launcher_is_on_every_page():
 	"""The panel carries Vue; a page nobody asks a question on should not."""
-	hooks = HOOKS.read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert "js/one_ai/oneai.js" in hooks
 	assert "oneai.bundle" not in hooks, "the bundle is loaded on every desk page"
 	assert 'frappe.require("oneai.bundle.js")' in LAUNCHER.read_text(encoding="utf-8")

@@ -1,6 +1,6 @@
 """OneLegal's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App
+from onedesk.one.registry.model import App, Settle
 
 APP = App(
 	id="one_legal",
@@ -28,4 +28,7 @@ APP = App(
 			"legal": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
 		},
 	},
+	settle=(
+		Settle("gate.told_of_changes"),
+	),
 )

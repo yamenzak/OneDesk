@@ -9,6 +9,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from onedesk.one import stamp
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import tree  # noqa: E402
 
 APP = Path(__file__).resolve().parent.parent / "onedesk"
 
@@ -16,10 +18,10 @@ INCLUDES = ("app_include_js", "app_include_css", "web_include_js", "web_include_
 
 
 def test_every_include_is_stamped():
-	tree = ast.parse((APP / "hooks.py").read_text())
+	parsed = ast.parse(tree.hooks())
 	held = {
 		target.id: node.value
-		for node in tree.body
+		for node in parsed.body
 		if isinstance(node, ast.Assign)
 		for target in node.targets
 		if isinstance(target, ast.Name) and target.id in INCLUDES
@@ -45,4 +47,4 @@ def test_what_is_required_later_is_stamped_too():
 def test_the_wizards_script_is_required_plain():
 	"""frappe.require reads a file's kind from after its "?", so a stamped
 	address never loads; theme.js stamps it on the way."""
-	assert 'setup_wizard_requires = "/assets/onedesk/js/setup_wizard.js"' in (APP / "hooks.py").read_text()
+	assert 'setup_wizard_requires = "/assets/onedesk/js/setup_wizard.js"' in tree.hooks()

@@ -19,7 +19,7 @@ import tree
 
 LINKED = tree.APP / "one" / "linked.py"
 SOURCE = LINKED.read_text(encoding="utf-8")
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 JS = (tree.APP / "public" / "js" / "head.js").read_text(encoding="utf-8")
 
 

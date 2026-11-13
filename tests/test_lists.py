@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one" / "lists.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 JS = (tree.APP / "public" / "js" / "lists.js").read_text()
 
 

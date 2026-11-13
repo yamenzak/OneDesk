@@ -14,7 +14,7 @@ import tree
 from tests.guards.test_notifications import _declared, _layout
 
 NOTIFY = tree.APP / "one" / "notify.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def test_a_layout_reads_back_what_it_writes():

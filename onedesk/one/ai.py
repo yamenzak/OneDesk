@@ -3781,3 +3781,43 @@ def suggest_automation(
 print_layout.action = design_print_format.action = "print_design"
 
 suggest_approval.action = suggest_automation.action = draft_notification.action = "workspace_setup"
+
+
+READS = (
+	"workspace_numbering",
+	"workspace_printing",
+	"workspace_approvals",
+	"workspace_automations",
+	"print_layout",
+	"my_sign_in",
+	"workspace_sign_in",
+	"workspace_people",
+	"workspace_access",
+	"workspace_reports",
+	"audit_log",
+	"webhooks",
+	"announcements",
+	"privacy_request",
+	"workspace_plan",
+	"workspace_oneai",
+	"workspace_intake",
+	"workspace_holidays",
+	"my_day",
+	"notification_type",
+	"my_notifications",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"rewrite_notification",
+	"draft_notification",
+	"change_numbering",
+	"change_printing",
+	"design_print_format",
+	"suggest_approval",
+	"suggest_automation",
+	"customize",
+	"change_holidays",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

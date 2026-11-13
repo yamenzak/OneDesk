@@ -593,3 +593,16 @@ def plan_quote(
 			for one in options
 		],
 	}
+
+
+READS = (
+	"console_today",
+	"workspace_facts",
+	"job_facts",
+	"signup_facts",
+	"credit_facts",
+	"settings_check",
+	"price_list",
+	"plan_quote",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""

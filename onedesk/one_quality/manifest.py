@@ -1,6 +1,6 @@
 """OneQuality's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Roles, _lt
+from onedesk.one.registry.model import App, Settle, Roles, _lt
 
 APP = App(
 	id="one_quality",
@@ -58,4 +58,7 @@ APP = App(
 		"Quality Meeting": {"states": {"order": ("Open", "Closed")}},
 		"Quality Feedback": { "states": {"field": "document_type"}},
 	},
+	settle=(
+		Settle("access.settle"),
+	),
 )

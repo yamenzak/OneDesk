@@ -13,7 +13,7 @@ import tree
 
 FRONTEND = tree.ROOT / "frontend"
 SRC = FRONTEND / "src"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _entries() -> dict:

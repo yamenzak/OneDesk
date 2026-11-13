@@ -12,7 +12,7 @@ import tree
 
 GROUPS = tree.APP / "one_ai" / "groups.py"
 TOOLS = tree.APP / "one_ai" / "tools.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _lifted() -> dict:

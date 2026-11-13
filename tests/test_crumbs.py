@@ -12,7 +12,7 @@ import tree
 
 SHELL = (tree.APP / "public" / "js" / "shell.js").read_text()
 REPORTS = (tree.APP / "public" / "js" / "reports.js").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 
 
 def _rows():

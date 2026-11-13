@@ -52,7 +52,7 @@ def _whitelisted() -> dict[str, set[str]]:
 
 def _tools() -> dict[str, set[str]]:
 	"""OneAI's tools, as hooks.py names them, by module."""
-	hooks = (APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	found: dict[str, set[str]] = {}
 	for hook in ("one_ai_reads", "one_ai_suggests"):
 		block = hooks.split(f"{hook} = [", 1)[1].split("\n]", 1)[0]

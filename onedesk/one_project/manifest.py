@@ -1,6 +1,6 @@
 """OneProject's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Roles, _lt
+from onedesk.one.registry.model import App, Settle, Roles, _lt
 
 APP = App(
 	id="one_project",
@@ -62,4 +62,16 @@ APP = App(
 			"states": {"order": ("Draft", "Submitted", "Partially Billed", "Billed", "Payslip"), "hide": ("Completed", "Cancelled")},
 		},
 	},
+	hooks={
+		"one_homes": ("rates.homes",),
+	},
+	settle=(
+		Settle("hours.settle"),
+		Settle("access.settle"),
+		Settle("board.settle"),
+		Settle("progress.settle"),
+		Settle("retention.ready"),
+		Settle("kinds.settle"),
+		Settle("updates.settle"),
+	),
 )

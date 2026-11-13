@@ -13,7 +13,7 @@ from tests.test_task import _Board, _body, _load, _Row
 
 PROJECT = tree.APP / "one_project"
 TASK = tree.APP / "one_task"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def test_the_project_half_is_its_own_place():
@@ -1340,7 +1340,7 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 	assert (
 		"built.colors = labels.map((label) => hue(named[label]))" in colours and "showLegend" not in colours
 	)
-	assert '"/assets/onedesk/js/chart_colors.js"' in (tree.APP / "hooks.py").read_text()
+	assert '"/assets/onedesk/js/chart_colors.js"' in tree.hooks()
 	board = (PROJECT / "board.py").read_text()
 	assert 'HEALTH_BOARD = "Projects by Health"' in board
 	assert 'HEALTH = {"On Track": "Green", "At Risk": "Orange", "Off Track": "Red"}' in board
@@ -1348,7 +1348,7 @@ def test_the_other_views_of_projects_are_oneprojects_own():
 
 
 def test_administrator_runs_no_project():
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_project.members.nobody",' in hooks
 	assert "onedesk.one_project.patches.nobody_runs_it" in (tree.APP / "patches.txt").read_text()
 
@@ -1381,7 +1381,7 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 		'media.check(fields["file_name"])' in upload
 		and "fields.update(one_featured=1, is_private=0)" in upload
 	)
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert hooks.count('"onedesk.one_project.media.changed"') == 3
 	assert '"media": media.shown(project)' in (PROJECT / "portal.py").read_text()
 	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
@@ -1698,7 +1698,7 @@ def test_a_task_goes_to_a_group_a_template_joins_a_running_project_and_people_he
 		in (tree.APP / "public" / "js" / "project.js").read_text()
 	)
 	assert {"Task Ready", "Pending Review", "Due Date Changed"} <= set(tree.notifications())
-	assert '"onedesk.one_task.tell.changed"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_task.tell.changed"' in tree.hooks()
 
 
 def test_time_is_counted_apart_from_how_the_customer_pays():
@@ -1743,7 +1743,7 @@ def test_time_is_counted_apart_from_how_the_customer_pays():
 	money = space["count"](rows, date(2026, 10, 1), True)
 	assert money == {"month": 5, "hours": 9, "drafts": 3, "to_invoice": 1120, "invoiced": 600, "cost": 820}
 	assert space["count"](rows, date(2026, 10, 1), False) == {"month": 5, "hours": 9, "drafts": 3}
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_project.hours.fill"' in hooks
 	project = json.loads((PROJECT / "custom" / "project.json").read_text())
 	said = {one["fieldname"]: one for one in project["custom_fields"]}
@@ -1770,7 +1770,7 @@ def test_a_day_on_site_is_a_day_on_the_project():
 	assert worked(9.1, "Present", 8.5) == 9.1
 	assert worked(0, "Present", 8.5) == 8.5 and worked(0, "Half Day", 8.5) == 4.25
 	assert worked(0, "Absent", 8.5) == 0
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	assert '"onedesk.one_project.site_time.attended"' in hooks
 	assert '"on_cancel": "onedesk.one_project.site_time.cancelled"' in hooks
 	timesheet = json.loads((PROJECT / "custom" / "timesheet.json").read_text())
@@ -1795,7 +1795,7 @@ def test_a_task_over_its_hours_is_told_and_timing_it_does_not_finish_it():
 	assert "Hours Over Plan" in tree.notifications()
 	tell = (PROJECT / "tell.py").read_text()
 	assert "if not (flt(before.actual_time) <= planned < flt(doc.actual_time)):" in tell
-	assert '"onedesk.one_project.tell.over_plan"' in (tree.APP / "hooks.py").read_text()
+	assert '"onedesk.one_project.tell.over_plan"' in tree.hooks()
 	assert "one.completed = 1" not in (tree.APP / "one_task" / "timer.py").read_text()
 	assert '"completed": 0,' in (PROJECT / "hours.py").read_text()
 

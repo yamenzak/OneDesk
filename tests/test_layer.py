@@ -17,7 +17,7 @@ import tree
 
 LAYER = tree.APP / "one" / "layer.py"
 CUSTOMIZE = (tree.APP / "one_studio" / "customize.py").read_text(encoding="utf-8")
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _layer(*names):

@@ -1,6 +1,6 @@
 """OneCalendar's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, _lt
+from onedesk.one.registry.model import App, Settle, _lt
 
 APP = App(
 	id="one_calendar",
@@ -35,4 +35,11 @@ APP = App(
 			"legal": {"on": "2026-11-07", "commit": "5536d07d51f8", "by": "Claude, for Yamen"},
 		},
 	},
+	hooks={
+		"one_calendar_layers": ("events.LAYERS",),
+	},
+	settle=(
+		Settle("feed.settle"),
+		Settle("tell.install"),
+	),
 )

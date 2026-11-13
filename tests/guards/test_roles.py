@@ -16,7 +16,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import tree
 
 ROLES = tree.APP / "one" / "roles.py"
-HOOKS = tree.APP / "hooks.py"
 READS_IT = {tree.APP / "one" / "boot.py"}
 
 
@@ -70,7 +69,7 @@ def test_what_a_workspace_administers_is_granted_to_its_administrator():
 
 
 def test_the_role_exists_before_anything_runs():
-	said = HOOKS.read_text(encoding="utf-8")
+	said = tree.hooks()
 	for hook in ("after_sync", "after_migrate"):
 		first = said.split(f"{hook} = [", 1)[1].split(",", 1)[0].strip()
 		assert first == '"onedesk.one.roles.ensure"', f"{hook} starts with {first}"

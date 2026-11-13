@@ -1,0 +1,82 @@
+"""OneRegistry (onedesk/one/registry): every folder's manifest loads, what
+hooks.py builds from it points at code that is there, and a manifest that
+says something wrong is refused by name."""
+
+import ast
+import sys
+from dataclasses import replace
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from onedesk.one import registry  # noqa: E402
+from onedesk.one.registry import hooks  # noqa: E402
+
+FOLDERS = sorted(path.parent.name for path in (ROOT / "onedesk").glob("*/__init__.py") if path.parent.name == "one" or path.parent.name.startswith("one_"))
+
+
+def test_every_folder_has_a_manifest():
+	assert sorted(one.id for one in registry.apps()) == FOLDERS
+
+
+def test_names_are_read_from_the_manifest():
+	assert registry.name("one_book") == "OneBook" and registry.by_name("OneBook").id == "one_book"
+	assert registry.of_module("Stock").id == "one_inventory"
+
+
+def _defined(dotted: str) -> bool:
+	"""Whether a dotted path is a module of ours, or a name a module of ours
+	defines at its top level."""
+	parts = dotted.split(".")
+	for cut in range(len(parts), 0, -1):
+		path = ROOT.joinpath(*parts[:cut]).with_suffix(".py")
+		if path.exists():
+			rest = parts[cut:]
+			if not rest:
+				return True
+			names = {
+				getattr(node, "name", None) or getattr(getattr(node, "targets", [None])[0], "id", None)
+				for node in ast.parse(path.read_text(encoding="utf-8")).body
+			}
+			return len(rest) == 1 and rest[0] in names
+	return False
+
+
+@pytest.mark.parametrize("name", [*hooks.CONVENTIONS, "one_record_tabs", "one_homes", "one_slide_rows"])
+def test_every_entry_a_hook_is_given_is_there(name):
+	missing = [entry for entry in hooks.hook(name) if not _defined(entry)]
+	assert hooks.hook(name) and not missing, missing
+
+
+def test_every_settle_step_is_there():
+	steps = hooks.settles(install=True)
+	assert len(steps) > 40 and not [one for one in steps if not _defined(one)]
+	assert set(hooks.settles(install=False)) < set(steps), "install-only steps run at install alone"
+
+
+def test_one_settles_first_and_what_reads_everything_last():
+	steps = hooks.settles(install=True)
+	assert steps[0] == "onedesk.one.roles.ensure"
+	assert steps[-1] == "onedesk.one.companions.apply"
+
+
+@pytest.mark.parametrize(
+	"change, said",
+	[
+		({"kind": "widget"}, "kind"),
+		({"ui": "pretty"}, "ui"),
+		({"needs": ("one_nowhere",)}, "needs"),
+		({"countries": {"AE": "maybe"}}, "countries"),
+		({"owns": ("Stock",)}, "owns"),
+		({"name": "OneMail"}, "name"),
+	],
+)
+def test_a_wrong_manifest_is_refused_by_name(change, said):
+	apps = list(registry.apps())
+	book = next(one for one in apps if one.id == "one_book")
+	apps[apps.index(book)] = replace(book, **change)
+	with pytest.raises(registry.Invalid, match=said):
+		registry._check(apps)

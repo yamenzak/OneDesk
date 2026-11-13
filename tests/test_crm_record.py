@@ -27,7 +27,7 @@ def test_every_outcome_is_a_call_log_status():
 
 
 def test_notes_are_comments_so_the_notes_tab_is_gone():
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert hooks.count('"onedesk.one_crm.record.settle"') == 2, "after install and after migrate"
 	for doctype in ("lead", "opportunity"):
 		setters = json.loads((tree.APP / "one_crm" / "custom" / f"{doctype}.json").read_text())[

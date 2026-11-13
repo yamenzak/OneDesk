@@ -68,6 +68,7 @@ def main(folder: str, kind: str, title: str) -> Path:
 		"major": f"{major + 1}.0.0",
 		"minor": f"{major}.{minor + 1}.0",
 		"fix": f"{major}.{minor}.{fix + 1}",
+		"internal": f"{major}.{minor}.{fix + 1}",
 	}[kind]
 	if todays:
 		text = todays["path"].read_text(encoding="utf-8")

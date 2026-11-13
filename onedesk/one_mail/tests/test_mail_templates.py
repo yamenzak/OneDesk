@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one_mail" / "mail_templates.py").read_text()
-HOOKS = (tree.APP / "hooks.py").read_text()
+HOOKS = tree.hooks()
 COMPOSE = (tree.APP / "public" / "js" / "one_mail" / "mail_compose.js").read_text()
 
 

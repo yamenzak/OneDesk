@@ -555,3 +555,20 @@ def quotes_waiting(
 			for one in rows
 		]
 	}
+
+
+READS = (
+	"crm_facts",
+	"gone_quiet",
+	"why_we_lose",
+	"quotes_waiting",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"add_lead",
+	"plan_next_step",
+	"write_up_call",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

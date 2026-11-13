@@ -637,3 +637,30 @@ write_extension.action = mend_extension.action = design_record_type.action = ext
 extension_places.action = "studio"
 form_relations.action = "studio"
 write_extension.unshown = extension_code.unshown = ("code",)
+
+
+READS = (
+	"extensions_here",
+	"extension_mistakes",
+	"extension_code",
+	"extension_places",
+	"record_types_here",
+	"forms_here",
+	"form_relations",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"ai_setup.suggest_saved_report",
+	"ai_setup.suggest_dashboard",
+	"ai_setup.suggest_report_mail",
+	"ai_setup.suggest_level",
+	"ai_setup.suggest_profile",
+	"ai_setup.suggest_group",
+	"ai_setup.suggest_hold",
+	"write_extension",
+	"mend_extension",
+	"design_record_type",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

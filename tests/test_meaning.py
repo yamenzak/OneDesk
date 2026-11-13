@@ -94,5 +94,5 @@ def test_a_search_is_checked_against_the_reader_and_costs_nothing_twice():
 	remember = source.split("def remember_many(", 1)[1].split("\ndef ", 1)[0]
 	assert remember.index("digest(one)") < remember.index("embedded("), "unchanged text is never embedded again"
 	assert "proxy.ai_embed" in source, "embedded through the account, billed to the workspace"
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert "onedesk.one_ai.index.changed" in hooks and "onedesk.one_ai.index.catch_up" in hooks

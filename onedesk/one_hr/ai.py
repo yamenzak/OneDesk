@@ -1107,3 +1107,32 @@ def page(said: dict) -> str | None:
 		"last payroll, open positions, check-ins flagged, documents and contracts running out, attendance, "
 		"leave taken, payroll and the hiring funnel. How each part works is in OneHR's documentation (how_to)."
 	)
+
+
+READS = (
+	"my_leave",
+	"people_today",
+	"whos_off",
+	"papers_expiring",
+	"appraisal_facts",
+	"why_people_leave",
+	"interview_facts",
+	"ai_payroll.payroll_changes",
+	"ai_letters.letter_facts",
+	"ai_policy.hr_policy",
+	"ai_growth.goal_facts",
+	"ai_growth.training_options",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"claim_expense",
+	"book_leave",
+	"add_applicant",
+	"draft_feedback",
+	"draft_interview_feedback",
+	"ai_letters.request_letter",
+	"ai_growth.draft_goal",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

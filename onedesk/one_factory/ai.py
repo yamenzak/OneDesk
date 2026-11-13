@@ -325,3 +325,18 @@ def plan_work_order(
 		"proposal": proposals.propose("Create", "Work Order", changes={k: v for k, v in changes.items() if v}, why=why),
 		"state": "Proposed",
 	}
+
+
+READS = (
+	"work_order_facts",
+	"on_the_floor",
+	"plant_floor_now",
+	"sent_out_now",
+)
+"""The tools OneAI reads here (registry/hooks.py lists them in one_ai_reads)."""
+
+
+SUGGESTS = (
+	"plan_work_order",
+)
+"""The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""

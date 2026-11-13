@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 STORE = tree.APP / "one_storage" / "store.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 
 
 def _load(path: Path, names: tuple, **extra) -> dict:
@@ -447,7 +447,7 @@ def test_the_explorer_is_its_own_navigation():
 
 
 def test_files_left_on_the_disk_move_by_themselves():
-	hooks = (tree.APP / "hooks.py").read_text()
+	hooks = tree.hooks()
 	store = (tree.APP / "one_storage" / "store.py").read_text()
 	assert '"onedesk.one_storage.store.daily"' in hooks
 	assert "def daily()" in store and "enabled() and on_disk()" in store

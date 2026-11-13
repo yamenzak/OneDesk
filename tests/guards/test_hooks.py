@@ -21,6 +21,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import tree
 
+from onedesk.one.registry import hooks as registry_hooks
+
 CALLABLE_HOOKS = (
 	"scheduler_events",
 	"doc_events",
@@ -43,7 +45,7 @@ def _paths(node) -> list[str]:
 
 
 def declared() -> list[str]:
-	tree_ = ast.parse((APP / "hooks.py").read_text(encoding="utf-8"))
+	tree_ = ast.parse(tree.hooks())
 	found = []
 	for node in tree_.body:
 		if not isinstance(node, ast.Assign):
@@ -51,7 +53,7 @@ def declared() -> list[str]:
 		names = [t.id for t in node.targets if isinstance(t, ast.Name)]
 		if any(name in CALLABLE_HOOKS for name in names):
 			found.extend(_paths(node.value))
-	return sorted(set(found))
+	return sorted(set(found) | set(registry_hooks.settles(install=True)))
 
 
 def test_hooks_declare_some_callables():
@@ -109,7 +111,7 @@ def _assets(node) -> list[str]:
 
 
 def assets() -> list[str]:
-	tree_ = ast.parse((APP / "hooks.py").read_text(encoding="utf-8"))
+	tree_ = ast.parse(tree.hooks())
 	found = []
 	for node in tree_.body:
 		if not isinstance(node, ast.Assign):
@@ -137,7 +139,7 @@ def test_the_asset_exists(said):
 def test_no_hook_table_names_a_doctype_twice():
 	import ast
 
-	tree_ = ast.parse((APP / "hooks.py").read_text(encoding="utf-8"))
+	tree_ = ast.parse(tree.hooks())
 	for node in tree_.body:
 		if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
 			keys = [key.value for key in node.value.keys if isinstance(key, ast.Constant)]

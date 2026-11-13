@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 APPS = tree.APP / "one" / "apps.py"
-HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+HOOKS = tree.hooks()
 JS = (tree.APP / "public" / "js" / "apps.js").read_text(encoding="utf-8")
 
 

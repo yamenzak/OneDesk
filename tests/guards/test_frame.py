@@ -9,6 +9,9 @@ import pytest
 
 from onedesk.one import tiers
 from tests.bench import APPS
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
@@ -176,6 +179,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 	runtime = (public / "places.js").read_text()
 	assert "JSON.parse(JSON.stringify(data" in runtime, "an extension sees a copy, never the page's own"
 	assert "onedesk.places.tripped" in runtime
-	assert "/assets/onedesk/js/places.js" in (APP / "hooks.py").read_text()
+	assert "/assets/onedesk/js/places.js" in tree.hooks()
 
 

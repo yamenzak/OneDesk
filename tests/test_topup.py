@@ -42,7 +42,7 @@ def test_the_monthly_allowance_is_keyed_by_its_month():
 	source = ast.unparse(_function(TOPUP, "allowance"))
 	assert "key=" in source and "plan:" in source
 	assert "%Y-%m" in source, "a key without the month would grant once, ever"
-	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")
+	hooks = tree.hooks()
 	assert "onedesk.one_admin.topup.monthly" in hooks
 
 
