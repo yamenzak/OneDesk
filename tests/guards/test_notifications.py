@@ -7,6 +7,7 @@ sends is one file in `onedesk/notifications/`, and each name sent is declared.
 """
 
 import ast
+import functools
 import re
 import sys
 from pathlib import Path
@@ -142,10 +143,17 @@ def test_a_twin_follows_a_kind_of_its_own_app():
 			assert followed.get("roles") == one.get("roles"), name
 
 
-def _sent():
+@functools.cache
+def _sent() -> tuple:
 	"""Every `notify.notify(...)` and `notify.mail(...)`: which way, and the
 	type names its first argument can be (a name, or `a if x else b`)."""
+	return tuple(_sends())
+
+
+def _sends():
 	for path in _python():
+		if "notify" not in tree.text(path):
+			continue
 		for node in tree.walked(path):
 			func = getattr(node, "func", None)
 			if (

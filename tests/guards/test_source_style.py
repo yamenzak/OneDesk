@@ -33,10 +33,21 @@ def _python_comment_runs(path: Path) -> list[int]:
 	return runs
 
 
+def _may_hold_a_block(text: str) -> bool:
+	"""Whether more than LONGEST_BLOCK lines in a row hold a `#`, which a
+	block of comments needs: a file without is not tokenized."""
+	run = 0
+	for line in text.split("\n"):
+		run = run + 1 if "#" in line else 0
+		if run > LONGEST_BLOCK:
+			return True
+	return False
+
+
 def test_no_comment_block_is_an_essay():
 	long_ones = []
 	for path in tree.python():
-		if max(_python_comment_runs(path), default=0) > LONGEST_BLOCK:
+		if _may_hold_a_block(tree.text(path)) and max(_python_comment_runs(path), default=0) > LONGEST_BLOCK:
 			long_ones.append(str(path.relative_to(tree.ROOT)))
 	assert not long_ones, (
 		f"comment blocks over {LONGEST_BLOCK} lines in {long_ones} — "
@@ -99,7 +110,7 @@ def test_nothing_is_imported_and_unused():
 def test_the_essay_scan_would_catch_one(tmp_path):
 	essay = tmp_path / "essay.py"
 	essay.write_text("\n".join(f"# line {i}" for i in range(LONGEST_BLOCK + 2)) + "\nx = 1\n")
-	assert max(_python_comment_runs(essay)) > LONGEST_BLOCK
+	assert max(_python_comment_runs(essay)) > LONGEST_BLOCK and _may_hold_a_block(essay.read_text())
 
 	fine = tmp_path / "fine.py"
 	fine.write_text("# why this is here\nx = 1\n")
