@@ -107,3 +107,5 @@ detail.
 13 Nov, afternoon. D8, D12 (rules in tests/guards/test_reaches.py) and D3 done: none of the three was order (a stale atlas-site.json; OneCloud's check built its .docx twice across a second; the OneAI one already passed). P2.11 merged and done, 263 strings translated, the POT committed with it, "Make a Presentation for Each" put back to what it meant. D14, D15 added. P2 gate running on a fresh run.localhost (/tmp/gate.log). Agents in worktrees: P3.3 (with D14, D15) and P3.7 (with D6). P2.9 waits for the merge to main.
 
 P2 gate, site half: fresh run.localhost, 314 of 314, the first full run with nothing failing. The release half waits for Yamen's merge.
+
+13 Nov, evening. P3.3 and P3.7 merged and done, with D6, D14, D15. P3.7's new order found the importer leaving in_import on (33 checks); the runner now gives each check the flags it found: 314 of 314 (4ccc8f29). P3.8's first agent: --all 160 s to 62 s; a change still 35 s, so a second agent scopes per-file guards to the changed files. P3.9 (skills, CLAUDE.md) with another agent. After both: the P3 gate, then P4.
