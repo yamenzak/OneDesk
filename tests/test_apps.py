@@ -118,3 +118,13 @@ def test_the_demo_company_is_for_dev_sites_only():
 		assert "dev.require()" in body, path
 	assert "frappe.boot.one_dev &&" in (tree.APP / "public" / "js" / "setup_wizard.js").read_text()
 	assert 'bootinfo["one_dev"] = dev.site()' in (tree.APP / "one" / "boot.py").read_text()
+
+
+def test_an_app_with_an_agent_uses_oneais_credits():
+	from types import SimpleNamespace
+
+	from onedesk.one import marketplace
+
+	assert marketplace.uses(SimpleNamespace(credits=(), agent="accountant")) == ("ai",)
+	assert marketplace.uses(SimpleNamespace(credits=("ai",), agent="x")) == ("ai",)
+	assert marketplace.uses(SimpleNamespace(credits=("mail",), agent=None)) == ("mail",)

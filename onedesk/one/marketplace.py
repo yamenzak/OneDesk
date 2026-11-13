@@ -16,6 +16,13 @@ from frappe import _
 from onedesk.one import registry
 from onedesk.one.registry import credits, fields, switches
 
+
+def uses(one) -> tuple[str, ...]:
+	"""The kinds of credit an app uses: what its manifest says, and OneAI's
+	when it has an agent, since an agent's work is paid in OneAI's credits.
+	Pure."""
+	return (*one.credits, "ai") if one.agent and "ai" not in one.credits else tuple(one.credits)
+
 def shown(one) -> bool:
 	"""Whether an app has a page: an app people use, on the rail, and not
 	OneAdmin's or a private app's, which are shown apart."""
@@ -58,7 +65,7 @@ def pages(apps, *, off, held, kept_now, steps, plans, say=str, names=None, media
 				"media": media(one) if media else [],
 				"on": one.id not in off,
 				"plan": {"included": not missing, "needs": None if not missing else least_plan(one.plan, plans)},
-				"credits": [registry.filled(say(credits.get(kind).said)) for kind in one.credits],
+				"credits": [registry.filled(say(credits.get(kind).said)) for kind in uses(one)],
 				"needs": [names.get(other, other) for other in one.needs],
 				"needed_by": needed_by,
 				"kept": say(why) if why else "",
