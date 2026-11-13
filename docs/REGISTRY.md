@@ -17,7 +17,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 2.12.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -43,7 +43,7 @@ Not marked ready yet.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | not yet |
 | 20. One home, clean code | 12 | — |
 
@@ -69,7 +69,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -95,7 +95,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -121,7 +121,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 2.1.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -147,7 +147,7 @@ Not marked ready yet.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | not yet |
 | 20. One home, clean code | 12 | — |
 
@@ -173,7 +173,7 @@ Not marked ready yet.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | not yet |
 | 20. One home, clean code | 12 | — |
 
@@ -199,7 +199,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -225,7 +225,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -251,7 +251,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.3.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -277,7 +277,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 2.2.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -303,7 +303,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.1.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -329,7 +329,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 2.6.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -355,7 +355,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -381,7 +381,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.11.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -407,7 +407,7 @@ Not marked ready yet.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | not yet |
 | 20. One home, clean code | 12 | — |
 
@@ -433,7 +433,7 @@ Not marked ready yet.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | not yet |
 | 20. One home, clean code | 12 | — |
 
@@ -459,7 +459,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -485,7 +485,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.18.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -511,7 +511,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -537,7 +537,7 @@ Not marked ready yet.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | not yet |
 | 20. One home, clean code | 12 | — |
 
@@ -563,7 +563,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.2.0 |
 | 20. One home, clean code | 12 | — |
 
@@ -589,7 +589,7 @@ Ready.
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
+| 18. Permissions and roles | 12 | — |
 | 19. Legal | 5 | in 1.5.0 |
 | 20. One home, clean code | 12 | — |
 

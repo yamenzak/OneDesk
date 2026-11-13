@@ -29,6 +29,7 @@ A person looks: the demo company uses every part of it and nothing in the demo m
 - `rules-hooked`: a rule of One's not on its record's hooks (`tests/guards/test_rules.py::test_every_rule_is_on_its_records_hooks`)
 - `rules-every-way`: a rule with no demo check that changes it by bulk edit, report view and import (`tests/guards/test_rules.py::test_every_rule_is_changed_every_way_on_the_demo`)
 - `rules-no-way-round`: an endpoint writing a field a rule owns with frappe.db.set_value (`tests/guards/test_rules.py::test_no_endpoint_writes_round_a_rule`)
+- `guard-sql-from-input`: a query whose text is built from a function's input or the request rather than passed as parameters (`tests/guards/test_oneguard.py::test_sql_takes_its_values_as_parameters`)
 
 ### 3. Hand-offs
 
@@ -215,6 +216,10 @@ A module is held to it before it is marked ready.
 - `roles-shipped`: a module whose roles do not ship from its abilities.py (`tests/guards/test_ready.py::test_a_module_ships_its_roles`)
 - `grants-through-abilities`: a share written outside rights.grant (`tests/guards/test_ready.py::test_a_module_grants_through_abilities_alone`)
 - `centres-draw-roles`: a module's screen drawing the role matrix or notification choices its centres own (`tests/guards/test_ready.py::test_a_module_leaves_roles_and_notifications_to_their_centers`)
+- `guard-unchecked`: a whitelisted function that reads or writes records past frappe's checks and checks nothing on the way (`tests/guards/test_oneguard.py::test_a_whitelisted_function_checks_permission`)
+- `guard-get-writes`: a whitelisted function that changes data and still answers a GET, which a link can make for a signed-in person (`tests/guards/test_oneguard.py::test_a_write_is_post_only`)
+- `guard-secret-in-code`: a key or token typed into the code, by its known shape or as a high-entropy value given a secret's name (`tests/guards/test_oneguard.py::test_no_secret_is_in_the_code`)
+- `guard-guest-fields`: a function a guest reaches that hands over a whole record (a doc, as_dict(), fields *) rather than named fields (`tests/guards/test_oneguard.py::test_a_guest_is_given_only_named_fields`)
 
 ### 19. Legal
 

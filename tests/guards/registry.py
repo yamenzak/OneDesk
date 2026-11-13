@@ -842,6 +842,36 @@ GUARDS = [
 		"tests/guards/test_ready.py::test_a_module_leaves_roles_and_notifications_to_their_centers",
 	),
 	Guard(
+		"guard-unchecked",
+		18,
+		"a whitelisted function that reads or writes records past frappe's checks and checks nothing on the way",
+		"tests/guards/test_oneguard.py::test_a_whitelisted_function_checks_permission",
+	),
+	Guard(
+		"guard-get-writes",
+		18,
+		"a whitelisted function that changes data and still answers a GET, which a link can make for a signed-in person",
+		"tests/guards/test_oneguard.py::test_a_write_is_post_only",
+	),
+	Guard(
+		"guard-sql-from-input",
+		2,
+		"a query whose text is built from a function's input or the request rather than passed as parameters",
+		"tests/guards/test_oneguard.py::test_sql_takes_its_values_as_parameters",
+	),
+	Guard(
+		"guard-secret-in-code",
+		18,
+		"a key or token typed into the code, by its known shape or as a high-entropy value given a secret's name",
+		"tests/guards/test_oneguard.py::test_no_secret_is_in_the_code",
+	),
+	Guard(
+		"guard-guest-fields",
+		18,
+		"a function a guest reaches that hands over a whole record (a doc, as_dict(), fields *) rather than named fields",
+		"tests/guards/test_oneguard.py::test_a_guest_is_given_only_named_fields",
+	),
+	Guard(
 		"legal-said",
 		19,
 		"a version that moves what a module agrees on without saying so",

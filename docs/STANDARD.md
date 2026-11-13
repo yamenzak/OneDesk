@@ -45,7 +45,8 @@ Every rule lives on the record's own hooks (`validate`, `on_update`,
 Why: a list's bulk edit, the report view's inline edit and Data Import skip
 the screen. A rule in an endpoint behind a button is a rule they get round.
 
-Held by: rules on hooks and the ways round them.
+Held by: rules on hooks and the ways round them, and OneGuard's rule that
+a query takes what it is sent as parameters.
 
 - Buttons and endpoints offer and orchestrate, never decide.
 - The demo suite changes each rule every way: the screen, a bulk edit, a
@@ -597,7 +598,9 @@ Why: a button hidden by the screen is still a call anybody can make. Roles
 that ship with the module, changed in AccessCenter, mean a workspace never
 starts open to everybody.
 
-Held by: rules on shipped roles, grants and System Manager; before live.
+Held by: rules on shipped roles, grants and System Manager, and OneGuard's
+rules on what a call checks, which method may change data, secrets in the
+code and what a guest is given; before live.
 
 - Each screen is walked as each person who uses it.
 - The module's roles come from its `abilities.py`; one person given more on
