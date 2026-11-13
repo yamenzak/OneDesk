@@ -1,494 +1,11 @@
 # OneCloud
 
-Written by hand. What OneCloud does and how to use it. Everything above
-**Under the hood** is written for the people who use it, and OneAI reads it to
-answer "how do I…" questions. Under the hood is for the people who build it.
-
-OneCloud holds the company's files in one place: your own files, files your
-team shares, and every file attached to a record in One, such as an
-invoice's PDF or an employee's passport scan. It works like the file
-explorer on your computer. Files are kept in cloud storage, not on the
-server.
-
-## Finding your way
-
-**OneCloud** in the dock opens the explorer at full width. The folder tree on
-the left is the navigation, so the side panel starts closed.
-
-## What is in OneCloud
-
-- **My Files**: your own folders and files. No one else sees them unless you
-  share them.
-- **Recent**: files you opened or added lately, newest first.
-- **Starred**: files and folders you starred (right-click › **Star**).
-- **Shared with Me**: what other people shared with you.
-- **Libraries**: folders shared by a team (see below).
-- **Company**: folders everyone in the company can open and add to. You can
-  rename, move and delete what you added. So can a workspace administrator.
-- **Records**: a folder for each record type that has files (Sales Invoice,
-  Employee, Project…), with a folder for each record inside it. You only see
-  records you can open. Dropping a file on a record's folder attaches it to
-  that record.
-- **Network**: SFTP and WebDAV servers you connected (see below).
-- **Requests**: files you requested from people, and their progress (see
-  below).
-- **Recycle Bin**: deleted items, kept for 30 days. **Restore** puts an item
-  back where it was.
-
-### Files on a record
-
-Every record in One has a **Files** tab at the end of its form, with the
-number of files beside it. The tab is this explorer, opened on the record's
-folder. You can drop files in, preview, rename, share and request files
-with **New › File request**. Click the path to open the record's folder in
-OneCloud. The tab appears once the record is saved. **Files** in the side
-panel opens the same tab.
-
-A project's folder also has a **Featured Media** folder: the photos and
-videos the project is shown with. See OneProject's Help, A Project's Page. It has a **Tasks**
-folder too, each of its tasks that holds files as a folder of its own, and a
-folder for each sub-project, which is that sub-project's folder. The files
-stay attached to their own task or sub-project. Inside a record's Files tab,
-those folders open in place; anything else opens OneCloud.
-
-### Attaching from OneCloud
-
-The upload dialog (any attach button, an image in the text editor, a
-comment's attachment) has a **OneCloud** option next to My Device, Link and
-Camera.
-
-1. Choose **OneCloud**.
-2. Double-click a file, or select several and press **Attach**.
-
-The file is attached without uploading it again. A file uploaded through the
-dialog that isn't attached to a record goes to your My Files.
-
-### Copying and moving
-
-- Dragging a file between a record and one of your folders copies it. The
-  record keeps its file and your folder gets a copy.
-- Dragging between your own folders moves it.
-- Two items with the same name in one folder are kept as *Report.pdf* and
-  *Report (2).pdf*.
-
-## Using the explorer
-
-- **Folder tree**: click a folder to open it, or the arrow to expand it.
-- **Address bar**: back, forward and up, then the current path. Click part of
-  the path to go there, or click the empty space, type a path such as
-  `My Files/Projects/2026` and press Enter.
-- **Search**: searches the current folder and its subfolders. **Search
-  everywhere** widens it to every file you can open: My Files, Company,
-  Shared with Me, your libraries and the files of every record you can see.
-  At the top level of OneCloud it searches everywhere by default.
-  Right-click a result for **Open file location**. Servers under Network
-  aren't searched.
-- **New**, beside the folder's name: create a folder, a workbook, a document
-  or a presentation, or upload files or a whole folder. You can also drag
-  files or folders from your computer onto the page or onto a folder.
-  When OneAI is on, **New** also makes a picture, music, a short video or
-  speech from what you describe, saved in the folder. A picture and speech
-  arrive in a few seconds; music and a video take longer, and you get a
-  notification when they're ready.
-- **Details** and **Tiles**, at the other end of the folder's name, switch
-  the view. Click a column heading to sort by it.
-- **Choose** files with the box at the start of each row (on Tiles, in a
-  tile's corner), with Ctrl or Cmd and Shift as you click, or by dragging a
-  box from an empty part of the list. The box over the list chooses all.
-  What you can do with them (cut, copy, rename, share, download, delete)
-  takes the place of the column headings, with how many you chose.
-- **Color…** in a folder's right-click menu draws its icon in a color, for
-  everybody who sees it, in the list and the tree.
-- **Preview pane**: the button at the end of the address row shows the
-  selected file (images, PDFs, text, video and audio) with its size, date
-  and owner. On a phone a file opens instead.
-- **Open** a file (double-click, Enter, or tap on a phone) to see it over
-  the whole window: pictures, videos, music, PDFs, Markdown, and text or
-  code files. The arrows, the arrow keys or a swipe go to the next file in
-  the folder; Back or Escape closes it. A file One can't show offers
-  **Download**.
-- **Edit** a picture (PNG, JPEG or WebP) from the button over it: crop it
-  free or to a shape, turn it, flip it, straighten it, set its width, and
-  change its brightness, contrast and saturation. **Save** keeps the old one
-  as a version; **Save as Copy** makes a new file beside it.
-- A Word, Excel, PowerPoint or OpenDocument file that OneWorkbook or
-  OneWriter can't show as it is opens as a PDF preview straight away, for 1
-  credit. Each version of a file is turned into a PDF once, so opening it
-  again is free. Other files in the viewer offer **Preview**. **Convert to
-  PDF** in its right-click menu saves the PDF beside it.
-- **Open** a PowerPoint file to make it a presentation in OneSlide, beside
-  it. A Word file opens in OneWriter and an Excel file in OneWorkbook.
-- **Combine into PDF…** puts the PDFs and pictures you chose into one new
-  PDF in the folder. Drag the rows in the dialog to change their order.
-- **Right-click** an item to open, download, copy a link, cut, copy, paste,
-  rename or delete it.
-- **Drag** items onto a folder to move them. Hold Ctrl to copy instead.
-
-Changes other people make appear in the open folder without refreshing.
-
-**Keyboard shortcuts**
-
-| Key | Action |
-| --- | --- |
-| Enter | Open |
-| Backspace | Back |
-| F2 | Rename |
-| Delete | Move to Recycle Bin |
-| Shift+Delete | Delete permanently |
-| Ctrl+A | Select all |
-| Ctrl+X, Ctrl+C, Ctrl+V | Cut, copy, paste |
-| Ctrl+Shift+N | New folder |
-| Ctrl+F | Search |
-| Ctrl+Shift+F | Search everywhere |
-| F5 | Refresh |
-
-Click, Ctrl+click and Shift+click select one item, several items or a range.
-
-The current folder is in the page's address, so the browser's back button
-works. A link you send to someone opens the same folder for them, if they
-have access to it.
-
-## Sharing with the team
-
-1. Select a file or folder and press **Share** (or right-click › **Share…**).
-2. Add people and choose **View** or **Edit**.
-3. Press **Share**. They get a notification that opens it.
-
-- Sharing a folder shares everything in it, including what's added later.
-- People who can edit can add, rename, move and delete inside it, and share
-  it with others. People who can view can open and download.
-- **Shared with Me** lists what was shared with you and who shared it. You
-  can copy items from it into your own folders, but not move them, since
-  they still belong to the owner.
-- The Share dialog lists everyone with access. You can change their access
-  or remove them. Anyone can remove themselves.
-- A file attached to a record is shared by sharing the record.
-- Only people on the team can be added. For anyone else, create a link.
-
-## Sharing outside the team
-
-In the Share dialog, **Create link** makes a link for people outside the
-team, such as a customer, supplier or accountant. The link is copied so you
-can paste it into an email or chat. You choose:
-
-- **Access**: Anyone With Link, or Invited People Only. Each
-  invited person is emailed the link. When they open it, they enter their
-  email address and get a code, so a forwarded link doesn't work for anyone
-  else.
-- **What they can do**: view, download, and for a folder, upload. With
-  upload on, people can send you files without an account. You're notified
-  when files arrive.
-- **Expires on**, and a **Password** for a link anyone can open.
-
-People with the link see the file, or the folder and its current contents.
-Files you add later appear, and files you delete don't.
-
-A file's Share dialog lists its links and how often each was opened. The
-cross removes a link at once. Anyone who can edit a record can create a link
-to its files.
-
-## Libraries
-
-A library is a folder shared by a team, such as a department's documents or
-a project's files, with its own members.
-
-1. Go to **Libraries** and choose **New › Library**. You're its owner.
-2. Inside the library, press **Members** to add people with a role:
-   - **Reader**: can view and download.
-   - **Member**: can also add, change and delete files.
-   - **Owner**: can also rename the library and manage members.
-
-Only members see a library. If you leave or are removed, you lose access,
-including to files you added. A library always has at least one owner.
-Workspace administrators can open every library.
-
-## Versions and activity
-
-When you upload a file with the same name as one in the folder, you can
-**Replace** it or **Keep both**. Replacing keeps the old file as an earlier
-version. So does **Upload new version** (right-click a file).
-
-The preview pane shows a file's versions. You can open any of them, or
-**Restore** one, which keeps the current file as a version. A version can't
-be restored while somebody is editing the file in OneOS. It also shows the
-file's activity: who created, renamed, moved, shared, linked or replaced it.
-A replaced file keeps its shares and links.
-
-Saves by one person in one sitting are one version: in OneWorkbook or
-OneWriter, in OneOS or from the drive, each save less than 10 minutes after
-the one before takes the place of the last. The version from before you
-started is always kept.
-
-## As a drive on your computer
-
-You can open a OneCloud folder as a network drive on your computer.
-
-1. Right-click a folder and choose **Connect as a drive…** (or right-click an
-   empty space for the current folder).
-2. Copy the address and add it as a drive: *Map network drive* on Windows,
-   *Connect to Server* on macOS, *Other Locations* on Linux.
-3. Sign in with your email and a drive password. Press **Create password**,
-   name the computer, and copy the password. It's shown only once.
-
-Create one password per computer. Each is listed with when it was last used,
-and the cross removes one without affecting the others. A drive password
-only opens your drive. It doesn't work for One in a browser or for the API.
-
-The drive works like any other: open, save, drag in, rename, create folders
-and delete. It shows exactly what you can open in OneCloud. Saving over a
-file keeps the old one as a version, and deleting moves it to the Recycle
-Bin. A document, workbook or presentation made in One shows as a Word,
-Excel or PowerPoint file, and saving it there saves it back into One.
-
-While you have a file open from the drive in Word, Excel or LibreOffice,
-nobody else can change it: their app opens it read-only and says it's
-yours, and OneOS and the editors in OneCloud do the same. If somebody is
-editing it in OneWorkbook, OneWriter or OneOS, your app opens it
-read-only and says who. Your saves while it's open are one version.
-
-An app that doesn't hold the file open, such as one on a phone, never
-saves over a newer version. If the file changed after you opened it, your
-save is kept beside it, named for you, such as *Budget (Huda's copy).xlsx*,
-and your next saves go into that copy. If somebody moves a file you have
-open to the Recycle Bin, you're told.
-
-## Servers as folders
-
-**Network › New › Server connection** connects an SFTP or WebDAV server, such
-as a supplier's upload folder, an old file server or a NAS, and shows it as a
-folder.
-
-1. Enter a name and the server.
-2. Enter the user name and a password, or a private key for SFTP.
-3. Optionally set the folder on the server to start from.
-
-Files are read live from the server each time you open the folder. You can
-open, preview and download them, create folders, rename and delete, and drag
-files between the server and your folders, which copies them. Deleting on a
-server deletes the file on the server. There's no Recycle Bin there.
-
-A connection is private to you unless a workspace administrator ticks
-**Share with everyone on the team**. Right-click it for **Edit connection…**
-or **Disconnect**, which leaves the server unchanged. OneCloud doesn't
-connect to addresses on a private network.
-
-## Asking for files
-
-A file request asks people, such as a supplier, new hire or customer, for
-specific files by name: *Trade licence*, *Bank letters*, *Passport*.
-
-1. In any folder or record, choose **New › File request**.
-2. Enter a title, the recipients' email addresses, and optionally a due date
-   and a message.
-3. Add each file you need (see below) and press **Send request**.
-
-Each person gets their own link by email. If the workspace can't send email
-yet, copy each link and send it yourself. The link opens a page listing the
-files. They upload each one there without an account, and can replace a file
-they got wrong.
-
-For each file:
-
-- **File**: its name, as they'll see it. What they send is saved under this
-  name, so *Photo.jpg* rather than *IMG_4418.jpg*.
-- **Required**: whether the request is complete without it.
-- **Multiple**: whether they can send more than one.
-- **File Types**: allowed types, like `pdf, jpg`. Other types are refused.
-  Leave empty to allow any type.
-- **Saved To**: on a record, where the file goes, picked from one list you
-  can search: a file field on it, such as an employee's *Image*, or a row of
-  one of its tables by kind, such as *Employee Document › Passport*. The file
-  goes on that row, replacing the old scan when it is a renewal, or on a new
-  row. Leave **File** empty and it is named after what you picked. A request
-  that fills fields can go to one person only.
-
-When the file goes in a table, the sender is also asked for the row's other
-plain columns, such as its number and dates, with the file. When OneAI
-reading is on, it fills them from the file and the sender checks them.
-
-Someone asked who has an account here also sees each file under **Asked of
-You** on One's Home, and sends it from there without the link.
-
-Where files go:
-
-- From a folder: a new folder inside it, named after the request, with a
-  folder for each person when you ask several people.
-- From a record: attached to the record.
-- From **Requests**: a new folder in My Files.
-
-**Requests** lists each request and how many people have sent everything.
-Open one to see what arrived and from whom. Right-click › **Progress…** shows
-each person against each file, with their link to copy, **Remind** and
-**Close request**. Once closed, the links no longer accept files.
-
-You're notified as each file arrives. People who haven't finished get an
-email reminder three days and one day before the due date, and on the day.
-
-## Where files are kept
-
-Every file uploaded anywhere in One goes to cloud storage, whether it's
-attached to an invoice, dropped in a chat or added to OneCloud. Files open
-straight from cloud storage, so large files don't slow the workspace down.
-Attaching and opening files works the same as before.
-
-Files added before cloud storage was turned on stay on the server until
-they're moved, which happens by itself each night.
-
-## How full the workspace is
-
-At the foot of OneCloud's rail are two bars: Storage and Database, each
-against what the plan allows, amber from 90% and red when over. Storage is
-what the account measured in cloud storage last night, so a file added
-today shows tomorrow; the database is measured when the page opens. A
-workspace with no plan limit, or not yet linked to an account, shows the
-size without a bar. The same numbers are on Settings › Plan, and
-administrators are told by mail at 90%.
-
-## How big a file can be
-
-Up to 5 GB per file, the most R2 accepts in one upload. This applies however
-the file arrives: the explorer, a record's attach button, a drive or a link.
-The real limit is the workspace's storage. An upload is refused when there
-isn't room for it.
-
-## Opening a file
-
-Clicking a file anywhere in One opens it in One: a picture, a PDF, a video
-or a text file shows as it is. Downloading saves it under its own name.
-
-A workbook opens in OneWorkbook, in the same tab. **New › Workbook** makes
-one in the folder you are in (OneWorkbook's guide). A workbook's menu has
-**Download as Excel** and **Download as CSV**.
-
-### Office files
-
-An Excel or CSV file opens in OneWorkbook, and a Word file in OneWriter,
-when they keep everything in it. What is changed is saved back into the
-same file, and what it held before is kept as a version. A file with
-something they don't keep, such as comments or charts, opens as an exact
-preview instead, so looking at it never changes it.
-
-| File | Clicking it | **Edit** offers |
-| --- | --- | --- |
-| Excel (.xlsx), CSV, Word (.docx) | OneWorkbook or OneWriter, or the preview if they would drop something | **Edit in OneWorkbook** or **Edit in OneWriter**, **Edit in OneOS**, **Download** |
-| PowerPoint (.pptx) | The preview | **Make a Presentation**, **Edit in OneOS**, **Download** |
-| With macros (.xlsm, .docm), older Excel (.xls) | The preview | **Edit in OneOS**, **Download**, **Make a One Copy** |
-| OpenDocument, older Word and PowerPoint (.doc, .ppt) | The preview | **Edit in OneOS**, **Download** |
-
-**Edit** is at the top of the preview, and in the file's right-click menu.
-
-- **Make a Presentation** makes a new OneSlide presentation from the slides.
-  The PowerPoint file stays as it is.
-- **Make a One Copy** makes a workbook or document of One's own from the
-  file, beside it. The file stays as it is.
-- **Edit in OneOS** says what an hour of it costs.
-
-A file somebody is editing says so under its name, such as **Huda is
-editing in OneWorkbook**.
-
-### When the file has more than the editor keeps
-
-OneWorkbook and OneWriter don't keep everything an Excel or Word file can
-hold. OneWorkbook keeps an Excel file's look and changes only the cells you
-edit, but charts, slicers, shapes and a few more change or go; OneWriter
-drops comments, tracked changes, headers and footers and the like. Choosing **Edit in OneWorkbook** or **Edit in OneWriter** on
-such a file first names them, such as *This file has charts and slicers
-OneWorkbook can't keep.*
-
-| Button | What it does |
-| --- | --- |
-| **Edit in OneOS** | Opens the file in a full office app, which keeps everything. |
-| **Edit Here Anyway** | Opens it in OneWorkbook or OneWriter. Nothing is dropped until you choose Save Over Original. |
-
-In the editor, a bar over it names what would go, and your changes stay
-there until you choose:
-
-| Button | What it does |
-| --- | --- |
-| **Save Over Original** | Saves your changes into the file. What the bar names is dropped. The file as it was is kept as a version. |
-| **Save as Copy** | Saves your changes as a new file beside it, and goes on in the copy. The original stays as it was. |
-
-If a new version of the file arrives before you choose, your changes are
-kept as a copy beside it, named for you, such as *Budget (Huda's copy)*.
-Until you choose, clicking the file opens it in the editor with the bar.
-
-### Workbooks, documents and presentations made in One
-
-| Made in | Clicking it | **Edit** offers |
-| --- | --- | --- |
-| OneWorkbook | OneWorkbook | **Edit in OneWorkbook**, **Edit in OneOS**, **Download as Excel** |
-| OneWriter | OneWriter | **Edit in OneWriter**, **Edit in OneOS**, **Download as Word** |
-| OneSlide | OneSlide | **Edit in OneSlide**, **Edit in OneOS**, **Download as PowerPoint** |
-
-A workbook, document or presentation made in One and saved from Excel,
-Word or PowerPoint on the drive, or in OneOS, keeps what it was as a
-version first. If the file had something One doesn't keep, the bar says so
-the next time it is opened.
-
-A private file opens only for you and for people who can see the record it's
-attached to. Anyone else who gets the link sees nothing. Public files, such
-as a logo on a web page or an image in an email, open for anyone.
-
-## Editing in OneOS
-
-OneOS is a desktop in the browser. It opens a Word, Excel, PowerPoint,
-OpenDocument or CSV file in a full office app, without installing anything.
-A workbook, document or presentation made in One opens there as an Excel,
-Word or PowerPoint file, and each save comes back into it, with what it was
-before kept in **Version History** as *Before a OneOS save*. A workbook of a
-record's table, a document with a record's fields and a presentation with
-words from records are edited only in their own editor.
-
-1. Open the file and choose **Edit › Edit in OneOS**, or right-click it
-   and choose **Edit in OneOS**.
-2. OneOS opens in a new tab. It takes a minute or two the first time.
-3. Edit, then save as you would on a computer. Each save is kept in OneCloud
-   as a new version of the file.
-4. When you are done, choose **Close in OneOS** on the file, or close the
-   app in OneOS.
-
-| What you see | What it means |
-| --- | --- |
-| **You are editing in OneOS** under the file's name | You have it open. Choose Edit in OneOS again to go back to it. |
-| **Huda is editing in OneOS** | Someone else has it open. You can **Make a Copy** and edit that, or **View Read-Only**. |
-| **Huda is editing it in OneWorkbook** when you open it in OneOS | Someone has it open to change it there. Make a copy, or wait until they leave it. |
-| **Samir is editing this in OneOS** over the editor | It opens read-only in OneWorkbook or OneWriter until he closes it. |
-| A warning that it closes in 5 minutes | Nothing was typed or clicked for 10 minutes. Use it to keep it open. |
-
-Only one person edits a file in OneOS at a time, and never while somebody
-has it open to change in OneWorkbook or OneWriter. A file you can only read
-offers **Make a Copy** too, put beside it or in My Files. While a file is
-open in OneOS, saving it from the drive is refused too.
-
-A session closes by itself after 15 minutes without use, after 8 hours, or
-when the workspace runs out of OneCredits. You are told when it does, and
-what you saved is kept. Each minute OneOS is open uses OneCredits, and
-**Edit in OneOS** says how many an hour takes. OneOS isn't offered during a
-trial.
-
-## Asking OneAI
-
-The OneAI panel in OneCloud knows the open folder and the selected file.
-
-- With a file selected: **Summarise this file**, **Who can see this?** and
-  **Find a file…**
-- With nothing selected: **Find a file…** and **What is taking the space?**
-
-**Find a file…** starts the question "Find the file that" for you to finish,
-for example "…has our trade licence in it". It searches the contents of
-files, not just their names. **What is taking the space?** lists your largest
-files and how full the workspace's storage is.
-
-OneAI only reads files you can open, and only when you ask. It doesn't change
-anything in OneCloud. Sharing, moving and deleting are done in the explorer.
-
-**Read with OneAI** on a file's menu has OneAI read that file now, file it
-and act on it. A folder whose new files OneAI reads is added in One, under
-**OneAI › What OneAI Reads**. Scans and photos use OneCredits.
-
-With nothing selected, the preview pane shows the folder: how many folders
-and files it holds and their total size. For your own folders, it also shows
-who can see the folder and whether OneAI reads it.
+The one file for agents, OneAI and us: what OneCloud is made of, its rules,
+where each file is, and the decisions that cost something. What people read
+is in `docs/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
+folder).
 
 ## Connections
 
@@ -505,7 +22,7 @@ who can see the folder and whether OneAI reads it.
 
 ## Under the hood
 
-For the people who build OneCloud. OneAI does not read past this heading.
+For the people who build OneCloud. OneAI's `how_to` reads `docs/`, never this file.
 
 **What OneAI makes** (`made.py`). Four jobs in `one_ai/jobs.py`,
 `cloud_picture`, `cloud_music`, `cloud_video` and `cloud_voice`, each with its
@@ -801,12 +318,12 @@ not a second R2 integration.
   believes nothing else the browser says except the path inside a dropped
   folder. Frappe's own files are keyed by their MD5 (`store.key_for`), which
   a browser cannot work out cheaply for a large file.
-- `frontend/src/cloud/` — the explorer, one island (`onedesk.onecloud`)
+- `frontend/src/cloud/` — the explorer, one island (`onedesk.onecloud`, `island.js`)
   with four hosts: `page/onecloud` on the window, a record's Files tab and
-  files dialog (`onedesk.mount_cloud`, `public/js/onecloud_picker.js`), the
+  files dialog (`onedesk.mount_cloud`, `public/js/one_storage/onecloud_picker.js`), the
   attach picker, and the Files views of a project, a task and an item. The
   dialogs it opens — share, links, libraries, mount, request, Drive — are
-  desk dialogs in `public/js/onecloud_dialogs.js` (and `.css`), loaded with
+  desk dialogs in `public/js/one_storage/onecloud_dialogs.js` (and `public/css/one_storage/`), loaded with
   `frappe.require` the first time the explorer is opened, so a desk that never
   opens OneCloud never downloads them. It draws and never decides: every list and
   every change is a call above, and a refused one shows the server's reason.
@@ -815,7 +332,7 @@ not a second R2 integration.
   reader's user settings (under File), and follow them to another browser.
   R2's bucket must allow a browser `PUT` from the workspace's origin (CORS);
   where it does not, uploads fall back to `here` on their own.
-- `public/js/onecloud_picker.js` and `api.attach` — the upload dialog.
+- `public/js/one_storage/onecloud_picker.js` and `api.attach` — the upload dialog.
   Frappe's FileUploader has an extension point, `UploadOptions`: a button
   beside My Device that is handed the dialog, the mounted uploader and the
   doctype, name and field. OneCloud is one, and opens the explorer in
@@ -889,7 +406,8 @@ not a second R2 integration.
   unsaved record, as Frappe hides its footer.
 
 - `share.py` — people on a file or folder. A share is Frappe's own DocShare:
-  read to view, write to edit. `namespace.granted` reads the shares on an
+  read to view, write to edit, written and taken away through `rights.share`
+  and `rights.unshare` (one/rights.py), as every module's grants are. `namespace.granted` reads the shares on an
   item and on every folder above it (`chain`, asked once a request per
   folder; `grants`, one query a request), and `may` honours them for staff
   after their own things and before a home is its owner's alone. Whoever may
@@ -1154,32 +672,31 @@ What was asked for, and what each became.
   also a path you can type, details and tiles, a preview pane, a context menu,
   drag and drop, and the keyboard shortcuts of Windows.
 
-What is not built: creating documents, sheets and slides here (OneWriter,
-OneWorkbook and OneSlide will make them into OneCloud folders), and OneCode's
-repositories, which will be folders with history.
+### The module's own files
 
-### The plan
+What every module keeps (docs/READY.md, A module's folder), and what is
+OneCloud's in each:
 
-1. **The place and the store.** OneCloud in the dock; every new file kept in
-   R2 through admin's signed URLs; files already on the server moved each
-   night. *Done.*
-2. **The namespace.** My Files, Shared with Me, Libraries and Records as one
-   tree of paths; create, rename, move, copy, delete to a recycle bin and
-   restore; who may do what, decided in one place. *Done.*
-3. **The explorer.** The page itself: navigation pane, address bar, details
-   and tiles, preview, context menu, drag and drop, keyboard, search; uploads
-   straight to R2. *Done.*
-4. **Sharing inside the team.** People, view or edit, reaching everything in
-   a folder; Shared with Me. *Done.*
-5. **Sharing outside.** Links and email invitations, and the page a guest
-   sees. *Done.*
-6. **Libraries and versions.** Team libraries with members and roles, version
-   history, recent and starred. *Done.*
-7. **WebDAV.** Any folder as a network drive in Windows, macOS and Linux.
-   *Done.*
-8. **Mounts.** SFTP and WebDAV servers as folders. *Done.*
-9. **File requests.** Ask people for files by name, into a folder or onto a
-   record's fields, through a link that needs no account. *Done.*
+- `manifest.py` — its place in One: its Help pages in reading order, its
+  screens (`frontend/src/cloud/`), and `no_roles`, since who may open a file
+  is who it is shared with or who may open its record.
+- `notifications.py` — the fourteen kinds of notification it sends, each
+  with its channels and sender. Those that go to an address outside the
+  workspace (`outside`) go by mail alone.
+- `ai.py` — OneAI's three reads (`READS`), and `NOT_FOR_AI`: every call that
+  changes something, with why OneAI suggests no card for it.
+- `setup.py` — no steps: files go to storage from the first upload, and
+  every folder, share and library is made where it is used.
+- `tour.py` — one tour, of the explorer, at `onecloud-items`.
+- `legal.py` — what OneCloud adds to the agreements: files kept in R2, links
+  and file requests to people outside, OneAI's reading and making, office
+  previews and OneOS.
+- `public/js/one_storage/cloud_control.js` — Settings, which has no tabs of
+  its own yet and ends with the centres every module's does
+  (`onedesk.module_settings.open`); the explorer draws the foot with
+  `interfaceModuleFoot`.
+- `public/js/record_files.js` and `public/js/record_activity.js` are
+  OneCloud's too, still at the top of `public/js/` (SCRATCHPAD.md).
 
 ### ai.py
 

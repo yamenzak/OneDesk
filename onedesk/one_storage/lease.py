@@ -3,7 +3,7 @@ document leases the File it sits behind). `live`: anybody in OneWorkbook or
 OneWriter, kept while their editor says so each minute. `alone`: one holder,
 a OneOS session or a lock on the drive, kept on the File itself. Alone is
 refused while anybody may write live; while it is held, the editors read.
-README, Under the hood, One lease per file."""
+AGENTS.md, Under the hood, One lease per file."""
 
 import time
 

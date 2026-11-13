@@ -1,10 +1,10 @@
 """Sharing inside the team: people, and what they may do."""
 
 import frappe
-import frappe.share
 from frappe import _
 from frappe.utils import get_fullname
 
+from onedesk.one import rights
 from onedesk.one_storage import api, live, tell
 from onedesk.one_storage import namespace as ns
 
@@ -81,15 +81,7 @@ def share(nodes: str | list, users: str | list, edit: int = 0) -> int:
 	for node_id in nodes:
 		item = _shareable(node_id)
 		for user in staff - {item.owner, "Administrator"}:
-			frappe.share.add_docshare(
-				"File",
-				item.name,
-				user,
-				read=1,
-				write=int(edit),
-				share=int(edit),
-				flags={"ignore_share_permission": True},
-			)
+			rights.share("File", item.name, user, write=int(edit), share=int(edit))
 			tell.shared(user, item)
 			given += 1
 		if staff - {item.owner, "Administrator"}:
@@ -110,7 +102,7 @@ def unshare(node: str, user: str) -> None:
 	item = api._item(node)
 	if user != frappe.session.user:
 		_shareable(node)
-	frappe.share.remove("File", item.name, user, flags={"ignore_permissions": True, "ignore_share_permission": True})
+	rights.unshare("File", item.name, user, flags={"ignore_permissions": True, "ignore_share_permission": True})
 	live.announce(item)
 	ns.forget()
 
@@ -120,9 +112,7 @@ def set_edit(node: str, user: str, edit: int = 0) -> None:
 	item = _shareable(node)
 	if not frappe.db.exists("DocShare", {"share_doctype": "File", "share_name": item.name, "user": user}):
 		frappe.throw(_("{0} doesn't have access to {1}.").format(get_fullname(user), item.file_name))
-	frappe.share.add_docshare(
-		"File", item.name, user, read=1, write=int(edit), share=int(edit), flags={"ignore_share_permission": True}
-	)
+	rights.share("File", item.name, user, write=int(edit), share=int(edit))
 	ns.forget()
 
 

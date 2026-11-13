@@ -2973,14 +2973,14 @@ OVERRIDES = [
 	(
 		"The upload dialog gains OneCloud",
 		"onecloud_picker.js adds an option through FileUploader.UploadOptions, which Frappe renders as a button beside My Device and hands the dialog, the mounted uploader and the doctype, name and field",
-		"onedesk/public/js/onecloud_picker.js",
+		"onedesk/public/js/one_storage/onecloud_picker.js",
 		"frappe/frappe/public/js/frappe/file_uploader/file_uploader.bundle.js",
 		"static UploadOptions = [];",
 	),
 	(
 		"The upload dialog's Library is turned off",
 		"onecloud_picker.js subclasses frappe.ui.FileUploader to pass disable_file_browser: Library browsed Frappe's folder tree under Frappe's File permission, which knows nothing of OneCloud's shares",
-		"onedesk/public/js/onecloud_picker.js",
+		"onedesk/public/js/one_storage/onecloud_picker.js",
 		"frappe/frappe/public/js/frappe/file_uploader/FileUploader.vue",
 		'v-if="!disable_file_browser"',
 	),

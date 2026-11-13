@@ -1,4 +1,4 @@
 import { screen } from "../kit";
-import OneCloud from "../cloud/OneCloud.vue";
+import OneCloud from "./OneCloud.vue";
 
 export const mount = screen(OneCloud);

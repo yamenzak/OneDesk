@@ -3,7 +3,7 @@ OneWorkbook or OneWriter when it has nothing they would drop, else as its
 exact PDF; Edit there, Edit in OneOS or a copy of One's own. What the
 editor would drop is read once for each version of the file and kept on
 it. A workbook, document or presentation of One's own leaves as the Excel,
-Word or PowerPoint file the drive serves. README, Under the hood, Opening
+Word or PowerPoint file the drive serves. AGENTS.md, Under the hood, Opening
 an office file."""
 
 import io

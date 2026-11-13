@@ -1,7 +1,7 @@
 """Where a requested file goes on a record (file_requests.py): a file field
 on the record itself (`image`), or one in a row of one of its tables
 (`one_documents.attachment`), read from the record's own fields. How a row is
-picked and what is asked with it is in the README, under Under the hood."""
+picked and what is asked with it is in AGENTS.md, under Under the hood."""
 
 import frappe
 from frappe import _

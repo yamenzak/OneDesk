@@ -3,7 +3,7 @@ bills (one_admin/oneos.py): the lease (lease.py) taken alone, never while
 somebody may write in it live, and two addresses sealed with the site's key
 for the container, one to download the file and one to save it. A
 workbook, document or presentation of One's own goes as the office file the
-drive serves and each save comes back into it. README, Under the hood,
+drive serves and each save comes back into it. AGENTS.md, Under the hood,
 OneOS."""
 
 import hashlib

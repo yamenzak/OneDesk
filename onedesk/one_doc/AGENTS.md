@@ -296,7 +296,7 @@ again. `open_file` keeps `fidelity.document`'s list (from the file's parts and
 mammoth's `messages`, which `read` now hands back) in `would_lose`; while it
 is not empty `write_back` answers `held` until `choice` is `over` or `copy`,
 and a version arriving meanwhile sets the document aside as One's own copy
-(one_storage README, Nothing lost silently). `write` keeps the old HTML as
+(one_storage AGENTS.md, Nothing lost silently). `write` keeps the old HTML as
 **Before a Word save** and notes in `outside_dropped` what Word had that
 `read` left out; `get_document` shows it as `dropped` until
 `dismiss_dropped`.

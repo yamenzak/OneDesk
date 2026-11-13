@@ -359,7 +359,7 @@ needs no second service. A browser joins a workbook's room with
 and the server names the room and says whether the person may write (never
 while the File is held alone, `one_storage/saving.state`), and records them
 on the File's lease; `live.here` every minute and `live.leave` on leave or
-disconnect keep it current (one_storage README, One lease per file). After
+disconnect keep it current (one_storage AGENTS.md, One lease per file). After
 that a change goes browser → node → the others, never through Python. A
 reader may ask for the state and be seen, nothing else; only a writer may
 send cell updates or answer with a whole state. Who somebody is in the
