@@ -115,26 +115,47 @@ $.extend(onedesk.shell, {
 			});
 		}
 		list.after_render = () => onedesk.shell.fold(list);
+		const more = list.render_more.bind(list);
+		list.render_more = () => {
+			more();
+			onedesk.shell.fold(list);
+		};
 		if (window.ResizeObserver) new ResizeObserver(() => onedesk.shell.fold(list)).observe(list.$wrapper.get(0));
 		list.refresh();
 		return list;
 	},
 
-	/** A table never wider than where it sits (D16): while it would run
-	 * past the edge, its last column that is not an action drops under the
-	 * first as a quiet line, then the one before it, so nothing is cut and
-	 * nothing scrolls sideways. */
+	/** A table never wider than where it sits (D16), its grid kept: its
+	 * headings and one width per column for every row. Only while it would
+	 * run past the room it has, its last column that is not an action leaves
+	 * the grid and is said under each row's first cell as a quiet line, then
+	 * the one before it, so nothing is cut and nothing scrolls sideways. */
 	fold(list) {
 		const wrap = list.$result.find(".embedded-list-table-wrap").get(0);
 		const table = wrap && wrap.querySelector("table");
 		if (!table || !wrap.clientWidth) return;
-		const columns = table.querySelectorAll("thead th").length;
+		table.querySelectorAll(".one-fold-line").forEach((line) => line.remove());
+		table.querySelectorAll(".one-fold-gone").forEach((cell) => cell.classList.remove("one-fold-gone"));
+		const heads = [...table.querySelectorAll("thead th")];
+		const data = heads.map((_th, at) => at).filter((at) => at > 0 && !heads[at].classList.contains("embedded-list-actions") && !table.querySelector(`tbody td:nth-child(${at + 1}).embedded-list-actions`));
 		const fits = () => table.scrollWidth <= onedesk.shell.room(wrap) + 1;
-		for (let from = 2; from <= 7; from++) table.classList.remove(`one-fold-${from}`);
-		table.classList.remove("one-fold");
-		for (let from = Math.min(columns, 7); from >= 2 && !fits(); from--) {
-			if (from < 7) table.classList.remove(`one-fold-${from + 1}`);
-			table.classList.add("one-fold", `one-fold-${from}`);
+		const gone = [];
+		while (data.length && !fits()) {
+			const at = data.pop();
+			gone.unshift(at);
+			table.querySelectorAll(`tr > :nth-child(${at + 1})`).forEach((cell) => cell.classList.add("one-fold-gone"));
+		}
+		if (!gone.length) return;
+		for (const row of table.querySelectorAll("tbody tr")) {
+			const first = row.children[0];
+			for (const at of gone) {
+				const cell = row.children[at];
+				if (!cell || !cell.textContent.trim()) continue;
+				const line = document.createElement("div");
+				line.className = "one-fold-line";
+				line.innerHTML = cell.innerHTML;
+				first.append(line);
+			}
 		}
 	},
 

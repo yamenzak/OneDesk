@@ -1193,7 +1193,6 @@ html[dir="rtl"] #driver-popover-item {
    table folds (shell.js `fold`). */
 .one-centre .settings-dialog-panel,
 .one-centre .settings-dialog-panel-body,
-.one-centre .settings-dialog-panel-body > *,
 .one-centre .embedded-list,
 .one-centre .embedded-list-result,
 .one-centre .embedded-list-table-wrap {
@@ -1207,9 +1206,7 @@ html[dir="rtl"] #driver-popover-item {
 }
 .one-centre .settings-dialog-panel-body .embedded-list-table td {
 	max-width: none;
-}
-.one-centre .settings-dialog-panel-body .embedded-list-table.one-fold td:first-child {
-	min-width: 0;
+	white-space: normal;
 }
 .one-centre .settings-dialog-panel-body table:not(.embedded-list-table) {
 	width: 100%;

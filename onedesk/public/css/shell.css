@@ -695,47 +695,16 @@ a.one-shell-row:hover {
 	padding-inline: 0;
 }
 
-/* A table that would run past the edge folds (shell.js `fold`, D16): its
-   head goes, each row keeps its first column and what still fits beside
-   it, and a column from `one-fold-N` on drops under the first as a quiet
-   line, so nothing is cut and nothing scrolls sideways. */
-.embedded-list table.embedded-list-table.one-fold thead {
+/* A table that would run past the room it has folds (shell.js `fold`,
+   D16): a column that does not fit leaves the grid, heading and cells, and
+   is said under each row's first cell as a quiet line; the headings and
+   the other columns' widths stay. */
+.embedded-list table.embedded-list-table :is(th, td).one-fold-gone {
 	display: none;
 }
-.embedded-list table.embedded-list-table.one-fold tr {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	column-gap: 12px;
-	border-bottom: 1px solid var(--outline-gray-1);
-}
-.embedded-list table.embedded-list-table.one-fold tbody tr:last-child {
-	border-bottom: none;
-}
-.embedded-list table.embedded-list-table.one-fold td {
-	display: block;
-	border-bottom: none;
-	max-width: none;
-	white-space: normal;
-}
-.embedded-list table.embedded-list-table.one-fold td:first-child {
-	flex: 1 1 0;
-	min-width: 0;
-}
-.embedded-list table.embedded-list-table.one-fold td.embedded-list-actions {
-	order: 1;
-	width: auto;
-}
-.embedded-list table.one-fold-2 td:nth-child(n + 2):not(.embedded-list-actions),
-.embedded-list table.one-fold-3 td:nth-child(n + 3):not(.embedded-list-actions),
-.embedded-list table.one-fold-4 td:nth-child(n + 4):not(.embedded-list-actions),
-.embedded-list table.one-fold-5 td:nth-child(n + 5):not(.embedded-list-actions),
-.embedded-list table.one-fold-6 td:nth-child(n + 6):not(.embedded-list-actions),
-.embedded-list table.one-fold-7 td:nth-child(n + 7):not(.embedded-list-actions) {
-	order: 2;
-	flex: 1 1 100%;
-	padding-top: 0;
-	text-align: start;
+.embedded-list table.embedded-list-table .one-fold-line {
+	margin-top: 2px;
 	color: var(--ink-gray-5);
 	font-size: var(--text-sm);
+	white-space: normal;
 }
