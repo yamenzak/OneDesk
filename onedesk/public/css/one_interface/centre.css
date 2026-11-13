@@ -1238,3 +1238,14 @@ html[dir="rtl"] #driver-popover-item {
 .one-centre .one-centre-empty {
 	margin-block: auto;
 }
+
+/* A centre never grows past its window: the panels take what the sidebar
+leaves, so a wide table folds to the room instead of widening the frame. */
+.one-centre .settings-dialog,
+.one-centre .settings-dialog-panels,
+.one-centre .settings-dialog-panel {
+	min-width: 0;
+}
+.one-centre .settings-dialog {
+	width: 100%;
+}
