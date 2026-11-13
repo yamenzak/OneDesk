@@ -40,11 +40,23 @@ def actions(app: str) -> tuple[str, ...]:
 	return tuple(dict.fromkeys([*getattr(agent, "REACH", {}), *getattr(agent, "TOOLS", ())]))
 
 
+def label(app: str, action: str) -> str:
+	"""An action as people read it, in their language: its LABELS entry."""
+	try:
+		agent = importlib.import_module(f"onedesk.{app}.agent")
+	except ModuleNotFoundError:
+		return action
+	held = (getattr(agent, "LABELS", {}) or {}).get(action)
+	return str(held) if held else action
+
+
 def unlevelled(source: str) -> list[str]:
-	"""Given an agent.py: a REACH call or a TOOLS entry without a level, a
-	level that is none of the three, a level on something that is neither,
-	one on a call NOT_FOR_AI keeps from OneAI, or a tool agent.py lacks. Pure."""
+	"""Given an agent.py: a REACH call or a TOOLS entry without a level or
+	a label, a level that is none of the three, a level or a label on
+	something that is no action, a level on a call NOT_FOR_AI keeps from
+	OneAI, or a tool agent.py lacks. Pure."""
 	said = _said(source)
+	labels = _labelled(source)
 	reach, refused, tools, levels = said.get("REACH", {}), said.get("NOT_FOR_AI", {}), said.get("TOOLS", ()), said.get("LEVELS", {})
 	functions = {node.name for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
 	actions = set(reach) | set(tools)
@@ -53,7 +65,17 @@ def unlevelled(source: str) -> list[str]:
 	wrong += [f"{one} has a level but is no action" for one in sorted(set(levels) - actions)]
 	wrong += [f"{one} is not for OneAI, so it has no level" for one in sorted(set(levels) & set(refused))]
 	wrong += [f"the tool {one} is not in agent.py" for one in sorted(set(tools) - functions)]
+	wrong += [f"{one} has no label in LABELS" for one in sorted(actions - set(labels))]
+	wrong += [f"{one} has a label but is no action" for one in sorted(set(labels) - actions)]
 	return wrong
+
+
+def _labelled(source: str) -> set[str]:
+	"""The actions LABELS names, each beside its words (_lt)."""
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "LABELS" and isinstance(node.value, ast.Dict):
+			return {ast.literal_eval(key) for key in node.value.keys if key is not None}
+	return set()
 
 
 def _said(source: str) -> dict:

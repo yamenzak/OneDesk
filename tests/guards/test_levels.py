@@ -1,6 +1,7 @@
 """Every action of every agent has a level (docs/ARC-AI.md, Trust and
 permissions): each call an app's agent.py names in REACH and each tool in
-TOOLS is Do it, Draft or Ask First in its LEVELS, and nothing else is."""
+TOOLS is Do it, Draft or Ask First in its LEVELS, with its words in
+LABELS, and nothing else is."""
 
 import sys
 from pathlib import Path
@@ -17,9 +18,9 @@ def test_every_action_of_an_agent_has_a_level():
 
 
 def test_the_level_rule_catches_its_examples():
-	good = 'REACH = {"leave.approve": "approve_leave"}\nNOT_FOR_AI = {"leave.pay": "Money."}\nTOOLS = ("read_leave",)\nLEVELS = {"leave.approve": "Ask First", "read_leave": "Do it"}\ndef read_leave():\n\tpass\n'
+	good = 'REACH = {"leave.approve": "approve_leave"}\nNOT_FOR_AI = {"leave.pay": "Money."}\nTOOLS = ("read_leave",)\nLEVELS = {"leave.approve": "Ask First", "read_leave": "Do it"}\nLABELS = {"leave.approve": _lt("Approve Leave"), "read_leave": _lt("Read Leave")}\ndef read_leave():\n\tpass\n'
 	assert levels.unlevelled(good) == []
-	bad = 'REACH = {"leave.approve": "approve_leave", "leave.ask": "ask"}\nNOT_FOR_AI = {"leave.pay": "Money."}\nTOOLS = ("read_leave",)\nLEVELS = {"leave.approve": "Sometimes", "leave.pay": "Do it"}\n'
+	bad = 'REACH = {"leave.approve": "approve_leave", "leave.ask": "ask"}\nNOT_FOR_AI = {"leave.pay": "Money."}\nTOOLS = ("read_leave",)\nLEVELS = {"leave.approve": "Sometimes", "leave.pay": "Do it"}\nLABELS = {"leave.approve": _lt("Approve Leave"), "leave.pay": _lt("Pay")}\n'
 	assert levels.unlevelled(bad) == [
 		"leave.ask has no level",
 		"read_leave has no level",
@@ -27,4 +28,7 @@ def test_the_level_rule_catches_its_examples():
 		"leave.pay has a level but is no action",
 		"leave.pay is not for OneAI, so it has no level",
 		"the tool read_leave is not in agent.py",
+		"leave.ask has no label in LABELS",
+		"read_leave has no label in LABELS",
+		"leave.pay has a label but is no action",
 	]

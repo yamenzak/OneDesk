@@ -106,21 +106,14 @@ def team() -> dict:
 	}
 
 
-def _label(name: str) -> str:
-	return _(frappe.unscrub(name))
-
-
 def _actions(app: str, email: str) -> list[dict]:
-	module = _agent_py(app)
-	reach = getattr(module, "REACH", {}) or {}
 	declared = levels.declared(app)
 	done = record(email)
 	empty = {"done": 0, "corrected": 0, "refused": 0, "waiting": 0}
 	return [
 		{
 			"action": action,
-			"label": _label(reach.get(action) or action),
-			"call": _label(action.rsplit(".", 1)[-1]) if action in reach else None,
+			"label": levels.label(app, action),
 			"level": levels.of(app, action),
 			"declared": declared.get(action) if declared.get(action) in levels.LEVELS else levels.CAUTIOUS,
 			"record": done.get(action, empty),
@@ -144,7 +137,7 @@ def _learned(email: str) -> list[dict]:
 	)
 
 
-def _did(email: str) -> list[dict]:
+def _did(app: str, email: str) -> list[dict]:
 	rows = frappe.get_all(
 		"Reading Action",
 		filters={"agent": email},
@@ -155,7 +148,7 @@ def _did(email: str) -> list[dict]:
 	for one in rows:
 		one["kind_label"] = _(one.kind)
 		one["level_label"] = _(one.level)
-		one["action_label"] = _label(one.agent_action) if one.agent_action else None
+		one["action_label"] = levels.label(app, one.agent_action) if one.agent_action else None
 		one["opens"] = bool(one.target_doctype and one.target_name and frappe.db.exists(one.target_doctype, one.target_name))
 	return rows
 
@@ -175,9 +168,9 @@ def agent(app: str) -> dict:
 		"roles": [_(role) for role in held.roles],
 		"approver": _person(door.approver(app)),
 		"actions": _actions(app, held.email),
-		"never": [{"call": _label(call.rsplit(".", 1)[-1]), "why": why} for call, why in (getattr(module, "NOT_FOR_AI", {}) or {}).items()],
+		"never": list((getattr(module, "NOT_FOR_AI", {}) or {}).values()),
 		"learned": _learned(held.email),
-		"did": _did(held.email),
+		"did": _did(app, held.email),
 		"spent": workspace.spent().get(app, 0.0),
 		"limit": workspace.limits().get(app),
 	}

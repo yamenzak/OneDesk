@@ -398,7 +398,7 @@ onedesk.centers.declare("ai", {
 				if (!said.actions.length) $may.append(kit.empty(__("No actions yet")));
 				for (const action of said.actions) {
 					const usual = action.level !== action.declared ? __("Usually {0}", [LEVELS.find((one) => one.value === action.declared).label]) : null;
-					const sub = [action.call, counted(action.record), usual].filter(Boolean).join(" · ");
+					const sub = [counted(action.record), usual].filter(Boolean).join(" · ");
 					const $end = kit.row({ lead: "", title: action.label, sub: esc(sub) }).appendTo($may).find(".one-set-end");
 					level_at($end, {
 						value: action.level,
@@ -410,7 +410,7 @@ onedesk.centers.declare("ai", {
 				if (said.never.length) {
 					$body.append(kit.heading(__("Never Done by the Agent")));
 					const $never = $(`<div class="one-set-list"></div>`).appendTo($body);
-					for (const never of said.never) kit.row({ lead: kit.glyph("ban"), title: never.call, sub: esc(never.why) }).appendTo($never);
+					for (const why of said.never) kit.row({ lead: kit.glyph("ban"), title: why }).appendTo($never);
 				}
 
 				$body.append(kit.heading(__("What It Learned"), __("Corrections people made, read with the next document from the same party.")));
