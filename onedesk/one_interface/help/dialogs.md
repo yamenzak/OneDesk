@@ -5,7 +5,7 @@ always looks the same.
 
 ## Questions
 
-When One needs you to confirm something, the question is the title and
+When {one} needs you to confirm something, the question is the title and
 the line under it says what will happen. The button names the act, such
 as **Delete Customer**, and is red when it cannot be undone.
 
@@ -28,7 +28,7 @@ what is still missing. The link under the fields opens the whole form.
 
 ## Centres
 
-AccessCenter, NotificationCenter, TrustCenter, AICenter and AccountCenter
+AccessCenter, NotificationCenter, {trust_center}, AICenter and {account_center}
 open over the screen, with their sections down the left. A page inside a
 section has an arrow before its title that goes back. The question mark in
 the corner opens Help for the section, the arrows make a centre fill the

@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Comment on Your Task",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When somebody comments on a task you were given, gave or made.",
 		"to": "Whoever it is given to, whoever gave it and whoever made it, but the commenter",
 		"channels": ALL,
@@ -21,7 +23,7 @@ TYPES = [
 	},
 	{
 		"name": "Due Date Changed",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When somebody changes the due date of a task given to you.",
 		"to": "Each person given the task, but whoever changed it",
 		"channels": ALL,
@@ -32,7 +34,7 @@ TYPES = [
 	},
 	{
 		"name": "Pending Review",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When somebody marks a task Pending Review.",
 		"to": "Whoever gave the task and whoever made it, but whoever marked it",
 		"channels": ALL,
@@ -44,7 +46,7 @@ TYPES = [
 	},
 	{
 		"name": "Sent Back",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When a task you asked to have reviewed is sent back to you.",
 		"to": "Whoever it is given to",
 		"channels": ALL,
@@ -56,7 +58,7 @@ TYPES = [
 	},
 	{
 		"name": "Task Cancelled",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When somebody cancels a task.",
 		"to": "Whoever gave it or made it, but whoever cancelled it",
 		"roles": ("Projects User",),
@@ -69,7 +71,7 @@ TYPES = [
 	},
 	{
 		"name": "Task Done",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When somebody else completes a task you gave them, made, or share with them.",
 		"to": "Whoever gave the task and whoever made it, but whoever completed it",
 		"channels": ALL,
@@ -80,7 +82,7 @@ TYPES = [
 	},
 	{
 		"name": "Task Given",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When somebody assigns you a task.",
 		"to": "Each person given it, but whoever gave it",
 		"channels": ALL,
@@ -92,7 +94,7 @@ TYPES = [
 	},
 	{
 		"name": "Task Ready",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When the last task a task waits on is done.",
 		"to": "Each person given the task, or whoever made it, but whoever completed the last one",
 		"channels": ALL,
@@ -103,7 +105,7 @@ TYPES = [
 	},
 	{
 		"name": "Task Reopened",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "When somebody reopens a task that was completed.",
 		"to": "Whoever held it, completed it or made it, but whoever reopened it",
 		"roles": ("Projects User",),
@@ -116,7 +118,7 @@ TYPES = [
 	},
 	{
 		"name": "Today's Tasks",
-		"app": "OneTask",
+		"app": registry.name("one_task"),
 		"about": "Every morning, what is due that day and what is late. Not sent on a day with nothing due.",
 		"to": "Each person, for the tasks given to them",
 		"channels": ALL,

@@ -1,6 +1,6 @@
 # Being Told
 
-What OneProject tells people, and when. **Notifications** in Settings
+What {one_project} tells people, and when. **Notifications** in Settings
 changes how each person hears of each one.
 
 - **Added to Project**: someone adds you to a project's members. Shows the
@@ -46,7 +46,7 @@ changes how each person hears of each one.
   paid.
 
 A task's own notifications (**Task Given**, **Task Done**, **Task Ready**,
-**Pending Review** and **Due Date Changed**) are OneTask's, and listed with
+**Pending Review** and **Due Date Changed**) are {one_task}'s, and listed with
 it.
 
 Each is on the bell, and by email or push if you chose. Change them under

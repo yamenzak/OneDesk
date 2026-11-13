@@ -12,7 +12,7 @@ from functools import cache
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import unsubscribe, versions
+from onedesk.one import registry, unsubscribe, versions
 
 FIELDS = (
 	"one_app",
@@ -52,13 +52,13 @@ def to(name: str) -> str:
 	approver". Said on the workspace's page, never on a person's own, where
 	it is always them. Empty for a type not declared."""
 	said = (declared().get(name) or {}).get("to")
-	return str(said) if said else ""
+	return registry.filled(str(said)) if said else ""
 
 
 def jinja(msgid) -> str:
 	"""A default text as an administrator edits it: `{who}` becomes
-	`{{ who }}`. Pure."""
-	return re.sub(r"\{(\w+)\}", r"{{ \1 }}", raw(msgid))
+	`{{ who }}`, and an app named as `{one_ai}` is its name. Pure."""
+	return re.sub(r"\{(\w+)\}", r"{{ \1 }}", registry.filled(raw(msgid)))
 
 
 def upstream(one: dict) -> str:
@@ -72,7 +72,7 @@ def slots(name: str) -> list[str]:
 	"""What a type's text may name: the slots in its default subject and
 	message, in the order they first appear."""
 	one = declared().get(name) or {}
-	found = re.findall(r"\{(\w+)\}", raw(one.get("subject")) + " " + raw(one.get("message")))
+	found = re.findall(r"\{(\w+)\}", registry.filled(raw(one.get("subject")) + " " + raw(one.get("message"))))
 	return list(dict.fromkeys(found))
 
 
@@ -364,10 +364,11 @@ def _sandbox():
 
 class _Slots(dict):
 	"""A translation that dropped a slot, or a sender that did not fill one,
-	says nothing there rather than failing the notification."""
+	says nothing there rather than failing the notification. An app named as
+	`{one_ai}` is its name."""
 
 	def __missing__(self, key):
-		return ""
+		return registry.names().get(key, "")
 
 
 FRAPPE_KINDS = {
@@ -417,7 +418,7 @@ def choosable(user: str | None = None) -> list[dict]:
 				continue
 			always = bool(one.get("always_mailed"))
 			kind = {
-				"about": _(row.one_about) if row.one_about else "",
+				"about": registry.filled(_(row.one_about)) if row.one_about else "",
 				"allowed": bool(row.one_allow_email) and not always,
 				"always": always,
 				"push": bool(row.one_allow_push),
@@ -766,7 +767,7 @@ def _send(email, lang, kind, subject, message, link=None, record=None, always=Fa
 	one = declared().get(kind) or {}
 	said = f"<b>{frappe.utils.escape_html(_(kind, lang=lang))}</b>" if kind else ""
 	if one.get("about"):
-		said += f" · {frappe.utils.escape_html(_(raw(one['about']), lang=lang))}"
+		said += f" · {frappe.utils.escape_html(registry.filled(_(raw(one['about']), lang=lang)))}"
 	if always:
 		reason = f"{said}<br>{_('Mailed to everybody it concerns, whatever they chose.', lang=lang)}"
 	else:

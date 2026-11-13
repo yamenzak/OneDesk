@@ -11,11 +11,17 @@ import json
 
 import frappe
 from frappe import _lt
-from frappe.permissions import SYSTEM_USER_ROLE, add_permission, setup_custom_perms, update_permission_property
+from frappe.permissions import (
+	SYSTEM_USER_ROLE,
+	add_permission,
+	setup_custom_perms,
+	update_permission_property,
+)
 
+from onedesk.one import registry
 from onedesk.one_project import members
 
-APP = "OneTask"
+APP = registry.name("one_task")
 
 # Everybody keeps tasks: its User role is given to every person
 # (rights.everyone).

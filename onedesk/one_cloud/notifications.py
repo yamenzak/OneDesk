@@ -4,6 +4,8 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 OUTSIDE = {
@@ -15,7 +17,7 @@ OUTSIDE = {
 TYPES = [
 	{
 		"name": "Added to a Library",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When someone adds you to a library.",
 		"to": "The person added",
 		"channels": ALL,
@@ -24,7 +26,7 @@ TYPES = [
 	},
 	{
 		"name": "Arrived Through a Link",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When someone uploads files through a link you created.",
 		"to": "The person who created the link",
 		"channels": ALL,
@@ -33,7 +35,7 @@ TYPES = [
 	},
 	{
 		"name": "Arrived Through a Link, One File",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When someone uploads one file through a link you created.",
 		"to": "The person who created the link",
 		"follows": "Arrived Through a Link",
@@ -43,7 +45,7 @@ TYPES = [
 	},
 	{
 		"name": "Closed in OneOS",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When a file you had open in OneOS is closed after 15 minutes without use, after 8 hours, or because the "
 		"workspace ran out of OneCredits.",
 		"to": "Whoever had it open",
@@ -55,9 +57,9 @@ TYPES = [
 	},
 	{
 		"name": "Deleted While Open",
-		"app": "OneCloud",
-		"about": "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in OneSheet "
-		"or OneDoc.",
+		"app": registry.name("one_cloud"),
+		"about": "When someone moves a file you have open to the Recycle Bin, in OneOS, on your drive or in {one_sheet} "
+		"or {one_doc}.",
 		"to": "Whoever had it open",
 		"button": "Open",
 		"channels": ALL,
@@ -68,28 +70,28 @@ TYPES = [
 	},
 	{
 		"name": "File Not Made",
-		"app": "OneCloud",
-		"about": "When OneAI could not make music or a video somebody asked for.",
+		"app": registry.name("one_cloud"),
+		"about": "When {one_ai} could not make music or a video somebody asked for.",
 		"to": "Whoever asked for it",
 		"channels": ALL,
 		"sender": "workspace",
-		"subject": "OneAI could not make “{what}”",
+		"subject": "{one_ai} could not make “{what}”",
 		"message": "Try again, or describe it differently.",
 	},
 	{
 		"name": "File Ready",
-		"app": "OneCloud",
-		"about": "When music or a video somebody asked OneAI for is ready in its folder.",
+		"app": registry.name("one_cloud"),
+		"about": "When music or a video somebody asked {one_ai} for is ready in its folder.",
 		"to": "Whoever asked for it",
 		"button": "Open",
 		"channels": ALL,
 		"sender": "workspace",
 		"subject": "{file} is ready",
-		"message": "OneAI made it in the folder you asked from.",
+		"message": "{one_ai} made it in the folder you asked from.",
 	},
 	{
 		"name": "File Request",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When a file request is sent.",
 		"to": "Each recipient",
 		"button": "Upload Files",
@@ -101,7 +103,7 @@ TYPES = [
 	},
 	{
 		"name": "File Request Answered",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When someone sends a file you requested.",
 		"to": "Whoever asked",
 		"channels": ALL,
@@ -110,7 +112,7 @@ TYPES = [
 	},
 	{
 		"name": "File Request Complete",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When someone sends all the files you requested.",
 		"to": "Whoever asked",
 		"email_default": True,
@@ -120,7 +122,7 @@ TYPES = [
 	},
 	{
 		"name": "File Request Reminder",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "Before a file request is due, or when its owner sends a reminder.",
 		"to": "Recipients who haven't sent everything",
 		"button": "Upload Files",
@@ -132,7 +134,7 @@ TYPES = [
 	},
 	{
 		"name": "Link Code",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When an invited address opens a shared link. It can't be turned off.",
 		"to": "The invited address",
 		"outside": True,
@@ -144,7 +146,7 @@ TYPES = [
 	},
 	{
 		"name": "Link Shared",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When a link is shared with an email address.",
 		"to": "Each invited address",
 		"button": "Open",
@@ -156,7 +158,7 @@ TYPES = [
 	},
 	{
 		"name": "Shared With You",
-		"app": "OneCloud",
+		"app": registry.name("one_cloud"),
 		"about": "When someone shares a file or folder with you.",
 		"to": "The person it's shared with",
 		"channels": ALL,

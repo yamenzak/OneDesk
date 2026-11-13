@@ -3,9 +3,10 @@ they receive. Every model call goes through one_admin/gateway.py, which holds
 no provider key; the keys are in Cloudflare's AI Gateway. See
 trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause, service, subprocessor
 
-M = "OneAI"
+M = registry.name("one_ai")
 
 CLOUDFLARE = "Standard Contractual Clauses and Cloudflare's data processing addendum"
 

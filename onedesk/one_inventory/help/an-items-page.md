@@ -46,6 +46,6 @@ Each changes as soon as the stock, an order or a price does, without
 reloading. A template's variants are made from **Create › Multiple
 Variants**, and barcodes are kept in the item's **Barcodes** table.
 
-OneAI reads an item as its page shows it, says what is running low, and
+{one_ai} reads an item as its page shows it, says what is running low, and
 suggests a change to an item (its name, group, lead time, whether it is
 disabled, or a warehouse's reorder level) as a card you approve.

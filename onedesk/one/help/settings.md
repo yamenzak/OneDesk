@@ -17,7 +17,7 @@ only administrators see it. Each tab saves on its own, from the top right.
 - **Branding**: the **Company Logo** on printed and sent invoices, quotations
   and orders, the **Brand Colour** at the top of letter heads, and the **Frame
   Colour**, the rail and the bars around every screen, for everyone; leave it
-  empty for One's own. The Company Logo doesn't replace One's own logo.
+  empty for {one}'s own. The Company Logo doesn't replace {one}'s own logo.
 - **Region and Formats**: the default language and time zone for people who
   haven't chosen their own in Profile, and how dates, times and numbers are
   shown, with a line showing how they'll look. Then three tiles: **Rounded
@@ -35,7 +35,7 @@ instead of saving over their change.
 
 ## Sign-in Rules
 
-**Sign-in**, in One's ControlCenter, sets how everyone signs in, a tile for
+**Sign-in**, in {one}'s ControlCenter, sets how everyone signs in, a tile for
 each part. Save from the top right.
 
 - **Two-Factor** asks for a code after the password, for administrators only
@@ -48,22 +48,22 @@ each part. Save from the top right.
 - **Passwords** sets how strong a new password must be, and **Passwords
   Expire After** asks for a new one once that many days have passed.
 - **Sessions**: **Signed Out After** is how long someone stays signed in while
-  they're not using One, and **One Device at a Time** signs a person out
+  they're not using {one}, and **One Device at a Time** signs a person out
   everywhere else when they sign in on a new device.
 - **Lockout**: after **Wrong Passwords Before a Lockout** wrong passwords in a
   row, sign-in is blocked for **Locked Out For**.
 
-OneAI offers **Is signing in here safe enough?** The answer covers the
+{one_ai} offers **Is signing in here safe enough?** The answer covers the
 sign-in rules, the number of people, passwords over a year old and last
 week's failed sign-ins, with what to change.
 
 ## Pictures
 
-**Pictures**, in One's settings, is where every picture of a contact, a
+**Pictures**, in {one}'s settings, is where every picture of a contact, a
 customer or anyone else comes from.
 
 **From the Web** has the two optional services: **Pictures from Gravatar**
-and **Logos from Google**. They are the same switches as in TrustCenter, and
+and **Logos from Google**. They are the same switches as in {trust_center}, and
 turning one on asks you to agree to what it sends, in the same way.
 
 **Drawn** has a row for each kind of record: contacts, leads, customers,
@@ -83,9 +83,9 @@ click one to use it. **None**, the letters, is the default.
 
 ## Starting Again
 
-**Start Again** is at the foot of the Company tab in One's ControlCenter. **Delete All
+**Start Again** is at the foot of the Company tab in {one}'s ControlCenter. **Delete All
 Transactions** deletes every sale, purchase, stock move, project, payslip,
-lead and asset, for a workspace that tried One with made-up records.
+lead and asset, for a workspace that tried {one} with made-up records.
 Customers, suppliers, items, employees, accounts and settings stay. It is a
 Transaction Deletion Record, which runs in the background; the page it opens
 shows how far it has got.
@@ -97,20 +97,20 @@ administrators. Click an app's card to turn it off for the whole workspace:
 it leaves everybody's rail, and the record types only it lists leave search,
 the record-type pickers of Dynamic Link fields, and forms, where an empty field
 linking to one is hidden. Nothing is deleted or locked. A link to one of its
-records still opens it, on Home; OneAI still files into it; turning it
+records still opens it, on Home; {one_ai} still files into it; turning it
 on again brings everything back. One itself can't be turned off.
 
-**OneAI** and its **Reading** have cards there too. OneAI off means nobody can
-ask it anything: the OneAI button, the chat, the field explanations and the
-writing help go, and nothing in the workspace calls a model, OneHR's
-screening and grievance triage included. Reading needs OneAI, so it goes
-off with it, and can't be turned on until OneAI is. Reading off stops
-reading mail and files: its rows leave the bar and One's panel, and its
+**{one_ai}** and its **Reading** have cards there too. {one_ai} off means nobody can
+ask it anything: the {one_ai} button, the chat, the field explanations and the
+writing help go, and nothing in the workspace calls a model, {one_hr}'s
+screening and grievance triage included. Reading needs {one_ai}, so it goes
+off with it, and can't be turned on until {one_ai} is. Reading off stops
+reading mail and files: its rows leave the bar and {one}'s panel, and its
 switches can't be turned on. What they read and filed before stays. A
-OneStudio extension waits for OneAI's review, so none can be turned on while
-OneAI is off.
+{one_studio} extension waits for {one_ai}'s review, so none can be turned on while
+{one_ai} is off.
 
-**OnePortal** off closes the portal. Nobody outside can sign in, anybody
+**{one_portal}** off closes the portal. Nobody outside can sign in, anybody
 signed in is signed out, links to records and invitations stop opening, and
 every **Portal** button goes. Nobody is uninvited and no link is revoked:
 turned back on, they all work as they did.

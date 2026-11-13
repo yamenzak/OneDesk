@@ -13,7 +13,7 @@ there only for somebody who may change the document.
 | **Format painter** | Takes the look of the words you are on and gives it to the next words you select. |
 | **Size and typeface** | For the words you select. |
 | **Lists and quotes** | Bulleted, numbered and task lists, quotes and code. |
-| **Pictures and video** | A picture, a video or an embed, and **Make a Picture with OneAI**. Paste a picture or drop one on the page and it goes in too. |
+| **Pictures and video** | A picture, a video or an embed, and **Make a Picture with {one_ai}**. Paste a picture or drop one on the page and it goes in too. |
 | **Tables and page breaks** | A table, and a break that starts a new page on paper. |
 
 ## The Outline

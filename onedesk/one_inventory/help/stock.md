@@ -32,7 +32,7 @@ Value**, how many are **Below Reorder Level** (which opens Stock Summary for
 it) and when stock last moved in or out (**Last Stock Entry**). A group
 warehouse counts everything under it.
 
-OneAI reads the stores as Stock Summary shows them, for every warehouse or
+{one_ai} reads the stores as Stock Summary shows them, for every warehouse or
 one, and says what is short or running low.
 
 ## Moving Stock
@@ -59,7 +59,7 @@ arrived (**% Transferred**).
   project, takes what was used off the shelf and puts its cost on the
   project. It prints as an **Issue Note**.
 
-OneAI says what a movement did, and drafts a transfer to a site as a card you
+{one_ai} says what a movement did, and drafts a transfer to a site as a card you
 approve.
 
 ## Counting Stock
@@ -78,7 +78,7 @@ A count says above its fields what it was for (**Purpose**), the
 **Warehouse** it was counted in, how many **Items** it changed, and the
 **Difference Amount** it made in the books.
 
-OneAI says what a count found and what it did to the books. On a warehouse,
+{one_ai} says what a count found and what it did to the books. On a warehouse,
 **Record a count…** takes what you say you counted of each item and drafts
 the count for you to check and submit. An item kept in batches is counted
 batch by batch.

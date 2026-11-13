@@ -1,12 +1,12 @@
-# OneAI in Your Mail
+# {one_ai} in Your Mail
 
-OneAI helps when you ask, in the panel and while you write, and can read a
+{one_ai} helps when you ask, in the panel and while you write, and can read a
 mailbox's new mail on its own. It never sends mail for you, and never mails
 anyone outside the workspace.
 
 ## Asking in the Panel
 
-The OneAI panel knows the mailbox, folder and conversation you have open.
+The {one_ai} panel knows the mailbox, folder and conversation you have open.
 
 | Ask | You get |
 | --- | --- |
@@ -16,7 +16,7 @@ The OneAI panel knows the mailbox, folder and conversation you have open.
 
 ## Asking It to Change Something
 
-Anything you can change in OneMail you can also ask OneAI for, in your own
+Anything you can change in {one_mail} you can also ask {one_ai} for, in your own
 words. It answers with a card saying exactly what will change, and nothing
 changes until you press **Approve**. It is then done as if you had done it
 yourself, so what your role can't do, the card can't either.
@@ -32,15 +32,15 @@ yourself, so what your role can't do, the card can't either.
 | *Let people connect their Gmail* | Changes how the workspace's mail is set up |
 | *Add our domain rua.ae* | Adds or removes the company's mail domain |
 
-> **What OneAI never does.** It never connects a mailbox or gives one its
+> **What {one_ai} never does.** It never connects a mailbox or gives one its
 > password again, because it never sees a password. It doesn't change how
 > much it reads a mailbox or spends on it: that's for the mailbox's manager,
-> in the **OneAI** tab. And it doesn't stop a mailbox from being read; its
+> in the **{one_ai}** tab. And it doesn't stop a mailbox from being read; its
 > holder does that on the **Connection** tab.
 
 ## While You Write
 
-The OneAI button next to **Message** in the email window works on what you're
+The {one_ai} button next to **Message** in the email window works on what you're
 writing:
 
 | Choose | For |
@@ -52,26 +52,26 @@ writing:
 | **Write a first draft**, **Reply saying…** | An empty reply |
 | Your own words | Anything else |
 
-OneAI reads your text, the subject, the recipients and the message you're
+{one_ai} reads your text, the subject, the recipients and the message you're
 answering, never your signature. **Approve** replaces your text and keeps your
 signature and the quoted message.
 
 ## Reading New Mail
 
-In a mailbox's **OneAI** tab, OneAI becomes the colleague who reads its new
-mail. The switch beside the title decides whether OneAI may read the mailbox at
+In a mailbox's **{one_ai}** tab, {one_ai} becomes the colleague who reads its new
+mail. The switch beside the title decides whether {one_ai} may read the mailbox at
 all; off, nothing reads it, not new mail, not search by meaning and not the
 panel.
 
-![A mailbox's OneAI tab](asking-oneai/reading.png)
+![A mailbox's {one_ai} tab](asking-oneai/reading.png)
 
 **New Mail** says how far each message is read, with the permissions of
 whoever set it. Each level does everything the one before it does.
 
-| Level | What OneAI does |
+| Level | What {one_ai} does |
 | --- | --- |
 | **Not Read** | Nothing |
-| **Sorted** | A quick look, which also answers rules' Ask OneAI steps |
+| **Sorted** | A quick look, which also answers rules' Ask {one_ai} steps |
 | **Read and Filed** | Reads it in full and files it where it belongs |
 | **Read, Filed and Acted On** | Also does what the message asks for |
 
@@ -95,11 +95,11 @@ it. A switched-off job is never done or proposed.
 
 | Setting | Does |
 | --- | --- |
-| **Read Attachments** | Off, scans, photos and recordings aren't sent to OneAI, which costs least |
+| **Read Attachments** | Off, scans, photos and recordings aren't sent to {one_ai}, which costs least |
 | **Credits** | What reading this mailbox spent this month |
-| **Monthly Credit Limit** | When reached, OneAI stops reading new mail until the month turns, and whoever it reads for hears once |
+| **Monthly Credit Limit** | When reached, {one_ai} stops reading new mail until the month turns, and whoever it reads for hears once |
 
-> **Rules that ask OneAI need it reading.** Ask OneAI steps ride on the quick
+> **Rules that ask {one_ai} need it reading.** Ask {one_ai} steps ride on the quick
 > look, so a rule with one can't be switched on while New Mail is Not Read, and
 > setting it to Not Read names those rules first. They then show **Not
 > Running** in Automation.

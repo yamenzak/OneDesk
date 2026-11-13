@@ -1,7 +1,7 @@
 # Presenting by Link
 
 Share a presentation with a link from **File › Share…** in the editor, or
-from OneCloud as you would any file: to
+from {one_cloud} as you would any file: to
 anyone with the link, with a password, or to people you invite, who come in
 with a code sent to them. Whoever opens the link sees the slides on the
 page, not a file to download. They move with the arrows or by clicking the

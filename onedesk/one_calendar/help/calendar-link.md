@@ -1,6 +1,6 @@
 # In Google, Apple or Outlook
 
-**Your Calendar Link**, in OneCalendar's settings, adds your calendar to
+**Your Calendar Link**, in {one_calendar}'s settings, adds your calendar to
 another app.
 
 - **Google Calendar**, **Apple Calendar** or **Outlook** opens that app, ready to add it.
@@ -19,7 +19,7 @@ times a day.
 - **New Link** replaces it, and the old one stops working in every app.
 - **Switch Off** turns it off.
 - An administrator can switch off anyone's link under **Setup › Calendar Links**, which also shows when each was made and last read.
-- To turn links off for everybody, an administrator switches off **Calendar Links** under Sharing in One's settings. Every link is deleted and nobody can make one. Switching it back on doesn't bring old links back.
+- To turn links off for everybody, an administrator switches off **Calendar Links** under Sharing in {one}'s settings. Every link is deleted and nobody can make one. Switching it back on doesn't bring old links back.
 
 One doesn't sync with a Google account. Your calendar link is how your
 calendar reaches Google.

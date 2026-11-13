@@ -14,6 +14,7 @@ from frappe import _
 from frappe.rate_limiter import rate_limit
 from frappe.utils import add_to_date, cint, flt, get_datetime, getdate, now_datetime, sha256_hash, today
 
+from onedesk.one import registry
 from onedesk.one_display import programme, sizes
 from onedesk.one_display import queue as queues
 
@@ -153,7 +154,7 @@ def _why(said: str) -> str:
 	return {
 		"memory": _("Page memory was nearly full."),
 		"nightly": _("Nightly reload."),
-		"command": _("Reloaded from OneDisplay."),
+		"command": _("Reloaded from {0}.").format(registry.name("one_display")),
 		"start": _("Started or opened."),
 	}.get(said) or _("The device or browser restarted unexpectedly.")
 

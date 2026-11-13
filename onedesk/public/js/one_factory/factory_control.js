@@ -61,7 +61,7 @@ onedesk.factory.workshop = () => ({
 
 onedesk.factory.settings = ({ at = null } = {}) => {
 	const tabs = [{ group: null, items: [onedesk.factory.workshop()] }];
-	const dialog = onedesk.module_settings.open({ module: "OneFactory", tabs, default_tab: at });
+	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_factory"), tabs, default_tab: at });
 	dialog.show();
 	return dialog;
 };
@@ -73,8 +73,8 @@ $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
-		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneFactory") return;
-		win.module_foot({ module: "OneFactory", settings: () => onedesk.factory.settings() });
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== onedesk.names.sidebar("one_factory")) return;
+		win.module_foot({ module: onedesk.names.of("one_factory"), settings: () => onedesk.factory.settings() });
 		onedesk.interface.nav.place();
 	}, 0)
 );

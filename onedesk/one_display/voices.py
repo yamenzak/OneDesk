@@ -13,7 +13,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-from onedesk.one import apps
+from onedesk.one import apps, registry
 
 DOCTYPE = "Display Voice"
 JOB = "display_voice"
@@ -139,7 +139,7 @@ def record(ad: Annotated[str, "The voice ad."]) -> str:
 	apps.refuse_ai()
 	sound = say(doc.script, doc.language or frappe.db.get_default("lang") or "en", doc.voice or "Kore", doc.tone or "Announcement", f"OneDisplay ad {doc.name}")
 	if not sound:
-		frappe.throw(_("OneAI could not make the recording. Try again."))
+		frappe.throw(_("{0} could not make the recording. Try again.").format(registry.name("one_ai")))
 	was = doc.audio
 	saved = attach("Voice Ad", doc.name, f"{doc.name}.wav", sound, "audio")
 	replace(was, "Voice Ad", doc.name, saved.name)

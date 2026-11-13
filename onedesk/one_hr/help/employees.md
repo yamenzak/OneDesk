@@ -15,13 +15,13 @@ Card, Health Insurance and Medical Fitness. Each kind says its country (empty
 for every country), so a workspace adds its own country's kinds in Lists ›
 ID Document Types, and a person picks only from their workspace's countries'
 and every country's. People add and renew their own from
-AccountCenter's Profile, and HR is told. OneAI, reading a document that
+{account_center}'s Profile, and HR is told. {one_ai}, reading a document that
 arrives, adds it to the person's record, or, when it renews a kind they
 already have, puts it in that row's place (undone as one).
 
 **Attendance Standing** is a score out of 100, worked out every night from the
 last 90 days of check-ins. It never refuses anybody; it decides whose check-ins
-count when OneHR learns a new office network or location.
+count when {one_hr} learns a new office network or location.
 
 **When somebody leaves**, setting their **Relieving Date** does everything that
 should follow: on that day their status becomes Left, their login is switched

@@ -51,7 +51,7 @@
 				</div>
 				<button class="one-ai-remembers" @click="toMemory">
 					<Icon name="brain" />
-					<span>{{ __("What OneAI remembers") }}</span>
+					<span>{{ __("What {0} remembers", [ONEAI]) }}</span>
 				</button>
 			</template>
 
@@ -236,7 +236,7 @@ import Icon from "./Icon.vue";
 const __ = window.__;
 const mark = "/assets/onedesk/images/oneai.svg";
 
-const ONEAI = "OneAI";
+const ONEAI = onedesk.names.of("one_ai");
 
 const props = defineProps({ here: { type: Object, default: null } });
 const emit = defineEmits(["closed", "counted"]);

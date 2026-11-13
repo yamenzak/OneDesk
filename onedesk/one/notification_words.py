@@ -9,7 +9,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-from onedesk.one import brand, roles
+from onedesk.one import brand, registry, roles
 from onedesk.one.sections import as_opened
 from onedesk.one.sections import fields as fields_of
 from onedesk.one.sections import opened as opened_of
@@ -74,7 +74,7 @@ def _notification_types(record: str | None = None) -> dict:
 			{
 				"name": row.name,
 				"label": _(row.name),
-				"about": _(row.one_about) if row.one_about else None,
+				"about": registry.filled(_(row.one_about)) if row.one_about else None,
 				"to": notify.to(row.name),
 				"enabled": row.enabled,
 				"edited": bool(row.one_default_subject)
@@ -133,7 +133,7 @@ def _notification_type(name: str) -> dict:
 			"label": _(doc.name),
 			"app": doc.one_app,
 			"mark": brand.mark(doc.one_app),
-			"about": _(doc.one_about) if doc.one_about else None,
+			"about": registry.filled(_(doc.one_about)) if doc.one_about else None,
 			"to": notify.to(name),
 			"ours": bool(one),
 			"outside": doc.one_outside,

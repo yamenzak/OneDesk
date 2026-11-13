@@ -9,7 +9,7 @@ import requests
 from frappe import _
 from frappe.utils import flt, nowdate
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one.company import workspace_company
 
 ITEM = "One Subscription"
@@ -157,7 +157,7 @@ def to_books(invoice: str) -> str:
 			"posting_date": nowdate(),
 			"set_posting_time": 1,
 			"currency": said.get("currency"),
-			"remarks": _("From One, invoice {0}. Paid by card through Stripe.").format(said.get("number")),
+			"remarks": _("From {1}, invoice {0}. Paid by card through Stripe.").format(said.get("number"), registry.name("one")),
 			"items": rows,
 		}
 	)

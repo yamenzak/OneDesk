@@ -13,7 +13,7 @@ $(document).on("form-refresh", (event, frm) => {
 	const from = doc.route ? `<a href="${esc(doc.route)}">${esc(doc.label || "")}</a>` : esc(doc.label || "");
 	frm.set_intro(
 		`<div class="oi-banner"><img src="${onedesk.intake.MARK}" alt="">
-		<span>${from ? __("Made by OneAI from {0}. Not checked yet.", [from]) : __("Made by OneAI. Not checked yet.")}</span>
+		<span>${from ? __("Made by {1} from {0}. Not checked yet.", [from, onedesk.names.of("one_ai")]) : __("Made by {0}. Not checked yet.", [onedesk.names.of("one_ai")])}</span>
 		<span class="oi-buttons">${frappe.ui.button.html({ label: __("Mark as Checked"), size: "xs", attrs: { "data-looks-right": true } })}
 		${held.action ? frappe.ui.button.html({ label: __("Undo"), size: "xs", attrs: { "data-undo-one": true } }) : ""}</span></div>`,
 		"blue"
@@ -26,7 +26,7 @@ $(document).on("form-refresh", (event, frm) => {
 		frappe.show_alert({ message: __("Marked as checked"), indicator: "green" });
 	});
 	$banner.find("[data-undo-one]").on("click", () => {
-		frappe.confirm(__("Undo what OneAI did here?"), async () => {
+		frappe.confirm(__("Undo what {0} did here?", [onedesk.names.of("one_ai")]), async () => {
 			const said = await frappe.xcall("onedesk.one_ai.reading.act.undo_one", { action: held.action });
 			if (said.why) {
 				frappe.msgprint(said.why);

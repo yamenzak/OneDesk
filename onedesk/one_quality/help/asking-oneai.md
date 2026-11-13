@@ -1,6 +1,6 @@
-# Asking OneAI
+# Asking {one_ai}
 
-The OneAI panel offers questions that fit the page you are on. Press one, or
+The {one_ai} panel offers questions that fit the page you are on. Press one, or
 type your own.
 
 - **Home**: **What needs fixing?**, the open problems, the steps overdue
@@ -9,4 +9,4 @@ type your own.
   **What is still open?**
 - **A procedure**: **Summarise this procedure** and **What is still open?**
 
-OneAI reads quality records as you see them and changes none of them.
+{one_ai} reads quality records as you see them and changes none of them.

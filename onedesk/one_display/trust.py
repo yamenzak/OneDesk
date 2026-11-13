@@ -4,9 +4,10 @@ names nobody. News and the weather are One's (one/trust.py): a screen
 shows the headlines One's News Sources keep. See one_display/AGENTS.md and
 trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneDisplay"
+M = registry.name("one_display")
 
 clause(
 	document="privacy",

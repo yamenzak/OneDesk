@@ -1,16 +1,16 @@
-# What OneSheet Is
+# What {one_sheet} Is
 
-OneSheet is the business's spreadsheet: sheets, formulas, formatting,
-charts, pivot tables and notes, in a workbook kept in OneCloud with the rest
+{one_sheet} is the business's spreadsheet: sheets, formulas, formatting,
+charts, pivot tables and notes, in a workbook kept in {one_cloud} with the rest
 of your files and opened by anybody it is shared with.
 
-![The Bayview tower costing open in OneSheet, a formula in the bar above the grid](overview/workbook.png)
+![The Bayview tower costing open in {one_sheet}, a formula in the bar above the grid](overview/workbook.png)
 
 ## A New Workbook
 
-In OneCloud, open the folder it belongs in and choose **New › Workbook**,
+In {one_cloud}, open the folder it belongs in and choose **New › Workbook**,
 blank or from a template. It opens straight away; click its name at the top
-to rename it. It is moved, copied, shared and deleted in OneCloud like any
+to rename it. It is moved, copied, shared and deleted in {one_cloud} like any
 file.
 
 Everything is saved as you type: **Saving…** and **Saved** beside the name
@@ -20,7 +20,7 @@ say where it stands, and if a save fails, **Retry** sends it again.
 
 | You see | What it is |
 | --- | --- |
-| **The path** | Where the workbook is kept. Each step is a way back, and OneSheet's mark goes one step back. |
+| **The path** | Where the workbook is kept. Each step is a way back, and {one_sheet}'s mark goes one step back. |
 | **The bar** | Number formats, fonts, colours, borders, filters, charts and pivot tables. |
 | **The formula bar** | What the cell you are on holds. See [Working in a Workbook](working-in-a-workbook). |
 | **File** | Print, export, import and templates. |

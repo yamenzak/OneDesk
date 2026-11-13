@@ -9,7 +9,7 @@ statement in:
    Template** gives a spreadsheet to fill when the bank's file will not do).
 3. Check the preview and press **Start Import**.
 
-A statement OneAI reads from mail arrives as Bank Transactions the same
+A statement {one_ai} reads from mail arrives as Bank Transactions the same
 way.
 
 ![A bank account with its balance and what is left to match](the-bank/bank-account.png)

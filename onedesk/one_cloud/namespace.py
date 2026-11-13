@@ -6,7 +6,7 @@ rule here is a rule everywhere."""
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
 FEATURED = "@featured/"
@@ -832,7 +832,7 @@ def binned(user: str | None = None) -> list[dict]:
 def trail(node_id: str) -> list[dict]:
 	"""The address bar: from the top to this node, each a place to go back to."""
 	kind = parse(node_id)
-	top = [{"id": ROOT, "name": _("OneCloud")}]
+	top = [{"id": ROOT, "name": registry.name("one_cloud")}]
 	if kind[0] == ROOT:
 		return top
 	if kind[0] == "mount":

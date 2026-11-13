@@ -1,6 +1,6 @@
 # Who Can Do What
 
-A presentation is a file in OneCloud, so whoever may open the file may open
+A presentation is a file in {one_cloud}, so whoever may open the file may open
 the presentation, and whoever may change the file may change it. Sharing it
 is sharing the file.
 
@@ -13,7 +13,7 @@ is sharing the file.
 
 ## What Each Role Starts With
 
-This is what OneDeck's roles hold when it arrives in a workspace.
+This is what {one_deck}'s roles hold when it arrives in a workspace.
 **Roles** in AccessCenter changes any of it, and an update never undoes a
 change you made.
 

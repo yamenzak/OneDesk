@@ -138,7 +138,7 @@ asks whether to add them to it first.
 
 ## Photos and Videos
 
-Every project's folder in OneCloud (**Records › Project ›** the project) has a
+Every project's folder in {one_cloud} (**Records › Project ›** the project) has a
 **Featured Media** folder. Put the project's best photos and videos in it:
 
 - They're shown on the customer's portal, the cover first and then each in

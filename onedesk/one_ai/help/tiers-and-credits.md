@@ -1,6 +1,6 @@
 # Tiers and Credits
 
-One chooses the model for each thing OneAI does. Your workspace chooses a
+One chooses the model for each thing {one_ai} does. Your workspace chooses a
 tier, and the tier decides how strong the models are that talk and write.
 
 ## The Three Tiers
@@ -18,6 +18,6 @@ what arrives and searching use the same small models at every tier.
 ## Credits
 
 Every answer uses credits. The plan gives some each month, and more can be
-bought in AccountCenter, under **Plan and Credits**. When none are left, OneAI
+bought in {account_center}, under **Plan and Credits**. When none are left, {one_ai}
 can't answer until credits are added. **Usage** in AICenter shows what each
 job used in the last thirty days.

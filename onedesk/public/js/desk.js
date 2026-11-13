@@ -17,7 +17,7 @@ frappe.provide("onedesk.dock");
 
 frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	shell_for_route(route) {
-		if (this.kept(route) && frappe.boot.module_sidebars?.One) return "One";
+		if (this.kept(route) && frappe.boot.module_sidebars?.One) return onedesk.names.sidebar("one");
 		return super.shell_for_route(route);
 	}
 
@@ -244,7 +244,7 @@ onedesk.dock.told = (done, ready) => {
 	if (done.register && !frappe.is_mobile()) {
 		frappe.msgprint({
 			title: __("Check In From Your Phone"),
-			message: __("Checking in needs a passkey on your phone. Check in from One on your phone, and it asks you to register one the first time."),
+			message: __("Checking in needs a passkey on your phone. Check in from {0} on your phone, and it asks you to register one the first time.", [onedesk.names.of("one")]),
 		});
 		return;
 	}

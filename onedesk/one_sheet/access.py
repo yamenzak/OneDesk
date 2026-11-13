@@ -7,7 +7,9 @@ without."""
 
 from frappe import _lt
 
-APP = "OneSheet"
+from onedesk.one import registry
+
+APP = registry.name("one_sheet")
 
 # Everybody keeps workbooks: its User role is given to every person
 # (rights.everyone).

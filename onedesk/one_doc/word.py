@@ -10,6 +10,7 @@ import frappe
 from bs4 import BeautifulSoup, NavigableString
 from frappe import _
 
+from onedesk.one import registry
 from onedesk.one_doc import api
 
 SUFFIX = ".docx"
@@ -245,14 +246,14 @@ def write(name: str, content: bytes) -> None:
 	with the record's fields in it, is not written from Word, which would
 	keep the fields' values and lose the fields. What the Word file had that
 	the document does not keep is noted on it, shown when it next opens."""
-	from onedesk.one_doc import versions
 	from onedesk.one_cloud import saving
+	from onedesk.one_doc import versions
 
 	item = api._may(name, "write")
 	saving.check(api.DOCUMENT, name, item)
 	held = frappe.db.get_value(api.DOCUMENT, name, ["html", "bound_doctype"], as_dict=True)
 	if held.bound_doctype or 'data-field="' in (held.html or ""):
-		frappe.throw(_("A document with a record's fields in it can only be edited in OneDoc."), frappe.PermissionError)
+		frappe.throw(_("A document with a record's fields in it can only be edited in {0}.").format(registry.name("one_doc")), frappe.PermissionError)
 	heard = []
 	html = read(name, content, heard)
 	if held.html:

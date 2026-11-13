@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Back From Supplier Late",
-		"app": "OneFactory",
+		"app": registry.name("one_factory"),
 		"roles": ("Purchase User", "Purchase Manager", "Manufacturing User"),
 		"about": "The day after subcontracted goods were due back and have not all come back.",
 		"to": "Whoever made the subcontracting order",
@@ -21,7 +23,7 @@ TYPES = [
 	},
 	{
 		"name": "Work Order Late",
-		"app": "OneFactory",
+		"app": registry.name("one_factory"),
 		"roles": ("Manufacturing User", "Manufacturing Manager", "Projects Manager"),
 		"about": "The day after a work order was wanted and is not all made.",
 		"to": "Whoever made the work order, and the project's manager",
@@ -33,7 +35,7 @@ TYPES = [
 	},
 	{
 		"name": "Work Order Done",
-		"app": "OneFactory",
+		"app": registry.name("one_factory"),
 		"roles": ("Manufacturing User", "Projects Manager", "Sales User"),
 		"about": "When everything a work order was for has been made.",
 		"to": "Whoever asked for it, and the project's manager",

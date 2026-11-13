@@ -1,6 +1,6 @@
-# What OneDisplay Is
+# What {one_display} Is
 
-OneDisplay puts what your business wants people to see on any screen with a
+{one_display} puts what your business wants people to see on any screen with a
 web browser: a TV in the lobby, a kiosk at the door, a display behind a
 counter. Each screen plays a **channel**: slides, a layout of live widgets
 such as a queue board, a clock or the weather, music, and spoken ads, on a
@@ -18,7 +18,7 @@ at the same moment.
 | **Counter** | Where whoever serves a queue calls the next ticket. See [Queues and Tickets](queues). |
 | **Content** | The slides, widget layouts, music and spoken ads a channel plays, and the sources that fill widgets with your records. |
 | **Queues** | Each queue with its services and counters, and every ticket taken. |
-| **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and OneDisplay's version, which opens What's New. |
+| **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and {one_display}'s version, which opens What's New. |
 
 ## What a Screen Needs
 

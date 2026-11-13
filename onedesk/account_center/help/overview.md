@@ -1,7 +1,7 @@
-# What AccountCenter Is
+# What {account_center} Is
 
-AccountCenter holds your own account, and for administrators, the
-workspace's. Open it from your picture at the foot of the rail, then **AccountCenter**,
+{account_center} holds your own account, and for administrators, the
+workspace's. Open it from your picture at the foot of the rail, then **{account_center}**,
 or from a link in a mail or notification about your account.
 
 ## Yours

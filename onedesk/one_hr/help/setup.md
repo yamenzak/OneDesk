@@ -1,6 +1,6 @@
 # Setup and Holidays
 
-**Setup** in the rail opens the lists OneHR is set up from, by topic:
+**Setup** in the rail opens the lists {one_hr} is set up from, by topic:
 
 - **People** — Company, Employee Group, Employee Grade and Employee Skill
   Map.
@@ -18,16 +18,16 @@
 - **Check-in** — Clock Reason, Clock Network, Clock Place, Clock Device and
   Clock Attempt.
 
-In the OneAI panel on a settings page, *Help me set this up* goes through
+In the {one_ai} panel on a settings page, *Help me set this up* goes through
 the settings and suggests changes.
 
 ## Holidays
 
 **Holidays**, under Workspace, shows the holiday list in effect today, with
-the days no one works. Leave, attendance, check-ins, OneCalendar and
-OneAI's deadlines all use it. This page is the administrators'; HR
+the days no one works. Leave, attendance, check-ins, {one_calendar} and
+{one_ai}'s deadlines all use it. This page is the administrators'; HR
 Managers change the list itself from Setup › **Holiday List**.
-OneCalendar's **Holidays** also opens it.
+{one_calendar}'s **Holidays** also opens it.
 
 - The top shows how many public holidays and weekly days off the list has, the
   next holiday and the list's last day. **People on Other Lists** appears
@@ -40,17 +40,17 @@ OneCalendar's **Holidays** also opens it.
   matters, in your language. Lunar holiday dates are marked as estimates and
   are worth checking.
 
-You can also ask OneAI, for example "add 15 November as Founders Day", "we're
+You can also ask {one_ai}, for example "add 15 November as Founders Day", "we're
 closed 24 to 31 December" or "Saturday and Sunday off from now on". It shows a
 card with each day it would add, rename or remove, or the new days off.
 Nothing changes until you click **Approve**. A day that falls in next year
 goes on next year's list once it's created.
 
-Every administrator is notified in One when someone else changes the
-holidays. They're also notified in One and by email 60, 30 and 7 days before
+Every administrator is notified in {one} when someone else changes the
+holidays. They're also notified in {one} and by email 60, 30 and 7 days before
 the list ends with no list after it.
 
-OneAI offers **Are our holidays ready for next year?**
+{one_ai} offers **Are our holidays ready for next year?**
 
 ### Next Year's Holiday List
 

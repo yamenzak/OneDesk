@@ -3,6 +3,7 @@
 import frappe
 from frappe import _
 
+from onedesk.one import registry
 from onedesk.one_mail import holders
 
 MAIL = "@mail"
@@ -62,7 +63,7 @@ def files(account: str, search: str | None = None) -> list[dict]:
 
 
 def trail(node_id: str) -> list[dict]:
-	out = [{"id": "@root", "name": _("OneCloud")}, {"id": MAIL, "name": _("Mail")}]
+	out = [{"id": "@root", "name": registry.name("one_cloud")}, {"id": MAIL, "name": _("Mail")}]
 	account = account_of(node_id)
 	if account:
 		out.append(

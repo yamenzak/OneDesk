@@ -2,7 +2,7 @@
 
 ## Applying for Leave
 
-1. Press **Request Leave** on OneHR's Home. **Apply for Leave** on your
+1. Press **Request Leave** on {one_hr}'s Home. **Apply for Leave** on your
    employee record and **Leave Application › + Add Leave Application** do
    the same. The cards at the top of Home say how many days of each leave you
    have left, and clicking one starts an application too.
@@ -18,7 +18,7 @@
 At the top of an application are its days, how many days of its kind are
 left once it is taken, and who approves it.
 
-You are told the answer, with the approver's note. In the OneAI panel, *Book
+You are told the answer, with the approver's note. In the {one_ai} panel, *Book
 time off* fills in the same application from what you tell it, for you to
 approve. Approved leave that is cancelled later is told to the approver
 (**Leave Cancelled**). Leave that does not carry forward is told two weeks
@@ -50,7 +50,7 @@ in and the leave policy chosen when there is only one.
 **Leave Encashment** says the amount before you submit — *Submitting this pays
 Lina Farah AED 700.00 for 7 days of Casual Leave* — or says what is missing:
 the daily encashment amount on the salary structure or the person's
-assignment. OneHR does not guess a daily rate.
+assignment. {one_hr} does not guess a daily rate.
 
 **Reports:** **Leave Balance**, **Leave Balance Summary**, **Leave Ledger**
 and **Working on a Holiday**. **Leave Ledger** lists every day of leave

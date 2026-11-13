@@ -4,11 +4,11 @@ Employees clock in and out themselves from any phone or computer. There is no
 machine to buy.
 
 **Check In, in the bar at the bottom.** It sits at the bar's right end, with
-OneAI, Timers and Notifications, and has a dot: green while you are
+{one_ai}, Timers and Notifications, and has a dot: green while you are
 clocked in, grey while you are not, and amber once your shift has started
 without you or you checked in after it. Until you check in it shows when your
 shift starts, and hovering says "Check in by 08:00" or "Your shift started at
-08:00". On OneHR's Home the button says the same: Check in by 08:00, or Check
+08:00". On {one_hr}'s Home the button says the same: Check in by 08:00, or Check
 In (late). Ten minutes after the start, anybody not in yet is reminded once
 (Not Checked In). The shift is your shift assignment for the day, else your
 default shift. On a phone it is at the top of the panel. Click it to clock in
@@ -90,7 +90,7 @@ back today; a day closed at the shift's end is filed under it.
 
 ## Places, Networks and Reviews
 
-**OneHR fixes its own settings.** When the office router gets a new address,
+**{one_hr} fixes its own settings.** When the office router gets a new address,
 or everybody clocks in at a gate outside the drawn location, check-ins from
 people who were verified another way are noticed. After enough of them — the
 **Confirmation Threshold**, three by default — the new network or location is
@@ -103,5 +103,5 @@ Accept or reject it; a rejected one does not count towards attendance.
 
 **Places and networks.** **Clock Place** holds the circles people may clock in
 from, with a radius. **Clock Network** holds the office addresses, one address
-or a range. Rows marked Proposed were learned by OneHR: open one and press
+or a range. Rows marked Proposed were learned by {one_hr}: open one and press
 **Confirm** or **Reject**. A rejected one is never proposed again.

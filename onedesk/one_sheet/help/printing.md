@@ -21,5 +21,5 @@ Hidden rows and columns are not printed.
 ## Keeping the PDF
 
 **Print** opens the PDF in a tab of its own, to print or save from there.
-**Save PDF to OneCloud** keeps it beside the workbook; a record's workbook has
+**Save PDF to {one_cloud}** keeps it beside the workbook; a record's workbook has
 **Attach PDF to** the record instead.

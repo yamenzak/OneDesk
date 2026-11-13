@@ -6,7 +6,9 @@ administrator's (gate._may_bind)."""
 
 from frappe import _lt
 
-APP = "TrustCenter"
+from onedesk.one import registry
+
+APP = registry.name("trust_center")
 
 # Everybody reads the agreements: its User role is given to every person
 # (rights.everyone).

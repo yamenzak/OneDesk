@@ -41,6 +41,10 @@ not a version number.
 
 ## The words
 
+An app's name is written by its id in braces, `{one_mail}` (`{one}` for One),
+in the title and the words, and filled in from its manifest when What's New
+shows it. Versions already written keep the names they were written with.
+
 One short paragraph, or a short list when there are several separate
 things. Say:
 

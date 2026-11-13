@@ -2,9 +2,10 @@
 what administrators see of the workspace's people and devices, and a domain
 of the workspace's own. See trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "AccountCenter"
+M = registry.name("account_center")
 
 
 clause(

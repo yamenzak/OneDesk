@@ -3,9 +3,10 @@ workspace, an administrator decides whether it runs, and a workspace's own
 custom collections are its content. See one_studio/AGENTS.md and
 trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneStudio"
+M = registry.name("one_studio")
 
 clause(
 	document="terms",

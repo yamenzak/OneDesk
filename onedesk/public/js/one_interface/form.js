@@ -313,7 +313,7 @@ onedesk.interface.cloud = (frm, $sidebar) => {
 		icon: "onecloud",
 		variant: "ghost",
 		size: "sm",
-		title: __("Open in OneCloud"),
+		title: __("Open in {0}", [onedesk.names.of("one_cloud")]),
 		css_class: "one-cloud-open",
 		onclick: () => onedesk.record_files.dialog(frm),
 	}).append(`<span class="one-files-count"></span>`);

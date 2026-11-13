@@ -1,18 +1,18 @@
-# What OneInventory Is
+# What {one_inventory} Is
 
-OneInventory is what the company holds: the goods it buys and sells or uses up
+{one_inventory} is what the company holds: the goods it buys and sells or uses up
 (stock), and the equipment it keeps — laptops, vehicles, tools (assets). It is
 where things arrive from suppliers, leave for customers and move between
-places, and where you order more. What the company makes is OneFactory's. It shares
-its records with OneBook, so a delivery here is the same record an invoice in
-OneBook is made from, and an asset's depreciation lands in OneBook's books by
+places, and where you order more. What the company makes is {one_factory}'s. It shares
+its records with {one_book}, so a delivery here is the same record an invoice in
+{one_book} is made from, and an asset's depreciation lands in {one_book}'s books by
 itself.
 
-![OneInventory's Home, with its figures and what needs doing](overview/home.png)
+![{one_inventory}'s Home, with its figures and what needs doing](overview/home.png)
 
 ## Finding Your Way
 
-**OneInventory** in the dock opens it on **Home**. Over it, six figures,
+**{one_inventory}** in the dock opens it on **Home**. Over it, six figures,
 each against last month and drawn over its months: **Stock Value**,
 **Received This Month**, **Delivered This Month**, **Manufactured This
 Month**, **To Receive** (still on order) and **Stock Ledger Entries This
@@ -43,7 +43,7 @@ Receipt**, **New Stock Entry** and **New Material Request** start one.
   or past their date), **Maintenance Due** (late or due this week) and **Left as Drafts** (receipts,
   deliveries, moves and counts started more than a day ago). Each row opens
   what it is about.
-- **Everything** lists all of OneInventory, each with a line saying what it
+- **Everything** lists all of {one_inventory}, each with a line saying what it
   is for, under Stock, Buying, Quality, Assets, Reports and
   Setup, and a
   search. **Reports** and **Setup** in the rail open their part of it.
@@ -62,7 +62,7 @@ The rail keeps what people use every day:
 - **Setup** — the **Inventory Check** first (what is missing before stock
   can be kept right), then warehouses with their putaway rules, stock
   dimensions and stock closings, item groups, brands, units and attributes
-  (from OneInventory's **Lists**) with variant settings, supplier groups and
+  (from {one_inventory}'s **Lists**) with variant settings, supplier groups and
   scorecard variables, price lists, asset
   categories, locations, maintenance teams, shift factors, delivery
   settings, and the stock and buying settings.
@@ -77,10 +77,10 @@ there first.
 
 ## What Is Kept Where
 
-OneCRM keeps customers, quotations and the sales order a won deal becomes;
-OneBook keeps invoices, bills, payments and suppliers; OneInventory keeps
+{one_crm} keeps customers, quotations and the sales order a won deal becomes;
+{one_book} keeps invoices, bills, payments and suppliers; {one_inventory} keeps
 items, stock, what arrives and what is delivered, what is ordered from
-suppliers, and the company's equipment. OneFactory keeps what the company
+suppliers, and the company's equipment. {one_factory} keeps what the company
 makes.
 
 ## Several Companies

@@ -1,6 +1,6 @@
 # Being Told
 
-OneHR tells people in One's notifications. **Notifications** in Settings
+{one_hr} tells people in {one}'s notifications. **Notifications** in Settings
 changes how each person hears of each one.
 
 - **Requests** — a leave application, expense claim, shift request or

@@ -58,7 +58,7 @@ the hours count in the project's **Cost**, and billable ones in what there is
 to bill. Time on a project with a customer is billable unless someone unticks
 it.
 
-**Bills from suppliers count too.** When OneAI reads a supplier's bill
+**Bills from suppliers count too.** When {one_ai} reads a supplier's bill
 that names an open project, the bill it drafts is for that project, and so is
 each line, so the project's **Cost** includes it once it's submitted. A bill
 naming two projects, or none, is left for you to set.
@@ -97,7 +97,7 @@ project paid for it.
 
 Split the budget by **cost type** under **Cost Types** on **Money**: one
 for each kind of cost you track, such as labour, materials, subcontracts or
-equipment (each is an expense account in OneBook). Each shows its
+equipment (each is an expense account in {one_book}). Each shows its
 **Budget**, what's **Committed** on supplier orders not yet billed, what's
 been **Spent**, and what's **Left**, over the project and its sub-projects.
 **Time** is the team's own hours against the **Time Budget**: timesheets

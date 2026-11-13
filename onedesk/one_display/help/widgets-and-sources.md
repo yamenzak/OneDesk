@@ -1,7 +1,7 @@
 # Widgets and Sources
 
 A widget collection is a layout of widgets on the screen. **Edit Layout** on a
-collection opens it in OneDeck's editor, at the screen's own shape; a new
+collection opens it in {one_deck}'s editor, at the screen's own shape; a new
 one opens on its [Templates](templates). **Add a Widget** shows every widget
 and its ready-made versions, drawn as they will look, and puts the one you
 choose in the middle; drag it into place, pull its handles to size it, and
@@ -35,7 +35,7 @@ next time they look.
 | **Image** and **QR Code** | A picture, or a code that opens an address on a phone. |
 | **Schedule** | The day's sessions, a line each: time, what and where. The one on now is marked and the ones over fade. |
 | **Opening Hours** | Your hours for each day, with today marked and whether you are open now. |
-| **Custom** | A widget of your own, written by OneAI from a sentence. |
+| **Custom** | A widget of your own, written by {one_ai} from a sentence. |
 
 A widget can show always, or only between two times of day.
 
@@ -95,8 +95,8 @@ project's name and its status. A source reads as the person who saved it, so
 a screen never shows what that person could not see, and only the fields a
 widget uses leave the workspace.
 
-**News** reads the headlines of the News Sources you choose, which One
-fetches on each source's own schedule (see One's Help, under News). Choose
+**News** reads the headlines of the News Sources you choose, which {one}
+fetches on each source's own schedule (see {one}'s Help, under News). Choose
 **By Category** to keep a category's headlines together. A ticker can show
 each category where its headlines begin, or in its label as they pass; put a
 publisher's logo before or after each headline; and put a mark, your
@@ -109,4 +109,4 @@ currencies you list, in your company's currency or another you choose. A
 ticker filled from it runs "USD 3.6725 AED • EUR …" along the screen.
 
 The weather comes from outside the workspace, so an administrator turns it
-on first in TrustCenter, under the services OneDisplay may reach.
+on first in {trust_center}, under the services {one_display} may reach.

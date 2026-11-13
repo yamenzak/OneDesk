@@ -1,21 +1,21 @@
-# What OneProject Is
+# What {one_project} Is
 
-OneProject is where work bigger than a task is run: a villa's windows, a
+{one_project} is where work bigger than a task is run: a villa's windows, a
 website, an office move. A project holds its tasks, its time, what it costs
 and what it's billed. A project's quotation, sales order, timesheets and
-invoices are the same records the rest of One uses.
+invoices are the same records the rest of {one} uses.
 
-**OneTask and OneProject share the same tasks.** OneTask is what each person
-has to do. OneProject is how a project is going, for the people who run it. A
+**{one_task} and {one_project} share the same tasks.** {one_task} is what each person
+has to do. {one_project} is how a project is going, for the people who run it. A
 project task assigned to you shows on your My Tasks and on the project's board.
 
 ## Finding Your Way
 
-**OneProject** in the dock opens it. The panel on the left lists its four
+**{one_project}** in the dock opens it. The panel on the left lists its four
 places, and its reports below them.
 
 - **Project**: every project you can see. Employee onboarding and exit
-  checklists belong to OneHR and aren't listed.
+  checklists belong to {one_hr} and aren't listed.
 - **Workload**: how many hours of open work each person has in a week.
 - **Timesheet**: the time people have logged, across projects, newest first. Each
   timesheet shows who, the project, the days it covers, its hours and how
@@ -54,5 +54,5 @@ Collect Progress asks them.
 On a project, its name at the top opens your other open projects and
 **All Projects**.
 
-Tasks are in OneTask, and a project's own tasks are on its **Tasks** tab. Project
-types are in OneProject's **Lists**, the last row of its rail.
+Tasks are in {one_task}, and a project's own tasks are on its **Tasks** tab. Project
+types are in {one_project}'s **Lists**, the last row of its rail.

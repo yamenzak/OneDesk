@@ -9,6 +9,8 @@ from contextlib import contextmanager
 
 import frappe
 
+from onedesk.one import registry
+
 FLAG = "one_admin"
 
 OPERATOR = "One Operator"
@@ -106,7 +108,7 @@ def make_operator(user: str, on: int = 1) -> list[dict]:
 		doc.add_roles(OPERATOR)
 	else:
 		if _operators() == [user]:
-			frappe.throw(frappe._("OneAdmin needs at least one operator."))
+			frappe.throw(frappe._("{0} needs at least one operator.").format(registry.name("one_admin")))
 		doc.remove_roles(OPERATOR)
 	return operators()
 

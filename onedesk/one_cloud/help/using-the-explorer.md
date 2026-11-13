@@ -1,6 +1,6 @@
 # Using the Explorer
 
-How to move around OneCloud, find a file, and add, copy, move and delete
+How to move around {one_cloud}, find a file, and add, copy, move and delete
 files. Changes other people make appear in the open folder without
 refreshing.
 
@@ -19,7 +19,7 @@ refreshing.
 **Search** looks in the current folder and its subfolders. **Search
 everywhere** widens it to every file you can open: My Files, Company,
 Shared with Me, your libraries and the files of every record you can see.
-At the top level of OneCloud it searches everywhere by default.
+At the top level of {one_cloud} it searches everywhere by default.
 
 Right-click a result for **Open file location**. Servers under Network
 aren't searched.
@@ -30,7 +30,7 @@ aren't searched.
 or a presentation, or uploads files or a whole folder. You can also drag
 files or folders from your computer onto the page or onto a folder.
 
-When OneAI is on, **New** also makes a picture, music, a short video or
+When {one_ai} is on, **New** also makes a picture, music, a short video or
 speech from what you describe, saved in the folder. A picture and speech
 arrive in a few seconds. Music and a video take longer, and you get a
 notification when they're ready.

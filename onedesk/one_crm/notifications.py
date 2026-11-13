@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Appointment Confirmation",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"about": "When somebody books an appointment, and again once it is confirmed, in Appointment Booking Settings' words.",
 		"to": "Whoever booked it",
 		"channels": {
@@ -23,7 +25,7 @@ TYPES = [
 	},
 	{
 		"name": "Contract Expiring",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales Manager", "Purchase Manager"),
 		"about": "When a contract with a customer or supplier ends in two weeks.",
 		"to": "Whoever made it, and the user it names",
@@ -35,7 +37,7 @@ TYPES = [
 	},
 	{
 		"name": "Email Campaign",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"about": "On a campaign's schedule, in the templates it names.",
 		"to": "The campaign's leads and contacts",
 		"channels": {
@@ -49,7 +51,7 @@ TYPES = [
 	},
 	{
 		"name": "Given to You",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales User", "Sales Manager"),
 		"about": "When somebody makes you the owner of a lead or an opportunity.",
 		"to": "Its new owner",
@@ -62,7 +64,7 @@ TYPES = [
 	},
 	{
 		"name": "New Lead Waiting",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales User", "Sales Manager"),
 		"about": "When a lead arrives that nobody owns, from the website or the inbox.",
 		"to": "Sales",
@@ -74,7 +76,7 @@ TYPES = [
 	},
 	{
 		"name": "Next Step Due",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales User",),
 		"about": "When the next step on one of your leads or opportunities comes due.",
 		"to": "The lead's or opportunity's owner",
@@ -86,7 +88,7 @@ TYPES = [
 	},
 	{
 		"name": "Issue Answer Late",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Support Team",),
 		"about": "When an issue has had no first answer by the time its service level agreement gives.",
 		"to": "Whoever the issue is assigned to, else the support team",
@@ -99,7 +101,7 @@ TYPES = [
 	},
 	{
 		"name": "Proforma Invoice by Mail",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"about": "When somebody sends a proforma invoice from its order.",
 		"to": "The addresses it is sent to",
 		"channels": {
@@ -113,7 +115,7 @@ TYPES = [
 	},
 	{
 		"name": "Quotation Accepted",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales Manager", "Sales User"),
 		"about": "When a customer accepts one of your quotations, on the portal or through a link.",
 		"to": "Whoever made the quotation, the opportunity's owner and the project's manager",
@@ -126,7 +128,7 @@ TYPES = [
 	},
 	{
 		"name": "Quotation Declined",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales Manager", "Sales User"),
 		"about": "When a customer declines one of your quotations, on the portal or through a link.",
 		"to": "Whoever made the quotation, the opportunity's owner and the project's manager",
@@ -138,7 +140,7 @@ TYPES = [
 	},
 	{
 		"name": "Quotation Running Out",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales User", "Sales Manager"),
 		"about": "When an open quotation has three days left to hold.",
 		"to": "Whoever made the quotation, the opportunity's owner and the project's manager",
@@ -151,7 +153,7 @@ TYPES = [
 	},
 	{
 		"name": "They Replied",
-		"app": "OneCRM",
+		"app": registry.name("one_crm"),
 		"roles": ("Sales User", "Sales Manager"),
 		"about": "When mail comes in on a lead or an opportunity you own.",
 		"to": "Its owner",

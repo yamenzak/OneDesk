@@ -9,6 +9,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, convert_utc_to_system_timezone, get_datetime, now_datetime
 
+from onedesk.one import registry
 from onedesk.one.news import ITEM, SOURCE, feeds
 from onedesk.one_admin import faults
 from onedesk.trust_center import services
@@ -173,7 +174,7 @@ def _google(source, values: dict) -> dict:
 	from onedesk.one import account
 
 	if not services.on(GOOGLE_SERVICE):
-		raise feeds.Unreadable(_("Google News is turned off. Turn it on in TrustCenter."))
+		raise feeds.Unreadable(_("Google News is turned off. Turn it on in {0}.").format(registry.name("trust_center")))
 	country, language = _codes(source)
 	said = services.call(
 		GOOGLE_SERVICE,

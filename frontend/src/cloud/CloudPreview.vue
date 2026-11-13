@@ -63,7 +63,7 @@
 // folder itself: how much is in it and who it is shared with.
 import { computed, reactive, ref, watch } from "vue";
 
-import { PlaceSpot, __, call, intakeOn, onedesk, userInfo } from "../kit";
+import { PlaceSpot, __, call, intakeOn, onedesk, userInfo, name } from "../kit";
 import IntakePanel from "../intake/IntakePanel.vue";
 import { PREVIEW, dateText, extension, filed, iconOf, inkOf, sizeText, typeOf } from "./cloud";
 
@@ -112,7 +112,7 @@ const folderFacts = computed(() => {
     rows.push([__("Owner"), people.value.owner.name]);
     rows.push([__("Shared with"), seen.length ? seen.map((one) => one.name).join(", ") : __("No one else")]);
   }
-  if (reading.value) rows.push([__("Read by OneAI"), reading.value.on ? __("Yes") : __("No")]);
+  if (reading.value) rows.push([__("Read by {0}", [name("one_ai")]), reading.value.on ? __("Yes") : __("No")]);
   return rows.filter(([, value]) => value);
 });
 

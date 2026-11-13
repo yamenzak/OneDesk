@@ -21,6 +21,7 @@ import requests
 from frappe import _
 from frappe.utils import sha256_hash
 
+from onedesk.one import registry
 from onedesk.one_admin import site, tell, vault
 
 STEPS = []
@@ -580,7 +581,7 @@ class Setup:
 			self.call("GET", f"/zones/{zone}/custom_hostnames", params={"per_page": 1})
 		except Refused as reason:
 			return self.note(
-				"custom hostnames", WAITING, _("{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone.").format(reason)
+				"custom hostnames", WAITING, _("{0}. The {1} token needs SSL and Certificates: Edit on the zone.").format(reason, registry.name("one_admin"))
 			)
 		try:
 			held = self.call("GET", f"/zones/{zone}/custom_hostnames/fallback_origin").get("result") or {}
@@ -666,7 +667,7 @@ class Setup:
 		try:
 			held = self.call("GET", f"/zones/{zone}/email/routing/dns", params={"subdomain": domain})["result"]
 		except Refused as reason:
-			self.note(step, WAITING, _("{0}. The OneAdmin token needs Zone Settings: Edit.").format(reason))
+			self.note(step, WAITING, _("{0}. The {1} token needs Zone Settings: Edit.").format(reason, registry.name("one_admin")))
 			return False
 		mx = self.call("GET", f"/zones/{zone}/dns_records", params={"type": "MX", "name": domain})["result"] or []
 		if not routing_missing(held) and mx:

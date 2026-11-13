@@ -7,9 +7,9 @@ reads one already keeps what it has (one/roles.py `give`).
 
 from frappe import _lt
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 
-APP = "OneQuality"
+APP = registry.name("one_quality")
 
 # Not everybody's: People gives it to whoever uses OneQuality.
 USER = "Quality User"

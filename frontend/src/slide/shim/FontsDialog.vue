@@ -24,7 +24,7 @@
 						<p v-if="query && !found.length && !looking" class="py-2 text-sm text-ink-gray-5">{{ __("No family by that name.") }}</p>
 					</div>
 				</div>
-				<p v-else class="text-sm text-ink-gray-5">{{ __("To add fonts from Google's catalogue, turn on Fonts from Google in TrustCenter.") }}</p>
+				<p v-else class="text-sm text-ink-gray-5">{{ __("To add fonts from Google's catalogue, turn on Fonts from Google in {0}.", [name("trust_center")]) }}</p>
 			</div>
 	</Dialog>
 </template>
@@ -32,7 +32,7 @@
 <script setup>
 import { ref } from "vue";
 import { Button, Dialog, TextInput } from "frappe-ui";
-import { alert, call, csrf } from "../../kit/desk";
+import { alert, call, csrf, name } from "../../kit/desk";
 import { library, loadFonts, refreshFaces } from "./fonts.js";
 import { __ } from "./words.js";
 

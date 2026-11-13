@@ -1,8 +1,8 @@
 # How Screens Are Laid Out
 
-Every screen in One sits in the same window, so what you learn on one you
+Every screen in {one} sits in the same window, so what you learn on one you
 already know on the next. A list of invoices, an employee, a report and
-OneCloud all keep the same parts in the same places.
+{one_cloud} all keep the same parts in the same places.
 
 ## The Bar at the Top
 
@@ -15,7 +15,7 @@ where you are; click it and type to search, or press Ctrl+K from anywhere.
 
 Under the address sit the things you can do here. The main one is dark and
 comes first; the others follow, and the rest are in the menu. On a record,
-the OneCloud, print and like buttons sit at the right end, before Cancel.
+the {one_cloud}, print and like buttons sit at the right end, before Cancel.
 
 ## The Panes
 

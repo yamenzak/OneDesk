@@ -1,7 +1,7 @@
 # Servers as Folders
 
 **Network** shows an SFTP or WebDAV server, such as a supplier's upload
-folder, an old file server or a NAS, as a folder in OneCloud.
+folder, an old file server or a NAS, as a folder in {one_cloud}.
 
 ## Connecting a Server
 
@@ -24,5 +24,5 @@ files between the server and your folders, which copies them.
 
 A connection is private to you unless a workspace administrator ticks
 **Share with everyone on the team**. Right-click it for **Edit connection…**
-or **Disconnect**, which leaves the server unchanged. OneCloud doesn't
+or **Disconnect**, which leaves the server unchanged. {one_cloud} doesn't
 connect to addresses on a private network.

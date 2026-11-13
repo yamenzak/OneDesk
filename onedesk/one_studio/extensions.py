@@ -9,7 +9,7 @@ import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one_studio import checks, guard, review, tell, trial
 
 EXTENSION = "Extension"
@@ -168,7 +168,7 @@ def check(
 		trial.parsed(code)
 		return
 	if runs == ON_SCREEN and view not in guard.VIEWS:
-		raise guard.Refused(_("An extension on the screen runs on a form, a list or one of One's pages."))
+		raise guard.Refused(_("An extension on the screen runs on a form, a list or one of {0}'s pages.").format(registry.name("one")))
 	if runs == ON_SERVER and event not in guard.EVENTS + guard.SCHEDULED:
 		raise guard.Refused(
 			_(
@@ -307,7 +307,7 @@ def take_draft(doc) -> None:
 	if not new:
 		frappe.throw(_("There is no new version of {0}.").format(doc.title))
 	if new.review != "Passed" or new.reviewed != reviewed_as(new):
-		frappe.throw(_("The new version has not passed its review, so it cannot be used. Ask OneAI to change it."))
+		frappe.throw(_("The new version has not passed its review, so it cannot be used. Ask {0} to change it.").format(registry.name("one_ai")))
 	doc.update({key: new[key] for key in DRAFTED})
 	doc.draft = None
 	doc.flags.ignore_permissions = True
@@ -341,13 +341,13 @@ def validate(doc, method=None) -> None:
 	only where it can run."""
 	if not doc.flags.written and (doc.is_new() or any(doc.has_value_changed(f) for f in WRITTEN)):
 		frappe.throw(
-			_("Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours.")
+			_("Only {0} writes an extension. Ask it to change this one; turning it on or off is yours.").format(registry.name("one_ai"))
 		)
 	if not doc.enabled:
 		return
 	if doc.review != "Passed" or doc.reviewed != reviewed_as(doc):
 		frappe.throw(
-			_("This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it.")
+			_("This extension has not passed its review, so it cannot be turned on. Ask {0} to change it.").format(registry.name("one_ai"))
 		)
 	if doc.runs == ON_SERVER and not runs_server_scripts():
 		frappe.throw(_("This workspace does not run extensions on the server yet. Ask us to turn them on."))

@@ -2,12 +2,12 @@
 
 ## ShortcutCenter
 
-**ShortcutCenter** lists every key One answers to, app by app, and where each
+**ShortcutCenter** lists every key {one} answers to, app by app, and where each
 one works: **Anywhere**, **In a List**, **In a Record**, **In a Calendar**, or
-in one app's own screen, like OneMail. A key made for the screen you're on
+in one app's own screen, like {one_mail}. A key made for the screen you're on
 comes before one that works anywhere.
 
-Open it from **Centers** on One's rail, from **Keyboard Shortcuts** at the end
+Open it from **Centers** on {one}'s rail, from **Keyboard Shortcuts** at the end
 of an app's Settings, or press **Shift+/**.
 
 ## Change a Shortcut

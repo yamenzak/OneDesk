@@ -7,6 +7,8 @@ Write My Bio, writes words a person then puts in their own profile."""
 import frappe
 from frappe import _lt
 
+from onedesk.one import registry
+
 REACH = {}
 
 # OneAI's actions here, which are One's: AccountCenter is a centre of One
@@ -95,5 +97,5 @@ def write_bio(told: str = "") -> str:
 
 	actions.refuse("write_bio")
 	if len(told) > 2000:
-		frappe.throw(frappe._("Tell OneAI a little less, in a few sentences."))
+		frappe.throw(frappe._("Tell {0} a little less, in a few sentences.").format(registry.name("one_ai")))
 	return (run.once("bio", _about_me(told), reference=frappe.session.user) or "").strip()

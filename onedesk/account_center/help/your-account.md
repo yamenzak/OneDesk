@@ -18,10 +18,10 @@ live, who to call, your education, your past work or your documents.
 **Documents** lists your ID, passport and permits. Add a new one, or
 change one when you renew it, with its number, dates and a scan. The kinds
 you can pick are your country's and the ones every country has. One that has
-run out is named above the list. When OneAI reads a renewed document sent in
+run out is named above the list. When {one_ai} reads a renewed document sent in
 by mail or uploaded, it updates your record the same way.
 
-**Your Files**, under the list, is your folder in OneCloud: the scan on each
+**Your Files**, under the list, is your folder in {one_cloud}: the scan on each
 document lands there when you save, and you can add any other paper HR
 should keep. HR sees the same folder on your employee record. Taking a file
 out again is HR's.
@@ -30,7 +30,7 @@ Your name, gender, birth date, mobile, photo and bio are the same on your
 profile and your employee record: a change to one is a change to both,
 whether you make it or HR does.
 
-**Write My Bio**, beside Bio, asks you to say a little about yourself. OneAI
+**Write My Bio**, beside Bio, asks you to say a little about yourself. {one_ai}
 writes a short bio from that and your employee record, and **Use** puts it in
 the field. Change it as you like, then press **Save**. Nothing is saved until
 you do.
@@ -39,7 +39,7 @@ If somebody else saved your profile after you opened it, your save stops
 and says so, so nothing they wrote is lost. Open it again and make your
 change.
 
-**Your Data** at the end of your profile asks for a copy of everything One
+**Your Data** at the end of your profile asks for a copy of everything {one}
 keeps about you, or for your account to be deleted.
 
 ## How You Sign In

@@ -22,7 +22,7 @@ says so and opens once they have agreed.
 
 ## Where You Stand
 
-TrustCenter shows, at the top of each agreement, whether **You** and **Your
+{trust_center} shows, at the top of each agreement, whether **You** and **Your
 Organisation** agreed, who did and when. **Agree** is there while one is
 owed, and earlier versions open from their buttons beside it.
 

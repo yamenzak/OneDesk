@@ -1,10 +1,10 @@
-# Asking OneAI
+# Asking {one_ai}
 
-When OneAI is on, ask it in its own panel at the bottom right, as anywhere
+When {one_ai} is on, ask it in its own panel at the bottom right, as anywhere
 else. On a document it already knows which document is open, what it says,
 and what you have selected, or the paragraph your cursor is in.
 
-![The OneAI panel beside a document, asked to add a line](asking-oneai/panel.png)
+![The {one_ai} panel beside a document, asked to add a line](asking-oneai/panel.png)
 
 ## What to Ask
 
@@ -16,14 +16,14 @@ and what you have selected, or the paragraph your cursor is in.
 | "Make a covering letter on this quotation from the template" | A card that makes a new document, on the record, from the template. |
 
 Nothing changes until you approve the card. Approving puts the words into
-the document as one edit, which undo takes back. OneAI also finds documents
+the document as one edit, which undo takes back. {one_ai} also finds documents
 by name and reads them, but only ones you may open.
 
 ## A Picture
 
-**Make a Picture with OneAI**, beside the picture button in the bar, asks for
-a sentence and a shape (wide, square or tall) and puts the picture OneAI makes
+**Make a Picture with {one_ai}**, beside the picture button in the bar, asks for
+a sentence and a shape (wide, square or tall) and puts the picture {one_ai} makes
 where your cursor is. It is kept in the document like a picture you put in.
 
-Each question uses credits like any other. An administrator can turn OneAI
-off for OneDoc in AICenter.
+Each question uses credits like any other. An administrator can turn {one_ai}
+off for {one_doc} in AICenter.

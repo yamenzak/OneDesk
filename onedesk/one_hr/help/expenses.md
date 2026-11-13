@@ -6,7 +6,7 @@ by department, and of advances by status.
 
 ## Claiming an Expense
 
-1. Press **Claim an Expense** on OneHR's Home, or on your employee record,
+1. Press **Claim an Expense** on {one_hr}'s Home, or on your employee record,
    or use **Expense Claim › + Add Expense Claim**.
 2. Under **Expenses**, add a row per expense: the **Expense Date**, the
    **Expense Claim Type**, a **Description** and the **Amount**. Attach the
@@ -17,9 +17,9 @@ by department, and of advances by status.
 
 ![An expense claim with what was claimed and sanctioned](expenses/expense-claim.png)
 
-In the OneAI panel, *Claim a receipt* with a photo of the receipt fills in
+In the {one_ai} panel, *Claim a receipt* with a photo of the receipt fills in
 the claim for you to approve, and *What can I claim?* says what may be
-claimed and who approves it. A receipt sent in to OneAI becomes a claim
+claimed and who approves it. A receipt sent in to {one_ai} becomes a claim
 the same way. Once a claim is approved, accounts pay it with **Create ›
 Payment** on the claim, and you are told when it is paid (**Expense Claim
 Paid**).
@@ -33,7 +33,7 @@ their own claim. The cost centre is filled in.
 
 **Employee Advance** is money given ahead, such as for a trip: the
 **Purpose** and the **Advance Amount**. Once it is submitted, whoever
-makes payments in OneBook pays it with **Create › Payment**; HR does not see
+makes payments in {one_book} pays it with **Create › Payment**; HR does not see
 that button. What was not spent comes back with **Create › Return**,
 or is taken from salary with **Create › Deduction from Salary**. A later
 expense claim takes the advance off what it pays back. The advance account

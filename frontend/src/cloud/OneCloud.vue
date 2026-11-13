@@ -177,6 +177,7 @@ import {
   interfaceSearch,
   interfaceStatus,
   interfaceTree,
+  name as appName,
 } from "../kit";
 import { sizes as slideSizes } from "../slide/shim/frame.js";
 import { API, COLORS, PDF_PARTS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, opensInOneOS, sizeText, stored, takes, typeOf, viewedAs } from "./cloud";
@@ -394,7 +395,7 @@ function tellWindow() {
   const last = trail.value.length - 1;
   setCrumbs(
     trail.value.map((one, at) => ({ label: one.name, ...(at < last ? { href: `/desk/onecloud?node=${encodeURIComponent(one.id)}` } : {}) })),
-    last >= 0 ? trail.value[last].name : __("OneCloud")
+    last >= 0 ? trail.value[last].name : appName("one_cloud")
   );
   interfaceCan(props.win, { up: trail.value.length > 2 });
   searchBox?.placeholder(searchPlaceholder.value);
@@ -467,7 +468,7 @@ async function measure() {
   if (props.win) interfaceMeters(props.win, await get(API + "capacity"));
 }
 measure();
-interfaceModuleFoot(props.win, { module: "OneCloud", onSettings: () => onedesk().cloud.settings() });
+interfaceModuleFoot(props.win, { module: appName("one_cloud"), onSettings: () => onedesk().cloud.settings() });
 
 async function drawTree() {
   if (!kids["@root"]) kids["@root"] = await call(API + "folders", { node: "@root" });
@@ -604,7 +605,7 @@ function makeWithAI(kind) {
     ].filter(Boolean),
     async ({ description, shape, voice, name }) => {
       const later = kind === "music" || kind === "video";
-      if (!later) alert(__("OneAI is making it…"), "blue");
+      if (!later) alert(__("{0} is making it…", [appName("one_ai")]), "blue");
       const made = await call("onedesk.one_cloud.made.create", {
         kind,
         target,
@@ -728,10 +729,10 @@ const newMenu = computed(() => {
     [["new-request", "lucide-inbox", __("File request"), can.add && local]],
     oneaiOn() && can.add && local
       ? [
-          ["make-picture", "lucide-image", __("Picture with OneAI…"), true],
-          ["make-music", "lucide-music", __("Music with OneAI…"), true],
-          ["make-video", "lucide-clapperboard", __("Video with OneAI…"), true],
-          ["make-speech", "lucide-audio-lines", __("Speech with OneAI…"), true],
+          ["make-picture", "lucide-image", __("Picture with {0}…", [appName("one_ai")]), true],
+          ["make-music", "lucide-music", __("Music with {0}…", [appName("one_ai")]), true],
+          ["make-video", "lucide-clapperboard", __("Video with {0}…", [appName("one_ai")]), true],
+          ["make-speech", "lucide-audio-lines", __("Speech with {0}…", [appName("one_ai")]), true],
         ]
       : [],
   ]);
@@ -777,7 +778,7 @@ function itemMenu() {
       ["combine", "lucide-file-stack", __("Combine into PDF…"), combinable(picked)],
       one && !one.folder && filed(one) && viewedAs(one) === "office" ? ["to-pdf", "lucide-file-output", __("Convert to PDF"), can.add] : null,
       one && one.oneos && one.oneos.mine ? ["oneos-close", "lucide-monitor-off", __("Close in OneOS"), true] : null,
-      one && !one.folder && intakeOn() && filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "lucide-scan-text", __("Read with OneAI"), true] : null,
+      one && !one.folder && intakeOn() && filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "lucide-scan-text", __("Read with {0}", [appName("one_ai")]), true] : null,
       ["rename", "lucide-pencil", __("Rename"), !!(one && allStored) && kind.value !== "record"],
       ["delete", "lucide-trash-2", __("Delete"), allStored, "red"],
     ],
@@ -1021,7 +1022,7 @@ const NATIVE = {
   document: (one) => call("onedesk.one_doc.word.open_file", { file: one.id }).then((made) => goTo("document", made.document)),
   presentation: (one) => call("onedesk.one_deck.from_powerpoint.open_file", { file: one.id }).then((made) => openedDeck({ ...made, name: one.name })),
 };
-const APPS = { workbook: "OneSheet", document: "OneDoc" };
+const APPS = { workbook: appName("one_sheet"), document: appName("one_doc") };
 
 async function weigh(one) {
   if (Array.isArray(one.office.loses) && !one.office.loses.length) return { loses: [] };
@@ -1046,17 +1047,17 @@ async function editHere(one) {
 }
 
 async function oneCopy(one) {
-  alert(__("Copying {0} into One…", [one.name]), "blue");
+  alert(__("Copying {0} into {1}…", [one.name, appName("one")]), "blue");
   const made = await call("onedesk.one_cloud.opening.one_copy", { node: one.id });
-  alert(__("Copied into One as {0}.", [made.name]));
+  alert(__("Copied into {1} as {0}.", [made.name, appName("one")]));
   if (made.workbook) return goTo("workbook", made.workbook);
   goTo("document", made.document);
 }
 
 const OWN = {
-  workbook: { app: "OneSheet", suffix: ".xlsx", download: () => __("Download as Excel") },
-  document: { app: "OneDoc", suffix: ".docx", download: () => __("Download as Word") },
-  presentation: { app: "OneDeck", suffix: ".pptx", download: () => __("Download as PowerPoint") },
+  workbook: { app: appName("one_sheet"), suffix: ".xlsx", download: () => __("Download as Excel") },
+  document: { app: appName("one_doc"), suffix: ".docx", download: () => __("Download as Word") },
+  presentation: { app: appName("one_deck"), suffix: ".pptx", download: () => __("Download as PowerPoint") },
 };
 const ownKind = (one) => (one && !one.folder ? Object.keys(OWN).find((kind) => one[kind]) : null);
 
@@ -1089,7 +1090,7 @@ function editChoices(one) {
       label: __("Make a Presentation"),
       short: __("Make a Presentation"),
       icon: "lucide-presentation",
-      description: __("A new OneDeck presentation, with the file kept as it is."),
+      description: __("A new {0} presentation, with the file kept as it is.", [appName("one_deck")]),
       onClick: () => NATIVE.presentation(one),
     });
   }
@@ -1100,7 +1101,7 @@ function editChoices(one) {
       label: __("Make a One Copy"),
       short: __("Make a One Copy"),
       icon: "lucide-copy-plus",
-      description: way.copy === "workbook" ? __("A workbook of One's own from this file.") : __("A document of One's own from this file."),
+      description: way.copy === "workbook" ? __("A workbook of {0}'s own from this file.", [appName("one")]) : __("A document of {0}'s own from this file.", [appName("one")]),
       onClick: () => oneCopy(one),
     });
   }
@@ -1252,7 +1253,7 @@ const ONEOS_SAID = {
   "Time Limit": (name) => __("{0} was closed in OneOS after 8 hours. Changes you saved are kept.", [name]),
   "No Credits": (name) => __("{0} was closed in OneOS because the workspace ran out of OneCredits. Changes you saved are kept.", [name]),
   "Not Answering": (name) => __("OneOS stopped answering, so {0} was closed. Changes you saved are kept.", [name]),
-  "Stopped by Operator": (name) => __("{0} was closed in OneOS by One's support. Changes you saved are kept.", [name]),
+  "Stopped by Operator": (name) => __("{0} was closed in OneOS by {1}'s support. Changes you saved are kept.", [name, appName("one")]),
 };
 
 async function paste(target) {
@@ -1547,7 +1548,7 @@ interfaceHandles(props.win, {
       .then((found) => (go(found), true))
       .catch(() => false),
 });
-props.onTitle?.(__("OneCloud"));
+props.onTitle?.(appName("one_cloud"));
 
 watch(
   () => [here.value, newMenu.value, settings.view, search.value, treeRows.value],

@@ -13,6 +13,9 @@ def boot_session(bootinfo) -> None:
 	from onedesk.one import stamp
 
 	bootinfo["one_assets"] = stamp.versions()
+	from onedesk.one import registry
+
+	bootinfo["one_names"] = {one.id: {"name": one.name, "mark": one.mark, "sidebar": one.sidebar} for one in registry.apps()}
 
 	from frappe.model.utils.user_settings import get_user_settings
 

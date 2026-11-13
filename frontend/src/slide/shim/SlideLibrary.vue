@@ -26,7 +26,7 @@
 import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import SlidePreview from "../components/SlidePreview.vue";
-import { call } from "../../kit/desk";
+import { call, name } from "../../kit/desk";
 import { __ } from "./words.js";
 
 // card width: 4xl dialog (896) - px-6 (48) - two gap-6 (48), divided by 3
@@ -40,7 +40,7 @@ const kindOptions = computed(() => [{ value: "", label: __("All") }, ...Object.e
 const shown = computed(() =>
 	[
 		{ key: "yours", label: __("Your company's"), items: said.value.yours },
-		{ key: "one", label: __("From One"), items: said.value.one },
+		{ key: "one", label: __("From {0}", [name("one")]), items: said.value.one },
 	]
 		.map((shelf) => ({ ...shelf, items: shelf.items.filter((item) => !kind.value || item.kind === kind.value) }))
 		.filter((shelf) => shelf.items.length)

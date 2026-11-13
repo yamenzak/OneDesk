@@ -1,4 +1,11 @@
 frappe.provide("onedesk.brand");
+frappe.provide("onedesk.names");
+
+onedesk.names.of = (id) => frappe.boot?.one_names?.[id]?.name || id;
+
+onedesk.names.mark = (id) => frappe.boot?.one_names?.[id]?.mark || "";
+
+onedesk.names.sidebar = (id) => frappe.boot?.one_names?.[id]?.sidebar || onedesk.names.of(id);
 
 onedesk.brand.NAME = /\bOne(AI|Admin|Book|Calendar|Cloud|Code|CRM|DB|Desk|Display|Doc|Fit|Forms|Governance|HR|Inventory|Legal|Mail|Market|Mobility|Project|Scratchpad|Sheet|Signature|Slide|Studio|Study|Task|Ticket|Workbook|Writer)\b/g;
 

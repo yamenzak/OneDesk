@@ -15,6 +15,8 @@ import zipfile
 import frappe
 from frappe.utils import cint, now_datetime, strip_html
 
+from onedesk.one import registry
+
 AUTHOR = "oneai@one.invalid"
 
 POOL = 40
@@ -76,7 +78,7 @@ def _author() -> None:
 		{
 			"doctype": "User",
 			"email": AUTHOR,
-			"first_name": "OneAI",
+			"first_name": registry.name("one_ai"),
 			"enabled": 0,
 			"send_welcome_email": 0,
 			"user_type": "System User",
@@ -1081,7 +1083,7 @@ def _comment(doctype: str, name: str, content: str) -> None:
 			"reference_name": name,
 			"content": content,
 			"comment_email": AUTHOR,
-			"comment_by": "OneAI",
+			"comment_by": registry.name("one_ai"),
 		}
 	).insert(ignore_permissions=True)
 

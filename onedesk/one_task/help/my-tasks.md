@@ -3,7 +3,7 @@
 **My Tasks** is a board of everything assigned to you, a column for each
 status: **Open**, **Working**, **Pending Review** and **Completed**. **Inbox**
 is the same board for what's assigned to you and has no project, such as a
-to-do you made yourself or a task OneAI made about a supplier's bill.
+to-do you made yourself or a task {one_ai} made about a supplier's bill.
 
 ![My Tasks, a column for each status](my-tasks/my-tasks.png)
 
@@ -25,6 +25,6 @@ The play button on a card times the task. See [Timing a Task](timing).
 
 ## On the Calendar
 
-Your tasks show on **OneCalendar** under **My Tasks**, on their due date.
+Your tasks show on **{one_calendar}** under **My Tasks**, on their due date.
 **Drag a task to another day** to move it. The due date changes, and the
 start date moves by the same number of days, so the task keeps its length.

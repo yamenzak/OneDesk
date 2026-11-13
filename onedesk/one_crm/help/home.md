@@ -2,7 +2,7 @@
 
 Home opens on six figures, each opening the report behind it:
 
-![OneCRM's Home with its six figures and how selling is going](home/home.png)
+![{one_crm}'s Home with its six figures and how selling is going](home/home.png)
 
 - **Leads This Month** — how many came in, against last month.
 - **Pipeline Value** — what the open opportunities are worth, leaving out the
@@ -44,4 +44,4 @@ are still open:
   day ago.
 
 **Everything**, **Reports** and **Setup** list every screen, report and
-setting of OneCRM, each with a line on what it is for, and a search.
+setting of {one_crm}, each with a line on what it is for, and a search.

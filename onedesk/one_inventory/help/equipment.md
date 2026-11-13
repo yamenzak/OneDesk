@@ -50,7 +50,7 @@ opens the ones still to do.
 - Each asset's servicing plan is an **Asset Maintenance** record: its team,
   and each job with how often and when it is next due.
 
-OneAI answers **Which services are due?** and **What is out of order?** on
+{one_ai} answers **Which services are due?** and **What is out of order?** on
 the maintenance log and on repairs.
 
 Tick **Maintenance Required** on an asset that needs looking after, then
@@ -68,7 +68,7 @@ The first schedule needs a maintenance team. The Inventory Check makes one.
 
 Whoever does a service is told a week before it is due. Once it is late,
 they and the team's manager are told. A schedule brought in from a
-spreadsheet or by OneAI has its dates worked out the same as one typed in.
+spreadsheet or by {one_ai} has its dates worked out the same as one typed in.
 
 ## Mending Equipment and its Value
 

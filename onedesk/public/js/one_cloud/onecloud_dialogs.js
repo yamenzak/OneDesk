@@ -437,7 +437,7 @@ onedesk.cloud.answer = (request, item, done) => {
 	const read = async () => {
 		const file_url = dialog.get_value("file_url");
 		if (!file_url || !item.asked.length) return;
-		dialog.set_message(__("OneAI is reading it…"));
+		dialog.set_message(__("{0} is reading it…", [onedesk.names.of("one_ai")]));
 		const said = await call("guess", { file_url }).catch(() => ({}));
 		const empty = Object.fromEntries(Object.entries(said || {}).filter(([key]) => !dialog.get_value(key)));
 		if (Object.keys(empty).length) dialog.set_values(empty);
@@ -530,7 +530,7 @@ onedesk.cloud.drive = async (node, name) => {
 				fieldtype: "HTML",
 				fieldname: "how",
 				options: `<dl class="oc-drive-steps">${steps.map(([os, text]) => `<dt>${esc(os)}</dt><dd>${esc(text)}</dd>`).join("")}</dl>
-					<p class="oc-people-note">${esc(__("Sign in with a drive password, not your One password."))}</p>
+					<p class="oc-people-note">${esc(__("Sign in with a drive password, not your {0} password.", [onedesk.names.of("one")]))}</p>
 					<div class="oc-drive-key"></div><div class="oc-drive-list"></div>`,
 			},
 		],
@@ -579,12 +579,12 @@ onedesk.cloud.drive = async (node, name) => {
 
 onedesk.cloud.read_file = (item) => {
 	frappe.confirm(
-		__("Read {0} with OneAI? OneAI files it and acts on it. Scans and photos use credits.", [
+		__("Read {0} with {1}? {1} files it and acts on it. Scans and photos use credits.", [
 			`<b>${frappe.utils.escape_html(item.name)}</b>`,
-		]),
+		, onedesk.names.of("one_ai")]),
 		async () => {
 			await frappe.xcall("onedesk.one_ai.reading.switches.read_now", { file: item.id });
-			frappe.show_alert({ message: __("OneAI is reading {0}.", [item.name]), indicator: "green" });
+			frappe.show_alert({ message: __("{1} is reading {0}.", [item.name, onedesk.names.of("one_ai")]), indicator: "green" });
 		}
 	);
 };

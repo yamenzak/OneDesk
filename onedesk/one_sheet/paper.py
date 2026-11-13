@@ -13,6 +13,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, escape_html
 
+from onedesk.one import registry
 from onedesk.one_sheet import api
 
 #: Paper sizes Print Settings may name, in millimetres, portrait.
@@ -381,7 +382,7 @@ def pdf(
 
 	item = api._may(name, "read")
 	if keep not in KEEP:
-		frappe.throw(_("A PDF can only be saved to OneCloud or attached to the record."))
+		frappe.throw(_("A PDF can only be saved to {0} or attached to the record.").format(registry.name("one_cloud")))
 	title = item.get("file_name") or ""
 	said = _sheets(sheets)
 	html = page(title, said, bool(cint(landscape)), bool(cint(fit)), bool(cint(gridlines)), letter_head or None, _record(name))

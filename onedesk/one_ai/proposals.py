@@ -9,6 +9,7 @@ import json
 import frappe
 from frappe.utils import now_datetime
 
+from onedesk.one import registry
 from onedesk.one_ai import kind, touch
 from onedesk.one_ai.kind import LAYOUT
 
@@ -386,8 +387,8 @@ def _made_first(entry) -> dict:
 			state = "Applied"
 		if state != "Applied":
 			frappe.throw(
-				frappe._("This needs {0}, which was {1}. Ask OneAI to suggest it again.").format(
-					frappe.db.get_value("AI Proposal", card, "said") or card, frappe._(state or "deleted").lower()
+				frappe._("This needs {0}, which was {1}. Ask {2} to suggest it again.").format(
+					frappe.db.get_value("AI Proposal", card, "said") or card, frappe._(state or "deleted").lower(), registry.name("one_ai")
 				)
 			)
 		made[card] = frappe.db.get_value("AI Proposal", card, "applied_doc")

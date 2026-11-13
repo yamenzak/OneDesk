@@ -10,7 +10,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-from onedesk.one import apps
+from onedesk.one import apps, registry
 
 FENCE = re.compile(r"^```[a-zA-Z]*\s*|\s*```$")
 EXTENSIONS = {
@@ -77,7 +77,7 @@ def _may_change(doctype: str, name: str) -> None:
 def _later(what: str, playlist: str, description: str, **more) -> None:
 	description = (description or "").strip()[:2000]
 	if not description:
-		frappe.throw(_("Describe what OneAI should make."))
+		frappe.throw(_("Describe what {0} should make.").format(registry.name("one_ai")))
 	frappe.enqueue(
 		"onedesk.one_display.make.made_later",
 		queue="long",
@@ -142,7 +142,7 @@ def widget(
 	said = run.once("display_widget", f"{_brand()}{sample}\n\n{description.strip()[:4000]}", reference="OneDisplay widget")
 	code = _code(said)
 	if not code:
-		frappe.throw(_("OneAI could not write the widget. Try again."))
+		frappe.throw(_("{0} could not write the widget. Try again.").format(registry.name("one_ai")))
 	return code
 
 

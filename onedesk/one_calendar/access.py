@@ -5,7 +5,9 @@ administrator may do it without."""
 
 from frappe import _lt
 
-APP = "OneCalendar"
+from onedesk.one import registry
+
+APP = registry.name("one_calendar")
 
 # Everybody keeps a calendar: its User role is given to every person
 # (rights.everyone).

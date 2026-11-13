@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from frappe import _
 from frappe.utils import cint, escape_html
 
+from onedesk.one import registry
 from onedesk.one_doc import api
 from onedesk.one_sheet import paper as sheet_paper
 
@@ -214,7 +215,7 @@ def pdf(name: str, letter_head: str | None = None, landscape: int = 0, keep: str
 
 	item = api._may(name, "read")
 	if keep not in KEEP:
-		frappe.throw(_("A PDF can only be saved to OneCloud or attached to the record."))
+		frappe.throw(_("A PDF can only be saved to {0} or attached to the record.").format(registry.name("one_cloud")))
 	content = get_pdf(page(name, letter_head or None), options(name, bool(cint(landscape))))
 	file_name = _file_name(item.get("file_name"))
 	if not keep:

@@ -5,7 +5,9 @@ workspace administrator may do it without."""
 
 from frappe import _lt
 
-APP = "OneDisplay"
+from onedesk.one import registry
+
+APP = registry.name("one_display")
 
 DOCTYPE = "Display Settings"
 

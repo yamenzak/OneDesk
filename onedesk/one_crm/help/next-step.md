@@ -33,5 +33,5 @@ status in its own colour, and are sorted by Next Step Due, so the ones with no n
 step come first and the rest in the order they are due. A step whose time has
 passed is shown in red. The pipeline board shows each opportunity's next step on its
 card.
-Your own next steps are also on **OneCalendar**, at the time they are due,
+Your own next steps are also on **{one_calendar}**, at the time they are due,
 under Opportunity Next Steps and Lead Next Steps.

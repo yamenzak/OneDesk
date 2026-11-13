@@ -10,6 +10,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, flt, getdate, now_datetime, nowdate, strip_html
 
+from onedesk.one import registry
+
 ACTION = "brief"
 
 BRIEF, ON, DUE = "one_ai_brief", "one_ai_brief_on", "one_ai_brief_due"
@@ -51,7 +53,7 @@ def switch(doctype: str, on: int | str) -> list[str]:
 
 	roles.require()
 	if doctype not in BRIEFS:
-		frappe.throw(_("{0} has no OneAI summary.").format(doctype))
+		frappe.throw(_("{0} has no {1} summary.").format(doctype, registry.name("one_ai")))
 	off = [one for one in _off() if one != doctype] + ([] if frappe.utils.cint(on) else [doctype])
 	frappe.db.set_default(OFF, json.dumps(off))
 	return off

@@ -49,7 +49,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, ago, call, can, date, followList, go, money, newDoc, onedesk, setQuery, shortcut } from "../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, ago, call, can, date, followList, go, money, newDoc, onedesk, setQuery, shortcut, name } from "../kit";
 import HrStory from "./HrStory.vue";
 
 const props = defineProps({
@@ -246,7 +246,7 @@ function checkLabel(direction) {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("OneHR") });
+  props.onTitle?.({ title: name("one_hr") });
   extended(s);
   const direction = clock.value?.direction;
   props.onActions?.([

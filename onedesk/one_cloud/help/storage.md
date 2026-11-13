@@ -5,8 +5,8 @@ file can be.
 
 ## Where Files Are Kept
 
-Every file uploaded anywhere in One goes to cloud storage, whether it's
-attached to an invoice, dropped in a chat or added to OneCloud. Files open
+Every file uploaded anywhere in {one} goes to cloud storage, whether it's
+attached to an invoice, dropped in a chat or added to {one_cloud}. Files open
 straight from cloud storage, so large files don't slow the workspace down.
 
 Files added before cloud storage was turned on stay on the server until
@@ -14,7 +14,7 @@ they're moved, which happens by itself each night.
 
 ## How Full the Workspace Is
 
-At the foot of OneCloud's rail are two bars, **Storage** and **Database**,
+At the foot of {one_cloud}'s rail are two bars, **Storage** and **Database**,
 each against what the plan allows. A bar is amber from 90% and red when
 over.
 

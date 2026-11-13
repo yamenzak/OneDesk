@@ -534,7 +534,9 @@ def _flow():
 		"TEXT", "FLAGS", "KINDS", "ACTIONS", "CREATES", "ONCE", "test", "holds", "said", "walk", "_answered",
 		"asks", "needs_ai", "topics", "answers_of", "actions_in", "conditions_in", "problems", "from_fields",
 	)
-	return _load(MAIL / "flow.py", names, re=re, _=lambda text: text)
+	from onedesk.one import registry
+
+	return _load(MAIL / "flow.py", names, re=re, _=lambda text: text, registry=registry)
 
 
 def test_conditions_nest_in_groups_of_all_or_any():

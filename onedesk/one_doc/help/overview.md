@@ -1,16 +1,16 @@
-# What OneDoc Is
+# What {one_doc} Is
 
-OneDoc writes documents: a scope of works, a covering letter, a method
-statement, the minutes of a meeting. A document is a file in OneCloud, kept
+{one_doc} writes documents: a scope of works, a covering letter, a method
+statement, the minutes of a meeting. A document is a file in {one_cloud}, kept
 beside everything else the business has, and opened by anybody it is shared
 with.
 
-![Minutes open in OneDoc, the outline on the left and a comment in the margin](overview/document.png)
+![Minutes open in {one_doc}, the outline on the left and a comment in the margin](overview/document.png)
 
 ## A New Document
 
-**New › Document** in OneCloud makes one in the folder you are in, blank or
-from a template, and opens it. Click a document in OneCloud, in a record's
+**New › Document** in {one_cloud} makes one in the folder you are in, blank or
+from a template, and opens it. Click a document in {one_cloud}, in a record's
 **Files** or in a link in a mail to open it again.
 
 It saves itself two seconds after you stop typing, and when you leave it: the
@@ -28,4 +28,4 @@ from its first line when you press Enter at the end of it.
 | **File** | Print, Page Setup, Version History and templates. See [History and Templates](history-and-templates). |
 
 A document left for another screen waits on the bar under its title, with
-OneDoc's mark, as a workbook does. Click it to go back, or × to drop it.
+{one_doc}'s mark, as a workbook does. Click it to go back, or × to drop it.

@@ -5,10 +5,12 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). A type
 `mailed_by` its app is a mail frappe writes itself, in One's frame. Pure."""
 
+from onedesk.one import registry
+
 TYPES = [
 	{
 		"name": "Account Deleted",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When an administrator approves deleting your account.",
 		"to": "The person whose account it is",
 		"channels": {
@@ -23,7 +25,7 @@ TYPES = [
 	},
 	{
 		"name": "Announcement",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When an administrator posts an announcement.",
 		"to": "Everyone in the workspace",
 		"channels": {
@@ -39,7 +41,7 @@ TYPES = [
 	},
 	{
 		"name": "Approval Answered",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a record you made, or sent for approval, moves on from its step.",
 		"to": "Whoever made it and whoever sent it to the step, but whoever answered",
 		"channels": {
@@ -54,7 +56,7 @@ TYPES = [
 	},
 	{
 		"name": "Approval Waiting",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a record reaches an approval step for one of your roles.",
 		"to": "People with the step's role who can open the record",
 		"channels": {
@@ -68,7 +70,7 @@ TYPES = [
 	},
 	{
 		"name": "Authenticator Setup",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When somebody signs in for the first time where two-factor sign-in uses an authenticator app.",
 		"to": "The person signing in",
 		"channels": {
@@ -81,7 +83,7 @@ TYPES = [
 	},
 	{
 		"name": "Automation Notice",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When an automation sends a notification.",
 		"to": "The people the automation names",
 		"channels": {
@@ -95,7 +97,7 @@ TYPES = [
 	},
 	{
 		"name": "Automations Failing",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "Every morning, if automations failed the day before.",
 		"to": "Every administrator",
@@ -111,7 +113,7 @@ TYPES = [
 	},
 	{
 		"name": "Confirm Deletion",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When you ask for your account to be deleted and sign in without a password.",
 		"to": "The person who asked",
 		"channels": {
@@ -127,7 +129,7 @@ TYPES = [
 	},
 	{
 		"name": "Confirm Your Request",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When someone who isn't a user makes a request on the Your Data page.",
 		"to": "The address given on the page",
 		"channels": {
@@ -143,7 +145,7 @@ TYPES = [
 	},
 	{
 		"name": "Copy Asked",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "When someone asks for a copy of their data.",
 		"to": "Every administrator",
@@ -159,7 +161,7 @@ TYPES = [
 	},
 	{
 		"name": "Deletion Asked",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "When someone asks for their account to be deleted.",
 		"to": "Every administrator",
@@ -175,7 +177,7 @@ TYPES = [
 	},
 	{
 		"name": "Deletion On Hold",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When an administrator holds your request to delete your account, and why.",
 		"to": "The person who asked",
 		"channels": {
@@ -191,7 +193,7 @@ TYPES = [
 	},
 	{
 		"name": "Email Sign-in Link",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When somebody asks to sign in by a link in their mail, where Email Link Sign-in is on.",
 		"to": "The person who asked",
 		"channels": {
@@ -204,7 +206,7 @@ TYPES = [
 	},
 	{
 		"name": "Followed Records",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "Every hour, day or week, as the person chose, when records they follow change.",
 		"to": "Whoever follows them",
 		"channels": {
@@ -217,7 +219,7 @@ TYPES = [
 	},
 	{
 		"name": "Full Download Ready",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "When the full download of the workspace you asked for is ready.",
 		"to": "The person who pays for the workspace",
@@ -234,7 +236,7 @@ TYPES = [
 	},
 	{
 		"name": "Holidays Changed",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "When another administrator changes the workspace's holidays.",
 		"to": "Every other administrator",
@@ -250,7 +252,7 @@ TYPES = [
 	},
 	{
 		"name": "Holidays Run Out Soon",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "When the holiday list ends in 60, 30 or 7 days with no list after it.",
 		"to": "Every administrator",
@@ -267,7 +269,7 @@ TYPES = [
 	},
 	{
 		"name": "Invitation",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When an administrator invites someone to the workspace.",
 		"to": "The person invited",
 		"channels": {
@@ -283,7 +285,7 @@ TYPES = [
 	},
 	{
 		"name": "Password Reset Link",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When somebody asks for a new password on the sign-in page, or an administrator sends them a reset.",
 		"to": "The person who asked",
 		"channels": {
@@ -296,7 +298,7 @@ TYPES = [
 	},
 	{
 		"name": "Person Deleted",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "When another administrator approves an account deletion.",
 		"to": "Every other administrator",
@@ -311,7 +313,7 @@ TYPES = [
 	},
 	{
 		"name": "Privacy Requests Waiting",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "Every day while a privacy request has waited more than a week for a decision.",
 		"to": "Every administrator",
@@ -328,7 +330,7 @@ TYPES = [
 	},
 	{
 		"name": "Reminder",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a reminder you set with Remind Me comes due.",
 		"to": "Whoever set it",
 		"channels": {
@@ -343,7 +345,7 @@ TYPES = [
 	},
 	{
 		"name": "Repeat Failed",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Accounts User", "Accounts Manager", "Projects User", "Sales User", "Purchase User"),
 		"about": "When a repeating invoice, bill, order or task stops because the next one could not be made.",
 		"to": "Whoever set up the repeat, and accounts for an invoice, bill, order or entry",
@@ -360,7 +362,7 @@ TYPES = [
 	},
 	{
 		"name": "Report by Mail",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "On each report's own schedule, as it was set from the report's menu.",
 		"to": "The people and addresses set on the report",
 		"channels": {
@@ -373,7 +375,7 @@ TYPES = [
 	},
 	{
 		"name": "Report Export Ready",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a report exported in the background is ready to download.",
 		"to": "Whoever exported it",
 		"channels": {
@@ -386,7 +388,7 @@ TYPES = [
 	},
 	{
 		"name": "Sign-in Code",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When somebody signs in and the workspace asks for a code by email.",
 		"to": "The person signing in",
 		"channels": {
@@ -399,7 +401,7 @@ TYPES = [
 	},
 	{
 		"name": "Webhooks Failing",
-		"app": "One",
+		"app": registry.name("one"),
 		"roles": ("Workspace Administrator",),
 		"about": "Every morning, if webhooks failed to deliver the day before.",
 		"to": "Every administrator",
@@ -416,7 +418,7 @@ TYPES = [
 	},
 	{
 		"name": "Workspace Closing",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When the person who pays for the workspace asks for it to be closed. It cannot be turned off.",
 		"to": "Everyone in the workspace",
 		"channels": {
@@ -433,7 +435,7 @@ TYPES = [
 	},
 	{
 		"name": "Workspace Staying Open",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a workspace that was closing is kept open. It cannot be turned off.",
 		"to": "Everyone in the workspace",
 		"channels": {
@@ -450,7 +452,7 @@ TYPES = [
 	},
 	{
 		"name": "Your Data Is Being Deleted",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a deletion asked for on the Your Data page is approved.",
 		"to": "The person who asked",
 		"channels": {
@@ -465,7 +467,7 @@ TYPES = [
 	},
 	{
 		"name": "Your Data Is Ready",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When the copy of your data you asked for on your profile is ready.",
 		"to": "The person who asked",
 		"channels": {
@@ -481,7 +483,7 @@ TYPES = [
 	},
 	{
 		"name": "Your Data Is Ready to Download",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a copy asked for on the Your Data page is ready, with the link to download it.",
 		"to": "The person who asked",
 		"channels": {
@@ -497,7 +499,7 @@ TYPES = [
 	},
 	{
 		"name": "Your Request Is On Hold",
-		"app": "One",
+		"app": registry.name("one"),
 		"about": "When a deletion asked for on the Your Data page has to wait, and why.",
 		"to": "The person who asked",
 		"channels": {

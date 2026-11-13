@@ -9,7 +9,7 @@ from frappe import _
 from frappe.utils import add_days, add_to_date, get_datetime, now_datetime
 from frappe.utils.verified_command import get_signed_params, verify_request
 
-from onedesk.one import roles, tell
+from onedesk.one import registry, roles, tell
 
 DOWNLOAD = "Personal Data Download Request"
 DELETION = "Personal Data Deletion Request"
@@ -111,7 +111,7 @@ def _guard(user: str) -> None:
 	billed_to = frappe.db.get_single_value("Workspace Account", "billed_to")
 	if billed_to and billed_to.lower() == user.lower():
 		frappe.throw(
-			_("The workspace is billed to this account. Change who pays in Plan and Credits in AccountCenter first.")
+			_("The workspace is billed to this account. Change who pays in Plan and Credits in {0} first.").format(registry.name("account_center"))
 		)
 
 

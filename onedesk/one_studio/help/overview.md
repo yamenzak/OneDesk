@@ -1,27 +1,27 @@
-# What OneStudio Is
+# What {one_studio} Is
 
-OneStudio is where the workspace's administrators adapt One to their
+{one_studio} is where the workspace's administrators adapt {one} to their
 business: what a form checks and shows, the fields it has, the records the
 workspace keeps that no app came with, and how documents are numbered,
-printed, approved and sent on. Describe what you want to OneAI and approve
+printed, approved and sent on. Describe what you want to {one_ai} and approve
 the card it makes. Nothing changes before that.
 
-Only the workspace's administrators see OneStudio, and only for the record
+Only the workspace's administrators see {one_studio}, and only for the record
 types they can open.
 
 ## Finding Your Way
 
-**OneStudio** in the dock opens it. The rail has:
+**{one_studio}** in the dock opens it. The rail has:
 
 | Part | What it holds |
 | --- | --- |
 | **Extensions** | What makes a form or a page behave the way you need. See [Extensions](extensions). |
 | **Custom Fields** | Every field the workspace added to a form or changed on it. See [Custom Fields](custom-fields). |
 | **Custom Collections** | What the workspace keeps that no app came with. See [Custom Collections](custom-collections). |
-| **Setup** | **Numbering**, **Printing**, **Approvals** and **Lists**, each a tab of OneStudio's settings. See [Numbering](numbering), [Printing](printing) and [Approvals](approvals). |
+| **Setup** | **Numbering**, **Printing**, **Approvals** and **Lists**, each a tab of {one_studio}'s settings. See [Numbering](numbering), [Printing](printing) and [Approvals](approvals). |
 | **Dashboards** | **Dashboards**, **Charts** and **Number Cards**. See [Dashboards and Saved Lists](dashboards). |
 | **Automation** | **Automations**, **Reports by Mail**, **Webhooks** and **Webhook Calls**. See [Automations](automations) and [Webhooks](webhooks). |
-| **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and OneStudio's version, which opens What's New. |
+| **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and {one_studio}'s version, which opens What's New. |
 
 ## Where to Start
 

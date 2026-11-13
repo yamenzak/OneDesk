@@ -4,7 +4,7 @@ An automation runs by itself when a record is created, changed, submitted or
 deleted, when a field changes to a value, on a date before or after one of the
 record's dates, or on a schedule. Only administrators see this, and only for
 record types they can open. The system's own record types, such as users and
-roles, and One's own can't have automations. Automation › **Automations**
+roles, and {one}'s own can't have automations. Automation › **Automations**
 lists them all.
 
 ## What One Can Do
@@ -29,7 +29,7 @@ Advanced conditions, If steps, scripts and calculated values aren't
 available, since they'd run as code. How often automations can run, and
 turning them all off, is managed by the platform team.
 
-On the list, OneAI offers **Thank customers who pay** and **What runs by
+On the list, {one_ai} offers **Thank customers who pay** and **What runs by
 itself?** It suggests a new or changed automation as a card. Once you approve
 it, it runs as you.
 
@@ -50,7 +50,7 @@ it, it runs as you.
 ## Telling People
 
 **Tell People** notifies the people it names (team members, the record's
-creator or its assignee) in One, and by email if they chose (**Automation
+creator or its assignee) in {one}, and by email if they chose (**Automation
 Notice** in NotificationCenter's **Words and Rules**). Give it a subject and
 message, or a **Mail Template**. The template is filled in from the record the
 same way the email window does it, with amounts and dates as the record shows

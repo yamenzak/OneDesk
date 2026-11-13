@@ -2,9 +2,9 @@
 
 An optional service sends something to another company, such as a picture
 lookup or a web search. Each is off until a Workspace Administrator turns it
-on in TrustCenter, under **Optional Services**.
+on in {trust_center}, under **Optional Services**.
 
-![Optional Services in TrustCenter](optional-services/services.png)
+![Optional Services in {trust_center}](optional-services/services.png)
 
 ## What Each Says
 
@@ -12,7 +12,7 @@ on in TrustCenter, under **Optional Services**.
 | --- | --- |
 | **What It Sends** | Exactly what leaves your workspace. |
 | **To** | The company that receives it, and where. |
-| **While It Is Off** | What One does instead. |
+| **While It Is Off** | What {one} does instead. |
 
 ## Turning One On
 

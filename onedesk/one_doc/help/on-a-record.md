@@ -8,7 +8,7 @@ whoever may change the record may change them.
 
 ## A Document on a Record
 
-A record's **Files** tab is OneCloud, so **New › Document** there files the
+A record's **Files** tab is {one_cloud}, so **New › Document** there files the
 document on the record. Its path starts with the record, and leads back to
 it. The record's own print page lists its documents under the letter head.
 
@@ -23,7 +23,7 @@ stays right when the quotation changes.
 ## A Record's Text
 
 A text with a formatting bar on a saved record, such as a quotation's terms,
-has **Open in OneDoc** under it. What you write there becomes the text,
+has **Open in {one_doc}** under it. What you write there becomes the text,
 saved through the record two seconds after you stop typing. If the record
 refuses it, the reason shows under the head and nothing is written.
 

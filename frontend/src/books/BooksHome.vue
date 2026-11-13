@@ -49,7 +49,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, can, count, date, followList, go, money, newDoc, onedesk, setQuery, shortcut } from "../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, can, count, date, followList, go, money, newDoc, onedesk, setQuery, shortcut, name } from "../kit";
 import BooksStory from "./BooksStory.vue";
 
 const props = defineProps({
@@ -272,7 +272,7 @@ const parts = computed(() => {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("OneBook") });
+  props.onTitle?.({ title: name("one_book") });
   extended(s);
   const can = (doctype) => s.everything.some((one) => one.kind === "DocType" && one.target === doctype);
   props.onActions?.(

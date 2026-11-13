@@ -9,7 +9,7 @@ import requests
 from frappe.rate_limiter import rate_limit
 from frappe.utils import add_days, date_diff, flt, formatdate, getdate, now_datetime, today
 
-from onedesk.one import roles
+from onedesk.one import registry, roles
 from onedesk.one_admin import faults, proxy
 
 PATIENCE = 10
@@ -293,7 +293,7 @@ def ledger() -> list[dict] | None:
 			if one.get("expires_on")
 			else _("The plan's monthly credits")
 		),
-		"Operator": lambda _one: _("Given by One"),
+		"Operator": lambda _one: _("Given by {0}").format(registry.name("one")),
 	}
 	rows = [
 		{
@@ -308,9 +308,9 @@ def ledger() -> list[dict] | None:
 	rows += [
 		{
 			"on": str(one.get("day"))[:10],
-			"what": _("Used by OneAI, one call")
+			"what": _("Used by {0}, one call").format(registry.name("one_ai"))
 			if one.get("calls") == 1
-			else _("Used by OneAI, {0} calls").format(one.get("calls")),
+			else _("Used by {1}, {0} calls").format(one.get("calls"), registry.name("one_ai")),
 			"went": flt(one.get("credits")),
 			"day": str(one.get("day"))[:10],
 		}

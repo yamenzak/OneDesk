@@ -150,8 +150,14 @@ ERPNext and press.
 
 ## Names
 
-A product is one word: OneMail, OneHR, OneCloud, never "One Mail". Read the
-name from `MARKS[id].name` rather than typing it. "One" alone is the product.
+A product is one word: OneMail, OneHR, OneCloud, never "One Mail". "One"
+alone is the product. A name is typed once, in its manifest, and read
+everywhere else (tests/guards/test_names.py): Python
+`_("Edit in {0}").format(registry.name("one_doc"))`, desk JS
+`__("Edit in {0}", [onedesk.names.of("one_doc")])`, an island the kit's
+`name("one_doc")`, and Help, a version or a notification's words
+`{one_doc}`, filled in when it is shown. A name alone is not translated:
+`registry.name("one_ai")`, not `_("OneAI")`.
 A thing is called what ERPNext calls it, the name Ctrl+K finds it by.
 
 ## Translation

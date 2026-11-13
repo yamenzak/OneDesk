@@ -6,7 +6,9 @@ the workspace's in AccountCenter stays a workspace administrator's
 
 from frappe import _lt
 
-APP = "AccountCenter"
+from onedesk.one import registry
+
+APP = registry.name("account_center")
 
 # Everybody keeps their own account: its User role is given to every person
 # (rights.everyone).

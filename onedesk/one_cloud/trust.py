@@ -2,9 +2,10 @@
 leaves its database: the bytes go to an object store, in the region the
 workspace chose. See trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause, subprocessor
 
-M = "OneCloud"
+M = registry.name("one_cloud")
 
 subprocessor(
 	name="Cloudflare, Inc.",

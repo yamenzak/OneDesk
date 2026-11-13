@@ -16,7 +16,7 @@ Assignment** for many at once (below). Then each month:
 2. **Get Employees** lists everybody with a salary structure for the period.
    If any of them have overtime, **Create Overtime Slips** and **Submit
    Overtime Slips** come first.
-3. **Create Salary Slips** makes a draft payslip for each. In the OneAI
+3. **Create Salary Slips** makes a draft payslip for each. In the {one_ai}
    panel, *Check this payroll* compares every slip with last month's and
    names anybody missing.
 4. **Submit Salary Slip** submits every slip and posts the payroll to the

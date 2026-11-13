@@ -1,7 +1,7 @@
 # A Task
 
 A task opens on its form, wherever you open it from: My Tasks, the list, a
-project's Tasks, the calendar or a notification. OneTask's rail stays beside
+project's Tasks, the calendar or a notification. {one_task}'s rail stays beside
 it.
 
 ![A task with when it is due and the hours logged against it](a-task/task.png)

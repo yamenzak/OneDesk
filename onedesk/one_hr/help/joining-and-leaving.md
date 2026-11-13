@@ -3,7 +3,7 @@
 **Onboarding** needs a Job Offer, and the first one a workspace submits goes
 through: the holiday list and the project dates are taken care of. Each
 activity on it becomes a task for whoever does it, and **Create › Employee**
-makes the new joiner's employee record. In the OneAI panel, *Plan the first
+makes the new joiner's employee record. In the {one_ai} panel, *Plan the first
 two weeks* suggests what their first days should hold and who owns each
 part.
 
@@ -11,7 +11,7 @@ part.
 
 **Separation** shows its status in the list. Submitting one adds a **Return**
 task for each asset the person holds (a laptop, a phone), for whoever looks
-after the company's equipment; see OneInventory.
+after the company's equipment; see {one_inventory}.
 
 ## Settling Up With a Leaver
 
@@ -28,15 +28,15 @@ returned.
 ## Grievances and Letters
 
 **Grievance.** An employee sees only the grievances they raised; HR sees
-them all. Each new grievance is read by OneAI: a neutral summary, a
+them all. Each new grievance is read by {one_ai}: a neutral summary, a
 category and an urgency. One about harassment, discrimination or safety is
 marked **Sensitive**, and from then on only HR Managers and the person who
 raised it can see it, anywhere. HR Managers are told at once about a sensitive
-or urgent one. OneAI never takes the mark off; only an HR Manager can.
+or urgent one. {one_ai} never takes the mark off; only an HR Manager can.
 
 **Letters.** An employee asks for a salary certificate, an experience letter,
-an employment letter or a no objection certificate in the OneAI panel (**Ask HR
-for a letter**). OneAI drafts it from their own record, the employee approves
+an employment letter or a no objection certificate in the {one_ai} panel (**Ask HR
+for a letter**). {one_ai} drafts it from their own record, the employee approves
 the draft, and HR Managers are told. HR reads it and issues it by submitting.
 It prints on the letterhead, marked *Draft. Not issued.* until then. HR can
 ask for a letter about anybody from the employee's record.

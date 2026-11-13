@@ -1,8 +1,9 @@
 """What OnePortal adds to the agreements. See trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OnePortal"
+M = registry.name("one_portal")
 
 
 clause(

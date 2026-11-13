@@ -7,6 +7,7 @@ from unittest import mock
 
 import frappe
 
+from onedesk.one import registry
 from onedesk.one_demo.base import as_user, tag
 from onedesk.one_demo.people import OWNER
 
@@ -53,7 +54,7 @@ def run(password=None):
 		if not frappe.db.exists(record_types.RECORD_TYPE, {"record_doctype": VAN}):
 			card = agent.design_record_type(
 				VAN,
-				"OneInventory",
+				registry.name("one_inventory"),
 				"A van the company owns, who drives it and when it is next serviced.",
 				[
 					{"label": label, "fieldtype": kind, **({"options": options} if options else {}), "in_list_view": 1}

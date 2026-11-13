@@ -32,14 +32,14 @@ own, at the end of its ControlCenter under **Lists**. Every app's rail but
 One's also has a **Lists** row that opens them.
 
 - **One**: Salutations, Genders and Address Templates, the Address Book's.
-- **OneStudio**: Print Headings.
-- **OneCRM**: Customer Groups, Territories, Industries, Market Segments, Lead
+- **{one_studio}**: Print Headings.
+- **{one_crm}**: Customer Groups, Territories, Industries, Market Segments, Lead
   Sources, Lost Reasons, Issue Types and Issue Priorities.
-- **OneBook**: Tax Categories and Finance Books.
-- **OneInventory**: Item Groups, Brands, Units, Unit Categories, Attributes
+- **{one_book}**: Tax Categories and Finance Books.
+- **{one_inventory}**: Item Groups, Brands, Units, Unit Categories, Attributes
   and Supplier Groups.
-- **OneProject**: Project Types.
-- **OneHR**: Departments, Designations, Branches, Employment Types, Skills, Key
+- **{one_project}**: Project Types.
+- **{one_hr}**: Departments, Designations, Branches, Employment Types, Skills, Key
   Result Areas, Grievance Types and ID Document Types.
 
 Lists that carry settings of their own stay in their app's Setup, such as sales
@@ -49,7 +49,7 @@ Each one is a list like any other. Lists shows how many values each has;
 click one to open it, and the app's other lists are in the pane beside it.
 
 Administrators see every app's lists. An app's managers see their app's and
-can add, rename and remove its values. One's and OneStudio's are the
+can add, rename and remove its values. One's and {one_studio}'s are the
 administrators' alone.
 
 ## Changing a Value
@@ -65,7 +65,7 @@ list.
 
 ## Address Templates
 
-Print headings are in OneStudio's **Lists**, address templates in One's
+Print headings are in {one_studio}'s **Lists**, address templates in {one}'s
 (ControlCenter › **Lists**).
 
 **Print Headings**: the title printed above a document, such as **Tax

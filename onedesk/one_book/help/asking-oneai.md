@@ -1,9 +1,9 @@
-# Asking OneAI
+# Asking {one_ai}
 
-Open OneAI on a page and it offers what makes sense there. It reads the books
+Open {one_ai} on a page and it offers what makes sense there. It reads the books
 as you may see them and never posts, pays or changes anything in them.
 
-![The OneAI panel on a sales invoice, with the questions it offers there](asking-oneai/panel.png)
+![The {one_ai} panel on a sales invoice, with the questions it offers there](asking-oneai/panel.png)
 
 - **On Home**: *How is the money doing?* says what is in the bank, what
   customers owe and how much is late, what is owed and falls due this week,

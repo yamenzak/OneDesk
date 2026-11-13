@@ -9,6 +9,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Annotated
 
+from onedesk.one import registry
 from onedesk.one_ai import memory
 
 APP = Path(__file__).resolve().parent.parent
@@ -78,7 +79,7 @@ def _sections(readmes: tuple) -> tuple:
 def page(path: Path) -> str:
 	"""A module's README as it is, or one page of its help/ under the module's
 	name: "# Out of Office" read as OneMail › Out of Office."""
-	text = path.read_text(encoding="utf-8")
+	text = registry.filled(path.read_text(encoding="utf-8"))
 	if path.parent.name != "help":
 		return text
 	module = (path.parent.parent / "AGENTS.md").read_text(encoding="utf-8").split("\n", 1)[0].lstrip("# ").strip()

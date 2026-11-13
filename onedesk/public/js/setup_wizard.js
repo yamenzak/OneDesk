@@ -65,7 +65,7 @@ onedesk.setup.WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 onedesk.setup.slides = [
 	{
 		name: "onedesk_look",
-		title: __("How should One look?"),
+		title: __("How should {0} look?", [onedesk.names.of("one")]),
 		help: __("You can change this later in your settings."),
 		fields: [
 			{

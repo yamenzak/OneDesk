@@ -3,11 +3,13 @@ manifest.py in its own folder (docs/run/RUN.md, OneRegistry). Pure, so
 hooks.py, the guards and the scripts read it without a site.
 
 `apps()` in the rail's order, `get(id)`, `name(id)` (the only place a name is
-typed), `by_name(name)`, `of_module(module)`, and `moved()`, the folders
-kept one release after a rename."""
+typed), `names()` and `filled(text)` for words that name an app as `{one_doc}`,
+`by_name(name)`, `of_module(module)`, and `moved()`, the folders kept one
+release after a rename."""
 
 import ast
 import importlib
+import re
 from functools import cache
 from pathlib import Path
 
@@ -50,6 +52,23 @@ def get(id: str) -> App:
 
 def name(id: str) -> str:
 	return get(id).name
+
+
+@cache
+def names() -> dict[str, str]:
+	"""Every app's, centre's and engine's name by its id."""
+	return {one.id: one.name for one in apps()}
+
+
+SLOT = re.compile(r"\{([a-z][a-z_]*)\}")
+
+
+def filled(text: str) -> str:
+	"""Words that name an app as `{one_doc}` (a Help page, a version, a
+	notification's text) with its name put in; any other braces are left as
+	they are. Pure."""
+	known = names()
+	return SLOT.sub(lambda found: known.get(found.group(1), found.group(0)), text or "")
 
 
 def by_name(name: str) -> App:

@@ -10,6 +10,8 @@ import frappe
 from frappe import _
 from frappe.utils import flt, nowdate
 
+from onedesk.one import registry
+
 LEVELS = ("Sort Only", "Read and File", "Read, File and Act")
 SORT, FILE, ACT = LEVELS
 FIELDS = [
@@ -228,7 +230,7 @@ def readable(doctype: str, name: str) -> bool:
 def refuse(account: str | None) -> None:
 	if account and account in turned_off():
 		frappe.throw(
-			_("OneAI is turned off for {0}.").format(frappe.db.get_value("Email Account", account, "email_id") or account),
+			_("{1} is turned off for {0}.").format(frappe.db.get_value("Email Account", account, "email_id") or account, registry.name("one_ai")),
 			frappe.PermissionError,
 		)
 

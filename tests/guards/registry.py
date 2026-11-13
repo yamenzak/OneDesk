@@ -359,6 +359,12 @@ GUARDS = [
 		"tests/guards/test_ready.py::test_every_help_page_is_listed_and_every_link_lands",
 	),
 	Guard(
+		"names-are-code",
+		13,
+		"an app's, a centre's or an engine's name typed where people read it, rather than read from the registry",
+		"tests/guards/test_names.py::test_no_name_is_typed_where_people_read_it",
+	),
+	Guard(
 		"copy-headings",
 		13,
 		"a heading in a module on its way to ready that runs past five words",

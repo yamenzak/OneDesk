@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Bills Due This Week",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"roles": ("Accounts User", "Accounts Manager"),
 		"about": "On Monday morning, when supplier bills fall due in the coming week.",
 		"to": "Accounts",
@@ -21,7 +23,7 @@ TYPES = [
 	},
 	{
 		"name": "Credit Limit Crossed",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"roles": ("Accounts Manager", "Accounts User"),
 		"about": "When somebody flags a customer who is over their credit limit.",
 		"to": "Accounts",
@@ -34,7 +36,7 @@ TYPES = [
 	},
 	{
 		"name": "Deferred Posting Failed",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"about": "When the nightly posting of deferred income or expense fails.",
 		"to": "The site's operators, so nobody in the workspace",
 		"channels": ALL,
@@ -43,7 +45,7 @@ TYPES = [
 	},
 	{
 		"name": "Invoice Overdue",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"roles": ("Accounts User", "Accounts Manager", "Sales User", "Sales Manager"),
 		"about": "On the morning after one of your invoices goes past its due date unpaid.",
 		"to": "Whoever made the invoice and the customer's account manager",
@@ -56,7 +58,7 @@ TYPES = [
 	},
 	{
 		"name": "New Fiscal Year",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"roles": ("Accounts Manager", "Accounts User"),
 		"about": "When next year's fiscal year is made on its own, so somebody checks it.",
 		"to": "Accounts",
@@ -68,7 +70,7 @@ TYPES = [
 	},
 	{
 		"name": "Paid Online",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"roles": ("Accounts User", "Accounts Manager", "Sales User", "Sales Manager"),
 		"about": "When a customer pays an invoice, or an order's deposit, online through its payment link.",
 		"to": "Whoever made the invoice or order and the customer's account manager",
@@ -81,7 +83,7 @@ TYPES = [
 	},
 	{
 		"name": "Payment Reminder",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"roles": ("Accounts Manager", "Accounts User"),
 		"about": "When an invoice is still unpaid a week after it was due, with the invoice attached.",
 		"to": "The customer's contact on the invoice",
@@ -97,7 +99,7 @@ TYPES = [
 	},
 	{
 		"name": "Payment Request",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"about": "When a payment request is submitted, with its link to pay, unless it is set to stay quiet.",
 		"to": "The customer's contact on it",
 		"channels": {
@@ -111,7 +113,7 @@ TYPES = [
 	},
 	{
 		"name": "Repeated by Mail",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"about": "When a repeated invoice or bill is made and its repeat is set to mail it, or when a repeat fails.",
 		"to": "The addresses on the repeat, and its maker when it fails",
 		"channels": ALL,
@@ -120,7 +122,7 @@ TYPES = [
 	},
 	{
 		"name": "Statement of Accounts",
-		"app": "OneBook",
+		"app": registry.name("one_book"),
 		"about": "On each statement run's schedule, in the words set on the run.",
 		"to": "Each customer on the run",
 		"channels": {

@@ -1,6 +1,6 @@
 Object.assign(frappe.treeview_settings["Task"] || (frappe.treeview_settings["Task"] = {}), {
 	get_tree_nodes: "onedesk.one_task.views.children",
-	breadcrumb: "OneTask",
+	breadcrumb: onedesk.names.of("one_task"),
 	get_label(node) {
 		const data = node.data || {};
 		if (node.is_root) return frappe.utils.escape_html(node.label);

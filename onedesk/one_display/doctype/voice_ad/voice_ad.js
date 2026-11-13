@@ -9,9 +9,9 @@ frappe.ui.form.on("Voice Ad", {
 				frm.doc.audio ? __("Make It Again") : __("Make the Recording"),
 				() =>
 					frappe
-						.xcall("onedesk.one_display.voices.record", { ad: frm.doc.name }, undefined, { freeze: true, freeze_message: __("OneAI is recording the ad") })
+						.xcall("onedesk.one_display.voices.record", { ad: frm.doc.name }, undefined, { freeze: true, freeze_message: __("{0} is recording the ad", [onedesk.names.of("one_ai")]) })
 						.then(() => frm.reload_doc()),
-				__("OneAI")
+				onedesk.names.of("one_ai")
 			);
 		}
 	},

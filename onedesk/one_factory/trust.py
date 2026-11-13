@@ -1,9 +1,10 @@
 """What OneFactory adds to the agreements: what OneAI reads and drafts in it.
 See one_factory/agent.py and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneFactory"
+M = registry.name("one_factory")
 
 clause(
 	document="ai",

@@ -1,6 +1,6 @@
 # Versions and Activity
 
-OneCloud keeps the earlier versions of a file and says who did what to it.
+{one_cloud} keeps the earlier versions of a file and says who did what to it.
 
 ## New Versions
 
@@ -9,8 +9,8 @@ When you upload a file with the same name as one in the folder, you can
 version, and so does **Upload new version** (right-click a file). A replaced
 file keeps its shares and links.
 
-Saves by one person in one sitting are one version: in OneSheet or
-OneDoc, in OneOS or from the drive, each save less than 10 minutes after
+Saves by one person in one sitting are one version: in {one_sheet} or
+{one_doc}, in OneOS or from the drive, each save less than 10 minutes after
 the one before takes the place of the last. The version from before you
 started is always kept.
 

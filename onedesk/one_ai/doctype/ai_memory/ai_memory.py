@@ -9,12 +9,14 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
+from onedesk.one import registry
+
 
 class AIMemory(Document):
 	def validate(self):
 		self.fact = " ".join((self.fact or "").split())[:500]
 		if not self.fact:
-			frappe.throw(_("Say what OneAI should keep in mind."))
+			frappe.throw(_("Say what {0} should keep in mind.").format(registry.name("one_ai")))
 		if self.about_doctype and self.about_name and not frappe.has_permission(
 			self.about_doctype, "read", doc=self.about_name, user=self.owner or frappe.session.user
 		):

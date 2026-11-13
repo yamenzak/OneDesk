@@ -1,18 +1,18 @@
 # Settings
 
-The cog at the foot of the rail opens OneProject's settings.
+The cog at the foot of the rail opens {one_project}'s settings.
 
 | You see | What it is |
 | --- | --- |
-| **Notifications** | NotificationCenter, on OneProject's part of it: what you're told, and how. See [Being Told](notifications). |
+| **Notifications** | NotificationCenter, on {one_project}'s part of it: what you're told, and how. See [Being Told](notifications). |
 | **Roles and Access** | AccessCenter, for an administrator: who sees every project. See [Who Can Do What](who-can-do-what). |
-| **OneAI** | AICenter, on what OneAI may do in projects. See [Asking OneAI](asking-oneai). |
-| **Your Data** | TrustCenter, on OneProject's part of the agreements. |
+| **{one_ai}** | AICenter, on what {one_ai} may do in projects. See [Asking {one_ai}](asking-oneai). |
+| **Your Data** | {trust_center}, on {one_project}'s part of the agreements. |
 
 ## Projects Settings
 
 **Projects Settings**, in the ··· menu on **Project**, is for whoever may change it. It
-opens beside OneProject's rail, as Rates and Project Types do. It holds:
+opens beside {one_project}'s rail, as Rates and Project Types do. It holds:
 
 - **Allow Overlapping Time per User** and **Allow Overlapping Time per
   Employee**: on, one person may log two timesheet rows for the same hours,

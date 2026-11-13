@@ -9,6 +9,7 @@ from frappe import _lt
 from frappe.rate_limiter import rate_limit
 from frappe.www import login
 
+from onedesk.one import registry
 from onedesk.one_admin import house, site
 
 
@@ -214,7 +215,7 @@ def card(tenant: str) -> dict:
 def _held(tenant: str) -> None:
 	"""Refuse anybody but the signed-in holder of this workspace."""
 	if not site.is_admin() or frappe.session.user == "Guest":
-		frappe.throw(frappe._("Sign in to your One account first."), frappe.PermissionError)
+		frappe.throw(frappe._("Sign in to your {0} account first.").format(registry.name("one")), frappe.PermissionError)
 	if frappe.db.get_value("Tenant", tenant, "account") != frappe.session.user:
 		frappe.throw(frappe._("This workspace is not in your account."), frappe.PermissionError)
 
@@ -298,7 +299,7 @@ def move(tenant: str, email: str, by: str | None = None) -> str:
 
 def _me() -> str:
 	if not site.is_admin() or frappe.session.user == "Guest":
-		frappe.throw(frappe._("Sign in to your One account first."), frappe.PermissionError)
+		frappe.throw(frappe._("Sign in to your {0} account first.").format(registry.name("one")), frappe.PermissionError)
 	return frappe.session.user
 
 

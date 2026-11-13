@@ -11,9 +11,9 @@ from frappe import _, _lt
 from frappe.model import no_value_fields
 from frappe.permissions import add_permission, update_permission_property
 
-from onedesk.one import layer, roles
+from onedesk.one import layer, registry, roles
 
-APP = "OneCRM"
+APP = registry.name("one_crm")
 
 # Not everybody's: People gives it to whoever uses OneCRM.
 USER = "Sales User"

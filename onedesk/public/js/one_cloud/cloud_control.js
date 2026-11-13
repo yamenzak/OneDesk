@@ -1,6 +1,6 @@
 frappe.provide("onedesk.cloud");
 onedesk.cloud.settings = ({ at = null } = {}) => {
-	const dialog = onedesk.module_settings.open({ module: "OneCloud", tabs: [], default_tab: at });
+	const dialog = onedesk.module_settings.open({ module: onedesk.names.of("one_cloud"), tabs: [], default_tab: at });
 	dialog.show();
 	return dialog;
 };

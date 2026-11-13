@@ -45,5 +45,5 @@ it, and under **Motion** in the panel:
 
 The presenter view's **Next**, the phone remote and someone browsing a shared
 link step through what comes on a click the same way. Whoever follows you
-live, and a screen in OneDisplay, has nobody clicking, so what waits for a
+live, and a screen in {one_display}, has nobody clicking, so what waits for a
 click comes a moment after the one before it.

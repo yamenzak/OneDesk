@@ -46,7 +46,7 @@ anyway.
 
 **Create**, in a conversation's panel, starts a lead, an opportunity, an issue, a task, a
 non conformance or a purchase order, filled in from the mail: who wrote, the
-subject and what they said, and the customer or supplier when One knows them.
+subject and what they said, and the customer or supplier when {one} knows them.
 Once saved, the conversation is linked to it.
 
 ## Templates From a Record

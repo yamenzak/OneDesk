@@ -1,10 +1,10 @@
-# Asking OneAI
+# Asking {one_ai}
 
-Open OneAI on a page and it offers what makes sense there. Anything it would
+Open {one_ai} on a page and it offers what makes sense there. Anything it would
 add or change comes back as a card; nothing happens until somebody approves
 it, and they approve it as themselves.
 
-![The OneAI panel on an opportunity, with the questions it offers there](asking-oneai/panel.png)
+![The {one_ai} panel on an opportunity, with the questions it offers there](asking-oneai/panel.png)
 
 - **On an opportunity**: *Where does this opportunity stand?* reads its value, stage, next
   step and its whole history — mail, calls, comments and stage moves — and
@@ -17,7 +17,7 @@ it, and they approve it as themselves.
 - **On the Lead list**: *Add leads from business cards* reads each card
   dropped on it and suggests a lead per person, with the card attached. *Add a
   lead from a signature* does the same from a pasted email signature. Somebody
-  whose email is already on a lead is not suggested again — OneAI says which
+  whose email is already on a lead is not suggested again — {one_ai} says which
   lead they are — and a matching phone number or business name is marked as a
   possible duplicate, as the web form would have marked it. *Which leads are
   waiting on us?* lists open leads nobody has spoken to for a week and with
@@ -30,5 +30,5 @@ it, and they approve it as themselves.
   lost opportunities by the reasons picked and what was written, with what they were
   worth.
 
-A call OneAI writes up is the same call **Log a Call** makes, so it counts as
+A call {one_ai} writes up is the same call **Log a Call** makes, so it counts as
 the last contact and times the first reply. Anybody in sales may approve one.

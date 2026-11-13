@@ -153,7 +153,7 @@ $.extend(onedesk.interface, {
 		}
 		if (onedesk.apps.ai()) {
 			add({
-				label: __("Ask {0}", ["OneAI"]),
+				label: __("Ask {0}", [onedesk.names.of("one_ai")]),
 				icon: "oneai",
 				css: "one-ai-row",
 				badge: `<span class="one-bar-badge hide"></span>`,
@@ -163,7 +163,7 @@ $.extend(onedesk.interface, {
 		}
 		onedesk.workbooks.place(add);
 		const $now = $bottom.find(".one-bar-now");
-		if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));
+		if (!(frappe.boot.one_hidden?.apps || []).includes(onedesk.names.of("one_calendar"))) $now.on("click", () => frappe.set_route("onecalendar"));
 		onedesk.interface.now($now);
 		$now.data("one-tip", tip($now[0]));
 		onedesk.interface.weather($bottom.find(".one-bar-weather"), tip);

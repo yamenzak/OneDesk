@@ -49,7 +49,7 @@ your timesheet**. On a project counted by attendance, the days come from
 attendance and there's no Log Time.
 
 Time on a project billed by the hour is billable, however it's written: Log
-Time, the timer, OneHR or Data Import. Desk's timesheet form ticks
+Time, the timer, {one_hr} or Data Import. Desk's timesheet form ticks
 **Is Billable** as you pick such a project, and you can untick it. A row's
 task must be on the row's project or one under it. A Time and Materials
 invoice prints the hours it bills, under **Time Billed**: the day, the
@@ -112,5 +112,5 @@ Each person shows:
 The busiest come first, then whoever has the most late tasks. Give tasks an
 **Expected Time** and a date and the figures follow. You only
 see the tasks you can see, and the teams of the projects you can open. It
-draws itself again when a task, a timesheet or a leave changes. OneAI offers
+draws itself again when a task, a timesheet or a leave changes. {one_ai} offers
 **Who has too much on this week?** here.

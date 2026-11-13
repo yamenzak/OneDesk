@@ -42,5 +42,5 @@ its status:
 Each morning, administrators are told of any calls exhausted the day before
 (**Webhooks Failing**).
 
-OneAI offers **Are the webhooks working?**, and on the calls, **Why did these
+{one_ai} offers **Are the webhooks working?**, and on the calls, **Why did these
 fail?**

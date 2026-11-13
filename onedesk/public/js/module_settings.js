@@ -26,7 +26,7 @@ onedesk.CENTERS = {
 
 // Modules that are a centre rather than a product, named and drawn as the
 // centre wherever a list of apps holds them, as One's rail does.
-onedesk.module_settings.AS_CENTER = { AccountCenter: ["AccountCenter", "user"], TrustCenter: ["TrustCenter", "shield-check"] };
+onedesk.module_settings.AS_CENTER = { AccountCenter: [onedesk.names.of("account_center"), "user"], TrustCenter: [onedesk.names.of("trust_center"), "shield-check"] };
 onedesk.module_settings.named = (app) => (onedesk.module_settings.AS_CENTER[app] || [app])[0];
 onedesk.module_settings.app_icon = (app, fallback = "bell") => {
 	const centre = onedesk.module_settings.AS_CENTER[app];
@@ -163,7 +163,7 @@ onedesk.module_settings.centers = (module) => {
 		items.push({ id: "notification_center", label: __("Notifications"), icon: "bell", opens: () => onedesk.notification_center.open({ module }) });
 	}
 	if ((has.ai || []).includes(module)) {
-		items.push({ id: "ai_center", label: "OneAI", icon: "oneai", opens: () => onedesk.ai_center.open({ module }) });
+		items.push({ id: "ai_center", label: onedesk.names.of("one_ai"), icon: "oneai", opens: () => onedesk.ai_center.open({ module }) });
 	}
 	// A module whose keys do something (its shortcuts.py, mechanism 19).
 	const keyed = ((frappe.boot.one_shortcuts || {}).shortcuts || []).some((one) => one.module === module);

@@ -19,6 +19,6 @@
 ![A quotation with its total, how long it holds and the opportunity it is for](quoting/quotation.png)
 
 The opportunity's track then moves on to ordered, billed and paid on its
-own. OneInventory delivers the order (**Create › Delivery Note**) and
-OneBook invoices it (**Create › Sales Invoice**). A quotation still open
+own. {one_inventory} delivers the order (**Create › Delivery Note**) and
+{one_book} invoices it (**Create › Sales Invoice**). A quotation still open
 three days before its Valid Till is told as **Quotation Running Out**.

@@ -98,7 +98,7 @@ if (frappe.boot.one_elsewhere && frappe.ui.Sidebar) {
 					const options = onedesk.outside.without(opts.options, ["workspace-selector"]);
 					// frappe's Settings is AccountCenter here (desk.js, show_user_settings).
 					for (const one of options.flatMap((it) => it.options || [])) {
-						if (one.name === "settings") Object.assign(one, { label: "AccountCenter", icon: "user" });
+						if (one.name === "settings") Object.assign(one, { label: onedesk.names.of("account_center"), icon: "user" });
 					}
 					const group = options.find((one) => Array.isArray(one.options) && one.options.some((o) => o.name === "reload"));
 					group?.options.splice(group.options.findIndex((o) => o.name === "reload"), 0, {
@@ -141,10 +141,10 @@ onedesk.outside.instead = (sub_path) => {
 		case "my-tasks":
 			return name && doctype === "todo" ? null : ["List", "Task", "Kanban", "My Tasks"];
 		case "print-settings":
-			return ["one", { center: "settings", module: "OneStudio", at: "printing" }];
+			return ["one", { center: "settings", module: onedesk.names.of("one_studio"), at: "printing" }];
 		case "print-format":
 		case "letter-head":
-			return name ? null : ["one", { center: "settings", module: "OneStudio", at: "printing" }];
+			return name ? null : ["one", { center: "settings", module: onedesk.names.of("one_studio"), at: "printing" }];
 		case "communication":
 			return !name || name === "view" ? ["onemail"] : null;
 	}

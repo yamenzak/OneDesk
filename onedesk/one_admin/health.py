@@ -11,7 +11,22 @@ import requests
 from frappe import _
 from frappe.utils import add_days, add_to_date, get_datetime, getdate, now_datetime, today
 
-from onedesk.one_admin import backups, cloudflare, faults, gateway, ledger, mailing, operator, servers, site, storage, stripe, tell, vault
+from onedesk.one import registry
+from onedesk.one_admin import (
+	backups,
+	cloudflare,
+	faults,
+	gateway,
+	ledger,
+	mailing,
+	operator,
+	servers,
+	site,
+	storage,
+	stripe,
+	tell,
+	vault,
+)
 
 DOCTYPE = "Health Check"
 WORKING, FAILING, NOT_SET_UP = "Working", "Failing", "Not Set Up"
@@ -218,7 +233,7 @@ def _backups() -> str:
 	missing = [one for one in [backups.OURS, *asked] if not any(backups.kept_on(one, day) for day in days)]
 	said = [_("No recent backup: {0}").format(", ".join(missing))] if missing else []
 	if not backups.copy_key():
-		said.append(_("OneAdmin's config isn't copied: there is no Config Copy Key in Settings"))
+		said.append(_("{0}'s config isn't copied: there is no Config Copy Key in Settings").format(registry.name("one_admin")))
 	if said:
 		raise Failing(". ".join(said))
 	return ""

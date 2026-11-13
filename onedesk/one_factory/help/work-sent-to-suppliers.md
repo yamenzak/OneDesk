@@ -15,5 +15,5 @@ makes, for which supplier, and where it stands.
 The supplier's bill is made from the purchase receipt the subcontracting
 receipt creates. A subcontracting order's page says the **Project**, its
 **Total**, and under **Progress**: Ordered, Material Transferred and
-Received. OneAI answers **What is out with suppliers?** there. This is not
-OneProject's subcontract, which is a package of work on a project.
+Received. {one_ai} answers **What is out with suppliers?** there. This is not
+{one_project}'s subcontract, which is a package of work on a project.

@@ -10,6 +10,7 @@ import frappe
 import requests
 from frappe.utils import now_datetime
 
+from onedesk.one import registry
 from onedesk.one_admin import cloudflare, faults
 
 LARGEST = 5 * 1024 * 1024
@@ -52,7 +53,7 @@ def send(tenant, sender: str, recipient: str, message: str) -> dict:
 		raise frappe.PermissionError(f"{sender} is not one of {tenant.slug}'s addresses")
 	raw = base64.b64decode(message)
 	if len(raw) > LARGEST:
-		frappe.throw(frappe._("This message is larger than 5 MB. Share large files as OneCloud links."))
+		frappe.throw(frappe._("This message is larger than 5 MB. Share large files as {0} links.").format(registry.name("one_cloud")))
 	why = stopped(recipient)
 	if why:
 		return {"skipped": why}

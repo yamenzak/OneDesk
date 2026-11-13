@@ -15,7 +15,7 @@ Unnamed versions past the newest hundred go each night; named ones stay.
 
 ## Templates
 
-**Save as Template** keeps a copy in OneCloud › Document Templates for
+**Save as Template** keeps a copy in {one_cloud} › Document Templates for
 everybody in the business to start from: **New › Document** offers it, and
 **Insert a Template** puts one where your cursor is. A template is its own
 words and nothing else. Who may keep templates is set in **Roles**; see

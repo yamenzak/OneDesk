@@ -4,12 +4,14 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Arrived After Closing",
-		"app": "OneAI",
+		"app": registry.name("one_ai"),
 		"about": "When a document arrives for a task you already closed. The task stays closed.",
 		"to": "Whoever closed the task",
 		"channels": ALL,
@@ -19,19 +21,19 @@ TYPES = [
 	},
 	{
 		"name": "Couldn't Read",
-		"app": "OneAI",
-		"about": "When OneAI cannot read a document for you, or waits for credits to read it.",
+		"app": registry.name("one_ai"),
+		"about": "When {one_ai} cannot read a document for you, or waits for credits to read it.",
 		"to": "The person it reads for",
 		"channels": ALL,
 		"email_default": True,
 		"oneai": True,
 		"sender": "workspace",
-		"subject": "OneAI couldn't read {title}",
+		"subject": "{one_ai} couldn't read {title}",
 		"message": "{why}",
 	},
 	{
 		"name": "Documents Waiting",
-		"app": "OneAI",
+		"app": registry.name("one_ai"),
 		"about": "When a document read for you needs review.",
 		"to": "The person it reads for",
 		"channels": ALL,
@@ -42,7 +44,7 @@ TYPES = [
 	},
 	{
 		"name": "Documents Waiting, One Thing",
-		"app": "OneAI",
+		"app": registry.name("one_ai"),
 		"about": "When a document read for you has one item to review.",
 		"to": "The person it reads for",
 		"channels": ALL,
@@ -54,8 +56,8 @@ TYPES = [
 	},
 	{
 		"name": "Documents Weekly",
-		"app": "OneAI",
-		"about": "Once a week, with what arrived, what OneAI handled and what's waiting.",
+		"app": registry.name("one_ai"),
+		"about": "Once a week, with what arrived, what {one_ai} handled and what's waiting.",
 		"to": "The person it reads for",
 		"channels": {
 			"bell": True,
@@ -70,7 +72,7 @@ TYPES = [
 	},
 	{
 		"name": "Phishing",
-		"app": "OneAI",
+		"app": registry.name("one_ai"),
 		"about": "When a document looks like phishing.",
 		"to": "The person it reads for, and whoever put the file there",
 		"channels": ALL,
@@ -81,13 +83,13 @@ TYPES = [
 	},
 	{
 		"name": "Reading Changed",
-		"app": "OneAI",
+		"app": registry.name("one_ai"),
 		"roles": ("Workspace Administrator",),
 		"about": "When another administrator changes e-invoice submission, household, the auditor or the confidence floor.",
 		"to": "Every other administrator",
 		"channels": ALL,
 		"sender": "workspace",
-		"subject": "{by} changed OneAI: {what}",
-		"message": "{by} changed OneAI settings ({what}). This applies to all new documents.",
+		"subject": "{by} changed {one_ai}: {what}",
+		"message": "{by} changed {one_ai} settings ({what}). This applies to all new documents.",
 	},
 ]

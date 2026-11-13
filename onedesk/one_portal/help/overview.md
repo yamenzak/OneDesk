@@ -15,10 +15,10 @@ contact, or a submitted quotation, order, shipment, invoice, quote request,
 quote or purchase document. What each customer and supplier sees there is
 in [What They See](what-they-see).
 
-**OnePortal** on the rail lists the same two things: **People**, everybody
+**{one_portal}** on the rail lists the same two things: **People**, everybody
 invited to the portal and where their login stands, and **Links**, every link
 sent and whether it is open, answered, expired or revoked.
 
 Nobody can sign up on their own, and somebody who signs in to your
-workspace signs in to One, not the portal. An administrator can turn the
+workspace signs in to {one}, not the portal. An administrator can turn the
 whole portal off in **Apps**.

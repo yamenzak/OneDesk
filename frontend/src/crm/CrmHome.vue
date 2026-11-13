@@ -49,7 +49,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { __, ago, call, can, date, followList, go, Loading, me, money, newDoc, onedesk, Page, PlaceSpot, Rows, Section, setQuery, shortcut, ViewTabs } from "../kit";
+import { __, ago, call, can, date, followList, go, Loading, me, money, newDoc, onedesk, Page, PlaceSpot, Rows, Section, setQuery, shortcut, ViewTabs, name } from "../kit";
 import CrmStory from "./CrmStory.vue";
 
 const props = defineProps({
@@ -271,7 +271,7 @@ const parts = computed(() => {
 
 function report() {
   const s = said.value;
-  props.onTitle?.({ title: __("OneCRM") });
+  props.onTitle?.({ title: name("one_crm") });
   extended(s);
   const can = (doctype) => s.everything.some((one) => one.kind === "DocType" && one.target === doctype);
   props.onActions?.(

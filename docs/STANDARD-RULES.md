@@ -156,6 +156,7 @@ A module is held to it before it is marked ready.
 A person looks: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 
 - `screen-plain`: screen text with a colon or semicolon clause, a coinage or narration (`tests/guards/test_wording.py::test_what_a_screen_says_is_plain`)
+- `names-are-code`: an app's, a centre's or an engine's name typed where people read it, rather than read from the registry (`tests/guards/test_names.py::test_no_name_is_typed_where_people_read_it`)
 - `copy-headings`: a heading in a module on its way to ready that runs past five words (`tests/guards/test_copy.py::test_a_heading_is_five_words_or_fewer`)
 - `copy-descriptions`: a description or hint in a module on its way to ready that runs past one sentence (`tests/guards/test_copy.py::test_a_description_is_one_sentence`)
 - `copy-banned`: a word on the banned list shown by a module on its way to ready (`tests/guards/test_copy.py::test_no_banned_word_is_shown`)

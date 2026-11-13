@@ -9,6 +9,7 @@ from urllib.parse import parse_qs, urlparse
 import frappe
 from frappe import _
 
+from onedesk.one import registry
 from onedesk.one_sheet import storage
 
 WORKBOOK = "Workbook"
@@ -88,8 +89,8 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 	and the OneCloud folders above it for its breadcrumb. A workbook bound to a
 	record's table is brought up to the table first."""
 	from onedesk.one import rights
-	from onedesk.one_sheet import style, table
 	from onedesk.one_cloud import namespace as ns
+	from onedesk.one_sheet import style, table
 
 	item = _may(name, "read")
 	table.refresh(name)
@@ -164,7 +165,7 @@ def save_sheet(title: str, sheets_data: str, name: str = "", ops: str = "", requ
 	and this only checks the size and that it reads as a workbook. `table` is
 	the bound sheet's worked-out values, for the record behind it (table.py)."""
 	if not name:
-		frappe.throw(_("Create the workbook in OneCloud first."))
+		frappe.throw(_("Create the workbook in {0} first.").format(registry.name("one_cloud")))
 	from onedesk.one_cloud import saving
 
 	item = _may(name, "write")
@@ -272,8 +273,8 @@ def write_back(name: str, content: str = "", choice: str = "") -> dict:
 
 
 def _patched(name: str, item: dict) -> bytes:
-	from onedesk.one_sheet import excel, patching
 	from onedesk.one_cloud import api as cloud
+	from onedesk.one_sheet import excel, patching
 
 	data = excel._data(name)
 	if not excel._sheets(data):

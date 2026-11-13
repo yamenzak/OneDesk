@@ -6,7 +6,7 @@
 				<FormControl v-model="title" type="text" :label="__('Name')" :placeholder="__('e.g. Costing')" />
 				<p class="text-sm text-ink-gray-5">
 					{{ bound ? __("The template includes every sheet except {0}, which belongs to the record.", [bound.sheet]) : __("The template includes all sheets in their current state.") }}
-					<Branded :text="__('It is saved to OneCloud › Workbook Templates and is available to everyone in the company.')" />
+					<Branded :text="__('It is saved to {0} › Workbook Templates and is available to everyone in the company.', [appName('one_cloud')])" />
 				</p>
 				<p v-if="error" class="text-sm text-ink-red-4">{{ error }}</p>
 			</div>
@@ -21,7 +21,7 @@
 import { Button, Dialog, FormControl } from "frappe-ui";
 import { computed, ref, watch } from "vue";
 import Branded from "../../kit/Branded.vue";
-import { __ } from "../../kit/desk";
+import { __, name as appName } from "../../kit/desk";
 import { call } from "../utils/api.js";
 
 const props = defineProps({ modelValue: Boolean, workbook: { type: String, default: "" }, name: { type: String, default: "" }, bound: { type: Object, default: null } });

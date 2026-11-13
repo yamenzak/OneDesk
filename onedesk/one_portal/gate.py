@@ -10,7 +10,9 @@ People list is filtered on, in step with where each login stands.
 import frappe
 from frappe import _
 
-APP = "OnePortal"
+from onedesk.one import registry
+
+APP = registry.name("one_portal")
 
 SAID = {"invited": "Invited", "active": "Signed In", "revoked": "Revoked"}
 

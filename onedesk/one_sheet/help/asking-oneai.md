@@ -1,10 +1,10 @@
-# Asking OneAI
+# Asking {one_ai}
 
-When OneAI is on, ask it in its own panel at the bottom right, as anywhere
+When {one_ai} is on, ask it in its own panel at the bottom right, as anywhere
 else. On a workbook it already knows which workbook is open, its sheets, and
 the cells you have selected with what they hold.
 
-![Four amounts selected, and OneAI asked to add a margin beside them](asking-oneai/panel.png)
+![Four amounts selected, and {one_ai} asked to add a margin beside them](asking-oneai/panel.png)
 
 ## What to Ask
 
@@ -17,13 +17,13 @@ the cells you have selected with what they hold.
 | "What does the aluminium sheet charge for powder coating?" | An answer, read from the workbook. |
 
 Nothing changes until you approve the card, and an open copy of the workbook
-reloads when you do. OneAI reads formulas as they are written, not what they
+reloads when you do. {one_ai} reads formulas as they are written, not what they
 work out to, and only workbooks you may open.
 
 ## A Record's Table
 
-OneAI never writes into a record's table sheet: ask it to change the record
+{one_ai} never writes into a record's table sheet: ask it to change the record
 instead.
 
-Each question uses credits like any other. An administrator can turn OneAI
-off for OneSheet in AICenter.
+Each question uses credits like any other. An administrator can turn {one_ai}
+off for {one_sheet} in AICenter.

@@ -8,7 +8,7 @@ import base64
 import frappe
 from frappe import _
 
-from onedesk.one import apps
+from onedesk.one import apps, registry
 from onedesk.one_cloud import api, tell, upload
 
 JOBS = {"picture": "cloud_picture", "music": "cloud_music", "video": "cloud_video", "speech": "cloud_voice"}
@@ -66,10 +66,10 @@ def create(kind: str, target: str, description: str, shape: str | None = None, v
 	"""A picture or speech made now and put in `target`: its node. Music or
 	a video begun, put there when it is made, and whoever asked told."""
 	if kind not in JOBS:
-		frappe.throw(_("OneAI can make a picture, music, a video or speech."))
+		frappe.throw(_("{0} can make a picture, music, a video or speech.").format(registry.name("one_ai")))
 	description = (description or "").strip()[:MOST_WORDS]
 	if not description:
-		frappe.throw(_("Describe what OneAI should make."))
+		frappe.throw(_("Describe what {0} should make.").format(registry.name("one_ai")))
 	api._target(target)
 	apps.refuse_ai()
 	stem = named(name, description)
@@ -89,7 +89,7 @@ def create(kind: str, target: str, description: str, shape: str | None = None, v
 	try:
 		content, extension = making(kind, description, shape, voice)
 	except frappe.ValidationError:
-		frappe.throw(_("OneAI could not make it. Try again, or describe it differently."))
+		frappe.throw(_("{0} could not make it. Try again, or describe it differently.").format(registry.name("one_ai")))
 	return _keep(target, stem, content, extension)
 
 

@@ -8,7 +8,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-from onedesk.one import brand, tell
+from onedesk.one import brand, registry, tell
 from onedesk.one.sections import as_opened
 from onedesk.one.sections import fields as fields_of
 from onedesk.one.sections import opened as opened_of
@@ -87,7 +87,7 @@ def keep(
 	"""A memory the reader adds or corrects themselves."""
 	said = " ".join((fact or "").split())[:500]
 	if not said:
-		frappe.throw(_("Say what OneAI should keep in mind."))
+		frappe.throw(_("Say what {0} should keep in mind.").format(registry.name("one_ai")))
 	about = {"about_doctype": about_doctype or None, "about_name": about_name or None}
 	if about["about_doctype"] and about["about_name"] and not frappe.has_permission(about["about_doctype"], "read", doc=about["about_name"]):
 		frappe.throw(_("You cannot open that record."), frappe.PermissionError)
@@ -138,7 +138,7 @@ def _intake() -> dict:
 		"fields": fields,
 		"values": values,
 		"month": _intake_month(),
-		"marks": {app: brand.mark(app) for app in ("OneBook", "OneMail", "OneCloud")},
+		"marks": {app: brand.mark(app) for app in (registry.name("one_book"), registry.name("one_mail"), registry.name("one_cloud"))},
 		**switches.overview(),
 		"opened": opened_of(doc),
 	}
@@ -153,7 +153,7 @@ def _reads() -> dict:
 
 	if not apps.intake_on():
 		return {"off": True}
-	return {**switches.overview(mine=True), "marks": {app: brand.mark(app) for app in ("OneMail", "OneCloud")}}
+	return {**switches.overview(mine=True), "marks": {app: brand.mark(app) for app in (registry.name("one_mail"), registry.name("one_cloud"))}}
 
 
 INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_grievances")

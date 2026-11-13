@@ -1,6 +1,6 @@
-# Asking OneAI
+# Asking {one_ai}
 
-The OneAI panel offers questions that fit the page you are on. Press one, or
+The {one_ai} panel offers questions that fit the page you are on. Press one, or
 type your own.
 
 - **Shop Floor**: **What is running on the floor?** and **What is the
@@ -12,5 +12,5 @@ type your own.
 - **A workstation or a plant floor**: **How are the workstations doing?**
 - **Subcontracting Order**: **What is out with suppliers?**
 
-Anything OneAI makes, such as a work order, comes as a draft card you
+Anything {one_ai} makes, such as a work order, comes as a draft card you
 approve first.

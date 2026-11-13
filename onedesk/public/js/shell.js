@@ -638,7 +638,7 @@ onedesk.shell.Editor = class Editor {
 				if (e.ctrlKey || e.metaKey || e.shiftKey) return;
 				e.preventDefault();
 				e.stopPropagation();
-				this.sidebar.open_module("One");
+				this.sidebar.open_module(onedesk.names.sidebar("one"));
 			});
 		};
 	}

@@ -9,6 +9,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_years, flt, getdate, nowdate
 
+from onedesk.one import registry
+
 DEFAULTS = {
 	"default_receivable_account": "Default Receivable Account",
 	"default_payable_account": "Default Payable Account",
@@ -119,7 +121,7 @@ def _tax(one, doctype: str, key: str, check: str) -> dict:
 	if default and ruled(one.name, doctype, default):
 		return _row(key, check, READY, _("{0} is added unless somebody picks another.").format(default))
 	if default:
-		return _row(key, check, SUGGESTED, _("{0} is added in a form, but not to one made by One, OneAI or an import.").format(default), key)
+		return _row(key, check, SUGGESTED, _("{0} is added in a form, but not to one made by {2}, {1} or an import.").format(default, registry.name("one_ai"), registry.name("one")), key)
 	return _row(key, check, SUGGESTED, _("No template is the default, so nothing is charged unless somebody picks one."), key)
 
 
@@ -155,7 +157,7 @@ def _template_taxes() -> dict:
 	check = _("A tax template brings its taxes")
 	if frappe.db.get_single_value("Accounts Settings", "add_taxes_from_taxes_and_charges_template"):
 		return _row("template_taxes", check, READY, _("An invoice or bill that names a tax template gets its taxes, however it was made."))
-	return _row("template_taxes", check, SUGGESTED, _("An invoice or bill made by an import or by OneAI names its tax template and charges no tax."), "template_taxes")
+	return _row("template_taxes", check, SUGGESTED, _("An invoice or bill made by an import or by {0} names its tax template and charges no tax.").format(registry.name("one_ai")), "template_taxes")
 
 
 def _bill_numbers() -> dict:

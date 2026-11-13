@@ -192,7 +192,7 @@ onedesk.doctype_settings.adapt = () => {
 	frappe.doctype_settings.register("automations", (panel, doctype) => {
 		const form = (name) => {
 			panel.dialog.hide();
-			frappe.app.sidebar && frappe.app.sidebar.select_module("One");
+			frappe.app.sidebar && frappe.app.sidebar.select_module(onedesk.names.sidebar("one"));
 			name ? frappe.set_route("Form", "Automation Flow", name) : frappe.new_doc("Automation Flow", { document_type: doctype });
 		};
 		table(panel, {

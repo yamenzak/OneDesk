@@ -13,6 +13,7 @@ import requests
 from frappe.database.database import savepoint
 from frappe.utils import sha256_hash
 
+from onedesk.one import registry
 from onedesk.one_admin import faults, ladder, lifecycle, signing, signup, site, vault
 
 STRIPE = "https://api.stripe.com/v1"
@@ -583,5 +584,5 @@ def _secret() -> str:
 def _from_settings(conf_key: str, field: str) -> str:
 	found = frappe.conf.get(conf_key) or vault.get(field)
 	if not found:
-		frappe.throw(frappe._("Stripe is not configured. Set it in OneAdmin Settings."))
+		frappe.throw(frappe._("Stripe is not configured. Set it in {0} Settings.").format(registry.name("one_admin")))
 	return found

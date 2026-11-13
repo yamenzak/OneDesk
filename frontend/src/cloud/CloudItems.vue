@@ -142,7 +142,7 @@
 import { computed, nextTick, ref, watch } from "vue";
 import { Button, Checkbox } from "frappe-ui";
 
-import { __, andList, count, oneaiMark } from "../kit";
+import { __, andList, count, oneaiMark, name as appName } from "../kit";
 import { PREVIEW, dateText, extension, iconOf, inkOf, sizeText, typeOf } from "./cloud";
 
 const props = defineProps({
@@ -172,7 +172,7 @@ const emit = defineEmits(["pick", "open", "sort", "space", "menu", "renamed", "e
 const WITH_WHERE =
   "grid-cols-[minmax(0,1fr)_9rem_9.5rem_7rem_4.5rem] max-lg:grid-cols-[minmax(0,1fr)_9rem_9.5rem_4.5rem] max-md:grid-cols-[minmax(0,1fr)_8rem] gap-2";
 const WITHOUT_WHERE = "grid-cols-[minmax(0,1fr)_9.5rem_7rem_4.5rem] max-lg:grid-cols-[minmax(0,1fr)_9.5rem_4.5rem] max-md:grid-cols-[minmax(0,1fr)] gap-2";
-const readNote = __("Read by OneAI");
+const readNote = __("Read by {0}", [appName("one_ai")]);
 
 function editingText({ by, mine, app }) {
   if (!by.length) return __("You are editing in {0}", [app]);

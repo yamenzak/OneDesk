@@ -51,9 +51,9 @@ it is presented or printed.
 Arabic ones, each shown with a few Arabic letters, then the rest by kind.
 Fonts your company adds come first, under **Your Fonts**. A manager adds one
 with **Add a Font…** at the foot of the list: upload a .ttf, .otf, .woff or
-.woff2 file, or, once **Fonts from Google** is on in TrustCenter, search
+.woff2 file, or, once **Fonts from Google** is on in {trust_center}, search
 Google's catalogue and add a family. Every font is kept in the workspace, in
-OneCloud › Fonts, and nobody's browser asks Google for it.
+{one_cloud} › Fonts, and nobody's browser asks Google for it.
 
 Each paragraph runs the way its first letter does, so Arabic reads from the
 right and English from the left in the same box. **Direction**, under

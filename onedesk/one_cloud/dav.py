@@ -16,6 +16,7 @@ from frappe import _
 from frappe.utils import get_datetime, sha256_hash
 from werkzeug.wrappers import Response
 
+from onedesk.one import registry
 from onedesk.one_cloud import api, dav_locks, dav_saves, store
 from onedesk.one_cloud import namespace as ns
 
@@ -57,7 +58,7 @@ def serve():
 	environ["wsgi.input"] = io.BytesIO(body)
 	environ["CONTENT_LENGTH"] = str(len(body))
 	environ["wsgidav.auth.user_name"] = frappe.session.user
-	environ["wsgidav.auth.realm"] = "OneCloud"
+	environ["wsgidav.auth.realm"] = registry.name("one_cloud")
 	environ["wsgidav.auth.roles"] = []
 	environ["wsgidav.auth.permissions"] = []
 	if request.method == "PUT":
@@ -176,7 +177,7 @@ class FrappeSignIn(_signin_base()):
 		return "FrappeSignIn"
 
 	def get_domain_realm(self, path_info, environ):
-		return "OneCloud"
+		return registry.name("one_cloud")
 
 	def require_authentication(self, realm, environ):
 		if environ is not None:
@@ -341,9 +342,9 @@ def _as_file(node: dict) -> dict:
 	(one_sheet/excel.py), a document made in OneDoc a Word file
 	(one_doc/word.py), and a presentation made in OneDeck a PowerPoint file
 	(one_deck/drive.py)."""
+	from onedesk.one_deck import drive
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_deck import drive
 
 	if node.get("folder"):
 		return node
@@ -391,9 +392,9 @@ def _place_for(dest_path: str) -> tuple[dict, str]:
 
 def _stored(item: dict, name: str) -> str:
 	"""The name a drive name is kept under: One's own without its suffix."""
+	from onedesk.one_deck import drive
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_deck import drive
 
 	for key, suffix in (("workbook", excel.SUFFIX), ("document", word.SUFFIX), ("presentation", drive.SUFFIX)):
 		if item.get(key) and name.lower().endswith(suffix):
@@ -442,7 +443,7 @@ class Folder(_DAVCollection):
 		self.item = item
 
 	def get_display_name(self):
-		return self.item.get("name") or "OneCloud"
+		return self.item.get("name") or registry.name("one_cloud")
 
 	def get_creation_date(self):
 		return _stamp(self.item.get("modified"))
@@ -656,9 +657,9 @@ class Document(_DAVNonCollection):
 def write_own(item: dict, content: bytes) -> None:
 	"""A save from the drive into One's own record: a workbook, document or
 	presentation read back from the file the app wrote."""
+	from onedesk.one_deck import drive
 	from onedesk.one_doc import word
 	from onedesk.one_sheet import excel
-	from onedesk.one_deck import drive
 
 	if not content:
 		return

@@ -11,11 +11,13 @@ import frappe
 from frappe import _
 from frappe.utils import add_to_date, get_datetime, get_fullname, now_datetime
 
+from onedesk.one import registry
+
 LIVE_SECONDS = 2 * 60
 ONEOS, DAV = "oneos", "dav"
 KINDS = (ONEOS, DAV)
 FIELDS = ("one_lease_kind", "one_lease_lock", "one_lease_session", "one_lease_user", "one_lease_until")
-APPS = {"workbook": "OneSheet", "document": "OneDoc"}
+APPS = {"workbook": registry.name("one_sheet"), "document": registry.name("one_doc")}
 WHERE = {ONEOS: "OneOS"}
 
 

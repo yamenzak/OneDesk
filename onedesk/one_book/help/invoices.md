@@ -70,18 +70,18 @@ set.
 
 ## On the Calendar
 
-In OneCalendar, **Invoices Due** puts each invoice a customer still owes on
+In {one_calendar}, **Invoices Due** puts each invoice a customer still owes on
 the day it falls due, with what is left to pay, and **Bills Due** each bill
 still to pay, your company's only. Both are off until you turn them on, and
 each opens its invoice.
 
 ## Bills From Mail and Scans
 
-A supplier's bill that arrives by mail, or is scanned in, is read by OneAI
+A supplier's bill that arrives by mail, or is scanned in, is read by {one_ai}
 and made into a draft purchase invoice, matched to its purchase order when
 there is one. **Ready to Submit** in the rail lists the drafts whose facts
 checked out and that you may submit; tick them and **Submit** submits them
-as you. It lists every draft OneAI read, so an order, a quotation or a
+as you. It lists every draft {one_ai} read, so an order, a quotation or a
 receipt it read is there beside the bills. Drafts that failed a check, such as a total that does not match or a
 bank account that is not on file for the supplier, are marked **Needs
 Review** with the reason. Open one, correct it, and submit it as any

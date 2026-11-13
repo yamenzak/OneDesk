@@ -86,17 +86,17 @@ onedesk.AdminSection = class AdminSection extends onedesk.CenterSection {
 onedesk.admin_control.open = ({ at = null } = {}) => {
 	const tab = (id, label, icon, about) => onedesk.center_section.tab(onedesk.AdminSection, { id, label, icon, about });
 	const dialog = onedesk.module_settings.open({
-		module: "OneAdmin",
+		module: onedesk.names.of("one_admin"),
 		tabs: [
 			{
 				group: null,
 				items: [
-					tab("operators", __("Operators"), "users", __("Who may run OneAdmin.")),
+					tab("operators", __("Operators"), "users", __("Who may run {0}.", [onedesk.names.of("one_admin")])),
 					tab("cloudflare", __("Cloudflare"), "cloud", __("The Cloudflare account, its domains and what setup made there.")),
 					tab("servers", __("AWS and GitHub"), "server", __("The keys that order servers and read the code.")),
 					tab("storage", __("Storage"), "database", __("The R2 buckets workspaces keep their files in.")),
 					tab("stripe", __("Stripe"), "credit-card", __("The keys that take payments.")),
-					tab("gateway", __("AI Gateway"), "oneai", __("The Cloudflare gateway OneAI goes through.")),
+					tab("gateway", __("AI Gateway"), "oneai", __("The Cloudflare gateway {0} goes through.", [onedesk.names.of("one_ai")])),
 					tab("weather", __("Weather"), "cloud-sun", __("The key that fetches the forecast on Home.")),
 					tab("grace", __("Grace Periods"), "clock", __("How long a workspace waits at each step when it stops paying.")),
 				],
@@ -116,7 +116,7 @@ $(document).on("page-change", () =>
 		const sidebar = frappe.app && frappe.app.sidebar;
 		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "One Admin") return;
-		win.module_foot({ module: "OneAdmin", settings: () => onedesk.admin_control.open() });
+		win.module_foot({ module: onedesk.names.of("one_admin"), settings: () => onedesk.admin_control.open() });
 		onedesk.interface.nav.place();
 	}, 0)
 );

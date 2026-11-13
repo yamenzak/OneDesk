@@ -226,7 +226,7 @@ onedesk.hiring.recorder = {
 			{
 				message: lost
 					? __("Recording saved, but {0} part(s) did not upload.", [lost])
-					: __("Recording saved. OneAI writes it down and remarks on it on the interview."),
+					: __("Recording saved. {0} writes it down and remarks on it on the interview.", [onedesk.names.of("one_ai")]),
 				indicator: lost ? "orange" : "green",
 			},
 			10,

@@ -7,6 +7,7 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import escape_html
 
+from onedesk.one import registry
 from onedesk.one_admin import site
 
 SAID = {
@@ -105,4 +106,4 @@ def _who(row) -> str:
 		return _("by {0}").format(frappe.utils.get_fullname(row.by_user))
 	if row.by == "Customer":
 		return _("by the customer")
-	return _("by One")
+	return _("by {0}").format(registry.name("one"))

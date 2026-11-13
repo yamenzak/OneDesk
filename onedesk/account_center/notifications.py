@@ -4,10 +4,12 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 `subject` and `message` for its heading and body, and says its `channels`,
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
 
+from onedesk.one import registry
+
 TYPES = [
 	{
 		"name": "Access Changed",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"about": "When an administrator changes which apps you may use, your level or profile, the records you see, or makes you an administrator.",
 		"to": "The person whose access it is",
 		"channels": {
@@ -15,14 +17,14 @@ TYPES = [
 			"email": "It stays in the bell, because nothing about it needs a mail.",
 			"push": True,
 		},
-		"button": "Open One",
+		"button": "Open {one}",
 		"sender": "workspace",
-		"subject": "What you can use in One changed",
+		"subject": "What you can use in {one} changed",
 		"message": "{by} changed what you can use: {changes}.",
 	},
 	{
 		"name": "Administrator Added",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When someone is made a workspace administrator.",
 		"to": "Every other administrator",
@@ -35,11 +37,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "workspace",
 		"subject": "{person} is now an administrator",
-		"message": "{by} made them one. If you did not expect this, check People in AccountCenter now.",
+		"message": "{by} made them one. If you did not expect this, check People in {account_center} now.",
 	},
 	{
 		"name": "Administrator Removed",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When someone stops being a workspace administrator.",
 		"to": "Every other administrator",
@@ -52,13 +54,13 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "workspace",
 		"subject": "{person} is no longer an administrator",
-		"message": "{by} took it away. If you did not expect this, check People in AccountCenter now.",
+		"message": "{by} took it away. If you did not expect this, check People in {account_center} now.",
 	},
 	{
 		"name": "Credits Added",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
-		"about": "When OneCredits are added, from a pack, the monthly plan or One.",
+		"about": "When OneCredits are added, from a pack, the monthly plan or {one}.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -72,7 +74,7 @@ TYPES = [
 	},
 	{
 		"name": "Credits Expiring",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "Before some of the workspace's OneCredits expire, a week ahead.",
 		"to": "Every administrator",
@@ -88,9 +90,9 @@ TYPES = [
 	},
 	{
 		"name": "Credits Ran Out",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
-		"about": "When the workspace's OneCredits run out, and OneAI stops until more are added.",
+		"about": "When the workspace's OneCredits run out, and {one_ai} stops until more are added.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -100,12 +102,12 @@ TYPES = [
 		"button": "Open Plan and Credits",
 		"always_mailed": True,
 		"sender": "system",
-		"subject": "OneAI has run out of credits",
-		"message": "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Plan and Credits in AccountCenter.",
+		"subject": "{one_ai} has run out of credits",
+		"message": "{one_ai} does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Plan and Credits in {account_center}.",
 	},
 	{
 		"name": "Credits Running Low",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When OneCredits will run out in about three days.",
 		"to": "Every administrator",
@@ -118,11 +120,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "system",
 		"subject": "OneCredits are running low",
-		"message": "The workspace has {balance} OneCredits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter.",
+		"message": "The workspace has {balance} OneCredits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in {account_center}.",
 	},
 	{
 		"name": "Database Nearly Full",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When the database uses 90% of the plan's limit.",
 		"to": "Every administrator",
@@ -135,11 +137,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "system",
 		"subject": "The database is nearly full",
-		"message": "The workspace's database takes {used} of the {limit} its plan allows. Add database or move to a bigger plan on Plan and Credits in AccountCenter before it is full.",
+		"message": "The workspace's database takes {used} of the {limit} its plan allows. Add database or move to a bigger plan on Plan and Credits in {account_center} before it is full.",
 	},
 	{
 		"name": "Domain Stopped Working",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When one of the workspace's own domains stops working.",
 		"to": "Every administrator",
@@ -152,11 +154,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "system",
 		"subject": "{domain} stopped working",
-		"message": "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Domains in AccountCenter.",
+		"message": "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Domains in {account_center}.",
 	},
 	{
 		"name": "Domain Working",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When one of the workspace's own domains starts working.",
 		"to": "Every administrator",
@@ -169,11 +171,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "system",
 		"subject": "{domain} works now",
-		"message": "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Domains in AccountCenter.",
+		"message": "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Domains in {account_center}.",
 	},
 	{
 		"name": "Main Address Changed",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When another administrator changes the workspace's main address.",
 		"to": "Every other administrator",
@@ -190,7 +192,7 @@ TYPES = [
 	},
 	{
 		"name": "New Sign-in",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"about": "When you sign in from a device or browser you have not used before.",
 		"to": "The person who signed in",
 		"channels": {
@@ -202,11 +204,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "workspace",
 		"subject": "A new sign-in to your account",
-		"message": "From {device}, at {address}, on {when}. If it was you, nothing needs doing. If it was not, change your password and sign out everywhere else on Sign-in in AccountCenter.",
+		"message": "From {device}, at {address}, on {when}. If it was you, nothing needs doing. If it was not, change your password and sign out everywhere else on Sign-in in {account_center}.",
 	},
 	{
 		"name": "Passkey Added",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"about": "When a passkey is added to your account.",
 		"to": "The person whose account it is",
 		"channels": {
@@ -222,7 +224,7 @@ TYPES = [
 	},
 	{
 		"name": "Passkey Turned Off",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"about": "When an administrator turns off a passkey of yours on a device.",
 		"to": "The person whose passkey it was",
 		"channels": {"bell": True, "email": True, "push": True},
@@ -235,7 +237,7 @@ TYPES = [
 	},
 	{
 		"name": "Two-Factor Reset",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"about": "When two-factor sign-in is reset on your account, for a new phone.",
 		"to": "The person whose account it is",
 		"channels": {
@@ -251,7 +253,7 @@ TYPES = [
 	},
 	{
 		"name": "Password Changed",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"about": "When your password is changed, here or through a reset link.",
 		"to": "The person whose password it is",
 		"channels": {
@@ -267,7 +269,7 @@ TYPES = [
 	},
 	{
 		"name": "Payer Changed",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When another administrator changes who pays for the workspace.",
 		"to": "Every other administrator",
@@ -283,7 +285,7 @@ TYPES = [
 	},
 	{
 		"name": "Payment Overdue",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When payment for the workspace is overdue, with the day it will be suspended.",
 		"to": "Every administrator",
@@ -296,11 +298,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "system",
 		"subject": "Payment for the workspace is overdue",
-		"message": "Unless it is paid, the workspace is suspended on {date}. Pay it on Plan and Credits in AccountCenter.",
+		"message": "Unless it is paid, the workspace is suspended on {date}. Pay it on Plan and Credits in {account_center}.",
 	},
 	{
 		"name": "Plan Changed",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When another administrator changes the workspace's plan or its add-ons.",
 		"to": "Every other administrator",
@@ -316,7 +318,7 @@ TYPES = [
 	},
 	{
 		"name": "Sign-in Rules Changed",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When another administrator changes how people sign in.",
 		"to": "Every other administrator",
@@ -329,11 +331,11 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "workspace",
 		"subject": "{by} changed how people sign in",
-		"message": "Changed: {what}. If you did not expect this, check Sign-in in AccountCenter now.",
+		"message": "Changed: {what}. If you did not expect this, check Sign-in in {account_center} now.",
 	},
 	{
 		"name": "Storage Full",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When a file is refused because the workspace's storage is full. Once a day at most.",
 		"to": "Every administrator",
@@ -350,7 +352,7 @@ TYPES = [
 	},
 	{
 		"name": "Storage Nearly Full",
-		"app": "AccountCenter",
+		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
 		"about": "When files use 90% of the plan's storage.",
 		"to": "Every administrator",
@@ -363,6 +365,6 @@ TYPES = [
 		"always_mailed": True,
 		"sender": "system",
 		"subject": "Storage is nearly full",
-		"message": "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded. Add storage or move to a bigger plan on Plan and Credits in AccountCenter.",
+		"message": "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded. Add storage or move to a bigger plan on Plan and Credits in {account_center}.",
 	},
 ]

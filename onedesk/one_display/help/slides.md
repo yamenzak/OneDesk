@@ -5,7 +5,7 @@ and over.
 
 | A row can be | What it is |
 | --- | --- |
-| **Presentation** | A presentation from OneCloud. Every slide of it plays, each for its own time, or the row's seconds when it has none. |
+| **Presentation** | A presentation from {one_cloud}. Every slide of it plays, each for its own time, or the row's seconds when it has none. |
 | **Web Page** | Any page that allows being shown inside another. |
 
 A row can be given dates to show between, so a promotion leaves the screen
@@ -14,7 +14,7 @@ on the day it ends without anybody remembering to take it off. A row marked
 
 ## Making the Slides
 
-Slides are made in OneDeck, the same editor as any presentation in OneCloud.
+Slides are made in {one_deck}, the same editor as any presentation in {one_cloud}.
 **New Presentation** on a playlist makes one filed on the playlist, adds it
 as a row, and opens it. **Open Presentation** goes back to any of the
 playlist's presentations. A row can also play a presentation you already
@@ -40,7 +40,7 @@ playlist.
 
 ## How Long Each Slide Stays
 
-Each slide stays up for its own **Advance** time in OneDeck, or for the
+Each slide stays up for its own **Advance** time in {one_deck}, or for the
 row's **Seconds** when it has none. A video that does not loop is watched to
 its end first, then the slide waits its Advance. A slide changes with its own
 transition: a fade, a slide in from the side, or a cut; Magic Move fades on a
@@ -58,8 +58,8 @@ in, fly in from a side, zoom or rise, stay a while, and leave. Set it under
 the slide is up. On a screen, something set to come **On Click** comes a
 moment after the one before it, since nobody clicks a screen.
 
-## Made With OneAI
+## Made With {one_ai}
 
-In a presentation, **OneAI** designs a slide from a sentence in your brand's
+In a presentation, **{one_ai}** designs a slide from a sentence in your brand's
 colour, makes a picture, or makes a short video, which arrives on a new slide
-a few minutes later. See [Asking OneAI](asking-oneai).
+a few minutes later. See [Asking {one_ai}](asking-oneai).

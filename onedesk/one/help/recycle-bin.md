@@ -1,11 +1,11 @@
 # Recycle Bin
 
-Everything deleted in the workspace is kept in One › **Recycle Bin**. You can
+Everything deleted in the workspace is kept in {one} › **Recycle Bin**. You can
 restore it as it was, with its original name if that's still free.
 
 - Everyone sees what they deleted themselves.
 - Administrators, and anybody whose role holds **Everyone's Deletions**, also
-  see what other people or OneAI deleted, for record types they can read. System cleanups aren't listed.
+  see what other people or {one_ai} deleted, for record types they can read. System cleanups aren't listed.
 - Each row says what was deleted, its kind, and whether it is **Deleted** or
   **Restored**. Filter the list like any other, by kind, by who deleted it,
   or by date.
@@ -26,5 +26,5 @@ Meetings, notes and to-dos are in the bin like any record. The bin doesn't
 include child tables, the system's internal records such as permission rows,
 or the platform's own records.
 
-OneAI offers **What was deleted lately?**, using only what you can see in the
+{one_ai} offers **What was deleted lately?**, using only what you can see in the
 bin.

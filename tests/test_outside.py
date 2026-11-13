@@ -65,7 +65,7 @@ def test_frappes_screens_open_ones_own():
 		'["one", { center: "account", at: "people" }]',
 		'["onecloud"]',
 		'["List", "Task", "Kanban", "My Tasks"]',
-		'["one", { center: "settings", module: "OneStudio", at: "printing" }]',
+		'["one", { center: "settings", module: onedesk.names.of("one_studio"), at: "printing" }]',
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js

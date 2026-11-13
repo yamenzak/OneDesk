@@ -24,7 +24,7 @@ heads can only be made the default or disabled.
 
 ## Headers
 
-The header uses one of thirteen presets, filled in from One's settings
+The header uses one of thirteen presets, filled in from {one}'s settings
 (Company and Branding):
 
 | Preset | What it looks like |
@@ -51,7 +51,7 @@ A company with no logo shows its initials on the Brand Colour next to its
 name. The name isn't repeated next to a logo unless **Name** is ticked, for a
 logo that is only a symbol. A light Brand Colour is darkened wherever it is
 text, so it still reads; lines and bands keep it as it is. A UAE company's
-tax number is its **TRN**. When any of these details change in One's
+tax number is its **TRN**. When any of these details change in {one}'s
 settings, including the Brand Colour, every preset header and footer updates.
 
 ## Footers
@@ -94,9 +94,9 @@ it the default, or the name to open it in the builder.
 A format belongs to one record type. A printed record stays inside its app,
 with that app's rail.
 
-## Print Formats One Ships
+## Print Formats {one} Ships
 
-Everything that leaves the company prints from a format of One's unless the
+Everything that leaves the company prints from a format of {one}'s unless the
 workspace chooses another: One Quotation, One Sales Order, One Sales Invoice,
 One Payment Receipt, One Delivery Note, One Purchase Order, One Request for
 Quotation, One Payslip, One Job Offer and One Appointment Letter. Each prints
@@ -135,31 +135,31 @@ barcodes, the standard field templates and **Custom HTML** blocks.
   another site aren't available, since each would print exactly what's
   written, on the workspace's address.
 
-## Designing With OneAI
+## Designing With {one_ai}
 
-OneAI offers **Suggest a letter head**, **Tidy our footer**, **Design a letter
+{one_ai} offers **Suggest a letter head**, **Tidy our footer**, **Design a letter
 head from our details**, **Design a clean invoice format** and **Which format
 do invoices print with?** Each suggestion is a card an administrator
 approves. **See the Page** on the card previews it first: a format on the
 record type's latest record, or a letter head's header and footer.
 
-- **Letter heads**: OneAI can change an existing header or footer as well as
+- **Letter heads**: {one_ai} can change an existing header or footer as well as
   create one. Ask it to remove the footer's line or add a note, and only that
   changes. It can use any preset, or write HTML from the company's details,
   where [icon:phone], or any other icon's name, shows that icon in the Brand
   Colour.
-- **Defaults**: OneAI can also suggest the default letter head, and which
+- **Defaults**: {one_ai} can also suggest the default letter head, and which
   format a record type prints with.
 - **Model**: designing a format uses a stronger model than the chat, which
   One picks.
 - **Checks**: a layout that would print badly, such as an empty section, a
   table wider than the page, or an invoice without its customer or total, is
-  fixed before you see a card. If it still can't be fixed, OneAI says nothing
+  fixed before you see a card. If it still can't be fixed, {one_ai} says nothing
   was made.
 
-## How OneAI Lays Out Formats
+## How {one_ai} Lays Out Formats
 
-- **Blocks**: OneAI designs a format for any record type from the builder's
+- **Blocks**: {one_ai} designs a format for any record type from the builder's
   own blocks, so it opens in the builder like any other. It uses an HTML
   block only for a part the blocks can't show, such as a stamp, a grid of
   terms or a figure calculated from the rows, or across the whole body for a
@@ -181,6 +181,6 @@ record type's latest record, or a letter head's header and footer.
   column widths, barcodes, images, repeaters, and the page's font size,
   margins and colours. You can keep editing all of it in the builder.
 - **HTML blocks**: in the house style these use cards, large figures, status
-  badges, stamps, tables and label and value rows, in One's own colours. They
+  badges, stamps, tables and label and value rows, in {one}'s own colours. They
   can only use the record's fields and rows, conditions, loops and plain
   filters.

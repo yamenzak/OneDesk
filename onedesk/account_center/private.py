@@ -9,6 +9,8 @@ rest is in one/AGENTS.md under Under the hood, and docs/PRIVATE-APPS.md.
 import frappe
 from frappe import _
 
+from onedesk.one import registry
+
 HOOK = "one_private_app"
 
 LEAVE = "one_allow_private_uninstall"
@@ -85,12 +87,12 @@ def claim(code: str) -> dict:
 	try:
 		return account.ask("onedesk.one_admin.proxy.app_claim", code=code, by=frappe.session.user) or {}
 	except faults.Again:
-		frappe.throw(_("OneAdmin can't be reached right now. Try again in a few minutes."))
+		frappe.throw(_("{0} can't be reached right now. Try again in a few minutes.").format(registry.name("one_admin")))
 	except faults.Refused as refused:
 		if refused.said == "ValidationError" and refused.detail:
 			frappe.throw(refused.detail, title=_("Not Found"))
 		if not account.configured():
-			frappe.throw(_("This workspace isn't linked to OneAdmin, so it can't add private apps."))
+			frappe.throw(_("This workspace isn't linked to {0}, so it can't add private apps.").format(registry.name("one_admin")))
 		raise
 
 

@@ -5,13 +5,15 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Sent by
 tell.py. Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Video Made for a Presentation",
-		"app": "OneDeck",
-		"about": "When a video somebody asked OneAI for is ready, on a new slide of their presentation.",
+		"app": registry.name("one_deck"),
+		"about": "When a video somebody asked {one_ai} for is ready, on a new slide of their presentation.",
 		"to": "Whoever asked for it",
 		"channels": ALL,
 		"email_default": False,
@@ -22,14 +24,14 @@ TYPES = [
 	},
 	{
 		"name": "Video Not Made for a Presentation",
-		"app": "OneDeck",
-		"about": "When OneAI could not make a video somebody asked for in a presentation.",
+		"app": registry.name("one_deck"),
+		"about": "When {one_ai} could not make a video somebody asked for in a presentation.",
 		"to": "Whoever asked for it",
 		"channels": ALL,
 		"email_default": False,
 		"push_default": True,
 		"sender": "workspace",
-		"subject": "OneAI could not make “{what}”",
+		"subject": "{one_ai} could not make “{what}”",
 		"message": "Nothing was added to {presentation}. Try again, or describe it differently.",
 	},
 ]

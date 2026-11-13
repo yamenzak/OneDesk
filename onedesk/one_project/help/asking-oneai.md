@@ -1,9 +1,9 @@
-# Asking OneAI
+# Asking {one_ai}
 
-On **Workload**, OneAI offers **Who has too much on this week?** It runs the
+On **Workload**, {one_ai} offers **Who has too much on this week?** It runs the
 report itself, so it reads the week as Workload shows it to you.
 
-On a project, OneAI offers **Draft my update**, **How is this project
+On a project, {one_ai} offers **Draft my update**, **How is this project
 going?**, **What is late?**, **Write the customer an update**, **Plan the
 tasks**, **Where is the money going?**, **What's left to pay the
 subcontractors?**, **What's still to invoice?**, **Remind a customer of an
@@ -11,13 +11,13 @@ overdue invoice**, **Where did the time go?** and **Who has too much on?** On a
 retainer, first **How much of this month's hours are used?**
 
 An internal project has no customer, so it isn't offered the customer
-update or what's still to invoice. On the Projects list, OneAI offers
+update or what's still to invoice. On the Projects list, {one_ai} offers
 **Which projects need attention?** and **Start a project**. Say what the job
 is, who it's for and when it runs. It offers a template you have, or one
 from the library, first. The project comes as a card, and approving it
 makes it as **Add Project** does, with the customer's terms, and opens it.
 
-OneAI reads a project as you see it: its figures, its money with
+{one_ai} reads a project as you see it: its figures, its money with
 the customer and suppliers, its cost types, its tasks, its time, its people
 and their load, a retainer's months, and the team's updates, including the
 sub-projects you can see, and the project's own work apart from them, so it
@@ -27,7 +27,7 @@ Tasks it suggests come as cards, and nothing is added until you approve one.
 
 Ask it to put a project on hold, complete or cancel it, add a milestone, log
 time on your timesheet or set a cost type's budget, and it comes as a card. Completing or cancelling a project with open work
-closes that work too, so OneAI asks first. Approving the card does what the
+closes that work too, so {one_ai} asks first. Approving the card does what the
 project's **Status**, **Add Milestone**, **Log Time** and **Add Cost Type** do, and
 the project's people are told.
 
@@ -37,7 +37,7 @@ and the invoice attached, and you send it. Ask it to add somebody to the
 team or a contact, and approving the card adds them as **Add Member** and
 **Add Contact** do.
 
-On **Project Template** and on a template, OneAI offers **Draft a template**.
+On **Project Template** and on a template, {one_ai} offers **Draft a template**.
 Say what kind of job it is for. It offers a template you already have, or
 one from the library, first. A new one comes as a card listing its phases,
 how many tasks it has and how many days it runs. Approving it makes the

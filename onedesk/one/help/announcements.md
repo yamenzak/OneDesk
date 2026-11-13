@@ -22,9 +22,9 @@ On the top bar:
   stop it, and click one to read it all. **×** folds them to the megaphone
   with how many there are, for you only, and they stay folded until you
   click the megaphone or a new one is posted.
-- Everyone is also notified right away, in One and by email if they chose
+- Everyone is also notified right away, in {one} and by email if they chose
   (**Announcement**).
 
 **Stop Showing**, on an announcement or under **Actions** in the list for
-the ones ticked, takes it off the top bar at once and marks it Ended. OneAI
+the ones ticked, takes it off the top bar at once and marks it Ended. {one_ai}
 can answer **Who has not read it?**

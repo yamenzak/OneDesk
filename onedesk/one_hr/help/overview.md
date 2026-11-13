@@ -1,13 +1,13 @@
-# What OneHR Is
+# What {one_hr} Is
 
-OneHR is HR for every company in the workspace: people, attendance, leave,
+{one_hr} is HR for every company in the workspace: people, attendance, leave,
 pay, expenses, hiring, appraisals, and joining and leaving.
 
-![OneHR's Home with its figures and charts](overview/home.png)
+![{one_hr}'s Home with its figures and charts](overview/home.png)
 
 ## Finding Your Way
 
-The rail on the left has the whole of OneHR in it:
+The rail on the left has the whole of {one_hr} in it:
 
 - **Home** — the page everybody starts their day on. **Check In**, **Request
   Leave** and **Claim an Expense** are its buttons, and the leave you have left
@@ -17,7 +17,7 @@ The rail on the left has the whole of OneHR in it:
   interviews. HR also sees the headcount, who joined, who is in and away today,
   the last payroll and the open positions, and an **Overview** of the people,
   their time, their pay and hiring. **Everything**, **Reports** and **Setup**
-  list the whole of OneHR with what each is for.
+  list the whole of {one_hr} with what each is for.
 - **Overview** — the people at a glance: headcount, who joined and who left,
   and the company by department, age and gender. Who is in, absent and on
   leave today is **Attendance Overview**, under Time.
@@ -38,10 +38,10 @@ the company's currency, so no payroll screen asks for a currency either.
 leave policy or leave year, it shows the name — *Rania Sabbagh*, *Standard*,
 *2026* — rather than HR-EMP-00001.
 
-**OneAI is the round button in the corner.** Open it on any page and it offers
+**{one_ai} is the round button in the corner.** Open it on any page and it offers
 what makes sense there — "Claim a receipt" on expense claims, "Check this
-payroll" on a payroll entry. No OneAI button is ever put on a page itself. See
-**OneAI in OneHR** below.
+payroll" on a payroll entry. No {one_ai} button is ever put on a page itself. See
+**{one_ai} in {one_hr}** below.
 
 ## Several Companies
 

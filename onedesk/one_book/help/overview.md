@@ -1,14 +1,14 @@
-# What OneBook Is
+# What {one_book} Is
 
-OneBook is where the money is kept: the invoices you send, the bills you get,
+{one_book} is where the money is kept: the invoices you send, the bills you get,
 the payments either way, the bank, and the reports an accountant and a tax
 office ask for. Every invoice, payment and journal entry is the same record
-the rest of One reads — a project's billed amount, a customer's balance, an
+the rest of {one} reads — a project's billed amount, a customer's balance, an
 employee's expense claim.
 
 ## Finding Your Way
 
-**OneBook** in the dock opens it. Every row is called by the name of what it
+**{one_book}** in the dock opens it. Every row is called by the name of what it
 opens, which is also the name **Ctrl+K** finds it by. The rail has:
 
 - **Home** — how the money is doing, what needs doing, and everything else
@@ -21,7 +21,7 @@ opens, which is also the name **Ctrl+K** finds it by. The rail has:
   anything that is not an invoice or a payment: corrections, accruals,
   opening balances.
 - **Bank Reconciliation Tool** — matching your bank statement to the books.
-- **Ready to Submit** — drafts OneAI read from mail and scans, waiting for
+- **Ready to Submit** — drafts {one_ai} read from mail and scans, waiting for
   you: bills most of all, and any order, quotation or receipt it read.
 - **Customer** and **Supplier**.
 - **Receivables** — **Credit Note** (money given back), **Accounts
@@ -30,7 +30,7 @@ opens, which is also the name **Ctrl+K** finds it by. The rail has:
   Accounts** (customer statements by mail). **Sales Invoice** above lists
   invoices only; credit notes are here.
 - **Payables** — **Debit Note** and **Accounts Payable** (which suppliers you
-  owe; what employees are owed is in OneHR).
+  owe; what employees are owed is in {one_hr}).
 - **Banking** — **Payments Overview** (what came in and went out, and
   from whom), **Bank Transaction** (each line of a bank statement, to
   match), **Bank Statement Import** (bringing a statement file in) and
@@ -50,7 +50,7 @@ opens, which is also the name **Ctrl+K** finds it by. The rail has:
   until it can: the consolidated statements until there is a second company,
   Tax Withholding until a withholding category is set up, and the like.
 
-Everything here is for whoever People gives OneBook. An **Accounts User**
+Everything here is for whoever People gives {one_book}. An **Accounts User**
 matches the bank and imports a statement; an **Accounts Manager** also
 enters the opening invoices, adds banks and suppliers, and keeps the purchase
 tax templates.
@@ -60,18 +60,18 @@ tax templates.
 Three apps share the records behind a sale and a purchase, and each answers
 one question:
 
-- **OneCRM** — *who might buy, and what did they agree to*: leads, deals,
+- **{one_crm}** — *who might buy, and what did they agree to*: leads, deals,
   quotations and the **sales order** a won deal becomes. Customers are its.
-- **OneInventory** — *what we hold*: items, stock and its movements, what
+- **{one_inventory}** — *what we hold*: items, stock and its movements, what
   arrives and what is delivered, what we are ordering from suppliers, and the
   equipment we keep (assets).
-- **OneBook** — *the money*: the invoice for what was sold, the bill for what
+- **{one_book}** — *the money*: the invoice for what was sold, the bill for what
   was bought, and everything paid. Suppliers are its, since a supplier is
   somebody you pay.
 
-So a sale goes quotation and order (OneCRM), delivery (OneInventory), invoice
-and payment (OneBook); a purchase goes order and receipt (OneInventory), bill
-and payment (OneBook). Each record opens in its own app's rail, wherever it
+So a sale goes quotation and order ({one_crm}), delivery ({one_inventory}), invoice
+and payment ({one_book}); a purchase goes order and receipt ({one_inventory}), bill
+and payment ({one_book}). Each record opens in its own app's rail, wherever it
 was found.
 
 ## Several Companies

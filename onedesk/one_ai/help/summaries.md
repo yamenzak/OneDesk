@@ -1,7 +1,7 @@
 # Summaries
 
 A customer, a supplier, an opportunity and a project open on a short
-**OneAI Summary** at the top: what matters now, such as money owed or
+**{one_ai} Summary** at the top: what matters now, such as money owed or
 overdue, orders that are late, what was raised in mail, and what needs doing
 next.
 

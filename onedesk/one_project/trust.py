@@ -2,9 +2,10 @@
 asks about it, as they see it, and a task it suggests is added only when they
 approve it. See one_project/agent.py and trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneProject"
+M = registry.name("one_project")
 
 clause(
 	document="ai",

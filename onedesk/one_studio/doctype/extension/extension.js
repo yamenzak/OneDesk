@@ -37,14 +37,14 @@ const WHEN = {
 };
 
 const PLACES = {
-	"onemail.conversation": () => __("In OneMail, when a conversation opens"),
+	"onemail.conversation": () => __("In {0}, when a conversation opens", [onedesk.names.of("one_mail")]),
 	"onemail.compose": () => __("When an email is written"),
 	"record_head.drawn": (kind) => __("In the header of each {0}", [kind]),
-	"onecloud.file": () => __("In OneCloud, when a file preview opens"),
+	"onecloud.file": () => __("In {0}, when a file preview opens", [onedesk.names.of("one_cloud")]),
 	"intake.reading": () => __("In Documents, when a document opens"),
-	"onecrm.board": () => __("On the OneCRM pipeline board"),
+	"onecrm.board": () => __("On the {0} pipeline board", [onedesk.names.of("one_crm")]),
 	"space.home": () => __("On each space's home page"),
-	"onecalendar.event": () => __("In OneCalendar, when an event opens"),
+	"onecalendar.event": () => __("In {0}, when an event opens", [onedesk.names.of("one_calendar")]),
 };
 
 const FIXED = "Fixed: ";
@@ -157,8 +157,8 @@ frappe.ui.form.on("Extension", {
 					__("New Version"),
 					text(
 						draft.review === "Passed"
-							? __("OneAI wrote a new version. The one that is on keeps running until you use it.")
-							: __("OneAI wrote a new version, and the review refused it. The one that is on keeps running."),
+							? __("{0} wrote a new version. The one that is on keeps running until you use it.", [onedesk.names.of("one_ai")])
+							: __("{0} wrote a new version, and the review refused it. The one that is on keeps running.", [onedesk.names.of("one_ai")]),
 					) + (draft.review_note ? text(draft.review_note) : ""),
 					"",
 					badge,

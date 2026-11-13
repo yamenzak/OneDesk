@@ -2,9 +2,10 @@
 calendar to another app through a private link. See one_calendar/feed.py and
 trust_center/AGENTS.md."""
 
+from onedesk.one import registry
 from onedesk.trust_center.registry import clause
 
-M = "OneCalendar"
+M = registry.name("one_calendar")
 
 clause(
 	document="privacy",

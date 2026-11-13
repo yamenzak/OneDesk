@@ -12,7 +12,7 @@ import frappe
 from frappe import _, _lt
 from frappe.utils import cint, flt
 
-from onedesk.one import account
+from onedesk.one import account, registry
 from onedesk.trust_center import services
 
 SERVICE = "weather"
@@ -176,7 +176,7 @@ def search(query: Annotated[str, "A town or city's name."]) -> list[dict]:
 	frappe.has_permission(DOCTYPE, "create", throw=True)
 	said = services.call(SERVICE, account.ask, PLACES, query=query, lang=frappe.local.lang or "en")
 	if said is None:
-		frappe.throw(_("Turn on Weather in TrustCenter to search for a place."), title=_("Weather Is Off"))
+		frappe.throw(_("Turn on Weather in {0} to search for a place.").format(registry.name("trust_center")), title=_("Weather Is Off"))
 	return said
 
 

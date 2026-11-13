@@ -5,6 +5,8 @@ has the keys of a notification file (notifications/layout.py KEYS), with
 each on or why not, and its `sender` (docs/READY.md, mechanism 8). Sent by
 tell.py. Pure."""
 
+from onedesk.one import registry
+
 ALL = {"bell": True, "email": True, "push": True}
 
 OUTSIDE = {
@@ -16,7 +18,7 @@ OUTSIDE = {
 TYPES = [
 	{
 		"name": "Event Cancelled",
-		"app": "OneCalendar",
+		"app": registry.name("one_calendar"),
 		"about": "When an event you are on is cancelled or deleted.",
 		"to": "Everybody on it, but whoever cancelled it",
 		"channels": ALL,
@@ -28,7 +30,7 @@ TYPES = [
 	},
 	{
 		"name": "Event Changed",
-		"app": "OneCalendar",
+		"app": registry.name("one_calendar"),
 		"about": "When the time or the place of an event you are on changes.",
 		"to": "Everybody on it, but whoever changed it",
 		"channels": ALL,
@@ -40,7 +42,7 @@ TYPES = [
 	},
 	{
 		"name": "Event Invitation",
-		"app": "OneCalendar",
+		"app": registry.name("one_calendar"),
 		"about": "When somebody outside the workspace is invited to an event, or it changes or is cancelled. Their reply goes to the organizer's own mailbox.",
 		"to": "Each guest, by email, with the event attached for their calendar",
 		"channels": OUTSIDE,
@@ -51,7 +53,7 @@ TYPES = [
 	},
 	{
 		"name": "Invited to an Event",
-		"app": "OneCalendar",
+		"app": registry.name("one_calendar"),
 		"about": "When somebody adds you to an event.",
 		"to": "Each person added",
 		"channels": ALL,
@@ -63,7 +65,7 @@ TYPES = [
 	},
 	{
 		"name": "Starting Soon",
-		"app": "OneCalendar",
+		"app": registry.name("one_calendar"),
 		"about": "When an event you are on starts soon, as its reminders say, or ten minutes before.",
 		"to": "Whoever made it and everybody invited",
 		"channels": ALL,
@@ -73,7 +75,7 @@ TYPES = [
 	},
 	{
 		"name": "Taken Off an Event",
-		"app": "OneCalendar",
+		"app": registry.name("one_calendar"),
 		"about": "When somebody takes you off an event you were on.",
 		"to": "Whoever was taken off",
 		"channels": ALL,
@@ -85,7 +87,7 @@ TYPES = [
 	},
 	{
 		"name": "Today's Events",
-		"app": "OneCalendar",
+		"app": registry.name("one_calendar"),
 		"about": "Every morning, what is on your calendar that day. Not sent on a day with nothing on it.",
 		"to": "Each person, for their own day",
 		"channels": ALL,

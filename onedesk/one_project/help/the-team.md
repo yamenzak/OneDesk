@@ -80,19 +80,19 @@ Often** (**Daily**, **Twice Daily** or **Weekly**) and when. The Updates
 heading then says how often, such as **Asked every Monday**. Each member gets
 a notification that opens the project, and an email if the workspace sends
 mail. **Subject** and **Message** are what the request says. Leave them empty
-and One asks in its own words.
+and {one} asks in its own words.
 
 - On a day you're asked, Updates says **Your update is due today** until you
   post it.
 - Posting again the same day replaces your earlier update.
 - Replying to the email works too, whenever the reply comes.
 - A site log mailed in by a member, which names the project, is their update
-  for the day too (OneAI reads it).
+  for the day too ({one_ai} reads it).
 - An update posted by someone else shows without reloading.
 - Every update is in the project's **Activity**, under who wrote it.
 - No one is asked on a day off in the project's **Holiday List**, and a
   project with no members asks no one.
-- **Draft my update** in OneAI writes a first draft from your week on the
+- **Draft my update** in {one_ai} writes a first draft from your week on the
   project: what you finished, the hours you logged and what's next or late.
   Approving it puts it in the line, to change and post.
 

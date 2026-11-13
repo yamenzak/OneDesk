@@ -1,17 +1,17 @@
-# What OneFactory Is
+# What {one_factory} Is
 
-OneFactory is where the company makes things: what each product is made
+{one_factory} is where the company makes things: what each product is made
 from, the work orders that make it, the steps on the shop floor, and the
 work it sends to suppliers. What it uses and what it makes is stock, kept in
-OneInventory, so a finished work order is goods in a warehouse there.
+{one_inventory}, so a finished work order is goods in a warehouse there.
 
 ## Finding Your Way
 
-**OneFactory** in the dock opens it on **Home**: the open work orders, the
+**{one_factory}** in the dock opens it on **Home**: the open work orders, the
 steps running now, the work orders late, what is out with suppliers and what
 was made this month. **Today** lists the work orders past the day they were
 wanted, those due to have started, work late back from suppliers and drafts
-left. **Everything** is all of OneFactory, each with what it is for, and
+left. **Everything** is all of {one_factory}, each with what it is for, and
 **Reports** and **Setup** its reports and setup.
 
 **Overview** has charts of what was produced, the operations done, downtime
@@ -31,6 +31,6 @@ and the work orders still pending. The rail keeps what people use every day:
 
 ## What Is Kept Where
 
-OneInventory keeps items, warehouses and the stock a work order uses and
-makes. OneProject counts what a project's work orders use in its Stock Used.
-OneBook keeps the supplier's bill for work sent out.
+{one_inventory} keeps items, warehouses and the stock a work order uses and
+makes. {one_project} counts what a project's work orders use in its Stock Used.
+{one_book} keeps the supplier's bill for work sent out.

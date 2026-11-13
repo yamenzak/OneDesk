@@ -5,13 +5,15 @@ modules' files. Each entry has the keys of a notification file
 and body, and says its `channels`, each on or why not, and its `sender`
 (docs/READY.md, mechanism 8). tell.py sends them. Pure."""
 
+from onedesk.one import registry
+
 ADMINISTRATORS = ("Workspace Administrator",)
 ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
 		"name": "Extensions Failing",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "Every morning, the extensions that ran into errors the day before. Not sent when none did.",
 		"to": "Every administrator",
@@ -20,11 +22,11 @@ TYPES = [
 		"email_default": True,
 		"sender": "workspace",
 		"subject": "Extensions ran into errors yesterday",
-		"message": "These extensions ran into errors, and the work went on: {extensions}. Open one and press Fix With OneAI, or turn it off.",
+		"message": "These extensions ran into errors, and the work went on: {extensions}. Open one and press Fix With {one_ai}, or turn it off.",
 	},
 	{
 		"name": "Extension Turned On",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "When another administrator turns an extension on: what it does, where and when it runs.",
 		"to": "The other administrators",
@@ -36,7 +38,7 @@ TYPES = [
 	},
 	{
 		"name": "Extension Turned Off",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "When another administrator turns an extension off.",
 		"to": "The other administrators",
@@ -48,7 +50,7 @@ TYPES = [
 	},
 	{
 		"name": "Extension Deleted",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "When another administrator deletes an extension.",
 		"to": "The other administrators",
@@ -60,22 +62,22 @@ TYPES = [
 	},
 	{
 		"name": "Extension Fixed",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
-		"about": "When OneAI finishes fixing an extension you asked it to fix.",
-		"to": "Whoever pressed Fix With OneAI",
+		"about": "When {one_ai} finishes fixing an extension you asked it to fix.",
+		"to": "Whoever pressed Fix With {one_ai}",
 		"channels": ALL,
 		"button": "Open Extension",
 		"email_default": True,
 		"push_default": True,
 		"oneai": True,
 		"sender": "workspace",
-		"subject": "OneAI looked at {extension}",
+		"subject": "{one_ai} looked at {extension}",
 		"message": "{said}",
 	},
 	{
 		"name": "Collection Added",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "When another administrator adds a custom collection.",
 		"to": "The other administrators",
@@ -87,7 +89,7 @@ TYPES = [
 	},
 	{
 		"name": "Collection Changed",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "When another administrator changes a custom collection's fields.",
 		"to": "The other administrators",
@@ -99,7 +101,7 @@ TYPES = [
 	},
 	{
 		"name": "Collection Deleted",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "When another administrator deletes a custom collection.",
 		"to": "The other administrators",
@@ -111,7 +113,7 @@ TYPES = [
 	},
 	{
 		"name": "Form Customized",
-		"app": "OneStudio",
+		"app": registry.name("one_studio"),
 		"roles": ADMINISTRATORS,
 		"about": "When another administrator changes a form for everyone, or resets it.",
 		"to": "The other administrators",
@@ -119,6 +121,6 @@ TYPES = [
 		"email_default": False,
 		"sender": "workspace",
 		"subject": "{who} changed {form}",
-		"message": "It changed for everyone. See it in OneStudio › Custom Fields.",
+		"message": "It changed for everyone. See it in {one_studio} › Custom Fields.",
 	},
 ]

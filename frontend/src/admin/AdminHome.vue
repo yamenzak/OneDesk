@@ -41,7 +41,7 @@
           </div>
         </Section>
 
-        <Section :title="__('OneAI')" icon="lucide-sparkles" :action="{ text: true, label: __('AI Usage'), onClick: () => go('/desk/query-report/AI Usage') }" data-cards>
+        <Section :title="name('one_ai')" icon="lucide-sparkles" :action="{ text: true, label: __('AI Usage'), onClick: () => go('/desk/query-report/AI Usage') }" data-cards>
           <div class="grid gap-3 lg:grid-cols-3">
             <ChartCard class="h-80">
               <BarChart :title="__('OneCredits Used by Month')" :data="used" x="month" :y="['credits']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="{ credits: { label: __('OneCredits'), color: hue(4) } }" />
@@ -108,7 +108,7 @@ import { computed, onBeforeUnmount, ref } from "vue";
 import { Badge } from "frappe-ui";
 import { AreaChart, BarChart, ChartCard, DonutChart, FunnelChart, LineChart, NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Figures, Loading, Page, Rows, Section, ViewTabs, __, call, count, followList, get, go, goTo, money, shortMonth, wrapped } from "../kit";
+import { Figures, Loading, Page, Rows, Section, ViewTabs, __, call, count, followList, get, go, goTo, money, shortMonth, wrapped, name } from "../kit";
 
 const THEMES = { Working: "green", Failing: "red", "Not Set Up": "gray" };
 const said = ref(null);

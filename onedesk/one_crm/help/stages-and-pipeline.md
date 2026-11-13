@@ -27,7 +27,7 @@ always 100% and a lost one 0%.
 **On Hold is for an opportunity that is neither moving nor lost** — the money is not
 signed off, the building is not ready. It stays open and keeps its next step,
 so give it one that says when to look again. It is left out of the Pipeline
-Value, the Weighted Pipeline, the Opportunity Forecast, and OneAI's opportunities that have
+Value, the Weighted Pipeline, the Opportunity Forecast, and {one_ai}'s opportunities that have
 gone quiet. Move it back to any stage when it starts again.
 
 Every move is recorded with the date, so how long an opportunity has sat in a stage is

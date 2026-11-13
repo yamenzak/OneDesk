@@ -1,11 +1,11 @@
-# Asking OneAI
+# Asking {one_ai}
 
-Everything in OneStudio starts with OneAI: it writes extensions, designs
+Everything in {one_studio} starts with {one_ai}: it writes extensions, designs
 collections and fields, and suggests numbering, print formats, approvals and
 automations, each as a card. Nothing changes until an administrator approves
-the card. The OneAI panel offers questions that fit the page you are on.
+the card. The {one_ai} panel offers questions that fit the page you are on.
 
-| On | OneAI offers |
+| On | {one_ai} offers |
 | --- | --- |
 | **Extensions** | **Write an extension…**, and **What do our extensions do?**, which says what each does and whether any is failing. |
 | **An extension** | **Change this one…**. When it is on, **Has this one run into errors?**, which reads what went wrong and on which record, never its code. When it is off, **Why is this one off?** |
@@ -17,6 +17,6 @@ the card. The OneAI panel offers questions that fit the page you are on.
 | **Automations** | **Thank customers who pay** and **What runs by itself?** |
 | **Webhooks** | **Are the webhooks working?**, and on the calls, **Why did these fail?** |
 
-OneAI's code is read a second time by a separate check, which sees the code
+{one_ai}'s code is read a second time by a separate check, which sees the code
 and what it says it does and nothing of your conversation. See
 [Extensions](extensions).
