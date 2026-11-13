@@ -189,25 +189,24 @@ break each other's imports on sites that carry only one of them.
 
 - Short files, one job each. Standard Frappe layout: `onedesk/<module>/doctype/…`.
 - **No comments in code.** The why goes in the commit message, the module's
-  README or a docstring. What stays: licence and attribution lines (`Derived
+  AGENTS.md or a docstring. What stays: licence and attribution lines (`Derived
   from frappe/…`, copyright), tool directives (`noqa`, `fmt:`, `eslint-`), and
   docstrings, which OneAI reads as each tool's description and which tests
   read. Nothing a test checks may live in a comment.
 - No dead code, no unused exports, no "kept in case". Delete it; git has it.
 - No re-export barrels that defeat tree-shaking; import from the declaring module.
 - Reference in `docs/` is **generated** — `MODULES.md`, `UPSTREAM.md`,
-  `FRAMEWORK.md`, `OVERRIDES.md`, `ATLAS.md` and `atlas-site.json`. Never edit
-  those. If a fact has to be typed by
+  `REGISTRY.md`, `STANDARD-RULES.md`, `FRAMEWORK.md`, `OVERRIDES.md`,
+  `ATLAS.md` and `atlas-site.json`. Never edit those. If a fact has to be typed by
   hand in two places, one of them is wrong.
-- A **module's README** is written by hand, lives beside the module and says so
-  in its first line — `onedesk/one_demo/README.md` is one. Everything above its
-  `## Under the hood` heading is written for the people who use the module,
-  because OneAI's `how_to` tool reads it to answer them; the rest is for us.
-  A module keeps one README rather than plans and audits in `docs/`: git keeps
-  the history. This is moving to `docs/READY.md`'s **A module's folder**
-  (`AGENTS.md`, `SCRATCHPAD.md`, `help/` for help pages and `updates/` for versions),
-  module by module.
-- **A module in `onedesk/one/ready.py` changes only with a new version.**
+- **A module's folder** is `docs/READY.md`'s **A module's folder**: its
+  `manifest.py`, `AGENTS.md` (what it is, for agents and us), `SCRATCHPAD.md`
+  (what is wrong and planned), `help/` for its Help pages, which OneAI's
+  `how_to` tool reads to answer people, and `updates/` for its versions;
+  no other Markdown, and no plans or audits in `docs/`: git keeps the
+  history. The demo keeps a README (`onedesk/one_demo/README.md`), and its
+  part above `## Under the hood` is what `how_to` reads of it.
+- **A module in `ready.MODULES` changes only with a new version.**
   `python3 scripts/version.py <folder> <major|minor|fix> "<title>"` writes the
   next `updates/<version>.md` with the module's fingerprint; say in it,
   in English and for the people using the module, what they can do now.
@@ -251,6 +250,10 @@ break each other's imports on sites that carry only one of them.
   were earlier names and earlier code; none of them is product-facing.
 * **An id is not a name.** A module's directory, its Frappe module name and a
   doctype's name are ids, and they do not change when a product is renamed.
+  The name people see is typed once, in the app's `manifest.py`
+  (`onedesk/one/registry` loads them), and read everywhere else:
+  `registry.name("one_doc")`, `onedesk.names.of("one_doc")`, the kit's
+  `name("one_doc")`, `{one_doc}` in Help, versions and notifications.
 * **This repo is AGPL-3.0, and so are `frappe/crm`, `frappe/drive`,
   `frappe/sheets` and `frappe/helpdesk`.** Code may be taken from them, and
   taking it means keeping Frappe's copyright notice, saying at the top of the
@@ -260,9 +263,9 @@ break each other's imports on sites that carry only one of them.
 
 ## The site
 
-`onedesk.localhost` carries frappe, erpnext, hrms and onedesk, and nothing else.
+A site carries frappe, erpnext, hrms and onedesk, and nothing else.
 OneApp and its control app, the product before OneDesk, are retired: their
-repository is emptied and their sites are gone. Some module READMEs and
+repository is emptied and their sites are gone. Some module AGENTS.md files and
 docstrings still say a piece was first written there; that is history, not a
 dependency.
 
@@ -273,30 +276,30 @@ there.
 
 ## The guards
 
-`python -m pytest` — no site needed, and every guard has a test proving
-it still catches its own example. Run it as `python3 scripts/quick.py --all`
-(pytest-xdist, every core: about 35s for the whole suite, against two and a
-half minutes in one process), and while working `python3 scripts/quick.py`,
-which runs only the guard files that name what changed, in seconds. The
-bookkeeping the guards check (docs/, the overrides ledger, a version's
-fingerprint, what is left to translate) is written by `scripts/close.py`, so
-it never fails a run; `--looked` re-dates a ready module's hand looks after
-the commit. Every guard is listed by the point of `docs/STANDARD.md`
-it serves in `tests/guards/registry.py` and lives in `tests/guards/`, except
-the two below that sit in `tests/` and are not in the registry.
+`../../env/bin/python scripts/lint.py` is OneLint, the one command; no site
+needed. Plain, it runs what can see the change: the guards naming it, its
+module's tests and the tests naming its folder, in seconds; a change to
+`tests/guards`, `scripts` or `onedesk/one/registry` runs everything.
+`lint.py --all` runs every test and rule in parallel (pytest-xdist), about
+a minute on the 2-core dev box: the gate before a commit lands. `--list` and
+`--point N` show the rules by the point of `docs/STANDARD.md` they serve
+(`docs/STANDARD-RULES.md` is the same, generated). `scripts/quick.py` is its
+old name and still works.
 
-The editors' own tests (`frontend/src/**/*.test.*`, taken with OneWorkbook and
-OneWriter) run with `cd frontend && npx -p vitest@5 -p jsdom@26 vitest run`;
+Every test in `tests/guards/` is a rule or the proof that a rule catches its
+own example, registered by its point in `tests/guards/registry.py`
+(`registry-whole` fails one that is neither). `tests/test_borrowing.py` (what
+the framework does for us, and the pattern that must not appear; add one
+when you find another) and `tests/test_declarative.py` (desk furniture is
+fixture JSON, `modules.txt` agrees with the folders) sit in `tests/` and are
+not in the registry. The bookkeeping the rules check (docs/, the overrides
+ledger, a version's fingerprint, what is left to translate) is written by
+`scripts/close.py`, so it never fails a run; `--looked` records a module's
+hand looks on its newest version after the commit.
+
+The editors' own tests (`frontend/src/**/*.test.*`, taken with OneSheet and
+OneDoc) run with `cd frontend && npx -p vitest@5 -p jsdom@26 vitest run`;
 `frontend/vitest.config.mjs` gives them the same seams the build does.
-
-- `test_borrowing.py` — a named list of what the framework does for us, and the
-  pattern that must not appear. Add a rule when you find another.
-- `test_declarative.py` — desk furniture is fixture JSON, and `modules.txt`
-  agrees with the folders.
-- `guards/test_source_style.py` — no file that is mostly comment, nothing
-  imported and unused.
-- `guards/test_generated.py` — `docs/` and `docs/FRAMEWORK.md` are current, upstream
-  was read this fortnight, and every line we override is still there.
 
 `python scripts/reference.py` regenerates `docs/FRAMEWORK.md` from the frappe
 checkout. It is pinned to the sha in `upstream.json`, so it describes the

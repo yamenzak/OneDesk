@@ -51,10 +51,13 @@ realtime included: `/socket.io` goes to a local nginx on 9001, which adds the
 Origin header socketio insists on and passes it to 9000, and the site sets
 `socketio_port` 443 for it. It is marked `one_dev` in its site config.
 
-There is no OneAdmin on this machine. The workspace is linked to production's
-OneAdmin, `admin.4dl.app`, as a test workspace (Workspaces › New Test
-Workspace, then `deploy/local/link.sh`): its OneAI, mail (`m.4dl.app`),
-weather and news go through production, nothing is billed, OneAdmin never
+Dev's own OneAdmin, `admin.DOMAIN`, was retired on 12 November 2026, but its
+site stays here until the switchover (`docs/run/RUN.md`, P11.3): the run
+uses it for signup tests and for `run.localhost`, the site off the domain
+where each gate builds the demo from nothing. The workspace is to be linked
+to production's OneAdmin, `admin.4dl.app`, as a test workspace (Workspaces ›
+New Test Workspace, then `deploy/local/link.sh`); once linked, its OneAI,
+mail (`m.4dl.app`), weather and news go through production, nothing is billed, OneAdmin never
 updates or moves it, and it sends its own backups to production's keeper.
 Its credits are given by hand on its Tenant. `deploy/local/dev-config.sh
 DOMAIN` builds the demo and links it.
@@ -65,12 +68,12 @@ Passwords are in `~/.one-local` (`PUBLIC_ADMIN_PASSWORD` for the site,
 
 ## What never to do here
 
-- The workspace speaks to production. What its people do with OneAI spends
+- A linked workspace speaks to production. What its people do with OneAI spends
   real credits and real money at the model providers, and mail it sends goes
   out from `m.4dl.app`. Test with that in mind.
 - Never put a Stripe key here, test or live: the workspace bills nothing.
-- Never make an admin site here (`one_admin` in a site config) or point the
-  workspace at one: dev's own OneAdmin was retired on 12 November 2026.
+- Never make another admin site here (`one_admin` in a site config) or
+  point `one.DOMAIN` at one: dev's own OneAdmin is retired.
 - Never commit in `apps/frappe`, `apps/erpnext` or `apps/hrms`. Their changed
   files are build output.
 - Never drop or reinstall the domain site without being asked: it holds the
@@ -81,7 +84,9 @@ Passwords are in `~/.one-local` (`PUBLIC_ADMIN_PASSWORD` for the site,
 
 ## The gates
 
-From `apps/onedesk`: `../../env/bin/python scripts/quick.py --all` (every test, in parallel), and `scripts/quick.py` alone while working. `python3
+From `apps/onedesk`: `../../env/bin/python scripts/lint.py --all` (every
+test and rule, in parallel, about a minute), and `scripts/lint.py` alone
+while working, which runs what can see the change. `python3
 scripts/docs.py` first when docs or the registry changed, and
 `../../env/bin/python scripts/overrides.py` after touching an override. Push
 only with the gates green.
