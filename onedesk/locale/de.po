@@ -3823,6 +3823,10 @@ msgstr "Vereinbarungen"
 msgid "Agreements Changed"
 msgstr "Vereinbarungen geändert"
 
+#: onedesk/public/js/trust_center/trust_center.js:186
+msgid "Agreements not agreed to yet, and every change to them, with the day it takes effect."
+msgstr "Noch nicht zugestimmte Vereinbarungen und jede Änderung daran, mit dem Tag, an dem sie gilt."
+
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Akamai"
@@ -8949,11 +8953,6 @@ msgstr "Tarif wechseln"
 #: onedesk/one_ai/doctype/reading/reading.json:236
 msgid "Change Request"
 msgstr "Änderungswunsch"
-
-#: onedesk/public/js/account_center/account_center.js:949
-#: onedesk/public/js/account_center/account_center.js:970
-msgid "Change Window"
-msgstr "Zeitfenster ändern"
 
 #: onedesk/one_studio/agent.py:40
 msgid "Change a collection…"
@@ -33282,6 +33281,10 @@ msgstr "In letzter Zeit nicht aktiv"
 msgid "Not agreed yet"
 msgstr "Noch nicht zugestimmt"
 
+#: onedesk/public/js/trust_center/trust_center.js:197
+msgid "Not agreed yet for your organisation"
+msgstr "Für Ihre Organisation noch nicht zugestimmt"
+
 #: onedesk/one_inventory/heads.py:645
 #, python-brace-format
 msgid "Not all ordered yet, and it was wanted {0} ago."
@@ -33720,6 +33723,10 @@ msgstr "Nichts geht verloren, außer Sie wählen Über Original speichern."
 #: onedesk/one_hr/heads.py:590
 msgid "Nothing is spent and no attendance is marked."
 msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
+
+#: onedesk/public/js/trust_center/trust_center.js:190
+msgid "Nothing is waiting for agreement."
+msgstr "Nichts wartet auf Zustimmung."
 
 #: onedesk/one_inventory/ready.py:86
 msgid "Nothing leaves a warehouse that does not have it."
@@ -40202,6 +40209,11 @@ msgstr "Priorität"
 #: onedesk/www/start.html:74 onedesk/www/your_data.html:43
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
+
+#: onedesk/public/js/trust_center/trust_center.js:163
+#: onedesk/public/js/trust_center/trust_center.js:166
+msgid "Privacy Requests"
+msgstr "Datenschutzanfragen"
 
 #. Name of a notification
 #: onedesk/one/notifications.py
@@ -53936,11 +53948,6 @@ msgstr "Die nächste Person am Rednerpult, ihr Vortrag, wann und wo."
 msgid "The next step to run. Steps can safely run more than once."
 msgstr "Der nächste auszuführende Schritt. Schritte dürfen mehrfach laufen."
 
-#: onedesk/public/js/account_center/account_center.js:944
-#, python-brace-format
-msgid "The next update is on {0}."
-msgstr "Die nächste Aktualisierung ist am {0}."
-
 #. Message of a notification
 #: onedesk/one/notifications.py
 #, python-brace-format
@@ -54773,6 +54780,10 @@ msgstr "Die Version der Datei, aus der es gelesen wurde."
 #: onedesk/one_cloud/custom/file.json:201
 msgid "The version of the file its PDF preview was made from."
 msgstr "Die Version der Datei, aus der die PDF-Vorschau erstellt wurde."
+
+#: onedesk/public/js/one/help_center.js:173
+msgid "The versions the next update brings, by app."
+msgstr "Die Versionen, die die nächste Aktualisierung bringt, nach App."
 
 #: onedesk/one_crm/home.py:122
 msgid "The visits promised to keep what a customer bought working."
@@ -56011,6 +56022,10 @@ msgstr "Diese Arbeitsmappe existiert nicht mehr."
 #: onedesk/one_sheet/storage.py:56
 msgid "This workbook's saved data is invalid."
 msgstr "Die gespeicherten Daten dieser Arbeitsmappe sind ungültig."
+
+#: onedesk/public/js/one/help_center.js:167
+msgid "This workspace already runs the newest release."
+msgstr "Dieser Arbeitsbereich läuft bereits mit dem neuesten Release."
 
 #: onedesk/public/js/setup_wizard.js:144
 msgid "This workspace becomes the demo company. Set up your own in a new workspace."
@@ -58555,6 +58570,12 @@ msgstr "Aktualisierung"
 msgid "Update Day"
 msgstr "Aktualisierungstag"
 
+#. Label of the update_held_until (Datetime) field in DocType 'Workspace
+#. Account'
+#: onedesk/account_center/doctype/workspace_account/workspace_account.json:317
+msgid "Update Held Until"
+msgstr "Aktualisierung zurückgehalten bis"
+
 #. Label of the update_hour (Int) field in DocType 'Workspace Account'
 #. Label of the update_hour (Int) field in DocType 'Tenant'
 #: onedesk/account_center/doctype/workspace_account/workspace_account.json:294
@@ -58586,6 +58607,12 @@ msgstr "Steuernummer, Website und Telefon aktualisieren"
 msgid "Update Waits For Terms"
 msgstr "Aktualisierung wartet auf Bedingungen"
 
+#: onedesk/public/js/one/help_center.js:143
+#: onedesk/public/js/one/help_center.js:188
+#: onedesk/public/js/one/help_center.js:190
+msgid "Update Window"
+msgstr "Aktualisierungsfenster"
+
 #: onedesk/www/account_invoices.html:56
 msgid "Update card"
 msgstr "Karte aktualisieren"
@@ -58607,10 +58634,6 @@ msgstr "Pivot aktualisieren"
 msgid "Update started."
 msgstr "Aktualisierung gestartet."
 
-#: onedesk/public/js/account_center/account_center.js:967
-msgid "Update window saved."
-msgstr "Aktualisierungsfenster gespeichert."
-
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json:282
 msgid "UpdateCenter"
@@ -58629,10 +58652,24 @@ msgstr "Aktualisiert"
 msgid "Updates"
 msgstr "Updates"
 
+#: onedesk/public/js/one/help_center.js:191
+#, python-brace-format
+msgid "Updates run in the workspace's time zone, {0}."
+msgstr "Aktualisierungen laufen in der Zeitzone des Arbeitsbereichs, {0}."
+
 #: onedesk/public/js/account_center/account_center.js:945
 #, python-brace-format
 msgid "Updates run on {0} at {1}:00."
 msgstr "Aktualisierungen laufen am {0} um {1}:00."
+
+#. Label of the update_moving (Check) field in DocType 'Workspace Account'
+#: onedesk/account_center/doctype/workspace_account/workspace_account.json:311
+msgid "Updating Now"
+msgstr "Wird gerade aktualisiert"
+
+#: onedesk/public/js/one/help_center.js:136
+msgid "Updating now. The workspace is offline for a few minutes."
+msgstr "Wird gerade aktualisiert. Der Arbeitsbereich ist für einige Minuten offline."
 
 #: frontend/src/admin/ServerCard.vue:71
 #, python-brace-format
@@ -59561,6 +59598,12 @@ msgstr "Wartezimmer"
 msgid "Waiting by Service"
 msgstr "Wartende nach Dienst"
 
+#: onedesk/public/js/one/help_center.js:150
+#: onedesk/public/js/trust_center/trust_center.js:182
+#: onedesk/public/js/trust_center/trust_center.js:185
+msgid "Waiting for Agreement"
+msgstr "Wartet auf Zustimmung"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:770
 msgid "Waiting for Approval"
 msgstr "Wartet auf Genehmigung"
@@ -60171,6 +60214,10 @@ msgstr "Was aufbewahrt wird"
 #: onedesk/one_book/tour.py:45
 msgid "What Is Owed"
 msgstr "Was offen ist"
+
+#: onedesk/public/js/one/help_center.js:173
+msgid "What It Brings"
+msgstr "Was es bringt"
 
 #: onedesk/one_studio/doctype/extension/extension.js:99
 msgid "What It Does"
@@ -62798,6 +62845,11 @@ msgstr "Wenn sich {0} ändert"
 #, python-brace-format
 msgid "When {0} changes to {1}"
 msgstr "Wenn {0} zu {1} wechselt"
+
+#: onedesk/public/js/one/help_center.js:130
+#, python-brace-format
+msgid "When {0} next updates this workspace, and what the update brings."
+msgstr "Wann {0} diesen Arbeitsbereich als Nächstes aktualisiert und was die Aktualisierung bringt."
 
 #. When a notification is sent
 #: onedesk/one_ai/notifications.py
@@ -66168,6 +66220,12 @@ msgstr "Ihre Nummer wird hier aufgerufen und angezeigt"
 #: onedesk/one_display/starters.py:394
 msgid "Your number will be called on the screens"
 msgstr "Ihre Nummer wird auf den Bildschirmen aufgerufen"
+
+#: onedesk/public/js/one/help_center.js:151
+#: onedesk/public/js/trust_center/trust_center.js:206
+#, python-brace-format
+msgid "Your organisation hasn't agreed to the new terms yet. The update goes ahead on {0} even so."
+msgstr "Ihre Organisation hat den neuen Bedingungen noch nicht zugestimmt. Die Aktualisierung findet am {0} trotzdem statt."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:911
 #, python-brace-format
@@ -69751,6 +69809,12 @@ msgstr "{0} in {1}"
 msgid "{0} in {1} +{2}"
 msgstr "{0} in {1} +{2}"
 
+#: onedesk/public/js/one/help_center.js:291
+#: onedesk/public/js/one/help_center.js:292
+#, python-brace-format
+msgid "{0} in {1} Help"
+msgstr "{0} in der Hilfe von {1}"
+
 #: onedesk/one_admin/heads.py:166
 #, python-brace-format
 msgid "{0} in {1} calls"
@@ -72244,6 +72308,11 @@ msgstr "{0} % belegt."
 #, python-brace-format
 msgid "{0}% · {1} held"
 msgstr "{0}% · {1} einbehalten"
+
+#: onedesk/public/js/trust_center/trust_center.js:205
+#, python-brace-format
+msgid "{0}'s Next Update"
+msgstr "Nächste Aktualisierung von {0}"
 
 #: onedesk/one_admin/health.py:236
 #, python-brace-format
