@@ -11,6 +11,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt, today
 
+from onedesk.one.company import workspace_company
 from onedesk.one_ai.reading import act, identity, matters, plans, tell
 from onedesk.one_ai.reading import identifiers as ids
 from onedesk.one_hr.hiring import AUTHOR
@@ -384,7 +385,7 @@ def _money(ctx: dict, reading) -> None:
 	ctx["books"] = not cint(frappe.db.get_single_value("Reading Settings", "household")) and frappe.db.count("Company") > 0
 	if not ctx["books"]:
 		return
-	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
+	company = workspace_company()
 	ctx["locked"] = str(frappe.db.get_value("Company", company, "accounts_frozen_till_date") or "") or None
 	parties = _parties(reading)
 	ctx["supplier"] = _supplier(reading)

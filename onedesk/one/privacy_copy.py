@@ -382,20 +382,3 @@ def _outsider_file(request: str) -> dict:
 		"attached_to_name": request,
 		"file_name": ["like", "Personal-Data-%"],
 	}
-
-
-def query(user: str | None = None) -> str | None:
-	"""permission_query_conditions: the administrators'."""
-	user = user or frappe.session.user
-	if user == "Administrator" or roles.administers(user):
-		return None
-	return "1=0"
-
-
-def has_permission(doc, ptype: str | None = None, user: str | None = None) -> bool:
-	"""Read only, and the administrators': decided through `send`, never by
-	editing the record. The person sees theirs on their profile."""
-	user = user or frappe.session.user
-	if user == "Administrator":
-		return True
-	return ptype in ("read", "report", None) and roles.administers(user)

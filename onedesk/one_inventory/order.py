@@ -82,9 +82,9 @@ def rows() -> list[dict]:
 	"""What to order, in the company's warehouses: each open purchase request
 	line not yet ordered, then each item at or below its level with nothing
 	asked for it."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
-	company = get_default_company()
+	company = reader_company()
 	allowed = frappe.get_list(
 		"Material Request",
 		filters={"company": company, "docstatus": 1, "material_request_type": "Purchase", "status": ["not in", ["Stopped", "Cancelled"]]},
@@ -150,10 +150,10 @@ def rows() -> list[dict]:
 def supplier_for(item: str, company: str | None = None) -> tuple:
 	"""Who an item is bought from, its default supplier or whoever sold it
 	last, and what it cost a stock unit then."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	default = frappe.db.get_value(
-		"Item Default", {"parent": item, "company": company or get_default_company()}, "default_supplier"
+		"Item Default", {"parent": item, "company": company or reader_company()}, "default_supplier"
 	)
 	last = last_bought(item)
 	return default or (last.supplier if last else None), (last.unit_rate if last else None)
@@ -166,9 +166,10 @@ def read() -> dict:
 	its picture, unit and warehouse by their own names, what it would cost at
 	the last price, and the figures above them."""
 	frappe.has_permission("Material Request", "read", throw=True)
-	from erpnext import get_company_currency, get_default_company
+	from erpnext import get_company_currency
+	from onedesk.one.company import reader_company
 
-	company = get_default_company()
+	company = reader_company()
 	lines = rows()
 	items = {
 		one.name: one
@@ -242,13 +243,13 @@ def grouped(picked: list[dict], fallback: str | None = None) -> dict:
 def order(rows: str | list, supplier: str | None = None) -> list[str]:
 	"""A draft purchase order per supplier from the ticked rows."""
 	frappe.has_permission("Purchase Order", "create", throw=True)
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	picked = json.loads(rows) if isinstance(rows, str) else rows
 	made = []
 	for name, lines in grouped(picked, supplier).items():
 		doc = frappe.new_doc("Purchase Order")
-		doc.company = get_default_company()
+		doc.company = reader_company()
 		doc.supplier = name
 		doc.transaction_date = nowdate()
 		bill_in(doc, "Supplier", name)

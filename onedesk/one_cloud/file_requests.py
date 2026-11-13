@@ -9,14 +9,13 @@ import os
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_days, get_fullname, get_url, getdate, now_datetime, today
+from frappe.utils import add_days, get_fullname, get_url, getdate, now_datetime, sha256_hash, today
 from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 
 from onedesk.one import roles
 from onedesk.one_cloud import api, targets, tell
 from onedesk.one_cloud import namespace as ns
-from onedesk.one_cloud.doctype.cloud_file_request.cloud_file_request import hashed
 
 PREFIX = "@request"
 
@@ -282,7 +281,7 @@ def live(token: str | None):
 		return None, None
 	found = frappe.db.get_value(
 		"Cloud File Request Recipient",
-		{"token_hash": hashed(token), "parenttype": "Cloud File Request"},
+		{"token_hash": sha256_hash(token), "parenttype": "Cloud File Request"},
 		["parent", "name"],
 		as_dict=True,
 	)

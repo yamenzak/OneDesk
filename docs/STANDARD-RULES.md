@@ -248,4 +248,6 @@ A module is held to it before it is marked ready.
 - `tell-in-place`: a notification sent from anywhere but the module's tell.py (`tests/guards/test_layout.py::test_notifications_go_out_from_tell`)
 - `ai-in-place`: a OneAI hook pointing at anything but a module's ai.py or ai_<topic>.py (`tests/guards/test_layout.py::test_oneai_hooks_point_at_ai_files`)
 - `access-in-place`: a role given rights anywhere but a module's access.py (`tests/guards/test_layout.py::test_roles_are_given_in_access`)
+- `helpers-one-home`: a module's own copy of a shared helper: the reader's company, a read check, a token's hash, a plain _lt (`tests/guards/test_helpers.py::test_a_shared_helper_is_not_copied`)
+- `company-one-place`: erpnext.get_default_company called anywhere but one/company.py (`tests/guards/test_helpers.py::test_the_default_company_is_asked_of_one_place`)
 - `upstream-imports`: an import of a name frappe, erpnext or hrms no longer has (`tests/guards/test_upstream_imports.py::test_every_upstream_import_is_still_there`)

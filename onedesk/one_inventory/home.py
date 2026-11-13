@@ -3,12 +3,12 @@ somebody today, and everything in OneInventory, each with what it is for.
 How it works is in the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from frappe import _lt
 from frappe.utils import add_days, add_months, flt, getdate, today
 
-FEW = 5
+from onedesk.one.company import company_currency, reader_company
+from onedesk.one.needs_you import kept
 
 GROUPS = (
 	("stock", _lt("Stock")),
@@ -183,7 +183,7 @@ def read() -> dict:
 			"late": needs["late"]["count"],
 			"going_off": needs["lots"]["count"],
 		},
-		"currency": _currency(),
+		"currency": company_currency(),
 		"needs": needs,
 		"groups": [{"key": key, "label": str(label)} for key, label in GROUPS],
 		"sections": {
@@ -199,20 +199,11 @@ def read() -> dict:
 	}
 
 
-def _currency() -> str | None:
-	company = erpnext.get_default_company()
-	return erpnext.get_company_currency(company) if company else None
-
-
 def _worth() -> float | None:
 	"""Stock Value, the reader's company's, as the Number Card counts it."""
 	from onedesk.one_inventory import story
 
 	return story._worth_now()
-
-
-def _kept(rows: list) -> dict:
-	return {"rows": rows[:FEW], "count": len(rows)}
 
 
 def needs_you() -> dict:
@@ -243,10 +234,10 @@ def needs_you() -> dict:
 		else []
 	)
 	return {
-		"late": _kept(late.get("orders") or []),
-		"low": _kept([{**one, "place": _place(one.get("warehouse"))} for one in low.get("low") or []]),
-		"lots": {**_kept(lots), "until": str(add_days(today(), batches.SOON))},
-		"services": _kept([one for one in services.get("services") or [] if getdate(one["due"]) <= add_days(day, 7)]),
+		"late": kept(late.get("orders") or []),
+		"low": kept([{**one, "place": _place(one.get("warehouse"))} for one in low.get("low") or []]),
+		"lots": {**kept(lots), "until": str(add_days(today(), batches.SOON))},
+		"services": kept([one for one in services.get("services") or [] if getdate(one["due"]) <= add_days(day, 7)]),
 		"drafts": drafts(),
 	}
 
@@ -267,7 +258,7 @@ DRAFTS = (
 def drafts() -> list[dict]:
 	"""For each kind of paper, how many drafts were left more than a day ago."""
 	out = []
-	company = erpnext.get_default_company()
+	company = reader_company()
 	for doctype, label in DRAFTS:
 		if not frappe.has_permission(doctype, "read"):
 			continue

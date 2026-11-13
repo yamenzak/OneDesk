@@ -5,13 +5,13 @@ No `stripe` package. The webhook has three guards, in order: the signature
 request's own state. The clock is `time.time()`, a Unix timestamp like Stripe's.
 """
 
-import hashlib
 import json
 import time
 
 import frappe
 import requests
 from frappe.database.database import savepoint
+from frappe.utils import sha256_hash
 
 from onedesk.one_admin import faults, ladder, lifecycle, signing, signup, site, vault
 
@@ -466,7 +466,7 @@ def _post(path: str, form: dict) -> dict:
 	if path not in MADE_BY_POST:
 		return _call("post", path, data=form)
 	asked = json.dumps([path, form, int(time.time() // (ONCE_MINUTES * 60))], sort_keys=True, default=str)
-	return _call("post", path, data=form, headers={"Idempotency-Key": hashlib.sha256(asked.encode()).hexdigest()})
+	return _call("post", path, data=form, headers={"Idempotency-Key": sha256_hash(asked)})
 
 
 def _get(path: str) -> dict:

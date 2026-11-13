@@ -33,13 +33,13 @@ def before_submit(doc, method=None) -> None:
 @frappe.whitelist(methods=["POST"])
 def approve(name: str, note: str | None = None) -> None:
 	"""Say yes, which submits, which books the expense and owes the money."""
-	_answer(name, APPROVED, note)
+	decision.answer("Expense Claim", name, "approval_status", APPROVED, note, _("Only a claim still waiting can be answered."))
 
 
 @frappe.whitelist(methods=["POST"])
 def reject(name: str, note: str | None = None) -> None:
 	"""Say no, which submits a closed claim and books nothing."""
-	_answer(name, REJECTED, note)
+	decision.answer("Expense Claim", name, "approval_status", REJECTED, note, _("Only a claim still waiting can be answered."))
 
 
 @frappe.whitelist()
@@ -59,15 +59,3 @@ def about(name: str) -> dict:
 		"currency": doc.currency,
 		"rows": len(doc.expenses or []),
 	}
-
-
-def _answer(name: str, verdict: str, note: str | None) -> None:
-	doc = frappe.get_doc("Expense Claim", name)
-	decision.may_decide(doc)
-
-	if doc.docstatus != 0:
-		frappe.throw(_("Only a claim still waiting can be answered."))
-
-	decision.carry(doc, "approval_status", verdict)
-	decision.sign(doc, note)
-	doc.submit()

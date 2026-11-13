@@ -11,7 +11,8 @@ from frappe import _, _lt
 from frappe.utils import flt, fmt_money, formatdate, getdate, today
 from frappe.utils.caching import request_cache
 
-from onedesk.one import figures, stages
+from onedesk.one import figures, head, stages
+from onedesk.one.company import company_currency
 from onedesk.one_inventory import assets, batches, custody, item
 
 FIXED = [["is_fixed_asset", "=", 1]]
@@ -27,15 +28,6 @@ def _item(name: str) -> dict:
 @request_cache
 def _asset(name: str) -> dict:
 	return assets.said(name)
-
-
-def _money(value, doc=None) -> str:
-	"""In the record's company's currency, or the reader's company's for a
-	record that belongs to no company (an item)."""
-	from erpnext import get_default_company
-
-	company = (doc and doc.get("company")) or get_default_company()
-	return fmt_money(flt(value), currency=frappe.get_cached_value("Company", company, "default_currency"))
 
 
 def _count(doc, value) -> str:
@@ -64,7 +56,7 @@ def on_order(doc):
 
 
 def worth(doc):
-	return _money(_item(doc.name)["value"])
+	return head.money(_item(doc.name)["value"], company_currency())
 
 
 def reorder(doc):
@@ -82,17 +74,17 @@ def last_bought(doc):
 			"label": _("Last Purchase Rate · {0}").format(
 				formatdate(last.on_date)
 			),
-			"value": _("{0} from {1}").format(_money(last.rate), last.supplier),
+			"value": _("{0} from {1}").format(head.money(last.rate, company_currency()), last.supplier),
 		}
 	return {"value": _("Never"), "tone": "quiet"} if doc.is_stock_item else None
 
 
 def worth_now(doc):
-	return _money(_asset(doc.name)["worth"], doc)
+	return head.money(_asset(doc.name)["worth"], company_currency(doc.get("company")))
 
 
 def cost(doc):
-	return _money(_asset(doc.name)["cost"], doc)
+	return head.money(_asset(doc.name)["cost"], company_currency(doc.get("company")))
 
 
 def _depreciating(doc) -> bool:
@@ -126,7 +118,7 @@ def next_depreciation(doc):
 	upcoming = _asset(doc.name)["next"]
 	if not upcoming:
 		return {"value": _("None left"), "tone": "quiet"}
-	return {"value": _money(upcoming.depreciation_amount, doc)}
+	return {"value": head.money(upcoming.depreciation_amount, company_currency(doc.get("company")))}
 
 
 def next_service(doc):
@@ -212,7 +204,7 @@ def warehouse_items(doc):
 
 
 def warehouse_worth(doc):
-	return _money(_held(doc.name)["worth"], doc)
+	return head.money(_held(doc.name)["worth"], company_currency(doc.get("company")))
 
 
 def warehouse_low(doc):
@@ -904,14 +896,14 @@ def move_value(doc):
 		value = doc.total_incoming_value
 	else:
 		value = doc.total_outgoing_value
-	return _money(value, doc) if flt(value) else None
+	return head.money(value, company_currency(doc.get("company"))) if flt(value) else None
 
 
 def move_used(doc):
 	"""What making the goods used up."""
 	if doc.purpose not in MADE or not flt(doc.total_outgoing_value):
 		return None
-	return _money(doc.total_outgoing_value, doc)
+	return head.money(doc.total_outgoing_value, company_currency(doc.get("company")))
 
 
 def count_items(doc):
@@ -1025,7 +1017,7 @@ def repair_out(doc):
 
 def repair_cost(doc):
 	value = flt(doc.total_repair_cost) or flt(doc.repair_cost)
-	return _money(value, doc) if value else {"value": _("Nothing yet"), "tone": "quiet"}
+	return head.money(value, company_currency(doc.get("company"))) if value else {"value": _("Nothing yet"), "tone": "quiet"}
 
 
 def worth_change(doc):
@@ -1033,7 +1025,7 @@ def worth_change(doc):
 	change = flt(doc.new_asset_value) - flt(doc.current_asset_value)
 	if not flt(doc.current_asset_value):
 		return None
-	return {"value": _money(change, doc), "tone": "alarm" if change < 0 else None}
+	return {"value": head.money(change, company_currency(doc.get("company"))), "tone": "alarm" if change < 0 else None}
 
 
 def moved(doc):
@@ -1089,7 +1081,7 @@ def life(doc):
 		"labels": [formatdate(day, "MMM yyyy") for day, _value in points],
 		"values": [value for _day, value in points],
 		"currency": frappe.get_cached_value("Company", doc.company, "default_currency"),
-		"said": _("{0} at the end").format(_money(points[-1][1], doc)),
+		"said": _("{0} at the end").format(head.money(points[-1][1], company_currency(doc.get("company")))),
 	}
 
 

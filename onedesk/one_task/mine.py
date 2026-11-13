@@ -2,11 +2,11 @@
 
 from datetime import date, timedelta
 
-import erpnext
 import frappe
 from frappe import _lt
 from frappe.utils import getdate, nowdate
 
+from onedesk.one.company import reader_company
 from onedesk.one_task.capture import DONE
 
 MOST = 500
@@ -66,7 +66,7 @@ def tasks(view: str = "mine") -> list[dict]:
 	filters, or_filters = _filters(view if view in VIEWS else "mine", frappe.session.user)
 	rows = frappe.get_list(
 		"Task",
-		filters=[*filters, ["company", "=", erpnext.get_default_company()]],
+		filters=[*filters, ["company", "=", reader_company()]],
 		or_filters=or_filters,
 		fields=[
 			"name",
@@ -134,7 +134,7 @@ def _waiting(names: list[str]) -> dict[str, int]:
 			filters={
 				"name": ["in", list({one.task for one in rows})],
 				"status": ["not in", DONE],
-				"company": erpnext.get_default_company(),
+				"company": reader_company(),
 			},
 			fields=["name", "parent_task"],
 		)
@@ -191,7 +191,7 @@ def counts() -> dict:
 	which is the Overdue group's own rule (`when`). Counted as the reader,
 	through `get_list`: `frappe.db.count` is not."""
 	user = frappe.session.user
-	company = ["company", "=", erpnext.get_default_company()]
+	company = ["company", "=", reader_company()]
 	filters, or_filters = _filters("inbox", user)
 	inbox = frappe.get_list(
 		"Task", filters=[*filters, company], or_filters=or_filters, pluck="name", limit=MOST

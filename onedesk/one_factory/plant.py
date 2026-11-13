@@ -4,12 +4,12 @@ Workstation. People see them on ERPNext's own Plant Floor form. How it works
 is in the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from erpnext.manufacturing.doctype.plant_floor import plant_floor
 from erpnext.manufacturing.doctype.workstation import workstation as workstations
 from frappe.utils import flt
 
+from onedesk.one.company import reader_company
 from onedesk.one_factory import floor as shop
 
 STATUSES = ("Production", "Off", "Idle", "Problem", "Maintenance", "Setup")
@@ -21,7 +21,7 @@ def now(plant: str | None = None, workstation_type: str | None = None, status: s
 	frappe.has_permission("Workstation", "read", throw=True)
 	floors = frappe.get_list(
 		"Plant Floor",
-		filters={"company": ["in", [erpnext.get_default_company(), "", None]]},
+		filters={"company": ["in", [reader_company(), "", None]]},
 		fields=["name", "floor_name", "warehouse", "company"],
 		order_by="creation asc",
 	)
@@ -77,7 +77,7 @@ def figures(rows: list) -> dict:
 def _running(name: str) -> list:
 	cards = frappe.get_all(
 		"Job Card",
-		filters={"workstation": name, "docstatus": 0, "is_paused": 0, "company": erpnext.get_default_company()},
+		filters={"workstation": name, "docstatus": 0, "is_paused": 0, "company": reader_company()},
 		fields=["name", "operation", "work_order", "production_item", "is_paused"],
 	)
 	return [one for one in cards if shop.running_now(one)]
@@ -113,7 +113,7 @@ def _workstation(one: dict) -> dict:
 		"running": running,
 		"waiting": frappe.db.count(
 			"Job Card",
-			{"workstation": one.name, "docstatus": 0, "status": "Open", "company": erpnext.get_default_company()},
+			{"workstation": one.name, "docstatus": 0, "status": "Open", "company": reader_company()},
 		),
 	}
 

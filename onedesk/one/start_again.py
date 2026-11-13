@@ -11,6 +11,7 @@ import frappe
 from frappe import _
 
 from onedesk.one import roles
+from onedesk.one.company import workspace_company
 
 DOCTYPE = "Transaction Deletion Record"
 
@@ -30,7 +31,7 @@ def planned(company: str):
 def start() -> str:
 	"""Every transaction of the company deleted, in the background."""
 	roles.require()
-	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
+	company = workspace_company()
 	if not company:
 		frappe.throw(_("There is no company to start again."))
 	who = frappe.session.user

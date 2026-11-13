@@ -10,6 +10,7 @@ import frappe
 from frappe.utils import flt
 
 from onedesk.one import boards
+from onedesk.one.company import reader_company
 from onedesk.one_crm import stages
 
 BOARD = "Pipeline"
@@ -72,13 +73,11 @@ def worth(filters: Annotated[str | list | None, "The board's filters, as the lis
 	company: the board's own filter's, else the reader's."""
 	from erpnext import get_company_currency
 
-	from onedesk.one_crm import measure
-
 	given = frappe.parse_json(filters) if filters else []
 	if isinstance(given, dict):
 		given = [["Opportunity", key, "=", value] for key, value in given.items()]
 	named = next((one[3] if len(one) > 3 else one[2] for one in given if "company" in one[:2]), None)
-	company = named if isinstance(named, str) else measure.company()
+	company = named if isinstance(named, str) else reader_company()
 	rows = frappe.get_list(
 		"Opportunity",
 		filters=[*given, ["Opportunity", "company", "=", company]],

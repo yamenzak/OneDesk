@@ -11,7 +11,7 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _
-from frappe.utils import cstr, flt
+from frappe.utils import cstr, flt, fmt_money
 from frappe.utils.data import evaluate_filters
 
 from onedesk.one import linked
@@ -27,6 +27,13 @@ def _merged(hook: str) -> dict:
 	for path in frappe.get_hooks(hook) or []:
 		found.update(frappe.get_attr(path))
 	return found
+
+
+def money(value, currency: str | None = None, decimals: int | None = None) -> str:
+	"""An amount as the island kit's `money` prints it, here on the server: in
+	the workspace's and the reader's number format, with the currency's
+	symbol, to `decimals` places or the currency's own."""
+	return fmt_money(flt(value), precision=decimals, currency=currency)
 
 
 def measures() -> dict:

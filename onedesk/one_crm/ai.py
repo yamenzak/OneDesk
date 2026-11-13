@@ -529,9 +529,9 @@ def quotes_waiting(
 	answer (open or replied), soonest last day first, each with its customer,
 	total and how many days it has left. Read it before saying which quotes
 	are open, waiting or running out."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
-	filters = [["docstatus", "=", 1], ["status", "in", ["Open", "Replied"]], ["company", "=", get_default_company()]]
+	filters = [["docstatus", "=", 1], ["status", "in", ["Open", "Replied"]], ["company", "=", reader_company()]]
 	if within_days is not None:
 		filters += [["valid_till", "is", "set"], ["valid_till", "<=", add_days(today(), cint(within_days))]]
 	rows = frappe.get_list(

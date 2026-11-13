@@ -33,6 +33,20 @@ def carry(doc, field: str, verdict: str) -> None:
 	doc.flags.one_verdict = (field, verdict)
 
 
+def answer(doctype: str, name: str, field: str, verdict: str, note, waiting: str) -> None:
+	"""One's own Approve or Reject of a request that answering submits (leave,
+	a claim, a shift): only somebody who may decide, only while it waits
+	(`waiting` says so otherwise), the verdict in `field` carried through the
+	save, and the note on it. Submitting signs it."""
+	doc = frappe.get_doc(doctype, name)
+	may_decide(doc)
+	if doc.docstatus != 0:
+		frappe.throw(waiting)
+	carry(doc, field, verdict)
+	doc.one_note = note or ""
+	doc.submit()
+
+
 def kept(doc, method=None) -> None:
 	"""before_validate, which runs after frappe's reset: the verdict `carry`
 	set, back on the record."""

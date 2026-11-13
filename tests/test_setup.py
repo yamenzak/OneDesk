@@ -63,7 +63,7 @@ def test_somebody_elses_record_or_route_is_left_as_it_is():
 
 def test_our_workers_are_the_repositorys_code_and_redeploy_when_it_changes():
 	deploy = _method("deploy")
-	assert "hashlib.sha256" in deploy and "held.get(name) == wanted" in deploy
+	assert "sha256_hash(" in deploy and "held.get(name) == wanted" in deploy
 	assert 'DEPLOY / "edge" / "worker.js"' in SOURCE and 'DEPLOY / "mail" / "worker.js"' in SOURCE
 
 

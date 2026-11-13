@@ -3,11 +3,7 @@ what happens on each (its events), what each event gives, and what an
 extension may do there.
 """
 
-
-def _lt(text: str) -> str:
-	"""Marks a string for translation where it is written; it is translated
-	where it is shown (extensions._place_said). Pure."""
-	return text
+from onedesk.one.registry.model import _lt
 
 
 POWERS = {

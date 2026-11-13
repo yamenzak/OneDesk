@@ -37,7 +37,7 @@ def bills(start, end) -> list[dict]:
 
 def _owed(doctype: str, party: str, start, end, which: list) -> list[dict]:
 	"""Submitted and not yet paid, the reader's company's, by due date."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	return [
 		{
@@ -52,7 +52,7 @@ def _owed(doctype: str, party: str, start, end, which: list) -> list[dict]:
 				*which,
 				["docstatus", "=", 1],
 				["outstanding_amount", ">", 0],
-				["company", "=", get_default_company()],
+				["company", "=", reader_company()],
 				*layers.within("due_date", start, end),
 			],
 			fields=["name", f"{party}_name as party_name", "outstanding_amount", "party_account_currency", "due_date"],

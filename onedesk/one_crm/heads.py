@@ -7,10 +7,12 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import flt, fmt_money, formatdate, get_datetime, getdate, now_datetime, today
+from frappe.utils import flt, formatdate, get_datetime, getdate, now_datetime, today
 from frappe.utils.caching import request_cache
 
+from onedesk.one import head
 from onedesk.one import stages as steps
+from onedesk.one.company import company_currency
 from onedesk.one_crm import capture, chain, record, stages
 from onedesk.one_crm.next import OWNER
 
@@ -42,15 +44,11 @@ def days(count) -> str:
 	return _("a day") if whole == 1 else _("{0} days").format(whole)
 
 
-def _money(value, currency) -> str:
-	return fmt_money(value or 0, precision=0, currency=currency)
-
-
 def value(doc):
 	said = _said(doc.doctype, doc.name)
 	return {
 		"label": _("Opportunity Amount · {0}%").format(round(said["probability"])),
-		"value": _money(said["value"], said["currency"]),
+		"value": head.money(said["value"], said["currency"], 0),
 		"meter": {"value": said["probability"], "of": 100},
 	}
 
@@ -90,7 +88,7 @@ def quotation(doc):
 	if not found:
 		return None
 	return {
-		"value": _("{0} · {1}").format(_(found.status), _money(found.grand_total, found.currency)),
+		"value": _("{0} · {1}").format(_(found.status), head.money(found.grand_total, found.currency, 0)),
 		"route": f"/desk/quotation/{found.name}",
 	}
 
@@ -98,12 +96,6 @@ def quotation(doc):
 @request_cache
 def _went(name: str) -> frappe._dict:
 	return chain.follow([name])[name]
-
-
-def _ours(doc) -> str:
-	from erpnext import get_company_currency, get_default_company
-
-	return get_company_currency(doc.get("company") or get_default_company())
 
 
 def _late(invoice) -> bool:
@@ -129,7 +121,7 @@ def progress(doc):
 		steps.step(_("Quotation"), steps.at(bool(quotes), bool(went.quotations)), _(quotes[0].status) if quotes else ""),
 		steps.step(_("Sales Order"), steps.at(bool(orders), bool(went.orders))),
 		steps.step(_("Billed"), steps.at(billed, bool(bills)), steps.share(orders[0].per_billed) if orders and not billed else ""),
-		steps.step(_("Paid"), steps.at(paid, bool(bills), late), _("{0} owed").format(_money(owed, _ours(doc))) if owed > 0 else ""),
+		steps.step(_("Paid"), steps.at(paid, bool(bills), late), _("{0} owed").format(head.money(owed, company_currency(doc.get("company")), 0)) if owed > 0 else ""),
 		stopped=doc.status == "Lost" or held,
 	)
 
@@ -155,8 +147,8 @@ def said(doc):
 		if owed <= 0:
 			return {"text": _("Won, billed and paid in full."), "colour": "green"}
 		if any(_late(one) for one in bills):
-			return {"text": _("Won and billed; {0} is still owed, and some of it is late.").format(_money(owed, _ours(doc))), "colour": "red"}
-		return {"text": _("Won and billed; {0} is still owed.").format(_money(owed, _ours(doc))), "colour": "orange"}
+			return {"text": _("Won and billed; {0} is still owed, and some of it is late.").format(head.money(owed, company_currency(doc.get("company")), 0)), "colour": "red"}
+		return {"text": _("Won and billed; {0} is still owed.").format(head.money(owed, company_currency(doc.get("company")), 0)), "colour": "orange"}
 	quotes = [one for one in went.quotations if one.docstatus == 1 and one.status in ("Open", "Replied")]
 	if quotes and quotes[0].valid_till:
 		if getdate(quotes[0].valid_till) < getdate(today()):
@@ -177,7 +169,7 @@ def of_customer(doc):
 		return None
 	statuses = frappe.as_json(["in", list(OPEN["Opportunity"])], indent=None)
 	return {
-		"value": _("{0} open · {1}").format(len(found), _money(sum(measure.value(one) for one in found), _ours({}))),
+		"value": _("{0} open · {1}").format(len(found), head.money(sum(measure.value(one) for one in found), company_currency(), 0)),
 		"route": f"/desk/opportunity?opportunity_from=Customer&party_name={doc.name}&status={statuses}",
 	}
 

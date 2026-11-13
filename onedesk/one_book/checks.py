@@ -5,6 +5,7 @@ currencies, as their people read them, and the two abilities."""
 import frappe
 from frappe.utils import add_days, date_diff, flt, getdate, today
 
+from onedesk.one.company import company_currency, reader_company
 from onedesk.one_demo.base import COMPANY, as_user, on
 from onedesk.one_demo.check import CENTS, _abroad, check
 from onedesk.one_demo.people import OWNER
@@ -219,7 +220,7 @@ def onebook_a_late_invoice_ages_into_its_column():
 		told = {row["band"]: row["owed"] for row in story.read()["receivable"]["ages"]}
 		assert told[ours] >= flt(one.outstanding_amount) - 0.01, (told, one)
 		_, rows, *_ = execute(
-			frappe._dict(company=home._company(), report_date=today(), range="30, 60, 90, 120", ageing_based_on="Due Date")
+			frappe._dict(company=reader_company(), report_date=today(), range="30, 60, 90, 120", ageing_based_on="Due Date")
 		)
 		row = next(row for row in rows if row.get("voucher_no") == one.name)
 		theirs = next(n for n in range(1, 6) if abs(flt(row.get(f"range{n}")) - flt(one.outstanding_amount)) < 0.01)
@@ -241,7 +242,7 @@ def onebook_profit_and_loss_shows_each_month_in_its_month():
 		)
 		_, rows, *_ = execute(
 			frappe._dict(
-				company=home._company(),
+				company=reader_company(),
 				filter_based_on="Fiscal Year",
 				from_fiscal_year=year,
 				to_fiscal_year=year,
@@ -526,7 +527,7 @@ def onebook_riyadh_keeps_its_own_books():
 			assert abs(theirs - flt(invoice.outstanding_amount)) < 0.01, (theirs, invoice)
 			assert abs(home.we_owe()["value"] - flt(bill.outstanding_amount)) < 0.01
 			assert theirs != ours
-			assert heads._currency() == get_company_currency(BRANCH)
+			assert company_currency() == get_company_currency(BRANCH)
 	finally:
 		frappe.defaults.set_user_default("company", COMPANY, "huda@one.test")
 	frappe.get_doc({"doctype": "User Permission", "user": "huda@one.test", "allow": "Company", "for_value": COMPANY}).insert(ignore_permissions=True)

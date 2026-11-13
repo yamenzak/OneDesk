@@ -23,9 +23,9 @@ USUAL = (
 
 
 def company():
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
-	return frappe.get_cached_doc("Company", get_default_company())
+	return frappe.get_cached_doc("Company", reader_company())
 
 
 def _row(key, check, state, says, fix=None) -> dict:

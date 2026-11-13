@@ -5,13 +5,12 @@ when the server has not finished; `faults.Again` retries and `faults.Refused` st
 the job. Nothing unwinds.
 """
 
-import hashlib
 import secrets
 
 import frappe
 import requests
 from frappe import _lt
-from frappe.utils import now_datetime
+from frappe.utils import now_datetime, sha256_hash
 
 from onedesk.one_admin import cloudflare, faults, fleet, hosts, log, pilot, price_list, quota, servers, spares
 from onedesk.one_cloud import store
@@ -252,7 +251,7 @@ def push_config(job, tenant) -> None:
 	from onedesk.one_admin import backups
 
 	token = secrets.token_urlsafe(32)
-	tenant.db_set("token_hash", hashlib.sha256(token.encode()).hexdigest())
+	tenant.db_set("token_hash", sha256_hash(token))
 	mail_secret = secrets.token_urlsafe(32)
 	backup = backups.given(tenant.slug)
 	pilot.on(

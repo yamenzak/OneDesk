@@ -14,7 +14,7 @@ from frappe import _, _lt
 from frappe.utils import add_days, cint, flt, fmt_money, formatdate, today
 from frappe.utils.caching import request_cache
 
-from onedesk.one import stages
+from onedesk.one import head, stages
 from onedesk.one_project import overview
 
 DONE = ("Completed", "Cancelled", "Template")
@@ -25,10 +25,6 @@ HEALTH_TONE = {"At Risk": "waiting", "Off Track": "alarm"}
 @request_cache
 def _said(name: str) -> dict:
 	return overview.overview(name)
-
-
-def _money(said, value) -> str:
-	return fmt_money(value or 0, precision=0, currency=said["currency"])
 
 
 def _route(value) -> str:
@@ -73,8 +69,8 @@ def cost(doc):
 	said = _said(doc.name)
 	over = said["estimated"] and said["cost"] > said["estimated"]
 	return {
-		"value": _money(said, said["cost"]),
-		"note": _("of {0}").format(_money(said, said["estimated"])) if said["estimated"] else None,
+		"value": head.money(said["cost"], said["currency"], 0),
+		"note": _("of {0}").format(head.money(said["estimated"], said["currency"], 0)) if said["estimated"] else None,
 		"tone": "alarm" if over else None,
 		"meter": {"value": said["cost"], "of": said["estimated"]} if said["estimated"] else None,
 	}
@@ -85,8 +81,8 @@ def billed(doc):
 	if not (said["to_bill"] or said["billed"]):
 		return None
 	return {
-		"value": _money(said, said["billed"]),
-		"note": _("of {0}").format(_money(said, said["to_bill"])) if said["to_bill"] else None,
+		"value": head.money(said["billed"], said["currency"], 0),
+		"note": _("of {0}").format(head.money(said["to_bill"], said["currency"], 0)) if said["to_bill"] else None,
 		"meter": {"value": said["billed"], "of": said["to_bill"]} if said["to_bill"] else None,
 	}
 
@@ -95,7 +91,7 @@ def margin(doc):
 	said = _said(doc.name)
 	if not (said["billed"] or said["cost"]):
 		return None
-	return {"value": _money(said, said["margin"]), "tone": "alarm" if said["margin"] < 0 else None}
+	return {"value": head.money(said["margin"], said["currency"], 0), "tone": "alarm" if said["margin"] < 0 else None}
 
 
 def forecast(doc):
@@ -105,7 +101,7 @@ def forecast(doc):
 	if not said["forecast"]:
 		return None
 	value = said["forecast_margin"]
-	return {"value": _money(said, value), "tone": "alarm" if value < 0 else None}
+	return {"value": head.money(value, said["currency"], 0), "tone": "alarm" if value < 0 else None}
 
 
 def late(doc):

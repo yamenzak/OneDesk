@@ -11,17 +11,14 @@ from frappe import _
 from frappe.utils import date_diff, getdate, today
 
 from onedesk.one import roles, tell
+from onedesk.one.company import workspace_company
 
 WARN = (60, 30, 7)
 
 
-def company() -> str | None:
-	return frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
-
-
 def assignments(held: str | None = None) -> list:
 	"""The company's own assignments, oldest first: which list, from when."""
-	held = held or company()
+	held = held or workspace_company()
 	if not held:
 		return []
 	return frappe.get_all(
@@ -35,7 +32,7 @@ def assignments(held: str | None = None) -> list:
 def assigned(day=None, held: str | None = None) -> str | None:
 	"""The list hrms holds the company to on a day: the last assignment started
 	by then, else the first one (hrms's resolve_holiday_list_assignment)."""
-	held = held or company()
+	held = held or workspace_company()
 	day = getdate(day or today())
 	found = assignments(held)
 	started = [one for one in found if getdate(one.from_date) <= day]
@@ -47,7 +44,7 @@ def assigned(day=None, held: str | None = None) -> str | None:
 def in_force(day=None, held: str | None = None) -> str | None:
 	"""The list shown as in force on a day: the one assigned, else the
 	company's field, until an assignment is made."""
-	held = held or company()
+	held = held or workspace_company()
 	found = assigned(day, held)
 	if found:
 		return found
@@ -73,7 +70,7 @@ def covering(day, held: str | None = None) -> str | None:
 
 def lists(held: str | None = None) -> list[str]:
 	"""Every list the company has been given, and its field's."""
-	held = held or company()
+	held = held or workspace_company()
 	named = [one.holiday_list for one in assignments(held)]
 	own = frappe.db.get_value("Company", held, "default_holiday_list") if held else None
 	return list(dict.fromkeys([*named, *([own] if own else [])]))
@@ -135,7 +132,7 @@ def set_days_off(doc, days: list[str]) -> None:
 def assign(holiday_list: str, held: str | None = None) -> bool:
 	"""Put a list in force for the company, as hrms reads it: from today when
 	the list covers today, else from its first day. False when it already is."""
-	held = held or company()
+	held = held or workspace_company()
 	start, end = frappe.db.get_value("Holiday List", holiday_list, ["from_date", "to_date"])
 	day = getdate(today()) if getdate(start) <= getdate(today()) <= getdate(end) else getdate(start)
 	if assigned(day, held) == holiday_list:
@@ -201,7 +198,7 @@ def next_year() -> str:
 	"""Next year's list, made from the one in force and put in force from its
 	first day; or the one already there."""
 	roles.require()
-	held = company()
+	held = workspace_company()
 	now = in_force(held=held)
 	if not now:
 		frappe.throw(_("There is no holiday list to start from."))
@@ -296,7 +293,7 @@ def elsewhere(held: str | None = None) -> int:
 def daily() -> None:
 	"""The company's field follows the list in force, and a list about to end
 	with nothing after it is told."""
-	held = company()
+	held = workspace_company()
 	if not held:
 		return
 	_follow(held)

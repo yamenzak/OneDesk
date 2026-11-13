@@ -8,10 +8,10 @@ import frappe
 def reconciling(company: str | None = None) -> dict | None:
 	"""The company bank account with lines still to match, or its default
 	one, and the date of the oldest line still to match."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	frappe.has_permission("Bank Transaction", "read", throw=True)
-	company = company or get_default_company()
+	company = company or reader_company()
 	waiting = frappe.get_list(
 		"Bank Transaction",
 		filters={"docstatus": 1, "status": "Unreconciled", "company": company},

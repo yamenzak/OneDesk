@@ -9,12 +9,11 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import add_days, get_datetime, get_url, getdate, now_datetime, pretty_date
+from frappe.utils import add_days, get_datetime, get_url, getdate, now_datetime, pretty_date, sha256_hash
 
 from onedesk.one_crm import portal as selling
 from onedesk.one_inventory import portal as buying
 from onedesk.one_portal import gate, portal
-from onedesk.one_portal.doctype.portal_link.portal_link import hashed
 
 DAYS = 30
 
@@ -364,7 +363,7 @@ def _live(token: str | None):
 	gate.refuse()
 	name = None
 	if token and len(token) <= 80:
-		name = frappe.db.get_value("Portal Link", {"token_hash": hashed(token), "disabled": 0}, "name")
+		name = frappe.db.get_value("Portal Link", {"token_hash": sha256_hash(token), "disabled": 0}, "name")
 	link = frappe.get_doc("Portal Link", name) if name else None
 	if (
 		not link

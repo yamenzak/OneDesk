@@ -11,7 +11,7 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, flt, getdate, nowdate
 
-FEW = 5
+from onedesk.one.needs_you import kept
 
 MONTH = 30
 
@@ -600,23 +600,19 @@ def me() -> str | None:
 	)
 
 
-def _kept(rows: list) -> dict:
-	return {"rows": rows[:FEW], "count": len(rows)}
-
-
 def needs_you() -> dict:
 	"""The reader's own requests waiting and leave left; what waits on them
 	as an approver; and, for HR, the flags, the papers and contracts running
 	out and today's interviews."""
 	hr = is_hr()
 	return {
-		"mine": _kept(_mine()),
+		"mine": kept(_mine()),
 		"leave": _leave_left(),
-		"approve": _kept(_to_approve(hr)),
-		"flagged": _kept(_flagged() if hr else []),
-		"expiring": _kept(_expiring() if hr else []),
-		"ending": _kept(_ending() if hr else []),
-		"interviews": _kept(_interviews()),
+		"approve": kept(_to_approve(hr)),
+		"flagged": kept(_flagged() if hr else []),
+		"expiring": kept(_expiring() if hr else []),
+		"ending": kept(_ending() if hr else []),
+		"interviews": kept(_interviews()),
 	}
 
 

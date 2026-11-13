@@ -40,13 +40,13 @@ def before_submit(doc, method=None) -> None:
 @frappe.whitelist(methods=["POST"])
 def approve(name: str, note: str | None = None) -> None:
 	"""Say yes, which submits, which spends the days and marks the attendance."""
-	_answer(name, APPROVED, note)
+	decision.answer("Leave Application", name, "status", APPROVED, note, _("Only an application still waiting can be answered."))
 
 
 @frappe.whitelist(methods=["POST"])
 def reject(name: str, note: str | None = None) -> None:
 	"""Say no, which submits a closed application and spends nothing."""
-	_answer(name, REJECTED, note)
+	decision.answer("Leave Application", name, "status", REJECTED, note, _("Only an application still waiting can be answered."))
 
 
 @frappe.whitelist()
@@ -85,14 +85,3 @@ def _balance(doc) -> float:
 	except Exception:
 		frappe.clear_last_message()
 		return flt(doc.leave_balance)
-
-
-def _answer(name: str, verdict: str, note) -> None:
-	doc = frappe.get_doc("Leave Application", name)
-	decision.may_decide(doc)
-	if doc.docstatus != 0:
-		frappe.throw(_("Only an application still waiting can be answered."))
-
-	decision.carry(doc, "status", verdict)
-	doc.one_note = note or ""
-	doc.submit()

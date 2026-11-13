@@ -1,21 +1,16 @@
 """A link to a file or folder for people outside the team. See links.py."""
 
-import hashlib
-
 import frappe
 from frappe import _
 from frappe.model.document import Document
-
-
-def hashed(token: str) -> str:
-	return hashlib.sha256(token.encode()).hexdigest()
+from frappe.utils import sha256_hash
 
 
 class CloudLink(Document):
 	def before_insert(self):
 		token = frappe.generate_hash(length=32)
 		self.token = token
-		self.token_hash = hashed(token)
+		self.token_hash = sha256_hash(token)
 		self.flags.token = token
 
 	def validate(self):

@@ -3,10 +3,11 @@ step's job card, read through ERPNext's own Shop Floor. How it works is in
 the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from erpnext.manufacturing.page.shop_floor import shop_floor
 from frappe.utils import flt, get_datetime, getdate, now_datetime, nowdate
+
+from onedesk.one.company import reader_company
 
 MOST = 40
 
@@ -53,7 +54,7 @@ def figures() -> dict:
 	"""What is open, what is running now, what waits to start, and what was
 	finished today, counted as ERPNext counts a job card."""
 	open_orders = shop_floor.get_work_orders("open", 0, 1)["total"]
-	company = erpnext.get_default_company()
+	company = reader_company()
 	drafts = frappe.get_all(
 		"Job Card",
 		filters={"docstatus": 0, "is_subcontracted": 0, "company": company},
@@ -160,7 +161,7 @@ def _step(one: dict) -> dict:
 	names = dict(
 		frappe.get_all(
 			"Employee",
-			filters={"name": ["in", employees], "company": erpnext.get_default_company()},
+			filters={"name": ["in", employees], "company": reader_company()},
 			fields=["name", "employee_name"],
 			as_list=True,
 		)

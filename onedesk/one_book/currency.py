@@ -13,10 +13,11 @@ def billed_in(party_type: str, party: str, company: str | None = None) -> str:
 	company's default, ERPNext's order (party.get_party_account). Read
 	without ERPNext's question whether the reader may open that ledger
 	account, which a project's team may not: the currency is no secret."""
-	from erpnext import get_company_currency, get_default_company
+	from erpnext import get_company_currency
+	from onedesk.one.company import reader_company
 	from erpnext.accounts.party import get_party_gle_currency
 
-	company = company or get_default_company()
+	company = company or reader_company()
 	found = get_party_gle_currency(party_type, party, company)
 	if found:
 		return found
@@ -58,9 +59,10 @@ def rate(source: str | None, target: str, date=None) -> float:
 def bill_in(doc, party_type: str, party: str) -> str:
 	"""Puts a new sales or buying document in the party's currency, with its
 	rate to the company's, and returns the currency."""
-	from erpnext import get_company_currency, get_default_company
+	from erpnext import get_company_currency
+	from onedesk.one.company import reader_company
 
-	doc.company = doc.get("company") or get_default_company()
+	doc.company = doc.get("company") or reader_company()
 	doc.currency = billed_in(party_type, party, doc.company)
 	date = doc.get("transaction_date") or doc.get("posting_date")
 	doc.conversion_rate = rate(doc.currency, get_company_currency(doc.company), date)

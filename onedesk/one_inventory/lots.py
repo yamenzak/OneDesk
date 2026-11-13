@@ -4,10 +4,10 @@ lots. Batch and Serial No themselves are frappe's own lists and forms. How
 it works is in the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from frappe.utils import flt
 
+from onedesk.one.company import reader_company
 from onedesk.one_inventory import batches
 
 MOST = 60
@@ -22,7 +22,7 @@ def figures() -> dict:
 		states = [batches.state(one.expiry_date, one.batch_qty) for one in held]
 		out.update(lots=len(held), going_off=states.count("Expiring Soon"), gone=states.count("Expired"))
 	if frappe.has_permission("Serial No", "read"):
-		company = erpnext.get_default_company()
+		company = reader_company()
 		mine = {"status": "Active", **({"company": company} if company else {})}
 		out["serials"] = len(frappe.get_list("Serial No", filters=mine, pluck="name"))
 	return out
@@ -69,7 +69,7 @@ def serials(search: str | None = None, item: str | None = None) -> list[dict]:
 	if not frappe.has_permission("Serial No", "read"):
 		return []
 	filters = {"item_code": item} if item else {}
-	company = erpnext.get_default_company()
+	company = reader_company()
 	if company:
 		filters["company"] = company
 	or_filters = {"serial_no": ["like", f"%{search}%"], "item_name": ["like", f"%{search}%"]} if search else None

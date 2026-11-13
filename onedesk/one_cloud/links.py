@@ -9,13 +9,12 @@ from urllib.parse import quote, unquote
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils import cint, get_datetime, get_fullname, get_url, now_datetime
+from frappe.utils import cint, get_datetime, get_fullname, get_url, now_datetime, sha256_hash
 from werkzeug.exceptions import Forbidden, NotFound
 from werkzeug.utils import redirect
 
 from onedesk.one_cloud import api, store, tell
 from onedesk.one_cloud import namespace as ns
-from onedesk.one_cloud.doctype.cloud_link.cloud_link import hashed
 
 OPEN_FOR = 12 * 60 * 60
 
@@ -129,7 +128,7 @@ def live(token: str | None):
 	"""The link a token names, if it still opens anything, or None."""
 	if not token or len(token) > 64:
 		return None
-	name = frappe.db.get_value("Cloud Link", {"token_hash": hashed(token), "disabled": 0}, "name")
+	name = frappe.db.get_value("Cloud Link", {"token_hash": sha256_hash(token), "disabled": 0}, "name")
 	if not name:
 		return None
 	link = frappe.get_doc("Cloud Link", name)

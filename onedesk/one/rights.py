@@ -118,6 +118,13 @@ def may(doctype: str, ptype: str, name: str | None = None, user: str | None = No
 	return held(doctype, ptype, user)
 
 
+def can(doctype: str, ptype: str = "read") -> bool:
+	"""Whether the reader may `ptype` some record of `doctype`, as frappe
+	answers it (roles, user permissions, shares), with no administrator's
+	shortcut: what a Home, a story or a tab shows only to who may read it."""
+	return bool(frappe.has_permission(doctype, ptype))
+
+
 def held(doctype: str, ptype: str, user: str | None = None) -> bool:
 	"""Whether somebody's roles give them `ptype` on every record of `doctype`,
 	shares aside."""

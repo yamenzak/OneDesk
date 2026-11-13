@@ -5,7 +5,6 @@ The TV asks every few seconds: an old TV's browser keeps a plain request
 going where a socket drops. Every call a screen makes is a POST, so what it
 changes (its token taken, when it was last seen) is written when it ends."""
 
-import hashlib
 import hmac
 import secrets
 from typing import Annotated
@@ -13,7 +12,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_to_date, cint, flt, get_datetime, getdate, now_datetime, today
+from frappe.utils import add_to_date, cint, flt, get_datetime, getdate, now_datetime, sha256_hash, today
 
 from onedesk.one_display import programme, sizes
 from onedesk.one_display import queue as queues
@@ -26,10 +25,6 @@ COMMANDS = {
 	"off": {"dark": 1},
 	"on": {"dark": 0},
 }
-
-
-def _hash(value: str) -> str:
-	return hashlib.sha256((value or "").encode()).hexdigest()
 
 
 def _code() -> str:
@@ -55,7 +50,7 @@ def start(
 			"screen_name": _("New Screen"),
 			"status": "Waiting to Pair",
 			"pair_code": _code(),
-			"secret_hash": _hash(secret),
+			"secret_hash": sha256_hash(secret or ""),
 			"device": (device or "")[:500],
 			"kind": "Radio" if kind == "Radio" else "Screen",
 			"last_seen": now_datetime(),
@@ -79,7 +74,7 @@ def status(screen: str, secret: str) -> dict:
 	row = frappe.db.get_value(
 		DOCTYPE, screen, ["status", "pair_code", "secret_hash", "token", "screen_name", "channel", "sound_zone"], as_dict=True
 	)
-	if not row or not hmac.compare_digest(row.secret_hash or "", _hash(secret)):
+	if not row or not hmac.compare_digest(row.secret_hash or "", sha256_hash(secret or "")):
 		return {"gone": 1}
 	if row.status != "Paired":
 		return {"code": row.pair_code, "qr": _pairing_qr(row.pair_code)}
@@ -117,7 +112,7 @@ def pair(
 			"status": "Paired",
 			"pair_code": None,
 			"token": token,
-			"token_hash": _hash(token),
+			"token_hash": sha256_hash(token or ""),
 		}
 	)
 	doc.save()
@@ -135,7 +130,7 @@ def _screen(screen: str, token: str):
 		],
 		as_dict=True,
 	)
-	if not row or not row.token_hash or not hmac.compare_digest(row.token_hash, _hash(token)):
+	if not row or not row.token_hash or not hmac.compare_digest(row.token_hash, sha256_hash(token or "")):
 		return None
 	return row
 

@@ -7,9 +7,9 @@ Each also gets the name of who asked for it, which the form now shows in
 place of their email, and a screen extension's Client Script is made again,
 wrapped as a server one's is (guard.wrapped_on_screen)."""
 
-import hashlib
 
 import frappe
+from frappe.utils import sha256_hash
 
 from onedesk.one_studio import extensions
 
@@ -18,7 +18,7 @@ def execute():
 	for doc in frappe.get_all(
 		extensions.EXTENSION, filters={"review": "Passed"}, fields=["name", "code", "reviewed"]
 	):
-		if doc.reviewed != hashlib.sha256((doc.code or "").encode()).hexdigest():
+		if doc.reviewed != sha256_hash(doc.code or ""):
 			continue
 		extension = frappe.get_doc(extensions.EXTENSION, doc.name)
 		extension.db_set("reviewed", extensions.reviewed_as(extension), update_modified=False)

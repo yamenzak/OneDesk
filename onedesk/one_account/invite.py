@@ -4,21 +4,16 @@ Opening the link asks frappe for a fresh reset link and goes there, so the
 password is still set on frappe's own page, however late they come.
 """
 
-import hashlib
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, get_datetime, get_url, now_datetime
+from frappe.utils import add_days, get_datetime, get_url, now_datetime, sha256_hash
 
 DAYS = 7
 
 
 def _key(user: str) -> str:
 	return f"{user}_one_invite"
-
-
-def _hash(token: str) -> str:
-	return hashlib.sha256(token.encode()).hexdigest()
 
 
 def send(
@@ -32,7 +27,7 @@ def send(
 	from onedesk.one import tell
 
 	token = frappe.generate_hash(length=32)
-	frappe.db.set_default(_key(user), f"{_hash(token)}|{add_days(now_datetime(), DAYS).isoformat()}")
+	frappe.db.set_default(_key(user), f"{sha256_hash(token)}|{add_days(now_datetime(), DAYS).isoformat()}")
 	email, lang = frappe.db.get_value("User", user, ["email", "language"])
 	said = {
 		"lang": lang,
@@ -66,7 +61,7 @@ def accept(key: str):
 	"""The link in the mail: a fresh reset link from frappe, and there."""
 	found = frappe.db.sql(
 		"select defkey, defvalue from `tabDefaultValue` where parent = '__default' and defkey like %s and defvalue like %s",
-		("%\\_one\\_invite", f"{_hash(key or '')}|%"),
+		("%\\_one\\_invite", f"{sha256_hash(key or '')}|%"),
 		as_dict=True,
 	)
 	user = found[0].defkey[: -len("_one_invite")] if found else None

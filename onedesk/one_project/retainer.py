@@ -71,11 +71,11 @@ def _time(project: str, month) -> list:
 
 def fee_currency(doc) -> str:
 	"""The currency a retainer's fee is in: the customer's own."""
-	from erpnext import get_company_currency, get_default_company
+	from onedesk.one.company import company_currency
 
 	if doc.get("customer"):
 		return billed_in("Customer", doc.customer, doc.get("company"))
-	return get_company_currency(doc.get("company") or get_default_company())
+	return company_currency(doc.get("company"))
 
 
 def _priced(rows: list, currency: str) -> list:

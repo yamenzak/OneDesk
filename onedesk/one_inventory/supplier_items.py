@@ -8,13 +8,11 @@ import erpnext
 import frappe
 from frappe.utils import add_days, flt, nowdate
 
+from onedesk.one.company import reader_company
+from onedesk.one.rights import can
 
 MOST = 100
 COMING = ("To Receive and Bill", "To Receive")
-
-
-def _readable(doctype: str) -> bool:
-	return bool(frappe.has_permission(doctype, "read"))
 
 
 @frappe.whitelist()
@@ -22,7 +20,7 @@ def _readable(doctype: str) -> bool:
 def read(supplier: str) -> dict:
 	"""What is bought from `supplier`, item by item, in the reader's company."""
 	frappe.has_permission("Supplier", "read", doc=supplier, throw=True)
-	company = erpnext.get_default_company()
+	company = reader_company()
 	items: dict = {}
 
 	def one(code: str) -> dict:
@@ -42,7 +40,7 @@ def read(supplier: str) -> dict:
 			},
 		)
 
-	if _readable("Purchase Order"):
+	if can("Purchase Order"):
 		year_ago = add_days(nowdate(), -365)
 		for row in frappe.get_list(
 			"Purchase Order",
@@ -99,7 +97,7 @@ def read(supplier: str) -> dict:
 	):
 		one(code)["default"] = True
 
-	if _readable("Blanket Order"):
+	if can("Blanket Order"):
 		for row in frappe.get_list(
 			"Blanket Order",
 			filters=[
@@ -125,7 +123,7 @@ def read(supplier: str) -> dict:
 				"until": str(row.to_date),
 			}
 
-	if _readable("Supplier Quotation"):
+	if can("Supplier Quotation"):
 		for row in frappe.get_list(
 			"Supplier Quotation",
 			filters=[["supplier", "=", supplier], ["company", "=", company], ["docstatus", "=", 1]],

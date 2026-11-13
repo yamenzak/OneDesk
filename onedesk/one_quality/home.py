@@ -5,12 +5,12 @@ companies share, and everything in OneQuality with what it is for. How it
 works is in the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from frappe import _lt
 from frappe.utils import date_diff, get_fullname, getdate, today
 
-FEW = 5
+from onedesk.one.company import reader_company
+from onedesk.one.needs_you import kept
 
 GROUPS = (
 	("problems", _lt("Problems and Actions")),
@@ -43,7 +43,7 @@ def read() -> dict:
 	return {
 		"figures": {
 			"problems": needs["problems"]["count"],
-			"actions": len(frappe.get_list("Quality Action", filters={"status": "Open", "company": _company()}, pluck="name")) if frappe.has_permission("Quality Action", "read") else None,
+			"actions": len(frappe.get_list("Quality Action", filters={"status": "Open", "company": reader_company()}, pluck="name")) if frappe.has_permission("Quality Action", "read") else None,
 			"late": needs["late"]["count"],
 			"failing": needs["failing"]["count"],
 		},
@@ -54,15 +54,6 @@ def read() -> dict:
 	}
 
 
-def _company() -> str | None:
-	"""The reader's company: problems and actions are one company's at a time."""
-	return erpnext.get_default_company()
-
-
-def _kept(rows: list) -> dict:
-	return {"rows": rows[:FEW], "count": len(rows)}
-
-
 def needs_you() -> dict:
 	"""Problems still open, the oldest first; action steps past their day;
 	goals whose last review failed; meetings still open."""
@@ -70,13 +61,13 @@ def needs_you() -> dict:
 	actions = _actions()
 	problems = [
 		{**one, "raised_by": get_fullname(one.owner), "days": date_diff(day, getdate(one.creation)), "actions": actions.get(one.name, 0)}
-		for one in frappe.get_list("Non Conformance", filters={"status": "Open", "company": _company()}, fields=["name", "subject", "procedure", "owner", "creation"], order_by="creation asc")
+		for one in frappe.get_list("Non Conformance", filters={"status": "Open", "company": reader_company()}, fields=["name", "subject", "procedure", "owner", "creation"], order_by="creation asc")
 	]
 	return {
-		"problems": _kept(problems),
-		"late": _kept(_late(day)),
-		"failing": _kept(_failing()),
-		"meetings": _kept(_meetings()),
+		"problems": kept(problems),
+		"late": kept(_late(day)),
+		"failing": kept(_failing()),
+		"meetings": kept(_meetings()),
 	}
 
 
@@ -94,7 +85,7 @@ def _actions() -> dict:
 	if not frappe.has_permission("Quality Action", "read"):
 		return {}
 	counted: dict = {}
-	for one in frappe.get_list("Quality Action", filters={"one_non_conformance": ["is", "set"], "company": _company()}, fields=["one_non_conformance"]):
+	for one in frappe.get_list("Quality Action", filters={"one_non_conformance": ["is", "set"], "company": reader_company()}, fields=["one_non_conformance"]):
 		counted[one.one_non_conformance] = counted.get(one.one_non_conformance, 0) + 1
 	return counted
 
@@ -103,7 +94,7 @@ def _late(day) -> list[dict]:
 	"""Each open step of an open action whose day has passed."""
 	if not frappe.has_permission("Quality Action", "read"):
 		return []
-	open_actions = frappe.get_list("Quality Action", filters={"status": "Open", "company": _company()}, pluck="name")
+	open_actions = frappe.get_list("Quality Action", filters={"status": "Open", "company": reader_company()}, pluck="name")
 	if not open_actions:
 		return []
 	rows = frappe.get_all(

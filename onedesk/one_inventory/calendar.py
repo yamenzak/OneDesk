@@ -94,7 +94,7 @@ def _due(start, end, which: list) -> list[dict]:
 
 def expected(start, end) -> list[dict]:
 	"""Purchase orders still to arrive, on the day they are wanted."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	return [
 		{"name": one.name, "title": f"{one.supplier_name} · {one.name}", "start": one.schedule_date, "all_day": 1}
@@ -103,7 +103,7 @@ def expected(start, end) -> list[dict]:
 			filters=[
 				["docstatus", "=", 1],
 				["status", "in", ["To Receive and Bill", "To Receive"]],
-				["company", "=", get_default_company()],
+				["company", "=", reader_company()],
 				*layers.within("schedule_date", start, end),
 			],
 			fields=["name", "supplier_name", "schedule_date"],
@@ -114,7 +114,7 @@ def expected(start, end) -> list[dict]:
 
 def delivering(start, end) -> list[dict]:
 	"""Sales orders still to go out, on the day they are promised."""
-	from erpnext import get_default_company
+	from onedesk.one.company import reader_company
 
 	return [
 		{"name": one.name, "title": f"{one.customer_name} · {one.name}", "start": one.delivery_date, "all_day": 1}
@@ -123,7 +123,7 @@ def delivering(start, end) -> list[dict]:
 			filters=[
 				["docstatus", "=", 1],
 				["status", "in", ["To Deliver and Bill", "To Deliver"]],
-				["company", "=", get_default_company()],
+				["company", "=", reader_company()],
 				*layers.within("delivery_date", start, end),
 			],
 			fields=["name", "customer_name", "delivery_date"],

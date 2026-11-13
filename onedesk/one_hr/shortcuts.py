@@ -1,9 +1,7 @@
 """OneHR's keys (docs/READY.md, mechanism 19), on its Home: a letter for
 each request it starts. Pure."""
 
-
-def _lt(text: str) -> str:
-	return text
+from onedesk.one.registry.model import _lt
 
 
 SHORTCUTS = [

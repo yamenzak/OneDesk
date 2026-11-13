@@ -1,9 +1,7 @@
 """OneInventory's keys (docs/READY.md, mechanism 19), on its own screens:
 Stock Summary and Reorder. Pure."""
 
-
-def _lt(text: str) -> str:
-	return text
+from onedesk.one.registry.model import _lt
 
 
 SHORTCUTS = [

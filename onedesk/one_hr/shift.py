@@ -32,13 +32,13 @@ def before_submit(doc, method=None) -> None:
 @frappe.whitelist(methods=["POST"])
 def approve(name: str, note: str | None = None) -> None:
 	"""Say yes, which submits, which writes the Shift Assignment."""
-	_answer(name, APPROVED, note)
+	decision.answer("Shift Request", name, "status", APPROVED, note, _("Only a request still waiting can be answered."))
 
 
 @frappe.whitelist(methods=["POST"])
 def reject(name: str, note: str | None = None) -> None:
 	"""Say no, which submits a closed request and assigns nobody anything."""
-	_answer(name, REJECTED, note)
+	decision.answer("Shift Request", name, "status", REJECTED, note, _("Only a request still waiting can be answered."))
 
 
 @frappe.whitelist()
@@ -88,17 +88,6 @@ def hours(shift_type: str) -> str:
 	if starts is None or ends is None:
 		return ""
 	return f"{format_time(str(starts))} – {format_time(str(ends))}"
-
-
-def _answer(name: str, verdict: str, note) -> None:
-	doc = frappe.get_doc("Shift Request", name)
-	decision.may_decide(doc)
-	if doc.docstatus != 0:
-		frappe.throw(_("Only a request still waiting can be answered."))
-
-	decision.carry(doc, "status", verdict)
-	doc.one_note = note or ""
-	doc.submit()
 
 
 def _company(doc) -> None:

@@ -1,9 +1,7 @@
 """OneMail's keys (docs/READY.md, mechanism 19), as Gmail has them, in the
 mailbox's own screen. Pure."""
 
-
-def _lt(text: str) -> str:
-	return text
+from onedesk.one.registry.model import _lt
 
 
 SHORTCUTS = [

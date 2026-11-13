@@ -185,7 +185,7 @@ def test_folding_never_cuts_through_a_character():
 
 def test_a_link_is_found_by_its_hash_kept_encrypted_and_read_as_its_owner():
 	source = (CAL / "feed.py").read_text()
-	assert '"token_hash": _hash(token)' in source and '{"token_hash": _hash(token or "")}' in source
+	assert '"token_hash": sha256_hash(token)' in source and '{"token_hash": sha256_hash(token or "")}' in source
 	spec = json.loads((CAL / "doctype" / "calendar_feed" / "calendar_feed.json").read_text())
 	assert next(f for f in spec["fields"] if f["fieldname"] == "token")["fieldtype"] == "Password"
 	assert "allow_guest=True" in source and "@rate_limit(" in source

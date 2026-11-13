@@ -8,10 +8,10 @@ default (PAUSED), the person's own list.
 
 import json
 
-import erpnext
 import frappe
 from frappe.utils import flt, get_datetime, get_first_day_of_week, getdate, now_datetime, time_diff_in_hours
 
+from onedesk.one.company import reader_company
 from onedesk.one_task.capture import DONE
 
 PAUSED = "one_timers_paused"
@@ -29,7 +29,7 @@ def _drafts(user: str) -> list[str]:
 	whose = {"employee": employee} if employee else {"owner": user, "employee": ["is", "not set"]}
 	return frappe.get_all(
 		"Timesheet",
-		filters={"docstatus": 0, "company": erpnext.get_default_company(), **whose},
+		filters={"docstatus": 0, "company": reader_company(), **whose},
 		pluck="name",
 		order_by="creation desc",
 	)
@@ -137,7 +137,7 @@ def timers() -> dict:
 
 	now = running()
 	names = [one for one in ([now["task"]] if now and now.get("task") else []) + _paused()]
-	company = erpnext.get_default_company()
+	company = reader_company()
 	readable = {
 		one.name: one
 		for one in frappe.get_list(
@@ -232,7 +232,7 @@ def _sheets(user: str) -> list[str]:
 	whose = {"employee": employee} if employee else {"owner": user, "employee": ["is", "not set"]}
 	return frappe.get_all(
 		"Timesheet",
-		filters={"docstatus": ["<", 2], "company": erpnext.get_default_company(), **whose},
+		filters={"docstatus": ["<", 2], "company": reader_company(), **whose},
 		pluck="name",
 	)
 

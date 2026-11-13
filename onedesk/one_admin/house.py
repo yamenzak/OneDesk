@@ -5,12 +5,12 @@ ours (`is_house`): nobody bills it, its OneAI is never refused for credits,
 and its AI use is our cost, not a sale.
 """
 
-import hashlib
 import secrets
 from urllib.parse import urlparse
 
 import frappe
 from frappe.installer import update_site_config
+from frappe.utils import sha256_hash
 
 from onedesk.one_admin import site
 
@@ -49,7 +49,7 @@ def ensure() -> str:
 		held = SLUG
 	token = secrets.token_urlsafe(32)
 	frappe.db.set_value(
-		"Tenant", held, "token_hash", hashlib.sha256(token.encode()).hexdigest(), update_modified=False
+		"Tenant", held, "token_hash", sha256_hash(token), update_modified=False
 	)
 	update_site_config("one_tenant", held)
 	update_site_config("one_token", token)

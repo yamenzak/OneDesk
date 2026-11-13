@@ -11,6 +11,9 @@ from datetime import date
 import frappe
 from frappe.utils import add_days, add_months, flt, get_first_day, get_last_day, getdate, today
 
+from onedesk.one.company import company_currency, reader_company
+from onedesk.one.rights import can
+from onedesk.one.story import month_of, story_months
 from onedesk.one_book import closing
 from onedesk.one_hr.home import is_hr
 
@@ -23,43 +26,28 @@ FEW = 8
 FUNNEL = ("Job Applicant", "Interview", "Job Offer", "Accepted", "Joined")
 
 
-def _may(doctype: str) -> bool:
-	return bool(frappe.has_permission(doctype, "read"))
-
-
-def _months() -> list[date]:
-	start = get_first_day(today())
-	return [getdate(add_months(start, step)) for step in range(-(MONTHS - 1), 1)]
-
-
-def _month(day) -> str:
-	return get_first_day(getdate(day)).isoformat()
-
-
 @frappe.whitelist()
 @frappe.read_only()
 def read() -> dict | None:
 	"""Everything Home's story draws, each part None when the reader may not
 	see it; None for anybody but HR."""
-	import erpnext
-
 	if not is_hr():
 		return None
-	company = erpnext.get_default_company()
-	months = _months()
-	people = _people(company) if _may("Employee") else []
+	company = reader_company()
+	months = story_months()
+	people = _people(company) if can("Employee") else []
 	return {
-		"currency": erpnext.get_company_currency(company) if company else None,
+		"currency": company_currency(company),
 		"months": [one.isoformat() for one in months],
 		"cards": _cards(company, months, people),
 		"people": {"departments": _departments(people), "moves": _moves(months, people)} if people else None,
 		"time": {"attendance": _attendance(company), "leave": _leave(company)}
-		if _may("Attendance")
+		if can("Attendance")
 		else None,
 		"pay": {"payroll": _payroll(company, months), "expenses": _expenses(company)}
-		if _may("Salary Slip")
+		if can("Salary Slip")
 		else None,
-		"hiring": {"funnel": _funnel(company)} if _may("Job Applicant") else None,
+		"hiring": {"funnel": _funnel(company)} if can("Job Applicant") else None,
 	}
 
 
@@ -92,12 +80,12 @@ def _cards(company, months, people) -> dict:
 			"value": _here(people, day),
 			"series": [_here(people, min(get_last_day(one), day)) for one in months],
 		}
-		joined = Counter(_month(one.date_of_joining) for one in people if one.date_of_joining)
+		joined = Counter(month_of(one.date_of_joining) for one in people if one.date_of_joining)
 		out["joined"] = {
 			"value": joined.get(months[-1].isoformat(), 0),
 			"series": [joined.get(one.isoformat(), 0) for one in months],
 		}
-	if _may("Attendance"):
+	if can("Attendance"):
 		marked = Counter(
 			frappe.get_list(
 				"Attendance",
@@ -109,7 +97,7 @@ def _cards(company, months, people) -> dict:
 		out["present"] = {
 			"value": marked.get("Present", 0) + marked.get("Work From Home", 0) + marked.get("Half Day", 0)
 		}
-	if _may("Leave Application"):
+	if can("Leave Application"):
 		out["away"] = {
 			"value": len(
 				frappe.get_list(
@@ -126,12 +114,12 @@ def _cards(company, months, people) -> dict:
 				)
 			)
 		}
-	if _may("Salary Slip"):
+	if can("Salary Slip"):
 		paid = _payroll(company, months)
 		while paid and not paid[-1]["net"]:
 			paid = paid[:-1]
 		out["payroll"] = {"value": paid[-1]["net"] if paid else 0, "series": [one["net"] for one in paid]}
-	if _may("Job Opening"):
+	if can("Job Opening"):
 		out["openings"] = {
 			"value": len(
 				frappe.get_list(
@@ -160,8 +148,8 @@ def _departments(people) -> list[dict]:
 
 def _moves(months, people) -> list[dict]:
 	"""Who joined and who left, month by month."""
-	joined = Counter(_month(one.date_of_joining) for one in people if one.date_of_joining)
-	left = Counter(_month(one.relieving_date) for one in people if one.relieving_date)
+	joined = Counter(month_of(one.date_of_joining) for one in people if one.date_of_joining)
+	left = Counter(month_of(one.relieving_date) for one in people if one.relieving_date)
 	return [
 		{
 			"month": one.isoformat(),
@@ -211,7 +199,7 @@ def _leave_year(company) -> date:
 
 def _leave(company) -> list[dict]:
 	"""This leave period's approved leave, in days, kind by kind."""
-	if not _may("Leave Application"):
+	if not can("Leave Application"):
 		return []
 	taken = Counter()
 	for one in frappe.get_list(
@@ -239,7 +227,7 @@ def _payroll(company, months) -> list[dict]:
 		fields=["start_date", "base_gross_pay", "base_net_pay"],
 		limit_page_length=0,
 	):
-		month = by[_month(one.start_date)]
+		month = by[month_of(one.start_date)]
 		month["gross"] += flt(one.base_gross_pay)
 		month["net"] += flt(one.base_net_pay)
 	return [{"month": one.isoformat(), **by[one.isoformat()]} for one in months]
@@ -247,7 +235,7 @@ def _payroll(company, months) -> list[dict]:
 
 def _expenses(company) -> list[dict]:
 	"""This fiscal year's claims, by what they were for."""
-	if not _may("Expense Claim"):
+	if not can("Expense Claim"):
 		return []
 	spent = Counter()
 	claims = frappe.get_list(

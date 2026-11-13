@@ -12,6 +12,8 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
+from onedesk.one.company import reader_company
+
 MOST = 500
 
 
@@ -74,7 +76,7 @@ def on_hand(
 	"""What is on hand, item by item, with what each warehouse holds and is
 	worth, as the reader may see it."""
 	frappe.has_permission("Bin", "read", throw=True)
-	company = erpnext.get_default_company()
+	company = reader_company()
 	currency = erpnext.get_company_currency(company) if company else None
 	warehouses = frappe.get_list(
 		"Warehouse",

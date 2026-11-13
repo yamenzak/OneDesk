@@ -11,10 +11,9 @@ import frappe
 from frappe import _lt
 from frappe.utils import add_days, get_datetime, getdate, now_datetime, nowdate
 
-from onedesk.one_crm import measure
+from onedesk.one.company import reader_company
+from onedesk.one.needs_you import kept
 from onedesk.one_crm import next as next_step
-
-FEW = 5
 
 WEEK = 7
 
@@ -195,21 +194,17 @@ def read() -> dict:
 	}
 
 
-def _kept(rows: list) -> dict:
-	return {"rows": rows[:FEW], "count": len(rows)}
-
-
 def needs_you() -> dict:
 	"""The reader's own open opportunities and leads, due or unplanned; leads
 	nobody has taken; their opportunities past closing; quotations running
 	out; and drafts left more than a day."""
 	return {
-		"opportunities": _kept(_steps("Opportunity", due=True)),
-		"leads": _kept(_steps("Lead", due=True)),
-		"unplanned": _kept(_steps("Opportunity", due=False) + _steps("Lead", due=False)),
-		"unclaimed": _kept(_unclaimed()),
-		"closing": _kept(_closing()),
-		"expiring": _kept(_expiring()),
+		"opportunities": kept(_steps("Opportunity", due=True)),
+		"leads": kept(_steps("Lead", due=True)),
+		"unplanned": kept(_steps("Opportunity", due=False) + _steps("Lead", due=False)),
+		"unclaimed": kept(_unclaimed()),
+		"closing": kept(_closing()),
+		"expiring": kept(_expiring()),
 		"drafts": drafts(),
 	}
 
@@ -239,7 +234,7 @@ def _steps(doctype: str, due: bool) -> list[dict]:
 		[next_step.OWNER[doctype], "=", frappe.session.user],
 		["status", "in", next_step.OPEN[doctype]],
 		["one_next_on", "is", "set" if due else "not set"],
-		["company", "=", measure.company()],
+		["company", "=", reader_company()],
 	]
 	if due:
 		filters.append(["one_next_on", "<=", f"{nowdate()} 23:59:59"])
@@ -259,7 +254,7 @@ def _unclaimed() -> list[dict]:
 		return []
 	rows = frappe.get_list(
 		"Lead",
-		filters={"lead_owner": ["is", "not set"], "status": ["in", next_step.OPEN["Lead"]], "company": measure.company()},
+		filters={"lead_owner": ["is", "not set"], "status": ["in", next_step.OPEN["Lead"]], "company": reader_company()},
 		fields=["name", *TITLE["Lead"], "one_next_step", "one_next_on", "creation", "utm_source"],
 		order_by="creation desc",
 		limit_page_length=0,
@@ -280,7 +275,7 @@ def _closing() -> list[dict]:
 			["status", "in", next_step.OPEN["Opportunity"]],
 			["expected_closing", "is", "set"],
 			["expected_closing", "<", day],
-			["company", "=", measure.company()],
+			["company", "=", reader_company()],
 		],
 		fields=["name", *TITLE["Opportunity"], "one_next_step", "one_next_on", "expected_closing"],
 		order_by="expected_closing asc",
@@ -307,7 +302,7 @@ def _expiring() -> list[dict]:
 			"docstatus": 1,
 			"status": ["in", ["Open", "Replied"]],
 			"valid_till": ["between", [day, add_days(day, WEEK - 1)]],
-			"company": measure.company(),
+			"company": reader_company(),
 		},
 		fields=["name", "party_name", "customer_name", "valid_till", "grand_total", "currency"],
 		order_by="valid_till asc",
@@ -346,7 +341,7 @@ def drafts() -> list[dict]:
 					"docstatus": 0,
 					"owner": frappe.session.user,
 					"modified": ["<", add_days(nowdate(), -1)],
-					"company": measure.company(),
+					"company": reader_company(),
 				},
 				pluck="name",
 				limit_page_length=0,

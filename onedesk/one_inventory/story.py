@@ -4,15 +4,16 @@ how old it is, buying and equipment. Each is read through
 frappe.get_list as the reader may see it, for the reader's company, in its
 currency. How it works is in the module's AGENTS.md.
 """
-import calendar
 from collections import defaultdict
 from datetime import date
 
 import frappe
 from frappe import _
-from frappe.utils import add_months, date_diff, flt, getdate, today
+from frappe.utils import add_months, date_diff, flt, get_last_day, getdate, today
 
-MONTHS = 12
+from onedesk.one.company import company_currency, reader_company
+from onedesk.one.rights import can
+from onedesk.one.story import month_of, story_months
 
 AGES = "30, 90, 180, 365"
 
@@ -23,26 +24,15 @@ PURPOSES = {
 }
 
 
-def _may(doctype: str) -> bool:
-	return bool(frappe.has_permission(doctype, "read"))
-
-
-def _company() -> str | None:
-	"""The company the story is told for: the reader's default company."""
-	import erpnext
-
-	return erpnext.get_default_company()
-
-
 def _ours(filters: dict) -> dict:
 	"""The filters, narrowed to the reader's company where there is one."""
-	company = _company()
+	company = reader_company()
 	return {**filters, "company": company} if company else filters
 
 
 def _warehouses() -> list[str] | None:
 	"""The company's warehouses, for what is kept by warehouse (a Bin)."""
-	company = _company()
+	company = reader_company()
 	if not company:
 		return None
 	return frappe.get_all("Warehouse", filters={"company": company}, pluck="name")
@@ -57,34 +47,19 @@ def _bins(filters: dict | None = None) -> dict:
 	return filters
 
 
-def _months() -> list[date]:
-	start = getdate(today()).replace(day=1)
-	return [getdate(add_months(start, -back)) for back in range(MONTHS - 1, -1, -1)]
-
-
-def _month(day) -> str:
-	return getdate(day).replace(day=1).isoformat()
-
-
-def _end(month: date) -> date:
-	return month.replace(day=calendar.monthrange(month.year, month.month)[1])
-
-
 @frappe.whitelist()
 @frappe.read_only()
 def read() -> dict:
 	"""Everything Home's story draws, each part None when the reader may not
 	see it or there is nothing to draw."""
-	import erpnext
-
-	company = _company()
-	months = _months()
-	moves = _moves(months[0]) if _may("Stock Ledger Entry") else None
+	company = reader_company()
+	months = story_months()
+	moves = _moves(months[0]) if can("Stock Ledger Entry") else None
 	if moves:
-		first = _month(moves[0].posting_date)
+		first = month_of(moves[0].posting_date)
 		months = [one for one in months if one.isoformat() >= first] or months
 	return {
-		"currency": erpnext.get_company_currency(company) if company else None,
+		"currency": company_currency(company),
 		"months": [one.isoformat() for one in months],
 		"cards": _cards(months, moves),
 		"where": _where(),
@@ -127,7 +102,7 @@ def _kinds(rows: list) -> dict:
 	out = {}
 
 	def read(doctype, fields, kind):
-		if not named.get(doctype) or not _may(doctype):
+		if not named.get(doctype) or not can(doctype):
 			return
 		for one in frappe.get_list(
 			doctype,
@@ -152,7 +127,7 @@ def _kinds(rows: list) -> dict:
 
 
 def _worth_now() -> float | None:
-	if not _may("Bin"):
+	if not can("Bin"):
 		return None
 	got = frappe.get_list("Bin", filters=_bins(), fields=[{"SUM": "stock_value", "as": "worth"}])
 	return flt(got[0].worth) if got else 0.0
@@ -166,7 +141,7 @@ def _series(months: list[date], moves: list, kinds: tuple, sign: int = 0) -> lis
 		kind = (row.kind or (None,))[0]
 		if kind not in kinds or (sign and flt(row.value) * sign <= 0):
 			continue
-		by[_month(row.posting_date)] += flt(row.value)
+		by[month_of(row.posting_date)] += flt(row.value)
 	return [round(abs(by[one.isoformat()]), 2) for one in months]
 
 
@@ -174,7 +149,7 @@ def _worth_by_month(months: list[date], moves: list, now: float) -> list[float]:
 	"""Stock's worth at the end of each month: today's, less what moved since."""
 	out = []
 	for month in months:
-		end = _end(month)
+		end = get_last_day(month)
 		later = sum(flt(row.value) for row in moves if getdate(row.posting_date) > end)
 		out.append(round(now - later, 2))
 	return out
@@ -225,7 +200,7 @@ def _cards(months: list[date], moves: list | None) -> dict:
 			made=_made(months, moves),
 			papers=_papers(months, moves),
 		)
-	if _may("Purchase Order"):
+	if can("Purchase Order"):
 		series["on_order"] = _on_order(months)["series"]
 	out = {}
 	for key, name in CARDS:
@@ -284,7 +259,7 @@ def still_on_order(filters: str | None = None) -> dict:
 	"""The worth of what is ordered from suppliers and not yet here."""
 	frappe.has_permission("Purchase Order", "read", throw=True)
 	return _card(
-		_on_order(_months())["value"], ["List", "Purchase Order"], options={"status": "To Receive and Bill"}
+		_on_order(story_months())["value"], ["List", "Purchase Order"], options={"status": "To Receive and Bill"}
 	)
 
 
@@ -300,7 +275,7 @@ def _papers(months: list[date], moves: list) -> list[int]:
 	seen = defaultdict(set)
 	for row in moves:
 		if (row.kind or (None,))[0] not in (None, "opening"):
-			seen[_month(row.posting_date)].add((row.voucher_type, row.voucher_no))
+			seen[month_of(row.posting_date)].add((row.voucher_type, row.voucher_no))
 	return [len(seen[one.isoformat()]) for one in months]
 
 
@@ -315,7 +290,7 @@ def _on_order(months: list[date]) -> dict:
 	waiting = sum(flt(one.base_net_total) * (100 - flt(one.per_received)) / 100 for one in orders)
 	by = defaultdict(float)
 	for one in orders:
-		by[_month(one.transaction_date)] += flt(one.base_net_total)
+		by[month_of(one.transaction_date)] += flt(one.base_net_total)
 	return {"value": round(waiting, 2), "series": [round(by[one.isoformat()], 2) for one in months]}
 
 
@@ -323,7 +298,7 @@ def _titles(doctype: str, field: str, names) -> dict:
 	"""Each record's plain name (a warehouse without its company's letters, a
 	project's title), as the reader may see it."""
 	names = [one for one in set(names) if one]
-	if not names or not _may(doctype):
+	if not names or not can(doctype):
 		return {}
 	return {
 		one.name: one[field] or one.name
@@ -335,7 +310,7 @@ def _titles(doctype: str, field: str, names) -> dict:
 
 def _where() -> dict | None:
 	"""Stock's worth by warehouse, by item group, and its most valuable items."""
-	if not _may("Bin"):
+	if not can("Bin"):
 		return None
 	bins = frappe.get_list(
 		"Bin",
@@ -454,7 +429,7 @@ def _days(months: list[date], moves: list) -> list[dict]:
 		if (row.kind or (None,))[0] in (None, "opening"):
 			continue
 		day = getdate(row.posting_date)
-		seen[(_month(day), day.weekday())].add((row.voucher_type, row.voucher_no))
+		seen[(month_of(day), day.weekday())].add((row.voucher_type, row.voucher_no))
 	return [
 		{"month": month.isoformat(), "day": weekday, "moves": len(seen[(month.isoformat(), weekday)])}
 		for month in months
@@ -498,7 +473,7 @@ def _ages(company: str | None) -> list[dict] | None:
 def _buying(since: date) -> dict | None:
 	"""Orders since the story starts: how far they came, from whom, and how
 	each supplier keeps to the dates."""
-	if not _may("Purchase Order"):
+	if not can("Purchase Order"):
 		return None
 	orders = frappe.get_list(
 		"Purchase Order",
@@ -540,7 +515,7 @@ def _buying(since: date) -> dict | None:
 def _requests(since: date) -> list[dict] | None:
 	"""How far the material requests for buying got: asked for, ordered, some
 	of it here, all of it here."""
-	if not _may("Material Request"):
+	if not can("Material Request"):
 		return None
 	said = defaultdict(int)
 	for one in frappe.get_list(
@@ -566,7 +541,7 @@ def _requests(since: date) -> list[dict] | None:
 
 def _received_on(orders: list[str]) -> dict:
 	"""When the last goods of each order came in."""
-	if not orders or not _may("Purchase Receipt"):
+	if not orders or not can("Purchase Receipt"):
 		return {}
 	rows = frappe.get_list(
 		"Purchase Receipt",
@@ -595,7 +570,7 @@ def _equipment(months: list[date]) -> dict | None:
 	"""Equipment's worth by kind, bought against now, its status, and its
 	services month by month. Both worths are the company's currency
 	(`total_asset_cost`, `value_after_depreciation`)."""
-	if not _may("Asset"):
+	if not can("Asset"):
 		return None
 	assets = frappe.get_list(
 		"Asset",
@@ -610,11 +585,11 @@ def _equipment(months: list[date]) -> dict | None:
 		kinds[one.asset_category]["now"] += flt(one.value_after_depreciation)
 		statuses[one.status] += 1
 	services = []
-	if _may("Asset Maintenance Log"):
+	if can("Asset Maintenance Log"):
 		logs = frappe.get_list(
 			"Asset Maintenance Log",
 			filters={
-				"due_date": ["between", (months[0], _end(getdate(add_months(months[-1], 2))))],
+				"due_date": ["between", (months[0], get_last_day(getdate(add_months(months[-1], 2))))],
 				"asset_maintenance": ["in", _plans() or [""]],
 			},
 			fields=["due_date", "maintenance_status"],
@@ -622,7 +597,7 @@ def _equipment(months: list[date]) -> dict | None:
 		)
 		count = defaultdict(int)
 		for one in logs:
-			count[(_month(one.due_date), one.maintenance_status)] += 1
+			count[(month_of(one.due_date), one.maintenance_status)] += 1
 		services = [
 			{"month": month, "status": status, "services": n} for (month, status), n in sorted(count.items())
 		]

@@ -7,9 +7,7 @@ in the module's AGENTS.md, under chain.py.
 import frappe
 from frappe.utils import flt
 
-
-def _may(doctype: str) -> bool:
-	return bool(frappe.has_permission(doctype, "read"))
+from onedesk.one.rights import can
 
 
 def _from(child: str, link: str, parents: list) -> dict[str, set]:
@@ -31,7 +29,7 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 	"""For each opportunity: its quotations, orders and invoices, each a list
 	of rows, drafts included and cancelled ones left out."""
 	out = {name: frappe._dict(quotations=[], orders=[], invoices=[]) for name in opportunities}
-	if not opportunities or not _may("Quotation"):
+	if not opportunities or not can("Quotation"):
 		return out
 	quotes = frappe.get_list(
 		"Quotation",
@@ -51,7 +49,7 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 	)
 	for one in quotes:
 		out[one.opportunity].quotations.append(one)
-	if not _may("Sales Order"):
+	if not can("Sales Order"):
 		return out
 	ordered = _from("Sales Order Item", "prevdoc_docname", [one.name for one in quotes if one.docstatus == 1])
 	names = set().union(*ordered.values()) if ordered else set()
@@ -73,7 +71,7 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 		)
 	}
 	billed = {}
-	if _may("Sales Invoice"):
+	if can("Sales Invoice"):
 		invoiced = _from(
 			"Sales Invoice Item", "sales_order", [name for name, one in orders.items() if one.docstatus == 1]
 		)

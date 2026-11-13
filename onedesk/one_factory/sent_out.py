@@ -5,9 +5,10 @@ frappe's own list and form, and every change is its own buttons. How it
 works is in the module's AGENTS.md.
 """
 
-import erpnext
 import frappe
 from frappe.utils import flt, getdate, today
+
+from onedesk.one.company import reader_company
 
 MOST = 40
 OUT = ("Open", "Partial Material Transferred", "Material Transferred", "Partially Received")
@@ -21,7 +22,7 @@ def figures() -> dict:
 		return {"out": None, "to_send": None, "late": None, "worth": None}
 	out = frappe.get_list(
 		"Subcontracting Order",
-		filters={"docstatus": 1, "status": ["in", OUT], "company": erpnext.get_default_company()},
+		filters={"docstatus": 1, "status": ["in", OUT], "company": reader_company()},
 		fields=["name", "status", "schedule_date", "supplier_warehouse"],
 	)
 	day = getdate(today())
@@ -54,7 +55,7 @@ def orders(done: bool = False, search: str | None = None) -> list[dict]:
 	and used, and when it is due back."""
 	if not frappe.has_permission("Subcontracting Order", "read"):
 		return []
-	filters = {"docstatus": 1, "status": ["in", DONE if done else OUT], "company": erpnext.get_default_company()}
+	filters = {"docstatus": 1, "status": ["in", DONE if done else OUT], "company": reader_company()}
 	or_filters = {"name": ["like", f"%{search}%"], "supplier_name": ["like", f"%{search}%"]} if search else None
 	found = frappe.get_list(
 		"Subcontracting Order",
@@ -145,7 +146,7 @@ def to_order() -> list[dict]:
 			"docstatus": 1,
 			"is_subcontracted": 1,
 			"status": ["not in", ["Closed", "Completed", "Cancelled"]],
-			"company": erpnext.get_default_company(),
+			"company": reader_company(),
 		},
 		fields=["name", "supplier", "supplier_name", "transaction_date", "schedule_date"],
 		order_by="transaction_date desc",

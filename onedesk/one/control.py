@@ -130,7 +130,9 @@ SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week"
 
 
 def _company():
-	name = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
+	from onedesk.one.company import workspace_company
+
+	name = workspace_company()
 	return frappe.get_doc("Company", name) if name else None
 
 

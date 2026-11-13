@@ -255,11 +255,12 @@ def tax_now(
 	Reports › Tax Return draws it: the tax charged on sales, the tax paid on
 	bills and expense claims, each by account and rate, and what is left to
 	pay or reclaim. Read it before saying anything about tax owed."""
-	from erpnext import get_company_currency, get_default_company
+	from erpnext import get_company_currency
+	from onedesk.one.company import reader_company
 
 	from onedesk.one_book.report.tax_return import tax_return
 
-	company = get_default_company()
+	company = reader_company()
 	_columns, lines = tax_return.execute({"company": company, "from_date": from_date, "to_date": to_date})
 	return {
 		"company": company,
