@@ -234,7 +234,7 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 	"""Whether `user` may `ptype` ("read", "write" or "add") this File. "add"
 	is putting something into a folder; "write" is renaming, moving and
 	deleting the item itself. `where` is the item's space when the caller
-	already knows it."""
+	already knows it. A file of a record that is gone is nobody's."""
 	user = user or frappe.session.user
 	if user == "Administrator":
 		return True
@@ -248,7 +248,11 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 	if where[0] == "record":
 		if ptype == "add":
 			return may_add(where[1], where[2], user)
-		return frappe.has_permission(where[1], "write" if ptype != "read" else "read", where[2], user=user)
+		try:
+			return frappe.has_permission(where[1], "write" if ptype != "read" else "read", where[2], user=user)
+		except frappe.DoesNotExistError:
+			frappe.clear_last_message()
+			return False
 	if where[0] in ("library", "libraries"):
 		return _library_may(item, ptype, user, where)
 	if item.get("owner") == user:

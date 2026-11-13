@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-13 10:56+0000\n"
-"PO-Revision-Date: 2026-11-13 10:56+0000\n"
+"POT-Creation-Date: 2026-11-13 11:37+0000\n"
+"PO-Revision-Date: 2026-11-13 11:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -32986,7 +32986,7 @@ msgstr ""
 msgid "Not Estimated"
 msgstr ""
 
-#: onedesk/account_center/private.py:93 onedesk/one_admin/private.py:75
+#: onedesk/account_center/private.py:90 onedesk/one_admin/private.py:75
 #: onedesk/www/404.html:2
 msgid "Not Found"
 msgstr ""
@@ -55697,7 +55697,7 @@ msgstr ""
 msgid "This workspace isn't connected to its account. These are the addresses it last said, {0}. Adding or removing one waits until it's connected."
 msgstr ""
 
-#: onedesk/account_center/private.py:95
+#: onedesk/account_center/private.py:92
 #, python-brace-format
 msgid "This workspace isn't linked to {0}, so it can't add private apps."
 msgstr ""
@@ -57519,7 +57519,7 @@ msgstr ""
 msgid "Type it and press Enter, with a due date if it has one, and it is yours."
 msgstr ""
 
-#: onedesk/account_center/private.py:84
+#: onedesk/account_center/private.py:81
 msgid "Type the code you were given."
 msgstr ""
 
@@ -67336,6 +67336,10 @@ msgstr ""
 msgid "rule"
 msgstr ""
 
+#: onedesk/account_center/private.py:38
+msgid "said"
+msgstr ""
+
 #: onedesk/one_cloud/dav_saves.py:185
 #, python-brace-format
 msgid "saved a copy, since {0} had changed after it was opened"
@@ -68392,7 +68396,7 @@ msgstr ""
 msgid "{0} can't be opened in OneOS."
 msgstr ""
 
-#: onedesk/account_center/private.py:90
+#: onedesk/account_center/private.py:87
 #, python-brace-format
 msgid "{0} can't be reached right now. Try again in a few minutes."
 msgstr ""
@@ -69315,7 +69319,7 @@ msgstr ""
 msgid "{0} is a personal mailbox and can't be shared."
 msgstr ""
 
-#: onedesk/account_center/private.py:72
+#: onedesk/account_center/private.py:69
 #, python-brace-format
 msgid "{0} is a private app, and a private app installed stays."
 msgstr ""
