@@ -1180,7 +1180,9 @@ def push_reaches_a_persons_own_browsers():
 def one_atlas_knows_who_may_open_what():
 	"""docs/atlas-site.json is this site's: what it has and who may read each record type,
 	report and page, every grant of One's applied, which docs/ATLAS.md says
-	and tests/guards/test_atlas.py holds."""
+	and tests/guards/test_atlas.py holds. What it keeps is the demo's as
+	built, which a site in use only adds to: its scheduler logs, the links
+	its files make."""
 	import json
 	import os
 
@@ -1189,7 +1191,10 @@ def one_atlas_knows_who_may_open_what():
 	path = os.path.join(frappe.get_app_path("onedesk"), "..", "docs", "atlas-site.json")
 	with open(path) as f:
 		kept = json.load(f)
-	assert reach.atlas() == kept, "run python scripts/atlas.py --site"
+	now = reach.atlas()
+	built = set(kept.pop("kept"))
+	assert built <= set(now.pop("kept")), "run python scripts/atlas.py --site"
+	assert now == kept, "run python scripts/atlas.py --site"
 	from frappe.translate import get_all_translations
 
 	frappe.clear_cache()
