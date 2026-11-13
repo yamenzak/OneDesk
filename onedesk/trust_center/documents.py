@@ -93,7 +93,7 @@ DOCUMENTS = {
 	"terms": {
 		"title": "Terms of Service",
 		"audience": "customer",
-		"revision": 12,
+		"revision": 13,
 		"summary": "The agreement between your organisation and Four Degree Labs for the use of One.",
 	},
 	"aup": {
@@ -105,7 +105,7 @@ DOCUMENTS = {
 	"privacy": {
 		"title": "Privacy Policy",
 		"audience": "user",
-		"revision": 27,
+		"revision": 28,
 		"summary": "What we do with personal data: yours, and the personal data your organisation puts into One.",
 	},
 	"cookies": {
@@ -148,9 +148,9 @@ NOTICE_DAYS = 30
 # (ready.PRODUCTION). Until then the agreements change freely and this isn't
 # read; from then, every revision above it is in CHANGES.
 BASELINE = {
-	"terms": 12,
+	"terms": 13,
 	"aup": 1,
-	"privacy": 27,
+	"privacy": 28,
 	"cookies": 2,
 	"dpa": 7,
 	"subprocessors": 5,

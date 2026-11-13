@@ -357,25 +357,49 @@ they buy?** for needs in words or a workspace by name.
 
 ## The signup page
 
-**/start** on this site is where a customer asks for a workspace, before
-they have an account. They:
+**/start** on this site is the setup wizard (`wizard.py`, drawn by the
+portal at `/portal/start`, `frontend/portal/src/pages/Start.vue`), where a
+customer asks for a workspace before they have an account. One question a
+screen, as a phone's setup asks, with Back, Continue and, where it can wait,
+Set Up Later:
 
-1. Enter the workspace name and see its address as they type
-   (`acme.t.4dl.app`, from Tenant Domain in Settings).
-2. Enter the email for the first account and the receipt.
-3. Pick where files are kept.
-4. Pick a plan.
-5. Click **Continue** to pay in Stripe.
+1. **Your Name**, and the email for the first account and the receipt. Under
+   Continue, the page says that continuing accepts the Terms of Service and
+   Privacy Policy, both linked to **/legal**.
+2. **Your Company**: its name, with its address as they type
+   (`acme.t.4dl.app`, from Tenant Domain in Settings), and its country. The
+   Account Request is made here, with its lead (`sales.signed_up`).
+3. **Language and Currency**, with the time zone, from the country.
+4. **What the Company Does**: the field, which turns on its apps
+   (`one/registry/fields.py`).
+5. **More Companies**, each with its country.
+6. **Apps**: each with its line; one another needs is turned on with it and
+   can't be turned off while it does, and one always on says why (`kept`).
+   The server works out what is on (`registry/switches.py`).
+7. **Plan**: the enabled plans in Price List, cheapest first, each with its
+   trial, description, quotas and what it includes. The deal is made here.
+8. **Where Data Is Kept**, only when the EU bucket is set in Settings. The
+   European Union keeps the workspace's files in the EU. The workspace itself
+   runs on the main cluster. This can't be changed later.
+9. **Payment**: Stripe's checkout in the page (`wizard.pay`).
 
-Above Continue, the page says that continuing accepts the Terms of Service
-and Privacy Policy, both linked to **/legal**, where every agreement can be
-read without signing in.
+Paid, Stripe sends them to /welcome, which sends a signup still answering
+back to the wizard for the steps that wait while the workspace is built: the
+**Working Week**, each app's own steps that ask something (its `setup.py`),
+and **People**, each with their access in each app, up to the plan's seats.
+The build's `set_up` step waits for these for at most
+`answers.ANSWERING_MINUTES` after payment (`answers.answering`), then sets the
+workspace up from them (`answers.of`). What is skipped waits in the app's
+Getting Started.
 
-- **Where files are kept** shows only when the EU bucket is set in Settings.
-  The European Union keeps the workspace's files in the EU. The workspace
-  itself runs on the main cluster. This can't be changed later.
-- **Plans** are the enabled plans in Price List, cheapest first, each with its
-  trial, description, storage, database, people and monthly credits.
+**Each step reached, finished, skipped or left** is a row in the Account
+Request's Steps (`wizard.note`; left is sent with `navigator.sendBeacon` as
+the page goes), and leaving or finishing is noted on the lead and the deal.
+Home's Signups funnel counts how far each signup got, and Where Unpaid
+Signups Stop where the unpaid ones ended (`wizard_answers.funnel`,
+`stopped`). The privacy policy's `oneadmin-setup-answers` says what is kept,
+and only what is typed into the wizard.
+
 - **Signed in to a One account**, the page doesn't ask for an email. It shows
   who's signed in, and the workspace joins that account. Otherwise it offers
   **Sign in**, and the email entered becomes the account (or joins an
@@ -391,8 +415,9 @@ Stripe returns them to **/welcome**, which shows the workspace's status:
   which goes to the workspace's sign-in on its own domain if it has one.
 - A failed build shows a reference to quote.
 - Once paid, it says the workspace is in their One account, with **Sign in**.
+- A signup still answering the wizard is sent back to it.
 - Closing Stripe's page frees the name at once. **Start again** returns to
-  the form with the name and plan filled in.
+  the wizard with the name and plan filled in.
 
 The welcome page opens only with the key in the link from Stripe and One's
 emails. A request name alone shows nothing.
@@ -958,7 +983,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   * **For workspaces from before.** The `accounts` patch makes one per
     distinct `owner_email` and sets `account` on each Tenant. Our own
     workspace (`is_house`) gets none.
-  * **Signed in on `/start`.** No email box: `signup.start` takes the
+  * **Signed in on `/start`.** No email box: `wizard.start` takes the
     account's email over anything posted, so the workspace joins the account
     the person is looking at. A guest is offered Sign in; `/welcome` links
     back to the account.
@@ -992,9 +1017,10 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   `www/account_invoices` and `www/account_profile` (routed from
   `/account/invoices` and `/account/profile`) and `www/legal`, drawn
   in `public/css/one_portal/portal.css` to frappe-ui's look (a guest page loads no desk
-  controls). `signup.available`, `start`, `pay` and `state` are the guest
-  calls, each rate-limited; `start` takes the signed-in account's email over
-  whatever the form sent. `Account Request.access_key` opens `/welcome`
+  controls). `signup.available`, `pay` and `state` and the wizard's
+  `offer`, `start`, `resume`, `save`, `note`, `pay` and `finish` are the
+  guest calls, each rate-limited; `wizard.start` takes the signed-in
+  account's email over whatever the form sent. `Account Request.access_key` opens `/welcome`
   (`signup.owned`); `signup.remind` is the daily Finish Signing Up.
 
 - **Two gates** (`site.py`): the site config key `one_admin` makes a site the
@@ -2700,10 +2726,12 @@ The admin site is a One workspace too, and it sells One. So a signup is kept the
 way any company using One keeps a sale, in ERPNext's CRM, rather than only in
 the operator's tables:
 
-* **Lead**, when the signup is taken (`signup.start`): who, the workspace they
-  asked for, and the plan, with the source Website.
-* **Deal**, at the same moment, because a signup is sent straight to pay: an
-  Opportunity from the lead at the Checkout stage, worth a year of the plan.
+* **Lead**, when the wizard names the first company (`wizard.start`): who,
+  the workspace they asked for, with the source Website.
+* **Deal**, once a plan is chosen: an Opportunity from the lead at the
+  Checkout stage, worth a year of the plan, and repriced when the plan
+  changes. Where the signup left the setup, or that it finished, is a line on
+  both.
   Paying wins it; a checkout left unpaid for `ABANDONED_DAYS` is lost with the
   reason Checkout Abandoned, which leaves a list somebody can follow up.
 * **Customer**, when the payment lands (`signup.accept`): made from the lead by

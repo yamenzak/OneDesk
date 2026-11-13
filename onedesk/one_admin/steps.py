@@ -282,10 +282,13 @@ def set_up(job, tenant) -> str | None:
 	(one/setup_job.py), told to start here and asked again each minute until
 	done; it fetches the answers itself with its token (proxy.setup_answers).
 	A failure fails the job with the site's reason, and Resume carries on
-	from the step that failed. A signup with no country to set up in is
+	from the step that failed. It waits while the owner still answers the
+	wizard's steps (answers.answering). A signup with no country to set up in is
 	left to frappe's wizard on the site."""
 	from onedesk.one_admin import answers
 
+	if answers.answering(tenant):
+		return WAIT
 	if not answers.of(tenant):
 		return None
 	payload = frappe.parse_json(job.payload or "{}") or {}

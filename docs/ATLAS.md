@@ -66,7 +66,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
-| oneadmin (`frontend/src/admin/AdminHome.vue`) | Account Request, Tenant, Workspace Error | – | – | – |
+| oneadmin (`frontend/src/admin/AdminHome.vue`) | Account Request, Account Request Step, Tenant, Workspace Error | – | – | – |
 | oneadmin_servers (`frontend/src/admin/AdminServers.vue`) | Tenant | – | – | – |
 | oneadmin_server_part (`frontend/src/admin/ServerMetrics.vue`) | – | – | – | – |
 | oneadmin_billing (`frontend/src/admin/BillingHome.vue`) | Offering, Tenant, Tenant Add-on | – | – | – |

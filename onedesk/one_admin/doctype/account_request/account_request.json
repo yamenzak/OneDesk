@@ -19,6 +19,12 @@
   "jurisdiction",
   "country",
   "time_zone",
+  "setup_section",
+  "step",
+  "answered_on",
+  "column_break_setup",
+  "answers",
+  "steps",
   "outcome_section",
   "tenant",
   "column_break_outcome",
@@ -81,7 +87,6 @@
    "fieldtype": "Link",
    "label": "Plan",
    "options": "Offering",
-   "reqd": 1,
    "read_only": 1,
    "in_list_view": 1
   },
@@ -116,6 +121,46 @@
    "fieldtype": "Data",
    "label": "Time Zone",
    "read_only": 1
+  },
+  {
+   "fieldname": "setup_section",
+   "fieldtype": "Section Break",
+   "label": "Setup"
+  },
+  {
+   "fieldname": "step",
+   "fieldtype": "Data",
+   "label": "Last Step",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "description": "The setup step the signup was on last."
+  },
+  {
+   "fieldname": "answered_on",
+   "fieldtype": "Datetime",
+   "label": "Setup Answered On",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "column_break_setup",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "answers",
+   "fieldtype": "JSON",
+   "label": "Setup Answers",
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "The answers typed into the setup wizard, which the workspace is set up from."
+  },
+  {
+   "fieldname": "steps",
+   "fieldtype": "Table",
+   "label": "Steps",
+   "options": "Account Request Step",
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "outcome_section",
@@ -181,7 +226,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-11 12:00:00.000000",
+ "modified": "2026-11-13 20:00:00.000000",
  "modified_by": "Administrator",
  "name": "Account Request",
  "module": "One Admin",
