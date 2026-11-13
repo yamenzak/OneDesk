@@ -72,6 +72,7 @@ def trustcenter_trustcenter_services_changes_and_laws():
 		gravatar = next(use for row in said["companies"] for use in row["uses"] if use["service"] == "Pictures from Gravatar")
 		assert gravatar["used"]
 		assert bool(said["changes"]) == ready.PRODUCTION, said["changes"]
+		assert set(said["update"]) == {"held_until"}, "One's update held for the terms is said, or nothing"
 		terms = next(one for one in said["documents"] if one["key"] == "terms")
 		assert terms["html"] and terms["organisation"]
 	with as_user("rania@one.test"):

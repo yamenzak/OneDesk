@@ -232,7 +232,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Device | 13 | document |
-| Workspace Account | 53 | single |
+| Workspace Account | 55 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
@@ -296,9 +296,7 @@ No doctypes yet.
 * `onedesk.account_center.bills.payment_portal`
 * `onedesk.account_center.bills.set_auto_topup`
 * `onedesk.account_center.bills.set_spend_limit`
-* `onedesk.account_center.bills.set_update_window`
 * `onedesk.account_center.bills.to_books`
-* `onedesk.account_center.bills.update_now`
 * `onedesk.account_center.center.invite`
 * `onedesk.account_center.center.invite_again`
 * `onedesk.account_center.center.load`
@@ -435,6 +433,9 @@ No doctypes yet.
 * `onedesk.one.tours.tour`
 * `onedesk.one.unsubscribe.off`
 * `onedesk.one.unsubscribe.on`
+* `onedesk.one.update_window.set_window`
+* `onedesk.one.update_window.state`
+* `onedesk.one.update_window.update_now`
 * `onedesk.one.versions.help_pages`
 * `onedesk.one.versions.whats_new`
 * `onedesk.one.weather.here`

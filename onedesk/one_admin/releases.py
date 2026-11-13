@@ -229,7 +229,27 @@ def update_now(tenant) -> dict:
 	return {"waiting": True}
 
 
+def moves_by(update_at, terms_pending: bool) -> str | None:
+	"""When a workspace waiting on the terms moves even so. Pure."""
+	if not terms_pending or not update_at:
+		return None
+	return str(get_datetime(update_at) + timedelta(days=HOLD_DAYS))
+
+
+def told(at, weekday, hour, moving: bool, terms_pending: bool) -> dict:
+	"""What a workspace is told of its next update: when (set only while a
+	newer release waits for it), its window, whether it is moving now, and,
+	while it owes the terms, the day it moves even so. Pure."""
+	return {
+		"at": str(at) if at else None,
+		"weekday": weekday,
+		"hour": hour,
+		"moving": int(bool(moving)),
+		"held_until": moves_by(at, terms_pending),
+	}
+
+
 def upcoming(tenant) -> dict:
 	"""What a workspace is told: when its next update is, and its window."""
-	at, weekday, hour = frappe.db.get_value("Tenant", tenant, ["update_at", "update_weekday", "update_hour"])
-	return {"at": str(at) if at else None, "weekday": weekday, "hour": hour}
+	at, weekday, hour, moving, pending = frappe.db.get_value("Tenant", tenant, ["update_at", "update_weekday", "update_hour", "update_moving", "terms_pending"])
+	return told(at, weekday, hour, bool(moving), bool(pending))

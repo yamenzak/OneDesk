@@ -4,11 +4,13 @@ version names the Help pages it changed (`docs`), and each page lists the
 versions that changed it.
 """
 
+from functools import lru_cache
+
 import frappe
 from frappe import _
 from frappe.utils import md_to_html
 
-from onedesk.one import media, ready
+from onedesk.one import media, ready, registry
 from onedesk.one_admin import site
 
 SEEN = "one_seen_version_{}"
@@ -29,16 +31,40 @@ def seen(module: str) -> str | None:
 	return frappe.defaults.get_user_default(SEEN.format(ready.MODULES[module]["folder"]))
 
 
+def off(module: str, hidden: set) -> bool:
+	"""Whether a module is an app this workspace has turned off, or its
+	plan leaves out: its rail row is among `hidden` (one/apps.py)."""
+	try:
+		sidebar = registry.by_name(module).sidebar
+	except KeyError:
+		return False
+	return bool(sidebar) and sidebar in hidden
+
+
+@lru_cache
+def titles(module: str) -> tuple[tuple[str, str], ...]:
+	"""A module's Help pages by id and title, which Ctrl+K finds: read once
+	a process, as the files change only with a release."""
+	return tuple((page["id"], page["title"]) for page in ready.help_pages(module))
+
+
 def for_boot() -> dict:
-	"""Each module's version, whether the reader has seen it, and the Help
-	page its ControlCenter is explained on (settings, else overview)."""
+	"""Each module's version, whether the reader has seen it, the Help page
+	its ControlCenter is explained on (settings, else overview), and its
+	pages' titles; an app turned off is marked `off`, so HelpCenter and
+	UpdateCenter leave it out."""
+	from onedesk.one import apps
+
+	hidden = set(apps.hidden())
 	out = {}
 	for module in ready.MODULES:
 		version = ready.current(module) if offered(module) else None
 		if version:
 			pages = [page for page, _icon in ready.MODULES[module].get("help", ())]
 			told = next((page for page in ("settings", "overview") if page in pages), "")
-			out[module] = {"version": version, "unseen": int(seen(module) != version), "help": told}
+			out[module] = {"version": version, "unseen": int(seen(module) != version), "help": told, "pages": titles(module)}
+			if off(module, hidden):
+				out[module]["off"] = 1
 	return out
 
 

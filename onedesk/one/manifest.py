@@ -27,6 +27,7 @@ APP = App(
 		("news", "newspaper"),
 		("notifications", "bell"),
 		("shortcuts", "keyboard"),
+		("updates", "sparkles"),
 		("setup", "list-checks"),
 		("access-and-the-audit-log", "shield-check"),
 		("your-data", "folder-lock"),

@@ -1586,7 +1586,7 @@ def whats_new_says_each_version_once():
 	with as_user("nadia@one.test"):
 		frappe.defaults.set_user_default(versions.SEEN.format("one_mail"), "")
 		said = versions.for_boot()["OneMail"]
-		assert said == {"version": ready.current("OneMail"), "unseen": 1}, said
+		assert said["version"] == ready.current("OneMail") and said["unseen"] == 1 and "off" not in said, said
 		listed = versions.whats_new("OneMail")["versions"]
 		assert listed[0]["version"] == ready.current("OneMail") and listed[0]["new"], listed[0]
 		html = listed[-1]["html"]
@@ -1630,6 +1630,72 @@ def help_shows_every_page_in_order():
 
 	assert declared()["Mail Not Sent"]["email"] is False and declared()["Attachments Not Saved"]["from_one"] is True
 	assert not declared()["Covering Mail"].get("from_one")
+
+
+@check
+def help_is_only_for_apps_that_are_on():
+	"""HelpCenter and Ctrl+K list the Help of the apps that are on, by
+	title, {one_cloud}'s and {one_studio}'s among them; an app the
+	workspace turns off is marked off and left out (one/versions.py
+	for_boot)."""
+	import json
+
+	from onedesk.one import apps, registry, versions
+
+	cloud, studio, mail = registry.name("one_cloud"), registry.name("one_studio"), registry.name("one_mail")
+	hidden = frappe.db.get_default(apps.KEY)
+	try:
+		frappe.db.set_default(apps.KEY, "[]")
+		with as_user(OWNER):
+			said = versions.for_boot()
+			for module in (cloud, studio):
+				assert module in said and not said[module].get("off"), module
+				assert [page for page, _title in said[module]["pages"]][0] == "overview" and all(title for _page, title in said[module]["pages"]), said[module]["pages"]
+		frappe.db.set_default(apps.KEY, json.dumps([registry.get("one_mail").sidebar]))
+		with as_user(OWNER):
+			assert versions.for_boot()[mail].get("off") == 1
+			assert not versions.for_boot()[cloud].get("off")
+	finally:
+		frappe.db.set_default(apps.KEY, hidden or "[]")
+
+
+@check
+def the_update_window_is_oneadmins_and_an_administrators_to_change():
+	"""UpdateCenter's This Workspace (one/update_window.py): everybody reads
+	when the next update is and the window, from the account; the owner
+	changes the window and updates now through OneAdmin, told plainly when
+	nothing waits; Nadia may not."""
+	from unittest import mock
+
+	from onedesk.one import update_window
+
+	fields = {"update_at": None, "update_weekday": 0, "update_hour": 9, "update_moving": 0, "update_held_until": None}
+	assert update_window.plainly({}) == {"at": None, "weekday": 5, "hour": 1, "moving": 0, "held_until": None}, "OneAdmin's Saturday 01:00 until it says"
+	assert update_window.plainly(fields)["weekday"] == 0 and update_window.plainly(fields)["hour"] == 9
+	with (
+		mock.patch("onedesk.one.account.configured", return_value=True),
+		mock.patch("onedesk.one.account.refresh"),
+		mock.patch("onedesk.one.account.ask", return_value={"waiting": False}) as asked,
+	):
+		with as_user("nadia@one.test"):
+			said = update_window.state()
+			assert said["linked"] and not said["may"], said
+			for refused in (lambda: update_window.set_window(0, 9), update_window.update_now):
+				try:
+					refused()
+					raise AssertionError("Nadia changed the update")
+				except frappe.PermissionError:
+					pass
+		with as_user(OWNER):
+			assert update_window.state()["may"]
+			update_window.set_window(0, 9)
+			assert asked.call_args.args == ("onedesk.one_admin.proxy.update_window",) and asked.call_args.kwargs == {"weekday": 0, "hour": 9}
+			assert update_window.update_now()["waiting"] == 0, "no newer release, so nothing happens"
+			try:
+				update_window.set_window(7, 9)
+				raise AssertionError("an eighth day was taken")
+			except frappe.ValidationError:
+				pass
 
 
 @check

@@ -2396,9 +2396,12 @@ the machine says where it is.
 A new release in the registry is built on each server as a second bench,
 ahead of time (`servers.prepare`, then the box's agent). Each workspace then
 moves to it in its own window: Saturday 01:00 in its time zone unless an
-administrator picked another in AccountCenter, at least 72 hours after it is
+administrator picked another in UpdateCenter, at least 72 hours after it is
 told, or at once with **Update Now**, which writes the box's instruction
-there and then. Both benches of a box use its one MariaDB, so a move leaves
+there and then. `releases.told` is what the workspace hears in
+`proxy.hello`: the time, the window, whether it is moving, and while it owes
+the terms the day it moves even so (`held_until`), which UpdateCenter and
+TrustCenter show (one/update_window.py). Both benches of a box use its one MariaDB, so a move leaves
 the database where it is: the site's folder moves to the new bench, Pilot's
 token and nginx follow it, and it is migrated there, offline for the migrate
 and a database copy taken first (about a minute for a new workspace). A move to

@@ -13,6 +13,8 @@ from frappe import _lt
 REACH = {}
 
 NOT_FOR_AI = {
+	"update_window.set_window": "When the workspace is offline for an update is an administrator's decision.",
+	"update_window.update_now": "Taking the workspace offline for an update is an administrator's decision.",
 	"setup_job.wake": "A new site's build asks it to set itself up from its signup, before anybody works in it.",
 	"company.use": "Which company a person works in is their own choice, from the frame.",
 	"unsubscribe.off": "A signed link in a mail, opened without signing in, while OneAI sets the same switch through NotificationCenter.",
@@ -472,8 +474,10 @@ CENTRES = {
 		"and TrustCenter. Answer from those pages (how_to)."
 	),
 	"updates": (
-		"The reader is in UpdateCenter: every app's versions, newest first, each with what changed for the "
-		"people who use it."
+		"The reader is in UpdateCenter: when One next updates this workspace and the day and hour it updates "
+		"in, which an administrator changes there or hurries with Update Now, then every app's versions, "
+		"newest first, each with what changed for the people who use it, and what the next update brings. "
+		"How it works is in One's Help under Updates (how_to)."
 	),
 	"shortcuts": (
 		"The reader is in ShortcutCenter: every app's keyboard shortcuts, by where they work, and the keys "

@@ -26,11 +26,22 @@ opens the part of it that is that module's.
 Every version somebody agreed to is kept, so you can always read exactly
 what was agreed. **Print** prints the one open.
 
+## What It Holds
+
+| Section | What it holds |
+| --- | --- |
+| **Agreements** | The agreements above, and where you and your organisation stand on each. |
+| **Companies That Receive Data** | Every company that receives data, what it receives and where. A use your workspace doesn't have is greyed. |
+| **Optional Services** | Services that send data to another company, each off until an administrator turns it on. |
+| **Your Data** | What is kept and for how long, and how to take everything with you. |
+| **Privacy Requests** | For administrators: requests to delete an account or to copy its data. |
+| **Waiting for Agreement** | What still needs agreeing, and every change to the agreements. |
+
 ## Where to Start
 
 | I want to | Read |
 | --- | --- |
 | Know who agrees to what, and when I'm asked | [Agreeing](agreeing) |
 | Turn on a service that sends data elsewhere | [Optional Services](optional-services) |
-| Know what changes and from when | [Changes](changes) |
+| Know what waits for agreement, and what changes when | [Waiting for Agreement](changes) |
 | Decide who sees who agreed | [Who Can Do What](who-can-do-what) |

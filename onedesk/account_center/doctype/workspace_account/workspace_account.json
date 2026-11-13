@@ -40,6 +40,8 @@
   "update_at",
   "update_weekday",
   "update_hour",
+  "update_moving",
+  "update_held_until",
   "domains_section",
   "domains",
   "dns_target",
@@ -303,6 +305,19 @@
    "read_only": 1
   },
   {
+   "default": "0",
+   "fieldname": "update_moving",
+   "fieldtype": "Check",
+   "label": "Updating Now",
+   "read_only": 1
+  },
+  {
+   "fieldname": "update_held_until",
+   "fieldtype": "Datetime",
+   "label": "Update Held Until",
+   "read_only": 1
+  },
+  {
    "fieldname": "domains_section",
    "fieldtype": "Section Break",
    "label": "Addresses"
@@ -404,7 +419,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-13 18:00:00.000000",
+ "modified": "2026-11-13 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "Account Center",
  "name": "Workspace Account",

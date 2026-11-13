@@ -1,7 +1,8 @@
-// TrustCenter (docs/READY.md, mechanism 13): the agreements, the laws they
-// answer, the optional services a workspace turns on, every company that
-// receives data, what is kept and how to leave, and what is changing, as
-// pages to read in the centre frame: the whole of it from the bottom bar and the
+// TrustCenter (docs/READY.md, mechanism 13), in the order a new owner reads
+// it: the agreements, every company that receives data, the optional
+// services a workspace turns on, what is kept and the privacy requests, and
+// what waits for agreement (an agreement not agreed to, One's update held
+// for it, and every change), as pages to read in the centre frame: the whole of it from the bottom bar and the
 // Agreements address, and a module's part from its foot. Its words are the
 // agreements' own, in English; what is around them is translated.
 frappe.provide("onedesk.trust");
@@ -101,6 +102,17 @@ onedesk.centers.declare("trust", {
 				});
 			}
 			page({
+				id: "companies",
+				label: __("Companies That Receive Data"),
+				icon: "building-2",
+				title: __("Companies That Receive Data"),
+				description: __("Every company that receives data, and whether yours uses it."),
+				html: "",
+				after(panel) {
+					table(said.companies).appendTo(panel.body);
+				},
+			});
+			page({
 				id: "services",
 				label: __("Optional Services"),
 				icon: "toggle-right",
@@ -112,17 +124,6 @@ onedesk.centers.declare("trust", {
 					else services(panel.body, said.services);
 				},
 			});
-			page({
-				id: "companies",
-				label: __("Companies"),
-				icon: "building-2",
-				title: __("Companies That Receive Data"),
-				description: __("Every company that receives data, and whether yours uses it."),
-				html: "",
-				after(panel) {
-					table(said.companies).appendTo(panel.body);
-				},
-			});
 		}
 
 		const paragraphs = (list) => list.map((one) => `<p>${esc(one)}</p>`).join("");
@@ -132,7 +133,7 @@ onedesk.centers.declare("trust", {
 		const requests = async (panel) => {
 			const asked = await frappe.xcall("onedesk.one.privacy.requests", {}, "GET");
 			const go = (doctype, name) => (ctx.centre.hide(), frappe.set_route("Form", doctype, name));
-			const status = (one) => frappe.ui.badge.html({ label: __(one.status || "Pending"), theme: one.status === "Deleted" ? "gray" : WAITING.includes(one.status) ? "orange" : "blue" });
+			const status = (one) => frappe.ui.badge.html({ label: __(one.status || "Pending"), theme: one.status === "Deleted" ? "gray" : WAITING.includes(one.status) ? "amber" : "blue" });
 			if (!asked.deletions.length && !asked.copies.length) {
 				return $(`<div class="one-shell-quiet"></div>`).text(__("Nobody has asked yet.")).appendTo(panel.body);
 			}
@@ -159,24 +160,55 @@ onedesk.centers.declare("trust", {
 		});
 		if (asks) page({
 			id: "requests",
-			label: __("Requests"),
+			label: __("Privacy Requests"),
 			icon: "inbox",
 			count: waiting,
-			title: __("Requests"),
+			title: __("Privacy Requests"),
 			description: __("Requests to delete an account or copy its data, newest first."),
 			html: "",
 			after: requests,
 		});
 
+		// What waits for somebody to agree: each agreement the reader, or as an
+		// administrator the organisation, has still to agree to; One's next
+		// update while it waits for the organisation's agreement
+		// (one/update_window.py); then every change published.
+		const owes = (doc) => (doc.you && !doc.you.version) || (said.may_bind && doc.organisation && !doc.organisation.version);
+		const docs = said.module ? said.documents.filter((doc) => keys.has(doc.key)) : said.documents;
+		const unagreed = docs.filter(owes);
+		const held = !said.module && said.update && said.update.held_until;
 		page({
 			id: "changes",
-			label: __("Changes"),
-			icon: "history",
-			title: __("Changes"),
-			description: __("What is changing in the agreements, and from when."),
+			label: __("Waiting for Agreement"),
+			icon: "file-clock",
+			count: unagreed.length + (held ? 1 : 0),
+			title: __("Waiting for Agreement"),
+			description: __("Agreements not agreed to yet, and every change to them, with the day it takes effect."),
 			html: "",
 			after(panel) {
 				const changes = said.module ? said.changes.filter((one) => keys.has(one.document)) : said.changes;
+				if (!unagreed.length && !held) $(`<div class="one-shell-quiet"></div>`).text(__("Nothing is waiting for agreement.")).appendTo(panel.body);
+				const $owed = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
+				for (const doc of unagreed) {
+					const yours = doc.you && !doc.you.version;
+					kit.row({
+						lead: kit.glyph("file-pen"),
+						title: doc.title,
+						sub: esc(yours ? __("Not agreed yet") : __("Not agreed yet for your organisation")),
+						end: kit.chevron(),
+						open: () => ctx.centre.activate(`doc:${doc.key}`),
+					}).appendTo($owed);
+				}
+				if (held) {
+					kit.row({
+						lead: kit.glyph("calendar-clock"),
+						title: __("{0}'s Next Update", [onedesk.names.of("one")]),
+						sub: esc(__("Your organisation hasn't agreed to the new terms yet. The update goes ahead on {0} even so.", [frappe.datetime.str_to_user(said.update.held_until)])),
+						end: kit.chevron(),
+						open: () => (ctx.centre.hide(), onedesk.centers.open("updates", { at: "next" })),
+					}).appendTo($owed);
+				}
+				panel.body.append(kit.heading(__("Changes"), __("What is changing in the agreements, and from when.")));
 				if (!changes.length) {
 					$(`<div class="one-shell-quiet"></div>`).text(__("No changes")).appendTo(panel.body);
 					return;
@@ -188,7 +220,7 @@ onedesk.centers.declare("trust", {
 						lead: kit.glyph(one.coming ? "calendar-clock" : "circle-check"),
 						title: `${one.title} ${one.revision}`,
 						sub: `${esc(one.says)}<br>${esc(when)}`,
-						end: one.coming ? frappe.ui.badge.html({ label: __("Coming"), theme: "orange" }) : "",
+						end: one.coming ? frappe.ui.badge.html({ label: __("Coming"), theme: "amber" }) : "",
 						open: () => ctx.centre.activate(`doc:${one.document}`),
 					}).appendTo($list);
 				}
@@ -344,7 +376,7 @@ onedesk.centers.declare("trust", {
 						);
 					}
 					// A company One will need from the day a change takes effect.
-					if (use.starts) $for.append(" ", frappe.ui.badge.html({ label: __("From {0}", [use.starts]), theme: "orange" }));
+					if (use.starts) $for.append(" ", frappe.ui.badge.html({ label: __("From {0}", [use.starts]), theme: "amber" }));
 					const $dl = $(`<dl class="one-trust-facts"></dl>`).appendTo($use);
 					for (const [term, value] of [
 						[__("What They Receive"), use.data],

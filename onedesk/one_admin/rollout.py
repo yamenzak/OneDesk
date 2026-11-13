@@ -3,7 +3,7 @@ version, and each workspace's window. Nothing here changes anything."""
 
 import re
 from collections import Counter
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 
 import frappe
 from frappe.utils import convert_utc_to_system_timezone, get_datetime
@@ -97,13 +97,6 @@ def state_of(release: dict) -> str:
 	return "dropping" if states == {"dropping"} else "ready"
 
 
-def moves_by(update_at, terms_pending: bool) -> str | None:
-	"""When a workspace waiting on the terms moves even so. Pure."""
-	if not terms_pending or not update_at:
-		return None
-	return str(get_datetime(update_at) + timedelta(days=releases.HOLD_DAYS))
-
-
 def waiting(tenants: list, current: dict, versions: dict) -> list[dict]:
 	"""Each workspace with a move ahead: moving first, then on the terms, then
 	by window. `current` is each server's newest bench, `versions` each
@@ -121,7 +114,7 @@ def waiting(tenants: list, current: dict, versions: dict) -> list[dict]:
 				"on": versions.get(one.bench, one.bench),
 				"to": versions.get(current.get(one.server)),
 				"at": str(one.update_at) if one.update_at else None,
-				"moves_by": moves_by(one.update_at, bool(one.terms_pending)),
+				"moves_by": releases.moves_by(one.update_at, bool(one.terms_pending)),
 			}
 		)
 	return sorted(rows, key=lambda one: (ORDER[one["kind"]], one["at"] or "9999"))

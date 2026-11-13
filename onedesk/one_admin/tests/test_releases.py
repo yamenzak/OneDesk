@@ -55,3 +55,11 @@ def test_a_test_workspace_is_never_updated_from_here():
 			pass
 	thrown.assert_called_once()
 	instruct.assert_not_called()
+
+
+def test_a_workspace_is_told_its_window_and_the_day_it_moves_even_without_the_terms():
+	at = datetime(2026, 11, 14, 1, 0)
+	assert releases.told(at, 5, 1, False, False) == {"at": "2026-11-14 01:00:00", "weekday": 5, "hour": 1, "moving": 0, "held_until": None}
+	assert releases.told(at, 5, 1, False, True)["held_until"] == "2026-12-14 01:00:00", "owing the terms holds it 30 days"
+	assert releases.told(None, 0, 9, False, True)["held_until"] is None, "nothing waits, so nothing is held"
+	assert releases.told(at, 5, 1, True, False)["moving"] == 1

@@ -17,7 +17,7 @@
 
 People ask for a copy of their data, or for their account to be deleted, under
 {trust_center} › **Your Data**. People without an account use the workspace's
-**/your-data** page. Administrators handle requests under {trust_center} › **Requests**, which
+**/your-data** page. Administrators handle requests under {trust_center} › **Privacy Requests**, which
 counts those waiting: every request for a copy of someone's data and every
 request to delete an account, in one list. Open one to answer it.
 
@@ -32,7 +32,7 @@ them that someone should take over first.
 
 ## Answering a Copy Request
 
-Open the request from **Requests**, at the end of {trust_center}'s Your Data. **Review and Send** shows
+Open the request from **Privacy Requests** in {trust_center}. **Review and Send** shows
 each type of data and how much of it there is.
 
 - **Always included**, because it's about the person: their account and
@@ -49,7 +49,7 @@ each type of data and how much of it there is.
 
 ## Answering a Deletion Request
 
-Open the request from **Requests**, at the end of {trust_center}'s Your Data.
+Open the request from **Privacy Requests** in {trust_center}.
 
 - **Approve and Delete** signs the person out and turns off the account right
   away. Then, in the background:

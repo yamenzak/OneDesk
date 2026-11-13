@@ -172,8 +172,9 @@ def trust(module: str = "") -> dict:
 	reader's language: what a module adds, its optional services and every
 	other, each agreement with where the reader and the workspace stand on it
 	and the change coming to it, every company that receives data and whether
-	this workspace uses it, what is kept and how to leave, and every change
-	published."""
+	this workspace uses it, what is kept and how to leave, every change
+	published, and the day One's waiting update goes ahead while it waits for
+	the organisation's agreement."""
 	from . import registry, services, switchovers
 	from .documents import CHANGES, DOCUMENTS
 
@@ -212,10 +213,13 @@ def trust(module: str = "") -> dict:
 	def bodies(document: str, section: str, keys: tuple = ()) -> list[str]:
 		return [one["body"] for one in registry.clauses_for(document, section) if not keys or one["key"] in keys]
 
+	from onedesk.one import update_window
+
 	today = frappe.utils.today()
 	return {
 		**said,
 		"module": of_module(module) if module else None,
+		"update": {"held_until": update_window.held_until()},
 		"services": standing,
 		"companies": companies,
 		"data": {

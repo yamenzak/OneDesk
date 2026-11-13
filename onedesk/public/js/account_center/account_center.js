@@ -837,12 +837,9 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					  )
 					: "") +
 				(data.admin && data.linked ? this.auto_topup_section() : "") +
-				(data.admin && data.linked ? this.updates_section(account) : "") +
 				(data.admin ? this.closing_section(closing) : "")
 		);
 		this.$content.find("[data-auto-topup]").on("click", () => this.auto_topup());
-		this.$content.find("[data-update-window]").on("click", () => this.update_window(account));
-		this.$content.find("[data-update-now]").on("click", () => this.update_now());
 		this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
 		this.$content.find("[data-limit]").on("click", () => this.set_limit(account));
 		this.$content.find("[data-buy]").on("click", (event) => {
@@ -904,10 +901,6 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		}
 	}
 
-	week_days() {
-		return [__("Monday"), __("Tuesday"), __("Wednesday"), __("Thursday"), __("Friday"), __("Saturday"), __("Sunday")];
-	}
-
 	auto_topup_section() {
 		return onedesk.shell.section(
 			__("Auto Top-Up"),
@@ -934,54 +927,6 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			__("Auto Top-Up"),
 			__("Save")
 		);
-	}
-
-	updates_section(account) {
-		const esc = frappe.utils.escape_html;
-		const day = this.week_days()[account.update_weekday];
-		const hour = String(account.update_hour).padStart(2, "0");
-		const said = account.update_at
-			? __("The next update is on {0}.", [frappe.datetime.str_to_user(account.update_at)])
-			: __("Updates run on {0} at {1}:00.", [day, hour]);
-		return onedesk.shell.section(
-			__("Updates"),
-			`<div class="one-shell-quiet">${esc(said)}</div>
-			<div class="os-way-actions">${onedesk.shell.button(__("Change Window"), { "data-update-window": "1" }, "ghost")}${
-				account.update_at ? onedesk.shell.button(__("Update Now"), { "data-update-now": "1" }, "ghost") : ""
-			}</div>`
-		);
-	}
-
-	update_window(account) {
-		const days = this.week_days();
-		const hours = Array.from({ length: 24 }, (_, hour) => `${String(hour).padStart(2, "0")}:00`);
-		frappe.prompt(
-			[
-				{ fieldname: "day", fieldtype: "Select", label: __("Day"), options: days.join("\n"), reqd: 1, default: days[account.update_weekday] },
-				{ fieldname: "hour", fieldtype: "Select", label: __("Hour"), options: hours.join("\n"), reqd: 1, default: hours[account.update_hour] },
-			],
-			({ day, hour }) =>
-				frappe
-					.xcall("onedesk.account_center.bills.set_update_window", { weekday: days.indexOf(day), hour: hours.indexOf(hour) })
-					.then(() => {
-						frappe.show_alert({ message: __("Update window saved."), indicator: "green" });
-						this.refresh();
-					}),
-			__("Change Window"),
-			__("Save")
-		);
-	}
-
-	async update_now() {
-		const go = await onedesk.interface.ask({
-			question: __("Update now?"),
-			effect: __("The workspace is offline for a few minutes."),
-			verb: __("Update Now"),
-		});
-		if (!go) return;
-		const said = await frappe.xcall("onedesk.account_center.bills.update_now");
-		frappe.show_alert({ message: said.waiting ? __("Update started.") : __("No update is waiting."), indicator: "green" });
-		this.refresh();
 	}
 
 	closing_section(closing) {

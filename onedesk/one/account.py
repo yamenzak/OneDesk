@@ -132,6 +132,8 @@ def refresh() -> dict:
 			"update_at": (said.get("update") or {}).get("at"),
 			"update_weekday": (said.get("update") or {}).get("weekday"),
 			"update_hour": (said.get("update") or {}).get("hour"),
+			"update_moving": 1 if (said.get("update") or {}).get("moving") else 0,
+			"update_held_until": (said.get("update") or {}).get("held_until"),
 			"deleted_on": (said.get("closing") or {}).get("deleted_on"),
 			"last_heard": now_datetime(),
 			"last_error": None,
