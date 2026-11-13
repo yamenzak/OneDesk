@@ -491,8 +491,12 @@ def _change(way: str, doctype: str, name: str, values: dict) -> None:
 
 def _bulk(doctype: str, name: str, action: str, values: dict | None = None) -> None:
 	"""A bulk action on one record. frappe commits each record it changes,
-	and the suite writes nothing, so its commit stays a savepoint here."""
+	and the suite writes nothing, so its commit stays a savepoint here. Why it
+	failed is taken as frappe logs it, never read back from the Error Log,
+	which sits in frappe's log store, where a rollback leaves older errors."""
 	from frappe.desk.doctype.bulk_update.bulk_update import submit_cancel_or_update_docs
+
+	from unittest.mock import patch
 
 	db = frappe.db
 	commit, rollback = db.commit, db.rollback
@@ -500,12 +504,14 @@ def _bulk(doctype: str, name: str, action: str, values: dict | None = None) -> N
 	db.commit = lambda *a, **k: None
 	db.rollback = lambda *a, **k: rollback(save_point="bulk")
 	frappe.local.message_log = []
+	said = []
 	try:
-		failed = submit_cancel_or_update_docs(doctype, [name], action, values)
+		with patch("frappe.log_error", side_effect=lambda *a, **k: said.append(frappe.get_traceback().strip().splitlines()[-1])):
+			failed = submit_cancel_or_update_docs(doctype, [name], action, values)
 	finally:
 		db.commit, db.rollback = commit, rollback
 	if failed:
-		raise frappe.ValidationError(frappe.get_last_doc("Error Log").error.strip().splitlines()[-1])
+		raise frappe.ValidationError(said[-1] if said else "the bulk action failed")
 
 
 def _imported(doctype: str, name: str, values: dict) -> None:
