@@ -72,7 +72,7 @@ def test_where_is_our_own_last_place_even_on_a_relative_path():
 
 def test_an_error_names_the_part_of_one_it_was_in():
 	assert heard.part_of("onedesk/onedesk/one_project/contacts.py:contacts") == "OneProject"
-	assert heard.part_of("onedesk/onedesk/one_storage/file.py:get_content") == "OneCloud"
+	assert heard.part_of("onedesk/onedesk/one_cloud/file.py:get_content") == "OneCloud"
 	assert heard.part_of("", "onedesk.one_admin.backups.config_copy") == "OneAdmin"
 	assert heard.part_of("frappe/frappe/app.py:application") == "Frappe"
 	assert heard.part_of("", "Weather for Dubai") == "One"

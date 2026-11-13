@@ -22,7 +22,7 @@
 	overflow: hidden;
 }
 
-/* What its file says (one_storage/saving.py) sits between the head and the toolbar. */
+/* What its file says (one_cloud/saving.py) sits between the head and the toolbar. */
 .one-workbook .sn-file-said {
 	flex-shrink: 0;
 	margin: 8px 15px;

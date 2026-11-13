@@ -119,7 +119,7 @@ def root_of(hit: dict) -> dict:
 
 def files_of(hit: dict) -> list[dict]:
 	"""The Files holding this content that the reader may open."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	if hit.get("source_doctype") != "File":
 		return []
@@ -195,7 +195,7 @@ def file_route(file) -> str:
 def in_files(text: str, under: list[str] | None = None, most: int = 100) -> list[dict]:
 	"""OneCloud's search, by content: what the reader may open, as nodes, each
 	with the words it was found by. `under` keeps only what is in those folders."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	out, seen = [], set()
 	folders = ns._folders()

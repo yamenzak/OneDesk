@@ -86,7 +86,7 @@ onedesk.brand.text = (node, inside = false) => {
 
 /** The sprite's mark for a product: its name lowered, but for the three
  * whose id is older than their name (scripts/gen_brand.py, ALIAS). */
-onedesk.brand.MARK_IDS = { Cloud: "onestorage", Writer: "onedoc", Workbook: "onesheet" };
+onedesk.brand.MARK_IDS = { Cloud: "onecloud", Writer: "onedoc", Workbook: "onesheet" };
 
 onedesk.brand.mark_of = (rest) => {
 	const id = onedesk.brand.MARK_IDS[rest] || `one${rest.toLowerCase()}`;

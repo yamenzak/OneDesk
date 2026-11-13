@@ -241,7 +241,7 @@ def allowed(action: Action, person: str) -> bool:
 	if not action.name or not frappe.db.exists(action.doctype, action.name):
 		return False
 	if action.doctype == "File":
-		from onedesk.one_storage import namespace as ns
+		from onedesk.one_cloud import namespace as ns
 
 		item = ns.row(action.name)
 		if not item or not ns.may(item, "write" if ptype == "write" else "read", user=person):
@@ -250,7 +250,7 @@ def allowed(action: Action, person: str) -> bool:
 		return False
 	held = action.values.get("file")
 	if held and action.kind in ("Link", "Attach"):
-		from onedesk.one_storage import namespace as ns
+		from onedesk.one_cloud import namespace as ns
 
 		item = ns.row(held)
 		return bool(item and ns.may(item, "read", user=person))

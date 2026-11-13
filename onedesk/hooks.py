@@ -37,7 +37,7 @@ scheduler_events = {
 			"onedesk.one_mail.sync.sync_all",
 			"onedesk.one_ai.reading.matters.due",
 			"onedesk.one_admin.oneos.tick",
-			"onedesk.one_storage.oneos.tick",
+			"onedesk.one_cloud.oneos.tick",
 		],
 		"*/15 * * * *": [
 			"onedesk.one_admin.releases.tick",
@@ -107,9 +107,9 @@ scheduler_events = {
 		"onedesk.one_hr.periods.daily",
 		"onedesk.one_mail.faces.again",
 		"onedesk.one_mail.rules.cover",
-		"onedesk.one_storage.api.purge_old",
-		"onedesk.one_storage.store.daily",
-		"onedesk.one_storage.file_requests.remind_due",
+		"onedesk.one_cloud.api.purge_old",
+		"onedesk.one_cloud.store.daily",
+		"onedesk.one_cloud.file_requests.remind_due",
 		"onedesk.one.account.nightly",
 		"onedesk.one_admin.domains.nightly",
 		"onedesk.one_admin.lifecycle.nightly",
@@ -470,15 +470,15 @@ doc_events = {
 			"onedesk.one_project.media.changed",
 		],
 		"on_update": [
-			"onedesk.one_storage.live.changed",
+			"onedesk.one_cloud.live.changed",
 			"onedesk.one_ai.reading.lessons.moved",
 			"onedesk.one_project.media.changed",
 		],
 		"on_trash": [
 			"onedesk.one_hr.hiring.keep_sound",
-			"onedesk.one_storage.links.forget_file",
-			"onedesk.one_storage.history.forget",
-			"onedesk.one_storage.live.changed",
+			"onedesk.one_cloud.links.forget_file",
+			"onedesk.one_cloud.history.forget",
+			"onedesk.one_cloud.live.changed",
 			"onedesk.one_project.media.changed",
 			"onedesk.one_sheet.api.file_gone",
 			"onedesk.one_doc.api.file_gone",
@@ -664,6 +664,8 @@ standard_queries = {
 }
 
 override_whitelisted_methods = {
+	"onedesk.one_storage.store.fetch": "onedesk.one_cloud.store.fetch",
+	"onedesk.one_storage.dav.serve": "onedesk.one_cloud.dav.serve",
 	"frappe.utils.global_search.search": "onedesk.one.outside.search",
 	"frappe.desk.page.setup_wizard.setup_wizard.setup_complete": "onedesk.one.setup_wizard.setup_complete",
 	"erpnext.stock.doctype.material_request.material_request.update_status": "onedesk.one_inventory.tell.update_status",
@@ -926,7 +928,7 @@ override_doctype_class = {
 	"Reminder": "onedesk.one.tell.Reminder",
 	"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin",
 	"Timesheet": "onedesk.one_hr.timesheet.OneTimesheet",
-	"File": "onedesk.one_storage.file.CloudFile",
+	"File": "onedesk.one_cloud.file.CloudFile",
 	"Notification": "onedesk.one.rules.Rule",
 	"Leave Application": "onedesk.one_hr.tell.LeaveApplication",
 	"Expense Claim": "onedesk.one_hr.tell.ExpenseClaim",
@@ -936,8 +938,8 @@ override_doctype_class = {
 	"Project": "onedesk.one_project.materials.OneProject",
 }
 
-write_file = "onedesk.one_storage.store.write"
-delete_file_data_content = "onedesk.one_storage.store.delete"
+write_file = "onedesk.one_cloud.store.write"
+delete_file_data_content = "onedesk.one_cloud.store.delete"
 
 add_to_apps_screen = [
 	{
@@ -1066,8 +1068,8 @@ app_include_js = stamped([
 	"/assets/onedesk/js/record_activity.js",
 	"/assets/onedesk/js/supplier_items.js",
 	"/assets/onedesk/js/one_mail/mail_compose.js",
-	"/assets/onedesk/js/one_storage/onecloud_picker.js",
-	"/assets/onedesk/js/one_storage/cloud_control.js",
+	"/assets/onedesk/js/one_cloud/onecloud_picker.js",
+	"/assets/onedesk/js/one_cloud/cloud_control.js",
 	"/assets/onedesk/js/band.js",
 	"/assets/onedesk/js/rate_note.js",
 	"/assets/onedesk/js/island_page.js",
@@ -1203,9 +1205,9 @@ website_redirects = [
 	{"source": r"/hrms(/.*)?", "target": "/desk/onehr"},
 ]
 
-before_request = ["onedesk.one_storage.dav.sign_in", "onedesk.one.webhooks.install", "onedesk.one_portal.gate.ending"]
+before_request = ["onedesk.one_cloud.dav.sign_in", "onedesk.one.webhooks.install", "onedesk.one_portal.gate.ending"]
 before_job = ["onedesk.one.webhooks.install"]
-after_request = ["onedesk.one_storage.dav.headers"]
+after_request = ["onedesk.one_cloud.dav.headers"]
 
 jinja = {
 	"methods": [

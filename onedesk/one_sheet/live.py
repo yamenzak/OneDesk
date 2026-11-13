@@ -2,7 +2,7 @@
 workbook's or document's room, and may they write? Asked by
 realtime/handlers.js as the socket's own session, once a room; then told
 every minute that they are still there, and when they leave, so the File's
-lease (one_storage/lease.py) knows who is in it. AGENTS.md, live.py.
+lease (one_cloud/lease.py) knows who is in it. AGENTS.md, live.py.
 """
 
 import json
@@ -35,9 +35,9 @@ def _item(kind: str, name: str) -> dict | None:
 def admit(kind: str, name: str, sid: str = "") -> dict:
 	"""The room's name, who the person is, and whether they may change cells
 	or text: never while somebody has the file alone in OneOS or on the
-	drive, or while it opens read-only (one_storage/saving.py)."""
-	from onedesk.one_storage import lease, opening, saving
-	from onedesk.one_storage import namespace as ns
+	drive, or while it opens read-only (one_cloud/saving.py)."""
+	from onedesk.one_cloud import lease, opening, saving
+	from onedesk.one_cloud import namespace as ns
 
 	item = _item(kind, name)
 	if not item:
@@ -62,8 +62,8 @@ def admit(kind: str, name: str, sid: str = "") -> dict:
 @frappe.whitelist()
 def here(rooms: str, sid: str = "") -> None:
 	"""The person's editor is still in these rooms ([[kind, name], …])."""
-	from onedesk.one_storage import lease, saving
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import lease, saving
+	from onedesk.one_cloud import namespace as ns
 
 	for kind, name in (json.loads(rooms or "[]") or [])[:MOST_ROOMS]:
 		item = _item(kind, name)
@@ -74,7 +74,7 @@ def here(rooms: str, sid: str = "") -> None:
 @frappe.whitelist()
 def leave(kind: str, name: str, sid: str = "") -> None:
 	"""The person's editor left the room."""
-	from onedesk.one_storage import lease, opening
+	from onedesk.one_cloud import lease, opening
 
 	item = _item(kind, name)
 	if item:

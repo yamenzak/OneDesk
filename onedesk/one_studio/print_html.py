@@ -14,7 +14,7 @@ from jinja2 import nodes
 from jinja2.exceptions import TemplateError
 from jinja2.sandbox import ImmutableSandboxedEnvironment
 
-from onedesk.one_storage import store
+from onedesk.one_cloud import store
 
 MARK = "one_sandboxed"
 

@@ -209,7 +209,7 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 	and the workspace's rules for outside mailboxes. Turning
 	OneAI off for her own mailbox stops even the OneAI panel reading it."""
 	from onedesk.one_mail import ai, gate, holders, mail_templates, rules, signatures
-	from onedesk.one_storage import api
+	from onedesk.one_cloud import api
 
 	with as_user(OWNER):
 		ours = holders.workspace()

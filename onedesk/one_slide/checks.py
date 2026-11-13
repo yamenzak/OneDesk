@@ -334,8 +334,8 @@ def a_presentation_is_a_powerpoint_file_on_the_drive():
 	from werkzeug.test import EnvironBuilder
 
 	from onedesk.one_slide import api, drive, master, versions
-	from onedesk.one_storage import dav
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import dav
+	from onedesk.one_cloud import namespace as ns
 
 	def ask(method: str, path: str, body: bytes = b"", depth: str | None = None) -> tuple[int, dict, bytes]:
 		environ = EnvironBuilder(path=dav.MOUNT + path, method=method, data=body, headers={"Depth": depth} if depth else {}).get_environ()
@@ -540,7 +540,7 @@ def oneslide_is_presented_through_a_link():
 	from werkzeug.exceptions import NotFound
 
 	from onedesk.one_slide import api, shared
-	from onedesk.one_storage import links
+	from onedesk.one_cloud import links
 
 	frappe.db.savepoint("slide_link_check")
 	was = getattr(frappe.local, "request", None)
@@ -599,7 +599,7 @@ def oneslide_is_driven_from_a_phone():
 	is in front of it. The first phone in keeps the remote, only a signed-in
 	reader is given the notes, and once the screen ends nothing is admitted."""
 	from onedesk.one_slide import api, remote, shared
-	from onedesk.one_storage import links
+	from onedesk.one_cloud import links
 	from onedesk.www import slide_remote
 
 	frappe.db.savepoint("slide_remote_check")

@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import tree
 
+from onedesk.one import registry
 from onedesk.one.registry import hooks as registry_hooks
 
 CALLABLE_HOOKS = (
@@ -63,6 +64,8 @@ def test_hooks_declare_some_callables():
 
 @pytest.mark.parametrize("path", declared())
 def test_the_function_exists(path):
+	for old, now in registry.moved().items():
+		path = path.replace(f"onedesk.{old}.", f"{now}.")
 	module, _, function = path.rpartition(".")
 	source = ROOT / Path(*module.split(".")).with_suffix(".py")
 	assert source.exists(), f"{path}: no module at {source.relative_to(ROOT)}"

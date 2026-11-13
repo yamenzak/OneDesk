@@ -265,7 +265,7 @@ Stage 6, mail in OneCloud, is built.
   so a guessed name opened a message and its files. A message in a mailbox
   now opens for its holders only. Holders get Inbox User with their first
   mailbox, and a patch gives it to those who already held one.
-  A message's attachments answer to it (one_storage/namespace.py `may`), so
+  A message's attachments answer to it (one_cloud/namespace.py `may`), so
   a name guessed or passed on opened those too. Being filed on a record does
   not change who may open it. A link never grants read, or filing a message
   on a customer would publish somebody's mail to everyone who can read the
@@ -641,7 +641,7 @@ reads it, changes it and sends it (mail_compose.js, `onedesk.mail.reply_to`).
 
 ### room.py
 
-An attachment is stored in R2 like any file (one_storage/store.py), and a
+An attachment is stored in R2 like any file (one_cloud/store.py), and a
 full workspace refuses it (`store.NoRoom`). Frappe's receiver does not
 expect that, so before this the whole message failed, the sweep or the sync
 moved past it, and it was never in OneMail. A message is text in the

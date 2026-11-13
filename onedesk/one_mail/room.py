@@ -36,7 +36,7 @@ def unsaved(name: str) -> list[dict]:
 def again() -> int:
 	"""Save what fits of every attachment that arrived while storage was full.
 	Stops at the first one still refused: the rest would be refused too."""
-	from onedesk.one_storage import store
+	from onedesk.one_cloud import store
 
 	saved = 0
 	for name in frappe.get_all(

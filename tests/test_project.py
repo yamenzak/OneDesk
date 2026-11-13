@@ -1372,11 +1372,11 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 	assert any(
 		one["property"] == "image_field" and one["value"] == "one_cover" for one in custom["property_setters"]
 	)
-	names = (tree.APP / "one_storage" / "namespace.py").read_text()
+	names = (tree.APP / "one_cloud" / "namespace.py").read_text()
 	assert 'FEATURED = "@featured/"' in names and 'if doctype == "Project":' in names
-	api = (tree.APP / "one_storage" / "api.py").read_text()
+	api = (tree.APP / "one_cloud" / "api.py").read_text()
 	assert 'return ("record", "Project", kind[1], "featured")' in api and "def _refeature(" in api
-	upload = (tree.APP / "one_storage" / "upload.py").read_text()
+	upload = (tree.APP / "one_cloud" / "upload.py").read_text()
 	assert (
 		'media.check(fields["file_name"])' in upload
 		and "fields.update(one_featured=1, is_private=0)" in upload

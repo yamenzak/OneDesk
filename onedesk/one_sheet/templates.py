@@ -19,7 +19,7 @@ FOLDER_NAME = "Workbook Templates"
 def folder() -> str:
 	"""The Workbook Templates folder in the company's files, made the first
 	time it's needed."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	found = frappe.db.get_value("File", {"is_folder": 1, "folder": ns.HOME, "file_name": FOLDER_NAME})
 	if found:
@@ -34,7 +34,7 @@ def folder() -> str:
 @frappe.read_only()
 def listed() -> list[dict]:
 	"""The templates the reader may use, by title."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	out = []
 	for one in frappe.get_all(api.WORKBOOK, filters={"is_template": 1}, fields=["name", "title", "file"], order_by="title asc"):
@@ -82,8 +82,8 @@ def data_of(template: str) -> dict:
 
 def make(title: str, data: dict) -> str:
 	"""A template in the Workbook Templates folder; its name."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	where = folder()
 	title = api._titled(title) or _("Untitled Template")

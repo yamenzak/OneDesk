@@ -155,7 +155,7 @@ def test_nothing_upstream_says_names_them():
 
 UNHEARD = {
 	# OneCloud hears its own event in File's room, onecloud_change
-	# (one_storage/live.py), sent for every change to a file, its versions and
+	# (one_cloud/live.py), sent for every change to a file, its versions and
 	# its shares; what its preview reads beside a file (versions, comments,
 	# shares, what OneAI read and did) is read again each time a file is
 	# chosen. A project's and an item's Files are OneCloud.
@@ -233,7 +233,7 @@ EMPTY = {
 	"onedesk / One Calendar": 1,
 	"onedesk / One HR": 0,
 	"onedesk / One Mail": 0,
-	"onedesk / One Storage": 0,
+	"onedesk / One Cloud": 0,
 	"onedesk / One Studio": 1,
 }
 

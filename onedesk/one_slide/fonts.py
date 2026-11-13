@@ -56,14 +56,14 @@ def arabic(rows: list[dict]) -> None:
 
 def found() -> str | None:
 	"""The Fonts folder, if a font was ever added."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	return frappe.db.get_value("File", {"is_folder": 1, "folder": ns.HOME, "file_name": FOLDER_NAME})
 
 
 def folder() -> str:
 	"""The Fonts folder in the company's files, made the first time a font is added."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	if found():
 		return found()
@@ -215,7 +215,7 @@ def face(id: str, v: str | None = None):
 
 
 def _bytes(name: str, url: str) -> bytes:
-	from onedesk.one_storage import store
+	from onedesk.one_cloud import store
 
 	if store.is_stored(url):
 		return store.get(store.key_of(url))

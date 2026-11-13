@@ -16,8 +16,8 @@ NOTES_SAID = "Ground floor frames in. Sill on W03 needs packing. Khalid wants th
 
 
 def run(password=None):
-	from onedesk.one_storage import dav, file_requests, library, links, share, upload
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import dav, file_requests, library, links, share, upload
+	from onedesk.one_cloud import namespace as ns
 
 	with as_user(PM):
 		root = frappe.db.get_value("File", {"one_library": 1, "file_name": LIBRARY})

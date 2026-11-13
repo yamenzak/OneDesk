@@ -1,0 +1,60 @@
+"""Files asked of somebody, by name. See one_cloud/file_requests.py."""
+
+import hashlib
+
+import frappe
+from frappe import _
+from frappe.model.document import Document
+
+def hashed(token: str) -> str:
+	return hashlib.sha256(token.encode()).hexdigest()
+
+
+class CloudFileRequest(Document):
+	def validate(self):
+		if not self.folder and not (self.reference_doctype and self.reference_name):
+			frappe.throw(_("Pick the folder or the record the files go to."))
+		if self.reference_doctype and not frappe.db.exists(self.reference_doctype, self.reference_name):
+			frappe.throw(_("{0} {1} not found").format(_(self.reference_doctype), self.reference_name))
+		if self.folder and not frappe.db.get_value("File", self.folder, "is_folder"):
+			frappe.throw(_("{0} is not a folder.").format(self.folder))
+		self._items()
+		self._people()
+
+	def _items(self):
+		from onedesk.one_cloud import targets
+
+		seen = set()
+		for one in self.items:
+			one.label = " ".join((one.label or "").replace("/", " ").split())
+			if one.label.lower() in seen:
+				frappe.throw(_("{0} is listed twice.").format(one.label))
+			seen.add(one.label.lower())
+			one.accept = ", ".join(
+				ext.strip().lstrip(".").lower() for ext in (one.accept or "").replace(";", ",").split(",") if ext.strip()
+			)
+			if one.row_key and not one.fieldname:
+				frappe.throw(_("{0} has a kind but no place on the record.").format(one.label))
+			if one.fieldname:
+				if not self.reference_doctype:
+					frappe.throw(_("{0} fills a record field, so the request must be on a record.").format(one.label))
+				targets.check(self.reference_doctype, one.fieldname, one.row_key)
+				one.several = 0
+
+	def _people(self):
+		seen, kept = set(), []
+		for one in self.recipients:
+			one.email = (one.email or "").strip().lower()
+			if one.email and one.email not in seen:
+				seen.add(one.email)
+				kept.append(one)
+		self.recipients = kept
+		if len(kept) > 1 and any(one.fieldname for one in self.items):
+			frappe.throw(_("A request that fills record fields can go to one person only."))
+		self.flags.tokens = self.flags.tokens or {}
+		for one in self.recipients:
+			if not one.token_hash:
+				token = frappe.generate_hash(length=32)
+				one.token = token
+				one.token_hash = hashed(token)
+				self.flags.tokens[one.email] = token

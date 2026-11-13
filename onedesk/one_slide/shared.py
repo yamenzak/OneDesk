@@ -40,7 +40,7 @@ def live(name: str) -> dict | None:
 
 def opened(token: str, item: str | None = None) -> tuple:
 	"""The link and the presentation it opens for this guest, or NotFound."""
-	from onedesk.one_storage import links
+	from onedesk.one_cloud import links
 
 	link = links.live(token)
 	if not link or links.opened_as(link) is None:
@@ -122,7 +122,7 @@ def where(token: str, item: str | None = None) -> dict:
 def admit(token: str, item: str | None = None, ticket: str | None = None) -> dict:
 	"""Asked by the socket server when a guest page joins: its room, if the
 	page's ticket says it passed the link's gates."""
-	from onedesk.one_storage import links
+	from onedesk.one_cloud import links
 
 	link = links.live(token)
 	if not link:
@@ -141,7 +141,7 @@ def admit(token: str, item: str | None = None, ticket: str | None = None) -> dic
 def viewed(token: str, session: str, seconds: str | dict, item: str | None = None) -> None:
 	"""How long each slide has been on a guest's screen in this look, so
 	far: one row per look, kept up to date as they go."""
-	from onedesk.one_storage import links
+	from onedesk.one_cloud import links
 
 	link, name = opened(token, item)
 	said = frappe.parse_json(seconds) if isinstance(seconds, str) else seconds

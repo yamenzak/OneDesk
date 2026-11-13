@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-STORE = tree.APP / "one_storage" / "store.py"
+STORE = tree.APP / "one_cloud" / "store.py"
 HOOKS = tree.hooks()
 
 
@@ -55,9 +55,9 @@ def test_a_stored_url_carries_its_key_and_nothing_else():
 
 
 def test_content_goes_through_frappes_own_hooks_and_is_read_back_by_the_file_class():
-	assert 'write_file = "onedesk.one_storage.store.write"' in HOOKS
-	assert 'delete_file_data_content = "onedesk.one_storage.store.delete"' in HOOKS
-	assert '"File": "onedesk.one_storage.file.CloudFile"' in HOOKS
+	assert 'write_file = "onedesk.one_cloud.store.write"' in HOOKS
+	assert 'delete_file_data_content = "onedesk.one_cloud.store.delete"' in HOOKS
+	assert '"File": "onedesk.one_cloud.file.CloudFile"' in HOOKS
 	assert "save_file_on_filesystem()" in _body(STORE, "write"), "no account, the disk as before"
 
 
@@ -79,15 +79,15 @@ def test_the_filename_travels_to_the_download_for_every_browser():
 def test_onecloud_is_in_the_dock_and_owns_files():
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
 	assert "OneCloud" in [row["link_to"] for row in dock["items"]]
-	rail = json.loads((tree.APP / "one_storage" / "sidebar" / "onecloud" / "onecloud.json").read_text())
-	assert rail["header_icon"] == "onestorage", "the mark is read by its id"
+	rail = json.loads((tree.APP / "one_cloud" / "sidebar" / "onecloud" / "onecloud.json").read_text())
+	assert rail["header_icon"] == "onecloud", "the mark is read by its id"
 	files = next(item for item in rail["items"] if item.get("label") == "Files")
 	assert files["is_default_module"]
 	assert (files["link_type"], files["link_to"]) == ("Page", "onecloud"), "Files is the explorer"
 
 
-NAMESPACE = tree.APP / "one_storage" / "namespace.py"
-API = tree.APP / "one_storage" / "api.py"
+NAMESPACE = tree.APP / "one_cloud" / "namespace.py"
+API = tree.APP / "one_cloud" / "api.py"
 
 
 def test_a_node_id_says_what_it_names():
@@ -149,11 +149,11 @@ def test_a_record_file_is_in_records_not_in_the_folder_frappe_filed_it_in():
 
 
 def test_the_recycle_bin_keeps_thirty_days_and_is_emptied_daily():
-	assert '"onedesk.one_storage.api.purge_old"' in HOOKS
+	assert '"onedesk.one_cloud.api.purge_old"' in HOOKS
 	assert "KEPT_DAYS = 30" in API.read_text()
 
 
-UPLOAD = tree.APP / "one_storage" / "upload.py"
+UPLOAD = tree.APP / "one_cloud" / "upload.py"
 PAGE = tree.APP / "public" / "js"
 CLOUD = tree.ROOT / "frontend" / "src" / "cloud"
 EXPLORER = "\n".join(path.read_text() for path in sorted(CLOUD.glob("*")))
@@ -191,13 +191,13 @@ def test_the_explorer_calls_only_verbs_that_exist():
 
 	js = EXPLORER
 	api = "".join(
-		(tree.APP / "one_storage" / name).read_text() for name in ("api.py", "upload.py", "share.py", "library.py", "history.py", "file_requests.py")
+		(tree.APP / "one_cloud" / name).read_text() for name in ("api.py", "upload.py", "share.py", "library.py", "history.py", "file_requests.py")
 	)
 	called = set(re.findall(r'\b(?:API|UPLOAD) \+ "(\w+)"', js))
 	assert {"listing", "folders", "make_folder", "rename", "move", "copy", "delete", "restore", "purge", "empty_bin", "begin", "done", "resolve"} <= called
 	for name in called:
 		assert re.search(rf"@frappe\.whitelist\([^)]*\)\n(?:@[^\n]+\n)*def {name}\(", api), name
-	assert "onedesk.one_storage.upload.here" in js, "and the way through this server when R2 is out of reach"
+	assert "onedesk.one_cloud.upload.here" in js, "and the way through this server when R2 is out of reach"
 
 
 def test_the_explorer_has_the_keys_everybody_knows():
@@ -208,7 +208,7 @@ def test_the_explorer_has_the_keys_everybody_knows():
 	assert "goToUrl(`/desk/onecloud?node=${encodeURIComponent(id)}`)" in js, "the place is in the address"
 
 
-SHARE = tree.APP / "one_storage" / "share.py"
+SHARE = tree.APP / "one_cloud" / "share.py"
 
 
 def test_a_share_on_a_folder_reaches_everything_in_it_and_edit_beats_view():
@@ -236,11 +236,11 @@ def test_sharing_is_for_the_team_and_a_records_file_goes_with_its_record():
 	body = _body(SHARE, "share")
 	assert "rights.share(" in body and "ignore_share_permission" in _body(tree.APP / "one" / "rights.py", "share"), "our rule decided, so Frappe's is not asked again"
 	assert "tell.shared(user, item)" in body
-	tell = tree.APP / "one_storage" / "tell.py"
+	tell = tree.APP / "one_cloud" / "tell.py"
 	assert "/desk/onecloud?node=" in _body(tell, "shared"), "the notification opens the explorer"
 
 
-LINKS = tree.APP / "one_storage" / "links.py"
+LINKS = tree.APP / "one_cloud" / "links.py"
 
 
 def test_a_link_cookie_opens_its_own_link_for_its_own_time_and_nothing_else():
@@ -269,7 +269,7 @@ def test_a_guest_reaches_the_links_item_or_what_is_inside_its_folder_now():
 
 
 def test_the_table_alone_opens_nothing_and_the_guest_doors_are_rate_limited():
-	link = json.loads((tree.APP / "one_storage" / "doctype" / "cloud_link" / "cloud_link.json").read_text())
+	link = json.loads((tree.APP / "one_cloud" / "doctype" / "cloud_link" / "cloud_link.json").read_text())
 	fields = {one["fieldname"]: one for one in link["fields"]}
 	assert fields["token"]["fieldtype"] == "Password", "kept encrypted, for the owner to copy again"
 	assert fields["token_hash"].get("unique"), "and found by its hash"
@@ -285,12 +285,12 @@ def test_asking_for_a_code_does_not_say_who_was_invited():
 
 def test_a_link_lives_at_s_and_goes_when_its_file_does():
 	assert '"from_route": "/s/<token>", "to_route": "s"' in HOOKS
-	assert "onedesk.one_storage.links.forget_file" in HOOKS
+	assert "onedesk.one_cloud.links.forget_file" in HOOKS
 	assert (tree.APP / "www" / "s.py").exists() and (tree.APP / "www" / "s.html").exists()
 
 
-LIBRARY = tree.APP / "one_storage" / "library.py"
-HISTORY = tree.APP / "one_storage" / "history.py"
+LIBRARY = tree.APP / "one_cloud" / "library.py"
+HISTORY = tree.APP / "one_cloud" / "history.py"
 
 
 def test_a_library_is_its_members_and_its_roles_are_share_bits():
@@ -313,7 +313,7 @@ def test_replacing_a_file_keeps_what_it_held_and_its_bytes():
 	assert "keep(item)" in _body(HISTORY, "replace") and "keep(item)" in _body(HISTORY, "restore")
 	assert "Cloud File Version" in _body(STORE, "_named_elsewhere"), "a version's object is not dropped under it"
 	assert "Cloud File Version" in _body(STORE, "fetch"), "an old version opens for whoever may open the file"
-	assert "onedesk.one_storage.history.forget" in HOOKS, "and goes when the file does"
+	assert "onedesk.one_cloud.history.forget" in HOOKS, "and goes when the file does"
 
 
 def test_a_star_is_nobodys_business_but_the_readers():
@@ -326,7 +326,7 @@ def test_recent_is_short_and_losing_it_loses_nothing():
 	assert "except Exception" in _body(HISTORY, "seen") and "except Exception" in _body(HISTORY, "recent")
 
 
-DAV = tree.APP / "one_storage" / "dav.py"
+DAV = tree.APP / "one_cloud" / "dav.py"
 
 
 def test_a_drive_path_has_no_parent_steps_and_litter_is_refused():
@@ -350,7 +350,7 @@ def test_the_drive_is_frappes_sign_in_and_the_explorers_verbs():
 
 
 def test_a_drive_is_found_by_its_client():
-	assert 'after_request = ["onedesk.one_storage.dav.headers"]' in HOOKS
+	assert 'after_request = ["onedesk.one_cloud.dav.headers"]' in HOOKS
 	head = _body(DAV, "headers")
 	assert "DAV" in head and "response.status_code = 200" in head, "OPTIONS answers whoever asks"
 	assert "response_headers" in head, "applied after Frappe offers OAuth"
@@ -361,7 +361,7 @@ def test_an_empty_file_is_not_kept_as_a_version():
 	assert "elif not merged and item.file_size:" in _body(HISTORY, "replace")
 
 
-MOUNTS = tree.APP / "one_storage" / "mounts.py"
+MOUNTS = tree.APP / "one_cloud" / "mounts.py"
 
 
 def test_a_server_path_stays_inside_the_mounts_folder():
@@ -421,7 +421,7 @@ def test_a_drive_password_is_read_from_basic_auth_and_nothing_else():
 
 
 def test_a_drive_password_opens_the_drive_and_nothing_else():
-	assert 'before_request = ["onedesk.one_storage.dav.sign_in", ' in HOOKS, "it signs in first"
+	assert 'before_request = ["onedesk.one_cloud.dav.sign_in", ' in HOOKS, "it signs in first"
 	body = _body(DAV, "sign_in")
 	assert "request.path.startswith(MOUNT)" in body, "anywhere else it is only a wrong API key"
 	assert "'@' not in found[0]" in body, "an email, which an API key never is"
@@ -435,12 +435,12 @@ def test_a_tenant_is_limited_by_storage_not_by_file_size():
 	assert largest == 5 * 1024**3, "what R2 takes in one PUT"
 	steps = (tree.APP / "one_admin" / "steps.py").read_text()
 	assert '"max_file_size": store.LARGEST' in steps, "every request's limit, set when the site is built"
-	assert HOOKS.count('"onedesk.one_storage.store.unlimit"') == 2, "the attach button's, on install and every migrate"
+	assert HOOKS.count('"onedesk.one_cloud.store.unlimit"') == 2, "the attach button's, on install and every migrate"
 
 
 def test_the_explorer_is_its_own_navigation():
 	js = EXPLORER
-	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
+	page = (tree.APP / "one_cloud" / "page" / "onecloud" / "onecloud.js").read_text()
 	assert '"onedesk.onecloud"' in page and "hide_sidebar" not in page, "OneCloud sits in the window, its tree in the nav pane"
 	assert "interfaceTree(props.win" in js and 'part="details"' in js
 	assert "storage-check" not in js, "nobody in a workspace can link storage, so there is no check to open"
@@ -448,13 +448,13 @@ def test_the_explorer_is_its_own_navigation():
 
 def test_files_left_on_the_disk_move_by_themselves():
 	hooks = tree.hooks()
-	store = (tree.APP / "one_storage" / "store.py").read_text()
-	assert '"onedesk.one_storage.store.daily"' in hooks
+	store = (tree.APP / "one_cloud" / "store.py").read_text()
+	assert '"onedesk.one_cloud.store.daily"' in hooks
 	assert "def daily()" in store and "enabled() and on_disk()" in store
 
 
-REQUESTS = tree.APP / "one_storage" / "file_requests.py"
-REQUEST = tree.APP / "one_storage" / "doctype" / "cloud_file_request" / "cloud_file_request.py"
+REQUESTS = tree.APP / "one_cloud" / "file_requests.py"
+REQUEST = tree.APP / "one_cloud" / "doctype" / "cloud_file_request" / "cloud_file_request.py"
 
 
 def test_a_requested_file_is_one_of_the_kinds_asked_for():
@@ -498,7 +498,7 @@ def test_a_request_is_answered_by_anyone_with_the_link_but_not_endlessly():
 
 def test_a_request_has_its_page_and_its_reminders():
 	assert '"/r/<token>"' in HOOKS
-	assert "onedesk.one_storage.file_requests.remind_due" in HOOKS
+	assert "onedesk.one_cloud.file_requests.remind_due" in HOOKS
 	assert (tree.APP / "www" / "r.py").exists() and (tree.APP / "www" / "r.html").exists()
 
 
@@ -530,7 +530,7 @@ def test_a_search_everywhere_asks_may_and_leaves_servers_alone():
 	body = _body(NAMESPACE, "everywhere")
 	assert "mount" not in body.replace("Servers on the Network are not searched", "")
 	assert "everywhere(text, most)" in _body(NAMESPACE, "search"), "the top of OneCloud searches everywhere"
-	assert "ns.everywhere(search)" in (tree.APP / "one_storage" / "api.py").read_text()
+	assert "ns.everywhere(search)" in (tree.APP / "one_cloud" / "api.py").read_text()
 
 
 def test_a_search_can_be_widened_and_a_result_found_where_it_lives():
@@ -550,16 +550,16 @@ def test_every_record_has_a_files_tab_on_its_own_room():
 	assert '"Tab Break"' in tabs and '"HTML"' in tabs
 	for kept_out in ("meta.istable", "meta.issingle", "layout.is_child_table"):
 		assert kept_out in tabs, kept_out
-	namespace = (tree.APP / "one_storage" / "namespace.py").read_text()
+	namespace = (tree.APP / "one_cloud" / "namespace.py").read_text()
 	assert '"name": "files"' in namespace and '"leaves_out": ("File", "Extension", "Record Type")' in namespace
-	assert '"onedesk.one_storage.namespace.TABS"' in HOOKS
+	assert '"onedesk.one_cloud.namespace.TABS"' in HOOKS
 	assert "`@records/${frm.doctype}/${frm.doc.name}`" in js
 	assert 'onedesk.record_tabs.register("files"' in js
 	assert "/assets/onedesk/js/record_files.js" in HOOKS
 
 
 def test_the_explorer_is_one_island_for_every_host():
-	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
+	page = (tree.APP / "one_cloud" / "page" / "onecloud" / "onecloud.js").read_text()
 	tab = RECORD_FILES.read_text()
 	picker = PICKER.read_text()
 	assert '"onedesk.onecloud"' in page and "onedesk.cloud_assets" in page
@@ -577,7 +577,7 @@ def test_the_sidebar_attachments_are_one_row_into_the_files_tab():
 		assert gone in css, gone
 
 
-LIVE = tree.APP / "one_storage" / "live.py"
+LIVE = tree.APP / "one_cloud" / "live.py"
 
 
 def test_a_change_is_told_as_keys_that_name_nothing():
@@ -599,14 +599,14 @@ def test_a_change_is_told_as_keys_that_name_nothing():
 def test_every_way_a_file_changes_is_told():
 	hooks = HOOKS[HOOKS.index('"File": {') :]
 	hooks = hooks[: hooks.index("},")]
-	assert re.search(r'"on_update": \[?\s*"onedesk\.one_storage\.live\.changed"', hooks)
-	assert "onedesk.one_storage.live.changed" in hooks[hooks.index('"on_trash"') :]
-	api = (tree.APP / "one_storage" / "api.py").read_text()
+	assert re.search(r'"on_update": \[?\s*"onedesk\.one_cloud\.live\.changed"', hooks)
+	assert "onedesk.one_cloud.live.changed" in hooks[hooks.index('"on_trash"') :]
+	api = (tree.APP / "one_cloud" / "api.py").read_text()
 	for verb in ("rename", "move", "delete", "restore"):
-		assert "live.announce(" in _body(tree.APP / "one_storage" / "api.py", verb), verb
+		assert "live.announce(" in _body(tree.APP / "one_cloud" / "api.py", verb), verb
 	assert '"watch": live.watch(node, bool(search))' in api
-	assert "live.announce(item)" in _body(tree.APP / "one_storage" / "history.py", "replace")
-	assert "live.announce(item)" in _body(tree.APP / "one_storage" / "history.py", "restore")
+	assert "live.announce(item)" in _body(tree.APP / "one_cloud" / "history.py", "replace")
+	assert "live.announce(item)" in _body(tree.APP / "one_cloud" / "history.py", "restore")
 
 
 def test_the_explorer_listens_on_its_own_event_not_list_update():
@@ -617,29 +617,29 @@ def test_the_explorer_listens_on_its_own_event_not_list_update():
 	assert "after_commit.add(_send)" in source and 'room=get_doctype_room("File")' in source
 
 
-PICKER = tree.APP / "public" / "js" / "one_storage" / "onecloud_picker.js"
+PICKER = tree.APP / "public" / "js" / "one_cloud" / "onecloud_picker.js"
 
 
 def test_the_upload_dialog_chooses_from_onecloud_instead_of_its_library():
 	js = PICKER.read_text()
 	assert "Uploader.UploadOptions.push(" in js, "Frappe's own extension point"
 	assert "disable_file_browser: true" in js, "Frappe's Library asked Frappe's File permission"
-	assert '"onedesk.one_storage.api.attach"' in js and "on_success" in js
+	assert '"onedesk.one_cloud.api.attach"' in js and "on_success" in js
 	assert 'frappe.require("file_uploader.bundle.js")' in js
-	assert "/assets/onedesk/js/one_storage/onecloud_picker.js" in HOOKS
+	assert "/assets/onedesk/js/one_cloud/onecloud_picker.js" in HOOKS
 	assert "if (props.picker) return props.picker.onPick?.(" in EXPLORER
 	assert "if (props.picker) return;" in EXPLORER
 
 
 def test_a_file_chosen_is_allowed_by_onecloud_and_copies_no_bytes():
-	body = _body(tree.APP / "one_storage" / "api.py", "attach")
+	body = _body(tree.APP / "one_cloud" / "api.py", "attach")
 	assert "ns.may(item)" in body and "check_write_permission(doctype, docname)" in body
 	assert "'file_url': item.file_url" in body and "copy_from_existing_file = True" in body
-	api = (tree.APP / "one_storage" / "api.py").read_text()
+	api = (tree.APP / "one_cloud" / "api.py").read_text()
 	assert re.search(r'@frappe\.whitelist\(methods=\["POST"\]\)\ndef attach\(', api)
 
 
 def test_an_upload_that_belongs_to_no_record_lands_in_my_files():
-	body = (tree.APP / "one_storage" / "file.py").read_text()
+	body = (tree.APP / "one_cloud" / "file.py").read_text()
 	assert 'endswith("/upload_file")' in body, "only Frappe's dialog, not OneCloud's own verbs"
 	assert "self.folder = ns.home()" in body

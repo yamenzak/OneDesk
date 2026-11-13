@@ -285,7 +285,7 @@ async function unschedule(message) {
 }
 
 async function saveFile(file) {
-  await call("onedesk.one_storage.api.copy", { nodes: [file.name], target: "@my" });
+  await call("onedesk.one_cloud.api.copy", { nodes: [file.name], target: "@my" });
   alert(__("Saved to My Files"));
 }
 

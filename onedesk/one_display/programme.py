@@ -92,7 +92,7 @@ def plays(channel, at: datetime | None = None) -> dict:
 
 def _url(path: str) -> str:
 	"""A file a screen may play: on this machine, in the store, or on the web."""
-	from onedesk.one_storage import store
+	from onedesk.one_cloud import store
 
 	path = path or ""
 	return path if path.startswith(("/files/", f"{store.FETCH}?key=files/public/", "https://", "http://")) else ""

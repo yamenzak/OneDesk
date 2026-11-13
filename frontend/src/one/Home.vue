@@ -99,7 +99,7 @@ const approvals = computed(() =>
 );
 
 // Asked of You: each file still wanted from the reader by an open file
-// request (one_storage/file_requests.asked_of), answered in OneCloud's dialog.
+// request (one_cloud/file_requests.asked_of), answered in OneCloud's dialog.
 const asked = computed(() =>
   said.value.asked.flatMap((request) =>
     request.items

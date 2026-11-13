@@ -7,7 +7,7 @@ Three switches: a OneCloud folder, a OneMail mailbox, and Reading Settings'
 import frappe
 from frappe import _
 
-from onedesk.one_storage import namespace as ns
+from onedesk.one_cloud import namespace as ns
 
 
 def of_folder(folder: str | None) -> tuple[str | None, str | None]:

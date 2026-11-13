@@ -47,7 +47,7 @@ def run(password=None):
 
 
 def _make():
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	content = {"sheet": {"v": 2, "current": "Materials", "sheets": {"Materials": _packed(MATERIALS), "Labour": _packed(LABOUR)}}}
 	with as_user(OWNER):

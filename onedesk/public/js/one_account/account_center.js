@@ -116,7 +116,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		this.part(data, ["education", "external_work_history"], rows);
 	}
 
-	// Your Files: the person's Employee room in OneCloud (one_storage), where
+	// Your Files: the person's Employee room in OneCloud (one_cloud), where
 	// a scan on a row lands when Profile saves, and where they may add more.
 	draw_documents(data) {
 		const $card = this.part(data, ["one_documents"], [

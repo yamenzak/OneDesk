@@ -3,8 +3,10 @@ manifest.py in its own folder (docs/run/RUN.md, OneRegistry). Pure, so
 hooks.py, the guards and the scripts read it without a site.
 
 `apps()` in the rail's order, `get(id)`, `name(id)` (the only place a name is
-typed), `by_name(name)`, `of_module(module)`."""
+typed), `by_name(name)`, `of_module(module)`, and `moved()`, the folders
+kept one release after a rename."""
 
+import ast
 import importlib
 from functools import cache
 from pathlib import Path
@@ -24,6 +26,19 @@ def apps() -> tuple[App, ...]:
 	found = [_read(path.parent.name) for path in sorted(FOLDERS.glob("*/manifest.py"))]
 	_check(found)
 	return tuple(sorted(found, key=lambda one: (one.rail is None, one.rail or 0, one.id)))
+
+
+@cache
+def moved() -> dict[str, str]:
+	"""Each folder that is only an old name kept one release, read from the
+	`MOVED_TO` its __init__.py declares, and the package it now names. Such a
+	folder is not an app and has no manifest."""
+	found = {}
+	for path in sorted(FOLDERS.glob("*/__init__.py")):
+		for node in ast.parse(path.read_text(encoding="utf-8")).body:
+			if isinstance(node, ast.Assign) and [getattr(one, "id", None) for one in node.targets] == ["MOVED_TO"]:
+				found[path.parent.name] = node.value.value
+	return found
 
 
 def get(id: str) -> App:

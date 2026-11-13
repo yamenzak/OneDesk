@@ -158,7 +158,7 @@
         />
       </div>
     </div>
-    <!-- One: why the file opens read-only, what saving over it would drop, and what a save from the drive left out (one_storage/saving.py) -->
+    <!-- One: why the file opens read-only, what saving over it would drop, and what a save from the drive left out (one_cloud/saving.py) -->
     <OneAlert v-if="fileSaid.notice" class="sn-file-said" colour="gray"><Branded :text="fileSaid.notice" /></OneAlert>
     <OneAlert v-if="heldBack" class="sn-file-said" colour="yellow" :text="heldBack">
       <template #verbs>
@@ -2067,7 +2067,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('visibilitychange', _hidden)
 })
 // One: a file with parts OneWorkbook drops is saved over only when the
-// person chooses Save Over Original or Save as Copy (one_storage/saving.py).
+// person chooses Save Over Original or Save as Copy (one_cloud/saving.py).
 const heldBack = ref('')
 async function writeBack(choice = '') {
   clearTimeout(_writeBackTimer)

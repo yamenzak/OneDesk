@@ -1,0 +1,113 @@
+"""Team libraries: a folder people are members of."""
+
+import frappe
+from frappe import _
+from frappe.utils import get_fullname
+
+from onedesk.one import rights, roles
+from onedesk.one_cloud import api, tell
+from onedesk.one_cloud import namespace as ns
+
+
+def _manages(library: str) -> bool:
+	user = frappe.session.user
+	return user == "Administrator" or roles.ADMINISTRATOR in frappe.get_roles() or ns.role_in(library) == "Owner"
+
+
+def _library(node: str) -> dict:
+	item = api._item(node)
+	if not item.one_library:
+		frappe.throw(_("{0} is not a library.").format(item.file_name))
+	return item
+
+
+@frappe.whitelist(methods=["POST"])
+def make(name: str) -> dict:
+	"""A new library, with its maker as its owner."""
+	if not ns._staff(frappe.session.user):
+		frappe.throw(_("Only people on the team can create a library."), frappe.PermissionError)
+	name = api._clean(name)
+	if not name:
+		frappe.throw(_("A library needs a name."))
+	root = ns.library_root()
+	doc = frappe.get_doc(
+		{
+			"doctype": "File",
+			"is_folder": 1,
+			"file_name": ns.unique_name(name, api._taken(root)),
+			"folder": root,
+			"one_library": 1,
+		}
+	)
+	doc.flags.ignore_permissions = True
+	doc.insert()
+	_give(doc.name, frappe.session.user, "Owner")
+	ns.forget()
+	return {**ns.node(ns.row(doc.name)), "role": "Owner"}
+
+
+def _give(library: str, user: str, role: str) -> None:
+	write, share = ns.ROLES[role]
+	rights.share("File", library, user, write=write, share=share)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def members(node: str) -> dict:
+	item = _library(node)
+	if not ns.may(item):
+		frappe.throw(_("This item no longer exists."), frappe.DoesNotExistError)
+	rows = frappe.get_all(
+		"DocShare",
+		filters={"share_doctype": "File", "share_name": item.name, "everyone": 0},
+		fields=["user", "write", "share"],
+		order_by="creation asc",
+	)
+	return {
+		"can_manage": _manages(item.name),
+		"members": [
+			{
+				"user": one.user,
+				"name": get_fullname(one.user),
+				"role": "Owner" if one.share else "Member" if one.write else "Reader",
+			}
+			for one in rows
+		],
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def add(node: str, users: str | list, role: str = "Member") -> int:
+	item = _library(node)
+	if not _manages(item.name):
+		frappe.throw(_("Only owners of {0} can manage its members.").format(item.file_name), frappe.PermissionError)
+	if role not in ns.ROLES:
+		frappe.throw(_("Role must be Reader, Member or Owner."))
+	users = frappe.parse_json(users) if isinstance(users, str) else users
+	staff = frappe.get_all(
+		"User", filters={"name": ["in", users], "enabled": 1, "user_type": "System User"}, pluck="name"
+	)
+	for user in staff:
+		_give(item.name, user, role)
+		tell.added_to_library(user, item)
+	ns.forget()
+	return len(staff)
+
+
+@frappe.whitelist(methods=["POST"])
+def remove(node: str, user: str) -> None:
+	"""Take somebody out. Anybody may leave; a library keeps one owner."""
+	item = _library(node)
+	if user != frappe.session.user and not _manages(item.name):
+		frappe.throw(_("Only owners of {0} can manage its members.").format(item.file_name), frappe.PermissionError)
+	owners = frappe.get_all(
+		"DocShare", filters={"share_doctype": "File", "share_name": item.name, "share": 1}, pluck="user"
+	)
+	if owners == [user]:
+		frappe.throw(_("{0} is the last owner of {1}. Make someone else an owner first.").format(
+			get_fullname(user), item.file_name
+		))
+	rights.unshare("File", item.name, user, flags={"ignore_permissions": True})
+	ns.forget()
+
+

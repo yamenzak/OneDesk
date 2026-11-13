@@ -50,7 +50,7 @@ def document_of(url: str | None) -> str | None:
 
 
 def _file(name: str) -> dict:
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	held = frappe.db.get_value(DOCUMENT, name, "file")
 	item = ns.row(held) if held else None
@@ -60,7 +60,7 @@ def _file(name: str) -> dict:
 
 
 def _may(name: str, ptype: str = "read") -> dict:
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	item = _file(name)
 	if not ns.may(item, ptype):
@@ -72,8 +72,8 @@ def _may(name: str, ptype: str = "read") -> dict:
 def make(parent: str, title: str | None = None, template: str | None = None) -> dict:
 	"""A new document in a OneCloud folder or on a record, empty or a copy of
 	a template, and the node the explorer draws."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	where = cloud._target(parent)
 	if where[0] == "mount":
@@ -103,11 +103,11 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 def get_document(name: str) -> dict:
 	"""The document as the editor loads it, whether the reader may change it,
 	and the OneCloud folders above it for its breadcrumb."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	from onedesk.one import rights
 	from onedesk.one_doc import field
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	item = _may(name, "read")
 	doc = frappe.get_doc(DOCUMENT, name)
@@ -153,7 +153,7 @@ def save_document(name: str, content: str, html: str, title: str | None = None, 
 	"""Keep what the editor sends: its Yjs state, which it opens from, and
 	the same document as HTML, which everything else reads."""
 	from onedesk.one_doc import field
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	item = _may(name, "write")
 	saving.check(DOCUMENT, name, item)
@@ -171,7 +171,7 @@ def save_document(name: str, content: str, html: str, title: str | None = None, 
 @frappe.whitelist(methods=["POST"])
 def dismiss_dropped(name: str) -> None:
 	"""The note of what a save from the drive left out, put away."""
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	_may(name, "write")
 	saving.dismiss(DOCUMENT, name)
@@ -208,8 +208,8 @@ def _retitle(name: str, item: dict, title: str | None) -> None:
 	"""The File's name is the document's title, kept unique in its folder; a
 	Word file's keeps its .docx."""
 	from onedesk.one_doc import word
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	title = _titled(title)
 	if title and frappe.db.get_value(DOCUMENT, name, "source_kind") == "docx" and not title.lower().endswith(word.SUFFIX):
@@ -293,9 +293,9 @@ def add_picture(file_id: str) -> dict:
 @frappe.whitelist(methods=["POST"])
 def make_picture(file_id: str, description: str, shape: str | None = None) -> dict:
 	"""A picture OneAI makes from a sentence, square, wide or tall, kept on
-	the document as an uploaded one is (OneCloud's job, one_storage/made.py)."""
+	the document as an uploaded one is (OneCloud's job, one_cloud/made.py)."""
 	from onedesk.one import apps
-	from onedesk.one_storage import made as maker
+	from onedesk.one_cloud import made as maker
 
 	_may(file_id, "write")
 	apps.refuse_ai()

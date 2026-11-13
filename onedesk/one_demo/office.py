@@ -66,8 +66,8 @@ def found(one: dict) -> str | None:
 
 
 def run(password=None):
-	from onedesk.one_storage import share, upload
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import share, upload
+	from onedesk.one_cloud import namespace as ns
 
 	library = frappe.db.get_value("File", {"one_library": 1, "file_name": LIBRARY})
 	for one in files():

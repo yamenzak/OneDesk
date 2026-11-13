@@ -67,7 +67,7 @@ msgstr "OneInventory"
 msgid "One Quality"
 msgstr "OneQuality"
 
-msgid "One Storage"
+msgid "One Cloud"
 msgstr "OneCloud"
 
 msgid "One Sheet"

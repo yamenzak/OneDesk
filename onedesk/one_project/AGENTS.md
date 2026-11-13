@@ -98,7 +98,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   (`money.QUOTED`), and `view.to_quote` names a new quotation's project.
 - `media.py` — a project's **Featured Media**: its files marked `one_featured`
   (File), shown in OneCloud as a folder inside the project's own
-  (`@featured/<project>`, one_storage/namespace.py), so nothing is stored for
+  (`@featured/<project>`, one_cloud/namespace.py), so nothing is stored for
   the folder. Putting a file in attaches it to the project, marks it and makes
   it public; taking it back to the project's folder clears both. The newest
   photo is `one_cover`, Project's `image_field`, set as the folder changes
@@ -114,7 +114,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
 
   **Nothing is stored for the folder.** A record's folder in OneCloud is
   worked out from the files attached to the record each time it is opened
-  (one_storage/namespace.py), and Featured Media is worked out the same way:
+  (one_cloud/namespace.py), and Featured Media is worked out the same way:
   the project's files with `one_featured` set. Putting a file in it attaches
   it to the project with the mark; taking it out to the project's own folder
   clears the mark. A folder called Featured Media anywhere else is just a

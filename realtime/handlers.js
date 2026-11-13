@@ -81,7 +81,7 @@ function onedesk_handlers(socket) {
 		socket.to(room).emit("onedesk_said", { room, event, payload });
 	});
 
-	// Who is in a file is its lease's (one_storage/lease.py): told on
+	// Who is in a file is its lease's (one_cloud/lease.py): told on
 	// join, every minute while the room is open, and on leave.
 	let renewing = null;
 	function stillHere() {

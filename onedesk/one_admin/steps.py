@@ -14,7 +14,7 @@ from frappe import _lt
 from frappe.utils import now_datetime
 
 from onedesk.one_admin import cloudflare, faults, fleet, hosts, log, pilot, price_list, quota, servers, spares
-from onedesk.one_storage import store
+from onedesk.one_cloud import store
 
 WAIT = "wait"
 

@@ -17,6 +17,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
+from onedesk.one import registry
+
 DECLARED = (
 	"Workspace",
 	"Dock",
@@ -112,6 +114,7 @@ def test_every_module_folder_is_in_modules_txt():
 		and (p / "__init__.py").exists()
 		and p.name not in known
 		and p.name not in {"public", "patches", "config", "templates", "www", "one_demo", "notifications"}
+		and p.name not in registry.moved()
 	]
 	assert not strays, f"module folders missing from modules.txt: {strays}"
 

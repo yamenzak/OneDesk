@@ -335,7 +335,7 @@ def write(name: str, content: bytes) -> None:
 	Excel file had that the workbook does not keep is noted on it, shown
 	when it next opens."""
 	from onedesk.one_sheet import versions
-	from onedesk.one_storage import fidelity, saving
+	from onedesk.one_cloud import fidelity, saving
 
 	if frappe.db.get_value(api.WORKBOOK, name, "bound_doctype"):
 		frappe.throw(_("A record's workbook can only be edited in OneWorkbook."), frappe.PermissionError)

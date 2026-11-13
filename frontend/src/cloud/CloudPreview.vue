@@ -123,7 +123,7 @@ watch(
     tell(one);
     if (!one || !filed(one)) return;
     try {
-      const found = await call("onedesk.one_storage.history.activity", { node: one.id });
+      const found = await call("onedesk.one_cloud.history.activity", { node: one.id });
       if (item.value?.id === one.id) history.value = found;
     } catch (e) {
       history.value = null;
@@ -139,7 +139,7 @@ watch(
     reading.value = null;
     if (!node || node.startsWith("@")) return;
     const [who, read] = await Promise.all([
-      call("onedesk.one_storage.share.people", { node }).catch(() => null),
+      call("onedesk.one_cloud.share.people", { node }).catch(() => null),
       intakeOn() ? call("onedesk.one_ai.reading.switches.folder_state", { folder: node }).catch(() => null) : null,
     ]);
     if (props.node !== node) return;
@@ -150,7 +150,7 @@ watch(
 );
 
 async function restore(version) {
-  await call("onedesk.one_storage.history.restore", { node: item.value.id, version: version.name });
+  await call("onedesk.one_cloud.history.restore", { node: item.value.id, version: version.name });
   emit("changed");
 }
 

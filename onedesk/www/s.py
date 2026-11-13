@@ -2,7 +2,7 @@
 
 It asks for what the link needs (a password, or an invited address and the
 code sent to it), then shows the file or the folder. Everything a guest may
-do goes through one_storage/links.py, which decides; this only draws.
+do goes through one_cloud/links.py, which decides; this only draws.
 """
 
 import json
@@ -11,8 +11,8 @@ from urllib.parse import quote, unquote
 import frappe
 from frappe import _
 
-from onedesk.one_storage import links
-from onedesk.one_storage import namespace as ns
+from onedesk.one_cloud import links
+from onedesk.one_cloud import namespace as ns
 
 no_cache = 1
 
@@ -75,8 +75,8 @@ def get_context(context):
 def _urls(token: str, name: str) -> dict:
 	item = f"token={quote(token)}&item={quote(name, safe='')}"
 	return {
-		"open": f"/api/method/onedesk.one_storage.links.get?{item}",
-		"save": f"/api/method/onedesk.one_storage.links.get?{item}&download=1",
+		"open": f"/api/method/onedesk.one_cloud.links.get?{item}",
+		"save": f"/api/method/onedesk.one_cloud.links.get?{item}&download=1",
 		"into": f"/s/{quote(token)}?in={quote(name, safe='')}",
 	}
 

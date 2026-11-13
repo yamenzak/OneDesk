@@ -310,7 +310,7 @@ onedesk.interface.cloud = (frm, $sidebar) => {
 	$likes.find(".one-cloud-open").remove();
 	if (!onedesk.interface.panelled(frm) || frm.is_new() || !onedesk.record_tabs.applies(frm, "files")) return;
 	const button = frappe.ui.button({
-		icon: "onestorage",
+		icon: "onecloud",
 		variant: "ghost",
 		size: "sm",
 		title: __("Open in OneCloud"),

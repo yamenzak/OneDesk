@@ -992,7 +992,7 @@ OVERRIDES = [
 	(
 		"A record's Files tab lists the files linked to it as well as those attached",
 		"a File has one attached_to; a document that belongs to several records is attached to the main one and File-Linked to the rest, and namespace.attachments adds those the reader may open",
-		"onedesk/one_storage/namespace.py",
+		"onedesk/one_cloud/namespace.py",
 		"frappe/frappe/core/doctype/file/file.py",
 		"def create_attachment_copy(",
 	),
@@ -2763,21 +2763,21 @@ OVERRIDES = [
 	(
 		"New file content goes to R2",
 		"Frappe's own seam for where content is written; ours asks admin for a signed URL and puts it there",
-		"onedesk/one_storage/store.py",
+		"onedesk/one_cloud/store.py",
 		"frappe/frappe/core/doctype/file/file_v1.py",
 		'write_file_method = get_hook_method("write_file")',
 	),
 	(
 		"A stored object is dropped when the last File naming it goes",
 		"Frappe's seam for deleting content; ours defers to after commit and skips a shared object",
-		"onedesk/one_storage/store.py",
+		"onedesk/one_cloud/store.py",
 		"frappe/frappe/core/doctype/file/file_v1.py",
 		'method = get_hook_method("delete_file_data_content")',
 	),
 	(
 		"A stored file's URL is counted as remote",
 		"`/api/method/` is in URL_PREFIXES, so Frappe's disk checks pass our URLs by",
-		"onedesk/one_storage/store.py",
+		"onedesk/one_cloud/store.py",
 		"frappe/frappe/core/doctype/file/file.py",
 		'URL_PREFIXES = ("http://", "https://", "/api/method/")',
 	),
@@ -2791,7 +2791,7 @@ OVERRIDES = [
 	(
 		"A stored file keeps the hash of its content",
 		"frappe's File.validate empties content_hash for a file at a URL, a stored file's included; CloudFile.validate puts back the hash store.write took of the bytes it stored in that save",
-		"onedesk/one_storage/file.py",
+		"onedesk/one_cloud/file.py",
 		"frappe/frappe/core/doctype/file/file.py",
 		"self.content_hash = None",
 	),
@@ -2875,28 +2875,28 @@ OVERRIDES = [
 	(
 		"A stock revaluation's working file stays on disk",
 		"store.write keeps a Repost Item Valuation's reposting_data_file on disk (IN_PLACE): ERPNext's create_json_gz_file rewrites it by opening get_full_path, which an R2 file does not have",
-		"onedesk/one_storage/store.py",
+		"onedesk/one_cloud/store.py",
 		"erpnext/erpnext/stock/stock_ledger.py",
 		"path = file_doc.get_full_path()",
 	),
 	(
 		"File reads a stored file's content from R2",
 		"Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail",
-		"onedesk/one_storage/file.py",
+		"onedesk/one_cloud/file.py",
 		"frappe/frappe/core/doctype/file/file_v1.py",
 		"with open(file_path, mode=\"rb\") as f:",
 	),
 	(
 		"A stored file is decoded the way Frappe decodes one",
 		"text as text and anything else as bytes, by the same constants",
-		"onedesk/one_storage/file.py",
+		"onedesk/one_cloud/file.py",
 		"frappe/frappe/core/doctype/file/file.py",
 		"OLE_FILE_SIGNATURE = ",
 	),
 	(
 		"File.validate_private_file_access: may this user name a private file's URL",
 		"Frappe asks its own File permission of the first row with that URL, which knows nothing of a folder shared with the reader, so copying a shared file out was refused; any row namespace.may lets them open will do",
-		"onedesk/one_storage/file.py",
+		"onedesk/one_cloud/file.py",
 		"frappe/frappe/core/doctype/file/file.py",
 		"def validate_private_file_access(self):",
 	),
@@ -2966,28 +2966,28 @@ OVERRIDES = [
 	(
 		"OneCloud redraws on its own event in File's socket room",
 		"a list view's frappe.realtime.off(\"list_update\") unbinds every listener on that event, so live.py sends onecloud_change to the room doctype_subscribe(\"File\") joins",
-		"onedesk/one_storage/live.py",
+		"onedesk/one_cloud/live.py",
 		"frappe/frappe/public/js/frappe/list/list_view.js",
 		'frappe.realtime.off("list_update");',
 	),
 	(
 		"The upload dialog gains OneCloud",
 		"onecloud_picker.js adds an option through FileUploader.UploadOptions, which Frappe renders as a button beside My Device and hands the dialog, the mounted uploader and the doctype, name and field",
-		"onedesk/public/js/one_storage/onecloud_picker.js",
+		"onedesk/public/js/one_cloud/onecloud_picker.js",
 		"frappe/frappe/public/js/frappe/file_uploader/file_uploader.bundle.js",
 		"static UploadOptions = [];",
 	),
 	(
 		"The upload dialog's Library is turned off",
 		"onecloud_picker.js subclasses frappe.ui.FileUploader to pass disable_file_browser: Library browsed Frappe's folder tree under Frappe's File permission, which knows nothing of OneCloud's shares",
-		"onedesk/public/js/one_storage/onecloud_picker.js",
+		"onedesk/public/js/one_cloud/onecloud_picker.js",
 		"frappe/frappe/public/js/frappe/file_uploader/FileUploader.vue",
 		'v-if="!disable_file_browser"',
 	),
 	(
 		"An upload through the dialog with no record lands in My Files",
 		"CloudFile.set_folder_name puts upload_file's loose files in the uploader's home before File's own, which would put them in Home, OneCloud's Company",
-		"onedesk/one_storage/file.py",
+		"onedesk/one_cloud/file.py",
 		"frappe/frappe/core/doctype/file/file.py",
 		"def set_folder_name(self):",
 	),
@@ -3001,21 +3001,21 @@ OVERRIDES = [
 	(
 		"WebDAV lives at /api/method/<name>/<path>",
 		"Frappe keeps only the part before the first slash as the method, so dav.serve gets every path under it and reads the rest from the request",
-		"onedesk/one_storage/dav.py",
+		"onedesk/one_cloud/dav.py",
 		"frappe/frappe/api/v1.py",
 		'method = method.split("/")[0]',
 	),
 	(
 		"Frappe answers OPTIONS before any method runs",
 		"so dav.headers (after_request) adds DAV: 1, 2 and answers an authenticated OPTIONS 200, which Finder sends and Frappe cannot sign in",
-		"onedesk/one_storage/dav.py",
+		"onedesk/one_cloud/dav.py",
 		"frappe/frappe/app.py",
 		'if request.method == "OPTIONS":',
 	),
 	(
 		"A drive password signs in before Frappe's API-key check",
 		"Frappe reads any Basic header as an API key and refuses the request if it is not one; dav.sign_in runs in before_request, which Frappe calls before validate_auth, and removes the header once it has signed the person in",
-		"onedesk/one_storage/dav.py",
+		"onedesk/one_cloud/dav.py",
 		"frappe/frappe/app.py",
 		'for before_request_task in frappe.get_hooks("before_request"):',
 	),
@@ -3441,7 +3441,7 @@ ASKS = {
 		'CloudFile.get_content/make_thumbnail/exists_on_disk branch on store.is_stored and otherwise call super(); only the stored-file branch is ours. Propose a `read_file` hook in File.get_content (and make_thumbnail/exists_on_disk) symmetric to write_file/delete_file_data_content; then these three overrides drop.'
 	),
 	'A stored file is decoded the way Frappe decodes one': (
-		'one_storage.file.decoded copies the 8-line decode loop of File.get_content (filetype.guess, OLE_FILE_SIGNATURE, FILE_ENCODING_OPTIONS). Propose frappe factor it into a module function (e.g. decode_file_bytes(content, encodings)) that get_content calls; ours then imports it.'
+		'one_cloud.file.decoded copies the 8-line decode loop of File.get_content (filetype.guess, OLE_FILE_SIGNATURE, FILE_ENCODING_OPTIONS). Propose frappe factor it into a module function (e.g. decode_file_bytes(content, encodings)) that get_content calls; ours then imports it.'
 	),
 	"A report's chart of one period is drawn as bars": (
 		"one_period_bars wraps get_chart_options and calls the original. Propose in frappe QueryReport.get_chart_options: when options.type is 'line' and data.labels.length === 1, draw 'bar' (frappe-charts draws nothing for a one-point line); the '<0' -> Not Yet Due relabel stays ours (erpnext wording)."

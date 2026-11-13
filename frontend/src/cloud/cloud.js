@@ -1,13 +1,13 @@
-// What OneCloud's parts share (one_storage/api.py): what a kind of file is
+// What OneCloud's parts share (one_cloud/api.py): what a kind of file is
 // called and drawn as, where a node is, and what may be dropped where.
 import { __, date, fileSize } from "../kit";
 
-export const API = "onedesk.one_storage.api.";
-export const UPLOAD = "onedesk.one_storage.upload.";
+export const API = "onedesk.one_cloud.api.";
+export const UPLOAD = "onedesk.one_cloud.upload.";
 export const contentUrl = (node) => `/api/method/${API}content?node=${encodeURIComponent(node)}`;
-export const officeUrl = (node) => `/api/method/onedesk.one_storage.office.preview?node=${encodeURIComponent(node)}`;
+export const officeUrl = (node) => `/api/method/onedesk.one_cloud.office.preview?node=${encodeURIComponent(node)}`;
 
-// A folder's colour (one_storage/api.py color), its ink written out whole so
+// A folder's colour (one_cloud/api.py color), its ink written out whole so
 // the stylesheet is built with it.
 export const COLORS = [
 	{ value: "red", label: () => __("Red"), ink: "text-ink-red-7" },
@@ -59,12 +59,12 @@ export function viewedAs(item) {
 	return Object.keys(READS).find((kind) => READS[kind].includes(ext)) || null;
 }
 
-// What OneOS opens (one_storage/oneos.py OPENS): office files and CSV, but
+// What OneOS opens (one_cloud/oneos.py OPENS): office files and CSV, but
 // not One's own workbooks, documents and presentations.
 export const opensInOneOS = (item) =>
 	!!item && !item.folder && !!item.url && !item.workbook && !item.document && !item.presentation && [...READS.office, "csv"].includes(extension(item));
 
-// The icons a node names for itself (one_storage/namespace.py), written out
+// The icons a node names for itself (one_cloud/namespace.py), written out
 // whole so the build keeps each one.
 const NAMED = {
 	"folder-heart": "lucide-folder-heart",

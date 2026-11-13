@@ -262,7 +262,7 @@ def test_an_extension_is_nobody_elses_to_share_attach_or_save():
 	assert "frm.disable_save();" in form and ".form-shared" in form and ".form-attachments" in form
 	listed = (STUDIO / "doctype" / "extension" / "extension_list.js").read_text()
 	assert "hide_name_column: true" in listed and "hide_name_filter: true" in listed
-	files = (tree.APP / "one_storage" / "namespace.py").read_text()
+	files = (tree.APP / "one_cloud" / "namespace.py").read_text()
 	assert '"leaves_out": ("File", "Extension", "Record Type")' in files
 	ai = (STUDIO / "ai.py").read_text()
 	assert '"expects": "extension_mistakes"' in ai and '_lt("Change this one…")' in ai

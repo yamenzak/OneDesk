@@ -1,6 +1,6 @@
 // A PDF read in the page with PDF.js (pdfjs-dist, Apache-2.0), loaded only
 // when one is opened. Its bytes come from OneCloud's own address
-// (one_storage/api.py content), since the store's may not be read by a page.
+// (one_cloud/api.py content), since the store's may not be read by a page.
 import { contentUrl } from "./cloud";
 
 let library = null;

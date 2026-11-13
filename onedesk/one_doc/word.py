@@ -233,7 +233,7 @@ def dropped(content: bytes, heard: list, own: bool) -> list[str]:
 	"""What OneWriter does not keep of a Word file, but for the styles
 	`build` writes itself; a document of One's own never had fonts and
 	colours to lose."""
-	from onedesk.one_storage import fidelity
+	from onedesk.one_cloud import fidelity
 
 	return fidelity.document(content, heard, built=("Quote", *BULLETS, *NUMBERS), formatting=not own)
 
@@ -246,7 +246,7 @@ def write(name: str, content: bytes) -> None:
 	keep the fields' values and lose the fields. What the Word file had that
 	the document does not keep is noted on it, shown when it next opens."""
 	from onedesk.one_doc import versions
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	item = api._may(name, "write")
 	saving.check(api.DOCUMENT, name, item)
@@ -271,7 +271,7 @@ def open_file(file: str) -> dict:
 	"""The document that edits a .docx File in place, made the first time it
 	is opened from the File's content. What is written is put back into the
 	File when the editor is left (write_back)."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	item = ns.row(file)
 	if not item or item.get("is_folder") or item.get("one_deleted_on") or not ns.may(item, "read"):
@@ -286,7 +286,7 @@ def open_file(file: str) -> dict:
 		made.flags.ignore_permissions = True
 		made.insert()
 		held = made.name
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	content = frappe.get_doc("File", file).get_content()
 	heard = []
@@ -299,11 +299,11 @@ def open_file(file: str) -> dict:
 @frappe.whitelist(methods=["POST"])
 def write_back(name: str, choice: str = "", edited: int = 1) -> dict:
 	"""What was written in a .docx File's document, as the File's content:
-	what it held before is kept as a version (one_storage/history.py). When
+	what it held before is kept as a version (one_cloud/history.py). When
 	that would drop parts of the file, it waits for the reader's `choice`,
-	over or copy (one_storage/saving.py); `edited` says whether anything
+	over or copy (one_cloud/saving.py); `edited` says whether anything
 	was written beyond the editor's first paint."""
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	item = api._may(name, "write")
 	if frappe.db.get_value(api.DOCUMENT, name, "source_kind") != "docx":
@@ -316,7 +316,7 @@ def file_replaced(file: str) -> None:
 	"""A new version of a .docx File put in from outside the editor: its
 	document reads it in again the next time it is opened, or, holding
 	changes that waited for a choice, is kept as a copy instead."""
-	from onedesk.one_storage import saving
+	from onedesk.one_cloud import saving
 
 	name = None if frappe.flags.one_writing_back else of_file(file)
 	if name and not saving.set_aside(api.DOCUMENT, name, api.URL):

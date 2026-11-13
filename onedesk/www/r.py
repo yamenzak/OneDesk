@@ -1,14 +1,14 @@
 """The page a file request's link opens: /r/<token>.
 
 A checklist of the files asked for, each with a place to send it. Everything
-it does goes through one_storage/file_requests.py; this only draws.
+it does goes through one_cloud/file_requests.py; this only draws.
 """
 
 import frappe
 from frappe import _
 from frappe.utils import get_fullname
 
-from onedesk.one_storage import file_requests
+from onedesk.one_cloud import file_requests
 
 no_cache = 1
 

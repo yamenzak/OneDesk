@@ -10,7 +10,7 @@ import os
 
 import frappe
 
-from onedesk.one_storage import store
+from onedesk.one_cloud import store
 
 QUALITY = 92
 MADE = "one_slide:sized:{0}:{1}"

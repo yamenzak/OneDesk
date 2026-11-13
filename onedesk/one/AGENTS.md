@@ -1080,7 +1080,7 @@ The administrators hear each morning of any that gave up the day before.
 - `before_request` and `after_request`: OneCloud as a network drive. A drive
   password signs a person in on the drive's address before Frappe's API-key
   check would refuse it, and Frappe answers OPTIONS before any method runs, so
-  the headers a WebDAV client looks for are added after (one_storage/dav.py).
+  the headers a WebDAV client looks for are added after (one_cloud/dav.py).
   frappe's webhook sender is guarded against internal addresses and redirects
   to them wherever a webhook may be sent from, a request or a job
   (one/webhooks.py).

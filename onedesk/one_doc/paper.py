@@ -228,8 +228,8 @@ def pdf(name: str, letter_head: str | None = None, landscape: int = 0, keep: str
 def _keep(name: str, item: dict, file_name: str, content: bytes, keep: str) -> dict:
 	"""The PDF as a File: on the record the document belongs to, or beside it
 	in its folder."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	fields = {"doctype": "File", "content": content, "is_private": 1}
 	doc = record_of(name)
@@ -282,7 +282,7 @@ def fields_of(name: str) -> list[dict]:
 def on_record(doctype: str, name: str) -> list[dict]:
 	"""The documents on a record the reader may open, for the record's print
 	page: those filed on it and those that are its text."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	if not frappe.has_permission(doctype, "read", name):
 		return []

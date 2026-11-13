@@ -348,7 +348,7 @@ def test_a_message_opens_only_for_its_holders_and_a_link_never_grants_read():
 
 
 def test_attachments_are_in_onecloud_by_mailbox_not_under_records():
-	ns = (tree.APP / "one_storage" / "namespace.py").read_text()
+	ns = (tree.APP / "one_cloud" / "namespace.py").read_text()
 	assert 'virtual(MAIL, _("Mail")' in ns
 	unlisted = ns.split("UNLISTED = frozenset(", 1)[1].split("# fmt: skip", 1)[0]
 	assert '"Communication"' in unlisted, "a message's files are not listed again under Records"

@@ -19,7 +19,7 @@ KEPT = ("content", "html", "settings")
 def folder() -> str:
 	"""The Document Templates folder in the company's files, made the first
 	time it's needed."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	found = frappe.db.get_value("File", {"is_folder": 1, "folder": ns.HOME, "file_name": FOLDER_NAME})
 	if found:
@@ -35,7 +35,7 @@ def folder() -> str:
 def listed(html: int = 0) -> list[dict]:
 	"""The templates the reader may use, by title; with `html`, what each
 	says, for putting one into a document that is open."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	out = []
 	fields = ["name", "file", "html"] if frappe.utils.cint(html) else ["name", "file"]
@@ -57,8 +57,8 @@ def content_of(template: str) -> dict:
 
 def make(title: str, values: dict) -> str:
 	"""A template in the Document Templates folder; its name."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	where = folder()
 	title = api._titled(title) or _("Untitled Template")

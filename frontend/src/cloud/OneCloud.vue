@@ -132,7 +132,7 @@
 </template>
 
 <script setup>
-// OneCloud (one_storage/api.py) as Explorer has it: the folders as a tree,
+// OneCloud (one_cloud/api.py) as Explorer has it: the folders as a tree,
 // what is in the one open as Details or Tiles, what is chosen beside it, and
 // the keys, menus, cut, copy and paste, rename in place and dragging that
 // Explorer has. On its own page it is on the window (onedesk/one_interface/AGENTS.md): the
@@ -573,7 +573,7 @@ function combine() {
     ],
     async ({ name, files: rows }) => {
       if (!rows?.length) return;
-      const made = await call("onedesk.one_storage.pdf.combine", { nodes: rows.map((row) => row.node), target: node.value, name });
+      const made = await call("onedesk.one_cloud.pdf.combine", { nodes: rows.map((row) => row.node), target: node.value, name });
       alert(__("Combined into {0}.", [made.name]));
       reveal = made.id;
       refresh();
@@ -605,7 +605,7 @@ function makeWithAI(kind) {
     async ({ description, shape, voice, name }) => {
       const later = kind === "music" || kind === "video";
       if (!later) alert(__("OneAI is making it…"), "blue");
-      const made = await call("onedesk.one_storage.made.create", {
+      const made = await call("onedesk.one_cloud.made.create", {
         kind,
         target,
         description,
@@ -887,7 +887,7 @@ async function act(name) {
       return cloud().mount(picked[0], dialogsGo);
     case "mount-drop":
       return confirm(__("Disconnect {0}? Files on the server stay as they are.", [picked[0].name]), async () => {
-        await call("onedesk.one_storage.mounts.disconnect", { node: picked[0].id });
+        await call("onedesk.one_cloud.mounts.disconnect", { node: picked[0].id });
         forget("@mounts");
         refresh();
       });
@@ -927,7 +927,7 @@ async function act(name) {
     }
     case "star":
     case "unstar":
-      await call("onedesk.one_storage.history.star", { nodes: ids, on: name === "star" ? 1 : 0 });
+      await call("onedesk.one_cloud.history.star", { nodes: ids, on: name === "star" ? 1 : 0 });
       return refresh();
     case "new-version":
       if (picked.length !== 1 || picked[0].folder) return;
@@ -937,13 +937,13 @@ async function act(name) {
       return combine();
     case "to-pdf": {
       alert(__("Converting {0}…", [picked[0].name]), "blue");
-      const made = await call("onedesk.one_storage.office.to_pdf", { node: picked[0].id });
+      const made = await call("onedesk.one_cloud.office.to_pdf", { node: picked[0].id });
       alert(__("Converted to {0}.", [made.name]));
       reveal = made.id;
       return refresh();
     }
     case "oneos-close":
-      await call("onedesk.one_storage.oneos.close", { node: picked[0].id });
+      await call("onedesk.one_cloud.oneos.close", { node: picked[0].id });
       alert(__("{0} closed in OneOS.", [picked[0].name]));
       return refresh();
     case "download":
@@ -1025,7 +1025,7 @@ const APPS = { workbook: "OneWorkbook", document: "OneWriter" };
 
 async function weigh(one) {
   if (Array.isArray(one.office.loses) && !one.office.loses.length) return { loses: [] };
-  const said = await call("onedesk.one_storage.opening.weigh", { node: one.id });
+  const said = await call("onedesk.one_cloud.opening.weigh", { node: one.id });
   one.office.loses = said.loses;
   return said;
 }
@@ -1047,7 +1047,7 @@ async function editHere(one) {
 
 async function oneCopy(one) {
   alert(__("Copying {0} into One…", [one.name]), "blue");
-  const made = await call("onedesk.one_storage.opening.one_copy", { node: one.id });
+  const made = await call("onedesk.one_cloud.opening.one_copy", { node: one.id });
   alert(__("Copied into One as {0}.", [made.name]));
   if (made.workbook) return goTo("workbook", made.workbook);
   goTo("document", made.document);
@@ -1072,7 +1072,7 @@ function ownChoices(one, kind) {
   const choices = [{ label: __("Edit in {0}", [OWN[kind].app]), short: __("Edit"), icon: "lucide-pencil", onClick: () => goTo(kind, one[kind]) }];
   if (oneosOffer.value) choices.push(oneOSChoice(one));
   const name = one.name.toLowerCase().endsWith(OWN[kind].suffix) ? one.name : one.name + OWN[kind].suffix;
-  const exported = { ...one, name, url: `/api/method/onedesk.one_storage.opening.download?node=${encodeURIComponent(one.id)}` };
+  const exported = { ...one, name, url: `/api/method/onedesk.one_cloud.opening.download?node=${encodeURIComponent(one.id)}` };
   choices.push({ label: OWN[kind].download(), short: OWN[kind].download(), icon: "lucide-download", quiet: true, onClick: () => download([exported]) });
   return choices;
 }
@@ -1231,7 +1231,7 @@ async function openInOneOS(item, copy = 0) {
   const tab = openTab("");
   let said;
   try {
-    said = await call("onedesk.one_storage.oneos.start", { node: item.id, copy });
+    said = await call("onedesk.one_cloud.oneos.start", { node: item.id, copy });
   } catch (failed) {
     tab?.close();
     throw failed;
@@ -1489,7 +1489,7 @@ async function send(row) {
       form.append("replace", row.replace || 0);
       if (row.version_of) form.append("version_of", row.version_of);
       form.append("file", row.file, row.file.name);
-      await xhr("POST", "/api/method/onedesk.one_storage.upload.here", form, row, { "X-Frappe-CSRF-Token": csrf(), Accept: "application/json" });
+      await xhr("POST", "/api/method/onedesk.one_cloud.upload.here", form, row, { "X-Frappe-CSRF-Token": csrf(), Accept: "application/json" });
     }
     row.state = "done";
     row.sent = row.file.size;

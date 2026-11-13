@@ -160,7 +160,7 @@ def _content(src: str) -> bytes | None:
 
 
 def _stored(file_id: str, url: str) -> bytes:
-	from onedesk.one_storage import store
+	from onedesk.one_cloud import store
 
 	if store.is_stored(url):
 		return store.get(store.key_of(url))

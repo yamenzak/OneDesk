@@ -64,7 +64,7 @@ def presentation_of(url: str | None) -> str | None:
 
 
 def _file(name: str) -> dict:
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	held = frappe.db.get_value(PRESENTATION, name, ["file", "is_template", "master_of"], as_dict=True)
 	if held and held.master_of:
@@ -77,7 +77,7 @@ def _file(name: str) -> dict:
 
 
 def _may(name: str, ptype: str = "read") -> dict:
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	item = _file(name)
 	if not ns.may(item, ptype):
@@ -101,8 +101,8 @@ def make(parent: str, title: str | None = None, template: str | None = None, wid
 	title slide or a copy of a saved template, at the size asked (the
 	template's own when none is), and the node the explorer draws."""
 	from onedesk.one_slide import resize
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	where = cloud._target(parent)
 	if where[0] == "mount":
@@ -205,7 +205,7 @@ def _system() -> set:
 @frappe.read_only()
 def listed() -> list[dict]:
 	"""The presentations kept as templates that the reader may use, by title."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	from onedesk.one_slide import decks
 
@@ -223,7 +223,7 @@ def listed() -> list[dict]:
 def search(doctype: str, txt: str, searchfield: str, start: int, page_len: int, filters=None, **kwargs) -> list:
 	"""Presentations the person picking may open, for a field that links a
 	presentation's File (a slide playlist's row): its name and its title."""
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	found = []
 	for one in frappe.get_all(
@@ -251,7 +251,7 @@ def get(name: str, doctype: str | None = None) -> dict:
 
 def _loaded(name: str, item: dict) -> dict:
 	from onedesk.one import rights
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	doc = frappe.get_doc(PRESENTATION, name).as_dict(no_default_fields=False)
 	doc["title"] = item["file_name"]
@@ -284,7 +284,7 @@ def _loaded(name: str, item: dict) -> dict:
 @frappe.whitelist()
 @frappe.read_only()
 def get_editor_access(presentation_id: str, doctype: str | None = None) -> str:
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	try:
 		item = _may(presentation_id, "read")
@@ -365,8 +365,8 @@ def rename_presentation(name: str, title: str) -> dict:
 
 def _retitle(name: str, item: dict, title: str | None) -> None:
 	"""The File's name is the presentation's title, kept unique in its folder."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import api as cloud
+	from onedesk.one_cloud import namespace as ns
 
 	title = _titled(title)
 	if not title or title == item["file_name"]:
@@ -407,7 +407,7 @@ def get_templates() -> list[dict]:
 		fields=["name", "parent", "idx", "client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after"],
 		order_by="parent asc, idx asc",
 	)
-	from onedesk.one_storage import namespace as ns
+	from onedesk.one_cloud import namespace as ns
 
 	system = _system()
 	files = dict(frappe.get_all(PRESENTATION, filters={"is_template": 1}, fields=["name", "file"], as_list=True))
@@ -618,7 +618,7 @@ def _sent(id: str, file_name: str | None, cache: str, copy: dict | None = None):
 	`copy` is a smaller copy of a picture to send instead (sized.py)."""
 	from werkzeug.utils import redirect, send_file
 
-	from onedesk.one_storage import store
+	from onedesk.one_cloud import store
 
 	if copy and copy.get("key"):
 		return redirect(store.signed(copy["key"], filename=file_name), 302)

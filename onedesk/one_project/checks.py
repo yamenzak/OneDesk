@@ -172,7 +172,7 @@ def oneproject_samir_runs_a_project():
 		tree,
 		updates,
 	)
-	from onedesk.one_storage import upload
+	from onedesk.one_cloud import upload
 
 	with as_user("samir@one.test"):
 		assert "huda@one.test" in {one["user"] for one in team.add(VILLA, "huda@one.test")["people"]}
@@ -1110,7 +1110,7 @@ def oneproject_a_day_on_site_and_the_projects_pictures():
 		attendance.cancel()
 	assert frappe.db.get_value("Timesheet", sheet, "docstatus") == 2, "the day went with its attendance"
 
-	from onedesk.one_storage import upload
+	from onedesk.one_cloud import upload
 
 	with as_user("samir@one.test"):
 		upload._place(media.node(VILLA), None, {"file_name": "Dusk on site.png", "content": _png(sky=(250, 196, 140))})
