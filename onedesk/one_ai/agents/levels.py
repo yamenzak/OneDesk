@@ -20,10 +20,24 @@ def declared(app: str) -> dict:
 
 
 def of(app: str, action: str) -> str:
-	"""The level an app's agent works at for one action: as declared, else
-	Ask First. A workspace raising one comes with AICenter (P8.2)."""
+	"""The level an app's agent works at for one action: as the workspace
+	chose in AICenter (workspace.py), else as declared, else Ask First."""
+	from onedesk.one_ai.agents import workspace
+
+	level = workspace.chosen_level(app, action) if action in actions(app) else None
+	if level in LEVELS:
+		return level
 	level = declared(app).get(action)
 	return level if level in LEVELS else CAUTIOUS
+
+
+def actions(app: str) -> tuple[str, ...]:
+	"""Every action an app's agent has: each call REACH names, then each tool."""
+	try:
+		agent = importlib.import_module(f"onedesk.{app}.agent")
+	except ModuleNotFoundError:
+		return ()
+	return tuple(dict.fromkeys([*getattr(agent, "REACH", {}), *getattr(agent, "TOOLS", ())]))
 
 
 def unlevelled(source: str) -> list[str]:

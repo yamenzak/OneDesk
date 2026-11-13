@@ -1,0 +1,5 @@
+/* AICenter › an agent: a level at a row's end is wider than a number. */
+.one-ai-center .one-set-level .frappe-control,
+.one-ai-center .one-set-level .form-group {
+	width: calc(var(--spacing) * 30);
+}

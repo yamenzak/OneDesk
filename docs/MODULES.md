@@ -609,6 +609,11 @@ No doctypes yet.
 * `onedesk.one_ai.chat.start`
 * `onedesk.one_ai.chat.suggestions`
 * `onedesk.one_ai.files.attached`
+* `onedesk.one_ai.office.agent`
+* `onedesk.one_ai.office.set_level`
+* `onedesk.one_ai.office.set_limit`
+* `onedesk.one_ai.office.set_on`
+* `onedesk.one_ai.office.team`
 * `onedesk.one_ai.reading.act.settle`
 * `onedesk.one_ai.reading.act.undo`
 * `onedesk.one_ai.reading.act.undo_one`

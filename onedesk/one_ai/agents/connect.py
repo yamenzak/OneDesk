@@ -55,9 +55,12 @@ def host() -> str:
 def wake(app: str, event: dict, asked_by: str | None = None) -> bool:
 	"""Hand an event to an app's agent on the Worker: signed for the agents'
 	way, for this agent and this body, for a minute. False when agents are
-	not set up or the Worker did not take it."""
+	not set up, are turned off or this one is over its credits
+	(workspace.py), or the Worker did not take it."""
+	from onedesk.one_ai.agents import workspace
+
 	said = config()
-	if not on():
+	if not on() or workspace.refusal(app):
 		return False
 	body = json.dumps({**event, "host": host()})
 	claims = {"aud": "agents", "ws": said["workspace"], "agent": app, **({"for": asked_by} if asked_by else {})}

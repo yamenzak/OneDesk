@@ -12,7 +12,7 @@ from frappe import _
 from frappe.utils import flt
 
 from onedesk.one.registry import agents
-from onedesk.one_ai.agents import levels
+from onedesk.one_ai.agents import levels, workspace
 from onedesk.one_ai.reading import act, mark
 
 DRAFTS = ("Create",)
@@ -21,10 +21,13 @@ DRAFTS = ("Create",)
 def act_for(app: str, name: str, action: act.Action, asked_by: str | None = None, reading=None) -> str | None:
 	"""Do, draft or propose one action of an app's agent; `name` is the
 	action as LEVELS names it. Answers the Reading Action row, or None when
-	the same action was already taken and nothing changes."""
+	the same action was already taken and nothing changes. Refused, with
+	the reason, while agents are off or this one is over its month's
+	credits (workspace.py), and nothing is written, so it can come again."""
 	agent = agents.get(app)
 	if not agent or action.kind not in act.KINDS:
 		raise ValueError(f"{app} has no agent that can {action.kind}")
+	workspace.refuse(app)
 	level = levels.of(app, name)
 	key = act.key_of(reading.key if reading else f"agent|{app}|{name}", action)
 	held = frappe.db.get_value("Reading Action", {"key": key}, "name")
@@ -87,7 +90,7 @@ def drafted(action: act.Action) -> act.Action:
 
 def approver(app: str) -> str | None:
 	"""Who an agent working on its own asks first: the first person turned on
-	who manages its app (AICenter names one with P8.2)."""
+	who manages its app, as AICenter shows."""
 	from onedesk.one import registry
 
 	managed = registry.get(app).roles.manager

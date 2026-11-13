@@ -10,7 +10,7 @@ import frappe
 from frappe.rate_limiter import rate_limit
 
 from onedesk.one.registry import agents
-from onedesk.one_ai.agents import connect, token
+from onedesk.one_ai.agents import connect, token, workspace
 
 HEADER = "X-One-Agent-Token"
 CALLS_A_MINUTE = 120
@@ -47,5 +47,6 @@ def tool(tool: str | None = None, args: dict | None = None):
 			raise token.Refused("asked by nobody here")
 	except token.Refused:
 		frappe.throw(frappe._("Not allowed."), frappe.PermissionError)
+	workspace.refuse(agent.app)
 	frappe.set_user(agent.email)
 	return run(**(frappe.parse_json(args) or {}), asked_by=asked_by)
