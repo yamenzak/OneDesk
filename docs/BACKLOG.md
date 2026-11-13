@@ -6,6 +6,8 @@ module's README says what it does.
 
 ## Due now
 
+- OneCalendar on a phone: its header cuts its own name to "OneCal…" beside Today and the arrows; the name wraps or the controls fold under it (seen 13 Nov at 390).
+
 - UpdateCenter's window before OneAdmin has answered: Workspace Account's update_weekday and update_hour are Int, so a workspace that never heard from OneAdmin shows Monday at 00:00 rather than OneAdmin's Saturday 01:00. Read the window as unknown until update_at or a hello says it (one/update_window.plainly). Seen on run.localhost, 13 Nov.
 
 - **Rebuild the demo on a fresh site.** Five checks read dates relative to

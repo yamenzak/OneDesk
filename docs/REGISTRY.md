@@ -113,16 +113,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 2.2.0 |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | not yet |
-| 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 7. Our look | 81 | in 2.2.0 |
+| 11. Notifications | 10 | in 2.2.0 |
+| 13. Plain words | 24 | in 2.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | not yet |
+| 19. Legal | 16 | in 2.2.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -191,16 +191,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 1.4.0 |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | not yet |
-| 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 7. Our look | 81 | in 1.4.0 |
+| 11. Notifications | 10 | in 1.4.0 |
+| 13. Plain words | 24 | in 1.4.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | not yet |
+| 19. Legal | 16 | in 1.4.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -217,16 +217,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 1.3.0 |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | not yet |
-| 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 7. Our look | 81 | in 1.3.0 |
+| 11. Notifications | 10 | in 1.3.0 |
+| 13. Plain words | 24 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | not yet |
+| 19. Legal | 16 | in 1.3.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -243,16 +243,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 1.4.0 |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | not yet |
-| 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 7. Our look | 81 | in 1.4.0 |
+| 11. Notifications | 10 | in 1.4.0 |
+| 13. Plain words | 24 | in 1.4.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | not yet |
+| 19. Legal | 16 | in 1.4.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -269,16 +269,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 2.3.0 |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | not yet |
-| 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 7. Our look | 81 | in 2.3.0 |
+| 11. Notifications | 10 | in 2.3.0 |
+| 13. Plain words | 24 | in 2.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | not yet |
+| 19. Legal | 16 | in 2.3.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -295,16 +295,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 1.2.0 |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | not yet |
-| 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 7. Our look | 81 | in 1.2.0 |
+| 11. Notifications | 10 | in 1.2.0 |
+| 13. Plain words | 24 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | not yet |
+| 19. Legal | 16 | in 1.2.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -321,16 +321,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | not yet |
+| 1. Demo and tests | 14 | in 2.7.0 |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 81 | not yet |
-| 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 7. Our look | 81 | in 2.7.0 |
+| 11. Notifications | 10 | in 2.7.0 |
+| 13. Plain words | 24 | in 2.7.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | not yet |
+| 19. Legal | 16 | in 2.7.0 |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
