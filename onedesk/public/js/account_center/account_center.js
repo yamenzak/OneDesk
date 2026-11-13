@@ -1714,7 +1714,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 
 // The sections, in order, each with what it is for under its title. The
 // server says which the reader may open and what each is called.
-onedesk.account_center.SECTIONS = [
+onedesk.account_center.sections = () => [
 	{ id: "profile", about: __("Your name, photo, bio and language.") },
 	{ id: "personal", about: __("Where you live, who to call and the details only HR sees.") },
 	{ id: "work", about: __("Your job as HR keeps it, and your education and past work.") },
@@ -1757,7 +1757,7 @@ onedesk.centers.declare("account", {
 		const named = { yours: __("Yours"), workspace: __("Workspace") };
 		return Object.entries(named).map(([group, label]) => ({
 			group: label,
-			items: onedesk.account_center.SECTIONS.filter((one) => allowed[one.id] && allowed[one.id].group === group).map((one) => ({
+			items: onedesk.account_center.sections().filter((one) => allowed[one.id] && allowed[one.id].group === group).map((one) => ({
 				id: one.id,
 				label: allowed[one.id].label,
 				icon: allowed[one.id].icon,

@@ -105,11 +105,9 @@
 }
 
 .one-set .one-set-sub {
-	overflow: hidden;
 	color: var(--one-ink-muted);
 	font-size: var(--text-sm);
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	overflow-wrap: anywhere;
 }
 
 .one-set .one-set-end {

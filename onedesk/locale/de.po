@@ -18607,7 +18607,7 @@ msgstr "Alle im Arbeitsbereich"
 
 #: onedesk/public/js/account_center/account_center.js:1710
 msgid "Everyone in the workspace, and inviting someone new."
-msgstr "Alle Personen im Workspace und neue Einladungen."
+msgstr "Alle Personen im Arbeitsbereich und neue Einladungen."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:683
 msgid "Everyone listed can read, and those with Send can send from this mailbox too."
