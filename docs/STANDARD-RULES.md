@@ -23,6 +23,8 @@ A person looks: the demo company uses every part of it and nothing in the demo m
 - `demo-apps`: an app People gives that nobody in the demo company is given (`tests/guards/test_demo.py::test_every_app_people_gives_is_given_to_somebody_in_the_demo`)
 - `demo-suite`: an integration suite that writes, or checks next to nothing (`tests/guards/test_demo.py::test_the_suite_checks_and_writes_nothing`)
 - `checks-read-what-is-there`: a demo check reading a name its module no longer has, which only a run on a demo site would find (`tests/guards/test_reaches.py::test_a_check_reads_only_names_that_are_there`)
+- `screens-opened-as-people`: a screen no browser check opens as a person of the demo company (`tests/guards/test_browser.py::test_every_screen_is_opened_as_a_demo_person`)
+- `makes-not-stale`: a kind of record declared made that nothing makes any more (`tests/guards/test_makes_records.py::test_nothing_declared_is_stale`)
 
 ### 2. Rules on the server
 
@@ -31,6 +33,7 @@ A person looks: the demo company uses every part of it and nothing in the demo m
 - `rules-every-way`: a rule with no demo check that changes it by bulk edit, report view and import (`tests/guards/test_rules.py::test_every_rule_is_changed_every_way_on_the_demo`)
 - `rules-no-way-round`: an endpoint writing a field a rule owns with frappe.db.set_value (`tests/guards/test_rules.py::test_no_endpoint_writes_round_a_rule`)
 - `guard-sql-from-input`: a query whose text is built from a function's input or the request rather than passed as parameters (`tests/guards/test_oneguard.py::test_sql_takes_its_values_as_parameters`)
+- `empty-dates-reviewed`: a date comparison added to the reviewed list, which only shrinks (`tests/guards/test_empty_dates.py::test_reviewed_only_shrinks`)
 
 ### 3. Hand-offs
 
@@ -41,6 +44,10 @@ A person looks: the demo company uses every part of it and nothing in the demo m
 
 - `charts-format-through-frappe`: a frappe-ui chart or number card left to print its numbers the browser's way (`tests/guards/test_formats.py::test_every_chart_prints_through_frappe`)
 - `screen-company`: a screen of ours listing a company's records without the reader's company, beyond its count (`tests/guards/test_atlas.py::test_a_screen_lists_the_readers_company`)
+- `no-country-in-generic`: code meant for every workspace that names one country (`tests/guards/test_any_country.py::test_nothing_generic_names_one_country`)
+- `regional-still-needed`: a regional file that no longer needs to be regional (`tests/guards/test_any_country.py::test_every_regional_file_still_needs_it`)
+- `money-says-currency`: a money figure without its currency, left to a heading to say (`tests/guards/test_any_country.py::test_a_money_figure_carries_its_currency`)
+- `tax-other-side`: a taxed figure that does not say the other side of tax on hover (`tests/guards/test_any_country.py::test_a_taxed_figure_says_the_other_side_on_hover`)
 
 ### 5. Settings and setup
 
@@ -48,6 +55,7 @@ A module is held to it before it is marked ready.
 
 - `module-foot`: a module that draws its own settings dialog or foot, or a foot without its version (`tests/guards/test_ready.py::test_a_module_has_one_settings_dialog_and_one_foot`)
 - `setup-declared`: a module that does not say what setting it up takes, or a step nothing saves (`tests/guards/test_ready.py::test_a_module_says_what_setting_it_up_takes`)
+- `centres-open`: a centre that does not open from One's rail and from each module's Settings (`tests/guards/test_ready.py::test_every_centre_opens_from_ones_rail_and_from_each_modules_settings`)
 
 ## Stays desk
 
@@ -55,8 +63,8 @@ A module is held to it before it is marked ready.
 
 - `cards-shown`: a number card that names no record type, which frappe shows to nobody (`tests/guards/test_tiers.py::test_every_number_card_names_the_record_type_it_counts`)
 - `islands-declared`: an island not declared, built and mounted (`tests/guards/test_islands.py::test_every_island_is_declared_built_and_mounted`)
-- `pages-on-shell`: a desk page that is neither an island nor one still leaving the shell (`tests/guards/test_shell.py::test_every_page_is_an_island_or_still_on_the_shell`)
-- `shell-only-shrinks`: a page put on the shell, or a new user of it, after the screen contract (`tests/guards/test_shell.py::test_who_still_uses_the_shell_is_known_and_only_shrinks`)
+- `pages-on-shell`: a desk page that is neither an island nor one still leaving the shell (`tests/guards/test_frame.py::test_every_page_is_an_island_or_still_on_the_shell`)
+- `shell-only-shrinks`: a page put on the shell, or a new user of it, after the screen contract (`tests/guards/test_frame.py::test_who_still_uses_the_shell_is_known_and_only_shrinks`)
 - `heads-declared`: a Record Head not declared in the tier registry (`tests/guards/test_tiers.py::test_every_record_head_is_declared`)
 - `pages-declared`: a page of its own not declared, or declared without why (`tests/guards/test_tiers.py::test_every_page_of_its_own_is_declared`)
 - `collections-declared`: a list, calendar or tree set up and not declared (`tests/guards/test_tiers.py::test_every_collection_set_up_is_declared`)
@@ -64,6 +72,9 @@ A module is held to it before it is marked ready.
 - `views-kept`: a view frappe offers taken away (`tests/guards/test_tiers.py::test_no_view_frappe_offers_is_taken_away`)
 - `screens-declared`: a desk page of ours not declared with what it is (`tests/guards/test_tiers.py::test_every_desk_page_of_ours_is_declared`)
 - `record-tabs-declared`: a record tab drawn outside the one place that draws them (`tests/guards/test_tiers.py::test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place`)
+- `page-opens-view`: a page that opens a frappe view and draws anything of its own (`tests/guards/test_frame.py::test_a_page_that_opens_a_view_only_opens_it`)
+- `shell-loses-pages`: a page put on the shell (`tests/guards/test_frame.py::test_the_shell_only_loses_pages`)
+- `islands-built`: bench build not building the islands (`tests/guards/test_islands.py::test_bench_build_builds_the_islands`)
 
 ### 7. Our look
 
@@ -71,9 +82,9 @@ A module is held to it before it is marked ready.
 
 A person looks: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 
-- `shell-styles-shell`: anything but the shell styling the shell (`tests/guards/test_shell.py::test_only_the_shell_styles_the_shell`)
-- `page-draws-no-shell`: a page drawing a part the shell draws (`tests/guards/test_shell.py::test_a_page_on_the_shell_draws_none_of_its_parts`)
-- `portal-look`: a page outside the desk without the portal (`tests/guards/test_shell.py::test_every_page_outside_the_desk_wears_the_portal`)
+- `shell-styles-shell`: anything but the shell styling the shell (`tests/guards/test_frame.py::test_only_the_shell_styles_the_shell`)
+- `page-draws-no-shell`: a page drawing a part the shell draws (`tests/guards/test_frame.py::test_a_page_on_the_shell_draws_none_of_its_parts`)
+- `portal-look`: a page outside the desk without the portal (`tests/guards/test_frame.py::test_every_page_outside_the_desk_wears_the_portal`)
 - `tabs-across`: a record's views run down the side of the page (`tests/guards/test_record_page.py::test_no_tabs_run_down_the_side`)
 - `tabs-scroll`: a row of tabs that sticks to the top of the page (`tests/guards/test_record_page.py::test_no_tab_row_sticks_to_the_top`)
 - `screen-modelled-on`: a screen of our own that does not name the app it is drawn after (`tests/guards/test_islands.py::test_a_screen_names_the_app_it_follows`)
@@ -82,10 +93,78 @@ A person looks: each screen, as each role, on a desktop and a phone: tokens only
 - `crumb-switch`: a module putting places of its own in the page head, or a crumb that is a menu of its own instead of the searchable switcher (`tests/guards/test_record_page.py::test_every_crumb_is_a_searchable_switcher`)
 - `phone-head`: a phone head that crams the breadcrumb and the page's buttons into one row (`tests/guards/test_record_page.py::test_a_phone_head_is_two_rows`)
 - `atlas-list`: a list that says nothing but a number, beyond each module's count (`tests/guards/test_atlas.py::test_a_list_says_more_than_a_number`)
+- `alerts-one-alert`: an island drawing an alert of its own rather than the kit's OneAlert (`tests/guards/test_alerts.py::test_islands_draw_alerts_with_one_alert`)
+- `alerts-no-tint`: a note of ours tinted amber, red or another colour, rather than the form's grey card (`tests/guards/test_alerts.py::test_no_tinted_note_of_our_own`)
+- `alerts-no-icon`: an icon dropped into a note by hand, rather than onedesk.alert's round one (`tests/guards/test_alerts.py::test_no_icon_dropped_into_a_note`)
+- `icon-margin-sides`: an icon's top or bottom margin set and its sides left on frappe's auto, which floats it off its words (`tests/guards/test_alerts.py::test_an_icon_margin_sets_its_sides`)
+- `figures-stat-card`: a record's head drawing figures other than as frappe's stat card (`tests/guards/test_figures.py::test_a_record_head_draws_frappes_stat_card`)
+- `figures-one-card`: the desk's figure card not reading as frappe-ui's NumberCard (`tests/guards/test_figures.py::test_the_desk_card_reads_as_the_island_card`)
+- `figures-through-kit`: an island drawing figures other than through the kit's Figures (`tests/guards/test_figures.py::test_an_island_draws_figures_through_the_kit`)
+- `shell-makes-its-pages`: a page on the shell that makes its own page (`tests/guards/test_frame.py::test_a_page_on_the_shell_is_made_by_it`)
+- `shell-whole`: the shell missing a part its pages call, or not loaded on every desk page (`tests/guards/test_frame.py::test_the_shell_has_its_parts_and_is_loaded_everywhere`)
+- `shell-old-names`: one of Settings' old part names (os-row, os-card) back in the code (`tests/guards/test_frame.py::test_the_old_names_are_gone`)
+- `icons-current`: fixtures/custom_icon.json not what brand/ makes (`tests/guards/test_generated.py::test_the_icon_fixtures_are_current`)
+- `interface-icons`: a declared tab, field or link with an icon frappe does not draw (`tests/guards/test_interface.py::test_every_icon_is_one_frappe_draws`)
+- `interface-fields-real`: a declared tab or field its record type does not have (`tests/guards/test_interface.py::test_every_tab_and_field_is_its_record_types_own`)
+- `interface-cards-declared`: a head card or track no head row or chart of its module gives (`tests/guards/test_interface.py::test_every_card_and_track_is_a_row_its_module_declares`)
+- `interface-four-cards`: a record's head with more than four cards (`tests/guards/test_interface.py::test_a_head_has_at_most_four_cards`)
+- `interface-strip-real`: a strip counting a field its record type lacks, or naming values it does not have (`tests/guards/test_interface.py::test_a_strip_counts_a_field_its_record_type_has_and_names_only_its_values`)
+- `interface-links-real`: a declared link to a record type that does not exist, or with fields it lacks (`tests/guards/test_interface.py::test_a_link_opens_a_record_type_that_exists_and_carries_real_fields`)
+- `interface-shared-icons`: a shared field or type icon frappe does not draw (`tests/guards/test_interface.py::test_every_shared_icon_is_one_frappe_draws`)
+- `window-one-folder`: the window's files outside js/one_interface and css/one_interface, or not all loaded, after the shell (`tests/guards/test_interface_frame.py::test_the_interface_is_one_folder_loaded_after_the_shell`)
+- `window-places-views`: an adapter placing a view's parts itself rather than handing them to frame.js's view() (`tests/guards/test_interface_frame.py::test_a_view_says_what_it_has_and_the_frame_places_it`)
+- `window-keeps-head`: the window moving a part of frappe's page head rather than adding beside it (`tests/guards/test_interface_frame.py::test_the_window_adds_to_frappes_head_and_moves_none_of_it`)
+- `window-styles-window`: anything but the window's stylesheet styling the window (`tests/guards/test_interface_frame.py::test_only_the_window_styles_the_window`)
+- `window-nav-pane`: the nav pane drawn other than as frappe's sidebar sized by its own variable (`tests/guards/test_interface_frame.py::test_the_nav_pane_is_frappes_sidebar_resized_by_its_own_variable`)
+- `window-back-forward`: Back and Forward that are not the browser's (`tests/guards/test_interface_frame.py::test_back_and_forward_are_the_browsers`)
+- `window-onecloud`: OneCloud on its page drawing a bar, address or status the window has (`tests/guards/test_interface_frame.py::test_onecloud_on_its_page_draws_none_of_the_windows_parts`)
+- `window-for-everybody`: a kind of view left off the window, or behind a preview switch (`tests/guards/test_interface_frame.py::test_every_view_is_on_the_window_for_everybody`)
+- `window-address-box`: an address box that is not the breadcrumbs at rest and frappe's search bar when typed in (`tests/guards/test_interface_frame.py::test_the_address_box_is_frappes_search_bar`)
+- `window-one-reload`: a second reload button beside frappe's (`tests/guards/test_interface_frame.py::test_frappes_reload_is_the_one_in_the_address_row`)
+- `window-wrapped-marks`: a wrapped view class whose mark it inherits, so its wrappers are skipped (`tests/guards/test_interface_frame.py::test_each_wrapped_class_has_its_own_mark`)
+- `window-new-first`: a list's New not leading the command row (`tests/guards/test_interface_frame.py::test_a_lists_new_leads_the_command_row`)
+- `window-filter-sort`: a list's Filter and Sort outside the commands, or its column heads not flat (`tests/guards/test_interface_frame.py::test_filter_and_sort_are_commands_and_the_heads_are_flat`)
+- `window-one-gutter`: a row of the window off the command row's gutter (`tests/guards/test_interface_frame.py::test_every_row_sits_on_one_gutter`)
+- `window-late-views`: an adapter for a view frappe loads late that does not wait for its class (`tests/guards/test_interface_frame.py::test_a_view_frappe_loads_late_is_waited_for`)
+- `window-count-paging`: a count and paging on a board, a calendar or a dashboard (`tests/guards/test_interface_frame.py::test_only_views_of_pages_show_a_count_and_paging`)
+- `window-tree-as-list`: a tree's commands and filters laid out other than as a list's (`tests/guards/test_interface_frame.py::test_a_tree_is_laid_out_as_a_list`)
+- `frame-bars`: a frame with bars other than one across the top, one across the bottom and the rail (`tests/guards/test_interface_frame.py::test_the_frame_is_a_top_bar_a_bottom_bar_and_the_rail`)
+- `frame-colour`: a frame not in the workspace's Frame Colour, with the ink that reads on it (`tests/guards/test_interface_frame.py::test_the_frame_wears_the_workspaces_colour`)
+- `frame-taskbar`: a bottom bar not laid out as a taskbar: status first, the clock last (`tests/guards/test_interface_frame.py::test_the_bottom_bar_is_a_taskbar`)
+- `frame-rail-edge`: the app you are in not marked on the rail's edge (`tests/guards/test_interface_frame.py::test_the_app_you_are_in_is_marked_on_the_rails_edge`)
+- `frame-flat-marks`: an app's full-colour mark on a workspace colour, where its flat twin belongs (`tests/guards/test_interface_frame.py::test_the_rails_marks_go_flat_on_a_workspace_colour`)
+- `frame-main-action`: a command row whose solid main action is not first on the left (`tests/guards/test_interface_frame.py::test_the_main_action_is_always_first_on_the_left`)
+- `frame-details-pane`: a form's sidebar that is not the window's details pane holding the record panel (`tests/guards/test_interface_frame.py::test_a_forms_sidebar_is_the_details_pane_and_holds_the_record_panel`)
+- `frame-names-no-doctype`: the window or the record panel naming a doctype, field or module (`tests/guards/test_interface_frame.py::test_the_engine_names_no_doctype`)
+- `frame-one-tree`: a screen drawing a tree of its own rather than handing its rows to the window's (`tests/guards/test_interface_frame.py::test_a_screen_with_a_tree_hands_its_rows_to_the_windows`)
+- `frame-one-name`: the window called anything but OneInterface in its module, folders, classes or namespace (`tests/guards/test_interface_frame.py::test_the_interface_has_one_name`)
+- `phone-reaches-all`: an app or a bar tool a phone cannot reach (`tests/guards/test_interface_frame.py::test_a_phone_reaches_every_app_and_every_bar_tool`)
+- `phone-address-bar`: a phone's address bar not opening the address box as a desk's does (`tests/guards/test_interface_frame.py::test_a_phones_address_bar_is_typed_into_as_a_desks_is`)
+- `phone-sheet-pull`: a sheet that cannot be pulled down from its content at the top (`tests/guards/test_interface_frame.py::test_a_sheet_closes_from_anywhere_at_its_top`)
+- `phone-search`: a way into search on a phone that does not focus the box in the tap that opens it (`tests/guards/test_interface_frame.py::test_a_phones_search_drops_from_the_top_with_the_keyboard_up`)
+- `portal-modelled-on`: a portal page with no row in docs/ISLANDS.md naming the app it follows (`tests/guards/test_islands.py::test_a_portal_page_names_the_app_it_follows`)
+- `layers-tokens`: a z-index of ours that is neither a --one-layer-* token nor a local order under 100 (`tests/guards/test_layers.py::test_a_z_index_is_a_layer_or_local`)
+- `layers-climb`: the layers in tokens.css out of their order (`tests/guards/test_layers.py::test_the_layers_climb`)
+- `layers-canvas-real`: a file on the slide canvas's list that is not there or has no z-index (`tests/guards/test_layers.py::test_the_canvas_list_is_real`)
+- `palette-no-scale`: a rule of the frame or the Canvas look reading frappe's scale rather than a role (`tests/guards/test_palettes.py::test_no_interface_rule_reads_frappes_scale`)
+- `palette-roles-declared`: a role read that tokens.css does not declare (`tests/guards/test_palettes.py::test_every_role_read_is_declared`)
+- `palette-whole`: a palette that leaves a role unset (`tests/guards/test_palettes.py::test_every_palette_sets_every_role`)
+- `palette-only-roles`: a palette setting anything but roles and the scale (`tests/guards/test_palettes.py::test_a_palette_sets_only_roles_and_the_scale`)
+- `palette-raw-scale`: a palette writing a role as one of frappe's named steps, which would read itself (`tests/guards/test_palettes.py::test_a_palette_writes_against_the_raw_scale`)
+- `palette-levels`: a surface not standing on one of the four levels (`tests/guards/test_palettes.py::test_every_surface_stands_on_a_level`)
+- `palette-level-order`: a palette whose levels are out of order, light or dark (`tests/guards/test_palettes.py::test_the_levels_keep_their_order`)
+- `palette-table-heads`: a table's column heads off the control level (`tests/guards/test_palettes.py::test_every_tables_column_heads_are_on_the_control_level`)
+- `palette-slate-order`: Slate's levels out of order on frappe-ui's steps (`tests/guards/test_palettes.py::test_slates_levels_keep_their_order`)
+- `palette-one-chosen`: a chosen thing filled other than with --one-chosen (`tests/guards/test_palettes.py::test_every_selected_thing_is_one_fill`)
+- `palette-one-island`: a section card, list or report table not one island's level, radius and hairline (`tests/guards/test_palettes.py::test_every_island_is_one_shape`)
+- `tokens-only`: a colour, corner, border or shadow on a screen that is not a frappe-ui token (`tests/guards/test_tokens.py::test_every_screen_is_drawn_in_frappe_uis_tokens`)
+- `tokens-defined`: a --one-* colour used and defined nowhere of ours (`tests/guards/test_tokens.py::test_every_token_of_ours_is_defined`)
+- `tokens-overlay`: an overlay that is not frappe-ui's (`tests/guards/test_tokens.py::test_an_overlay_is_frappe_uis`)
+- `tokens-chart-hues`: a dashboard chart coloured other than by one of frappe-ui's hues (`tests/guards/test_tokens.py::test_a_chart_is_coloured_by_frappe_uis_hues`)
 
 ### 8. Nothing lost, and extensible
 
-- `page-own-rail`: a page of ours not listed in its own app's rail, so Back or a link opens it in another app's (`tests/guards/test_routes.py::test_every_page_opens_in_its_own_apps_rail`)
+- `page-own-rail`: a page of ours not listed in its own app's rail, so Back or a link opens it in another app's (`tests/guards/test_rail.py::test_every_page_opens_in_its_own_apps_rail`)
 - `app-on-rail`: an app's sidebar with no tile on the rail (`tests/guards/test_rail.py::test_every_sidebar_of_ours_has_a_tile_on_the_rail`)
 - `page-keeps-form`: a page of its own without its form's menu, frappe's form sidebar or realtime (`tests/guards/test_frame.py::test_a_page_keeps_its_forms_menu_and_sidebar`)
 - `record-handle`: frappe's Share, Email, Links or Remind Me reading a part of a form the page does not lend (`tests/guards/test_frame.py::test_the_record_handle_covers_what_frappes_dialogs_read`)
@@ -98,6 +177,9 @@ A person looks: each screen, as each role, on a desktop and a phone: tokens only
 - `page-places`: a page of its own that declares no places or does not fire them (`tests/guards/test_frame.py::test_a_page_declares_its_places_and_fires_them`)
 - `places-fired`: a place in one_studio/places.py that no page fires (`tests/guards/test_frame.py::test_each_page_fires_its_events_with_only_its_powers`)
 - `synced-json-modified`: a doctype, page, sidebar or report changed without moving its modified, which no site would sync (`tests/guards/test_reaches.py::test_a_changed_synced_json_moves_its_modified`)
+- `atlas-current`: docs/ATLAS.md not what the snapshot and the code make (`tests/guards/test_atlas.py::test_the_atlas_is_current`)
+- `atlas-site-read`: docs/atlas-site.json not read from a site (`tests/guards/test_atlas.py::test_who_may_open_what_was_read`)
+- `rail-icons`: a rail's top row or group without an icon frappe draws (`tests/guards/test_rail.py::test_a_top_row_has_an_icon_frappe_draws`)
 
 ### 9. Built from frappe
 
@@ -108,14 +190,16 @@ A person looks: each screen, as each role, on a desktop and a phone: tokens only
 - `setting-is-a-switch`: a checkbox for something on or off, where frappe-ui's Switch is the standard (`tests/guards/test_islands.py::test_a_setting_is_a_switch`)
 - `kit-reaches-desk`: an island reaching into desk other than through the kit (`tests/guards/test_islands.py::test_only_the_kit_reaches_into_desk`)
 - `badge-colours`: a badge in a colour frappe-ui's Badge does not have, drawn gray (`tests/guards/test_islands.py::test_a_badge_is_a_colour_frappe_ui_has`)
-- `list-is-frappes`: a list of records not drawn as frappe's table (`tests/guards/test_shell.py::test_a_list_of_records_is_frappes_table`)
-- `dialog-is-frappes`: a dialog not frappe's (`tests/guards/test_shell.py::test_a_dialog_is_frappes`)
+- `list-is-frappes`: a list of records not drawn as frappe's table (`tests/guards/test_frame.py::test_a_list_of_records_is_frappes_table`)
+- `dialog-is-frappes`: a dialog not frappe's (`tests/guards/test_frame.py::test_a_dialog_is_frappes`)
 - `button-is-frappes`: a desk button drawn or recoloured with Bootstrap's classes instead of frappe.ui.button (`tests/guards/test_frappe_calls.py::test_a_button_is_frappes`)
-- `record-as-docview`: a record opened by a page not drawn as a docview (`tests/guards/test_shell.py::test_a_record_a_page_opens_on_is_drawn_as_a_docview`)
+- `record-as-docview`: a record opened by a page not drawn as a docview (`tests/guards/test_frame.py::test_a_record_a_page_opens_on_is_drawn_as_a_docview`)
 - `formats-from-frappe`: a date, number or currency formatted by hand instead of through frappe (`tests/guards/test_formats.py::test_nothing_is_formatted_by_hand`)
 - `screen-hears`: a screen of ours listing a record type it does not hear change, beyond its count (`tests/guards/test_atlas.py::test_a_screen_hears_what_it_lists`)
 - `screen-bare-numbers`: a screen of ours printing a number with no formatter, beyond its count (`tests/guards/test_atlas.py::test_a_screen_prints_numbers_through_frappe`)
 - `field-group-values`: a dialog's form handed a dict by set_value, which sets nothing (`tests/guards/test_frappe_calls.py::test_a_field_group_is_given_one_value_at_a_time`)
+- `framework-current`: docs/FRAMEWORK.md not what the frappe checkout makes (`tests/guards/test_generated.py::test_the_framework_reference_is_current`)
+- `island-dialog-slots`: an island dialog written with frappe-ui's old options.title or #body-content (`tests/guards/test_islands.py::test_a_dialog_is_drawn_with_frappe_ui_1s_slots`)
 
 ### 10. Overrides recorded
 
@@ -125,6 +209,11 @@ A person looks: each screen, as each role, on a desktop and a phone: tokens only
 - `upstream-checkpoint`: the bench moved without a reviewed checkpoint, a checkpoint note with an open item, or a checkpoint over 14 days old (`tests/guards/test_generated.py::test_upstream_was_read_recently`)
 - `fields-land`: a shipped custom field placed after a field upstream dropped, or a property setter on a field that is gone (`tests/guards/test_install.py::test_every_shipped_field_lands_where_it_was_put`)
 - `made-declared`: a kind of record we make that is not declared (`tests/guards/test_makes_records.py::test_every_kind_made_is_declared`)
+- `icons-centred-upstream`: frappe no longer centring .icon with an auto margin, which the icon-margin rule leans on (`tests/guards/test_alerts.py::test_frappe_still_centres_icons`)
+- `controller-extends`: a class One puts on a doctype erpnext or hrms already overrides that does not extend theirs (`tests/guards/test_install.py::test_an_overridden_controller_builds_on_the_apps_before_it`)
+- `override-signatures`: an overridden doctype class method not taking what upstream passes (`tests/guards/test_override_signatures.py::test_an_overridden_doctype_class_takes_what_upstream_passes`)
+- `rail-listed-upstream`: desk.js no longer opening a page only in a rail that lists it, which the rail rule leans on (`tests/guards/test_rail.py::test_the_desk_still_asks_a_page_to_be_listed`)
+- `stopped-jobs-upstream`: a job we stop that upstream no longer schedules (`tests/guards/test_stopped_jobs.py::test_every_job_we_stop_is_still_scheduled_upstream`)
 
 ## Speaks
 
@@ -140,6 +229,10 @@ A person looks: it tells people what they need, on the channels that make sense,
 - `one-folder`: a notification declared anywhere but its own file in onedesk/notifications/ (`tests/guards/test_notifications.py::test_nothing_declares_a_notification_anywhere_else`)
 - `one-layout`: a notification file not named for its type or not in the one layout (`tests/guards/test_notifications.py::test_every_notification_is_one_file_in_one_layout`)
 - `types-say-channels`: a notification type that does not say its channels and its sender (`tests/guards/test_ready.py::test_a_module_says_how_and_from_whom_it_tells_people`)
+- `notify-when-whom`: a notification type not saying when and to whom in the one way (`tests/guards/test_notifications.py::test_every_type_says_when_and_to_whom_the_same_way`)
+- `notify-twin`: a twin notification type following a kind of another app (`tests/guards/test_notifications.py::test_a_twin_follows_a_kind_of_its_own_app`)
+- `notify-outside-mailed`: a type for people outside not mailed, or one for people inside not notified (`tests/guards/test_notifications.py::test_outside_types_are_mailed_and_the_rest_notified`)
+- `notify-slots-named`: a default text with a numbered slot rather than a named one (`tests/guards/test_notifications.py::test_slots_are_named`)
 
 ### 12. Printed
 
@@ -148,6 +241,9 @@ A person looks: it tells people what they need, on the channels that make sense,
 - `print-blocks`: a block on a shipped format that is not a field template of One's with its template (`tests/guards/test_print.py::test_every_block_is_a_field_template_with_its_template`)
 - `print-wired`: the blocks not reachable from Jinja, or One's formats not made the default after migrate (`tests/guards/test_print.py::test_the_blocks_reach_jinja_and_settle_after_migrate`)
 - `print-escaped`: a block showing a record's value without escaping it (`tests/guards/test_print.py::test_a_template_escapes_what_it_shows`)
+- `print-replaces`: an ERPNext format turned off without ours shipped in its place (`tests/guards/test_print.py::test_each_erpnext_format_has_ours`)
+- `print-conditions`: a print condition frappe cannot evaluate (`tests/guards/test_print.py::test_a_native_format_asks_only_what_frappe_can_answer`)
+- `print-fields-real`: a format printing a field its record does not have (`tests/guards/test_print.py::test_a_native_format_prints_fields_the_record_has`)
 
 ### 13. Plain words
 
@@ -157,11 +253,11 @@ A person looks: every heading, description and message it shows reads as the cop
 
 - `screen-plain`: screen text with a colon or semicolon clause, a coinage or narration (`tests/guards/test_wording.py::test_what_a_screen_says_is_plain`)
 - `names-are-code`: an app's, a centre's or an engine's name typed where people read it, rather than read from the registry (`tests/guards/test_names.py::test_no_name_is_typed_where_people_read_it`)
-- `copy-headings`: a heading in a module on its way to ready that runs past five words (`tests/guards/test_copy.py::test_a_heading_is_five_words_or_fewer`)
-- `copy-descriptions`: a description or hint in a module on its way to ready that runs past one sentence (`tests/guards/test_copy.py::test_a_description_is_one_sentence`)
-- `copy-banned`: a word on the banned list shown by a module on its way to ready (`tests/guards/test_copy.py::test_no_banned_word_is_shown`)
+- `copy-headings`: a heading in a module on its way to ready that runs past five words (`tests/guards/test_wording.py::test_a_heading_is_five_words_or_fewer`)
+- `copy-descriptions`: a description, hint or note of more than one sentence, a field's or in code, past each file's count (`tests/guards/test_wording.py::test_a_description_is_one_sentence`)
+- `copy-banned`: a word on the banned list shown by a module on its way to ready (`tests/guards/test_wording.py::test_no_banned_word_is_shown`)
 - `labels-are-names`: a label written as a sentence (`tests/guards/test_wording.py::test_every_label_is_a_name_not_a_sentence`)
-- `descriptions-plain`: a field description longer than two plain sentences (`tests/guards/test_wording.py::test_every_description_is_one_or_two_plain_sentences`)
+- `descriptions-plain`: a field description over 130 characters, in the first person, or with an em dash or a colon (`tests/guards/test_wording.py::test_every_description_is_plain`)
 - `no-commit-voice`: screen text that reads like a commit message (`tests/guards/test_wording.py::test_no_screen_text_reads_like_a_commit_message`)
 - `island-translated`: island text not passed through __() (`tests/guards/test_islands.py::test_what_an_island_says_is_translated`)
 - `translated`: a string with no Arabic or German (`tests/guards/test_translations.py::test_every_string_reaches_a_reader`)
@@ -169,6 +265,16 @@ A person looks: every heading, description and message it shows reads as the cop
 - `brand-current`: onedesk/translations not what the snapshot's brand sentences make (`tests/guards/test_atlas.py::test_the_brand_translations_are_current`)
 - `brand-said`: a sentence frappe, erpnext or hrms say that still names them, in English, Arabic or German (`tests/guards/test_atlas.py::test_nothing_upstream_says_names_them`)
 - `atlas-english`: a label on a reached form still English in Arabic or German, beyond each module's count (`tests/guards/test_atlas.py::test_what_is_reached_reads_in_every_language`)
+- `rail-says-erpnexts`: a rail row not called what ERPNext calls the thing it opens (`tests/guards/test_erpnext_names.py::test_a_rail_row_says_what_it_opens`)
+- `field-keeps-erpnexts`: a field of ERPNext's renamed rather than keeping its label (`tests/guards/test_erpnext_names.py::test_a_field_keeps_erpnexts_label`)
+- `glossary-whole`: a glossary term without its Arabic or German (`tests/guards/test_glossary.py::test_every_term_has_its_words`)
+- `glossary-kept`: a new translation that says a glossary term another way (`tests/guards/test_glossary.py::test_a_new_translation_keeps_the_glossary`)
+- `glossary-debt`: glossary_debt.json growing, or holding what is already right (`tests/guards/test_glossary.py::test_the_debt_only_shrinks`)
+- `pot-there`: no POT, so nothing reaches a translator (`tests/guards/test_translations.py::test_the_pot_exists`)
+- `no-stale-translations`: a translation of something no screen says any more (`tests/guards/test_translations.py::test_nothing_is_translated_that_is_not_said`)
+- `options-are-names`: a Select option, a dialog's field or a report's column written as a sentence (`tests/guards/test_wording.py::test_every_option_and_dialog_field_is_a_name`)
+- `messages-plain`: a message worded as a person talking rather than a product reporting (`tests/guards/test_wording.py::test_a_message_says_what_happened`)
+- `help-not-reasoning`: field help written as reasoning rather than as frappe writes it (`tests/guards/test_wording.py::test_field_help_says_what_the_system_does`)
 
 ## Knows
 
@@ -181,6 +287,10 @@ A module is held to it before it is marked ready.
 - `help-names-no-code`: a help page that names code (`tests/guards/test_ready.py::test_a_help_page_names_no_code`)
 - `help-sound`: a help page with a long heading, a missing picture or a link Help does not list (`tests/guards/test_ready.py::test_a_help_page_is_headed_pictured_and_linked_soundly`)
 - `tour-shipped`: a module with no tour of its screen, or a step whose mark is nowhere (`tests/guards/test_ready.py::test_a_module_ships_a_tour_of_its_screen`)
+- `help-pictures-there`: a Help page or version naming a picture that is not there (`tests/guards/test_docs_media.py::test_every_picture_a_page_names_is_there`)
+- `help-pictures-used`: a picture no Help page or version shows (`tests/guards/test_docs_media.py::test_every_picture_is_shown_somewhere`)
+- `help-pictures-small`: a picture too large, or of a kind a browser does not show (`tests/guards/test_docs_media.py::test_pictures_are_small_and_of_a_kind_every_browser_shows`)
+- `help-clips-short`: a clip that plays for more than nine seconds (`tests/guards/test_docs_media.py::test_a_clip_plays_for_nine_seconds_at_most`)
 
 ### 15. Versioned, with What's New
 
@@ -189,15 +299,32 @@ A module is held to it before it is marked ready.
 - `module-versioned`: a change to a module on its way to ready with no new version for it (`tests/guards/test_ready.py::test_every_change_to_a_module_is_a_version`)
 - `versions-follow`: a version that is not the next major, minor or fix after the one before (`tests/guards/test_ready.py::test_versions_follow_one_another`)
 - `versions-for-people`: a What's New entry left unwritten, technical, or naming a picture that is not there (`tests/guards/test_ready.py::test_a_version_is_written_for_the_people_using_it`)
+- `production-ready`: One marked ready for production while a module is not (`tests/guards/test_ready.py::test_one_is_ready_for_production_only_when_every_module_is`)
+- `ready-points`: ready.POINTS or ready.HAND not a reading of the standard (`tests/guards/test_ready.py::test_the_points_held_before_live_are_the_standards`)
+- `ready-looked`: a ready module without a look, newer than its last major or minor, on a point no guard holds whole (`tests/guards/test_ready.py::test_a_ready_module_was_looked_at_where_no_guard_can`)
+- `stamps-dated`: a screen stamped Passed without its day and its pass (`tests/guards/test_stamps.py::test_every_passed_screen_is_named_with_its_day_and_pass`)
+- `stamps-named`: a stamped screen not named as the stamp reads it (`tests/guards/test_stamps.py::test_screens_are_named_as_the_stamp_reads_them`)
 
 ### 16. OneAI knows and does
 
 A module is held to it before it is marked ready.
 
-- `oneai-badge`: OneAI badged by hand (`tests/guards/test_ai_look.py::test_nothing_badges_oneai_by_hand`)
-- `oneai-button`: an OneAI button drawn by hand (`tests/guards/test_ai_look.py::test_no_oneai_button_is_drawn_by_hand`)
+- `oneai-badge`: OneAI badged by hand (`tests/guards/test_ai_place.py::test_nothing_badges_oneai_by_hand`)
+- `oneai-button`: an OneAI button drawn by hand (`tests/guards/test_ai_place.py::test_no_oneai_button_is_drawn_by_hand`)
 - `oneai-no-page-button`: an OneAI button placed on a page (`tests/guards/test_ai_place.py::test_no_oneai_button_on_a_page`)
 - `oneai-reach`: a call that changes something with no OneAI card and no reason why not (`tests/guards/test_ready.py::test_a_module_reaches_every_change_through_oneai_or_says_why_not`)
+- `oneai-rail`: OneAI without a tile and a rail of its own, so its records open in another app's (`tests/guards/test_ai_place.py::test_one_ai_is_on_the_dock_with_a_rail_of_its_own`)
+- `oneai-admin-in-rail`: what a workspace administers of OneAI listed in One's rail rather than its own (`tests/guards/test_ai_place.py::test_what_a_workspace_administers_of_it_is_in_its_rail_not_ones`)
+- `oneai-operator-in-admin`: what the operator does with OneAI anywhere but OneAdmin (`tests/guards/test_ai_place.py::test_what_the_operator_does_is_in_one_admin`)
+- `oneai-credits-own`: a workspace's credits open to anybody but its administrators, or showing another workspace's (`tests/guards/test_ai_place.py::test_a_workspaces_credits_are_its_administrators_and_its_own`)
+- `oneai-no-field-button`: a OneAI button beside a field, in a mail window or on a page's field, or a Single read as a list (`tests/guards/test_ai_place.py::test_a_settings_page_is_a_record_and_no_field_carries_a_mark`)
+- `oneai-drawn-as-frappes`: OneAI's tag and button not frappe's own badge and button in OneAI's colours (`tests/guards/test_ai_place.py::test_the_tag_and_the_button_are_frappes_own_in_oneais_colours`)
+- `models-read`: the list of models not read lately (`tests/guards/test_models.py::test_the_list_was_read_lately`)
+- `models-offered`: a model used that is not offered or is going away (`tests/guards/test_models.py::test_every_model_used_is_offered_and_not_going`)
+- `models-preview`: a preview model used without a reason (`tests/guards/test_models.py::test_a_preview_is_used_only_with_a_reason`)
+- `models-priced`: a model used without a price (`tests/guards/test_models.py::test_every_model_used_has_a_price`)
+- `models-tiers`: a kind of work without a model at every tier, or falling back to itself (`tests/guards/test_models.py::test_every_kind_has_every_tier_and_never_falls_back_to_itself`)
+- `aicenter-alone`: OneAI's settings drawn outside AICenter, or the gateway called outside OneAI (`tests/guards/test_ready.py::test_only_aicenter_draws_oneais_settings_and_only_oneai_reaches_the_gateway`)
 
 ### 17. Intake
 
@@ -223,6 +350,10 @@ A module is held to it before it is marked ready.
 - `guard-get-writes`: a whitelisted function that changes data and still answers a GET, which a link can make for a signed-in person (`tests/guards/test_oneguard.py::test_a_write_is_post_only`)
 - `guard-secret-in-code`: a key or token typed into the code, by its known shape or as a high-entropy value given a secret's name (`tests/guards/test_oneguard.py::test_no_secret_is_in_the_code`)
 - `guard-guest-fields`: a function a guest reaches that hands over a whole record (a doc, as_dict(), fields *) rather than named fields (`tests/guards/test_oneguard.py::test_a_guest_is_given_only_named_fields`)
+- `role-not-frappes`: a role of ours with the name of one frappe ships (`tests/guards/test_roles.py::test_the_role_is_not_frappes_own`)
+- `admin-granted`: what a workspace administers not granted to its administrator (`tests/guards/test_roles.py::test_what_a_workspace_administers_is_granted_to_its_administrator`)
+- `role-first`: the administrator's role made after something that needs it runs (`tests/guards/test_roles.py::test_the_role_exists_before_anything_runs`)
+- `no-flow-studio`: frappe's Flow or Studio given to anybody on a workspace (`tests/guards/test_roles.py::test_nobody_on_a_workspace_is_given_frappes_flow_or_studio`)
 
 ### 19. Legal
 
@@ -235,13 +366,24 @@ A person looks: what it does with data, read against what its clauses, subproces
 - `legal-assembled`: a module's legal file left out of the documents (`tests/guards/test_legal.py::test_every_modules_legal_file_is_assembled`)
 - `nothing-promised`: an agreement promising what is not built (`tests/guards/test_legal.py::test_nobody_is_promised_what_is_not_built`)
 - `legal-said`: a version that moves what a module agrees on without saying so (`tests/guards/test_ready.py::test_a_change_to_what_a_module_agrees_on_is_said`)
+- `clauses-in-sections`: a clause in a section its document does not have (`tests/guards/test_legal.py::test_every_clause_is_in_a_section_its_document_has`)
+- `terms-lifecycle`: terms describing a workspace's lifecycle the code does not run (`tests/guards/test_legal.py::test_the_lifecycle_the_terms_describe_is_the_one_the_code_runs`)
+- `agreements-to-whom`: somebody agreeing to nothing, or anybody agreeing to a notice (`tests/guards/test_legal.py::test_everybody_agrees_to_something_and_the_notices_to_nothing`)
+- `only-first-stops`: a later revision stopping somebody who agreed to an earlier one (`tests/guards/test_legal.py::test_only_a_first_agreement_stops_anybody`)
+- `change-ahead`: a change to what a workspace agrees to taking effect before its notice period (`tests/guards/test_legal.py::test_a_change_is_published_ahead_of_the_day_it_takes_effect`)
+- `model-runners-declared`: a company that runs a model OneAI uses and is not a declared subprocessor (`tests/guards/test_legal.py::test_every_company_that_runs_a_model_is_a_declared_subprocessor`)
+- `services-call`: an optional service's host called other than through services.call (`tests/guards/test_legal.py::test_a_service_is_reached_only_through_services_call`)
+- `duties-met`: a duty a law puts on us that no clause meets (`tests/guards/test_legal.py::test_every_duty_a_law_puts_on_us_is_met_by_a_clause`)
+- `agreements-plain`: a clause in legalese, or of more than one point or 30 words a sentence (`tests/guards/test_legal.py::test_the_agreements_are_plain`)
+- `core-change-waits`: a company One can't work without used before the day its notice said (`tests/guards/test_legal.py::test_a_core_change_waits_for_its_day`)
+- `switchover-day`: a switchover running the new way before its published day (`tests/guards/test_legal.py::test_a_switchover_runs_the_old_way_until_its_day`)
 
 ### 20. One home, clean code
 
 A module is held to it before it is marked ready.
 
 - `selectors-cheap`: a :has() selector that restyles the whole page on any change (`tests/guards/test_selectors.py::test_no_rule_of_ours_restyles_the_page`)
-- `hooks-exist`: a hook naming a function or asset that does not exist (`tests/guards/test_hooks.py::test_the_function_exists`)
+- `hooks-exist`: a hook naming a function that does not exist (`tests/guards/test_hooks.py::test_every_function_a_hook_names_exists`)
 - `module-named-outside`: a file named for a module outside its places that ready.SHARED does not explain (`tests/guards/test_ready.py::test_nothing_outside_a_module_is_named_for_it`)
 - `module-static-in-folder`: a script or stylesheet at the top of public/js or public/css that ready.SHARED does not explain (`tests/guards/test_ready.py::test_the_top_of_public_holds_only_what_is_shared`)
 - `module-markdown`: a module on its way to ready with Markdown other than AGENTS.md, SCRATCHPAD.md and docs/ (`tests/guards/test_ready.py::test_a_module_writes_only_agents_scratchpad_and_docs`)
@@ -254,3 +396,13 @@ A module is held to it before it is marked ready.
 - `helpers-one-home`: a module's own copy of a shared helper: the reader's company, a read check, a token's hash, a plain _lt (`tests/guards/test_helpers.py::test_a_shared_helper_is_not_copied`)
 - `company-one-place`: erpnext.get_default_company called anywhere but one/company.py (`tests/guards/test_helpers.py::test_the_default_company_is_asked_of_one_place`)
 - `upstream-imports`: an import of a name frappe, erpnext or hrms no longer has (`tests/guards/test_upstream_imports.py::test_every_upstream_import_is_still_there`)
+- `hooks-assets-exist`: a hook naming a script or stylesheet that is not on disk (`tests/guards/test_hooks.py::test_every_asset_a_hook_names_exists`)
+- `hooks-once`: a hook table naming a doctype twice, so the first is lost (`tests/guards/test_hooks.py::test_no_hook_table_names_a_doctype_twice`)
+- `registry-real`: a rule in registry.py whose test or command is not there (`tests/guards/test_registry.py::test_every_guard_runs_somewhere_real`)
+- `registry-points-held`: a point of the standard with no rule, no look and nothing planned (`tests/guards/test_registry.py::test_every_point_has_a_guard_a_look_or_says_which_is_coming`)
+- `registry-ids`: a rule id used twice, or a rule naming a point the standard does not have (`tests/guards/test_registry.py::test_ids_are_unique_and_points_real`)
+- `registry-standard`: docs/STANDARD.md heading a point other than standard.py names it (`tests/guards/test_registry.py::test_the_points_are_the_standards`)
+- `registry-whole`: a test in tests/guards that is neither a rule in registry.py nor a rule's proof (`tests/guards/test_registry.py::test_every_guard_test_is_a_rule_or_its_proof`)
+- `not-mostly-comment`: a file that is mostly comment (`tests/guards/test_source_style.py::test_no_file_is_mostly_comment`)
+- `no-unused-imports`: an import nothing uses, in the scripts and tests (`tests/guards/test_source_style.py::test_nothing_is_imported_and_unused`)
+- `desk-scripts-parse`: a desk script that does not parse, which kills its form or report (`tests/guards/test_source_style.py::test_every_desk_script_parses`)

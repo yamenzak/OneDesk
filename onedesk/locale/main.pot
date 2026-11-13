@@ -3953,7 +3953,7 @@ msgid "All borders"
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:910
-msgid "All conditions must match. Leave empty to always apply."
+msgid "Applies when every condition matches, or always when empty."
 msgstr ""
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:12
@@ -18174,7 +18174,7 @@ msgstr ""
 
 #: onedesk/public/js/setup_wizard.js:151
 #, python-brace-format
-msgid "Everyone in the demo company signs in with it. The owner is {0}."
+msgid "Everyone in the demo company signs in with it, the owner as {0}."
 msgstr ""
 
 #. Who a notification is sent to
@@ -45442,7 +45442,7 @@ msgid "Scan with your banking app"
 msgstr ""
 
 #: onedesk/public/js/account_center/account_center.js:124
-msgid "Scans and papers HR keeps for you. Add any here."
+msgid "Scans and papers HR keeps for you."
 msgstr ""
 
 #. Description of the 'Read Attachments' (Check) field in DocType 'Email
@@ -53216,7 +53216,7 @@ msgid "The folder must be in the rule's mailbox."
 msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:712
-msgid "The format to copy. It opens in the builder."
+msgid "The format to copy, opened in the builder."
 msgstr ""
 
 #: frontend/src/sheet/shim/problems.js:9

@@ -13,10 +13,10 @@ from functools import cache
 from pathlib import Path
 
 import pytest
+from tests.bench import icons
 
 ROOT = Path(__file__).resolve().parents[2]
 APPS = ROOT.parent
-SPRITE = APPS / "frappe" / "frappe" / "public" / "icons" / "lucide" / "icons.svg"
 
 
 def _ready():
@@ -62,9 +62,9 @@ def _fieldnames(doctype: str) -> set[str] | None:
 
 
 def test_every_icon_is_one_frappe_draws():
-	if not SPRITE.exists():
+	drawn = icons()
+	if drawn is None:
 		pytest.skip("frappe's icons are not on this bench")
-	drawn = set(re.findall(r'<symbol[^>]*id="(?:icon-)?([\w-]+)"', SPRITE.read_text()))
 	wrong = [
 		f"{doctype} {kind} {name}: {icon}"
 		for doctype, said in DECLARED.items()
@@ -153,9 +153,9 @@ def _icons():
 
 
 def test_every_shared_icon_is_one_frappe_draws():
-	if not SPRITE.exists():
+	drawn = icons()
+	if drawn is None:
 		pytest.skip("frappe's icons are not on this bench")
-	drawn = set(re.findall(r'<symbol[^>]*id="(?:icon-)?([\w-]+)"', SPRITE.read_text()))
 	said = _icons()
 	used = {icon for icon, _phrases in said["RULES"]} | set(said["TYPES"].values()) | set(said["DOCTYPES"].values())
 	assert not used - drawn, f"Icons frappe does not draw: {sorted(used - drawn)}"

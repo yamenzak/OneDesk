@@ -2,7 +2,8 @@
 change runs what can see it: the guards naming it, its module's tests and the
 tests naming its folder. `--all` runs everything, the gate; `--list` and
 `--point N` show the rules by the point of docs/STANDARD.md they serve
-(tests/guards/registry.py, until P3.3 moves them into onedesk/one/lint)."""
+(tests/guards/registry.py, where every test in tests/guards is a rule or the
+proof that one catches its example)."""
 
 import re
 import subprocess

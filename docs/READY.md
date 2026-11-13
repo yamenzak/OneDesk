@@ -107,7 +107,7 @@ notifications and screens, and the `wording` skill is how they are used.
 `tests/guards/test_wording.py` checks descriptions (130 characters, two
 sentences, no first person, no em dash) and screen text (140 characters, no
 joined clauses). A module on its way to ready is held to harder limits by
-`tests/guards/test_copy.py`, which reads the `title:`, `label:`,
+`tests/guards/test_wording.py`, which reads the `title:`, `label:`,
 `description:` and heading strings passed to `__()` in its JS and Vue:
 
 - **Headings** are five words or fewer: tab titles, panel titles, dialog
@@ -641,7 +641,7 @@ the GDPR asks of them (Art. 12): `we` is Four Degree Labs, `you` is the
 organisation, a defined term is capitalised and defined once, one duty to a
 sentence, a number where there is one (72 hours, 30 days), and nothing
 promised that isn't built. The rules go in `docs/WORDING.md` beside the copy
-rules, and `test_copy.py` reads `trust.py` too. Every module's `trust.py`
+rules, and `test_wording.py` reads `trust.py` too. Every module's `trust.py`
 is rewritten to them as it goes through the points held before live.
 
 **6. The registry.** Legal (point 19 of `docs/STANDARD.md`) is held by the

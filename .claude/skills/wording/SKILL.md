@@ -204,7 +204,7 @@ Words in a mock are product words: they pass this skill before they are
 drawn, not after. Read every new string aloud, in the place it appears. Then run the wording
 guards, which take seconds, instead of the whole suite:
 
-    python3 -m pytest -q tests/guards/test_wording.py tests/guards/test_copy.py \
+    python3 -m pytest -q tests/guards/test_wording.py \
       tests/test_names.py tests/guards/test_translations.py tests/guards/test_glossary.py \
       tests/guards/test_legal.py tests/guards/test_erpnext_names.py
 

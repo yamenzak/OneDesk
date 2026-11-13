@@ -39,8 +39,11 @@ four descriptions. A description is for what the label cannot carry: the unit,
 the limit, the consequence, the dependency. If it only restates the label,
 delete it.
 
-**When there is one, it is one sentence.** Two when the second states what
-happens at the boundary, or the cost:
+**When there is one, it is one sentence**, everywhere: a field's, a hint, a
+note. Frappe often adds a second for the boundary or the cost, as below; ours
+fold it into the one (`tests/guards/test_wording.py`, with what was two
+sentences when the rule settled counted in `wording_allowed.py`, only
+falling):
 
     Stop dispatching automations site-wide. Queued rows are left untouched.
     Bytes of output a step may publish to later steps. Larger output is dropped, not failed.
@@ -193,7 +196,7 @@ checked on every screen of the passover.
 ## OneInterface's limits
 
 A module on its way to ready (`onedesk/one/ready.py`, `docs/READY.md`) is
-held to hard limits on top of everything above, by `tests/guards/test_copy.py`:
+held to hard limits on top of everything above, by `tests/guards/test_wording.py`:
 
 - **A heading is five words or fewer.** A tab, a panel, a dialog, a section,
   a group, a field's label, a tour step's heading.
@@ -269,7 +272,7 @@ Every other module's are rewritten to it as it goes through.
 
 `tests/guards/test_wording.py` holds every doctype and every custom field in the app
 to what can be checked by machine: a description of at most 130 characters and
-two sentences, with no first person, no em dash and no colon except after
+one sentence, with no first person, no em dash and no colon except after
 `Example`; a label in Title Case with no full stop, at most 60 characters, that
 is a name rather than a sentence: no article, pronoun or verb inside it, "Is"
 and "Has" only to start a checkbox, and "I …" only for a consent checkbox

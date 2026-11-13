@@ -3956,8 +3956,8 @@ msgid "All borders"
 msgstr "كل الحدود"
 
 #: onedesk/public/js/doctype_settings.js:910
-msgid "All conditions must match. Leave empty to always apply."
-msgstr "يجب أن تتطابق كل الشروط. اتركه فارغًا للتطبيق دائمًا."
+msgid "Applies when every condition matches, or always when empty."
+msgstr "يُطبَّق عندما تتطابق كل الشروط، أو دائمًا عندما يكون فارغًا."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:12
 msgid "All conversations"
@@ -18176,8 +18176,8 @@ msgstr "لدى الجميع {4} و{0} و{1} و{2} و{3}."
 
 #: onedesk/public/js/setup_wizard.js:151
 #, python-brace-format
-msgid "Everyone in the demo company signs in with it. The owner is {0}."
-msgstr "يسجّل بها الجميع في الشركة التجريبية. المالك هو {0}."
+msgid "Everyone in the demo company signs in with it, the owner as {0}."
+msgstr "يسجّل بها الجميع في الشركة التجريبية، والمالك باسم {0}."
 
 #. Who a notification is sent to
 #: onedesk/one/notifications.py onedesk/trust_center/notifications.py
@@ -45466,8 +45466,8 @@ msgid "Scan with your banking app"
 msgstr "امسحه بتطبيق البنك"
 
 #: onedesk/public/js/account_center/account_center.js:124
-msgid "Scans and papers HR keeps for you. Add any here."
-msgstr "مستندات وأوراق تحفظها الموارد البشرية لك. أضف أيًّا منها هنا."
+msgid "Scans and papers HR keeps for you."
+msgstr "مستندات وأوراق تحفظها الموارد البشرية لك."
 
 #. Description of the 'Read Attachments' (Check) field in DocType 'Email
 #. Account'
@@ -53213,8 +53213,8 @@ msgid "The folder must be in the rule's mailbox."
 msgstr "يجب أن يكون المجلد في صندوق بريد القاعدة."
 
 #: onedesk/public/js/doctype_settings.js:712
-msgid "The format to copy. It opens in the builder."
-msgstr "التنسيق المراد نسخه. يُفتح في المصمم."
+msgid "The format to copy, opened in the builder."
+msgstr "التنسيق المراد نسخه، ويُفتح في المصمم."
 
 #: frontend/src/sheet/shim/problems.js:9
 msgid "The formula contains an unknown function or range name. Check the spelling."

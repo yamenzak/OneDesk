@@ -32,8 +32,8 @@ def _answering() -> str:
 
 def _pages() -> list[str]:
 	"""Every desk page a reader stays on: one that only opens a frappe view in
-	its place (test_shell.OPENS_A_VIEW) is never on screen to be told about."""
-	from tests.guards.test_shell import OPENS_A_VIEW
+	its place (test_frame.OPENS_A_VIEW) is never on screen to be told about."""
+	from tests.guards.test_frame import OPENS_A_VIEW
 
 	return sorted(
 		json.loads(path.read_text())["name"]

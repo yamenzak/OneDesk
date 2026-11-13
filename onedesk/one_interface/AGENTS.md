@@ -47,7 +47,7 @@ in the same places everywhere and a change to one is a change to all.
 A screen that does not pass the test for 2 is 1. Our own JavaScript pages on
 `onedesk.shell` (`docs/SHELL.md` decision 2) go away: each page moves in one
 commit that deletes its old code, so there is never a page in two versions,
-and `tests/guards/test_shell.py` keeps the pages and the files still on the
+and `tests/guards/test_frame.py` keeps the pages and the files still on the
 shell, lists that only shrink; when they are empty the shell is deleted.
 
 | Page on the shell | Becomes |

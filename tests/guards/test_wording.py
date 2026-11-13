@@ -5,9 +5,17 @@ custom field in the app to the parts of it a machine can check — the console
 guard in test_console.py only ever covered OneAdmin, which is how the hiring
 switches came to read like commit messages.
 
-A description: at most 130 characters and two sentences, no first person, no
-em dash, and a colon only after "Example". A label: Title Case, no full stop,
-at most 60 characters, and a name rather than a sentence.
+A description, a hint and a note are one sentence, wherever they are written:
+a field's description in a doctype or custom field, and a description, hint
+or note in a module's code. What was two sentences when the rule settled at
+one (13 November 2026) is counted per file in wording_allowed.py, which only
+falls. A field's description is also at most 130 characters, with no first
+person, no em dash, and a colon only after "Example". A label: Title Case, no
+full stop, at most 60 characters, and a name rather than a sentence.
+
+In a module on its way to ready (onedesk/one/ready.py) a heading (a tab, a
+panel, a dialog, a section, a group, a field's label) is five words or fewer,
+and no string says a word on the banned list.
 
 A label is a sentence when it has an article, a pronoun or a verb in the
 middle of it: "Old App Invoices" and "Net of Retention", not "The Old App
@@ -27,6 +35,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 import tree
+
+from onedesk.one import ready  # noqa: E402
+from tests.guards import wording_allowed  # noqa: E402
 
 LONGEST = 130
 VOICE = re.compile(r"\b(we|our|us|ours)\b", re.I)
@@ -60,19 +71,17 @@ def _fields():
 			yield f"{path.stem}.{one['fieldname']}", one.get("label") or "", one.get("description") or ""
 
 
-def _sentences(text: str) -> int:
+def sentences(text: str) -> int:
 	return len([one for one in re.split(r"(?<=[.!?])\s+", text.strip()) if one])
 
 
-def test_every_description_is_one_or_two_plain_sentences():
+def test_every_description_is_plain():
 	wrong = []
 	for where, _label, said in _fields():
 		if not said:
 			continue
 		if len(said) > LONGEST:
 			wrong.append(f"{where}: {len(said)} characters")
-		if _sentences(said) > 2:
-			wrong.append(f"{where}: {_sentences(said)} sentences")
 		if VOICE.search(said):
 			wrong.append(f"{where}: first person")
 		if "—" in said:
@@ -80,6 +89,68 @@ def test_every_description_is_one_or_two_plain_sentences():
 		if ":" in said.replace("Example:", ""):
 			wrong.append(f"{where}: a colon, which is a note to self rather than help")
 	assert not wrong, "out of register, see docs/WORDING.md:\n  " + "\n  ".join(wrong)
+
+
+QUOTED = r"""(?:"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)')"""
+DESCRIBED = re.compile(r"\b(?:description|hint|note)\s*:\s*__\(\s*" + QUOTED + r"|\bheading(?:_with)?\(\s*__\([^)]*\)\s*,\s*__\(\s*" + QUOTED)
+
+
+def _quoted(match: re.Match) -> str:
+	return next((one for one in match.groups() if one is not None), "")
+
+
+def described_in(file: str, source: str) -> list[str]:
+	"""Every description, hint or note a file says. Pure."""
+	if file.endswith(".json"):
+		spec = json.loads(source)
+		fields = spec.get("custom_fields", []) if "/custom/" in file else spec.get("fields", [])
+		if "/doctype/" in file and spec.get("doctype") != "DocType":
+			return []
+		return [one["description"] for one in fields if one.get("description")]
+	return [_quoted(one) for one in DESCRIBED.finditer(source)]
+
+
+def _described() -> dict[str, str]:
+	found = {}
+	for path in [*tree.APP.glob("*/custom/*.json"), *tree.APP.glob("*/doctype/*/*.json")]:
+		found[str(path.relative_to(tree.APP.parent))] = path.read_text(encoding="utf-8")
+	for path in sorted(set(_files(".js", ".vue")) | {one for _module, one, _text in _read()}):
+		if path.suffix in (".js", ".vue", ".py") and not path.name.startswith("test_"):
+			found.setdefault(str(path.relative_to(tree.APP.parent)), path.read_text(encoding="utf-8", errors="ignore"))
+	return found
+
+
+def over_one_sentence(files: dict[str, str]) -> dict[str, int]:
+	counted = {file: sum(sentences(said) > 1 for said in described_in(file, text)) for file, text in files.items()}
+	return {file: count for file, count in counted.items() if count}
+
+
+def test_a_description_is_one_sentence():
+	found, allowed = over_one_sentence(_described()), wording_allowed.ALLOWED
+	over = {file: (count, allowed.get(file, 0)) for file, count in found.items() if count > allowed.get(file, 0)}
+	assert not over, "a description, hint or note of more than one sentence (docs/WORDING.md): " + ", ".join(
+		f"{file} has {count} (allowed {was})" for file, (count, was) in sorted(over.items())
+	)
+	fell = {file: found.get(file, 0) for file, was in allowed.items() if found.get(file, 0) < was}
+	assert not fell, "fewer than wording_allowed.py allows; lower it: " + ", ".join(
+		f"{file}: {count}" for file, count in sorted(fell.items())
+	)
+
+
+def test_the_one_sentence_rule_catches_its_example():
+	assert over_one_sentence(
+		{
+			"onedesk/one_x/custom/item.json": '{"custom_fields": [{"description": "One. Two."}, {"description": "One."}]}',
+			"onedesk/one_x/doctype/thing/thing.json": '{"doctype": "DocType", "fields": [{"description": "A. B. C."}]}',
+			"onedesk/public/js/one_x/a.js": 'd.set({ hint: __("Typed here. Then saved."), note: __("Only one.") });',
+			"onedesk/one_x/settings.py": 'heading_with(__("Mail"), __("Who it is from. And to."))',
+		}
+	) == {
+		"onedesk/one_x/custom/item.json": 1,
+		"onedesk/one_x/doctype/thing/thing.json": 1,
+		"onedesk/public/js/one_x/a.js": 1,
+		"onedesk/one_x/settings.py": 1,
+	}
 
 
 def test_every_label_is_a_name_not_a_sentence():
@@ -310,3 +381,46 @@ def test_field_help_says_what_the_system_does():
 				if text and REASONING.search(text):
 					wrong.append(f"{path.stem}.{where}: {text}")
 	assert not wrong, "field help reads as reasoning, see docs/WORDING.md, The description:\n  " + "\n  ".join(wrong)
+
+
+HEADING = re.compile(
+	r"(?:\btitle|\bgroup|\blabel)\s*:\s*__\(\s*" + QUOTED
+	+ r"""|:label="__\(\s*""" + QUOTED
+	+ r"|\bheading(?:_with)?\(\s*__\(\s*" + QUOTED
+)
+SAID = re.compile(r"\b_{1,2}\(\s*" + QUOTED)
+HEADING_WORDS = 5
+BANNED = re.compile(
+	r"\b(simply|just|easily|please|utili[sz]e|leverage|seamless(?:ly)?|powerful|robust|note that"
+	r"|in order to|functionality|are you sure|something went wrong|frappe|erpnext)\b",
+	re.I,
+)
+
+
+def _read():
+	"""Every script of every module in onedesk/one/ready.py, ready or on its
+	way, so a module being made ready is held to them from the start."""
+	for module in ready.MODULES:
+		for path in ready.files(module):
+			if path.suffix in (".js", ".vue", ".py") and not path.name.startswith("test_"):
+				yield module, path, path.read_text(encoding="utf-8")
+
+
+def test_a_heading_is_five_words_or_fewer():
+	found = [
+		f"  {module} {path.name}: {_quoted(one)}"
+		for module, path, text in _read()
+		for one in HEADING.finditer(text)
+		if len(_quoted(one).split()) > HEADING_WORDS
+	]
+	assert not found, "A heading is five words or fewer (docs/WORDING.md):\n" + "\n".join(found)
+
+
+def test_no_banned_word_is_shown():
+	found = [
+		f"  {module} {path.name}: {_quoted(one)}"
+		for module, path, text in _read()
+		for one in SAID.finditer(text)
+		if BANNED.search(_quoted(one))
+	]
+	assert not found, "A word we never show (docs/WORDING.md):\n" + "\n".join(found)

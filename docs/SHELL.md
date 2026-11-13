@@ -73,7 +73,7 @@ name.
 **Replaced by the screen contract (onedesk/one_interface/AGENTS.md).** Every screen is now
 frappe's own list or form, or a Vue island; the pages below leave the shell
 one at a time, each deleting its old code, and the shell goes when none is
-left (`tests/guards/test_shell.py`). Until a page moves it keeps the rules
+left (`tests/guards/test_frame.py`). Until a page moves it keeps the rules
 that follow.
 
 `onedesk.shell` (one JS file, one CSS file with `.one-shell-*`), taken out of
@@ -109,7 +109,7 @@ composes them rather than drawing its own:
   Departments / Engineering" (`one_homes` in hooks.py, `one/homes.py`). Both are set in
   `shell.js` at load, so a record opened by its address reads the same as one
   reached by a click. `tests/test_crumbs.py`.
-  `tests/guards/test_shell.py` fails on a back button in a page, on `shell.name`
+  `tests/guards/test_frame.py` fails on a back button in a page, on `shell.name`
   given a route, and on a page that opens on a record from its address
   without the trail. It fails too on a table made anywhere but the shell,
   a row that opens a record outside a pane, sessions drawn by hand, a modal
@@ -126,7 +126,7 @@ composes them rather than drawing its own:
   Change Password, Passkey, where an extension runs), never one per record,
   never a link, and never drawn by hand; `onedesk.shell.list` of rows, and a
   row that opens something, belong only to a pane beside them (OneMail,
-  OneIntake, a record's Mail, Agreements). The guard (`tests/guards/test_shell.py`)
+  OneIntake, a record's Mail, Agreements). The guard (`tests/guards/test_frame.py`)
   refuses a list of rows, a row that goes anywhere, rows made one per
   record, and the row's markup written by hand.
 - **Dialogs** are frappe.ui.Dialog; nothing draws a modal of its own.
@@ -147,7 +147,7 @@ on one screen, and the desk form itself is not an island yet. When frappe
 moves the form onto `@framework/ui`, the shell moves with it; until then it
 matches what the reader sees on every other screen.
 
-A guard (`tests/guards/test_shell.py`) fails when a page draws its own head, its own
+A guard (`tests/guards/test_frame.py`) fails when a page draws its own head, its own
 empty state or row, sizes itself to the window, or ships CSS for a part the
 shell has.
 
