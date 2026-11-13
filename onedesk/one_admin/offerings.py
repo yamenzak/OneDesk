@@ -10,7 +10,7 @@ from frappe.utils import flt
 
 from onedesk.one import registry
 from onedesk.one_admin import costs as ours
-from onedesk.one_admin import plans, price_list, site
+from onedesk.one_admin import features, plans, price_list, site
 
 SYNCING = "one_admin_price_list_sync"
 
@@ -26,6 +26,7 @@ def _row(one) -> dict:
 			"storage_gb": one.storage_gb,
 			"database_gb": one.database_gb,
 			"credits_a_month": one.credits_a_month,
+			"features": features.rows(one.features),
 		}
 	elif isinstance(one, price_list.AddOn):
 		made = {"kind": "Add-on", "recurring": 1, **one.gives}
@@ -42,7 +43,8 @@ def rows() -> list[dict]:
 def install(*_args) -> None:
 	"""After migrate, on the admin site: each declared offering made if it is
 	not there, sold or not as the price list says, and every other one off. A
-	declared row's price is never changed: a new price is a new version."""
+	declared row's price is never changed: a new price is a new version. Its
+	features are the price list's: a Tenant keeps the copy it bought."""
 	if not site.is_admin() or not frappe.db.table_exists("Offering"):
 		return
 	frappe.flags[SYNCING] = True
@@ -52,6 +54,8 @@ def install(*_args) -> None:
 			declared[one["key"]] = one["enabled"]
 			if not frappe.db.exists("Offering", one["key"]):
 				frappe.get_doc(one).insert(ignore_permissions=True)
+			elif one["kind"] == "Plan":
+				features.write("Offering", one["key"], [row["feature"] for row in one["features"]])
 		for key, enabled in frappe.get_all("Offering", fields=["name", "enabled"], as_list=True):
 			want = declared.get(key, 0)
 			if int(enabled or 0) != want:

@@ -8,7 +8,7 @@ import secrets
 import frappe
 from frappe.utils import add_to_date, get_datetime, now_datetime
 
-from onedesk.one_admin import backups, cloudflare, faults, fleet, hosts, pilot, servers, site, steps
+from onedesk.one_admin import backups, cloudflare, faults, features, fleet, hosts, pilot, servers, site, steps
 from onedesk.one_admin.site import OPERATOR
 
 DOCTYPE = "Workspace Session"
@@ -22,6 +22,7 @@ LAST_STEP = "route"
 WAIT = "wait"
 
 ADVANCE_TIMEOUT = 3600
+COPIES = "training_copies"
 AGREED_WITHIN_HOURS = 3
 LAPSED_AFTER_HOURS = 48
 
@@ -60,6 +61,17 @@ def agreed(agreed_on, now, within_hours: int = AGREED_WITHIN_HOURS) -> bool:
 	return bool(agreed_on) and get_datetime(agreed_on) >= add_to_date(now, hours=-within_hours)
 
 
+def why_not_copied(held, agreed_on, now, within_hours: int = AGREED_WITHIN_HOURS) -> str | None:
+	"""Why a workspace may not be copied: its plan has no Training Copies
+	(`plan`), or it has not said lately that they are on and agreed to
+	(`agreed`). None when it may. Pure."""
+	if COPIES not in held:
+		return "plan"
+	if not agreed(agreed_on, now, within_hours):
+		return "agreed"
+	return None
+
+
 def _server():
 	"""The connected server with the fewest sessions on it that has room."""
 	rows = [one for one in fleet.rows() if one.connected and one.status == "Up"]
@@ -77,7 +89,7 @@ def _allowed_workspaces() -> list[dict]:
 	since = add_to_date(now_datetime(), hours=-AGREED_WITHIN_HOURS)
 	return frappe.get_all(
 		"Tenant",
-		filters={"copies_agreed_on": [">=", since], "site": ["is", "set"]},
+		filters={"copies_agreed_on": [">=", since], "site": ["is", "set"], "name": ["in", features.tenants_with(COPIES) or [""]]},
 		fields=["name", "workspace_name"],
 		order_by="workspace_name asc",
 	)
@@ -111,15 +123,18 @@ def board() -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def start(title: str, source: str, lasts: str, tenant: str | None = None) -> str:
-	"""A new session, started in the background. A copy needs a workspace that
-	has Training Copies on."""
+	"""A new session, started in the background. A copy needs a workspace
+	whose plan includes Training Copies and that has them on."""
 	_may()
 	if source not in WALKS or lasts not in LASTS:
 		frappe.throw(frappe._("Choose where the session starts from and how long it lasts."))
 	if source == COPY:
 		if not tenant or not frappe.db.exists("Tenant", tenant):
 			frappe.throw(frappe._("Choose a workspace to copy."))
-		if not agreed(frappe.db.get_value("Tenant", tenant, "copies_agreed_on"), now_datetime()):
+		why = why_not_copied(features.of_tenant(tenant), frappe.db.get_value("Tenant", tenant, "copies_agreed_on"), now_datetime())
+		if why == "plan":
+			frappe.throw(frappe._("{0}'s plan doesn't include Training Copies.").format(tenant))
+		if why:
 			frappe.throw(frappe._("{0} has not turned on Training Copies.").format(tenant))
 	row = _server()
 	slug = f"s-{secrets.token_hex(4)}"
@@ -350,7 +365,7 @@ def heard(said: dict) -> None:
 def tick() -> None:
 	"""Every two minutes, on the admin site: starting sessions move on, what
 	has run its time is deleted, and a copy whose workspace turned Training
-	Copies off goes too."""
+	Copies off, or whose plan no longer includes them, goes too."""
 	if not site.is_admin():
 		return
 	now = now_datetime()
@@ -359,7 +374,7 @@ def tick() -> None:
 	for row in frappe.get_all(DOCTYPE, filters=[["status", "in", ("Starting", "Running", "Stopped", "Failed")], ["expires_on", "is", "set"], ["expires_on", "<=", now]], fields=["name"]):
 		_safely(_expired, row.name)
 	for row in frappe.get_all(DOCTYPE, filters={"status": ["in", ("Running", "Stopped")], "source": COPY}, fields=["name", "tenant"]):
-		if not agreed(frappe.db.get_value("Tenant", row.tenant, "copies_agreed_on"), now, LAPSED_AFTER_HOURS):
+		if why_not_copied(features.of_tenant(row.tenant), frappe.db.get_value("Tenant", row.tenant, "copies_agreed_on"), now, LAPSED_AFTER_HOURS):
 			_safely(_expired, row.name)
 
 

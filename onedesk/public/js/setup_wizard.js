@@ -121,10 +121,10 @@ onedesk.setup.slides = [
 	},
 ];
 
-// On a dev site, the wizard's first screen offers the demo company beside
-// Get Started (one_demo/start.py): it is built in the background, and One
-// opens when it is done.
-if (frappe.boot.one_dev && frappe.setup.SetupWizard && !frappe.setup.SetupWizard.prototype.one_demo_offered) {
+// On a dev site whose plan includes the demo, the wizard's first screen
+// offers the demo company beside Get Started (one_demo/start.py): it is built
+// in the background, and One opens when it is done.
+if (frappe.boot.one_dev && frappe.boot.one_plan_features?.demo !== false && frappe.setup.SetupWizard && !frappe.setup.SetupWizard.prototype.one_demo_offered) {
 	const make_intro = frappe.setup.SetupWizard.prototype.make_intro;
 	frappe.setup.SetupWizard.prototype.one_demo_offered = true;
 	frappe.setup.SetupWizard.prototype.make_intro = function () {

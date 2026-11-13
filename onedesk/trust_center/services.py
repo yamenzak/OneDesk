@@ -37,18 +37,29 @@ def document(key: str) -> str:
 	return f"service:{key}"
 
 
+def offered(key: str) -> bool:
+	"""Whether the workspace's plan includes a service: one that opens a
+	plan feature (registry/features.py) is offered only on a plan that has it,
+	and is not shown at all otherwise."""
+	from onedesk.account_center import plan
+	from onedesk.one.registry import features
+
+	needs = features.of_service(key)
+	return not needs or plan.has(needs)
+
+
 def _accepted(key: str) -> str | None:
 	return gate._accepted(document(key), gate.WORKSPACE)
 
 
 def on(key: str) -> bool:
-	"""Whether the workspace has a service on: switched on, and agreed to
-	where it sends data now. Asked once per request."""
+	"""Whether the workspace has a service on: on its plan, switched on, and
+	agreed to where it sends data now. Asked once per request."""
 	known = getattr(frappe.local, "one_services", None)
 	if known is None:
 		known = frappe.local.one_services = {}
 	if key not in known:
-		known[key] = frappe.db.get_default(SWITCH.format(key)) == "1" and gate.agreed(
+		known[key] = offered(key) and frappe.db.get_default(SWITCH.format(key)) == "1" and gate.agreed(
 			_accepted(key), version_of(key)
 		)
 	return known[key]
@@ -63,12 +74,14 @@ def call(key: str, ask, *args, **kwargs):
 
 
 def standing(module: str | None = None) -> list[dict]:
-	"""Each optional service, a module's or all: what it does and sends,
-	to whom, what happens while it is off, whether it is on, and who agreed
-	to it and when."""
+	"""Each optional service the plan includes, a module's or all: what it
+	does and sends, to whom, what happens while it is off, whether it is
+	on, and who agreed to it and when."""
 	assemble._load()
 	out = []
 	for one in services_of(module):
+		if not offered(one["key"]):
+			continue
 		row = frappe.get_all(
 			"Legal Acceptance",
 			filters={"document": document(one["key"]), "party": gate.WORKSPACE},
@@ -105,6 +118,8 @@ def switch(key: str, on: int) -> list[dict]:
 	off, which stops what it sends. Only a workspace administrator binds the
 	workspace (gate._may_bind)."""
 	one = _declared(key)
+	if int(on) and not offered(key):
+		frappe.throw(_("Your plan doesn't include this service."))
 	if not gate._may_bind():
 		frappe.throw(_("Your role doesn't allow turning services on or off."), frappe.PermissionError)
 	_set(key, on)
@@ -138,7 +153,8 @@ def for_wizard() -> dict | None:
 	"""The setup wizard's slide for the optional services: a switch each,
 	all off, which agrees to one for the workspace when turned on."""
 	assemble._load()
-	if not SERVICES:
+	keys = [key for key in SERVICES if offered(key)]
+	if not keys:
 		return None
 	return {
 		"name": "one_services",
@@ -146,7 +162,7 @@ def for_wizard() -> dict | None:
 		"help": _("Each sends something to another company and stays off until you turn it on, which agrees to it for your whole workspace."),
 		"fields": [
 			{"fieldtype": "Check", "fieldname": f"one_service_{one['key']}", "label": one["title"], "description": one["sends"], "default": 0}
-			for one in SERVICES.values()
+			for one in (SERVICES[key] for key in keys)
 		],
 	}
 
@@ -154,5 +170,5 @@ def for_wizard() -> dict | None:
 def from_wizard(args: dict) -> None:
 	"""A setup wizard task: each service turned on there, agreed to."""
 	for key in SERVICES:
-		if (args or {}).get(f"one_service_{key}"):
+		if (args or {}).get(f"one_service_{key}") and offered(key):
 			_set(key, 1)

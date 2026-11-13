@@ -4,6 +4,8 @@ Nothing here decides anything: quota, price and permission are admin's
 answers, and this asks and records them.
 """
 
+import json
+
 import frappe
 import requests
 from frappe.rate_limiter import rate_limit
@@ -107,6 +109,7 @@ def refresh() -> dict:
 			"plan": said.get("plan"),
 			"seats": said.get("seats") or 0,
 			"plan_key": said.get("plan_key"),
+			"plan_features": json.dumps(said["features"]) if isinstance(said.get("features"), list) else None,
 			"monthly": said.get("monthly") or 0,
 			"plan_currency": said.get("currency"),
 			"database_bytes": said.get("database_bytes") or 0,
@@ -134,6 +137,9 @@ def refresh() -> dict:
 			"last_error": None,
 		}
 	)
+	frappe.local.one_plan_features = False
+	if before.get("plan_features") != held.plan_features:
+		_replan()
 	_take_zone(zone_to_take(finished, ours, said.get("time_zone")))
 	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held, credits.get("gift"))
@@ -141,6 +147,15 @@ def refresh() -> dict:
 
 	owner.arrive(said)
 	return held.as_dict()
+
+
+def _replan() -> None:
+	"""The plan's features changed: the rail drops or takes back the apps
+	that need them (apps.unplanned)."""
+	from onedesk.one import companions
+
+	companions.layer()
+	frappe.clear_cache()
 
 
 def zone_to_say(finished: bool, ours: str | None) -> str | None:

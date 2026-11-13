@@ -1670,6 +1670,10 @@ msgstr "رُفعت شكوى حساسة"
 msgid "A series is parts joined by dots. Text stays as written, such as INV- or SO/."
 msgstr "السلسلة أجزاء تفصل بينها نقاط. يبقى النص كما كُتب، مثل INV- أو SO/."
 
+#: onedesk/one/registry/features.py:27
+msgid "A server of the workspace's own, rather than one it shares."
+msgstr "خادم خاص بمساحة العمل، بدلًا من خادم مشترك."
+
 #: onedesk/one_factory/home.py:53
 msgid "A set of steps in order, for bills that share them."
 msgstr "مجموعة خطوات مرتبة، لقوائم المواد التي تشترك فيها."
@@ -19035,6 +19039,11 @@ msgstr "العائلة"
 msgid "Fast"
 msgstr "سريع"
 
+#. Label of the feature (Data) field in DocType 'Plan Feature'
+#: onedesk/one_admin/doctype/plan_feature/plan_feature.json:15
+msgid "Feature"
+msgstr "الميزة"
+
 #. Label of the one_featured (Check) field in DocType 'File'
 #: onedesk/one_display/starters.py:743 onedesk/one_project/custom/file.json:7
 msgid "Featured"
@@ -19043,6 +19052,13 @@ msgstr "مميز"
 #: onedesk/one_cloud/namespace.py:748 onedesk/one_cloud/namespace.py:853
 msgid "Featured Media"
 msgstr "الوسائط المميزة"
+
+#. Label of the features (Table) field in DocType 'Offering'
+#. Label of the features (Table) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/offering/offering.json:188
+#: onedesk/one_admin/doctype/tenant/tenant.json:361
+msgid "Features"
+msgstr "الميزات"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:26
 msgid "Feb"
@@ -37084,6 +37100,10 @@ msgstr "عليها مستحقات"
 msgid "Own Mailboxes"
 msgstr "صناديق البريد الخاصة"
 
+#: onedesk/one/registry/features.py:27
+msgid "Own Server"
+msgstr "خادم خاص"
+
 #: onedesk/public/js/one_inventory/item_new.js:6
 msgid "Owned and used, like a van or a laptop."
 msgstr "مملوك ومُستخدم، مثل شاحنة أو حاسوب محمول."
@@ -39190,6 +39210,16 @@ msgstr "تغيير الخطة معلّق"
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:33
 msgid "Plan Changed"
 msgstr "تغيّرت الخطة"
+
+#. Name of a DocType
+#: onedesk/one_admin/doctype/plan_feature/plan_feature.json:29
+msgid "Plan Feature"
+msgstr "ميزة الخطة"
+
+#. Label of the plan_features (Small Text) field in DocType 'Workspace Account'
+#: onedesk/account_center/doctype/workspace_account/workspace_account.json:184
+msgid "Plan Features"
+msgstr "ميزات الخطة"
 
 #. Label of the plan_key (Data) field in DocType 'Workspace Account'
 #: onedesk/account_center/doctype/workspace_account/workspace_account.json:176
@@ -51928,6 +51958,10 @@ msgstr "الحساب الافتتاحي المؤقت رصيده صفر."
 msgid "Temporary Opening still holds {0}: post the other side of the opening balances to capital with a Journal Entry."
 msgstr "لا يزال الحساب الافتتاحي المؤقت يحمل {0}: رحّل الطرف الآخر من الأرصدة الافتتاحية إلى رأس المال بقيد يومية."
 
+#: onedesk/one/registry/features.py:23
+msgid "Temporary copies of the workspace for its people to train on, once its administrators turn Training Copies on."
+msgstr "نسخ مؤقتة من مساحة العمل يتدرب عليها أفرادها، بعد أن يفعّل المسؤولون نسخ التدريب."
+
 #. Name of a DocType
 #: onedesk/one_admin/doctype/tenant/tenant.json:518
 msgid "Tenant"
@@ -53062,6 +53096,10 @@ msgstr "لا تُحمَّل الشركة التجريبية إلا في مساح
 #: onedesk/one/dev.py:15
 msgid "The demo company is built on dev sites only."
 msgstr "لا تُنشأ الشركة التجريبية إلا على مواقع التطوير."
+
+#: onedesk/one/registry/features.py:26
+msgid "The demo company, built into a workspace that is not set up yet."
+msgstr "الشركة التجريبية، تُبنى في مساحة عمل لم تُعدّ بعد."
 
 #. The Events terms and conditions
 #: onedesk/one_project/library_terms.json
@@ -55692,6 +55730,10 @@ msgstr "مساحة العمل هذه غير متصلة بحسابها. هذه ه
 msgid "This workspace isn't linked to {0}, so it can't add private apps."
 msgstr "مساحة العمل هذه غير مرتبطة بـ {0}، لذا لا يمكنها إضافة تطبيقات خاصة."
 
+#: onedesk/one_demo/start.py:26
+msgid "This workspace's plan doesn't include the demo company."
+msgstr "خطة مساحة العمل هذه لا تشمل الشركة التجريبية."
+
 #: onedesk/one_ai/vectors.py:28
 msgid "This workspace's search is not set up yet."
 msgstr "البحث في مساحة العمل هذه غير مُعدّ بعد."
@@ -56905,6 +56947,10 @@ msgstr "المدرب"
 #: onedesk/one_hr/print_format/one_training_result/one_training_result.json
 msgid "Training"
 msgstr "التدريب"
+
+#: onedesk/one/registry/features.py:22
+msgid "Training Copies"
+msgstr "نسخ التدريب"
 
 #. Label of the copies_agreed_on (Datetime) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:497
@@ -60248,6 +60294,11 @@ msgstr "ما يمنحه، في سطر واحد، يُكتب عند الحفظ."
 msgid "What it shows and does"
 msgstr "ما تعرضه وما تفعله"
 
+#. Description of the 'Features' (Table) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/tenant/tenant.json:363
+msgid "What its plan includes beyond the quotas, copied when the plan changes."
+msgstr "ما تشمله خطتها إلى جانب الحصص، ويُنسخ عند تغيير الخطة."
+
 #: onedesk/one/agent.py:280
 msgid "What left as a file?"
 msgstr "ما الذي خرج كملف؟"
@@ -60527,6 +60578,16 @@ msgstr "ما كتبه من بتَّ في الطلب، إن كتب شيئاً."
 #: onedesk/one_deck/decks.py:201
 msgid "What the picture shows"
 msgstr "ما تُظهره الصورة"
+
+#. Description of the 'Features' (Table) field in DocType 'Offering'
+#: onedesk/one_admin/doctype/offering/offering.json:191
+msgid "What the plan includes beyond its quotas, from the price list."
+msgstr "ما تشمله الخطة إلى جانب حصصها، من قائمة الأسعار."
+
+#. Description of the 'Feature' (Data) field in DocType 'Plan Feature'
+#: onedesk/one_admin/doctype/plan_feature/plan_feature.json:20
+msgid "What the plan includes, by its id."
+msgstr "ما تشمله الخطة، بمعرّفه."
 
 #. Description of the 'Speaker Notes' (Long Text) field in DocType
 #. 'Presentation Slide'
@@ -65747,6 +65808,10 @@ msgstr "تم تغيير كلمة مرورك"
 #: onedesk/public/js/account_center/account_center.js:1709
 msgid "Your password, your passkey and where you are signed in."
 msgstr "كلمة مرورك ومفتاح مرورك والأماكن التي سجلت الدخول منها."
+
+#: onedesk/trust_center/services.py:122
+msgid "Your plan doesn't include this service."
+msgstr "خطتك لا تشمل هذه الخدمة."
 
 #: onedesk/account_center/tour.py:12
 msgid "Your profile and how you sign in, and for administrators, the workspace's people, devices, plan and domains."
@@ -71696,6 +71761,11 @@ msgstr "{0}% · {1} محتجز"
 #, python-brace-format
 msgid "{0}'s config isn't copied: there is no Config Copy Key in Settings"
 msgstr "لا يُنسخ إعداد {0}: لا يوجد مفتاح نسخ الإعداد في الإعدادات"
+
+#: onedesk/one_admin/sessions.py:136
+#, python-brace-format
+msgid "{0}'s plan doesn't include Training Copies."
+msgstr "خطة {0} لا تشمل نسخ التدريب."
 
 #: onedesk/public/js/one/access_center.js:65
 #, python-brace-format

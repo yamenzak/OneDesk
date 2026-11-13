@@ -130,7 +130,7 @@ def hello(database_bytes: int | None = None, terms_pending: int | None = None, t
 		],
 		as_dict=True,
 	)
-	from onedesk.one_admin import billing, closing, domains, ledger, lifecycle, offerings, oneos, releases
+	from onedesk.one_admin import billing, closing, domains, features, ledger, lifecycle, offerings, oneos, releases
 
 	plan = (
 		frappe.db.get_value("Offering", known.offering, ["label", "seats"], as_dict=True)
@@ -153,6 +153,7 @@ def hello(database_bytes: int | None = None, terms_pending: int | None = None, t
 		"plan": plan.label if plan else None,
 		"seats": known.seats or (plan.seats if plan else None),
 		"plan_key": known.offering,
+		"features": list(features.of_tenant(tenant.name)),
 		"monthly": billing.monthly(_tenant_doc(tenant)),
 		"currency": offerings.currency(),
 		"database_bytes": known.database_bytes or 0,

@@ -42,6 +42,9 @@ def boot_session(bootinfo) -> None:
 	bootinfo["one_frame_colour"] = company.frame_colour()
 	bootinfo["one_frame_ink"] = company.frame_ink(bootinfo["one_frame_colour"])
 	bootinfo["one_workspace_name"] = frappe.db.get_single_value("Workspace Account", "workspace_name")
+	from onedesk.account_center import plan
+
+	plan.boot(bootinfo)
 	bootinfo["one_companies"] = company.mine()
 	from onedesk.one import weather
 

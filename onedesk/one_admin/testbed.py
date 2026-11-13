@@ -12,7 +12,7 @@ from frappe import _lt
 from frappe.utils import now_datetime, sha256_hash
 
 from onedesk.one import registry
-from onedesk.one_admin import hosts, site
+from onedesk.one_admin import features, hosts, site
 
 SLUG = re.compile(r"^[a-z0-9][a-z0-9-]{1,39}$")
 GB = 1000 * 1000 * 1000
@@ -129,6 +129,7 @@ def new(address: str, workspace_name: str) -> dict:
 				"storage_limit": (plan.storage_gb or 0) * GB,
 				"database_limit": (plan.database_gb or 0) * GB,
 				"credits_a_month": 0,
+				"features": features.rows(features.held("Offering", plan.name)),
 			}
 		).insert(ignore_permissions=True)
 	tenant = frappe.get_doc("Tenant", slug)

@@ -130,5 +130,6 @@ onedesk.one_admin.patches.updates_on_saturday
 onedesk.one_admin.patches.servers_are_records
 onedesk.one_admin.patches.servers_are_a_view
 onedesk.one_admin.patches.servers_say_connected
+onedesk.one_admin.patches.plans_have_features
 onedesk.one_cloud.patches.one_lease_on_file
 onedesk.one_cloud.patches.excel_weighed_again

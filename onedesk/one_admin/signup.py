@@ -166,6 +166,7 @@ def _tenant_for(asked) -> str:
 			"database_limit": (sold.database_gb or 0) * 1000 * 1000 * 1000,
 			"seats": sold.seats or 0,
 			"credits_a_month": sold.credits_a_month or 0,
+			"features": [{"feature": one.feature} for one in sold.get("features") or []],
 		}
 	).insert(ignore_permissions=True)
 	return asked.slug

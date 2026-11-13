@@ -48,6 +48,7 @@
   "limits_section",
   "seats",
   "credits_a_month",
+  "features",
   "column_break_limits",
   "database_bytes",
   "database_limit",
@@ -352,6 +353,14 @@
    "label": "Monthly Credits",
    "read_only": 1,
    "description": "Granted at the start of each month. The plan's and the add-ons'."
+  },
+  {
+   "fieldname": "features",
+   "fieldtype": "Table",
+   "options": "Plan Feature",
+   "label": "Features",
+   "read_only": 1,
+   "description": "What its plan includes beyond the quotas, copied when the plan changes."
   },
   {
    "fieldname": "column_break_limits",
