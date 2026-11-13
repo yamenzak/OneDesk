@@ -261,7 +261,7 @@ release through a thin module, removed in P2.9.
 
 ### P3. OneLint and DRY (foundation)
 
-- [ ] P3.1 `onedesk/one/lint/` and `scripts/lint.py`: rule, owner, reason, example, hint; `--all`; changed-files mode from registry ownership; wraps the current guards first, unchanged. — `lint.py --all` equals today's guard result.
+- [x] P3.1 `onedesk/one/lint/` and `scripts/lint.py`: rule, owner, reason, example, hint; `--all`; changed-files mode from registry ownership; wraps the current guards first, unchanged. — `lint.py --all` equals today's guard result. (13 Nov: scripts/lint.py, quick.py its alias until P3.9 rewrites what names it; a change also runs its module's tests and those naming its folder; rules listed from tests/guards/registry.py until P3.3.)
 - [ ] P3.2 One standard: READY's 14 points and PASSOVER's 17 points merged into one numbered list in `docs/STANDARD.md` (hand-written why, generated rule table). READY.md and PASSOVER.md shrink to what is not a rule (how a module is finished, how a screen is walked). — every rule names its point; no point without a rule or a hand look.
 - [ ] P3.3 Guards moved into rules point by point, overlaps merged (SURVEY §4: the look/frame 13 files, the words 6 with test_wording vs test_copy settled at one sentence, the rail 5, page lists from one place, test_shell retired), the 18 unregistered files placed, test_hooks' 663 cases one rule each kind. — rule count and run time measured before and after in the commit.
 - [ ] P3.4 Readiness as facts: what the manifest declares and OneLint verifies; hand looks kept only for the five HAND points, dated by commit not by close.py rewriting ready.py. — close.py no longer edits Python.
