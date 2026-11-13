@@ -27,7 +27,7 @@ def onedeck_keeps_a_presentation_in_onecloud():
 	from werkzeug.wrappers import Request
 
 	from onedesk.one_demo.slide import NAME as DEMO
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 	from onedesk.one_deck import api, paper, play, templates, versions
 
 	dot = "data:image/png;base64," + base64.b64encode(DOT_PNG).decode()

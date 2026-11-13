@@ -260,15 +260,6 @@ No doctypes yet.
 
 No doctypes yet.
 
-## One Legal
-
-`onedesk/one_legal`
-
-| Doctype | Fields | Kind |
-|---|--:|---|
-| Legal Acceptance | 9 | document |
-| Legal Document Version | 8 | document |
-
 ## One Sheet
 
 `onedesk/one_sheet`
@@ -278,6 +269,15 @@ No doctypes yet.
 | Workbook | 15 | document |
 | Workbook Change | 10 | document |
 | Workbook Version | 9 | document |
+
+## Trust Center
+
+`onedesk/trust_center`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Legal Acceptance | 9 | document |
+| Legal Document Version | 8 | document |
 
 ## Desk records shipped as fixtures
 
@@ -945,16 +945,6 @@ No doctypes yet.
 * `onedesk.one_inventory.upkeep.done`
 * `onedesk.one_inventory.view.files`
 * `onedesk.one_inventory.view.read`
-* `onedesk.one_legal.gate.accept`
-* `onedesk.one_legal.gate.outstanding`
-* `onedesk.one_legal.reading.acceptances`
-* `onedesk.one_legal.reading.catalogue`
-* `onedesk.one_legal.reading.document`
-* `onedesk.one_legal.reading.history`
-* `onedesk.one_legal.reading.of_module`
-* `onedesk.one_legal.reading.overview`
-* `onedesk.one_legal.reading.trust`
-* `onedesk.one_legal.services.switch`
 * `onedesk.one_mail.actions.create_folder`
 * `onedesk.one_mail.actions.delete`
 * `onedesk.one_mail.actions.delete_folder`
@@ -1199,3 +1189,13 @@ No doctypes yet.
 * `onedesk.one_task.timer.timers`
 * `onedesk.one_task.views.children`
 * `onedesk.one_task.views.events`
+* `onedesk.trust_center.gate.accept`
+* `onedesk.trust_center.gate.outstanding`
+* `onedesk.trust_center.reading.acceptances`
+* `onedesk.trust_center.reading.catalogue`
+* `onedesk.trust_center.reading.document`
+* `onedesk.trust_center.reading.history`
+* `onedesk.trust_center.reading.of_module`
+* `onedesk.trust_center.reading.overview`
+* `onedesk.trust_center.reading.trust`
+* `onedesk.trust_center.services.switch`

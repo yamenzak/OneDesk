@@ -2,9 +2,9 @@
 picture or a video from a description, and a font can be added from Google's
 catalogue once a workspace turns that on. A presentation is a file in OneCloud,
 so what OneCloud's agreements say of a file holds for it. See
-one_deck/AGENTS.md and one_legal/AGENTS.md."""
+one_deck/AGENTS.md and trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause, service, subprocessor
+from onedesk.trust_center.registry import clause, service, subprocessor
 
 M = "OneDeck"
 

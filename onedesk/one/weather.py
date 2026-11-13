@@ -13,7 +13,7 @@ from frappe import _, _lt
 from frappe.utils import cint, flt
 
 from onedesk.one import account
-from onedesk.one_legal import services
+from onedesk.trust_center import services
 
 SERVICE = "weather"
 READING = "onedesk.one_admin.proxy.weather_reading"

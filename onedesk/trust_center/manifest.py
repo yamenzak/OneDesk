@@ -1,14 +1,14 @@
-"""OneLegal's place in One (docs/run/RUN.md, OneRegistry)."""
+"""TrustCenter's place in One (docs/run/RUN.md, OneRegistry)."""
 
 from onedesk.one.registry.model import App, Settle
 
 APP = App(
-	id="one_legal",
-	name="OneLegal",
+	id="trust_center",
+	name="TrustCenter",
 	kind="centre",
-	module="One Legal",
+	module="Trust Center",
 	screens="legal",
-	names=("one_legal", "onelegal"),
+	names=("trust_center", "trustcenter"),
 	help=(
 		("overview", "info"),
 		("agreeing", "file-check"),
@@ -16,7 +16,7 @@ APP = App(
 		("changes", "history"),
 		("who-can-do-what", "shield"),
 	),
-	windowless="TrustCenter is a dialog every module's foot opens, so OneLegal has no window, foot or settings of its own.",
+	windowless="TrustCenter is a dialog every module's foot opens, so it has no window, foot or settings of its own.",
 	ready={
 		"ready": True,
 	},

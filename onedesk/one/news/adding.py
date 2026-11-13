@@ -153,7 +153,7 @@ def add_many(urls: str | list) -> list[str]:
 def start() -> dict:
 	"""What the dialog needs before it asks anything: whether Google News is
 	on, and the workspace's country and language to start from."""
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	frappe.has_permission(SOURCE, "create", throw=True)
 	return {

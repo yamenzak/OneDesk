@@ -400,6 +400,7 @@ Only what needs his own hands:
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
 
+- [ ] D9 Remove the one_legal shim — at P2.9: it stays one release so old dotted paths run
 - [ ] D8 A rule that a synced JSON (doctype, page, sidebar, report, print format, notification, fixture) whose content changed also moved its `modified`, or frappe never syncs it to sites — at P3.3: the P2 renames changed titles without it and sites kept the old words.
 - [ ] D6 OneCloud's checks move out of one_demo/check.py into its own checks.py, as every other module's are; check.py imports a module's checks only where the file exists until then — at P3.7: check.py is split there. (OneCloud's folder is one_cloud since P2.1.)
 - [ ] D7 Remove the one_slide shim — at P2.9: it stays one release so old dotted paths run

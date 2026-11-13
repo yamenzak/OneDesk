@@ -1951,7 +1951,7 @@ msgstr ""
 msgid "A4, Portrait"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:29
+#: onedesk/trust_center/gate.py:29
 msgid "AI Addendum"
 msgstr ""
 
@@ -2144,7 +2144,7 @@ msgstr ""
 msgid "Accept this check-in?"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:19
+#: onedesk/trust_center/gate.py:19
 msgid "Acceptable Use Policy"
 msgstr ""
 
@@ -3696,14 +3696,14 @@ msgstr ""
 msgid "Aggregate slices"
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:71
-#: onedesk/public/js/one_legal/trust_center.js:222
+#: onedesk/public/js/trust_center/legal.js:71
+#: onedesk/public/js/trust_center/trust_center.js:222
 msgid "Agree"
 msgstr ""
 
 #. Label in the One Blanket Order print format
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
-#: onedesk/public/js/one_legal/legal.js:83
+#: onedesk/public/js/trust_center/legal.js:83
 msgid "Agreed"
 msgstr ""
 
@@ -3721,12 +3721,12 @@ msgstr ""
 msgid "Agreed at {0}, {1} left until {2}"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:206
+#: onedesk/public/js/trust_center/trust_center.js:206
 #, python-brace-format
 msgid "Agreed on {0}"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:225
+#: onedesk/public/js/trust_center/trust_center.js:225
 #, python-brace-format
 msgid "Agreed to {0}"
 msgstr ""
@@ -3742,13 +3742,13 @@ msgstr ""
 msgid "Agreement No"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:394 onedesk/www/legal.html:20
+#: onedesk/public/js/trust_center/trust_center.js:394 onedesk/www/legal.html:20
 #: onedesk/www/legal.py:27
 msgid "Agreements"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 msgid "Agreements Changed"
 msgstr ""
 
@@ -5407,17 +5407,17 @@ msgstr ""
 msgid "As Written"
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:51
+#: onedesk/public/js/trust_center/legal.js:51
 msgid "As a workspace administrator, you agree to some of these for your organisation."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:262
+#: onedesk/public/js/trust_center/trust_center.js:262
 #, python-brace-format
 msgid "As agreed, version {0}."
 msgstr ""
 
 #. Label of the text (Long Text) field in DocType 'Legal Document Version'
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:69
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:69
 msgid "As hashed"
 msgstr ""
 
@@ -5432,7 +5432,7 @@ msgid "As often as a project says, to ask how it is going. A project's own quest
 msgstr ""
 
 #. Label of the html (Text Editor) field in DocType 'Legal Document Version'
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:62
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:62
 msgid "As shown"
 msgstr ""
 
@@ -6157,7 +6157,7 @@ msgstr ""
 #. Label of the audience (Select) field in DocType 'Cloud Link'
 #. Label of the audience (Data) field in DocType 'Legal Document Version'
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:56
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:52
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:52
 msgid "Audience"
 msgstr ""
 
@@ -7044,7 +7044,7 @@ msgstr ""
 msgid "Before Validate"
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:68
+#: onedesk/public/js/trust_center/legal.js:68
 msgid "Before You Continue"
 msgstr ""
 
@@ -7914,7 +7914,7 @@ msgstr ""
 #. Label of the agent (Small Text) field in DocType 'Legal Acceptance'
 #: onedesk/one_account/doctype/device/device.json:99
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:155
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:82
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:82
 #: onedesk/public/js/one_account/account_center.js:1442
 msgid "Browser"
 msgstr ""
@@ -8531,7 +8531,7 @@ msgstr ""
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
 #: onedesk/public/js/one_interface/phone.js:444
-#: onedesk/public/js/one_legal/trust_center.js:464
+#: onedesk/public/js/trust_center/trust_center.js:464
 msgid "Cancel"
 msgstr ""
 
@@ -8961,8 +8961,8 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
 #: onedesk/public/js/audit_list.js:20
 #: onedesk/public/js/one/access_center.js:209
-#: onedesk/public/js/one_legal/trust_center.js:167
-#: onedesk/public/js/one_legal/trust_center.js:169
+#: onedesk/public/js/trust_center/trust_center.js:167
+#: onedesk/public/js/trust_center/trust_center.js:169
 msgid "Changes"
 msgstr ""
 
@@ -8983,7 +8983,7 @@ msgstr ""
 msgid "Changes you saved are kept. Open it in OneOS again to go on."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:215
+#: onedesk/public/js/trust_center/trust_center.js:215
 #, python-brace-format
 msgid "Changing on {0}"
 msgstr ""
@@ -9129,7 +9129,7 @@ msgstr ""
 #: onedesk/one_admin/heads.py:533 onedesk/one_admin/home.py:419
 #: onedesk/public/js/one_account/account_center.js:691
 #: onedesk/public/js/one_account/account_center.js:1543
-#: onedesk/public/js/one_legal/legal.js:71
+#: onedesk/public/js/trust_center/legal.js:71
 msgid "Check Again"
 msgstr ""
 
@@ -10430,7 +10430,7 @@ msgid "Comes In"
 msgstr ""
 
 #: onedesk/public/js/module_docs.js:308
-#: onedesk/public/js/one_legal/trust_center.js:185
+#: onedesk/public/js/trust_center/trust_center.js:185
 msgid "Coming"
 msgstr ""
 
@@ -10551,11 +10551,11 @@ msgstr ""
 msgid "Compact Weather"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:111
+#: onedesk/public/js/trust_center/trust_center.js:111
 msgid "Companies"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:113
+#: onedesk/public/js/trust_center/trust_center.js:113
 msgid "Companies That Receive Data"
 msgstr ""
 
@@ -11417,7 +11417,7 @@ msgstr ""
 msgid "Converting {0}…"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:23
+#: onedesk/trust_center/gate.py:23
 msgid "Cookie Policy"
 msgstr ""
 
@@ -12935,12 +12935,12 @@ msgstr ""
 msgid "Data Copies"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:138
+#: onedesk/public/js/trust_center/trust_center.js:138
 #, python-brace-format
 msgid "Data Copy for {0}"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:25
+#: onedesk/trust_center/gate.py:25
 msgid "Data Processing Addendum"
 msgstr ""
 
@@ -13915,7 +13915,7 @@ msgstr ""
 
 #: onedesk/one_ai/proposals.py:658 onedesk/one_mail/ai.py:780
 #: onedesk/one_mail/ai.py:933 onedesk/public/js/one_ai/panel/Record.vue:139
-#: onedesk/public/js/one_legal/trust_center.js:135
+#: onedesk/public/js/trust_center/trust_center.js:135
 #, python-brace-format
 msgid "Delete {0}"
 msgstr ""
@@ -15247,8 +15247,8 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 #: onedesk/one_inventory/print_format/one_landed_cost_voucher/one_landed_cost_voucher.json
 #: onedesk/one_inventory/print_format/one_serial_and_batch_bundle/one_serial_and_batch_bundle.json
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:25
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:24
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:25
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:24
 #: onedesk/one_studio/print_blocks.py:821
 msgid "Document"
 msgstr ""
@@ -16090,7 +16090,7 @@ msgstr ""
 msgid "Each address on its own line gets the link and a sign-in code."
 msgstr ""
 
-#: onedesk/one_legal/tour.py:18
+#: onedesk/trust_center/tour.py:18
 msgid "Each agreement, the optional services, who receives data and what is changing."
 msgstr ""
 
@@ -16266,7 +16266,7 @@ msgstr ""
 msgid "Each sender gets one out-of-office reply in four days, from this mailbox."
 msgstr ""
 
-#: onedesk/one_legal/services.py:146
+#: onedesk/trust_center/services.py:146
 msgid "Each sends something to another company and stays off until you turn it on, which agrees to it for your whole workspace."
 msgstr ""
 
@@ -17715,7 +17715,7 @@ msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/one/notifications.py onedesk/one_account/notifications.py
-#: onedesk/one_legal/notifications.py onedesk/one_studio/notifications.py
+#: onedesk/trust_center/notifications.py onedesk/one_studio/notifications.py
 msgid "Every administrator"
 msgstr ""
 
@@ -17759,7 +17759,7 @@ msgstr ""
 msgid "Every check-in is scored out of 100 and the score is kept on Clock Attempt. Each check below that fails subtracts from it."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:114
+#: onedesk/public/js/trust_center/trust_center.js:114
 msgid "Every company that receives data, and whether yours uses it."
 msgstr ""
 
@@ -17994,7 +17994,7 @@ msgstr ""
 msgid "Every taxed invoice, for a VAT audit."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:28
+#: onedesk/trust_center/gate.py:28
 msgid "Every third party that receives customer data, what for, and where it is kept."
 msgstr ""
 
@@ -18106,7 +18106,7 @@ msgid "Everyone in the demo company signs in with it. The owner is {0}."
 msgstr ""
 
 #. Who a notification is sent to
-#: onedesk/one/notifications.py onedesk/one_legal/notifications.py
+#: onedesk/one/notifications.py onedesk/trust_center/notifications.py
 msgid "Everyone in the workspace"
 msgstr ""
 
@@ -18178,7 +18178,7 @@ msgstr ""
 msgid "Everything approved"
 msgstr ""
 
-#: onedesk/one_legal/tour.py:17
+#: onedesk/trust_center/tour.py:17
 msgid "Everything in One Place"
 msgstr ""
 
@@ -19504,7 +19504,7 @@ msgstr ""
 msgid "Find What You Need"
 msgstr ""
 
-#: onedesk/one_legal/tour.py:23
+#: onedesk/trust_center/tour.py:23
 msgid "Find a Clause"
 msgstr ""
 
@@ -20146,7 +20146,7 @@ msgstr ""
 msgid "For the newest request for prices, who is cheapest on each line, and which quotes run out soon?"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:251
+#: onedesk/public/js/trust_center/trust_center.js:251
 #, python-brace-format
 msgid "For the organisation, version {0}"
 msgstr ""
@@ -20155,7 +20155,7 @@ msgstr ""
 msgid "For the sender and everyone in To and Cc."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:251
+#: onedesk/public/js/trust_center/trust_center.js:251
 #, python-brace-format
 msgid "For themselves, version {0}"
 msgstr ""
@@ -20168,11 +20168,11 @@ msgstr ""
 msgid "For video calls. The browser asks which tab to share."
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:31
+#: onedesk/public/js/trust_center/legal.js:31
 msgid "For you"
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:31
+#: onedesk/public/js/trust_center/legal.js:31
 msgid "For your organisation"
 msgstr ""
 
@@ -20745,7 +20745,7 @@ msgid "From a sick note, which arrived by mail."
 msgstr ""
 
 #. Label of the address (Data) field in DocType 'Legal Acceptance'
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:76
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:76
 msgid "From address"
 msgstr ""
 
@@ -20829,7 +20829,7 @@ msgstr ""
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:341
+#: onedesk/public/js/trust_center/trust_center.js:341
 #, python-brace-format
 msgid "From {0}"
 msgstr ""
@@ -21573,7 +21573,7 @@ msgstr ""
 msgid "Green"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:56
+#: onedesk/public/js/trust_center/trust_center.js:56
 msgid "Greyed where your workspace doesn't use it."
 msgstr ""
 
@@ -22587,7 +22587,7 @@ msgstr ""
 msgid "How OneAI reads what arrives in this workspace."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:30
+#: onedesk/trust_center/gate.py:30
 msgid "How OneAI works, which models run, and what happens to what you send it."
 msgstr ""
 
@@ -23051,7 +23051,7 @@ msgstr ""
 msgid "How urgent an issue is."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:26
+#: onedesk/trust_center/gate.py:26
 msgid "How we handle personal data your organisation is responsible for, under the Terms of Service."
 msgstr ""
 
@@ -23077,7 +23077,7 @@ msgstr ""
 msgid "How {0} looks has changed since this was suggested, so it no longer applies."
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:55
+#: onedesk/public/js/trust_center/legal.js:55
 msgid "I agree to these"
 msgstr ""
 
@@ -27172,12 +27172,12 @@ msgid "Legal"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:91
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:91
 msgid "Legal Acceptance"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:78
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:78
 msgid "Legal Document Version"
 msgstr ""
 
@@ -31265,13 +31265,13 @@ msgid "New season styles are here. Take a look around."
 msgstr ""
 
 #. Message of a notification
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 #, python-brace-format
 msgid "New versions of: {documents}. They take effect on {effective}, and until then the versions you agreed to hold. TrustCenter shows what changes. To object to a new subprocessor, reply before then."
 msgstr ""
 
 #. Message of a notification
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 #, python-brace-format
 msgid "New versions of: {documents}. They take effect on {effective}. TrustCenter shows what changes."
 msgstr ""
@@ -31711,7 +31711,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_legal/abilities.py:21 onedesk/one_mail/abilities.py:23
+#: onedesk/trust_center/abilities.py:21 onedesk/one_mail/abilities.py:23
 #: onedesk/one_mail/ai.py:1014 onedesk/one_mail/ai.py:1064
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
 #: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
@@ -31880,7 +31880,7 @@ msgstr ""
 msgid "No calendar link"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:175
+#: onedesk/public/js/trust_center/trust_center.js:175
 msgid "No changes"
 msgstr ""
 
@@ -32257,7 +32257,7 @@ msgid "No one to notify"
 msgstr ""
 
 #: frontend/src/project/Team.vue:15
-#: onedesk/public/js/one_legal/trust_center.js:246
+#: onedesk/public/js/trust_center/trust_center.js:246
 msgid "No one yet"
 msgstr ""
 
@@ -32273,7 +32273,7 @@ msgstr ""
 msgid "No operations here"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:105
+#: onedesk/public/js/trust_center/trust_center.js:105
 msgid "No optional services"
 msgstr ""
 
@@ -32631,7 +32631,7 @@ msgstr ""
 msgid "Nobody has answered since. Write again, or mark it done."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:131
+#: onedesk/public/js/trust_center/trust_center.js:131
 msgid "Nobody has asked yet."
 msgstr ""
 
@@ -32647,7 +32647,7 @@ msgstr ""
 msgid "Nobody has opened this presentation through a link yet. Share it from OneCloud with a link, and each look shows here."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:201
+#: onedesk/public/js/trust_center/trust_center.js:201
 msgid "Nobody has to agree to this."
 msgstr ""
 
@@ -32919,7 +32919,7 @@ msgstr ""
 msgid "Not Tracked"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:335
+#: onedesk/public/js/trust_center/trust_center.js:335
 msgid "Not Used by This Workspace"
 msgstr ""
 
@@ -32943,7 +32943,7 @@ msgstr ""
 msgid "Not active recently"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:209
+#: onedesk/public/js/trust_center/trust_center.js:209
 msgid "Not agreed yet"
 msgstr ""
 
@@ -33920,7 +33920,7 @@ msgstr ""
 msgid "Off in this browser"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:51
+#: onedesk/public/js/trust_center/trust_center.js:51
 msgid "Off until an administrator turns them on."
 msgstr ""
 
@@ -34554,7 +34554,7 @@ msgstr ""
 msgid "One movement of credit. Submitted on insert and never edited in place."
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:62
+#: onedesk/public/js/trust_center/legal.js:62
 #, python-brace-format
 msgid "One opens once your workspace administrator agrees to {0}."
 msgstr ""
@@ -34642,12 +34642,12 @@ msgid "One workspace has this"
 msgstr ""
 
 #. Subject of a notification
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 msgid "One's agreements are changing"
 msgstr ""
 
 #. Subject of a notification
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 msgid "One's policies are changing"
 msgstr ""
 
@@ -35694,7 +35694,7 @@ msgstr ""
 msgid "Only you and HR see these."
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:52
+#: onedesk/public/js/trust_center/legal.js:52
 msgid "Only you can agree to these."
 msgstr ""
 
@@ -35938,7 +35938,7 @@ msgstr ""
 msgid "Open Sign-in"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:31
+#: onedesk/trust_center/gate.py:31
 msgid "Open Source and Third-Party Notices"
 msgstr ""
 
@@ -36341,10 +36341,10 @@ msgstr ""
 msgid "Optional"
 msgstr ""
 
-#: onedesk/one_legal/services.py:145
-#: onedesk/public/js/one_legal/trust_center.js:51
-#: onedesk/public/js/one_legal/trust_center.js:99
-#: onedesk/public/js/one_legal/trust_center.js:101
+#: onedesk/trust_center/services.py:145
+#: onedesk/public/js/trust_center/trust_center.js:51
+#: onedesk/public/js/trust_center/trust_center.js:99
+#: onedesk/public/js/trust_center/trust_center.js:101
 msgid "Optional Services"
 msgstr ""
 
@@ -37781,7 +37781,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_book/print_format/one_process_payment_reconciliation/one_process_payment_reconciliation.json
 #: onedesk/one_inventory/heads.py:1414
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:48
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:48
 msgid "Party"
 msgstr ""
 
@@ -38585,7 +38585,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json:396
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:57
 #: onedesk/public/js/one_ai/ai_proposal_list.js:7
-#: onedesk/public/js/one_legal/trust_center.js:129
+#: onedesk/public/js/trust_center/trust_center.js:129
 msgid "Pending"
 msgstr ""
 
@@ -39494,7 +39494,7 @@ msgid "Points Lost"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 msgid "Policies Changed"
 msgstr ""
 
@@ -40016,7 +40016,7 @@ msgstr ""
 #: frontend/src/doc/shim/PrintDialog.vue:15
 #: onedesk/one_display/doctype/display_board/display_board.js:10
 #: onedesk/one_interface/shortcuts.py:28
-#: onedesk/public/js/one_legal/trust_center.js:239
+#: onedesk/public/js/trust_center/trust_center.js:239
 #: onedesk/public/js/record.js:150
 msgid "Print"
 msgstr ""
@@ -40100,7 +40100,7 @@ msgid "Priority"
 msgstr ""
 
 #: frontend/portal/src/pages/Menu.vue:24
-#: frontend/portal/src/parts/PortalSidebar.vue:39 onedesk/one_legal/gate.py:21
+#: frontend/portal/src/parts/PortalSidebar.vue:39 onedesk/trust_center/gate.py:21
 #: onedesk/public/js/login.js:74 onedesk/www/start.html:74
 #: onedesk/www/your_data.html:43
 msgid "Privacy Policy"
@@ -40810,7 +40810,7 @@ msgstr ""
 msgid "Published"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:180
+#: onedesk/public/js/trust_center/trust_center.js:180
 #, python-brace-format
 msgid "Published {0} · Takes effect {1}"
 msgstr ""
@@ -41729,7 +41729,7 @@ msgid "Read Instructions"
 msgstr ""
 
 #. The button on a notification's mail
-#: onedesk/one/notifications.py onedesk/one_legal/notifications.py
+#: onedesk/one/notifications.py onedesk/trust_center/notifications.py
 msgid "Read It"
 msgstr ""
 
@@ -41815,7 +41815,7 @@ msgstr ""
 msgid "Read from the two times below."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:232
+#: onedesk/public/js/trust_center/trust_center.js:232
 msgid "Read in Full"
 msgstr ""
 
@@ -43762,8 +43762,8 @@ msgid "Requested. You'll be notified when it's ready."
 msgstr ""
 
 #: onedesk/one_cloud/file_requests.py:197 onedesk/one_cloud/namespace.py:406
-#: onedesk/public/js/one_legal/trust_center.js:156
-#: onedesk/public/js/one_legal/trust_center.js:159
+#: onedesk/public/js/trust_center/trust_center.js:156
+#: onedesk/public/js/trust_center/trust_center.js:159
 msgid "Requests"
 msgstr ""
 
@@ -43771,7 +43771,7 @@ msgstr ""
 msgid "Requests by Workspace"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:160
+#: onedesk/public/js/trust_center/trust_center.js:160
 msgid "Requests to delete an account or copy its data, newest first."
 msgstr ""
 
@@ -44427,7 +44427,7 @@ msgid "Reviews"
 msgstr ""
 
 #. Label of the revision (Int) field in DocType 'Legal Document Version'
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:46
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:46
 msgid "Revision"
 msgstr ""
 
@@ -45845,7 +45845,7 @@ msgstr ""
 msgid "Search engine basics"
 msgstr ""
 
-#: onedesk/one_legal/tour.py:24
+#: onedesk/trust_center/tour.py:24
 msgid "Search every agreement by a word in it."
 msgstr ""
 
@@ -45994,7 +45994,7 @@ msgstr ""
 msgid "See what OneAI used, job by job, in the last thirty days."
 msgstr ""
 
-#: onedesk/one_legal/abilities.py:30
+#: onedesk/trust_center/abilities.py:30
 msgid "See who in the workspace agreed to each agreement, and when."
 msgstr ""
 
@@ -46243,7 +46243,7 @@ msgstr ""
 msgid "Send stock to a site"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:230
+#: onedesk/trust_center/gate.py:230
 msgid "Send the list of documents you are agreeing to."
 msgstr ""
 
@@ -46414,7 +46414,7 @@ msgstr ""
 msgid "Sent to addresses outside the workspace, so there's no channel to choose."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:102
+#: onedesk/public/js/trust_center/trust_center.js:102
 msgid "Sent to another company only once an administrator turns it on."
 msgstr ""
 
@@ -47946,7 +47946,7 @@ msgstr ""
 #: frontend/portal/src/parts/PortalSidebar.vue:40
 #: onedesk/public/js/one_account/account_center.js:51
 #: onedesk/public/js/one_account/account_center.js:290
-#: onedesk/public/js/one_legal/legal.js:89
+#: onedesk/public/js/trust_center/legal.js:89
 msgid "Sign Out"
 msgstr ""
 
@@ -50724,7 +50724,7 @@ msgstr ""
 msgid "Submitting this pays {0} {1} for {2} days of {3}."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:27
+#: onedesk/trust_center/gate.py:27
 msgid "Subprocessors"
 msgstr ""
 
@@ -51427,7 +51427,7 @@ msgstr ""
 msgid "Takes new workspaces. Untick it to stop a server filling any further."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:151
+#: onedesk/public/js/trust_center/trust_center.js:151
 msgid "Taking It With You"
 msgstr ""
 
@@ -52178,7 +52178,7 @@ msgstr ""
 msgid "Terms and Conditions"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:17 onedesk/www/start.html:73
+#: onedesk/trust_center/gate.py:17 onedesk/www/start.html:73
 msgid "Terms of Service"
 msgstr ""
 
@@ -52268,7 +52268,7 @@ msgid "Text Size"
 msgstr ""
 
 #. Label of the stored_version (Link) field in DocType 'Legal Acceptance'
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:40
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:40
 msgid "Text agreed to"
 msgstr ""
 
@@ -52776,7 +52776,7 @@ msgstr ""
 msgid "The agenda and the minutes of a quality meeting."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:18
+#: onedesk/trust_center/gate.py:18
 msgid "The agreement between your organisation and Four Degree Labs for the use of One."
 msgstr ""
 
@@ -53196,7 +53196,7 @@ msgstr ""
 
 #. Description of the 'Document' (Data) field in DocType 'Legal Document
 #. Version'
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:21
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:21
 msgid "The document's key. Example: terms or privacy."
 msgstr ""
 
@@ -53939,7 +53939,7 @@ msgstr ""
 
 #. Description of the 'As hashed' (Long Text) field in DocType 'Legal Document
 #. Version'
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:66
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:66
 msgid "The plain text the version's hash was taken over."
 msgstr ""
 
@@ -54198,8 +54198,8 @@ msgstr ""
 
 #. Description of the 'Version' (Data) field in DocType 'Legal Document
 #. Version'
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:36
-msgid "The revision and the hash of the text, as one_legal/assemble.py makes it."
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:36
+msgid "The revision and the hash of the text, as trust_center/assemble.py makes it."
 msgstr ""
 
 #. Who a notification is sent to
@@ -54313,7 +54313,7 @@ msgstr ""
 msgid "The slides' width in pixels."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:32
+#: onedesk/trust_center/gate.py:32
 msgid "The software One is built from, and the licences it carries."
 msgstr ""
 
@@ -54880,15 +54880,15 @@ msgstr ""
 msgid "There is no slide of that kind."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:176
+#: onedesk/trust_center/gate.py:176
 msgid "There is no such document to agree to."
 msgstr ""
 
-#: onedesk/one_legal/reading.py:46
+#: onedesk/trust_center/reading.py:46
 msgid "There is no such document."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:178
+#: onedesk/trust_center/gate.py:178
 msgid "There is no such party."
 msgstr ""
 
@@ -54904,7 +54904,7 @@ msgstr ""
 msgid "There is no such section."
 msgstr ""
 
-#: onedesk/one_legal/services.py:20
+#: onedesk/trust_center/services.py:20
 msgid "There is no such service."
 msgstr ""
 
@@ -55566,7 +55566,7 @@ msgstr ""
 msgid "This screen has no kiosk."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:295
+#: onedesk/public/js/trust_center/trust_center.js:295
 msgid "This service sends data to a new company and needs an administrator's approval."
 msgstr ""
 
@@ -55733,7 +55733,7 @@ msgstr ""
 msgid "This workspace does not run extensions on the server yet. Ask us to turn them on."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:258
+#: onedesk/trust_center/gate.py:258
 msgid "This workspace has agreements outstanding. Agree to them, then try again."
 msgstr ""
 
@@ -55852,7 +55852,7 @@ msgstr ""
 msgid "Tick lines and press Order, or Order All: one draft purchase order is made for each supplier."
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:74
+#: onedesk/public/js/trust_center/legal.js:74
 msgid "Tick the box to agree."
 msgstr ""
 
@@ -56208,7 +56208,7 @@ msgstr ""
 #: onedesk/one_display/layout.py:17
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:32
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json:30
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:31
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:31
 #: onedesk/one_sheet/doctype/workbook/workbook.json:32
 #: onedesk/one_studio/doctype/extension/extension.json:40
 #: onedesk/public/js/one_ai/ai_center.js:222
@@ -56314,7 +56314,7 @@ msgstr ""
 #: onedesk/one_studio/ai_setup.py:412 onedesk/one_studio/print_blocks.py:63
 #: onedesk/one_studio/print_blocks.py:77 onedesk/public/js/item_actions.js:119
 #: onedesk/public/js/item_actions.js:218
-#: onedesk/public/js/one_legal/trust_center.js:287
+#: onedesk/public/js/trust_center/trust_center.js:287
 #: onedesk/public/js/one_mail/mail_compose.js:181
 msgid "To"
 msgstr ""
@@ -56399,7 +56399,7 @@ msgstr ""
 msgid "To Pay to Employees"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:201
+#: onedesk/public/js/trust_center/trust_center.js:201
 msgid "To Read"
 msgstr ""
 
@@ -57339,7 +57339,7 @@ msgstr ""
 
 #: onedesk/one_display/doctype/display_screen/display_screen.js:7
 #: onedesk/one_studio/heads.py:76
-#: onedesk/public/js/one_legal/trust_center.js:458
+#: onedesk/public/js/trust_center/trust_center.js:458
 msgid "Turn On"
 msgstr ""
 
@@ -57365,7 +57365,7 @@ msgstr ""
 msgid "Turn On {0}"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:450
+#: onedesk/public/js/trust_center/trust_center.js:450
 #, python-brace-format
 msgid "Turn On {0}?"
 msgstr ""
@@ -57417,7 +57417,7 @@ msgstr ""
 msgid "Turned down."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:473
+#: onedesk/public/js/trust_center/trust_center.js:473
 msgid "Turned off"
 msgstr ""
 
@@ -57425,11 +57425,11 @@ msgstr ""
 msgid "Turned off."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:473
+#: onedesk/public/js/trust_center/trust_center.js:473
 msgid "Turned on"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:293
+#: onedesk/public/js/trust_center/trust_center.js:293
 #, python-brace-format
 msgid "Turned on by {0} on {1}."
 msgstr ""
@@ -57442,7 +57442,7 @@ msgstr ""
 msgid "Turned on."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:455
+#: onedesk/public/js/trust_center/trust_center.js:455
 msgid "Turning it on agrees to this for your whole workspace, and is recorded with your name."
 msgstr ""
 
@@ -58296,7 +58296,7 @@ msgstr ""
 msgid "UpdateCenter"
 msgstr ""
 
-#: onedesk/public/js/one_legal/legal.js:36
+#: onedesk/public/js/trust_center/legal.js:36
 msgid "Updated"
 msgstr ""
 
@@ -58613,8 +58613,8 @@ msgstr ""
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:22
 #: onedesk/one_cloud/doctype/cloud_drive_password/cloud_drive_password.json:21
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:40
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:49
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:61
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:49
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:61
 #: onedesk/public/js/one/access_center.js:300
 #: onedesk/public/js/one/access_center.js:359
 #: onedesk/public/js/one_mail/onemail_settings.js:1001
@@ -58914,8 +58914,8 @@ msgstr ""
 #. Label of the version (Data) field in DocType 'Legal Acceptance'
 #. Label of the version (Data) field in DocType 'Legal Document Version'
 #: onedesk/one_cloud/doctype/cloud_file_version/cloud_file_version.json:33
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:33
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:39
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:33
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:39
 msgid "Version"
 msgstr ""
 
@@ -58933,7 +58933,7 @@ msgid "Version history"
 msgstr ""
 
 #: frontend/src/cloud/CloudPreview.vue:31
-#: onedesk/public/js/one_legal/trust_center.js:259
+#: onedesk/public/js/trust_center/trust_center.js:259
 #, python-brace-format
 msgid "Version {0}"
 msgstr ""
@@ -59256,7 +59256,7 @@ msgstr ""
 msgid "Waiting for a Window"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:208
+#: onedesk/public/js/trust_center/trust_center.js:208
 msgid "Waiting for an administrator"
 msgstr ""
 
@@ -59819,7 +59819,7 @@ msgstr ""
 msgid "What Happened"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:149
+#: onedesk/public/js/trust_center/trust_center.js:149
 msgid "What Is Kept"
 msgstr ""
 
@@ -59839,7 +59839,7 @@ msgstr ""
 msgid "What It Reads"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:286
+#: onedesk/public/js/trust_center/trust_center.js:286
 msgid "What It Sends"
 msgstr ""
 
@@ -59847,11 +59847,11 @@ msgstr ""
 msgid "What Its Kind Needs"
 msgstr ""
 
-#: onedesk/one_legal/gate.py:20
+#: onedesk/trust_center/gate.py:20
 msgid "What One may not be used for, by your organisation or anyone who signs in."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:24
+#: onedesk/trust_center/gate.py:24
 msgid "What One stores on your device and why."
 msgstr ""
 
@@ -59918,7 +59918,7 @@ msgstr ""
 msgid "What They Get"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:344
+#: onedesk/public/js/trust_center/trust_center.js:344
 msgid "What They Receive"
 msgstr ""
 
@@ -60211,7 +60211,7 @@ msgstr ""
 msgid "What is being done to put a problem right, step by step, by whom."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:170
+#: onedesk/public/js/trust_center/trust_center.js:170
 msgid "What is changing in the agreements, and from when."
 msgstr ""
 
@@ -60227,7 +60227,7 @@ msgstr ""
 msgid "What is included"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:146
+#: onedesk/public/js/trust_center/trust_center.js:146
 msgid "What is kept and for how long, and how to take everything with you."
 msgstr ""
 
@@ -60860,7 +60860,7 @@ msgstr ""
 msgid "What was spent against the budget."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:22
+#: onedesk/trust_center/gate.py:22
 msgid "What we do with personal data: yours, and the personal data your organisation puts into One."
 msgstr ""
 
@@ -60961,12 +60961,12 @@ msgstr ""
 msgid "What you will say over this slide"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:76
+#: onedesk/public/js/trust_center/trust_center.js:76
 #, python-brace-format
 msgid "What {0} adds to it."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:46
+#: onedesk/public/js/trust_center/trust_center.js:46
 #, python-brace-format
 msgid "What {0} can send out, and to whom."
 msgstr ""
@@ -61031,7 +61031,7 @@ msgstr ""
 #: frontend/src/template/Tasks.vue:6 onedesk/one/ai.py:3757
 #: onedesk/one/notification_words.py:223 onedesk/one_display/starters.py:961
 #: onedesk/one_hr/custom/timesheet_detail.json:7
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:69
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:69
 #: onedesk/one_mail/ai.py:286
 #: onedesk/one_studio/doctype/extension/extension.json:93
 #: onedesk/public/js/doctype_settings.js:216
@@ -61074,12 +61074,12 @@ msgid "When One adds a network or place people check in from, because they keep 
 msgstr ""
 
 #. When a notification is sent
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 msgid "When One publishes a new version of a policy each person agreed to."
 msgstr ""
 
 #. When a notification is sent
-#: onedesk/one_legal/notifications.py
+#: onedesk/trust_center/notifications.py
 msgid "When One publishes a new version of an agreement the workspace accepted."
 msgstr ""
 
@@ -62490,7 +62490,7 @@ msgstr ""
 #: onedesk/one_hr/heads.py:737
 #: onedesk/one_hr/print_format/one_shift_assignment/one_shift_assignment.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_studio/ai.py:472 onedesk/public/js/one_legal/trust_center.js:345
+#: onedesk/one_studio/ai.py:472 onedesk/public/js/trust_center/trust_center.js:345
 msgid "Where"
 msgstr ""
 
@@ -62518,7 +62518,7 @@ msgstr ""
 msgid "Where They Stand"
 msgstr ""
 
-#: onedesk/one_legal/tour.py:11
+#: onedesk/trust_center/tour.py:11
 msgid "Where You Stand"
 msgstr ""
 
@@ -62698,7 +62698,7 @@ msgstr ""
 msgid "Whether the stores hold what the open orders need."
 msgstr ""
 
-#: onedesk/one_legal/tour.py:12
+#: onedesk/trust_center/tour.py:12
 msgid "Whether you and your organisation agreed, with Agree here when it is owed."
 msgstr ""
 
@@ -62963,7 +62963,7 @@ msgstr ""
 msgid "Which workstations are making, which are stopped and why, and what is running on each?"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:288
+#: onedesk/public/js/trust_center/trust_center.js:288
 msgid "While It Is Off"
 msgstr ""
 
@@ -62991,9 +62991,9 @@ msgstr ""
 msgid "Who"
 msgstr ""
 
-#: onedesk/one_legal/abilities.py:27
-#: onedesk/public/js/one_legal/trust_center.js:241
-#: onedesk/public/js/one_legal/trust_center.js:244
+#: onedesk/trust_center/abilities.py:27
+#: onedesk/public/js/trust_center/trust_center.js:241
+#: onedesk/public/js/trust_center/trust_center.js:244
 msgid "Who Agreed"
 msgstr ""
 
@@ -63005,7 +63005,7 @@ msgstr ""
 msgid "Who Is on the Portal"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:56
+#: onedesk/public/js/trust_center/trust_center.js:56
 msgid "Who It Sends Data To"
 msgstr ""
 
@@ -64258,8 +64258,8 @@ msgstr ""
 #: onedesk/one_crm/abilities.py:15 onedesk/one_deck/abilities.py:20
 #: onedesk/one_display/abilities.py:14 onedesk/one_doc/abilities.py:20
 #: onedesk/one_factory/abilities.py:15 onedesk/one_hr/abilities.py:15
-#: onedesk/one_inventory/abilities.py:15 onedesk/one_legal/abilities.py:19
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:49
+#: onedesk/one_inventory/abilities.py:15 onedesk/trust_center/abilities.py:19
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:49
 #: onedesk/one_mail/abilities.py:19 onedesk/one_mail/cloud.py:33
 #: onedesk/one_mail/custom/email_account.json:102
 #: onedesk/one_portal/abilities.py:19 onedesk/one_project/abilities.py:18
@@ -64325,8 +64325,8 @@ msgstr ""
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json:85
 #: onedesk/one_display/doctype/voice_pack/voice_pack.json:28
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:85
-#: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:95
-#: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json:82
+#: onedesk/trust_center/doctype/legal_acceptance/legal_acceptance.json:95
+#: onedesk/trust_center/doctype/legal_document_version/legal_document_version.json:82
 #: onedesk/one_mail/doctype/face/face.json:62
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:138
 #: onedesk/one_studio/doctype/extension/extension.json:225
@@ -64951,7 +64951,7 @@ msgstr ""
 #: onedesk/one_crm/abilities.py:17 onedesk/one_deck/abilities.py:22
 #: onedesk/one_display/abilities.py:16 onedesk/one_doc/abilities.py:22
 #: onedesk/one_factory/abilities.py:17 onedesk/one_hr/abilities.py:17
-#: onedesk/one_inventory/abilities.py:17 onedesk/one_legal/abilities.py:21
+#: onedesk/one_inventory/abilities.py:17 onedesk/trust_center/abilities.py:21
 #: onedesk/one_mail/ai.py:1014 onedesk/one_mail/ai.py:1064
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
 #: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
@@ -64974,7 +64974,7 @@ msgstr ""
 #: onedesk/one_project/view.py:795 onedesk/one_project/view.py:844
 #: onedesk/one_project/view.py:928 onedesk/one_project/view.py:959
 #: onedesk/public/js/one_ai/panel/Panel.vue:98
-#: onedesk/public/js/one_legal/trust_center.js:198
+#: onedesk/public/js/trust_center/trust_center.js:198
 msgid "You"
 msgstr ""
 
@@ -65386,8 +65386,8 @@ msgstr ""
 #: frontend/portal/src/pages/YourData.vue:2 onedesk/one_portal/portal.py:30
 #: onedesk/public/js/login.js:73 onedesk/public/js/module_settings.js:175
 #: onedesk/public/js/one_account/account_center.js:61
-#: onedesk/public/js/one_legal/trust_center.js:143
-#: onedesk/public/js/one_legal/trust_center.js:145
+#: onedesk/public/js/trust_center/trust_center.js:143
+#: onedesk/public/js/trust_center/trust_center.js:145
 #: onedesk/www/your_data.html:15 onedesk/www/your_data.py:23
 msgid "Your Data"
 msgstr ""
@@ -65460,11 +65460,11 @@ msgstr ""
 msgid "Your OneCalendar in Google Calendar, Apple Calendar or Outlook, through a private link."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:199
+#: onedesk/public/js/trust_center/trust_center.js:199
 msgid "Your Organisation"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:150
+#: onedesk/public/js/trust_center/trust_center.js:150
 msgid "Your Own Data"
 msgstr ""
 
@@ -65887,7 +65887,7 @@ msgstr ""
 msgid "Your role doesn't add fonts to the workspace. Ask a workspace administrator."
 msgstr ""
 
-#: onedesk/one_legal/gate.py:181
+#: onedesk/trust_center/gate.py:181
 msgid "Your role doesn't allow agreeing for the organisation."
 msgstr ""
 
@@ -65917,7 +65917,7 @@ msgstr ""
 msgid "Your role doesn't allow seeing OneAI's usage."
 msgstr ""
 
-#: onedesk/one_legal/reading.py:135
+#: onedesk/trust_center/reading.py:135
 msgid "Your role doesn't allow seeing who agreed."
 msgstr ""
 
@@ -65925,11 +65925,11 @@ msgstr ""
 msgid "Your role doesn't allow this."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:297
+#: onedesk/public/js/trust_center/trust_center.js:297
 msgid "Your role doesn't allow turning it on."
 msgstr ""
 
-#: onedesk/one_legal/services.py:109
+#: onedesk/trust_center/services.py:109
 msgid "Your role doesn't allow turning services on or off."
 msgstr ""
 
@@ -68175,7 +68175,7 @@ msgstr ""
 msgid "{0} added to your timesheet."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:205
+#: onedesk/public/js/trust_center/trust_center.js:205
 #, python-brace-format
 msgid "{0} agreed on {1}"
 msgstr ""
@@ -68235,7 +68235,7 @@ msgstr ""
 msgid "{0} always works too."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:45
+#: onedesk/public/js/trust_center/trust_center.js:45
 #, python-brace-format
 msgid "{0} and Your Data"
 msgstr ""
@@ -70966,7 +70966,7 @@ msgstr ""
 msgid "{0} selected"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:59
+#: onedesk/public/js/trust_center/trust_center.js:59
 #, python-brace-format
 msgid "{0} sends nothing to another company."
 msgstr ""

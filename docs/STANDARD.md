@@ -621,7 +621,7 @@ a look at what it does with data against what it says.
 
 - A `clause()` for the Privacy Policy, the Terms, the Data Processing
   Addendum or the AI Addendum, and a `subprocessor()` for any company it
-  sends data to. OneLegal assembles them (`one_legal/AGENTS.md`).
+  sends data to. TrustCenter assembles them (`trust_center/AGENTS.md`).
 - A changed clause fails until it is a new revision (people agree again) or
   a recorded hash (a typo). A host the code calls that no `subprocessor()`
   names fails.

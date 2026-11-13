@@ -1,4 +1,4 @@
-"""OneLegal's tours (one/tours.py, docs/READY.md mechanism 10): one, of
+"""TrustCenter's tours (one/tours.py, docs/READY.md mechanism 10): one, of
 TrustCenter open on an agreement, found by the mark at `at`. TrustCenter has
 no foot, so it starts the tour itself the first time it opens there."""
 

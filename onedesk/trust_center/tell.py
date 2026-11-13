@@ -1,5 +1,5 @@
 """Telling people that One's agreements and policies are changing
-(one_legal/notifications.py)."""
+(trust_center/notifications.py)."""
 
 import frappe
 

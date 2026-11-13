@@ -76,7 +76,8 @@ def main(folder: str, kind: str, title: str) -> Path:
 		text = re.sub(r"^title: .*$", f"title: {title}", text, count=1, flags=re.M)
 		path = ready.changelog(module) / f"{following}.md"
 		path.write_text(text, encoding="utf-8")
-		todays["path"].unlink()
+		if path != todays["path"]:
+			todays["path"].unlink()
 		return path
 	path = _write(ready.changelog(module) / f"{following}.md", kind, title, module, "")
 	with path.open("a", encoding="utf-8") as out:

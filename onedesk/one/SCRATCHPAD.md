@@ -6,8 +6,8 @@ answered leaves it.
 ## Known
 
 - **Privacy is One's in name only.** `privacy.py`, `privacy_copy.py` and
-  `privacy_public.py` are TrustCenter's Your Data, OneLegal's, and Your Data
-  is in One's Help until they move into `one_legal` (ready.SHARED says so).
+  `privacy_public.py` are TrustCenter's Your Data, and Your Data
+  is in One's Help until they move into `trust_center` (ready.SHARED says so).
 - **Webhooks is OneStudio's** and sits here until it moves.
 - **The portal** (`portal*.py`) becomes its own module in a later plan;
   its Help page is One's until then.

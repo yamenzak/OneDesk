@@ -165,9 +165,9 @@ def standard_rules_page() -> str:
 
 def switchovers_section() -> str:
 	"""Every change One can't work without that runs the old way until its
-	day (one_legal/switchovers.py), so both ways come out once it has taken
+	day (trust_center/switchovers.py), so both ways come out once it has taken
 	effect: what it does, the day, and the day it is due to be cleaned up."""
-	from onedesk.one_legal import switchovers
+	from onedesk.trust_center import switchovers
 
 	out = [
 		"\n## Switchovers\n",

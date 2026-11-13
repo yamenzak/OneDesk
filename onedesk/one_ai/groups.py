@@ -334,7 +334,7 @@ APPS = {
 	"one_cloud": "files",
 	"one_studio": "studio",
 	"one_ai": "workspace",
-	"one_legal": "workspace",
+	"trust_center": "workspace",
 	"one_admin": "console",
 }
 """The tool group of each app's record types; which Frappe modules an app
@@ -432,7 +432,7 @@ def _console() -> bool:
 def offered(name: str) -> bool:
 	"""Whether a group may be given: the console only on One's own console,
 	and a group that needs an optional service only while it is on."""
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	needs = GROUPS.get(name, {}).get("service")
 	return (name != "console" or _console()) and (not needs or services.on(needs))

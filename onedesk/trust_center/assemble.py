@@ -34,7 +34,7 @@ def _load() -> None:
 
 	import importlib
 
-	importlib.import_module("onedesk.one_legal.legal")
+	importlib.import_module("onedesk.trust_center.legal")
 	for module in places():
 		try:
 			importlib.import_module(f"onedesk.{module}.legal")

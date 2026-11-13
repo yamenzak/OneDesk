@@ -12,7 +12,7 @@ onedesk.legal.check = async function () {
 	if (onedesk.legal.here() === "legal") return;
 	let said;
 	try {
-		said = await frappe.xcall("onedesk.one_legal.gate.outstanding", {}, "GET");
+		said = await frappe.xcall("onedesk.trust_center.gate.outstanding", {}, "GET");
 	} catch (e) {
 		return;
 	}
@@ -75,8 +75,8 @@ onedesk.legal.ask = function (said) {
 				return;
 			}
 			const next = keys.length
-				? await frappe.xcall("onedesk.one_legal.gate.accept", { documents: keys })
-				: await frappe.xcall("onedesk.one_legal.gate.outstanding", {}, "GET");
+				? await frappe.xcall("onedesk.trust_center.gate.accept", { documents: keys })
+				: await frappe.xcall("onedesk.trust_center.gate.outstanding", {}, "GET");
 			if (next.ok) {
 				dialog.hide();
 				onedesk.legal.dialog = null;

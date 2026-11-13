@@ -1,8 +1,8 @@
 """What OneCloud adds to the agreements. Files are the part of a workspace that
 leaves its database: the bytes go to an object store, in the region the
-workspace chose. See one_legal/AGENTS.md."""
+workspace chose. See trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause, subprocessor
+from onedesk.trust_center.registry import clause, subprocessor
 
 M = "OneCloud"
 

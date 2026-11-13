@@ -265,13 +265,13 @@ def told_of_changes() -> None:
 	workspace has agreed to an earlier one; a person's own to everybody in the
 	workspace. Nobody is stopped; the version agreed to holds until the day
 	the new one takes effect."""
-	from onedesk.one_legal import tell
+	from onedesk.trust_center import tell
 
 	for party, told_by in ((WORKSPACE, tell.agreements_changed), (USER, tell.policies_changed)):
 		titles, days = [], []
 		for key in keys_for(party):
 			now = revision(assemble.version_of(key))
-			told = f"one_legal_told_{party.lower()}_{key}"
+			told = f"trust_center_told_{party.lower()}_{key}"
 			if frappe.db.get_default(told) == now:
 				continue
 			if party == WORKSPACE:

@@ -75,7 +75,7 @@ def oneai_searches_the_web_only_while_its_service_is_on():
 	from unittest import mock
 
 	from onedesk.one_ai import ai_web, groups, tools
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	with as_user(OWNER):
 		was = services.on(ai_web.SERVICE)

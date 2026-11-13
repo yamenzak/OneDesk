@@ -306,7 +306,7 @@ module that draws its own settings dialog or its own foot. OneMail is on
 both.
 
 **A module with no window.** A module whose only screen is a center other
-modules open, such as OneLegal and TrustCenter, has no rail, so no foot and
+modules open, such as TrustCenter, has no rail, so no foot and
 no settings dialog of its own. It says so in one sentence, as `windowless`
 in its registry entry, and the guard skips this point for it; every other
 point still holds. Its tour starts from the center the first time it
@@ -328,7 +328,7 @@ tour, of the window itself, which waits for Help to offer it
 **Today.** Each module declares what it adds to the agreements in its own
 `legal.py`: `clause()` for a paragraph of a document, `subprocessor()` for a
 company it sends data to (OneMail names Cloudflare, Gravatar and Google).
-`one_legal/assemble.py` puts them into the eight documents, and those are
+`trust_center/assemble.py` puts them into the eight documents, and those are
 what the Agreements page shows, what is printed, and what people are asked
 to agree to. An agreement's version is `revision.hash`. Any change to a
 clause moves the hash, and `tests/guards/test_legal.py` fails until we
@@ -338,7 +338,7 @@ it.
 
 **Built.** Every module's ControlCenter ends with **Legal**
 (`onedesk.module_settings.legal`, added by `module_settings.open`, so a
-module can't leave it out). It reads `one_legal.reading.of_module(module)`,
+module can't leave it out). It reads `trust_center.reading.of_module(module)`,
 which is `assemble.of_module`: from the same registry the documents are
 assembled from, each agreement the module writes into, with its current
 version and the module's own paragraphs under their sections, and the
@@ -483,8 +483,8 @@ at, which makes it stale. A fix leaves a look standing.
 
 **Built.** All six parts.
 
-- **The center.** `public/js/one_legal/trust_center.js`, on the docs dialog
-  (`onedesk.CENTERS.trust`), reads `one_legal.reading.trust`, in two
+- **The center.** `public/js/trust_center/trust_center.js`, on the docs dialog
+  (`onedesk.CENTERS.trust`), reads `trust_center.reading.trust`, in two
   sizes. **A module's part**, from the shield in its foot: **{Module} and
   Your Data** (its optional services and who it sends data to), its own
   paragraphs of each agreement it writes into with where the reader and the
@@ -493,7 +493,7 @@ at, which makes it stale. A fix leaves a look standing.
   **Optional Services**, **Companies** (struck through where unused),
   **Your Data** and **Changes**. The Agreements island and the Legal tab
   are gone.
-- **The laws.** `one_legal/laws.py`; One's own clauses name their duties in
+- **The laws.** `trust_center/laws.py`; One's own clauses name their duties in
   `legal.py`'s `MEETS`; three clauses were added where no clause met one
   (privacy by default, the record of processing, switching provider), and
   Saudi Arabia's law named in rights, complaints and transfers.
@@ -502,7 +502,7 @@ at, which makes it stale. A fix leaves a look standing.
   by mail and **Policies Changed** to everybody, each with the day. The
   first round of published changes was withdrawn the same day: before
   production the agreements change freely, so it took effect at once.
-- **Optional services.** `service()`, `one_legal/services.py` (`call`,
+- **Optional services.** `service()`, `trust_center/services.py` (`call`,
   `switch`, the wizard's slide), Gravatar and logos off by default, the
   demo's owner turning both on.
 - **Legal copy.** docs/WORDING.md, The agreements; `test_legal.py` holds
@@ -560,9 +560,9 @@ sidebar is:
 - **Changes**: what is coming, from when, and what changed before.
 
 Everybody reads it. Switches and agreeing are for workspace administrators
-(`one_legal/abilities.py`).
+(`trust_center/abilities.py`).
 
-**2. The laws.** `one_legal/laws.py` lists each law One answers and the
+**2. The laws.** `trust_center/laws.py` lists each law One answers and the
 duties it puts on us, and every `clause()` and `subprocessor()` names the
 duties it meets (`meets=("gdpr.28", …)`). `test_legal.py` fails on a duty no
 clause meets. To start with:
@@ -620,7 +620,7 @@ its front matter, so the guard can hold the words to it.
 `service()`: a key, a title, what it is for, what it sends and to whom (its
 `subprocessor()`s), the clauses that hold only while it is on, and
 `default=False`. The code that calls out goes through
-`one_legal.services.call(key, …)`, which refuses while it is off, and
+`trust_center.services.call(key, …)`, which refuses while it is off, and
 `test_legal.py`'s host guard accepts that host only there. Turning one on is
 an acceptance of its own terms, recorded like any other (`Legal
 Acceptance`); turning it off stops the calls and strikes its subprocessors
@@ -662,7 +662,7 @@ profile that says otherwise); and **On One Record**, everybody given more
 than their role on one record (`records`, read from the module's shares),
 with Edit and Remove through `rights.grant` (`give`). A record is named
 by the field its `abilities.py` names (`TITLE`, OneMail's `email_id`).
-A module everybody uses (`EVERYONE`: One, OneAI, OneAccount, OneLegal) is
+A module everybody uses (`EVERYONE`: One, OneAI, OneAccount, TrustCenter) is
 not one of People's apps, so its People tab offers User and Manager only,
 its User role being everybody's (`people.with_roles`), and it has no On One
 Record unless it gives something there (`SHARED`, `access_center.shared`).

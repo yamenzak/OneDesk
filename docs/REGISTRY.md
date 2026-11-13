@@ -549,32 +549,6 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneLegal 1.5.0
-
-Ready.
-
-| Point | Rules | Last looked at |
-|---|--:|---|
-| 1. Demo and tests | 11 | in 1.5.0 |
-| 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | in 1.5.0 |
-| 11. Notifications | 6 | in 1.5.0 |
-| 13. Plain words | 13 | in 1.5.0 |
-| 14. Documented, with Help and a tour | 5 | — |
-| 15. Versioned, with What's New | 3 | — |
-| 16. OneAI knows and does | 4 | — |
-| 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | in 1.5.0 |
-| 20. One home, clean code | 11 | — |
-
-What a person looks at:
-
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
 ## OneSheet 1.2.0
 
 Ready.
@@ -591,6 +565,32 @@ Ready.
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
 | 19. Legal | 5 | in 1.2.0 |
+| 20. One home, clean code | 11 | — |
+
+What a person looks at:
+
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Our look**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## TrustCenter 1.5.2
+
+Ready.
+
+| Point | Rules | Last looked at |
+|---|--:|---|
+| 1. Demo and tests | 11 | in 1.5.0 |
+| 5. Settings and setup | 2 | — |
+| 7. Our look | 11 | in 1.5.0 |
+| 11. Notifications | 6 | in 1.5.0 |
+| 13. Plain words | 13 | in 1.5.0 |
+| 14. Documented, with Help and a tour | 5 | — |
+| 15. Versioned, with What's New | 3 | — |
+| 16. OneAI knows and does | 4 | — |
+| 18. Permissions and roles | 8 | — |
+| 19. Legal | 5 | in 1.5.0 |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:

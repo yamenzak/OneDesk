@@ -188,11 +188,11 @@ SHARED = {
 	"onedesk/one/patches/portal_address_button.py": _RAN,
 	"onedesk/one/patches/portal_own_by_record.py": _RAN,
 	"onedesk/one/patches/portal_settle.py": _RAN,
-	"onedesk/one/privacy.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
-	"onedesk/one/privacy_copy.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
-	"onedesk/one/privacy_public.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
-	"onedesk/one/custom/personal_data_deletion_request.json": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
-	"onedesk/one/custom/personal_data_download_request.json": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
+	"onedesk/one/privacy.py": "TrustCenter's Your Data, to move into trust_center",
+	"onedesk/one/privacy_copy.py": "TrustCenter's Your Data, to move into trust_center",
+	"onedesk/one/privacy_public.py": "TrustCenter's Your Data, to move into trust_center",
+	"onedesk/one/custom/personal_data_deletion_request.json": "TrustCenter's Your Data, to move into trust_center",
+	"onedesk/one/custom/personal_data_download_request.json": "TrustCenter's Your Data, to move into trust_center",
 	"onedesk/one/webhooks.py": "OneStudio's Webhooks, to move into one_studio",
 	"brand/onestudio.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/one/patches/holiday_names.py": "OneHR's holidays, a patch that has run",
@@ -287,8 +287,8 @@ def versions(module: str) -> list[dict]:
 
 def legal(module: str) -> str:
 	"""What a module agrees on, as a version of it records it
-	(one_legal/assemble.py `stamp`)."""
-	from onedesk.one_legal import assemble
+	(trust_center/assemble.py `stamp`)."""
+	from onedesk.trust_center import assemble
 
 	return assemble.stamp(module)
 

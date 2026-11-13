@@ -1,4 +1,4 @@
-# OneLegal: scratchpad
+# TrustCenter: scratchpad
 
 Known issues, plans and open questions, kept short. Something done or
 answered leaves it.

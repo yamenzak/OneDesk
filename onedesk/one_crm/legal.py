@@ -1,8 +1,8 @@
 """What OneCRM adds to the agreements: the people a workspace sells to, how
 they come in, what is mailed to them, and what OneAI reads of a sale. See
-one_crm/capture.py, one_crm/ai.py and one_legal/AGENTS.md."""
+one_crm/capture.py, one_crm/ai.py and trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneCRM"
 

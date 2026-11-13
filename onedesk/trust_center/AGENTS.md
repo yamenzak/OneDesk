@@ -1,15 +1,15 @@
-# OneLegal
+# TrustCenter
 
-The one file for agents, OneAI and us: what OneLegal is made of, its rules,
+The one file for agents, OneAI and us: what TrustCenter is made of, its rules,
 where each file is, and the decisions that cost something. What people read
 is in `docs/`, one page per thing they do, shown in Help and searched by
 OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
-OneLegal is the agreements a workspace runs under, how people are asked to
+TrustCenter is the agreements a workspace runs under, how people are asked to
 agree to them, the optional services that send data to another company, and
-TrustCenter, which shows all of it. It is our own drafting, not a lawyer's,
+the dialog that shows all of it. It is our own drafting, not a lawyer's,
 written from what One actually does.
 
 ## Connections
@@ -25,12 +25,12 @@ written from what One actually does.
 
 ## Under the hood
 
-**OneLegal has no window.** TrustCenter is a dialog (`public/js/one_legal/trust_center.js`)
-the bottom bar and every module's foot open, so OneLegal has no foot or
-settings dialog of its own (`ready.MODULES["OneLegal"]["windowless"]`).
+**TrustCenter has no window.** It is a dialog (`public/js/trust_center/trust_center.js`)
+the bottom bar and every module's foot open, so it has no foot or
+settings dialog of its own (`windowless` in manifest.py).
 `/desk/legal` is only an address for it (`page/legal`), and the dialog that
-asks at sign-in is `public/js/one_legal/legal.js`. Its one ability, **Who
-Agreed** (`abilities.py`, on `Legal Acceptance`), is a OneLegal Manager's
+asks at sign-in is `public/js/trust_center/legal.js`. Its one ability, **Who
+Agreed** (`abilities.py`, on `Legal Acceptance`), is a TrustCenter Manager's
 and a Workspace Administrator's; its two notifications are
 `notifications.py`, sent from `tell.py`.
 
@@ -49,7 +49,7 @@ Privacy Policy and the Subprocessors list change with it.
 | `assemble.py` | Declarations into text and HTML, and the version |
 | `gate.py` | Who has agreed to what; `outstanding`, `accept`, `require` |
 | `reading.py` | What TrustCenter asks for, and who agreed (`acceptances`) |
-| `page/legal`, `../public/js/one_legal/trust_center.js`, `../public/js/one_legal/legal.js` | The `/desk/legal` address, TrustCenter, and the dialog that asks at sign-in |
+| `page/legal`, `../public/js/trust_center/trust_center.js`, `../public/js/trust_center/legal.js` | The `/desk/legal` address, TrustCenter, and the dialog that asks at sign-in |
 | `services.py` | The optional services, their switch and the wizard's slide |
 | `abilities.py`, `notifications.py`, `tell.py`, `tour.py`, `setup.py`, `ai.py` | Who Agreed, the two notifications, the tour, no setup steps, and what OneAI may read and not do |
 | `Legal Document Version`, `Legal Acceptance` | Every agreed version's text; every acceptance |
@@ -67,7 +67,7 @@ subprocessor (or listed as not receiving customer data). Declaring a new
 supplier changes the Subprocessors list's hash, so it is a decision, not an
 accident.
 
-**Ported from OneApp's `onelegal`**, with OneDesk's facts:
+**Ported from OneApp's `trustcenter`**, with OneDesk's facts:
 
 - The lifecycle periods are read from `one_admin/ladder.py`.
 - OneAI reading what arrives without being asked is said in the AI Addendum.
@@ -79,7 +79,7 @@ accident.
 ### __init__.py
 
 Each module declares the clauses that follow from what it does, in its own
-`legal.py` beside the code the clause is about, and OneLegal assembles them into
+`legal.py` beside the code the clause is about, and TrustCenter assembles them into
 the documents a person is shown and asked to agree to. The package deliberately
 imports nothing: `registry`, `documents`, `legal` and `assemble` are pure, so the
 tests can assemble every document and check its hash without a site.
@@ -242,13 +242,13 @@ are in English, which governs.
 
 ### legal.py
 
-OneLegal's own clauses: the part of each document about One as a whole. Every
+TrustCenter's own clauses: the part of each document about One as a whole. Every
 other module's `legal.py` says something about that module. This one says what
 is true of the product, the company and the contract, and it is the file to read
 first to know what a customer is agreeing to.
 
 Our own drafting from what the product does, not a lawyer's. Ported from
-OneApp's `onelegal/legal.py` and corrected for what OneDesk actually does:
+OneApp's `trustcenter/legal.py` and corrected for what OneDesk actually does:
 
 - OneAI's reading writes without being asked each time, so "nothing is written without
   somebody asking" is gone.

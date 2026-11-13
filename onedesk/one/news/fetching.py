@@ -11,7 +11,7 @@ from frappe.utils import cint, convert_utc_to_system_timezone, get_datetime, now
 
 from onedesk.one.news import ITEM, SOURCE, feeds
 from onedesk.one_admin import faults
-from onedesk.one_legal import services
+from onedesk.trust_center import services
 
 EVERY = {
 	"15 Minutes": 15,

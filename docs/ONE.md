@@ -242,7 +242,7 @@ moves its version.
    went to theirs. Its notifications are `one/notifications.py`, its
    changing calls are each in `NOT_FOR_AI` with why, its foot is drawn on
    any screen of its rail, and it has no setup steps or tours until stage 8.
-   Registering One held OneLegal's own clauses, written under One's name, to
+   Registering One held TrustCenter's own clauses, written under One's name, to
    one point to a sentence, so the agreements were reworded without
    changing what they say. Roles and abilities now settle on every migrate,
    not only on install.
@@ -272,7 +272,7 @@ moves its version.
    module: frappe's right-to-left sheet turns driver's `left: 0` into
    `right: 0`, and a step written for the left now mirrors.
    AccessCenter only knew People's six apps, so nobody could be made One's,
-   OneAI's, OneAccount's or OneLegal's Manager from a screen. Now a module
+   OneAI's, OneAccount's or TrustCenter's Manager from a screen. Now a module
    everybody uses gets a People tab with User and Manager
    (`people.with_roles`), and On One Record shows only where something is
    given on a record. A OneAccount Manager was shown Plan and Credits and

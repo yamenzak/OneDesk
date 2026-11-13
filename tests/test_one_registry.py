@@ -18,7 +18,7 @@ from onedesk.one.registry import hooks  # noqa: E402
 FOLDERS = sorted(
 	path.parent.name
 	for path in (ROOT / "onedesk").glob("*/__init__.py")
-	if (path.parent.name == "one" or path.parent.name.startswith("one_")) and path.parent.name not in registry.moved()
+	if (path.parent.name == "one" or path.parent.name.startswith("one_") or path.parent.name.endswith("_center")) and path.parent.name not in registry.moved()
 )
 
 

@@ -19,7 +19,7 @@ Portal dialog the workspace manages both from.
 - **From OneInventory**: shipments, quote requests, quotes and purchase orders, which a supplier prices on the portal.
 - **From OneBook**: sales and purchase invoices, with what is left to pay.
 - **From OneProject**: a customer's projects and timesheets (one_project/portal.py draws a project's page).
-- **From OneLegal**: the portal's clause in the Data Processing Addendum (legal.py), and Your Data on the portal.
+- **From TrustCenter**: the portal's clause in the Data Processing Addendum (legal.py), and Your Data on the portal.
 - **To OneMail**: OneAI's replies read what the portal shows the sender (one_mail/theirs.py).
 
 ## Under the hood

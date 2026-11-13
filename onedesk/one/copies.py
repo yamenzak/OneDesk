@@ -3,7 +3,7 @@ workspace says so to One's account every hour (one_admin/sessions.py reads it
 to decide whether a copy may be made, and to delete one that has lost it)."""
 
 from onedesk.one import account
-from onedesk.one_legal import services
+from onedesk.trust_center import services
 
 KEY = "training_copies"
 

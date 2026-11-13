@@ -1,6 +1,6 @@
-"""What OnePortal adds to the agreements. See one_legal/AGENTS.md."""
+"""What OnePortal adds to the agreements. See trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OnePortal"
 

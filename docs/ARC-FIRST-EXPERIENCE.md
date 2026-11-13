@@ -57,7 +57,7 @@ Every folder, module and mark gets the name people see, so the code, the screens
 | `one_storage`, module One Storage, mark `onestorage.svg` | OneCloud | 146 files, 12 doctypes, 5 patches, 60 imports from outside; routes already say `onecloud` |
 | `one_doc`, mark `onedoc.svg` | OneWriter | 64 files, 3 doctypes |
 | `one_sheet`, mark `onesheet.svg` | OneWorkbook | 66 files, 4 doctypes |
-| `one_legal` | TrustCenter | a centre name over a module; decided with the centres |
+| `trust_center` | TrustCenter | a centre name over a module; decided with the centres |
 | `one_account` | AccountCenter | the same |
 
 **How a rename is done safely:** one module per commit; the folder moved with `git mv`; the Frappe module renamed with a patch that updates `Module Def` and every doctype's `module`; imports, hooks, fixtures, notification folders and docs moved; the old dotted paths kept as thin re-exports for one release so a server mid-update doesn't break, then deleted. Each rename is a release of its own, so a problem shows on one module.

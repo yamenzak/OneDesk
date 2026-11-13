@@ -176,7 +176,7 @@ def test_oneai_only_suggests_a_task_and_its_steps():
 	for name in ("my_tasks", "plan_task", "plan_steps", "SUGGESTIONS", "page"):
 		assert f'"onedesk.one_task.ai.{name}"' in HOOKS
 	assert "plan_change" not in HOOKS and '"expects": "edit_record"' in source, "a change to a task is edit_record"
-	assert (TASK / "legal.py").exists() and "registry.apps()" in (tree.APP / "one_legal" / "assemble.py").read_text(), "its AI Addendum line is read"
+	assert (TASK / "legal.py").exists() and "registry.apps()" in (tree.APP / "trust_center" / "assemble.py").read_text(), "its AI Addendum line is read"
 
 
 def test_oneai_gives_a_task_only_on_approval_and_as_the_approver():

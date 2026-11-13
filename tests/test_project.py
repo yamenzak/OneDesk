@@ -1079,7 +1079,7 @@ def test_a_project_has_a_kind_and_new_project_asks_by_kind():
 	assert "is_dialog: true," in page and "fulfil()" in page
 	assert 'depends_on: kind(["Fixed Price", "Time and Materials", "Internal"]),' in page
 	assert 'if (this.kind === "Retainer") delete values.ends;' in page
-	for sheet in [*(tree.APP / "public" / "css").glob("*.css"), *(tree.APP / "public" / "css").glob("one_*/*.css")]:
+	for sheet in [*(tree.APP / "public" / "css").glob("*.css"), *(tree.APP / "public" / "css").glob("one_*/*.css"), *(tree.APP / "public" / "css").glob("*_center/*.css")]:
 		assert "var(--border-radius" not in sheet.read_text(), sheet.name
 	for taken in ('fieldname: "project_name"', 'fieldname: "one_kind"', 'fieldname: "customer"'):
 		assert taken not in page

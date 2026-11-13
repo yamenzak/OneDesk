@@ -1,8 +1,8 @@
 """What OneCalendar adds to the agreements: a person may publish their own
 calendar to another app through a private link. See one_calendar/feed.py and
-one_legal/AGENTS.md."""
+trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneCalendar"
 

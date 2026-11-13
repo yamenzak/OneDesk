@@ -1,7 +1,7 @@
 """What running a workspace adds to the agreements: where it runs, how it is
-reached, and who takes the money. See one_legal/AGENTS.md."""
+reached, and who takes the money. See trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause, service, subprocessor
+from onedesk.trust_center.registry import clause, service, subprocessor
 
 M = "OneAdmin"
 

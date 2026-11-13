@@ -1,4 +1,4 @@
-"""OneLegal's own clauses: the part of each document about One as a whole.
+"""TrustCenter's own clauses: the part of each document about One as a whole.
 
 What is true of the product, the company and the contract: the file to read
 first to know what a customer is agreeing to.

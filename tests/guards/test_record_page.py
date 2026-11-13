@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
 SRC = ROOT / "frontend" / "src"
 VUE = sorted(SRC.rglob("*.vue"))
-JS = sorted((APP / "public" / "js").glob("*.js")) + sorted((APP / "public" / "js").glob("one_*/*.js")) + sorted(APP.glob("*/page/*/*.js"))
+JS = sorted((APP / "public" / "js").glob("*.js")) + sorted((APP / "public" / "js").glob("one_*/*.js")) + sorted((APP / "public" / "js").glob("*_center/*.js")) + sorted(APP.glob("*/page/*/*.js"))
 
 
 def test_no_tabs_run_down_the_side():

@@ -27,7 +27,7 @@ STILL = {
 	"one_crm": 0,
 	"one_hr": 0,
 	"one_inventory": 0,
-	"one_legal": 0,
+	"trust_center": 0,
 	"one_mail": 0,
 	"one_project": 0,
 	"one_cloud": 0,

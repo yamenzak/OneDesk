@@ -27,7 +27,7 @@ logged and can be undone.
 - **To OneHR**: Applicants are screened, interviews prepared, interview recordings written out and grievances sorted with OneAI.
 - **To OneMail**: Opening OneAI with a mail window open writes in its message, and a reply OneAI drafts opens there to edit and send.
 - **To OneStudio**: Every extension is reviewed by OneAI before it can be turned on, and mended when it runs into errors.
-- **To OneLegal**: The Subprocessors list names Cloudflare and Google, which run OneAI's models, and what they receive. The Privacy Policy says OneAI reads only what you can open.
+- **To TrustCenter**: The Subprocessors list names Cloudflare and Google, which run OneAI's models, and what they receive. The Privacy Policy says OneAI reads only what you can open.
 - **From OneMail**: Every message, sent or received, can be found by its text. In a mailbox OneAI reads, each new message and its attachments appear in Documents.
 - **From OneCloud**: Every new file can be found by its text. In a folder OneAI reads, each new file appears in Documents.
 - **To OneCRM**: An enquiry creates a Lead, and an order creates the Customer and a draft Sales Order. The sender gets a Contact, and a contract becomes a Contract with a Cancel By date.

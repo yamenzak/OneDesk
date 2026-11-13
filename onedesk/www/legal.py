@@ -1,12 +1,12 @@
 """The agreements, for somebody who has no account yet: the same text as
-OneLegal's own page, rendered by the same `assemble.render`, for a guest.
+TrustCenter's own page, rendered by the same `assemble.render`, for a guest.
 Reading here records nothing.
 """
 
 import frappe
 
-from onedesk.one_legal import assemble
-from onedesk.one_legal.documents import DOCUMENTS
+from onedesk.trust_center import assemble
+from onedesk.trust_center.documents import DOCUMENTS
 
 no_cache = 1
 sitemap = 0

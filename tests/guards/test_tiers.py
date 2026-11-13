@@ -145,7 +145,7 @@ def test_a_record_tab_is_declared_by_its_module_and_drawn_in_one_place():
 	js = APP / "public" / "js"
 	patched = [
 		path.name
-		for path in [*js.glob("*.js"), *js.glob("one_*/*.js")]
+		for path in [*js.glob("*.js"), *js.glob("one_*/*.js"), *js.glob("*_center/*.js")]
 		if "Layout.prototype.get_doctype_fields" in path.read_text(encoding="utf-8")
 	]
 	assert sorted(patched) == ["head.js", "record_tabs.js"], patched

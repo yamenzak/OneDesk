@@ -1,8 +1,8 @@
 """What OneProject adds to the agreements: OneAI reads a project when somebody
 asks about it, as they see it, and a task it suggests is added only when they
-approve it. See one_project/ai.py and one_legal/AGENTS.md."""
+approve it. See one_project/ai.py and trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneProject"
 

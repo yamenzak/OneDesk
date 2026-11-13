@@ -21,7 +21,7 @@ def _products() -> dict[str, str]:
 	out = {}
 	for path in sorted([*APP.glob("*/README.md"), *APP.glob("*/AGENTS.md")]):
 		text = path.read_text()
-		titled = re.match(r"# (One\w*)\n", text)
+		titled = re.match(r"# (One\w*|\w+Center)\n", text)
 		if titled and "\n## Under the hood" in text:
 			out[titled[1]] = text
 	return out

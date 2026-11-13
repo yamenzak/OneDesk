@@ -82,8 +82,8 @@ msgstr "OneMail"
 msgid "One Intake"
 msgstr "OneIntake"
 
-msgid "One Legal"
-msgstr "OneLegal"
+msgid "Trust Center"
+msgstr "TrustCenter"
 
 
 msgid "One Account"

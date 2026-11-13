@@ -1,7 +1,7 @@
 """What OneQuality adds to the agreements: who raised what went wrong, and
-what OneAI reads in it. See one_quality/tell.py and one_legal/AGENTS.md."""
+what OneAI reads in it. See one_quality/tell.py and trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneQuality"
 

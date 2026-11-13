@@ -462,7 +462,7 @@ CENTRES = {
 		"The reader is in TrustCenter: the agreements the workspace agreed to and any change coming, the "
 		"optional services and their switches, the companies that receive data and where, what is kept and "
 		"for how long, and the requests for a copy or a deletion of someone's data. How it works is in "
-		"OneLegal's Help (how_to)."
+		"TrustCenter's Help (how_to)."
 	),
 	"help": (
 		"The reader is in HelpCenter: every app's Help pages, One's first, then the apps, then AccountCenter "

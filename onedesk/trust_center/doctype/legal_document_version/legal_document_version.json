@@ -33,7 +33,7 @@
    "read_only": 1
   },
   {
-   "description": "The revision and the hash of the text, as one_legal/assemble.py makes it.",
+   "description": "The revision and the hash of the text, as trust_center/assemble.py makes it.",
    "fieldname": "version",
    "fieldtype": "Data",
    "label": "Version",
@@ -72,9 +72,9 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-25 13:00:00.000000",
+ "modified": "2026-11-13 12:00:00.000000",
  "modified_by": "Administrator",
- "module": "One Legal",
+ "module": "Trust Center",
  "name": "Legal Document Version",
  "owner": "Administrator",
  "permissions": [

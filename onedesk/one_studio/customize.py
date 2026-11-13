@@ -29,7 +29,7 @@ REFUSED_MODULES = (
 	"One",
 	"One Admin",
 	"One AI",
-	"One Legal",
+	"Trust Center",
 )
 
 FIELD_PROPERTIES = ("label", "hidden", "reqd", "in_list_view")

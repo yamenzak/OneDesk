@@ -7,7 +7,7 @@ from typing import Annotated
 import frappe
 
 from onedesk.one import account, apps
-from onedesk.one_legal import services
+from onedesk.trust_center import services
 
 SERVICE = "web_search"
 ASKED = "onedesk.one_admin.proxy.ai_web_search"

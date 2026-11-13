@@ -1,7 +1,7 @@
 """What OneBook adds to the agreements: what OneAI reads of the books. See
-one_book/ai.py and one_legal/AGENTS.md."""
+one_book/ai.py and trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneBook"
 

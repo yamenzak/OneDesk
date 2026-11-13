@@ -885,7 +885,7 @@ Resuming, building and checking again are Home's buttons, not OneAI's.
 - **To OneMail**: Mail to and from a workspace's addresses on the mail domain passes through OneAdmin. Sending is limited per hour and per day.
 - **To OneCRM**: In our own workspace, each signup is a lead and a deal in OneCRM. Paying wins the deal and makes a customer, and a checkout left unpaid loses it.
 - **To OneBook**: Each paid Stripe invoice is a sales invoice and a payment in our own OneBook, with Stripe's fee and any refund. Each offering on the Price List is an item there.
-- **To OneLegal**: The agreements name the hosting provider, Cloudflare and Stripe as the companies that run workspaces and take payments. The Terms state how long a workspace stays overdue, suspended and archived.
+- **To TrustCenter**: The agreements name the hosting provider, Cloudflare and Stripe as the companies that run workspaces and take payments. The Terms state how long a workspace stays overdue, suspended and archived.
 
 ## Under the hood
 

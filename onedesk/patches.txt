@@ -1,4 +1,5 @@
 [pre_model_sync]
+onedesk.trust_center.patches.legal_is_trust
 onedesk.one_doc.patches.writer_is_doc
 onedesk.one_sheet.patches.workbook_is_sheet
 onedesk.one_deck.patches.slide_is_deck

@@ -20,7 +20,7 @@ commit message; the log of every walk up to 18 October 2026 is
 | OneBook (Home as a page, every ERPNext accounting screen placed, prints) | against the seventeen points | 2026-10-17 |
 | OneInventory (stock, buying, quality, making, assets, subcontracting) | against the atlas; prints native | 2026-10-18 |
 | OneHR (Home as a page, the clock, passkeys, devices, prints) | against the seventeen points | 2026-10-17 |
-| OneLegal, OneAdmin, OneStudio, OneAI, OneIntake | done, second pass | 2026-10-16 |
+| TrustCenter, OneAdmin, OneStudio, OneAI, OneIntake | done, second pass | 2026-10-16 |
 | The portal (records, lists, quotations, access by record and link) | done, redrawn in cards | 2026-10-16 |
 | Mail: one frame for every mail, every type listed | done, two coverage passes | 2026-10-16 |
 | Print: every record One submits prints from a format of ours | closed | 2026-10-18 |
@@ -28,7 +28,7 @@ commit message; the log of every walk up to 18 October 2026 is
 | Overrides: every place we lean on upstream read against both sides | done; 62 asks upstream in `docs/OVERRIDES.md` | 2026-10-18 |
 | The code: no comments, docs in the module that owns them, one backlog | done | 2026-10-18 |
 | OneMail: the first module marked ready (`docs/READY.md`) | ready; OneAI's own replies say so | 2026-10-25 |
-| OneAI and OneLegal (AICenter, TrustCenter) | ready, both released at 1.0.0 | 2026-10-26 |
+| OneAI and TrustCenter | ready, both released at 1.0.0 | 2026-10-26 |
 | One and OneAccount (AccountCenter), the end of `docs/ONE.md` | ready, both released at 1.0.0 | 2026-10-26 |
 | OneCalendar, OnePortal, OneTask, OneProject | ready, walked on OneInterface | 2026-10-28 |
 | OneInventory, OneBook, OneCRM, OneHR | ready; the full walk by five walkers, every finding fixed | 2026-10-29 |

@@ -1,8 +1,8 @@
 """What OneAccount adds to the agreements: your profile and how you sign in,
 what administrators see of the workspace's people and devices, and a domain
-of the workspace's own. See one_legal/AGENTS.md."""
+of the workspace's own. See trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneAccount"
 

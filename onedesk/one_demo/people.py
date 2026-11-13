@@ -158,9 +158,9 @@ class _as:
 
 def _agree():
 	"""What each person agrees to on their first sign-in, the owner first,
-	for the workspace and for themselves (one_legal/gate.py); and the owner
+	for the workspace and for themselves (trust_center/gate.py); and the owner
 	turns on the optional services, so the demo's faces and logos show."""
-	from onedesk.one_legal import gate, services
+	from onedesk.trust_center import gate, services
 
 	for _first, _last, email, *_rest in PEOPLE:
 		if not email:

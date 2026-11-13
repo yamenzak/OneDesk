@@ -289,7 +289,7 @@ Stage 6, mail in OneCloud, is built.
   it has. A file that cannot be found stays attached.
 
 Stage 7, faces and logos, is built. Both are optional services (`legal.py`
-`service()`, one_legal/services.py), off until an administrator turns them
+`service()`, trust_center/services.py), off until an administrator turns them
 on in TrustCenter: `fetch` asks through `services.call`, and `lookup` queues
 only what a service that is on would answer.
 

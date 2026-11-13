@@ -1,4 +1,4 @@
-"""What OneLegal lets a role do beyond its records (one/rights.py,
+"""What TrustCenter lets a role do beyond its records (one/rights.py,
 docs/ROLES.md): each ability is one of frappe's Permission Types on Legal
 Acceptance, declared in permission_type/ beside this file. Agreeing for the
 workspace and turning an optional service on stay a workspace
@@ -6,11 +6,11 @@ administrator's (gate._may_bind)."""
 
 from frappe import _lt
 
-APP = "OneLegal"
+APP = "TrustCenter"
 
 # Everybody reads the agreements: its User role is given to every person
 # (rights.everyone).
-EVERYONE = "OneLegal User"
+EVERYONE = "TrustCenter User"
 
 DOCTYPE = "Legal Acceptance"
 
@@ -31,12 +31,12 @@ ABILITIES = [
 	},
 ]
 
-# Nothing of OneLegal's is given on one record.
+# Nothing of TrustCenter's is given on one record.
 SHARED = ()
 
-# OneLegal's roles and what each starts with: made and written once on
+# TrustCenter's roles and what each starts with: made and written once on
 # migrate (rights.settle), and shown in Help ({roles}).
 DEFAULTS = {
-	"OneLegal User": {},
-	"OneLegal Manager": {"acceptances": 1},
+	"TrustCenter User": {},
+	"TrustCenter Manager": {"acceptances": 1},
 }

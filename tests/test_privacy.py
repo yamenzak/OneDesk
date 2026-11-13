@@ -96,7 +96,7 @@ def test_everybody_concerned_is_told():
 
 
 def test_the_sidebar_and_the_profile_reach_it():
-	trust = (tree.APP / "public" / "js" / "one_legal" / "trust_center.js").read_text()
+	trust = (tree.APP / "public" / "js" / "trust_center" / "trust_center.js").read_text()
 	assert '"onedesk.one.privacy.requests"' in trust
 	for doctype in ("Personal Data Deletion Request", "Personal Data Download Request"):
 		assert f'go("{doctype}"' in trust, doctype

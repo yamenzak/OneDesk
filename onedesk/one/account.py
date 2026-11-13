@@ -83,7 +83,7 @@ def refresh() -> dict:
 	held = frappe.get_single("Workspace Account")
 	before = held.as_dict()
 	try:
-		from onedesk.one_legal import gate
+		from onedesk.trust_center import gate
 
 		finished = frappe.is_setup_complete()
 		ours = frappe.get_system_settings("time_zone")
@@ -464,7 +464,7 @@ def plans_take(plan: str, extras: str | dict | None = None, label: str | None = 
 	again so the page draws what was bought. Every other administrator hears
 	of it: it changes what the workspace pays."""
 	roles.require()
-	from onedesk.one_legal import gate
+	from onedesk.trust_center import gate
 
 	gate.require("plans_take")
 	try:

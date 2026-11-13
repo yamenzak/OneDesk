@@ -1,4 +1,4 @@
-"""OneLegal: the documents assemble, every change to them is a decision, and
+"""TrustCenter: the documents assemble, every change to them is a decision, and
 every company One sends data to is in the Subprocessors list.
 
 Pure: the registry, the documents and every module's `legal.py` import nothing
@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import tree  # noqa: E402
 
 from onedesk.one import ready  # noqa: E402
-from onedesk.one_legal import assemble, documents, registry  # noqa: E402
+from onedesk.trust_center import assemble, documents, registry  # noqa: E402
 
 VERSIONS = {
 	"terms": "12.2f178593",
@@ -67,7 +67,7 @@ def test_every_document_is_at_the_version_recorded():
 		"These documents changed: "
 		+ ", ".join(f"{key} {was} → {now}" for key, (was, now) in changed.items())
 		+ (
-			". Material: bump its revision in one_legal/documents.py. A typo: record the new version above."
+			". Material: bump its revision in trust_center/documents.py. A typo: record the new version above."
 			if ready.PRODUCTION
 			else ". Before production the agreements change freely: record the new version above."
 		)
@@ -86,7 +86,7 @@ def test_every_company_one_calls_is_a_declared_subprocessor():
 	declared = set(registry.SUBPROCESSORS)
 	called = set()
 	for path in tree.python():
-		if "one_legal" in path.parts or path.name == "legal.py":
+		if "trust_center" in path.parts or path.name == "legal.py":
 			continue
 		called |= set(re.findall(r"https://([a-z0-9.-]+\.[a-z]+)/", path.read_text(encoding="utf-8")))
 	outside = {host for host in called if not host.endswith(("frappe.io", "github.com", "example.com"))}
@@ -127,7 +127,7 @@ def test_only_a_first_agreement_stops_anybody():
 	it changed. `agreed` still tells a new revision from a new hash."""
 	import ast as _ast
 
-	source = (Path(__file__).resolve().parents[2] / "onedesk" / "one_legal" / "gate.py").read_text(encoding="utf-8")
+	source = (Path(__file__).resolve().parents[2] / "onedesk" / "trust_center" / "gate.py").read_text(encoding="utf-8")
 	space = {}
 	for node in _ast.parse(source).body:
 		if isinstance(node, _ast.FunctionDef) and node.name in ("revision", "agreed"):
@@ -171,16 +171,16 @@ def test_every_company_that_runs_a_model_is_a_declared_subprocessor():
 
 
 def test_every_modules_legal_file_is_assembled():
-	from onedesk.one_legal.assemble import places
+	from onedesk.trust_center.assemble import places
 
-	found = {path.parent.name for path in tree.APP.glob("one*/legal.py") if path.parent.name != "one_legal"}
+	found = {path.parent.name for path in tree.APP.glob("one*/legal.py")}
 	assert found <= set(places()), f"not a folder or part in the registry: {sorted(found - set(places()))}"
 
 
 def test_a_service_is_reached_only_through_services_call():
 	"""An optional service's hosts are called only while a workspace has it
 	on (docs/READY.md, mechanism 13): a file that names one goes through
-	one_legal/services.call, each service sends to at least one declared
+	trust_center/services.call, each service sends to at least one declared
 	company, and what it says while off is said."""
 	assemble.documents()
 	for key, one in registry.SERVICES.items():
@@ -200,7 +200,7 @@ def test_every_duty_a_law_puts_on_us_is_met_by_a_clause():
 	"""laws.py lists the laws One answers and what each asks of us; a clause
 	names the duties it meets (`meets=`), and no duty is left without one
 	(docs/READY.md, mechanism 13)."""
-	from onedesk.one_legal import laws
+	from onedesk.trust_center import laws
 
 	assemble.documents()
 	met = {duty for rows in registry.CLAUSES.values() for one in rows for duty in one["meets"]}
@@ -259,7 +259,7 @@ def test_a_core_change_waits_for_its_day():
 	every company declared is in effect the day it is declared."""
 	import datetime
 
-	from onedesk.one_legal import switchovers
+	from onedesk.trust_center import switchovers
 
 	assemble.documents()
 	for row in registry.subprocessor_rows():
@@ -291,7 +291,7 @@ def test_a_switchover_runs_the_old_way_until_its_day():
 	it, read from documents.CHANGES alone."""
 	import datetime
 
-	from onedesk.one_legal import switchovers
+	from onedesk.trust_center import switchovers
 
 	assemble.documents()
 	change = {"document": "ai", "revision": 999, "published": "2026-01-01", "effective": "2026-01-31", "says": "A test."}

@@ -985,7 +985,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/one_interface/dialogs.css",
 	"/assets/onedesk/css/one_interface/phone.css",
 	"/assets/onedesk/css/one_ai/oneai.css",
-	"/assets/onedesk/css/one_legal/legal.css",
+	"/assets/onedesk/css/trust_center/legal.css",
 	"/assets/onedesk/css/one_ai/intake.css",
 	"/assets/onedesk/css/one/news_add.css",
 	"/assets/onedesk/css/one/shortcut_center.css",
@@ -1004,7 +1004,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one/shortcuts.js",
 	"/assets/onedesk/js/one/shortcut_center.js",
 	"/assets/onedesk/js/module_docs.js",
-	"/assets/onedesk/js/one_legal/trust_center.js",
+	"/assets/onedesk/js/trust_center/trust_center.js",
 	"/assets/onedesk/js/check.js",
 	"/assets/onedesk/js/size.js",
 	"/assets/onedesk/js/desk.js",
@@ -1092,7 +1092,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/chart_colors.js",
 	"/assets/onedesk/js/one_ai/oneai.js",
 	"/assets/onedesk/js/one_ai/intake.js",
-	"/assets/onedesk/js/one_legal/legal.js",
+	"/assets/onedesk/js/trust_center/legal.js",
 	"/assets/onedesk/js/lists.js",
 ])
 
@@ -1111,7 +1111,7 @@ company_data_to_be_ignored = [
 	"Vehicle",
 ]
 
-code_only_modules = {"One Legal": ["One"]}
+code_only_modules = {"Trust Center": ["One"]}
 
 one_module_heirs = heirs()
 

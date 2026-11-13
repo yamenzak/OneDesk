@@ -1,8 +1,8 @@
 """What OneTask adds to the agreements: OneAI reads a person's tasks when they
 ask, and a task or a change it suggests is made only when they approve it. See
-one_task/ai.py and one_legal/AGENTS.md."""
+one_task/ai.py and trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneTask"
 

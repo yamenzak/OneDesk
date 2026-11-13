@@ -3990,7 +3990,7 @@ def the_workspace_tells_what_the_second_pass_found():
 
 	from onedesk.one import control, tell
 	from onedesk.one.people import told_of_access
-	from onedesk.one_legal import gate
+	from onedesk.trust_center import gate
 	from onedesk.one_studio import approvals
 
 	told = []
@@ -4029,7 +4029,7 @@ def the_workspace_tells_what_the_second_pass_found():
 		assert users == ["rania@one.test", "samir@one.test"] and str(values["state"]) == "Working", (users, values)
 
 		key = gate.keys_for(gate.WORKSPACE)[0]
-		frappe.db.set_default(f"one_legal_told_workspace_{key}", None)
+		frappe.db.set_default(f"trust_center_told_workspace_{key}", None)
 		with patch.object(gate, "_accepted", return_value="0.abc"):
 			gate.told_of_changes()
 			gate.told_of_changes()

@@ -1,8 +1,8 @@
-"""What One's own screens add to the agreements. See one_legal/AGENTS.md, and
+"""What One's own screens add to the agreements. See trust_center/AGENTS.md, and
 docs/STANDARD.md point 19: each screen's lines are added as the pass reaches it.
 """
 
-from onedesk.one_legal.registry import clause, service, subprocessor
+from onedesk.trust_center.registry import clause, service, subprocessor
 
 M = "One"
 

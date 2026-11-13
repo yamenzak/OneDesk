@@ -121,7 +121,7 @@ def test_a_limit_is_copied_onto_the_workspace_not_read_from_the_price_list():
 
 def test_a_plan_is_not_changed_under_agreements_nobody_made():
 	"""Turning an app on is a plan change, and the agreements it brings are
-	asked for first (one_legal/gate.py require)."""
+	asked for first (trust_center/gate.py require)."""
 	source = (tree.APP / "one" / "account.py").read_text()
 	for node in ast.parse(source).body:
 		if isinstance(node, ast.FunctionDef) and node.name == "plans_take":

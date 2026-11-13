@@ -2,9 +2,9 @@
 shows the workspace's channel to whoever stands in front of it, a ticket
 names nobody. News and the weather are One's (one/legal.py): a screen
 shows the headlines One's News Sources keep. See one_display/AGENTS.md and
-one_legal/AGENTS.md."""
+trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneDisplay"
 

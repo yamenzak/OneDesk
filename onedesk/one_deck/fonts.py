@@ -160,7 +160,7 @@ def _may_add() -> bool:
 def library() -> dict:
 	"""What every font picker offers: the shipped faces by group and the
 	workspace's own by family, and whether this person may add one."""
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	yours = {}
 	for one in faces():
@@ -264,7 +264,7 @@ def _get(url: str, **params):
 
 def _catalogue() -> list[dict]:
 	"""Google's catalogue, asked once a day, by our server."""
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	held = frappe.cache.get_value("one_google_fonts")
 	if held is not None:
@@ -294,7 +294,7 @@ def google_search(q: Annotated[str, "Words in the family's name."] = "") -> list
 def google_add(family: Annotated[str, "A family's name as Google's catalogue has it."]) -> dict:
 	"""A family from Google's catalogue, regular and bold, downloaded once and
 	kept in the workspace; nobody's browser asks Google for it again."""
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	_adding()
 	known = next((one for one in _catalogue() if one["family"] == family), None)

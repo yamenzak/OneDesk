@@ -144,7 +144,7 @@ def _defined_in(symbol: str, method: str) -> str | None:
 def _patches() -> dict[tuple[str, str], set[str]]:
 	"""Each (desk symbol, method) our scripts replace or wrap, with the scripts."""
 	found: dict[tuple[str, str], set[str]] = {}
-	for path in sorted([*(ROOT / "onedesk" / "public" / "js").glob("*.js"), *(ROOT / "onedesk" / "public" / "js").glob("one_*/*.js")]):
+	for path in sorted([*(ROOT / "onedesk" / "public" / "js").glob("*.js"), *(ROOT / "onedesk" / "public" / "js").glob("one_*/*.js"), *(ROOT / "onedesk" / "public" / "js").glob("*_center/*.js")]):
 		text = path.read_text()
 		alias = {name: f"frappe.{symbol}" for name, symbol in re.findall(r"const (\w+) = (?:[\w.]+ && )*frappe\.([\w.]+);", text)}
 		for owner, method in re.findall(r"([\w.]+)\.prototype\.(\w+)\s*=", text):

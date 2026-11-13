@@ -190,7 +190,7 @@ def one_follows_the_news():
 	from onedesk.one import announcements, news
 	from onedesk.one.news import desk, feeds, fetching
 	from onedesk.one.news import library as news_library
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	rss = (
 		b'<rss version="2.0"><channel><title>Check</title><link>https://check.example.com/</link>'
@@ -382,7 +382,7 @@ def one_shows_the_weather_for_its_places():
 	from unittest import mock
 
 	from onedesk.one import weather
-	from onedesk.one_legal import services
+	from onedesk.trust_center import services
 
 	start = 1_793_433_600
 	answer = {

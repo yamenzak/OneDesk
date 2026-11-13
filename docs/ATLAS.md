@@ -1081,15 +1081,6 @@ Reports: Inventory Check (on a rail or a home).
 
 Pages: inventory (on a rail or a home); stock-on-hand (on a rail or a home); to-order (on a rail or a home).
 
-## onedesk / One Legal
-
-| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Legal Acceptance | inside: TrustCenter, an agreement's Who Agreed | the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Legal Document Version | engine: each agreement as it was agreed to | the administrator | untouched | no | general |  | yes |  |  |  |  |
-
-Pages: legal (opened by our screens).
-
 ## onedesk / One Mail
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
@@ -1140,3 +1131,12 @@ Pages: workbook (inside: a workbook opens on it from OneCloud).
 
 
 Pages: timers (opened by our screens).
+
+## onedesk / Trust Center
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Legal Acceptance | inside: TrustCenter, an agreement's Who Agreed | the administrator | untouched | no | general |  | yes |  |  |  |  |
+| Legal Document Version | engine: each agreement as it was agreed to | the administrator | untouched | no | general |  | yes |  |  |  |  |
+
+Pages: legal (opened by our screens).

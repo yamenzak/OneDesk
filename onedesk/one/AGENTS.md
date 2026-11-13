@@ -21,7 +21,7 @@ ready.SHARED. The portal is OnePortal's (one_portal/AGENTS.md).
 - **From OneAccount**: AccountCenter, opened from the avatar and One's
   Centers, holds each person's profile and sign-in and the workspace's
   people, devices, plan and domains.
-- **From OneLegal**: TrustCenter holds the agreements and Your Data, whose
+- **From TrustCenter**: TrustCenter holds the agreements and Your Data, whose
   Requests an administrator answers.
 - **From OneAI**: the panel on every page; AICenter is a row of One's
   Centers.
@@ -171,12 +171,12 @@ time the employee is saved.
 
 `/start` asks a person to agree to the Terms of Service and the Privacy Policy
 before they pay, and a person cannot agree to what they cannot read. Inside a
-workspace the documents are read in OneLegal's own page, which needs a sign-in;
+workspace the documents are read in TrustCenter's own page, which needs a sign-in;
 `/legal` is the same text, rendered by the same `assemble.render`, for a guest.
 
 On every site rather than the admin site alone: the text is the same
 everywhere, and a workspace's sign-in page may link to it too. What is recorded
-as agreed is still the acceptance in One (`one_legal/gate.py`); reading here
+as agreed is still the acceptance in One (`trust_center/gate.py`); reading here
 records nothing.
 
 ### www/start.py
@@ -1064,7 +1064,7 @@ The administrators hear each morning of any that gave up the day before.
   site wears One from its first boot and carries nobody else's navbar rows or
   checklists; after that all of it is the tenant's, in Website and Navbar
   Settings.
-- `code_only_modules`: OneLegal is not a place. TrustCenter is a dialog
+- `code_only_modules`: TrustCenter is not a place but a dialog
   every module's foot opens, so its doctypes have no rail and One inherits
   them. The mapping is frappe's and erpnext's own: a module to where its
   navigation went. OneAI was the same until it had a rail of its own

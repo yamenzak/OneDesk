@@ -7,7 +7,7 @@ keeps only its newest items."""
 import frappe
 from frappe.utils import cint
 
-from onedesk.one_legal import services
+from onedesk.trust_center import services
 
 SOURCE, ITEM, CATEGORY = "News Source", "News Item", "News Category"
 

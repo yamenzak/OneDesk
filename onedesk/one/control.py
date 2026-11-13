@@ -101,7 +101,7 @@ def _pictures() -> dict:
 	"""The optional services pictures come from (Gravatar, Google's logos),
 	switched as TrustCenter switches them, then the style drawn for each
 	record type with none of its own (avatars.py)."""
-	from onedesk.one_legal import gate, services
+	from onedesk.trust_center import gate, services
 
 	chosen = avatars.chosen()
 	named = {one["key"]: one for one in avatars.styles()}

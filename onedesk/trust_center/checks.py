@@ -1,4 +1,4 @@
-"""OneLegal's part of the integration suite (one_demo/check.py runs it):
+"""TrustCenter's part of the integration suite (one_demo/check.py runs it):
 what everybody agreed to, TrustCenter's services and changes, what OneMail
 adds to the agreements, and who sees who agreed."""
 
@@ -10,11 +10,11 @@ from onedesk.one_demo.people import OWNER
 
 
 @check
-def onelegal_every_person_has_agreed_and_reads_what_to():
+def trustcenter_every_person_has_agreed_and_reads_what_to():
 	"""Everybody accepted what they must on their first sign-in, so nothing is
 	outstanding; the documents, an old version and what was agreed read back,
 	and OneAI reads an agreement."""
-	from onedesk.one_legal import ai, gate, reading
+	from onedesk.trust_center import ai, gate, reading
 
 	for user in (OWNER, "rania@one.test"):
 		with as_user(user):
@@ -35,7 +35,7 @@ def onelegal_every_person_has_agreed_and_reads_what_to():
 
 
 @check
-def onelegal_trustcenter_services_changes_and_laws():
+def trustcenter_trustcenter_services_changes_and_laws():
 	"""TrustCenter (docs/READY.md, mechanism 13): Layla's workspace has both
 	of OneMail's optional services on, as she agreed in the demo; turned off,
 	no picture is asked for; given somewhere new, one is off until she agrees
@@ -47,7 +47,7 @@ def onelegal_trustcenter_services_changes_and_laws():
 	from unittest.mock import patch
 
 	from onedesk.one import ready
-	from onedesk.one_legal import gate, reading, services
+	from onedesk.trust_center import gate, reading, services
 	from onedesk.one_mail import faces
 
 	with as_user(OWNER):
@@ -82,7 +82,7 @@ def onelegal_trustcenter_services_changes_and_laws():
 			pass
 	told = []
 	with patch("onedesk.one.notify.notify", side_effect=lambda name, users, **said: told.append((name, said))):
-		keys = [f"one_legal_told_{party}_{key}" for party in ("workspace", "user") for key in gate.keys_for(gate.WORKSPACE if party == "workspace" else gate.USER)]
+		keys = [f"trust_center_told_{party}_{key}" for party in ("workspace", "user") for key in gate.keys_for(gate.WORKSPACE if party == "workspace" else gate.USER)]
 		was = {key: frappe.db.get_default(key) for key in keys}
 		try:
 			for key in keys:
@@ -104,9 +104,9 @@ def legal_tab_says_what_onemail_agrees_to():
 	agreements: its paragraphs of the Privacy Policy and the AI Addendum and
 	the companies mail passes through, each agreement at the version the
 	Agreements page shows, and the version of OneMail that recorded it
-	(one_legal/reading.py of_module, assemble.stamp)."""
+	(trust_center/reading.py of_module, assemble.stamp)."""
 	from onedesk.one import ready
-	from onedesk.one_legal import assemble, reading
+	from onedesk.trust_center import assemble, reading
 
 	with as_user("nadia@one.test"):
 		said = reading.of_module("OneMail")
@@ -123,12 +123,12 @@ def legal_tab_says_what_onemail_agrees_to():
 
 @check
 def who_agreed_is_a_managers():
-	"""Who Agreed (one_legal/reading.py acceptances): Layla, who administers
+	"""Who Agreed (trust_center/reading.py acceptances): Layla, who administers
 	the workspace, reads who agreed to the Terms for the organisation and to
 	the Privacy Policy for themselves, each with its version and day; Nadia,
 	with no role beyond User, is told her role doesn't allow it, and
 	TrustCenter offers her no button for it."""
-	from onedesk.one_legal import reading
+	from onedesk.trust_center import reading
 
 	with as_user(OWNER):
 		assert reading.overview()["sees_acceptances"]

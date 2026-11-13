@@ -1,7 +1,7 @@
 """What OneFactory adds to the agreements: what OneAI reads and drafts in it.
-See one_factory/ai.py and one_legal/AGENTS.md."""
+See one_factory/ai.py and trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause
+from onedesk.trust_center.registry import clause
 
 M = "OneFactory"
 

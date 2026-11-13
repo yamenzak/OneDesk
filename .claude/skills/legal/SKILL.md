@@ -1,13 +1,13 @@
 ---
 name: legal
-description: How to write and change what One agrees to — a module's clauses and subprocessors in its legal.py, the optional services, a change that takes effect on a set day, and the revision that makes people agree again. Load it before touching any legal.py, one_legal/, a clause, a subprocessor, a service, a host the code calls, or anything that changes what data leaves One, where it goes or why.
+description: How to write and change what One agrees to — a module's clauses and subprocessors in its legal.py, the optional services, a change that takes effect on a set day, and the revision that makes people agree again. Load it before touching any legal.py, trust_center/, a clause, a subprocessor, a service, a host the code calls, or anything that changes what data leaves One, where it goes or why.
 ---
 
 # Legal
 
 What One promises is the code's to keep, so it is written beside the code
 that keeps it: every module declares its own part in its own `legal.py`,
-and `one_legal/assemble.py` puts the parts into the eight documents
+and `trust_center/assemble.py` puts the parts into the eight documents
 (Terms, Acceptable Use, Privacy, Cookies, DPA, Subprocessors, AI Addendum,
 Licences) that people read in TrustCenter and agree to.
 
@@ -30,11 +30,11 @@ Precise and plain, which is what the GDPR asks of us (Art. 12):
 
 ## What a module declares
 
-In `<module>/legal.py`, through `one_legal/registry.py`:
+In `<module>/legal.py`, through `trust_center/registry.py`:
 
 - `clause(document=, section=, key=, module=, body=, meets=…)`: one
   paragraph of one document. `meets` names the duties in
-  `one_legal/laws.py` it answers (`"gdpr.13"`); every duty there is met by
+  `trust_center/laws.py` it answers (`"gdpr.13"`); every duty there is met by
   at least one clause.
 - `subprocessor(name=, purpose=, data=, where=, safeguard=, …)`: a company
   that receives customer data, what for, what it gets, where, under what

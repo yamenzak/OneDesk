@@ -7,7 +7,7 @@
 frappe.provide("onedesk.trust");
 
 onedesk.trust.open = async ({ module = null, at = null } = {}) => {
-	const said = await frappe.xcall("onedesk.one_legal.reading.trust", { module: module || "" }, "GET");
+	const said = await frappe.xcall("onedesk.trust_center.reading.trust", { module: module || "" }, "GET");
 	// Requests to delete an account or copy its data, for administrators of
 	// the whole: their own page, counted while some wait.
 	const asks = !module && frappe.boot.one_administers ? await frappe.xcall("onedesk.one.privacy.requests", {}, "GET") : null;
@@ -221,7 +221,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		if (owed) {
 			kit.button({ label: __("Agree"), variant: "solid" })
 				.on("click", async () => {
-					await frappe.xcall("onedesk.one_legal.gate.accept", { documents: [doc.key] });
+					await frappe.xcall("onedesk.trust_center.gate.accept", { documents: [doc.key] });
 					frappe.show_alert({ message: __("Agreed to {0}", [doc.title]), indicator: "green" });
 					dialog.hide();
 					onedesk.trust.open({ module, at: `doc:${doc.key}` });
@@ -240,7 +240,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		if (said.sees_acceptances) {
 			kit.button({ label: __("Who Agreed"), variant: "ghost", icon: "users" })
 				.on("click", async () => {
-					const rows = await frappe.xcall("onedesk.one_legal.reading.acceptances", { key: doc.key }, "GET");
+					const rows = await frappe.xcall("onedesk.trust_center.reading.acceptances", { key: doc.key }, "GET");
 					kit.view(panel, { title: __("Who Agreed"), description: doc.title });
 					const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 					if (!rows.length) return $list.append(kit.empty(__("No one yet")));
@@ -258,7 +258,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		for (const old of doc.history.filter((one) => one.version !== doc.version).slice(0, 2)) {
 			kit.button({ label: __("Version {0}", [short(old.version)]), variant: "ghost", icon: "history", attrs: { title: old.version } })
 				.on("click", async () => {
-					const read = await frappe.xcall("onedesk.one_legal.reading.document", { key: doc.key, version: old.version }, "GET");
+					const read = await frappe.xcall("onedesk.trust_center.reading.document", { key: doc.key, version: old.version }, "GET");
 					kit.view(panel, { title: doc.title, description: __("As agreed, version {0}.", [short(read.version)]) });
 					docs.page(panel.body.empty(), read.html.split("</h1>").pop());
 				})
@@ -305,7 +305,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		const services = await onedesk.trust.switch(one, on);
 		if (!services) return control.set_value(0);
 		said.services = services;
-		const fresh = await frappe.xcall("onedesk.one_legal.reading.trust", { module: module || "" }, "GET");
+		const fresh = await frappe.xcall("onedesk.trust_center.reading.trust", { module: module || "" }, "GET");
 		Object.assign(said, fresh);
 		dialog.get_panel(dialog.active_tab)?.refresh();
 	}
@@ -402,7 +402,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		tabs: [{ items }],
 		tree,
 		default_tab: (at && items.find((one) => one.id === at) ? at : null) || items[0]?.id,
-		help: ["OneLegal", "overview"],
+		help: ["TrustCenter", "overview"],
 	});
 	dialog.$wrapper.addClass("one-set one-trust");
 	dialog.index = Object.values(sections).flat();
@@ -429,10 +429,10 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	dialog.show();
 	// TrustCenter has no foot to start its tour from, so it starts here
 	// the first time the agreements are open.
-	if ((frappe.boot.one_tours_unseen || []).includes("OneLegal:agreements")) {
+	if ((frappe.boot.one_tours_unseen || []).includes("TrustCenter:agreements")) {
 		setTimeout(async () => {
-			const tour = await onedesk.tour.here("OneLegal");
-			if (tour && dialog.display) onedesk.tour.run("OneLegal", tour);
+			const tour = await onedesk.tour.here("TrustCenter");
+			if (tour && dialog.display) onedesk.tour.run("TrustCenter", tour);
 		}, 600);
 	}
 	return dialog;
@@ -469,7 +469,7 @@ onedesk.trust.switch = async (one, on) => {
 		});
 		if (!yes) return null;
 	}
-	const services = await frappe.xcall("onedesk.one_legal.services.switch", { key: one.key, on: on ? 1 : 0 });
+	const services = await frappe.xcall("onedesk.trust_center.services.switch", { key: one.key, on: on ? 1 : 0 });
 	frappe.show_alert({ message: on ? __("Turned on") : __("Turned off"), indicator: "green" });
 	return services;
 };

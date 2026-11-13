@@ -1,9 +1,9 @@
 """What OneAI adds to the agreements: which companies run the models, and what
 they receive. Every model call goes through one_admin/gateway.py, which holds
 no provider key; the keys are in Cloudflare's AI Gateway. See
-one_legal/AGENTS.md."""
+trust_center/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause, service, subprocessor
+from onedesk.trust_center.registry import clause, service, subprocessor
 
 M = "OneAI"
 

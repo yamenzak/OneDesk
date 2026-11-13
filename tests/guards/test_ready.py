@@ -210,7 +210,7 @@ AGREEMENTS = re.compile(r"\bagree|\bpolicy\b|\bterms\b|\baddendum\b|\bsubprocess
 
 
 def test_a_change_to_what_a_module_agrees_on_is_said():
-	"""A version records what its module adds to the agreements (one_legal
+	"""A version records what its module adds to the agreements (trust_center
 	`stamp`), so changing a clause or a company it sends data to is a new
 	version, and that version tells the people using it which agreement moved
 	(docs/READY.md, mechanism 6)."""

@@ -12,7 +12,7 @@ import requests
 from frappe.utils import add_days, now_datetime
 
 from onedesk.one_ai.reading.identifiers import PROVIDERS
-from onedesk.one_legal import services
+from onedesk.trust_center import services
 
 FOLDER, FOLDER_NAME = "Home/Logos", "Logos"
 
@@ -162,7 +162,7 @@ BUILDERS = {"2c5afe10de3355423ed2a1eefb0d80e58feb862e980487890c869bafa544cc07"}
 
 def fetch(key: str) -> str | None:
 	"""Look for one face or logo, keep what is found, and say where: only
-	while its service is on (one_legal/services.py)."""
+	while its service is on (trust_center/services.py)."""
 	key = key.strip().lower()
 	url = gravatar(key) if is_person(key) else favicon(key)
 	try:

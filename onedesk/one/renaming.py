@@ -10,15 +10,17 @@ from frappe.cache_manager import clear_defaults_cache
 from frappe.model.rename_doc import rename_doc
 
 
-def app_renamed(old: str, new: str, roles: dict[str, str]) -> None:
+def app_renamed(old: str, new: str, roles: dict[str, str], keys: tuple[tuple[str, str], ...] = ()) -> None:
 	"""Move `old` to `new` everywhere a site keeps the app's name, and each
-	role in `roles` (old name to new) with it."""
+	role in `roles` (old name to new) with it. `keys` are further stems of a
+	default's key to move, old to new, such as a renamed folder's (the tour
+	and version a reader has seen, one/tours.py and one/versions.py)."""
 	for was, now in roles.items():
 		_role(was, now)
 	for doctype in ("Role", "Notification Type"):
 		if frappe.db.has_column(doctype, "one_app"):
 			frappe.db.set_value(doctype, {"one_app": old}, "one_app", new, update_modified=False)
-	_defaults(((old, new), (frappe.scrub(old), frappe.scrub(new))))
+	_defaults(((old, new), (frappe.scrub(old), frappe.scrub(new)), *keys))
 	frappe.clear_cache()
 
 
