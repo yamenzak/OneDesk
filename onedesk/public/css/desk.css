@@ -1443,6 +1443,10 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	cursor: not-allowed;
 }
 
+.one-app-card.is-locked .one-app-switch {
+	opacity: 0.45;
+}
+
 .one-app-card.is-locked:hover {
 	background: var(--surface-gray-1);
 }

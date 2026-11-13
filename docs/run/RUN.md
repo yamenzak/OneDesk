@@ -302,7 +302,7 @@ release through a thin module, removed in P2.9.
 
 ### P6. OneMarketplace, needs and kept, the editors as apps
 
-- [ ] P6.1 Needs and kept from the registry, enforced in apps.save with the reason named; kept by the rule (records others need, or records the law needs reachable), each app's reason in its manifest and checked. — OneBook can't be turned off once it has an entry; OneCRM can.
+- [x] P6.1 Needs and kept from the registry, enforced in apps.save with the reason named; kept by the rule (records others need, or records the law needs reachable), each app's reason in its manifest and checked. — OneBook can't be turned off once it has an entry; OneCRM can. (14 Nov, an agent, 2f8d7c28: Kept(why, when=record types) in each manifest, refused without a reason; One and OneAdmin always kept, OneBook once a GL Entry or invoice is submitted, OneInventory once stock moved, OneHR once a salary slip exists, OneCRM and the rest not; OneFactory needs OneInventory, OneStudio needs OneAI; apps.switch refuses with the reason and turns needs on. Its check passes; Turn Apps On or Off looked at in en/ar, locked switches dimmed.)
 - [ ] P6.2 OneDoc, OneSheet, OneDeck as apps: rail rows, their own Marketplace pages; off = no new documents, existing ones read-only. — a file never becomes unreadable.
 - [ ] P6.3 OneMarketplace replaces the Apps dialog: each app's page from its manifest (words for a buyer, 3–6 pictures and clips of the demo, what it brings, the plan it needs, the credits it uses), Install → SetupCenter, private apps under the company's name. Owners only. — every app has a page.
 - [ ] P6.4 The shoot: pictures and clips (scripts/clip.mjs, ≤ 9 s) of every app on the demo, the five apps with none first. — none missing; the docs skill's rules hold.
