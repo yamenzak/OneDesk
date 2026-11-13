@@ -5,6 +5,14 @@ fabricates, installs and maintains glazing. It is a whole year of a real
 business in One, built on a new site in a few minutes, and the integration
 suite reads it back as the people who work there.
 
+It belongs to **Al Mansoori Holding**, Faisal Al Mansoori's family holding,
+with its Saudi company and four companies in other fields, each with its own
+year of records, people and books: **Jumeirah Family Clinic**, **Palm Key
+Properties**, a real estate agency, **Creek Trading**, which imports and sells
+office furniture and supplies, and **Bayan Consulting**, a services firm.
+Everybody at Sahara Glass sees every company; the people of the other four
+work in their own company alone, and every Home shows its reader's company.
+
 ## Build it
 
 On a dev site only: one marked `one_dev` in its site config, or in developer
@@ -28,13 +36,13 @@ next, and One's own actions. Each is made by the person whose work it is.
 Samir runs the projects, Huda keeps the books, Karim buys, Mariam runs HR,
 Omar sells, and Layla owns the workspace. Every record is tagged **Demo**.
 
-The steps run in the order of the five tables below.
+The steps run in the order of the six tables below.
 
 ### Demo steps: the company, its people, items, buying, leads and projects
 
 | Step | What it makes |
 |---|---|
-| setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds, and a euro rate from July so a late payment gains or loses |
+| setup | The company through the setup wizard, in dirhams, then the holding and its four other companies through the same setup job, each on the Standard chart with its financial year, holiday list, periods and letter head, and their people invited, the years before this one, rates for dollars, euros and pounds, and a euro rate from July so a late payment gains or loses |
 | people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives. The owner sets the company's Brand Colour, details and letter head |
 | plan | What the workspace's account last said: a Business plan, its seats and storage, a storage add-on, its credits, and three addresses, one waiting on its DNS record. A demo has no account to ask, so Plan and Credits and Domains show it as last known |
 | masters | 10 customers and 11 suppliers in four currencies, 26 items, prices, activity types (Site Work among them, so a day on site costs), asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
@@ -90,6 +98,22 @@ The steps run in the order of the five tables below.
 | ai | OneAI's Knowledge, how the company books site visits and quotes glass, and a conversation Layla had with OneAI about booking a visit at Bayview Tower |
 | display | The showroom queue, with three services, three counters and the lobby channel a screen shows once it is paired at /tv; Layla runs OneDisplay and Omar works counter 2 |
 
+### Demo steps: the group
+
+Each company below is declared in its step's file, with its people (firm.py
+builds them all the same way). Each person who signs in is kept to their
+company. Each company has its address and TRN, its bank, VAT as the Books
+Check sets it, the money it opened the year with, and each month's rent, pay
+and DEWA bill.
+
+| Step | What it makes |
+|---|---|
+| group | Sahara Glass Saudi joined to Al Mansoori Holding, beside the other five |
+| clinic | Jumeirah Family Clinic: five people, Salma and Rami signing in. Eleven patients' visits paid at the desk, two insurers billed each month and paid six weeks on, one holding back part of September, gloves, syringes and flu vaccine bought into the stores and used each quarter, a laboratory's bills, and Rami's appointments around today. Care is zero-rated |
+| realty | Palm Key Properties: four people, Sophie and Zayed signing in. Ten tenancies, each a signed contract with its tenant's fee, three landlords billed each month for the homes the agency manages, one month still unpaid, six sales' commissions, the last one overdue, listing and print bills, and Zayed's viewings |
+| trading | Creek Trading: four people, Vikram and Lina signing in. Chairs and desks imported from Shenzhen in dollars, paper, toner and cabinets bought in Dubai, sixteen sales to five customers taken from the stores on their invoices, a school's order delivered and invoiced, freight bills, some invoices late and some not yet due |
+| consulting | Bayan Consulting: four people, Daniel and Meera signing in. Nexa Telecom's operating model, done, and Emirates Retail's pricing review, under way, with their tasks and weekly timesheets, invoiced by the hour each month; Jebel Ali Logistics Park's retainer invoiced each month with the hours over it; a workshop billed alone and unpaid; software and research bills |
+
 ## Who works there, and signing in as them
 
 Each person signs in with their address below and the password given to the
@@ -106,6 +130,10 @@ build. Sign in as somebody to see One as they do.
 | Rania, Nadia, Tariq | rania@, nadia@, tariq@one.test | OneProject |
 | Yousef Bakr | yousef@one.test | OneInventory |
 | Khalid Mansour | khalid@mansour.example | The portal, as the villa's customer, invited by Omar. On the villa's team, he sees its files there and not its timesheets |
+| Salma Rahimi, Rami Saad | salma@, rami@one.test | Jumeirah Family Clinic: OneBook, OneCalendar and OneInventory; Rami his calendar |
+| Sophie Laurent, Zayed Al Falasi | sophie@, zayed@one.test | Palm Key Properties: OneCRM and OneBook; Zayed OneCRM |
+| Vikram Rao, Lina Aziz | vikram@, lina@one.test | Creek Trading: OneInventory, OneBook and OneCRM; Lina sells |
+| Daniel Price, Meera Iyer | daniel@, meera@one.test | Bayan Consulting: OneProject and OneBook; Meera her projects and tasks |
 
 ## Check it
 

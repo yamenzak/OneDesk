@@ -40,7 +40,7 @@ dict, the shape the wizard in OneAdmin sends and the Account Request keeps:
     {
         "owner": {"email", "first_name", "last_name", "password", "invite"},
         "language": "en", "time_zone": "Asia/Dubai", "field": "contracting", "theme": "Light",
-        "companies": [{"name", "country", "currency", "abbr", "chart", "year_starts"}],
+        "companies": [{"name", "country", "currency", "abbr", "chart", "year_starts", "parent"}],
         "working_day": {"starts": "08:00", "ends": "17:00", "days_off": ["Sunday"]},
         "apps": {"one_crm": False},
         "steps": {"one_mail": {"domains": {"domain": "example.com"}}},
@@ -54,7 +54,10 @@ folder. The first company is the one frappe's wizard makes and the System
 Settings' country; a currency not said is its country's; `chart` is
 "Standard" (left empty, as erpnext fills it) or "Standard with Numbers",
 never a country's own (docs/ACCOUNTS.md). `year_starts` is MM-DD, the first
-of January when not said.
+of January when not said. `parent` names another company in the answers:
+once every company is made, `companies.join` puts each in its parent's group
+and makes the parent a group company, written to erpnext's company tree
+rather than saved through the form, so each keeps its own chart.
 
 The steps, in `ORDER`: `settings` (language, time zone, country, currency,
 and the country's date, time and number formats, set one by one, first,

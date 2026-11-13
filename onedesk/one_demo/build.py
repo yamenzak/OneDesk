@@ -1,6 +1,7 @@
 """The demo workspace, built step by step on a new site: Sahara Glass &
 Aluminium, a Dubai contractor that sells, designs, fabricates, installs and
-maintains glazing, and runs every part of One to do it.
+maintains glazing, and runs every part of One to do it, and the rest of Al
+Mansoori Holding's group: a clinic, an agency, a trader and a consultancy.
 
     bench --site <site> execute onedesk.one_demo.build.load --kwargs "{'password': '…'}"
 """
@@ -47,6 +48,11 @@ STEPS = (
 	"mail",
 	"ai",
 	"display",
+	"group",
+	"clinic",
+	"realty",
+	"trading",
+	"consulting",
 )
 
 

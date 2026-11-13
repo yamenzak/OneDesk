@@ -70,6 +70,21 @@ def test_answers_kept_part_way_are_checked_as_far_as_they_go():
 	assert setup_answers.check(held, partial=True) == held
 
 
+def test_a_company_may_name_its_group_among_the_answers():
+	"""A company's parent is another company in the same answers, which the
+	setup job makes a group; the demo's group answers check."""
+	from onedesk.one_demo import group
+
+	held = {"owner": {"email": "faisal@example.com", "first_name": "Faisal"}, "language": "en", "time_zone": "Asia/Dubai"}
+	first = {"name": "Sahara Glass", "country": "United Arab Emirates", "parent": group.HOLDING}
+	said = setup_answers.check({**held, "companies": [first, *group.answers()], "people": group.invited()})
+	assert setup_answers.joined(said["companies"]) == [("Sahara Glass", group.HOLDING), *((one.name, group.HOLDING) for one in group.members())]
+	assert all(one.answer(group.HOLDING)["chart"] == "Standard" for one in group.members())
+	for parent in ("Sahara Glass", "Nowhere"):
+		with pytest.raises(setup_answers.Invalid, match="is not another company"):
+			setup_answers.check({**held, "companies": [{**first, "parent": parent}]})
+
+
 def test_an_apps_steps_are_kept_one_by_one():
 	held = {"owner": {"email": "huda@example.com", "first_name": "Huda"}, "steps": {"one_mail": {"private": {"allowed": 1}}}}
 	kept = wizard.merge(held, "steps:one_mail.domains", {"steps": {"one_mail": {"domains": {"domain": "example.com"}}}}, True)

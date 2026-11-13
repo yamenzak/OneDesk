@@ -119,7 +119,8 @@ def every_paper_prints_in_the_companys_look():
 	assert frappe.db.get_value("Letter Head", {"is_default": 1}) == COMPANY
 	for doctype, (name, _module) in print_blocks.FORMATS.items():
 		assert frappe.get_meta(doctype).default_print_format == name, doctype
-		record = frappe.get_all(doctype, filters={"docstatus": ["<", 2]}, order_by="creation desc", limit=1, pluck="name")
+		ours = {"company": COMPANY} if frappe.get_meta(doctype).has_field("company") else {}
+		record = frappe.get_all(doctype, filters={"docstatus": ["<", 2], **ours}, order_by="creation desc", limit=1, pluck="name")
 		if not record:
 			continue
 		with as_user(OWNER):
@@ -351,7 +352,8 @@ def printing_holds_what_a_page_may_say():
 
 	head = frappe.db.get_value("Letter Head", {"one_top": ["is", "set"]})
 	assert head, "the demo's letter head is drawn from the company"
-	address = frappe.db.get_value("Address", {"is_your_company_address": 1})
+	ours = frappe.get_all("Dynamic Link", filters={"parenttype": "Address", "link_doctype": "Company", "link_name": COMPANY}, pluck="parent")
+	address = frappe.db.get_value("Address", {"is_your_company_address": 1, "name": ["in", ours]})
 	with as_user(OWNER):
 		place = frappe.get_doc("Address", address)
 		place.address_line2 = "Unit 4 <b>Al Quoz</b>"
@@ -459,7 +461,7 @@ Record Payment changes nothing it has to show, and a head reads a record not yet
 		customize.reset("Opportunity")
 		offered = automations.steps("Sales Invoice")
 		assert offered, offered
-	invoice = frappe.db.get_value("Sales Invoice", {"docstatus": 1, "outstanding_amount": [">", 0], "is_return": 0}, ["name", "outstanding_amount"], as_dict=True)
+	invoice = frappe.db.get_value("Sales Invoice", {"docstatus": 1, "outstanding_amount": [">", 0], "is_return": 0, "company": COMPANY}, ["name", "outstanding_amount"], as_dict=True)
 	with as_user("huda@one.test"):
 		verb = head.offer("Sales Invoice", invoice.name, "invoice.record_payment")
 		assert verb, "no Record Payment on an unpaid invoice"
@@ -526,3 +528,101 @@ def tasks_and_the_calendar_tell_what_changed_for_somebody():
 
 	frappe.share.add("Event", event.name, "nadia@one.test")
 	assert "nadia@one.test" in calendar.people(frappe.get_doc("Event", event.name)).values()
+
+
+@check
+def the_group_holds_its_six_companies():
+	"""Al Mansoori Holding is a group with Sahara Glass, its Saudi company and
+	the four others under it, and Sahara Glass is still the workspace's own
+	company."""
+	from onedesk.one_demo import group
+	from onedesk.one_demo.branch import BRANCH
+
+	assert frappe.db.get_value("Company", group.HOLDING, "is_group"), "the holding is not a group"
+	under = set(frappe.get_all("Company", filters={"parent_company": group.HOLDING}, pluck="name"))
+	assert under == {COMPANY, BRANCH, *(one.name for one in group.members())}, under
+	assert frappe.db.get_single_value("Global Defaults", "default_company") == COMPANY
+
+
+def _keeps_its_books(firm, sold: int, bought: int) -> None:
+	"""The company's books balance, it has its people, each who signs in kept
+	to it, its invoices, bills and payments, and its owner's Home reads what
+	its own invoices still have outstanding."""
+	from onedesk.one_book import home
+
+	debit, credit = frappe.db.sql(
+		"select ifnull(sum(debit), 0), ifnull(sum(credit), 0) from `tabGL Entry` where company = %s and is_cancelled = 0", firm.name
+	)[0]
+	assert debit and abs(debit - credit) < 0.01, (firm.name, debit, credit)
+	assert frappe.db.count("Employee", {"company": firm.name, "status": "Active"}) == len(firm.people), firm.name
+	for one in firm.people:
+		if one.email:
+			assert frappe.db.get_value("User Permission", {"user": one.email, "allow": "Company"}, "for_value") == firm.name, one.email
+	assert frappe.db.count("Sales Invoice", {"company": firm.name, "docstatus": 1}) >= sold, firm.name
+	assert frappe.db.count("Purchase Invoice", {"company": firm.name, "docstatus": 1}) >= bought, firm.name
+	assert frappe.db.count("Payment Entry", {"company": firm.name, "docstatus": 1}), firm.name
+	assert frappe.db.get_value("Company", firm.name, "default_letter_head") == firm.name, firm.name
+	with as_user(firm.owner):
+		said = home.owed_to_us()
+	found = frappe.db.sql(
+		"select ifnull(sum(outstanding_amount * conversion_rate), 0) from `tabSales Invoice` where docstatus = 1 and company = %s and outstanding_amount != 0",
+		firm.name,
+	)[0][0]
+	assert abs(said["value"] - found) < 2, (firm.name, said["value"], found)
+
+
+def _no_stock_below_nothing(firm) -> None:
+	held = frappe.get_all("Bin", filters={"warehouse": firm.wh("Stores")}, fields=["item_code", "actual_qty", "stock_value"])
+	assert held and all(one.actual_qty >= 0 for one in held) and sum(one.stock_value for one in held) > 0, held
+
+
+@check
+def the_clinic_keeps_its_books_stock_and_appointments():
+	from onedesk.one_demo import clinic
+
+	_keeps_its_books(clinic.FIRM, len(clinic.VISITS), len(clinic.BOUGHT) + len(clinic.LAB))
+	_no_stock_below_nothing(clinic.FIRM)
+	assert frappe.db.count("Stock Entry", {"company": clinic.FIRM.name, "stock_entry_type": "Material Issue", "docstatus": 1}) == len(clinic.USED)
+	patients = frappe.get_all("Customer", filters={"customer_name": ["in", [one[0] for one in clinic.PATIENTS]]}, pluck="name")
+	booked = frappe.get_all("Event", filters={"reference_doctype": "Customer", "reference_docname": ["in", patients]}, pluck="name")
+	assert len(booked) >= len(clinic.APPOINTMENTS), booked
+	with as_user(clinic.DOCTOR):
+		assert all(frappe.has_permission("Event", "read", one) for one in booked), "Rami can't open his appointments"
+
+
+@check
+def the_agency_keeps_its_books_and_tenancies():
+	from onedesk.one_demo import realty
+
+	_keeps_its_books(realty.FIRM, len(realty.LEASES) + len(realty.SALES), len(realty.BILLS))
+	tenants = [one[0] for one in realty.LEASES]
+	signed = frappe.get_all("Contract", filters={"party_type": "Customer", "party_name": ["in", tenants], "docstatus": 1, "is_signed": 1}, pluck="name")
+	assert len(signed) == len(realty.LEASES), signed
+	with as_user(realty.BROKER):
+		assert set(signed) <= set(frappe.get_list("Contract", pluck="name", limit_page_length=0)), "Sophie can't read her tenancies"
+
+
+@check
+def the_trader_keeps_its_books_and_stock_in_two_currencies():
+	from onedesk.one_demo import trading
+
+	_keeps_its_books(trading.FIRM, len(trading.SOLD) + 1, len(trading.BOUGHT) + len(trading.FREIGHT))
+	_no_stock_below_nothing(trading.FIRM)
+	assert frappe.db.exists("Purchase Invoice", {"company": trading.FIRM.name, "currency": "USD", "docstatus": 1}), "nothing was bought in dollars"
+	assert frappe.db.exists("Delivery Note", {"company": trading.FIRM.name, "docstatus": 1}), "the school's order was not delivered"
+
+
+@check
+def the_consultancy_keeps_its_books_time_and_projects():
+	from onedesk.one_demo import consulting
+
+	firm = consulting.FIRM
+	_keeps_its_books(firm, 1, len(consulting.BILLS))
+	projects = frappe.get_all("Project", filters={"company": firm.name}, fields=["name", "project_name"])
+	assert {one.project_name for one in projects} == {one[0] for one in consulting.PROJECTS}, projects
+	assert frappe.db.count("Task", {"project": ["in", [one.name for one in projects]]}) == sum(len(rows) for rows in consulting.TASKS.values())
+	assert frappe.db.count("Timesheet", {"company": firm.name, "docstatus": 1}), "nobody logged time"
+	with as_user(consulting.CONSULTANT):
+		seen = set(frappe.get_list("Project", pluck="name", limit_page_length=0))
+	assert {one.name for one in projects} <= seen, "Meera can't open her projects"
+	assert not seen & set(frappe.get_all("Project", filters={"company": COMPANY}, pluck="name")), "Meera reads Sahara's projects"

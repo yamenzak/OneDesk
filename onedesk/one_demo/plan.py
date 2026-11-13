@@ -26,7 +26,7 @@ def run(password=None):
 			"plan_key": "business",
 			"monthly": 240,
 			"plan_currency": "USD",
-			"seats": 15,
+			"seats": 40,
 			"storage_bytes": int(18.4 * GB),
 			"storage_limit": 75 * GB,
 			"database_bytes": int(1.2 * GB),

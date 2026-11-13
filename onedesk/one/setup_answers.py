@@ -22,7 +22,7 @@ WEEK = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sun
 TOP = ("owner", "language", "time_zone", "field", "theme", "companies", "working_day", "apps", "steps", "people")
 NEEDED = ("owner", "language", "time_zone", "companies")
 OWNER = ("email", "first_name", "last_name", "password", "invite")
-COMPANY = ("name", "country", "currency", "abbr", "chart", "year_starts")
+COMPANY = ("name", "country", "currency", "abbr", "chart", "year_starts", "parent")
 DAY = ("starts", "ends", "days_off")
 PERSON = ("email", "first_name", "last_name", "levels", "admin")
 
@@ -106,6 +106,17 @@ def _companies(said, wrong: list) -> None:
 				_month_day(one["year_starts"])
 			except ValueError:
 				wrong.append(f"{where}.year_starts {one['year_starts']!r} is not a day of the year as MM-DD")
+	named = {one.get("name") for one in said if isinstance(one, dict)}
+	for at, one in enumerate(said):
+		parent = one.get("parent") if isinstance(one, dict) else None
+		if parent and (parent == one.get("name") or parent not in named):
+			wrong.append(f"companies[{at}].parent {parent!r} is not another company in the answers")
+
+
+def joined(companies: list[dict]) -> list[tuple[str, str]]:
+	"""Each company that names its parent, with that parent, in the answers'
+	order: what makes a group (one/companies.py, join). Pure."""
+	return [(one["name"], one["parent"]) for one in companies if one.get("parent")]
 
 
 def _day(said, wrong: list) -> None:
