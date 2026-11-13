@@ -16,5 +16,5 @@ export default defineConfig({
 		}),
 		vue(),
 	],
-	resolve: { alias: { "@": path.resolve(import.meta.dirname, "src") } },
+	resolve: { alias: { "@": path.resolve(import.meta.dirname, "src") }, dedupe: ["reka-ui"] },
 });

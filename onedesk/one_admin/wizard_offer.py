@@ -119,14 +119,19 @@ def quota(one: dict) -> list[str]:
 	out."""
 	said = []
 	if one.get("storage_gb"):
-		said.append(_("{0} GB storage").format(one["storage_gb"]))
+		said.append(_("{0} GB storage").format(_count(one["storage_gb"])))
 	if one.get("database_gb"):
-		said.append(_("{0} GB database").format(one["database_gb"]))
+		said.append(_("{0} GB database").format(_count(one["database_gb"])))
 	if one.get("seats"):
-		said.append(_("{0} people").format(one["seats"]))
+		said.append(_("{0} people").format(_count(one["seats"])))
 	if one.get("credits_a_month"):
-		said.append(_("{0} credits a month").format(f"{one['credits_a_month']:,}"))
+		said.append(_("{0} credits a month").format(_count(one["credits_a_month"])))
 	return said
+
+
+def _count(value) -> str:
+	"""A whole number as the workspace writes numbers."""
+	return frappe.utils.fmt_money(value, precision=0)
 
 
 def pay_note(offerings: list[dict]) -> str:
@@ -172,8 +177,9 @@ def steps(answers: dict) -> list[dict]:
 
 
 def said(text) -> str:
-	"""A step's own words in the reader's language; nothing for none."""
-	return _(text) if text else ""
+	"""A step's own words in the reader's language, as a string a response
+	can carry (a step declares them with _lt); nothing for none."""
+	return str(_(text)) if text else ""
 
 
 def _field(given: dict) -> dict:
