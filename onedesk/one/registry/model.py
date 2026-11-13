@@ -75,7 +75,7 @@ class App:
 	sub-packages that carry centre parts of their own (OneAI's reading);
 	`hooks` names, relative to the folder, what a hook takes from it beyond
 	what its files declare by convention; `agent` is what its agent is
-	called, "accountant" (registry/hooks.py, registry/agents.py)."""
+	called, "accountant", and `agent_roles` what it alone holds besides."""
 
 	id: str
 	name: str
@@ -110,3 +110,4 @@ class App:
 	centres: tuple[str, ...] = ()
 	makes: tuple[str, ...] = ()
 	agent: str = ""
+	agent_roles: tuple[str, ...] = ()

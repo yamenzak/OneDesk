@@ -639,9 +639,9 @@ def a_oneai_manager_writes_knowledge():
 @check
 def the_agents_call_back_with_one_token_for_one_tool_once():
 	"""The Agents Worker's way back in (one_ai/agents/api.py): each agent is
-	a user turned off with its app's User roles alone; a token signed for
-	this workspace opens one tool of its agent, as that agent, for its own
-	body. OneMail's receptionist finds the kept sample invoice in its mail
+	a user turned off with its app's User roles and its own, which nobody
+	else holds; a token signed for this workspace opens one tool of its
+	agent, as that agent, for its own body. OneMail's receptionist finds the kept sample invoice in its mail
 	and hands it on, a comment on the mail that can be undone; OneBook's
 	accountant finds the draft Intake made rather than making a second."""
 	import time
@@ -656,6 +656,8 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 	for agent in agents.listed():
 		assert not frappe.db.get_value("User", agent.email, "enabled"), agent.email
 		assert set(frappe.get_roles(agent.email)) - {"All", "Guest"} == set(agent.roles), agent.email
+	held = frappe.get_all("Has Role", filters={"role": ["in", list(agents.only()) or [""]], "parenttype": "User"}, fields=["parent", "role"])
+	assert all(agents.only()[one.role] == one.parent for one in held), held
 	reading = _sample("new-supplier-invoice")
 	message = gate.message_of(reading)
 	secret = token.secret_for("check", "demo")

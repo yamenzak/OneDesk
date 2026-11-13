@@ -34,7 +34,8 @@ def test_every_app_with_user_roles_has_an_agent_with_those_alone():
 	assert {"one_mail", "one_book"} <= set(listed)
 	for app in registry.apps():
 		if app.roles.user:
-			assert listed[app.id].roles == app.roles.user, app.id
+			assert listed[app.id].roles == app.roles.user + app.agent_roles, app.id
+			assert listed[app.id].only == app.agent_roles, app.id
 			assert not set(listed[app.id].roles) & (set(app.roles.manager) | set(agents.NEVER)), app.id
 	assert len({one.email for one in listed.values()}) == len(listed)
 	assert all(one.email.endswith("@" + agents.DOMAIN) for one in listed.values())
@@ -45,6 +46,48 @@ def test_an_agent_never_holds_a_manager_s_role():
 	with pytest.raises(agents.Invalid):
 		agents.of(replace(book, roles=replace(book.roles, user=("Accounts User", "System Manager"))))
 	assert agents.of(replace(book, agent="")) is None
+	for role in ("Accounts Manager", "System Manager"):
+		with pytest.raises(agents.Invalid):
+			agents.of(replace(book, agent_roles=(role,)))
+
+
+def test_an_agent_s_own_role_is_never_a_person_s():
+	book = registry.get("one_book")
+	for role in ("Accounts User", "OneMail User", "Mail Manager"):
+		with pytest.raises(agents.Invalid):
+			agents.of(replace(book, agent_roles=(role,)))
+	assert agents.of(replace(book, agent_roles=("OneBook Clerk",))).roles == (*book.roles.user, "OneBook Clerk")
+	assert agents.only()["OneMail Receptionist"] == agents.email("one_mail")
+	users = (tree.APP / "one_ai" / "agents" / "users.py").read_text()
+	assert "_only(agent)" in users and '"!=", agent.email' in users
+	assert "agents.only()" in (tree.APP / "one_ai" / "checks.py").read_text()
+
+
+def test_the_receptionist_s_role_reads_mail_and_is_made_by_migrate():
+	from onedesk.one_mail import access
+
+	assert access.GIVEN == {"Communication": {"OneMail Receptionist": ("read",)}}
+	settles = hooks.settles(install=False)
+	assert settles.index("onedesk.one_mail.access.settle") < settles.index("onedesk.one_ai.agents.users.ensure")
+	assert "rights.made(RECEPTIONIST, desk=False)" in (tree.APP / "one_mail" / "access.py").read_text()
+
+
+def test_the_receptionist_opens_only_the_mail_of_a_mailbox_oneai_reads(monkeypatch):
+	from frappe import _dict
+
+	from onedesk.one_mail import access, gate
+
+	monkeypatch.setattr(gate, "reads", lambda account: account == "Sales")
+	receptionist = agents.email("one_mail")
+
+	def opens(**values) -> bool:
+		return access.allowed(_dict({"communication_medium": "Email", "email_account": "Sales", **values}), "read", receptionist)
+
+	assert opens()
+	assert not opens(email_account="Accounts")
+	assert not opens(email_account=None)
+	assert not opens(communication_medium="Phone")
+	assert not opens(communication_medium="Other", email_account=None)
 
 
 def test_agent_users_are_made_on_every_migrate_and_are_nobody_s_seat():

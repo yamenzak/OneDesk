@@ -230,12 +230,13 @@ def settle(*_args) -> None:
 				_arrived(declared, role, values, row)
 
 
-def made(role: str, app: str | None = None) -> None:
+def made(role: str, app: str | None = None, desk: bool = True) -> None:
 	"""A module's role, made once. Also before a module's doctypes are synced,
-	when their permissions name a role that has to be there first."""
+	when their permissions name a role that has to be there first. An
+	agent's own role is made without desk access (`desk`)."""
 	if frappe.db.exists("Role", role):
 		return
-	values = {"doctype": "Role", "role_name": role, "desk_access": 1, "is_custom": 0}
+	values = {"doctype": "Role", "role_name": role, "desk_access": int(desk), "is_custom": 0}
 	if app and frappe.db.has_column("Role", "one_app"):
 		values["one_app"] = app
 	frappe.get_doc(values).insert(ignore_permissions=True)

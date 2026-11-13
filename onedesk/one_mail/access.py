@@ -8,7 +8,7 @@ User open any Communication by its name.
 import frappe
 from frappe import _lt
 
-from onedesk.one import registry
+from onedesk.one import registry, rights, roles
 from onedesk.one.registry import agents
 
 APP = registry.name("one_mail")
@@ -125,15 +125,29 @@ DEFAULTS = {
 }
 
 
+RECEPTIONIST = "OneMail Receptionist"
+
+GIVEN = {"Communication": {RECEPTIONIST: ("read",)}}
+
+
+def settle() -> None:
+	"""The receptionist's own role (manifest.py, agent_roles), made before
+	OneAI's agents are given their roles, and what it reads."""
+	rights.made(RECEPTIONIST, desk=False)
+	roles.give(GIVEN)
+
+
 def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	"""The has_permission hook for Communication. It can only refuse. OneMail's
-	receptionist opens the messages of a mailbox OneAI reads, which is what
-	the mailbox's switch allows (gate.reads)."""
+	receptionist reads Communication by its own role (GIVEN) and opens only
+	the mail of a mailbox OneAI reads, which is what the mailbox's switch
+	allows (gate.reads)."""
 	from onedesk.one_mail import gate
 
 	user = user or frappe.session.user
-	if user == "Administrator" or doc.communication_medium != "Email" or not doc.email_account:
-		return True
+	email = doc.communication_medium == "Email" and doc.email_account
 	if user == agents.email("one_mail"):
-		return gate.reads(doc.email_account)
+		return bool(email) and gate.reads(doc.email_account)
+	if user == "Administrator" or not email:
+		return True
 	return bool(frappe.db.exists("User Email", {"parent": user, "email_account": doc.email_account}))

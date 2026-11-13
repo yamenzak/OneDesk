@@ -1,8 +1,9 @@
 """Each app's agent is a user of the workspace (docs/ARC-AI.md, Trust and
 permissions), made on install and on every migrate from the registry
-(registry/agents.py), holding its app's User roles and nothing else. It is
-turned off, so it never signs in and takes no seat; the door (door.py) and
-the Worker's calls (api.py) act as it."""
+(registry/agents.py), holding its app's User roles and its own roles, which
+no person holds, and nothing else. It is turned off, so it never signs in
+and takes no seat; the door (door.py) and the Worker's calls (api.py) act
+as it."""
 
 import frappe
 from frappe import _
@@ -15,6 +16,7 @@ def ensure() -> None:
 	for agent in agents.listed():
 		_made(agent)
 		_roles(agent)
+		_only(agent)
 		for contact in frappe.get_all("Contact", filters={"user": agent.email}, pluck="name"):
 			frappe.delete_doc("Contact", contact, ignore_permissions=True, force=True)
 		frappe.clear_cache(user=agent.email)
@@ -41,6 +43,15 @@ def _made(agent) -> None:
 	user.flags.ignore_permissions = True
 	user.flags.no_welcome_mail = True
 	user.insert()
+
+
+def _only(agent) -> None:
+	"""An agent's own role is held by nobody else: a person or another agent
+	given it is relieved of it."""
+	where = {"role": ["in", agent.only], "parenttype": "User", "parent": ["!=", agent.email]}
+	for user in set(frappe.get_all("Has Role", filters=where, pluck="parent")):
+		frappe.db.delete("Has Role", {**where, "parent": user})
+		frappe.clear_cache(user=user)
 
 
 def _roles(agent) -> None:

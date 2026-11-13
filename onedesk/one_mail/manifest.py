@@ -17,6 +17,7 @@ APP = App(
 	sidebar="OneMail",
 	roles=Roles(user=("OneMail User",), manager=("Mail Manager",)),
 	agent=_lt("receptionist"),
+	agent_roles=("OneMail Receptionist",),
 	screens="mail",
 	names=("one_mail", "onemail"),
 	help=(
@@ -40,6 +41,7 @@ APP = App(
 	},
 	settle=(
 		Settle("mail_templates.settle"),
+		Settle("access.settle"),
 	),
 	centres=("ai",),
 )
