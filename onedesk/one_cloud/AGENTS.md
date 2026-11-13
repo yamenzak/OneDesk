@@ -12,7 +12,7 @@ folder).
 - **From OneMail**: Each mailbox has a folder under Mail with the files its messages sent and received. An attachment in OneMail can be saved to My Files.
 - **From OneAI**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged.
 - **From OneAdmin**: OneAdmin keeps the workspace's storage limit. A file is refused when there isn't room.
-- **To OneAdmin**: Open in OneOS starts a session in OneAdmin, which charges the workspace's OneCredits for each minute it is open.
+- **To OneAdmin**: Open in OneOS starts a session in OneAdmin, which charges the workspace's credits for each minute it is open.
 - **To One**: Every record has a Files tab that opens its folder in OneCloud. Letter heads print their pictures from OneCloud, and the full download includes every file.
 - **To OneMail**: An attachment too large to send goes as a link to the file instead.
 - **To OneAI**: Every new file can be found by its text. A folder OneAI reads has each new file handled in Intake.

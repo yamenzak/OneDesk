@@ -61,7 +61,7 @@ def _address(what: str, file: str, lease: str, expires: int) -> str:
 
 
 def offered() -> dict | None:
-	"""What an hour of OneOS costs this workspace in OneCredits, as OneAdmin
+	"""What an hour of OneOS costs this workspace in credits, as OneAdmin
 	last said, or None while it is not offered: not set up, or a trial."""
 	held = frappe.db.get_value("Workspace Account", None, ["oneos_on", "oneos_credits_an_hour"], as_dict=True)
 	if not held or not frappe.utils.cint(held.oneos_on):

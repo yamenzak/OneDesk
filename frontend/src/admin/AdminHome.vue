@@ -44,13 +44,13 @@
         <Section :title="name('one_ai')" icon="lucide-sparkles" :action="{ text: true, label: __('AI Usage'), onClick: () => go('/desk/query-report/AI Usage') }" data-cards>
           <div class="grid gap-3 lg:grid-cols-3">
             <ChartCard class="h-80">
-              <BarChart :title="__('OneCredits Used by Month')" :data="used" x="month" :y="['credits']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="{ credits: { label: __('OneCredits'), color: hue(4) } }" />
+              <BarChart :title="__('Credits Used by Month')" :data="used" x="month" :y="['credits']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="{ credits: { label: __('Credits'), color: hue(4) } }" />
             </ChartCard>
             <ChartCard class="h-80">
               <LineChart :title="__('Calls by Month')" :data="calls" x="month" :y="['calls']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="{ calls: { label: __('Calls'), color: hue(2) } }" />
             </ChartCard>
             <ChartCard class="h-80">
-              <BarChart :title="__('Most Used, Last 30 Days')" :data="said.spenders" x="name" y="credits" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="{ credits: { label: __('OneCredits'), color: hue(4) } }" />
+              <BarChart :title="__('Most Used, Last 30 Days')" :data="said.spenders" x="name" y="credits" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="{ credits: { label: __('Credits'), color: hue(4) } }" />
             </ChartCard>
           </div>
         </Section>
@@ -159,7 +159,7 @@ const cards = computed(() => [
     route: "/desk/account-request",
     props: { title: __("Signups, Last 30 Days"), value: said.value.signups_now, format: count, sparkline: said.value.signups.length > 1 ? { data: said.value.signups.map((one) => one.started), type: "bar", color: hue(1) } : undefined },
   },
-  { key: "credits", route: "/desk/credit-ledger-entry", props: { title: __("OneCredits This Month"), value: said.value.credits.at(-1), format: count, sparkline: { data: said.value.credits, type: "bar", color: hue(4) } } },
+  { key: "credits", route: "/desk/credit-ledger-entry", props: { title: __("Credits This Month"), value: said.value.credits.at(-1), format: count, sparkline: { data: said.value.credits, type: "bar", color: hue(4) } } },
   { key: "cost", route: "/desk/workspace-server", props: { title: __("Server Cost a Month"), value: said.value.cost, format: (value) => `$${count(value)}` } },
   { key: "errors", route: "/desk/workspace-error?status=Open", props: { title: __("Open Errors"), value: said.value.open_errors, format: count, color: said.value.open_errors ? RED : undefined } },
   {

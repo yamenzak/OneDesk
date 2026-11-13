@@ -118,7 +118,7 @@ def reserve(
 	if not ours and status not in PAYING:
 		frappe.throw(frappe._("{0} is behind on payment, so nothing more is charged until it is paid.").format(tenant), NotEnough)
 	if not ours and limit and spent_this_month(tenant) + held(tenant, locking=True) + amount > limit:
-		frappe.throw(frappe._("{0} has reached its limit of {1} OneCredits this month.").format(tenant, limit), NotEnough)
+		frappe.throw(frappe._("{0} has reached its limit of {1} credits this month.").format(tenant, limit), NotEnough)
 	if not ours and not credits.enough(
 		_buckets(tenant, locking=True), amount, held(tenant, locking=True), _today()
 	):
@@ -464,7 +464,7 @@ def mails_charged(since) -> int:
 
 
 def by_month(start) -> list:
-	"""OneCredits spent on model calls each month since a date, for Home's chart."""
+	"""Credits spent on model calls each month since a date, for Home's chart."""
 	site.require_admin()
 	return frappe.db.sql(
 		"""
@@ -480,7 +480,7 @@ def by_month(start) -> list:
 
 
 def sold_by_month(start) -> list:
-	"""OneCredits bought each month since a date, for Billing's chart."""
+	"""Credits bought each month since a date, for Billing's chart."""
 	site.require_admin()
 	return frappe.db.sql(
 		"""

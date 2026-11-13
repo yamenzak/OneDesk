@@ -60,7 +60,7 @@ TYPES = [
 		"name": "Credits Added",
 		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
-		"about": "When OneCredits are added, from a pack, the monthly plan or {one}.",
+		"about": "When credits are added, from a pack, the monthly plan or {one}.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -69,14 +69,14 @@ TYPES = [
 		},
 		"button": "Open Plan and Credits",
 		"sender": "system",
-		"subject": "OneCredits were added",
+		"subject": "Credits were added",
 		"message": "The workspace now has {balance} credits.{note}",
 	},
 	{
 		"name": "Credits Expiring",
 		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
-		"about": "Before some of the workspace's OneCredits expire, a week ahead.",
+		"about": "Before some of the workspace's credits expire, a week ahead.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -85,14 +85,14 @@ TYPES = [
 		},
 		"button": "Open Plan and Credits",
 		"sender": "system",
-		"subject": "{credits} OneCredits expire on {date}",
+		"subject": "{credits} credits expire on {date}",
 		"message": "They are used before any others, so nothing needs doing unless you want them used.",
 	},
 	{
 		"name": "Credits Ran Out",
 		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
-		"about": "When the workspace's OneCredits run out, and {one_ai} stops until more are added.",
+		"about": "When the workspace's credits run out, and {one_ai} stops until more are added.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -109,7 +109,7 @@ TYPES = [
 		"name": "Credits Running Low",
 		"app": registry.name("account_center"),
 		"roles": ("Workspace Administrator",),
-		"about": "When OneCredits will run out in about three days.",
+		"about": "When credits will run out in about three days.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -119,8 +119,8 @@ TYPES = [
 		"button": "Open Plan and Credits",
 		"always_mailed": True,
 		"sender": "system",
-		"subject": "OneCredits are running low",
-		"message": "The workspace has {balance} OneCredits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in {account_center}.",
+		"subject": "Credits are running low",
+		"message": "The workspace has {balance} credits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in {account_center}.",
 	},
 	{
 		"name": "Database Nearly Full",

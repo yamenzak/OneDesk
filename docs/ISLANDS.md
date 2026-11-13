@@ -138,7 +138,7 @@ that exists.
 | `src/admin/AdminHome.vue` | Stripe's and Vercel's dashboards: the business's figures with their trend, then revenue, the signup funnel, workspaces, OneAI, servers, health and releases as charts, and what needs you |
 | `src/admin/AdminServers.vue` | Railway's and Fly.io's machine cards: a card per server with its provider, status, live CPU, memory and disk, workspaces and release; then what Cloudflare counted |
 | `src/admin/ServerMetrics.vue` | Railway's Metrics tab and Fly.io's Grafana panels: a window picker over a server's CPU, memory, disk, network, load, burst and database, in its form |
-| `src/admin/BillingHome.vue` | Stripe's billing overview and OneBook's Home: the month's figures, invoiced by month, margin at worst against the floor, OneCredits sold and used, OneAI's cost and the plans |
+| `src/admin/BillingHome.vue` | Stripe's billing overview and OneBook's Home: the month's figures, invoiced by month, margin at worst against the floor, credits sold and used, OneAI's cost and the plans |
 | `src/admin/ReleasesHome.vue` | Vercel's Deployments: a card per release with its commit, when it was built and how long it took, how far it has rolled out and the servers and workspaces on it, then who is moving, waiting on terms or next in a window |
 | `src/admin/ReleaseCard.vue` | Vercel's deployment card: the commit and its message, built, build time, share rolled out, its servers and workspaces |
 | `src/admin/AdminStatus.vue` | Better Stack's and Atlassian Statuspage's monitors: a card per service like the Servers page, then the chosen service's history, thirty days of all, and what failed |

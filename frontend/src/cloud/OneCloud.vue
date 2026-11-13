@@ -1065,7 +1065,7 @@ const oneOSChoice = (one) => ({
   label: __("Edit in OneOS"),
   short: __("Edit in OneOS"),
   icon: "lucide-monitor",
-  description: __("{0} OneCredits an hour", [oneosOffer.value.credits_an_hour]),
+  description: __("{0} credits an hour", [oneosOffer.value.credits_an_hour]),
   onClick: () => openInOneOS(one),
 });
 
@@ -1251,7 +1251,7 @@ async function openInOneOS(item, copy = 0) {
 const ONEOS_SAID = {
   Idle: (name) => __("{0} was closed in OneOS after 15 minutes without use. Changes you saved are kept.", [name]),
   "Time Limit": (name) => __("{0} was closed in OneOS after 8 hours. Changes you saved are kept.", [name]),
-  "No Credits": (name) => __("{0} was closed in OneOS because the workspace ran out of OneCredits. Changes you saved are kept.", [name]),
+  "No Credits": (name) => __("{0} was closed in OneOS because the workspace ran out of credits. Changes you saved are kept.", [name]),
   "Not Answering": (name) => __("OneOS stopped answering, so {0} was closed. Changes you saved are kept.", [name]),
   "Stopped by Operator": (name) => __("{0} was closed in OneOS by {1}'s support. Changes you saved are kept.", [name, appName("one")]),
 };

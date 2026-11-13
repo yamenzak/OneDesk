@@ -27,7 +27,7 @@ ABILITIES = [
 		"label": _lt("Plan and Credits"),
 		"kind": "switch",
 		"all": "account_plan",
-		"about": _lt("See the plan, its seats and storage, OneCredits and invoices."),
+		"about": _lt("See the plan, its seats and storage, credits and invoices."),
 	},
 ]
 

@@ -3955,10 +3955,6 @@ msgstr "عاد كل شيء من {0}."
 msgid "All borders"
 msgstr "كل الحدود"
 
-#: onedesk/public/js/doctype_settings.js:910
-msgid "Applies when every condition matches, or always when empty."
-msgstr "يُطبَّق عندما تتطابق كل الشروط، أو دائمًا عندما يكون فارغًا."
-
 #: onedesk/public/js/one_ai/panel/Panel.vue:12
 msgid "All conversations"
 msgstr "كل المحادثات"
@@ -4920,6 +4916,10 @@ msgstr ""
 #: onedesk/public/js/one_hr/hr_control.js:24
 msgid "Applies to everyone from today, or from its start date. Used for leave, attendance, check-ins, the calendar and deadlines."
 msgstr "يسري على الجميع من اليوم أو من تاريخ بدئه. يُستخدم للإجازات والحضور وتسجيل الدخول والتقويم والمواعيد النهائية."
+
+#: onedesk/public/js/doctype_settings.js:910
+msgid "Applies when every condition matches, or always when empty."
+msgstr "يُطبَّق عندما تتطابق كل الشروط، أو دائمًا عندما يكون فارغًا."
 
 #: frontend/src/intake/IntakeReading.vue:31
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:42
@@ -7149,8 +7149,8 @@ msgstr "قبل إعادة التنسيق من التخطيطات"
 
 #. When a notification is sent
 #: onedesk/account_center/notifications.py
-msgid "Before some of the workspace's OneCredits expire, a week ahead."
-msgstr "قبل انتهاء صلاحية بعض OneCredits الخاصة بمساحة العمل، بأسبوع."
+msgid "Before some of the workspace's credits expire, a week ahead."
+msgstr "قبل انتهاء صلاحية بعض أرصدة مساحة العمل بأسبوع."
 
 #: frontend/src/project/Invoices.vue:84 frontend/src/project/Suppliers.vue:182
 #: onedesk/public/js/band.js:13
@@ -12468,10 +12468,20 @@ msgstr "الرصيد"
 msgid "Credits Added"
 msgstr "أُضيفت أرصدة"
 
+#. Label of the credits (Float) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:149
+msgid "Credits Charged"
+msgstr "الرصيد المحتسب"
+
 #. Name of a notification
 #: onedesk/account_center/notifications.py
 msgid "Credits Expiring"
 msgstr "أرصدة على وشك الانتهاء"
+
+#. Label of the held (Float) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:167
+msgid "Credits Held"
+msgstr "الرصيد المحجوز"
 
 #: onedesk/public/js/account_center/account_center.js:834
 msgid "Credits Ledger"
@@ -12492,19 +12502,40 @@ msgstr "نفدت الأرصدة"
 msgid "Credits Running Low"
 msgstr "الأرصدة توشك على النفاد"
 
+#: frontend/src/admin/BillingHome.vue:98
+msgid "Credits Sold This Month"
+msgstr "الرصيد المباع هذا الشهر"
+
 #. Label of the spent (Float) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:44
 msgid "Credits Spent"
 msgstr "الرصيد المصروف"
+
+#: frontend/src/admin/AdminHome.vue:162
+msgid "Credits This Month"
+msgstr "الرصيد هذا الشهر"
 
 #. Label of the one_ai_spent (Float) field in DocType 'Email Account'
 #: onedesk/one_ai/custom/email_account.json:87
 msgid "Credits Used"
 msgstr "الأرصدة المستخدمة"
 
+#: frontend/src/admin/BillingHome.vue:99
+msgid "Credits Used This Month"
+msgstr "الرصيد المستخدم هذا الشهر"
+
+#: frontend/src/admin/AdminHome.vue:47
+msgid "Credits Used by Month"
+msgstr "الرصيد المستخدم حسب الشهر"
+
 #: onedesk/one_admin/heads.py:346
 msgid "Credits already spent aren't affected."
 msgstr "لا تتأثر الأرصدة المستهلكة بالفعل."
+
+#. Subject of a notification
+#: onedesk/account_center/notifications.py onedesk/one/home.py:246
+msgid "Credits are running low"
+msgstr "الرصيد على وشك النفاد"
 
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.py:21
 msgid "Credits can't be zero."
@@ -12522,6 +12553,11 @@ msgstr "رصيد محجوز أثناء تنفيذ نداء، كي لا ينفق 
 #: onedesk/one_admin/ledger.py:532
 msgid "Credits must be more than zero."
 msgstr "يجب أن تكون الأرصدة أكثر من صفر."
+
+#. Subject of a notification
+#: onedesk/account_center/notifications.py
+msgid "Credits were added"
+msgstr "أُضيف رصيد"
 
 #. Label in the One Appraisal print format
 #. Label in the One Employee Performance Feedback print format
@@ -22929,9 +22965,9 @@ msgstr "مدة بقاء الشخص مسجّل الدخول أثناء عدم ا�
 msgid "How long stock has been sitting."
 msgstr "منذ متى والمخزون راكد."
 
-#: onedesk/one/agent.py:334
-msgid "How long will our OneCredits last at the rate we use them, and do any expire before we would use them?"
-msgstr "كم ستكفينا OneCredits بمعدل استخدامنا الحالي، وهل ينتهي أي منها قبل أن نستخدمه؟"
+#: onedesk/one/agent.py:328
+msgid "How long will our credits last at the rate we use them, and do any expire before we would use them?"
+msgstr "كم سيكفينا رصيدنا بمعدل استخدامنا الحالي، وهل تنتهي صلاحية أي منه قبل أن نستخدمه؟"
 
 #: onedesk/one/agent.py:332
 msgid "How long will our credits last?"
@@ -25687,8 +25723,8 @@ msgid "Its owner"
 msgstr "مالكه"
 
 #: onedesk/one/tour.py:19
-msgid "Its people, apps, storage and OneCredits, each opening where it is managed."
-msgstr "أشخاصها وتطبيقاتها والتخزين وOneCredits، ويُفتح كل منها حيث تتم إدارته."
+msgid "Its people, apps, storage and credits, each opening where it is managed."
+msgstr "أشخاصها وتطبيقاتها وتخزينها ورصيدها، ويفتح كل منها حيث يُدار."
 
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py
@@ -27047,7 +27083,7 @@ msgstr "اتركه فارغًا لعدم الانتهاء."
 msgid "Leave empty for no limit."
 msgstr "اتركه فارغًا لعدم وضع حد."
 
-#. Description of the 'Monthly Limit (OneCredits)' (Int) field in DocType
+#. Description of the 'Monthly Limit (Credits)' (Int) field in DocType
 #. 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:317
 msgid "Leave empty for no limit. Set by the workspace's administrators in AccountCenter."
@@ -29996,8 +30032,8 @@ msgstr "الحد الشهري"
 #: onedesk/account_center/doctype/workspace_account/workspace_account.json:254
 #: onedesk/one_admin/doctype/tenant/tenant.json:316
 #: onedesk/public/js/account_center/account_center.js:1344
-msgid "Monthly Limit (OneCredits)"
-msgstr "الحد الشهري (OneCredits)"
+msgid "Monthly Limit (Credits)"
+msgstr "الحد الشهري (رصيد)"
 
 #. Label of the auto_topup_cap (Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:474
@@ -34958,53 +34994,7 @@ msgstr "OneCloud"
 #: onedesk/one_admin/doctype/offering/offering_list.js:8
 #: onedesk/one_admin/doctype/offering/offering_list.js:15
 msgid "OneCredit Rates"
-msgstr "أسعار OneCredits"
-
-#. Label of the section_money (Section Break) field in DocType 'OneOS Session'
-#: frontend/src/admin/AdminHome.vue:47 frontend/src/admin/AdminHome.vue:53
-#: frontend/src/admin/BillingHome.vue:26 frontend/src/admin/BillingHome.vue:32
-#: onedesk/one/home.py:191
-#: onedesk/one_admin/doctype/offering/offering_list.js:19
-#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:137
-#: onedesk/public/js/account_center/account_center.js:784
-msgid "OneCredits"
-msgstr "OneCredits"
-
-#. Label of the credits (Float) field in DocType 'OneOS Session'
-#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:149
-msgid "OneCredits Charged"
-msgstr "OneCredits المحتسبة"
-
-#. Label of the held (Float) field in DocType 'OneOS Session'
-#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:167
-msgid "OneCredits Held"
-msgstr "OneCredits المحجوزة"
-
-#: frontend/src/admin/BillingHome.vue:98
-msgid "OneCredits Sold This Month"
-msgstr "OneCredits المباعة هذا الشهر"
-
-#: frontend/src/admin/AdminHome.vue:162
-msgid "OneCredits This Month"
-msgstr "OneCredits هذا الشهر"
-
-#: frontend/src/admin/BillingHome.vue:99
-msgid "OneCredits Used This Month"
-msgstr "OneCredits المستخدمة هذا الشهر"
-
-#: frontend/src/admin/AdminHome.vue:47
-msgid "OneCredits Used by Month"
-msgstr "OneCredits المستخدمة حسب الشهر"
-
-#. Subject of a notification
-#: onedesk/account_center/notifications.py onedesk/one/home.py:246
-msgid "OneCredits are running low"
-msgstr "رصيد OneCredits يوشك على النفاد"
-
-#. Subject of a notification
-#: onedesk/account_center/notifications.py
-msgid "OneCredits were added"
-msgstr "تمت إضافة OneCredits"
+msgstr "أسعار OneCredit"
 
 #. Title of a Sidebar
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:14
@@ -35148,8 +35138,8 @@ msgid "OneOS stopped answering, so {0} was closed. Changes you saved are kept."
 msgstr "توقف OneOS عن الاستجابة، لذا أُغلق {0}. التغييرات التي حفظتها محفوظة."
 
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:602
-msgid "OneOS uses OneCredits for each minute it is open."
-msgstr "يستخدم OneOS رصيد OneCredits عن كل دقيقة يكون فيها مفتوحًا."
+msgid "OneOS uses credits for each minute it is open."
+msgstr "يستهلك OneOS رصيدًا عن كل دقيقة يبقى فيها مفتوحًا."
 
 #: onedesk/one_admin/setup.py:959
 msgid "OneOS's desktop is being built. Set up again in about 15 minutes."
@@ -41505,8 +41495,8 @@ msgstr "النسبة (%)"
 
 #. Label of the rate (Float) field in DocType 'OneOS Session'
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:160
-msgid "Rate (OneCredits per Minute)"
-msgstr "السعر (OneCredits لكل دقيقة)"
+msgid "Rate (Credits per Minute)"
+msgstr "السعر (رصيد لكل دقيقة)"
 
 #. Description of the 'OneAI Rating' (Rating) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/job_applicant.json:20
@@ -45894,9 +45884,9 @@ msgstr "انظر المستند المرفق."
 msgid "See the changes"
 msgstr "عرض التغييرات"
 
-#: onedesk/account_center/access.py:28
-msgid "See the plan, its seats and storage, OneCredits and invoices."
-msgstr "عرض الخطة ومقاعدها والتخزين وOneCredits والفواتير."
+#: onedesk/account_center/access.py:30
+msgid "See the plan, its seats and storage, credits and invoices."
+msgstr "عرض الخطة ومقاعدها وتخزينها والرصيد والفواتير."
 
 #: onedesk/one_display/starters.py:1059
 msgid "See the projects in the hall"
@@ -53876,8 +53866,8 @@ msgid "The plan's monthly credits."
 msgstr "أرصدة الخطة الشهرية."
 
 #: onedesk/public/js/account_center/account_center.js:1712
-msgid "The plan, its seats and storage, OneCredits and invoices."
-msgstr "الخطة ومقاعدها ومساحة التخزين وOneCredits والفواتير."
+msgid "The plan, its seats and storage, credits and invoices."
+msgstr "الخطة ومقاعدها وتخزينها والرصيد والفواتير."
 
 #: onedesk/one_portal/gate.py:25
 msgid "The portal is turned off for this workspace."
@@ -54455,8 +54445,8 @@ msgid "The workspace does not open at it yet."
 msgstr "لا تفتح مساحة العمل عليه بعد."
 
 #: onedesk/one_admin/oneos.py:400
-msgid "The workspace doesn't have enough OneCredits to open this in OneOS."
-msgstr "لا يوجد في مساحة العمل رصيد OneCredits كافٍ لفتح هذا في OneOS."
+msgid "The workspace doesn't have enough credits to open this in OneOS."
+msgstr "لا يكفي رصيد مساحة العمل لفتح هذا في OneOS."
 
 #: onedesk/one_ai/reading/tell.py:102
 msgid "The workspace has run out of credits. It is read as soon as more are added."
@@ -54465,8 +54455,8 @@ msgstr "نفد رصيد مساحة العمل. ستتم القراءة فور إ
 #. Message of a notification
 #: onedesk/account_center/notifications.py
 #, python-brace-format
-msgid "The workspace has {balance} OneCredits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in {account_center}."
-msgstr "تبقّى لدى مساحة العمل {balance} من OneCredits، أي نحو {days} يومًا بمعدل الثلاثين يومًا الماضية. اشترِ المزيد من الخطة والرصيد في {account_center}."
+msgid "The workspace has {balance} credits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in {account_center}."
+msgstr "تبقّى لمساحة العمل {balance} رصيد، أي نحو {days} يومًا بمعدل الثلاثين يومًا الأخيرة. اشترِ المزيد من الخطة والرصيد في {account_center}."
 
 #: onedesk/one_admin/heads.py:262
 msgid "The workspace is being built."
@@ -60672,9 +60662,9 @@ msgstr "ما يلزم إعداده ليعمل {0} بالطريقة التي تع
 msgid "What training would help?"
 msgstr "ما التدريب الذي سيساعد؟"
 
-#: onedesk/one/agent.py:341
-msgid "What used the most OneCredits in the last thirty days, by model and by person?"
-msgstr "ما الذي استهلك أكثر OneCredits في آخر ثلاثين يومًا، حسب النموذج وحسب الشخص؟"
+#: onedesk/one/agent.py:335
+msgid "What used the most credits in the last thirty days, by model and by person?"
+msgstr "ما الذي استهلك أكثر الرصيد في الثلاثين يومًا الأخيرة، حسب النموذج وحسب الشخص؟"
 
 #: onedesk/one/agent.py:340
 msgid "What used the most credits this month?"
@@ -61008,17 +60998,6 @@ msgstr "عند الخمول"
 msgid "When OneAI last wrote it. Errors from before are about other code."
 msgstr "متى كتبها OneAI آخر مرة. الأخطاء السابقة تخص شيفرة أخرى."
 
-#. When a notification is sent
-#: onedesk/account_center/notifications.py
-#, python-brace-format
-msgid "When OneCredits are added, from a pack, the monthly plan or {one}."
-msgstr "عند إضافة OneCredits، من حزمة أو من الخطة الشهرية أو من {one}."
-
-#. When a notification is sent
-#: onedesk/account_center/notifications.py
-msgid "When OneCredits will run out in about three days."
-msgstr "عندما يُتوقع نفاد OneCredits خلال ثلاثة أيام تقريبًا."
-
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
 #. Settings'
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Purchase Order'
@@ -61129,8 +61108,8 @@ msgstr "عند إرسال طلب ملفات."
 
 #. When a notification is sent
 #: onedesk/one_cloud/notifications.py
-msgid "When a file you had open in OneOS is closed after 15 minutes without use, after 8 hours, or because the workspace ran out of OneCredits."
-msgstr "عندما يُغلق ملف كان مفتوحًا لديك في OneOS بعد 15 دقيقة دون استخدام، أو بعد 8 ساعات، أو لنفاد رصيد OneCredits في مساحة العمل."
+msgid "When a file you had open in OneOS is closed after 15 minutes without use, after 8 hours, or because the workspace ran out of credits."
+msgstr "عندما يُغلق ملف كان مفتوحًا لديك في OneOS بعد 15 دقيقة دون استخدام، أو بعد 8 ساعات، أو لنفاد رصيد مساحة العمل."
 
 #. When a notification is sent
 #: onedesk/one_admin/notifications.py
@@ -61154,8 +61133,8 @@ msgstr "عندما تقول قاعدة بريد أن تخبرك بوصول بر�
 
 #. When a notification is sent
 #: onedesk/one_mail/notifications.py
-msgid "When a mailbox uses its OneCredits for the month. Once a month."
-msgstr "عندما يستهلك صندوق بريد OneCredits الخاصة به لهذا الشهر. مرة في الشهر."
+msgid "When a mailbox uses its credits for the month. Once a month."
+msgstr "عندما يستهلك صندوق بريد رصيده للشهر. مرة في الشهر."
 
 #. When a notification is sent
 #: onedesk/one_mail/notifications.py
@@ -61708,6 +61687,17 @@ msgstr "آخر مرة قرأه فيها تطبيق تقويم آخر."
 msgid "When another operator changes {one_admin} Settings. Keys show only as changed."
 msgstr "عندما يغيّر مشغّل آخر إعدادات {one_admin}. تُعرض المفاتيح بأنها تغيرت فقط."
 
+#. When a notification is sent
+#: onedesk/account_center/notifications.py
+#, python-brace-format
+msgid "When credits are added, from a pack, the monthly plan or {one}."
+msgstr "عند إضافة رصيد، من حزمة أو من الخطة الشهرية أو من {one}."
+
+#. When a notification is sent
+#: onedesk/account_center/notifications.py
+msgid "When credits will run out in about three days."
+msgstr "عندما ينفد الرصيد خلال نحو ثلاثة أيام."
+
 #: onedesk/one_crm/home.py:152
 msgid "When customers may book a meeting, and with whom."
 msgstr "متى يمكن للعملاء حجز اجتماع، ومع من."
@@ -62249,8 +62239,8 @@ msgstr "عندما تكون القيمة غير صالحة"
 #. When a notification is sent
 #: onedesk/account_center/notifications.py
 #, python-brace-format
-msgid "When the workspace's OneCredits run out, and {one_ai} stops until more are added."
-msgstr "عندما تنفد OneCredits في مساحة العمل، ويتوقف {one_ai} حتى تُضاف المزيد."
+msgid "When the workspace's credits run out, and {one_ai} stops until more are added."
+msgstr "عندما ينفد رصيد مساحة العمل ويتوقف {one_ai} حتى يُضاف المزيد."
 
 #. Description of the 'Hours' (Data) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json:12
@@ -62517,8 +62507,8 @@ msgid "Where did this project's time go this month? Say who logged it, on which 
 msgstr "أين ذهب وقت هذا المشروع هذا الشهر؟ اذكر من سجّله، وعلى أي مهام، وكم منه قابل للفوترة، وما لا يزال مسودة."
 
 #: onedesk/one_admin/agent.py:193
-msgid "Where did this workspace's OneCredits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
-msgstr "أين ذهبت OneCredits لمساحة العمل هذه؟ اذكر ما تبقّى وحتى متى، وما أُنفق هذا الشهر وعلى أي نماذج، وأي رصيد مُنح أو استُرد يدويًا مع ملاحظته."
+msgid "Where did this workspace's credits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
+msgstr "أين ذهب رصيد مساحة العمل هذه؟ اذكر ما تبقّى لها وحتى متى، وما أنفقته هذا الشهر وعلى أي نماذج، وأي رصيد مُنح أو سُحب يدويًا، مع ملاحظته."
 
 #: onedesk/one_book/agent.py:68
 msgid "Where does this invoice stand?"
@@ -67855,11 +67845,6 @@ msgstr "{0} + {1} إضافات"
 msgid "{0} +{1}"
 msgstr "{0} +{1}"
 
-#: onedesk/www/start.py:116
-#, python-brace-format
-msgid "{0} AI credits a month"
-msgstr "{0} رصيد ذكاء اصطناعي شهرياً"
-
 #: onedesk/one/agent.py:3443
 #, python-brace-format
 msgid "{0} Approval"
@@ -67968,21 +67953,6 @@ msgstr "{0} خطوات تالية مستحقة"
 #, python-brace-format
 msgid "{0} One Thousand Two Hundred Thirty-Five Only"
 msgstr "{0} ألف ومئتان وخمسة وثلاثون فقط"
-
-#: onedesk/one_admin/doctype/offering/offering.py:91
-#, python-brace-format
-msgid "{0} OneCredits"
-msgstr "{0} من OneCredits"
-
-#: onedesk/one_admin/doctype/offering/offering.py:89
-#, python-brace-format
-msgid "{0} OneCredits a month"
-msgstr "{0} من OneCredits شهريًا"
-
-#: frontend/src/cloud/OneCloud.vue:1067
-#, python-brace-format
-msgid "{0} OneCredits an hour"
-msgstr "{0} OneCredits في الساعة"
 
 #: frontend/src/crm/CrmHome.vue:147
 #, python-brace-format
@@ -68674,6 +68644,16 @@ msgstr "{0} أنشأت هذا"
 msgid "{0} credits"
 msgstr "{0} رصيد"
 
+#: onedesk/one_admin/doctype/offering/offering.py:89 onedesk/www/start.py:116
+#, python-brace-format
+msgid "{0} credits a month"
+msgstr "{0} رصيد شهريًا"
+
+#: frontend/src/cloud/OneCloud.vue:1068
+#, python-brace-format
+msgid "{0} credits an hour"
+msgstr "{0} رصيد في الساعة"
+
 #: onedesk/public/js/one_ai/panel/Panel.vue:223
 #, python-brace-format
 msgid "{0} credits in this conversation"
@@ -69176,8 +69156,8 @@ msgstr "لدى {0} أوامر أو فواتير، لذا يبقى العميل �
 
 #: onedesk/one_admin/ledger.py:121
 #, python-brace-format
-msgid "{0} has reached its limit of {1} OneCredits this month."
-msgstr "بلغت {0} حدها البالغ {1} من OneCredits لهذا الشهر."
+msgid "{0} has reached its limit of {1} credits this month."
+msgstr "بلغت {0} حدها البالغ {1} رصيد لهذا الشهر."
 
 #: onedesk/one_studio/numbering.py:236
 #, python-brace-format
@@ -71437,10 +71417,10 @@ msgstr "أُغلق {0} في OneOS بعد 15 دقيقة دون استخدام. ا
 msgid "{0} was closed in OneOS after 8 hours. Changes you saved are kept."
 msgstr "أُغلق {0} في OneOS بعد 8 ساعات. التغييرات التي حفظتها محفوظة."
 
-#: frontend/src/cloud/OneCloud.vue:1253
+#: frontend/src/cloud/OneCloud.vue:1254
 #, python-brace-format
-msgid "{0} was closed in OneOS because the workspace ran out of OneCredits. Changes you saved are kept."
-msgstr "أُغلق {0} في OneOS لنفاد رصيد OneCredits في مساحة العمل. التغييرات التي حفظتها محفوظة."
+msgid "{0} was closed in OneOS because the workspace ran out of credits. Changes you saved are kept."
+msgstr "أُغلق {0} في OneOS لنفاد رصيد مساحة العمل. التغييرات التي حفظتها محفوظة."
 
 #: frontend/src/cloud/OneCloud.vue:1256
 #, python-brace-format
@@ -72060,8 +72040,8 @@ msgstr "{1} متوقف لـ {0}."
 
 #: onedesk/public/js/one_ai/ai_center.js:518
 #, python-brace-format
-msgid "{1} will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneCredits."
-msgstr "سيقرأ {1} البريد الجديد في {0} ومرفقاته، ويحفظها ويتصرف بناءً عليها نيابةً عنك. تُقرأ المستندات الممسوحة والصور باستخدام OneCredits."
+msgid "{1} will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos use credits."
+msgstr "سيقرأ {1} البريد الجديد في {0} ومرفقاته، ويحفظها ويتصرف بشأنها نيابةً عنك. تستهلك المستندات الممسوحة والصور رصيدًا."
 
 #: onedesk/one_studio/mend.py:122
 #, python-brace-format
@@ -72300,8 +72280,8 @@ msgstr "{count} مهام مستحقة اليوم أو متأخرة"
 #. Subject of a notification
 #: onedesk/account_center/notifications.py
 #, python-brace-format
-msgid "{credits} OneCredits expire on {date}"
-msgstr "تنتهي صلاحية {credits} من OneCredits في {date}"
+msgid "{credits} credits expire on {date}"
+msgstr "تنتهي صلاحية {credits} رصيد في {date}"
 
 #. Subject of a notification
 #: onedesk/one_crm/notifications.py
@@ -72617,8 +72597,8 @@ msgstr "{mailbox} لا يتصل: {reason}"
 #. Subject of a notification
 #: onedesk/one_mail/notifications.py
 #, python-brace-format
-msgid "{mailbox} used its {limit} OneCredits for this month"
-msgstr "استهلك {mailbox} رصيده البالغ {limit} من OneCredits لهذا الشهر"
+msgid "{mailbox} used its {limit} credits for this month"
+msgstr "استهلك {mailbox} رصيده البالغ {limit} لهذا الشهر"
 
 #. Subject of a notification
 #: onedesk/one_project/notifications.py

@@ -21,7 +21,7 @@ anything in {one_cloud}: sharing, moving and deleting are done in the explorer.
 
 **Read with {one_ai}** on a file's menu has {one_ai} read that file now, file it
 and act on it. A folder whose new files {one_ai} reads is added in {one}, under
-**{one_ai} › What {one_ai} Reads**. Scans and photos use {one_credits}. For your own
+**{one_ai} › What {one_ai} Reads**. Scans and photos use credits. For your own
 folders, the preview pane shows whether {one_ai} reads the folder.
 
 ## Making Files

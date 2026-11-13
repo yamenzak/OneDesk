@@ -18,9 +18,9 @@ from onedesk.one import ready  # noqa: E402
 from onedesk.trust_center import assemble, documents, registry  # noqa: E402
 
 VERSIONS = {
-	"terms": "12.2f178593",
+	"terms": "12.1fd1c63f",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.ad205219",
+	"privacy": "27.3e332730",
 	"cookies": "2.946a434c",
 	"dpa": "7.a01dc637",
 	"subprocessors": "5.e5ff6950",

@@ -10,7 +10,7 @@ APP = App(
 	ui="mixed",
 	regions=(
 		Region("page", "oneadmin", "OneAdmin's overview, a console of its own, read from several records"),
-		Region("page", "oneadmin-billing", "Billing's home: what live workspaces pay, what that leaves against the margin floor, and OneCredits (Tenant, Offering, Credit Reservation)"),
+		Region("page", "oneadmin-billing", "Billing's home: what live workspaces pay, what that leaves against the margin floor, and credits (Tenant, Offering, Credit Reservation)"),
 		Region("page", "oneadmin-releases", "Releases: each release with its commit, build and rollout, the servers and workspaces on it and each workspace's window, across servers, workspaces and the registry (Workspace Server, Tenant)"),
 		Region("page", "oneadmin-sessions", "start, stop, open and delete sessions on our own servers: real actions a list cannot do"),
 		Region("page", "oneadmin-status", "each service's state now and over thirty days, with its checks' history, as a status page, which a list of checks cannot show (Health Check)"),
@@ -57,5 +57,5 @@ APP = App(
 )
 
 PARTS = (
-	App(id="one_credits", name="OneCredits", kind="engine", module=""),
+	App(id="one_credits", name="OneCredit", kind="engine", module=""),
 )

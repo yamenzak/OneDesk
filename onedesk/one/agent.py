@@ -325,14 +325,14 @@ SUGGESTIONS = {
 		{
 			"label": _lt("How long will our credits last?"),
 			"ask": _lt(
-				"How long will our OneCredits last at the rate we use them, and do any expire before we "
+				"How long will our credits last at the rate we use them, and do any expire before we "
 				"would use them?"
 			),
 			"expects": "workspace_plan",
 		},
 		{
 			"label": _lt("What used the most credits this month?"),
-			"ask": _lt("What used the most OneCredits in the last thirty days, by model and by person?"),
+			"ask": _lt("What used the most credits in the last thirty days, by model and by person?"),
 			"expects": "workspace_plan",
 		},
 	],
@@ -539,7 +539,7 @@ def page(said: dict) -> str | None:
 	if said.get("page") == "account" and said.get("section") == "plan":
 		return (
 			"The reader administers this workspace and is on Plan and Credits in AccountCenter: its plan and what is "
-			"added to it, its seats, storage and database, and its OneCredits (what is left, held by calls running now, used in the last thirty "
+			"added to it, its seats, storage and database, and its credits (what is left, held by calls running now, used in the last thirty "
 			"days, and what expires when). workspace_plan reads it all, with the last thirty days by model and "
 			"by person, and the cheapest ways to have what it uses now. They change the plan from the page head, and "
 			"add seats, storage, database or credits from the button on each one's tile; how is in AccountCenter's Help under Plan and "
@@ -549,7 +549,7 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader is on One's Home: what waits for their approval in every app (leave, expense claims and "
 			"approval steps), the announcements running, the apps with a version they have not opened, and for an "
-			"administrator the workspace at a glance (people against seats, apps on, storage, OneCredits) and what "
+			"administrator the workspace at a glance (people against seats, apps on, storage, credits) and what "
 			"in it needs them. Tasks, meetings and documents are on their own apps' homes; my_day reads them all. "
 			"How is in One's Help under Home (how_to)."
 		)

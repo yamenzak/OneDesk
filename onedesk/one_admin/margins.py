@@ -29,7 +29,7 @@ class Priced:
 
 
 def credit_cost(credits: float) -> float:
-	"""What `credits` OneCredits cost us when all are spent, at the lowest
+	"""What `credits` credits cost us when all are spent, at the lowest
 	markup any kind of usage carries. Pure."""
 	return credits * price_list.ONECREDIT / min(price_list.MARKUP.values())
 

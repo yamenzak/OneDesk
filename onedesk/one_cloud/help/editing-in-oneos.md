@@ -39,8 +39,8 @@ open in {oneos}, saving it from the drive is refused.
 ## When It Closes
 
 A session closes by itself after 15 minutes without use, after 8 hours, or
-when the workspace runs out of {one_credits}. You are told when it does, and
+when the workspace runs out of credits. You are told when it does, and
 what you saved is kept.
 
-> Each minute {oneos} is open uses {one_credits}, and **Edit in {oneos}** says how
+> Each minute {oneos} is open uses credits, and **Edit in {oneos}** says how
 > many an hour takes. {oneos} isn't offered during a trial.

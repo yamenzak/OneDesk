@@ -113,5 +113,5 @@ def _quota(one: dict) -> list[str]:
 	if one.get("seats"):
 		said.append(frappe._("{0} people").format(one["seats"]))
 	if one.get("credits_a_month"):
-		said.append(frappe._("{0} AI credits a month").format(f"{one['credits_a_month']:,}"))
+		said.append(frappe._("{0} credits a month").format(f"{one['credits_a_month']:,}"))
 	return said

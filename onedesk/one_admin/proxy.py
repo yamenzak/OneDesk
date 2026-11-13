@@ -226,7 +226,7 @@ def ai_make(action: str, text: str, tier: str | None = None, reference: str | No
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def spend_limit(limit: int | None = None) -> dict:
-	"""The most this workspace spends in OneCredits a month, set by its
+	"""The most this workspace spends in credits a month, set by its
 	administrators; 0 or nothing for no limit."""
 	tenant = caller()
 	frappe.db.set_value("Tenant", tenant.name, "spend_limit", max(0, cint(limit)))

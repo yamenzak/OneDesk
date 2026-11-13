@@ -113,7 +113,7 @@ def costs() -> "plans.Costs":
 @frappe.whitelist()
 @frappe.read_only()
 def rates() -> list[dict]:
-	"""What is charged in OneCredits for what a workspace uses rather than
+	"""What is charged in credits for what a workspace uses rather than
 	buys, from the code beside each: a conversion, a mail, a minute of OneOS
 	at each instance type."""
 	site.require_admin()

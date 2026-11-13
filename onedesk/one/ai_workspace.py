@@ -696,7 +696,7 @@ def _domains() -> dict:
 
 
 def workspace_plan() -> dict:
-	"""The workspace's plan, OneCredits and domains, for its administrators:
+	"""The workspace's plan, credits and domains, for its administrators:
 	plan, seats, storage, credits left, held, used in the last thirty days and
 	what expires when, the last thirty days by model and by person, the ledger
 	(what came in and what OneAI used each day), and each of its addresses:

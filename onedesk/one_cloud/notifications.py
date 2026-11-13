@@ -47,7 +47,7 @@ TYPES = [
 		"name": "Closed in OneOS",
 		"app": registry.name("one_cloud"),
 		"about": "When a file you had open in OneOS is closed after 15 minutes without use, after 8 hours, or because the "
-		"workspace ran out of OneCredits.",
+		"workspace ran out of credits.",
 		"to": "Whoever had it open",
 		"button": "Open",
 		"channels": ALL,

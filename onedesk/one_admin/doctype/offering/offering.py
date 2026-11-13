@@ -1,4 +1,4 @@
-"""One row in the price list: a plan, a pack of OneCredits, or an add-on,
+"""One row in the price list: a plan, a pack of credits, or an add-on,
 written from the code (price_list.py) by `offerings.install` and never
 edited by hand; only the Stripe price id is written later. One doctype with
 a kind, and three named quota fields a workspace's limits are copied from."""
@@ -86,7 +86,7 @@ def gives(offering) -> str:
 		elif plan:
 			said.append(unlimited)
 	if offering.get("credits_a_month"):
-		said.append(_("{0} OneCredits a month").format(number(offering.credits_a_month)))
+		said.append(_("{0} credits a month").format(number(offering.credits_a_month)))
 	if offering.get("credits"):
-		said.append(_("{0} OneCredits").format(number(offering.credits)))
+		said.append(_("{0} credits").format(number(offering.credits)))
 	return " · ".join(said)

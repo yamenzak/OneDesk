@@ -188,7 +188,7 @@ def glance() -> list[dict]:
 		said.append(
 			{
 				"key": "credits",
-				"title": _("OneCredits"),
+				"title": _("Credits"),
 				"value": frappe.utils.fmt_money(flt(held.credits_balance), precision=0).strip(),
 				"note": _("{0} used a month").format(frappe.utils.fmt_money(flt(held.credits_month), precision=0).strip())
 				if flt(held.credits_month)
@@ -243,7 +243,7 @@ def _account() -> list[dict]:
 	if month and flt(held.credits_balance) < month * account.LOW:
 		said.append(
 			{
-				"what": _("OneCredits are running low"),
+				"what": _("Credits are running low"),
 				"detail": _("{0} left, about three days at the rate the workspace uses them.").format(
 					frappe.utils.fmt_money(flt(held.credits_balance), precision=0).strip()
 				),

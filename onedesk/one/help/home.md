@@ -15,14 +15,14 @@ homes.
   one to see what changed.
 
 Administrators also see **The Workspace**: its people against its seats,
-the apps turned on, storage used and {one_credits} left. Each opens where
+the apps turned on, storage used and credits left. Each opens where
 it is managed.
 
 And **The Workspace Needs You** when something needs attention:
 
 - A mailbox isn't connecting.
 - A domain isn't working.
-- {one_credits} are running low.
+- Credits are running low.
 - Storage or the database is nearly full.
 - Every seat is taken.
 - A payment is overdue.
