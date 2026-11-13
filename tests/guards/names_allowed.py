@@ -27,7 +27,7 @@ ALLOWED = {
 	"one/onboarding_step/one_add_a_customer/one_add_a_customer.json": 1,
 	"one/onboarding_step/one_add_an_employee/one_add_an_employee.json": 1,
 	"one/privacy_copy.py": 2,
-	"one/sidebar/one/one.json": 6,
+	"one/sidebar/one/one.json": 7,
 	"one_admin/agent.py": 3,
 	"one_admin/boxes.py": 2,
 	"one_admin/doctype/offering/offering_list.js": 2,

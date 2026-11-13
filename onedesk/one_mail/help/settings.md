@@ -10,18 +10,18 @@ mailboxes and, for administrators, the workspace's mail. Each tab has its own
 
 ## Getting Started
 
-While something is left to set up, Settings opens on **Getting Started**,
-for the people whose role can set it up.
+While something is left to set up, Settings starts with **Getting Started**,
+for the people whose role can set it up. It opens {setup_center} on
+{one_mail}'s steps.
 
 | Step | What it sets | Where |
 | --- | --- | --- |
-| **Your Company's Mail** | The domain your company's mail is at, so people connect with a password alone | **Setup** |
-| **Private Mailboxes** | Whether people may connect Gmail and the like beside the company's mail | **Private Mailboxes** |
+| **Your Company's Mail** | The domain your company's mail is at, so people connect with a password alone | Its own form |
+| **Private Mailboxes** | Whether people may connect Gmail and the like beside the company's mail | Its own form |
 | **Mail Templates** | The emails people start from, in your company's words | **Mail Templates** |
 
 The first two are also asked when the workspace is set up, and either can be
-left for later. **Set Up** opens the tab that does it, and **Mark as Done**
-takes a step off the list. Once every step is done, Getting Started goes.
+left for later. A step left for later waits in {setup_center}.
 
 ## A Mailbox's Tabs
 

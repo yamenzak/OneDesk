@@ -1,11 +1,8 @@
-"""A module's setup steps (docs/READY.md, mechanism 9).
-
-A ready module declares its steps in its own `setup.py` as STEPS: each a
-key, a title, what it is for, the ability it needs, the module's settings
-tab that does it, and how to tell it's done. A step with fields is a slide
-of the setup wizard; one left empty there, or with no fields, is a to-do
-on Getting Started in the module's settings until it is done.
-"""
+"""A module's setup steps (docs/READY.md, mechanism 9): each ready module's
+STEPS in its setup.py, a key, a title, what it is for, the ability it needs,
+the settings tab that does it and how to tell it's done. A step with fields
+is a wizard slide and a SetupCenter form, both from `fields`; the rest wait
+in SetupCenter (one/setup_center.py) until done."""
 
 import importlib
 
@@ -55,25 +52,39 @@ def for_wizard() -> list[dict]:
 		if not step.get("fields"):
 			continue
 		prefix = _prefix(module, step)
-		fields = []
-		for field in step["fields"]:
-			one = {key: (str(value) if key in ("label", "description") else value) for key, value in field.items()}
-			one["fieldname"] = prefix + field["fieldname"]
-			one["reqd"] = int(not step.get("later", True) and bool(field.get("reqd", 1)))
-			fields.append(one)
 		slides.append(
 			{
 				"name": f"one_{prefix.rstrip('_')}",
 				"module": module,
 				"title": str(step["title"]),
 				"help": " ".join([str(step["about"]), _("You can leave this for later.")] if step.get("later", True) else [str(step["about"])]),
-				"fields": fields,
+				"fields": fields(step, prefix, required=not step.get("later", True)),
 			}
 		)
 	from onedesk.trust_center import services
 
 	asked = services.for_wizard()
 	return slides + ([asked] if asked else [])
+
+
+def fields(step: dict, prefix: str = "", required: bool = False) -> list[dict]:
+	"""A step's fields as a form takes them, its words in the reader's
+	language and each name after `prefix`: the wizard's slide and
+	SetupCenter's form are this one declaration. A field is required where
+	`required` and the field says so (by default it does), but a Check,
+	which is never empty."""
+	out = []
+	for field in step.get("fields") or []:
+		one = {key: (str(value) if key in ("label", "description") else value) for key, value in field.items()}
+		one["fieldname"] = prefix + field["fieldname"]
+		one["reqd"] = int(required and bool(field.get("reqd", 1)) and field.get("fieldtype") != "Check")
+		out.append(one)
+	return out
+
+
+def mark(module: str, step: dict) -> None:
+	"""A step written down as done."""
+	frappe.db.set_default(_flag(module, step), "1")
 
 
 def apply(args=None) -> None:
@@ -102,7 +113,7 @@ def save(module: str, step: dict, values: dict) -> bool:
 	frappe.db.savepoint("one_setup_step")
 	try:
 		step["save"](values)
-		frappe.db.set_default(_flag(module, step), "1")
+		mark(module, step)
 	except Exception:
 		frappe.db.rollback(save_point="one_setup_step")
 		frappe.log_error(f"setup step: {module} {step['key']}")
@@ -110,7 +121,7 @@ def save(module: str, step: dict, values: dict) -> bool:
 	return True
 
 
-def _may(module: str, step: dict) -> bool:
+def may(module: str, step: dict) -> bool:
 	from onedesk.one import rights, roles
 
 	if roles.administers():
@@ -124,10 +135,12 @@ def _may(module: str, step: dict) -> bool:
 
 def for_boot() -> dict:
 	"""{module: [step, ...]} the reader may do, each saying whether it is
-	done, for Getting Started in the module's settings."""
+	done: a module's settings start with Getting Started, which opens
+	SetupCenter, while one waits, and Apps opens SetupCenter on an app just
+	turned on that has steps."""
 	out = {}
 	for module, step in declared():
-		if not _may(module, step):
+		if not may(module, step):
 			continue
 		out.setdefault(module, []).append(
 			{
@@ -140,12 +153,3 @@ def for_boot() -> dict:
 		)
 	return out
 
-
-@frappe.whitelist(methods=["POST"])
-def finish(module: str, key: str) -> dict:
-	"""A step marked done by somebody who may do it, from Getting Started."""
-	step = next((one for name, one in declared() if name == module and one["key"] == key), None)
-	if not step or not _may(module, step):
-		frappe.throw(_("That cannot be set."))
-	frappe.db.set_default(_flag(module, step), "1")
-	return for_boot().get(module, [])

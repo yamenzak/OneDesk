@@ -305,12 +305,41 @@ onedesk.centers.open = (center, { at = null, record = null, module = null } = {}
 		notifications: () => onedesk.notification_center.open({ module, at }),
 		ai: () => onedesk.ai_center.open({ module, at }),
 		shortcuts: () => onedesk.shortcut_center.open({ module, at }),
+		setup: () => onedesk.setup_center.open({ at }),
 		trust: () => onedesk.trust.open({ module, at }),
 		help: () => onedesk.help.open(module),
 		updates: () => onedesk.whats_new.open(module),
 	};
 	return (doors[center] || doors.account)();
 };
+// Every centre on One's rail is found by Ctrl+K too, opened as its row opens it.
+if (frappe.search?.utils && !frappe.search.utils.one_centres) {
+	const utils = frappe.search.utils;
+	utils.one_centres = true;
+	const pages = utils.get_pages;
+	utils.get_pages = function (keywords) {
+		const rail = frappe.boot.module_sidebars?.[onedesk.names.sidebar("one")]?.items || [];
+		const centres = rail
+			.filter((one) => one.label && (one.url || "").includes("?center="))
+			.flatMap((one) => {
+				const found = this.fuzzy_search(keywords, one.label, true);
+				if (!found.score) return [];
+				const asked = Object.fromEntries(new URLSearchParams(one.url.split("?")[1]));
+				return [
+					{
+						type: "Page",
+						label: __("Open {0}", [found.marked_string || one.label]),
+						value: __("Open {0}", [one.label]),
+						match: one.label,
+						index: found.score,
+						onclick: () => onedesk.centers.open(asked.center, asked),
+					},
+				];
+			});
+		return pages.call(this, keywords).concat(centres);
+	};
+}
+
 onedesk.centers.FILES = {
 	OneMail: ["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"],
 };

@@ -3713,15 +3713,15 @@ msgstr "مقابل {invoice}. تم تسجيل الدفعة ولا يلزم أي 
 msgid "Ageing"
 msgstr "أعمار الديون"
 
-#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
-#: onedesk/one_admin/report/price_check/price_check.py
-msgid "Agent Cost"
-msgstr "تكلفة الوكلاء"
-
 #: onedesk/one_deck/decks.py:23 onedesk/one_deck/decks.py:176
 #: onedesk/one_display/starters.py:996 onedesk/one_display/starters.py:1195
 msgid "Agenda"
 msgstr ""
+
+#: onedesk/one_admin/report/plan_calculator/plan_calculator.py
+#: onedesk/one_admin/report/price_check/price_check.py
+msgid "Agent Cost"
+msgstr "تكلفة الوكلاء"
 
 #. Label of the aggregate (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:68
@@ -33677,6 +33677,11 @@ msgstr "لا شيء لتقييم الموردين به بعد. يضيف «إصل
 msgid "Nothing to set here."
 msgstr "لا شيء لضبطه هنا."
 
+#: onedesk/public/js/one/setup_center.js:70
+#: onedesk/public/js/one/setup_center.js:81
+msgid "Nothing to set up."
+msgstr "لا شيء لإعداده."
+
 #: onedesk/public/js/shell.js:91
 msgid "Nothing to show"
 msgstr "لا شيء لعرضه"
@@ -47124,6 +47129,11 @@ msgstr ""
 msgid "Setup hit a problem on our side. We're working on it."
 msgstr "واجه الإعداد مشكلة من جهتنا. نحن نعمل على حلها."
 
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json:198
+msgid "SetupCenter"
+msgstr "SetupCenter"
+
 #. Label of the several (Check) field in DocType 'Cloud File Request Item'
 #: onedesk/one_cloud/doctype/cloud_file_request_item/cloud_file_request_item.json:41
 msgid "Several Files"
@@ -60085,6 +60095,10 @@ msgstr "ماذا يدين لنا هذا العميل، وعلى أي فواتي�
 msgid "What does this warehouse hold, what is it worth, and what in it is low or short?"
 msgstr "ماذا يحوي هذا المستودع، وكم قيمته، وما المنخفض أو الناقص فيه؟"
 
+#: onedesk/public/js/one/setup_center.js:78
+msgid "What each app needs set up so it works the way your company does."
+msgstr "ما يلزم إعداده في كل تطبيق ليعمل بالطريقة التي تعمل بها شركتك."
+
 #: onedesk/one_crm/home.py:132
 msgid "What each campaign brought in leads, opportunities and sales."
 msgstr "ما جلبته كل حملة من عملاء محتملين وفرص ومبيعات."
@@ -68157,6 +68171,11 @@ msgstr "{0} معاملات بنكية غير مسواة"
 #, python-brace-format
 msgid "{0} Users"
 msgstr "{0} مستخدمين"
+
+#: onedesk/public/js/one/setup_center.js:20
+#, python-brace-format
+msgid "{0} Waiting"
+msgstr "{0} بالانتظار"
 
 #: frontend/src/crm/CrmHome.vue:149
 #, python-brace-format

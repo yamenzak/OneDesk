@@ -27,6 +27,7 @@ APP = App(
 		("news", "newspaper"),
 		("notifications", "bell"),
 		("shortcuts", "keyboard"),
+		("setup", "list-checks"),
 		("access-and-the-audit-log", "shield-check"),
 		("your-data", "folder-lock"),
 		("who-can-do-what", "shield"),
@@ -68,4 +69,5 @@ PARTS = (
 	App(id="shortcut_center", name="ShortcutCenter", kind="centre", module=""),
 	App(id="help_center", name="HelpCenter", kind="centre", module=""),
 	App(id="update_center", name="UpdateCenter", kind="centre", module=""),
+	App(id="setup_center", name="SetupCenter", kind="centre", module=""),
 )

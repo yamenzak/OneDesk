@@ -422,8 +422,10 @@ No doctypes yet.
 * `onedesk.one.recycle.restore`
 * `onedesk.one.rules.fields_of`
 * `onedesk.one.rules.watchable`
+* `onedesk.one.setup_center.finish`
+* `onedesk.one.setup_center.load`
+* `onedesk.one.setup_center.save`
 * `onedesk.one.setup_job.wake`
-* `onedesk.one.setup_steps.finish`
 * `onedesk.one.setup_wizard.setup_complete`
 * `onedesk.one.shortcut_center.reset`
 * `onedesk.one.shortcut_center.save`

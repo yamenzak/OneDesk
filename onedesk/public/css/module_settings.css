@@ -298,10 +298,16 @@ the radio, and what it says may run to two lines. */
 	white-space: nowrap;
 }
 
-/* A setup step says all of what it is for (module_settings.js
-   `getting_started`). */
+/* A setup step says all of what it is for, and its form opens under it
+   (one/setup_center.js). */
 .one-set .one-set-steps .one-set-sub {
 	white-space: normal;
+}
+
+.one-set .one-setup-form {
+	padding: calc(var(--spacing) * 3);
+	border-bottom: 1px solid var(--outline-gray-1);
+	background: var(--surface-gray-1);
 }
 
 /* A row in a ControlCenter that opens another centre (AccessCenter,

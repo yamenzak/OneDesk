@@ -28,6 +28,7 @@ MEMORY = {"url": "/desk/one?center=ai&at=yours"}
 AI_CENTER = {"url": "/desk/one?center=ai"}
 # AccessCenter's row, which only an administrator can open.
 ACCESS_CENTER = {"url": "/desk/one?center=access"}
+SETUP_CENTER = {"url": "/desk/one?center=setup"}
 # What reading shows in the rails, which goes when reading is off.
 READS = (
 	{"link_to": "intake"},
@@ -170,10 +171,13 @@ def gone(off: set) -> set:
 
 def trim(sidebars: dict) -> None:
 	"""`outside.kept`: what reading shows, and OneAI's centre, leave every
-	rail when they are off; AccessCenter's row is only an administrator's."""
-	from onedesk.one import roles
+	rail when they are off; AccessCenter's row is only an administrator's,
+	and SetupCenter's only for whoever may do an app's step."""
+	from onedesk.one import roles, setup_center
 
 	leaving = gone(set(hidden())) | (set() if roles.administers() else {_where(ACCESS_CENTER)})
+	if not roles.administers() and not setup_center.reaches():
+		leaving.add(_where(SETUP_CENTER))
 	if not leaving or not isinstance(sidebars, dict):
 		return
 	for sidebar in sidebars.values():
