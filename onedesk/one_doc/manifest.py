@@ -24,11 +24,11 @@ APP = App(
 	ready={
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-12", "commit": "3c226de48899", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-13", "commit": "a3569d8d8e65", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-13", "commit": "a3569d8d8e65", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-13", "commit": "a3569d8d8e65", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-13", "commit": "a3569d8d8e65", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-13", "commit": "a3569d8d8e65", "by": "Claude, for Yamen"},
 		},
 	},
 )

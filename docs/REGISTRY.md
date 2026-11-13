@@ -503,16 +503,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-12, `3c226de` |
+| 1. Demo and tests | 11 | 2026-11-13, `a3569d8` |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-12, `3c226de` |
-| 11. Notifications | 6 | 2026-11-12, `3c226de` |
-| 13. Plain words | 13 | 2026-11-12, `3c226de` |
+| 7. Our look | 11 | 2026-11-13, `a3569d8` |
+| 11. Notifications | 6 | 2026-11-13, `a3569d8` |
+| 13. Plain words | 13 | 2026-11-13, `a3569d8` |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-12, `3c226de` |
+| 19. Legal | 5 | 2026-11-13, `a3569d8` |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
@@ -581,16 +581,16 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | 2026-11-12, `3c226de` |
+| 1. Demo and tests | 11 | 2026-11-13, `a3569d8` |
 | 5. Settings and setup | 2 | — |
-| 7. Our look | 11 | 2026-11-12, `3c226de` |
-| 11. Notifications | 6 | 2026-11-12, `3c226de` |
-| 13. Plain words | 13 | 2026-11-12, `3c226de` |
+| 7. Our look | 11 | 2026-11-13, `a3569d8` |
+| 11. Notifications | 6 | 2026-11-13, `a3569d8` |
+| 13. Plain words | 13 | 2026-11-13, `a3569d8` |
 | 14. Documented, with Help and a tour | 5 | — |
 | 15. Versioned, with What's New | 3 | — |
 | 16. OneAI knows and does | 4 | — |
 | 18. Permissions and roles | 8 | — |
-| 19. Legal | 5 | 2026-11-12, `3c226de` |
+| 19. Legal | 5 | 2026-11-13, `a3569d8` |
 | 20. One home, clean code | 11 | — |
 
 What a person looks at:
