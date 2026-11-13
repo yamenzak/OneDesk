@@ -776,6 +776,18 @@ GUARDS = [
 		"tests/guards/test_frappe_calls.py::test_a_field_group_is_given_one_value_at_a_time",
 	),
 	Guard(
+		"checks-read-what-is-there",
+		1,
+		"a demo check reading a name its module no longer has, which only a run on a demo site would find",
+		"tests/guards/test_reaches.py::test_a_check_reads_only_names_that_are_there",
+	),
+	Guard(
+		"synced-json-modified",
+		8,
+		"a doctype, page, sidebar or report changed without moving its modified, which no site would sync",
+		"tests/guards/test_reaches.py::test_a_changed_synced_json_moves_its_modified",
+	),
+	Guard(
 		"helpers-one-home",
 		20,
 		"a module's own copy of a shared helper: the reader's company, a read check, a token's hash, a plain _lt",

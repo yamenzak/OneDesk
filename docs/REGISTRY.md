@@ -9,7 +9,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 2.12.0 |
+| 1. Demo and tests | 12 | in 2.12.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 2.12.0 |
 | 11. Notifications | 6 | in 2.12.0 |
@@ -35,7 +35,7 @@ Not marked ready yet.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | not yet |
+| 1. Demo and tests | 12 | not yet |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | not yet |
 | 11. Notifications | 6 | not yet |
@@ -61,7 +61,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.3.0 |
+| 1. Demo and tests | 12 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.3.0 |
 | 11. Notifications | 6 | in 1.3.0 |
@@ -87,7 +87,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.3.0 |
+| 1. Demo and tests | 12 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.3.0 |
 | 11. Notifications | 6 | in 1.3.0 |
@@ -113,7 +113,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 2.1.0 |
+| 1. Demo and tests | 12 | in 2.1.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 2.1.0 |
 | 11. Notifications | 6 | in 2.1.0 |
@@ -139,7 +139,7 @@ Not marked ready yet.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | not yet |
+| 1. Demo and tests | 12 | not yet |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | not yet |
 | 11. Notifications | 6 | not yet |
@@ -165,7 +165,7 @@ Not marked ready yet.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | not yet |
+| 1. Demo and tests | 12 | not yet |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | not yet |
 | 11. Notifications | 6 | not yet |
@@ -191,7 +191,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.3.0 |
+| 1. Demo and tests | 12 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.3.0 |
 | 11. Notifications | 6 | in 1.3.0 |
@@ -217,7 +217,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.2.0 |
+| 1. Demo and tests | 12 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.2.0 |
 | 11. Notifications | 6 | in 1.2.0 |
@@ -243,7 +243,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.3.0 |
+| 1. Demo and tests | 12 | in 1.3.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.3.0 |
 | 11. Notifications | 6 | in 1.3.0 |
@@ -269,7 +269,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 2.2.0 |
+| 1. Demo and tests | 12 | in 2.2.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 2.2.0 |
 | 11. Notifications | 6 | in 2.2.0 |
@@ -295,7 +295,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.1.0 |
+| 1. Demo and tests | 12 | in 1.1.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.1.0 |
 | 11. Notifications | 6 | in 1.1.0 |
@@ -321,7 +321,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 2.6.0 |
+| 1. Demo and tests | 12 | in 2.6.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 2.6.0 |
 | 11. Notifications | 6 | in 2.6.0 |
@@ -347,7 +347,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.2.0 |
+| 1. Demo and tests | 12 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.2.0 |
 | 11. Notifications | 6 | in 1.2.0 |
@@ -373,7 +373,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.11.0 |
+| 1. Demo and tests | 12 | in 1.11.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.11.0 |
 | 11. Notifications | 6 | in 1.11.0 |
@@ -399,7 +399,7 @@ Not marked ready yet.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | not yet |
+| 1. Demo and tests | 12 | not yet |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | not yet |
 | 11. Notifications | 6 | not yet |
@@ -425,7 +425,7 @@ Not marked ready yet.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | not yet |
+| 1. Demo and tests | 12 | not yet |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | not yet |
 | 11. Notifications | 6 | not yet |
@@ -451,7 +451,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.2.0 |
+| 1. Demo and tests | 12 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.2.0 |
 | 11. Notifications | 6 | in 1.2.0 |
@@ -477,7 +477,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.18.0 |
+| 1. Demo and tests | 12 | in 1.18.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.18.0 |
 | 11. Notifications | 6 | in 1.18.0 |
@@ -503,7 +503,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.2.0 |
+| 1. Demo and tests | 12 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.2.0 |
 | 11. Notifications | 6 | in 1.2.0 |
@@ -529,7 +529,7 @@ Not marked ready yet.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | not yet |
+| 1. Demo and tests | 12 | not yet |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | not yet |
 | 11. Notifications | 6 | not yet |
@@ -555,7 +555,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.2.0 |
+| 1. Demo and tests | 12 | in 1.2.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.2.0 |
 | 11. Notifications | 6 | in 1.2.0 |
@@ -581,7 +581,7 @@ Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 11 | in 1.5.0 |
+| 1. Demo and tests | 12 | in 1.5.0 |
 | 5. Settings and setup | 2 | — |
 | 7. Our look | 11 | in 1.5.0 |
 | 11. Notifications | 6 | in 1.5.0 |

@@ -22,6 +22,7 @@ A person looks: the demo company uses every part of it and nothing in the demo m
 - `demo-steps`: a demo step not built, or not in the demo's README (`tests/guards/test_demo.py::test_every_step_is_built_and_written_down`)
 - `demo-apps`: an app People gives that nobody in the demo company is given (`tests/guards/test_demo.py::test_every_app_people_gives_is_given_to_somebody_in_the_demo`)
 - `demo-suite`: an integration suite that writes, or checks next to nothing (`tests/guards/test_demo.py::test_the_suite_checks_and_writes_nothing`)
+- `checks-read-what-is-there`: a demo check reading a name its module no longer has, which only a run on a demo site would find (`tests/guards/test_reaches.py::test_a_check_reads_only_names_that_are_there`)
 
 ### 2. Rules on the server
 
@@ -96,6 +97,7 @@ A person looks: each screen, as each role, on a desktop and a phone: tokens only
 - `atlas-open-to`: a record type a person reaches that no role a workspace gives may open, beyond each module's count (`tests/guards/test_atlas.py::test_what_is_reached_is_open_to_somebody`)
 - `page-places`: a page of its own that declares no places or does not fire them (`tests/guards/test_frame.py::test_a_page_declares_its_places_and_fires_them`)
 - `places-fired`: a place in one_studio/places.py that no page fires (`tests/guards/test_frame.py::test_each_page_fires_its_events_with_only_its_powers`)
+- `synced-json-modified`: a doctype, page, sidebar or report changed without moving its modified, which no site would sync (`tests/guards/test_reaches.py::test_a_changed_synced_json_moves_its_modified`)
 
 ### 9. Built from frappe
 

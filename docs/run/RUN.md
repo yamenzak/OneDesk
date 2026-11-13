@@ -404,8 +404,8 @@ Only what needs his own hands:
 - [ ] D13 Remove the ai.py/legal.py/abilities.py re-exports left by P2.10 — at P2.9: they stay one release so old dotted paths run (one_deck/ai.py, account_center/ai.py, and media.moved for a picture's old docs/ path)
 - [ ] D10 Remove the one_account shim — at P2.9: it stays one release so old dotted paths run
 - [ ] D9 Remove the one_legal shim — at P2.9: it stays one release so old dotted paths run
-- [ ] D12 A rule that every name a checks.py reads from one of our modules (module.NAME) exists: checks never run under pytest, and P3.6 moved story.MONTHS and home.FEW from under three checks — at P3.3: the checks are reworked there.
-- [ ] D8 A rule that a synced JSON (doctype, page, sidebar, report, print format, notification, fixture) whose content changed also moved its `modified`, or frappe never syncs it to sites — at P3.3: the P2 renames changed titles without it and sites kept the old words.
+- [x] D12 A rule that every name a checks.py reads from one of our modules (module.NAME) exists: checks never run under pytest, and P3.6 moved story.MONTHS and home.FEW from under three checks — at P3.3: the checks are reworked there.
+- [x] D8 A rule that a synced JSON (doctype, page, sidebar, report, print format, notification, fixture) whose content changed also moved its `modified`, or frappe never syncs it to sites — at P3.3: the P2 renames changed titles without it and sites kept the old words.
 - [ ] D6 OneCloud's checks move out of one_demo/check.py into its own checks.py, as every other module's are; check.py imports a module's checks only where the file exists until then — at P3.7: check.py is split there. (OneCloud's folder is one_cloud since P2.1.)
 - [ ] D7 Remove the one_slide shim — at P2.9: it stays one release so old dotted paths run
 - [ ] D4 Remove the one_storage shim — at P2.9: it stays one release so old dotted paths run
