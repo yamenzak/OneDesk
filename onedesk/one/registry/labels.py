@@ -22,6 +22,7 @@ class Named(NamedTuple):
 
 NAMED = (
 	Named("one_admin/page/oneadmin/oneadmin.json", "title", "one_admin"),
+	Named("one/page/one_hub/one_hub.json", "title", "one_hub"),
 	Named("one_book/page/books/books.json", "title", "one_book"),
 	Named("one_calendar/page/onecalendar/onecalendar.json", "title", "one_calendar"),
 	Named("one_cloud/page/onecloud/onecloud.json", "title", "one_cloud"),
@@ -36,6 +37,7 @@ NAMED = (
 	Named("one_sheet/page/workbook/workbook.json", "title", "one_sheet"),
 	Named("one_admin/workspace/one_admin/one_admin.json", "title", "one_admin"),
 	Named("one_hr/workspace/onehr_setup/onehr_setup.json", "title", "one_hr", "{0} Setup"),
+	Named("one/sidebar/one/one.json", "label", "one_hub", row=("link_to", "one-hub")),
 	Named("one/sidebar/one/one.json", "label", "account_center", row=("url", "/desk/one?center=account")),
 	Named("one/sidebar/one/one.json", "label", "trust_center", row=("url", "/desk/one?center=trust")),
 	Named("one_admin/sidebar/one_admin/one_admin.json", "label", "one_ai", row=("icon", "oneai")),

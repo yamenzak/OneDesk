@@ -132,6 +132,7 @@ that exists.
 | `src/factory/home/FactoryHome.vue` | Katana's Manufacturing view and Shopify's admin Home: the workshop's figures, then the work orders late or due to start and the work late back from suppliers, then where everything is |
 | `src/factory/floor/ShopFloor.vue` | Odoo's Shop Floor: a tab per workstation, the orders as a table, and each step a card with its clock, who is on it and one button for what comes next |
 | `src/one/Home.vue` | Microsoft 365's Home and Slack's announcements: what waits for the reader's approval in every app, what the office is saying, what is new in their apps, and for an administrator the workspace at a glance and what in it needs them first |
+| `src/one/Hub.vue` | iPhone's Settings and macOS's System Settings: one search over every place set up, then a tile each, its icon, its name and one line on what it is for; a tile opens the place over the screen |
 | `src/books/BooksHome.vue` | Frappe Books' Dashboard: the figures that matter, then cash flow, profit and the largest expenses, then where the receivables and payables stand; laid out as OneInventory's Home |
 | `src/crm/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
 | `src/hr/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |

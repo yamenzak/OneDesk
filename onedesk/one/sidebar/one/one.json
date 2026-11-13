@@ -161,6 +161,19 @@
   {
    "child": 1,
    "collapsible": 1,
+   "icon": "layout-grid",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "OneHub",
+   "link_to": "one-hub",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "idx": 13
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
    "indent": 0,
    "is_default_module": 0,
    "keep_closed": 0,
@@ -170,7 +183,7 @@
    "label": "AccountCenter",
    "icon": "user",
    "url": "/desk/one?center=account",
-   "idx": 13
+   "idx": 14
   },
   {
    "child": 1,
@@ -184,7 +197,7 @@
    "label": "ControlCenter",
    "icon": "settings",
    "url": "/desk/one?center=settings&module=One",
-   "idx": 14
+   "idx": 15
   },
   {
    "child": 1,
@@ -198,7 +211,7 @@
    "label": "SetupCenter",
    "icon": "list-checks",
    "url": "/desk/one?center=setup",
-   "idx": 15
+   "idx": 16
   },
   {
    "child": 1,
@@ -212,7 +225,7 @@
    "label": "NotificationCenter",
    "icon": "bell",
    "url": "/desk/one?center=notifications",
-   "idx": 16
+   "idx": 17
   },
   {
    "child": 1,
@@ -226,7 +239,7 @@
    "label": "AccessCenter",
    "icon": "key-round",
    "url": "/desk/one?center=access",
-   "idx": 17
+   "idx": 18
   },
   {
    "child": 1,
@@ -240,7 +253,7 @@
    "label": "TrustCenter",
    "icon": "shield-check",
    "url": "/desk/one?center=trust",
-   "idx": 18
+   "idx": 19
   },
   {
    "child": 1,
@@ -254,7 +267,7 @@
    "label": "AICenter",
    "icon": "oneai",
    "url": "/desk/one?center=ai",
-   "idx": 19
+   "idx": 20
   },
   {
    "child": 1,
@@ -268,7 +281,7 @@
    "label": "ShortcutCenter",
    "icon": "keyboard",
    "url": "/desk/one?center=shortcuts",
-   "idx": 20
+   "idx": 21
   },
   {
    "child": 1,
@@ -282,7 +295,7 @@
    "label": "HelpCenter",
    "icon": "circle-question-mark",
    "url": "/desk/one?center=help",
-   "idx": 21
+   "idx": 22
   },
   {
    "child": 1,
@@ -296,10 +309,10 @@
    "label": "UpdateCenter",
    "icon": "newspaper",
    "url": "/desk/one?center=updates",
-   "idx": 22
+   "idx": 23
   }
  ],
- "modified": "2026-11-13 12:00:00.000000",
+ "modified": "2026-11-13 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

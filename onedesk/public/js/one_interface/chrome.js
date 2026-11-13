@@ -60,6 +60,7 @@ $.extend(onedesk.interface, {
 			<div class="one-bar-tools">
 				<div class="one-bar-group" data-group="find"></div>
 				<div class="one-bar-group" data-group="waiting"></div>
+				<div class="one-bar-group" data-group="tray"></div>
 			</div>
 		</header>`).prependTo(document.body);
 		const $bottom = $(`<footer class="one-bar" data-at="bottom" role="toolbar" aria-label="${__("Running")}">
@@ -132,6 +133,7 @@ $.extend(onedesk.interface, {
 			click: () => frappe.ui.sidebar_panels.toggle("background-tasks"),
 			group: "waiting",
 		}).toggleClass("hidden", !frappe.app.sidebar?.background_tasks?.db_tasks?.length);
+		onedesk.interface.tray(add({ label: __("Centers"), icon: "chevron-down", css: "one-tray", group: "tray" }));
 		add({
 			label: __("Check In"),
 			icon: "clock",
@@ -171,6 +173,19 @@ $.extend(onedesk.interface, {
 		onedesk.interface.place_status();
 		clearInterval(onedesk.interface._ticking);
 		onedesk.interface._ticking = setInterval(() => onedesk.interface.now($now), 15 * 1000);
+	},
+
+	/** The tray at the right of the top bar, as Windows shows its hidden
+	 * icons: every centre the reader may open, the current screen's first
+	 * (onedesk.centers.tray), as a sheet on a phone. */
+	tray($button) {
+		new frappe.ui.Dropdown({
+			trigger: $button,
+			align: "end",
+			sheet_on_mobile: true,
+			sheet_title: () => __("Centers"),
+			options: () => onedesk.centers.tray(),
+		});
 	},
 
 	now($now) {
@@ -386,6 +401,22 @@ $.extend(onedesk.interface, {
 				$item.find(".dock-item-icon").addClass("one-flat-icon").append(twin);
 			}
 			return $item;
+		};
+	}
+}
+
+// The One mark at the top of the rail opens OneHub, where frappe's opens the
+// apps screen.
+{
+	const Dock = frappe.ui.Dock;
+	if (Dock && !Dock.prototype.__one_hub) {
+		Dock.prototype.__one_hub = true;
+		const drawn = Dock.prototype.render_logo;
+		Dock.prototype.render_logo = function () {
+			drawn.call(this);
+			const hub = onedesk.names.of("one_hub");
+			this.$header.attr({ href: "/desk/one-hub", "aria-label": hub });
+			this.header_tooltip.set_text(hub);
 		};
 	}
 }

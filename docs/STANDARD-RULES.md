@@ -53,7 +53,9 @@ A person looks: the demo company uses every part of it and nothing in the demo m
 
 A module is held to it before it is marked ready.
 
-- `module-foot`: a module that draws its own settings dialog or foot, or a foot without its version (`tests/guards/test_ready.py::test_a_module_has_one_settings_dialog_and_one_foot`, caught in `test_the_declaration_rules_catch_their_examples`)
+- `module-foot`: a module that draws its own settings dialog or foot, or has no rail to draw its foot under (`tests/guards/test_ready.py::test_a_module_has_one_settings_dialog_and_one_foot`, caught in `test_the_declaration_rules_catch_their_examples`)
+- `one-foot`: a module's foot drawn anywhere but onedesk.interface.foot (one_interface/nav_tree.js) (`tests/guards/test_ready.py::test_one_place_draws_the_foot`, caught in `test_the_declaration_rules_catch_their_examples`)
+- `centres-from-registry`: a list of centres typed, or OneHub's tiles or the tray not taken from onedesk.centers.reachable (`tests/guards/test_ready.py::test_onehub_and_the_tray_offer_the_registrys_centres`, caught in `test_the_declaration_rules_catch_their_examples`)
 - `setup-declared`: a module that does not say what setting it up takes, or a step nothing saves (`tests/guards/test_ready.py::test_a_module_says_what_setting_it_up_takes`, caught in `test_the_setup_tour_and_oneai_rules_catch_their_examples`)
 - `centres-open`: a centre that does not open from One's rail and from each module's Settings (`tests/guards/test_ready.py::test_every_centre_opens_from_ones_rail_and_from_each_modules_settings`, caught in `test_the_declaration_rules_catch_their_examples`)
 

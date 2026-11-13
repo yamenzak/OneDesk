@@ -1,6 +1,6 @@
 # Settings
 
-The cog at the foot of the rail opens {one_crm}'s settings.
+**{one_crm} Settings**, first under the arrow at the right of the top bar, opens {one_crm}'s settings.
 
 | You see | What it is |
 | --- | --- |

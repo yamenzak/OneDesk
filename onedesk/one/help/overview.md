@@ -13,6 +13,10 @@ One's rail has these groups:
 - **Centers**: {account_center}, {control_center}, {notification_center},
   {access_center}, {trust_center}, {ai_center}, {help_center} and {update_center}. Each
   opens over the page you are on. {access_center} is for administrators.
+- **{one_hub}**: every centre you may open, as a tile with what it is for, and a
+  search over them. The mark at the top of the rail opens it, and so does its
+  row under **Centers**. The arrow at the right of the top bar lists the same
+  centres from any screen, the screen's own first.
 
 Click a group's name to fold it away.
 

@@ -1,7 +1,7 @@
 frappe.provide("onedesk.mail");
 
 // OneMail's part of ControlCenter (one_interface/centre.js), opened from
-// Settings at the foot of OneMail's rail. Mailboxes is everyone's:
+// OneMail Settings in the top bar's tray. Mailboxes is everyone's:
 // each mailbox they hold, opened into its own tabs (signature, out-of-office
 // reply, users, connection, rules). Setup, Shared Mailboxes, System Mailboxes,
 // Organization Mailboxes, Private Mailboxes and Mail Templates are a Workspace

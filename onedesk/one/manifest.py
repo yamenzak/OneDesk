@@ -9,6 +9,7 @@ APP = App(
 	module="One",
 	ui="mixed",
 	regions=(
+		Region("page", "one-hub", "every centre the reader may open as a tile, searchable, as a phone's Settings app: the centres are dialogs, so no list can hold them"),
 		Region("page", "one", "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)"),
 	),
 	kept=Kept(_lt("Every app stands on One's Home, centres and window.")),
@@ -63,11 +64,12 @@ APP = App(
 )
 
 PARTS = (
-	App(id="control_center", name="ControlCenter", kind="centre", module="", centre=Centre("settings", "settings")),
-	App(id="notification_center", name="NotificationCenter", kind="centre", module="", centre=Centre("notifications", "bell")),
-	App(id="access_center", name="AccessCenter", kind="centre", module="", centre=Centre("access", "key-round")),
-	App(id="shortcut_center", name="ShortcutCenter", kind="centre", module="", centre=Centre("shortcuts", "keyboard")),
-	App(id="help_center", name="HelpCenter", kind="centre", module="", centre=Centre("help", "circle-question-mark")),
-	App(id="update_center", name="UpdateCenter", kind="centre", module="", centre=Centre("updates", "sparkles")),
-	App(id="setup_center", name="SetupCenter", kind="centre", module="", centre=Centre("setup", "list-checks")),
+	App(id="one_hub", name="OneHub", kind="centre", module="", mark="one"),
+	App(id="control_center", line=_lt("Each app's settings."), name="ControlCenter", kind="centre", module="", centre=Centre("settings", "settings")),
+	App(id="notification_center", line=_lt("What reaches whom, and how."), name="NotificationCenter", kind="centre", module="", centre=Centre("notifications", "bell")),
+	App(id="access_center", line=_lt("Who may open which app, and at what level."), name="AccessCenter", kind="centre", module="", centre=Centre("access", "key-round")),
+	App(id="shortcut_center", line=_lt("The keys for what you do most."), name="ShortcutCenter", kind="centre", module="", centre=Centre("shortcuts", "keyboard")),
+	App(id="help_center", line=_lt("Help for the apps that are on."), name="HelpCenter", kind="centre", module="", centre=Centre("help", "circle-question-mark")),
+	App(id="update_center", line=_lt("What changed and what is coming."), name="UpdateCenter", kind="centre", module="", centre=Centre("updates", "sparkles")),
+	App(id="setup_center", line=_lt("Each app's setup steps, done and waiting."), name="SetupCenter", kind="centre", module="", centre=Centre("setup", "list-checks")),
 )

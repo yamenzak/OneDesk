@@ -445,15 +445,6 @@ export function interfaceTree(at, { label = "", pick, twist, over, leave, drop, 
 export const interfaceHeadAction = (win, { icon, title, onClick }) =>
 	win && win.head_action({ icon: icon.replace(/^lucide-/, ""), title, click: onClick });
 
-// A row at the foot of the rail while this view is on screen
-// (one_interface/nav_tree.js), for where it is set up; `icon` is a lucide name.
-export const interfaceFootAction = (win, { icon, label, onClick, version = null }) =>
-	win && win.foot_action({ icon: icon.replace(/^lucide-/, ""), label, click: onClick, version });
-
-// A module's foot: Settings, the tour, Help, TrustCenter and its version, the same in every module
-// (one_interface/nav_tree.js `module_foot`).
-export const interfaceModuleFoot = (win, { module, onSettings }) => win && win.module_foot({ module, settings: onSettings });
-
 // Meters at the foot of this view's nav pane (one_interface/nav_tree.js).
 export const interfaceMeters = (win, rows) => win && win.meters(rows);
 

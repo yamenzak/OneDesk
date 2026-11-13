@@ -972,8 +972,22 @@ GUARDS = [
 	Guard(
 		"module-foot",
 		5,
-		"a module that draws its own settings dialog or foot, or a foot without its version",
+		"a module that draws its own settings dialog or foot, or has no rail to draw its foot under",
 		"tests/guards/test_ready.py::test_a_module_has_one_settings_dialog_and_one_foot",
+		"tests/guards/test_ready.py::test_the_declaration_rules_catch_their_examples",
+	),
+	Guard(
+		"one-foot",
+		5,
+		"a module's foot drawn anywhere but onedesk.interface.foot (one_interface/nav_tree.js)",
+		"tests/guards/test_ready.py::test_one_place_draws_the_foot",
+		"tests/guards/test_ready.py::test_the_declaration_rules_catch_their_examples",
+	),
+	Guard(
+		"centres-from-registry",
+		5,
+		"a list of centres typed, or OneHub's tiles or the tray not taken from onedesk.centers.reachable",
+		"tests/guards/test_ready.py::test_onehub_and_the_tray_offer_the_registrys_centres",
 		"tests/guards/test_ready.py::test_the_declaration_rules_catch_their_examples",
 	),
 	Guard(

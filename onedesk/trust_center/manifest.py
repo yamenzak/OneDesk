@@ -1,12 +1,13 @@
 """TrustCenter's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Centre, Region, Settle
+from onedesk.one.registry.model import App, Centre, Region, Settle, _lt
 
 APP = App(
 	id="trust_center",
 	name="TrustCenter",
 	kind="centre",
 	module="Trust Center",
+	line=_lt("Agreements, and the companies that receive your data."),
 	centre=Centre("trust", "shield-check"),
 	ui="bespoke",
 	regions=(

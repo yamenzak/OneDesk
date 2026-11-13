@@ -1246,3 +1246,28 @@ leaves, so a wide table folds to the room instead of widening the frame. */
 .one-centre .settings-dialog {
 	width: 100%;
 }
+
+/* The way up to OneHub, over the centre's name (centre.js one_up). */
+.one-centre-up {
+	display: inline-flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 1);
+	margin: calc(var(--spacing) * 1) calc(var(--spacing) * 1) 0;
+	padding: 0 calc(var(--spacing) * 1.5);
+	height: calc(var(--spacing) * 6);
+	border: 0;
+	border-radius: var(--one-radius-control);
+	background: transparent;
+	color: var(--one-ink-quiet);
+	font-size: var(--text-sm);
+	--icon-stroke: var(--one-ink-muted);
+}
+
+.one-centre-up:hover {
+	background: var(--one-hover);
+	color: var(--one-ink-strong);
+}
+
+[dir="rtl"] .one-centre-up .icon {
+	transform: scaleX(-1);
+}

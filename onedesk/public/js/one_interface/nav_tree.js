@@ -215,60 +215,83 @@ onedesk.interface.Frame.prototype.head_action = function ({ icon, title, click }
 	return this;
 };
 
-// A row at the foot of the rail while this view is on screen, drawn as the
-// rail's own rows are, for where the view is set up (OneMail's Settings):
-// { icon, label, click }.
-// `version` puts the module's Help and its version at the row's end, the
-// version with a dot until its reader has seen it, opening What's New
-// (UpdateCenter, public/js/one/help_center.js).
-onedesk.interface.Frame.prototype.foot_action = function ({ icon, label, click, version = null }) {
-	if (!this.$foot_action) {
-		const esc = frappe.utils.escape_html;
-		this.$foot_action = $(
-			`<div class="one-interface-foot-action" data-tour="interface-foot"><div class="standard-sidebar-item"><a class="item-anchor" href="#" role="button"><span class="sidebar-item-icon">${frappe.utils.icon(
-				icon,
+// A module's foot, drawn here for every module's rail and nowhere else
+// (docs/READY.md, mechanism 5): Help, the tour of the screen it is on and the
+// version, which has a dot until its reader has seen it and opens What's New
+// (UpdateCenter). A module's settings are in the top bar's tray
+// (onedesk.centers.tray). On a phone the same parts end the rail's drawer.
+onedesk.interface.foot = {
+	/** The module whose rail is on screen, by its name (the registry's app
+	 * whose `sidebar` it is), or null. */
+	module() {
+		const sidebar = frappe.app && frappe.app.sidebar && frappe.app.sidebar.current_module;
+		const found = sidebar && Object.values(frappe.boot.one_names || {}).find((one) => one.sidebar === sidebar);
+		return found ? found.name : null;
+	},
+
+	/** What the foot holds for a module: Help, the tour and its version. */
+	parts(module) {
+		const said = (frappe.boot.one_versions || {})[module];
+		return {
+			help: { icon: "circle-question-mark", name: __("Help"), aria: __("{0} Help", [module]), click: () => onedesk.centers.open("help", { module }) },
+			tour: { icon: "circle-play", name: __("Take the Tour"), aria: __("Take the Tour of This Screen"), click: () => onedesk.tour.run(module) },
+			version: said ? { text: said.version, aria: __("What's New in {0}", [module]), unseen: () => !!said.unseen, click: () => onedesk.centers.open("updates", { module }) } : null,
+		};
+	},
+
+	/** The foot at the bottom of a window's rail, as the rail's own rows are. */
+	draw(win, module) {
+		const { help, tour, version } = this.parts(module);
+		win.$foot_action = $(
+			`<div class="one-interface-foot-action one-interface-foot-action--icons" data-tour="interface-foot"><div class="standard-sidebar-item"><a class="item-anchor" href="#" role="button"><span class="sidebar-item-icon">${frappe.utils.icon(
+				help.icon,
 				"sm"
-			)}</span><span class="sidebar-item-label">${esc(label)}</span></a></div></div>`
-		).on("click", ".item-anchor", (e) => {
-			e.preventDefault();
-			click();
-		});
-		if (version) this.foot_version(version);
-	}
-	onedesk.interface.nav.place();
-	return this;
+			)}</span><span class="sidebar-item-label"></span></a></div></div>`
+		);
+		win.$foot_action.find(".sidebar-item-label").text(help.name);
+		win.$foot_action
+			.find(".item-anchor")
+			.attr({ title: help.name, "aria-label": help.aria })
+			.on("click", (e) => {
+				e.preventDefault();
+				help.click();
+			});
+		const $row = win.$foot_action.find(".standard-sidebar-item");
+		$(`<button type="button" class="one-interface-foot-help" data-tour="interface-tour"></button>`)
+			.attr({ title: tour.name, "aria-label": tour.aria })
+			.html(frappe.utils.icon(tour.icon, "sm"))
+			.on("click", tour.click)
+			.appendTo($row);
+		if (!version) return;
+		const $chip = $(`<button type="button" class="one-interface-foot-version"></button>`)
+			.attr({ title: __("What's New"), "aria-label": version.aria })
+			.text(version.text)
+			.on("click", version.click)
+			.appendTo($row);
+		const dot = () => $chip.toggleClass("one-interface-foot-version--unseen", version.unseen());
+		dot();
+		$(document).on("one-version-seen", (_e, seen) => seen === module && dot());
+	},
+
+	/** The same parts at the end of the rail's drawer on a phone. */
+	drawer($into, module) {
+		const { help, tour, version } = this.parts(module);
+		const $foot = $(`<div class="one-drawer-foot"></div>`).appendTo($into);
+		frappe.ui.button({ icon: help.icon, label: help.name, variant: "ghost", onclick: help.click }).attr("aria-label", help.aria).appendTo($foot);
+		frappe.ui.button({ icon: tour.icon, variant: "ghost", title: tour.name, onclick: tour.click }).appendTo($foot);
+		if (!version) return;
+		frappe.ui
+			.button({ label: version.text, variant: "ghost", title: version.aria, css_class: `one-drawer-version${version.unseen() ? " one-drawer-unseen" : ""}`, onclick: version.click })
+			.appendTo($foot);
+	},
 };
 
-// A module's foot, the same in every module (docs/READY.md, mechanisms 5,
-// 10 and 18): Settings, the tour of the screen it is on and Help, each an
-// icon, then the version at the row's end. Every other centre is a row at the
-// end of Settings, and all of them are One's rail's.
-onedesk.interface.Frame.prototype.module_foot = function ({ module, settings }) {
-	this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
-	this.$foot_action.addClass("one-interface-foot-action--icons").find(".item-anchor").attr({ title: __("Settings"), "aria-label": __("{0} Settings", [module]) });
-	return this;
-};
-
-onedesk.interface.Frame.prototype.foot_version = function ({ module }) {
-	const said = (frappe.boot.one_versions || {})[module];
-	if (!said) return;
-	const $row = this.$foot_action.find(".standard-sidebar-item");
-	$(`<button type="button" class="one-interface-foot-help" data-tour="interface-tour"></button>`)
-		.attr({ title: __("Take the Tour"), "aria-label": __("Take the Tour of This Screen") })
-		.html(frappe.utils.icon("circle-play", "sm"))
-		.on("click", () => onedesk.tour.run(module))
-		.appendTo($row);
-	$(`<button type="button" class="one-interface-foot-help"></button>`)
-		.attr({ title: __("Help"), "aria-label": __("{0} Help", [module]) })
-		.html(frappe.utils.icon("circle-question-mark", "sm"))
-		.on("click", () => onedesk.centers.open("help", { module }))
-		.appendTo($row);
-	const $chip = $(`<button type="button" class="one-interface-foot-version"></button>`)
-		.attr({ title: __("What's New"), "aria-label": __("What's New in {0}", [module]) })
-		.text(said.version)
-		.on("click", () => onedesk.centers.open("updates", { module }))
-		.appendTo($row);
-	const dot = () => $chip.toggleClass("one-interface-foot-version--unseen", !!said.unseen);
-	dot();
-	$(document).on("one-version-seen", (_e, seen) => seen === module && dot());
-};
+$(document).on("page-change", () =>
+	setTimeout(() => {
+		const win = onedesk.interface.current();
+		const module = onedesk.interface.foot.module();
+		if (!win || win.$foot_action || !module) return;
+		onedesk.interface.foot.draw(win, module);
+		onedesk.interface.nav.place();
+	}, 0)
+);

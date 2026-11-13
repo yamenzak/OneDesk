@@ -13,5 +13,5 @@
 | **Comment on Your Task** | Someone comments on a task you were given, gave or made. |
 | **Today's Tasks** | Each morning, what's due today and what's overdue, if anything. |
 
-Each can be turned off or changed in {notification_center}, from **Settings** at
-the foot of the rail. See [Settings](settings).
+Each can be turned off or changed in {notification_center}, from **{one_task} Settings**
+under the arrow at the right of the top bar. See [Settings](settings).

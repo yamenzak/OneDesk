@@ -18,7 +18,7 @@ else you have to do is here.
 | **Task** | Every task you can see, as a list with its other views. See [Every Task You See](all-tasks). |
 | **Reports** | **Delayed Tasks Summary**, for those who work on projects. See [Repeats, Kinds and Delays](repeats-kinds-delays). |
 | **Setup** | **Task Type**, the kinds of task, for those with access. |
-| **The foot** | **Settings**, the play button that takes the tour, Help, and {one_task}'s version, which opens What's New. |
+| **The foot** | Help, the play button that takes the tour, and {one_task}'s version, which opens What's New. |
 
 **Add Task**, at the top of My Tasks, makes a task. Everything updates on its
 own: a task assigned to you, or completed elsewhere, appears without

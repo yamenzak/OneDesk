@@ -1,6 +1,6 @@
 # Settings
 
-The cog at the foot of the rail opens {one_hr}'s settings. Somebody with no
+**{one_hr} Settings**, first under the arrow at the right of the top bar, opens {one_hr}'s settings. Somebody with no
 lists to keep goes straight to their notifications.
 
 | You see | What it is |

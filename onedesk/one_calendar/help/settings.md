@@ -1,6 +1,6 @@
 # Settings
 
-The cog at the foot of the rail opens {one_calendar}'s settings.
+**{one_calendar} Settings**, first under the arrow at the right of the top bar, opens {one_calendar}'s settings.
 
 | You see | What it is |
 | --- | --- |

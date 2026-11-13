@@ -13,7 +13,7 @@ OneInterface is the name, and in code it is the only one: the module is
 `public/js/one_interface/` and `public/css/one_interface/`, its namespace is
 `onedesk.interface`, its classes are `one-interface-*`, a page's frame is
 `page.interface`, and the kit's helpers are `InterfacePart` and
-`interfaceModuleFoot`. `tests/guards/test_interface_frame.py` refuses the old
+`interfaceMeters`. `tests/guards/test_interface_frame.py` refuses the old
 `window` names. The browser's own `window` is the only window left.
 
 The rule the frame is built on: **frappe's parts, placed; never redrawn.**
@@ -1059,6 +1059,19 @@ pages to read. A section declares one body: `rows`, `fields` with `save`,
 one itself only where none fits, with a docstring saying why;
 `tests/guards/test_frame.py` fails a centre that draws its own dialog and
 a drawn section that says nothing.
+
+OneHub (`/desk/one-hub`, `onedesk.centers.hub()`) is every centre the
+reader may open as a tile, searchable; the One mark at the top of the rail
+opens it (chrome.js wraps the Dock's `render_logo`), and every centre's
+head has a way up to it (`Centre.one_up`). The top bar's tray, the arrow
+at its right (`onedesk.interface.tray`), lists the same centres with the
+screen's own first (`onedesk.centers.tray`). All three, and Ctrl+K, read
+`onedesk.centers.reachable()`: the registry's centres One's rail opens for
+the reader, so none is typed in a list (`test_ready.py`).
+
+A module's foot (Help, the tour, the version) is drawn in one place,
+`onedesk.interface.foot` in `nav_tree.js`, under every module's rail and at
+the end of the phone's drawer; a module draws none of its own.
 
 ## Stamps
 

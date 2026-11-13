@@ -21,7 +21,7 @@ types they can open.
 | **Setup** | **Numbering**, **Printing**, **Approvals** and **Lists**, each a tab of {one_studio}'s settings. See [Numbering](numbering), [Printing](printing) and [Approvals](approvals). |
 | **Dashboards** | **Dashboards**, **Charts** and **Number Cards**. See [Dashboards and Saved Lists](dashboards). |
 | **Automation** | **Automations**, **Reports by Mail**, **Webhooks** and **Webhook Calls**. See [Automations](automations) and [Webhooks](webhooks). |
-| **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and {one_studio}'s version, which opens What's New. |
+| **The foot** | The question mark that opens this Help, the play button that takes the tour, and {one_studio}'s version, which opens What's New. |
 
 ## Where to Start
 

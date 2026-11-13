@@ -16,7 +16,7 @@ on the left is how you move around, so the side panel starts closed.
 | **The folder tree**, on the left | The places below, each opening to its folders. |
 | **The heading** | The folder's name, **New**, and **Details** or **Tiles** at its other end. |
 | **The list** | What is in the folder. Click a column heading to sort by it. |
-| **The foot** | How full the workspace's storage is, **Settings**, the play button that takes the tour, the question mark that opens this Help, and {one_cloud}'s version, which opens What's New. |
+| **The foot** | How full the workspace's storage is, the question mark that opens this Help, the play button that takes the tour, and {one_cloud}'s version, which opens What's New. |
 
 ## The Places
 
