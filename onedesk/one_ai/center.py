@@ -10,6 +10,7 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one import account, apps, roles
+from onedesk.one.registry import hooks as registry_hooks
 from onedesk.one_ai import models
 
 TIER = "one_ai_tier"
@@ -23,7 +24,8 @@ TIERS = {
 
 # Modules whose `ai.py` declares `JOBS`: what OneAI does there on its own, as
 # a single's fields, each drawn with its own label and description.
-PARTS = {"OneHR": "onedesk.one_hr.ai"}
+PARTS = registry_hooks.ai_parts()
+"""Each app whose ai.py declares JOBS, AICenter's switches for it."""
 
 
 def may() -> dict:
@@ -44,7 +46,7 @@ def modules() -> list[str]:
 	"""The modules AICenter has a part for, for their ControlCenter."""
 	from onedesk.one_ai import actions
 
-	return list(dict.fromkeys([*PARTS, "OneMail", *actions.modules()]))
+	return list(dict.fromkeys([*PARTS, *registry_hooks.centres("ai"), *actions.modules()]))
 
 
 def tier() -> str:

@@ -43,4 +43,5 @@ APP = App(
 	settle=(
 		Settle("mail_templates.settle"),
 	),
+	centres=("ai",),
 )

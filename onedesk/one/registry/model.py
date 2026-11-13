@@ -99,3 +99,4 @@ class App:
 	parts: tuple[str, ...] = ()
 	hooks: dict[str, tuple[str, ...]] = field(default_factory=dict)
 	settle: tuple[Settle, ...] = ()
+	centres: tuple[str, ...] = ()

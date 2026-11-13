@@ -62,6 +62,22 @@ def hook(name: str) -> list[str]:
 	return found
 
 
+def ai_parts() -> dict[str, str]:
+	"""AICenter's part of each app: its ai.py when that declares JOBS, the
+	switches an administrator turns on (onedesk/one_ai/center.py)."""
+	return {
+		app.name: f"onedesk.{app.id}.ai"
+		for app in registry.apps()
+		if (registry.FOLDERS / app.id / "ai.py").exists() and "JOBS" in _names(registry.FOLDERS / app.id / "ai.py")
+	}
+
+
+def centres(centre: str) -> list[str]:
+	"""The apps whose manifest says they have a part in a centre beyond
+	what their files declare (`centres`)."""
+	return [app.name for app in registry.apps() if centre in app.centres]
+
+
 def heirs() -> dict[str, list[str]]:
 	"""one_module_heirs: each Frappe module an app owns, to the app whose
 	records they are reached in (one/outside.py)."""
