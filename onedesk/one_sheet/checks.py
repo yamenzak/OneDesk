@@ -21,7 +21,7 @@ def onecloud_holds_a_workbook_with_its_history():
 	before and after. Rania can't open it. A copy of the first version is a
 	workbook of its own; restoring that version brings 100 back; deleting
 	the File takes the workbook and its history with it."""
-	from onedesk.one_sheet import ai as sheet_ai
+	from onedesk.one_sheet import agent as sheet_agent
 	from onedesk.one_sheet import api, live, versions
 
 	def held(value):
@@ -54,7 +54,7 @@ def onecloud_holds_a_workbook_with_its_history():
 		assert frappe.local.response["location"] == f"/desk/workbook/{book}"
 		admitted = live.admit("workbook", book)
 		assert admitted["ok"] and admitted["write"] and admitted["who"]["user"] == OWNER, admitted
-		told = sheet_ai.page({"page": "workbook", "record": book, "selection": {"page": "workbook", "workbook": book, "sheet": "Sheet1", "range": "B2:B2", "active": "B2"}})
+		told = sheet_agent.page({"page": "workbook", "record": book, "selection": {"page": "workbook", "workbook": book, "sheet": "Sheet1", "range": "B2:B2", "active": "B2"}})
 		assert "Sheet1 with B2:B2 selected" in told and '"B2": "100"' in told, "OneAI is told the workbook and what is selected"
 	with as_user("rania@one.test"):
 		try:
@@ -139,7 +139,7 @@ def oneai_makes_reads_and_writes_a_workbook():
 	and a note as cards, and refuses a record's table sheet and a name that
 	isn't a cell. All undone afterwards."""
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_sheet import ai
+	from onedesk.one_sheet import agent
 
 	frappe.db.savepoint("oneai_sheet_check")
 	try:
@@ -147,14 +147,14 @@ def oneai_makes_reads_and_writes_a_workbook():
 			said = tools.run("draft_workbook", {"name": "Glass check", "sheets": [{"name": "Prices", "cells": {"A1": "Item", "B1": "Rate", "A2": "Clear 8mm", "B2": 60, "B3": "=B2*1.05"}, "looks": {"A1:B1": {"bold": True}}}]})
 			assert not said["ran"] and said["answer"]["state"] == "Proposed", said
 			book = proposals.apply(said["answer"]["proposal"])["record"]
-			assert "at least one sheet" in ai.draft_workbook("Empty check", [])["error"]
-			found = ai.my_workbooks("Glass check")
+			assert "at least one sheet" in agent.draft_workbook("Empty check", [])["error"]
+			found = agent.my_workbooks("Glass check")
 			assert [one["workbook"] for one in found] == [book] and found[0]["sheets"] == ["Prices"], found
-			read = ai.read_workbook(book)
+			read = agent.read_workbook(book)
 			assert read["cells"] == {"A1": "Item", "B1": "Rate", "A2": "Clear 8mm", "B2": 60, "B3": "=B2*1.05"}, read
-			wrote = ai.write_cells(book, "Prices", {"B2": 65}, {"B2:B3": {"numberFormat": "number:us:2"}})
+			wrote = agent.write_cells(book, "Prices", {"B2": 65}, {"B2:B3": {"numberFormat": "number:us:2"}})
 			proposals.apply(wrote["proposal"])
-			note = ai.comment_on_cell(book, "Prices", "B2", "Up from 60 this month.")
+			note = agent.comment_on_cell(book, "Prices", "B2", "Up from 60 this month.")
 			proposals.apply(note["proposal"])
 			read = tools.run("read_workbook", {"workbook": book, "cells": "B2:B3"})["answer"]
 			assert read["cells"] == {"B2": 65, "B3": "=B2*1.05"} and read["notes"] == {"B2": "Up from 60 this month."}, read

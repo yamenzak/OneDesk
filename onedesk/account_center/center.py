@@ -50,7 +50,7 @@ EMPLOYEE_PARTS = ("personal", "work", "documents")
 
 def _sees_plan() -> bool:
 	"""Whether somebody may read Plan and Credits: an administrator, or a
-	role given it in AccessCenter (abilities.py, `plan`)."""
+	role given it in AccessCenter (access.py, `plan`)."""
 	from onedesk.one import rights
 
 	return roles.administers() or rights.may("Workspace Account", "account_plan")

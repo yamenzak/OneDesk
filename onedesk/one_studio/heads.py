@@ -7,7 +7,7 @@ thing anybody here changes on it.
 
 from frappe import _, _lt
 
-from onedesk.one_studio import ai, extensions
+from onedesk.one_studio import agent, extensions
 
 
 def extension_state(doc):
@@ -48,7 +48,7 @@ def extension_said(doc):
 def extension_mistakes(doc):
 	if doc.is_new():
 		return None
-	count = ai._recent_mistakes(doc.name)
+	count = agent._recent_mistakes(doc.name)
 	return {"value": str(count), "tone": "alarm" if count else None}
 
 
@@ -80,7 +80,7 @@ VERBS = {
 	"extension.mend": {
 		"doctypes": [extensions.EXTENSION],
 		"label": lambda doc: _("Fix With OneAI"),
-		"when": lambda doc: not doc.is_new() and ai._recent_mistakes(doc.name) > 0,
+		"when": lambda doc: not doc.is_new() and agent._recent_mistakes(doc.name) > 0,
 		"run": lambda doc, **_values: _mended(doc),
 	},
 	"extension.off": {

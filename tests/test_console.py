@@ -286,11 +286,11 @@ def test_the_operator_is_told_where_each_thing_happens():
 
 
 def test_oneai_reads_the_console_for_an_operator_only():
-	source = (ADMIN / "ai.py").read_text()
+	source = (ADMIN / "agent.py").read_text()
 	body = source.split("def console_today(", 1)[1]
 	assert "site.is_admin()" in body and "site.OPERATOR not in frappe.get_roles()" in body
 	assert "home.needs()" in body, "the panel is told what the page shows"
-	assert '"onedesk.one_admin.ai.console_today"' in tree.hooks()
+	assert '"onedesk.one_admin.agent.console_today"' in tree.hooks()
 
 
 def test_the_owner_is_mailed_as_their_workspace_falls_and_comes_back():
@@ -318,11 +318,11 @@ def test_a_workspace_is_read_by_operators_only_and_never_shared():
 
 
 def test_oneai_reads_a_workspace_for_an_operator_only():
-	source = (ADMIN / "ai.py").read_text()
+	source = (ADMIN / "agent.py").read_text()
 	body = source.split("def workspace_facts(", 1)[1]
 	assert body.index("if not _operator()") < body.index("frappe.get_doc")
 	assert '"expects": "workspace_facts"' in source
-	assert '"onedesk.one_admin.ai.workspace_facts"' in tree.hooks()
+	assert '"onedesk.one_admin.agent.workspace_facts"' in tree.hooks()
 
 
 def test_our_lists_are_called_what_the_rail_calls_them():
@@ -363,13 +363,13 @@ def test_jobs_are_published_and_never_shared():
 
 
 def test_oneai_asks_about_a_job_only_in_the_state_it_is_in():
-	source = (ADMIN / "ai.py").read_text()
+	source = (ADMIN / "agent.py").read_text()
 	assert (
 		'"when": {"status": ["Failed"]}' in source and '"when": {"status": ["Pending", "Waiting"]}' in source
 	)
 	body = source.split("def job_facts(", 1)[1]
 	assert body.index("if not _operator()") < body.index("frappe.get_doc")
-	assert '"onedesk.one_admin.ai.job_facts"' in tree.hooks()
+	assert '"onedesk.one_admin.agent.job_facts"' in tree.hooks()
 	assert "def _holds(" in (tree.APP / "one_ai" / "suggest.py").read_text()
 
 
@@ -418,7 +418,7 @@ def test_a_domain_is_said_in_the_customers_words_and_says_what_it_needs():
 	assert '_("Check Again")' in heads.split('"domain.refresh"', 1)[1][:300]
 	domains = (ADMIN / "domains.py").read_text()
 	assert "_mark_main(" in domains and ".notify_update()" in domains
-	source = (ADMIN / "ai.py").read_text()
+	source = (ADMIN / "agent.py").read_text()
 	domain = source.split('"Tenant Domain": [', 1)[1].split("],", 1)[0]
 	assert '"expects": "workspace_facts"' in domain and "def domain_facts(" not in source
 	facts = source.split("def workspace_facts(", 1)[1].split("\ndef ", 1)[0]
@@ -436,7 +436,7 @@ def test_the_price_list_says_who_has_an_offering_and_shows_only_what_its_kind_ca
 	assert fields["trial_days"]["depends_on"].startswith("eval:doc.kind=='Plan'")
 	assert fields["storage_gb"]["depends_on"] == "eval:doc.kind!='Credit Pack'"
 	assert offering["sort_field"] == "sort_key" and not offering["permissions"][0]["share"]
-	assert '"onedesk.one_admin.ai.price_list"' in tree.hooks()
+	assert '"onedesk.one_admin.agent.price_list"' in tree.hooks()
 
 
 def test_price_check_says_its_findings_in_words_and_warns_on_save():
@@ -456,7 +456,7 @@ def test_price_check_says_its_findings_in_words_and_warns_on_save():
 	assert "*_mispriced()" in (ADMIN / "home.py").read_text()
 	report = (ADMIN / "report" / "price_check" / "price_check.py").read_text()
 	assert "_holds" not in report and '"gives"' in report and "include_disabled" in report
-	ai = (ADMIN / "ai.py").read_text()
+	ai = (ADMIN / "agent.py").read_text()
 	assert '"report:Price Check"' in ai and '"expects": "run_report"' in ai.split('"report:Price Check"', 1)[1][:600]
 
 
@@ -469,10 +469,10 @@ def test_plan_calculator_quotes_as_the_customer_is_quoted():
 	assert "_summary(needs" in report and '"gives"' in report and '"dearer_by"' in report
 	script = (ADMIN / "report" / "plan_calculator" / "plan_calculator.js").read_text()
 	assert 'fieldname: "workspace"' in script and "needs_of" in script
-	ai = (ADMIN / "ai.py").read_text()
+	ai = (ADMIN / "agent.py").read_text()
 	assert '"report:Plan Calculator"' in ai and '"expects": "plan_quote"' in ai
 	assert "def plan_quote(" in ai and "if not _operator():" in ai.split("def plan_quote(")[1]
-	assert '"onedesk.one_admin.ai.plan_quote"' in tree.hooks()
+	assert '"onedesk.one_admin.agent.plan_quote"' in tree.hooks()
 	assert "## Plan Calculator" in (ADMIN / "AGENTS.md").read_text()
 
 
@@ -496,9 +496,9 @@ def test_a_signup_moves_on_its_own_and_lets_an_unpaid_name_go():
 	assert '"Workspace Delayed"' in (ADMIN / "tell.py").read_text()
 	request = json.loads((ADMIN / "doctype" / "account_request" / "account_request.json").read_text())
 	assert not request["permissions"][0]["share"]
-	ai = (ADMIN / "ai.py").read_text()
+	ai = (ADMIN / "agent.py").read_text()
 	assert '"expects": "signup_facts"' in ai and "if not _operator():" in ai.split("def signup_facts(")[1]
-	assert '"onedesk.one_admin.ai.signup_facts"' in tree.hooks()
+	assert '"onedesk.one_admin.agent.signup_facts"' in tree.hooks()
 	assert "## Signups" in (ADMIN / "AGENTS.md").read_text()
 
 
@@ -520,7 +520,7 @@ def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
 	entry = json.loads((ADMIN / "doctype" / "credit_ledger_entry" / "credit_ledger_entry.json").read_text())
 	assert not entry["permissions"][0]["share"] and entry["title_field"] == "tenant"
 	assert {f["fieldname"]: f for f in entry["fields"]}["model"]["fieldtype"] == "Data"
-	ai = (ADMIN / "ai.py").read_text()
+	ai = (ADMIN / "agent.py").read_text()
 	assert '"expects": "credit_facts"' in ai and "if not _operator():" in ai.split("def credit_facts(")[1]
 	assert "## Credits" in (ADMIN / "AGENTS.md").read_text()
 
@@ -536,7 +536,7 @@ def test_the_operator_has_no_models_to_manage():
 	assert not {"prefer_models_from", "persona"} & {f["fieldname"] for f in settings["fields"]}
 	assert "models_gone" not in (ADMIN / "tell.py").read_text()
 	assert "_unmodelled" not in (ADMIN / "home.py").read_text()
-	assert "model_facts" not in (ADMIN / "ai.py").read_text()
+	assert "model_facts" not in (ADMIN / "agent.py").read_text()
 
 
 def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
@@ -550,7 +550,7 @@ def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
 	assert not report["add_total_row"]
 	usage = (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
 	assert '"Action": ["action"]' in usage and '"cost_us"' in usage and "_summary(whole)" in usage
-	ai = (ADMIN / "ai.py").read_text()
+	ai = (ADMIN / "agent.py").read_text()
 	assert '"expects": "run_report"' in ai.split('"report:AI Usage"', 1)[1][:600] and "def ai_usage(" not in ai
 	assert report["roles"] == [{"role": "One Operator"}], "run_report reads it for an operator only"
 	assert "## AI Usage" in (ADMIN / "AGENTS.md").read_text()
@@ -568,7 +568,7 @@ def test_settings_say_what_is_missing_and_tell_the_other_operators():
 	assert '"settings.said": settings_said' in (ADMIN / "heads.py").read_text()
 	usage = (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
 	assert "offerings.credit_price()" in usage and "credits_per_dollar" not in usage
-	ai = (ADMIN / "ai.py").read_text()
+	ai = (ADMIN / "agent.py").read_text()
 	assert '"expects": "settings_check"' in ai and "if not _operator():" in ai.split("def settings_check(")[1]
 	assert "## Settings" in (ADMIN / "AGENTS.md").read_text()
 

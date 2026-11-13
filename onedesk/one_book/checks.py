@@ -156,23 +156,23 @@ def onebook_oneai_reads_the_money_as_home_does():
 	the overdue invoices are Today's, one invoice says what settled it, the
 	bank lines are Today's; and Home offers its three questions."""
 	from onedesk.one_ai import chat, suggest
-	from onedesk.one_book import ai, home, story
+	from onedesk.one_book import agent, home, story
 
 	with as_user("huda@one.test"):
-		money = ai.money_now()
+		money = agent.money_now()
 		assert money["figures"]["cash"]["now"] == story.read()["cards"]["cash"]["value"], money["figures"]
-		late = ai.late_invoices("Sales Invoice")
+		late = agent.late_invoices("Sales Invoice")
 		assert late["count"] == home.needs_you()["overdue"]["count"] and late["count"], late
-		assert ai.late_invoices("Sales Invoice", party=late["invoices"][0]["party"])["count"] >= 1
+		assert agent.late_invoices("Sales Invoice", party=late["invoices"][0]["party"])["count"] >= 1
 		paid = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Paid", "is_return": 0}, pluck="name", limit=1)
-		said = ai.invoice_facts(paid[0])
+		said = agent.invoice_facts(paid[0])
 		assert said["still_owed"] == 0 and said["payments"], said
-		assert ai.bank_to_match()["lines"] == home.needs_you()["bank"]["count"]
+		assert agent.bank_to_match()["lines"] == home.needs_you()["bank"]["count"]
 		offered = [one["label"] for one in suggest.for_page({"page": "books"})]
 		assert "How is the money doing?" in offered, offered
 		assert "OneBook's Home" in chat._page({"page": "books"})
 	with as_user("rania@one.test"):
-		assert ai.bank_to_match().get("error") and ai.late_invoices().get("error"), "outside the books, nothing is read"
+		assert agent.bank_to_match().get("error") and agent.late_invoices().get("error"), "outside the books, nothing is read"
 
 
 @check
@@ -541,13 +541,13 @@ def onebook_riyadh_keeps_its_own_books():
 def onebook_oneai_reads_the_tax_return_of_one_company():
 	"""OneAI's tax_now is Tax Return for the reader's company: with Riyadh
 	worked in, Dubai's VAT is not in it."""
-	from onedesk.one_book import ai
+	from onedesk.one_book import agent
 
 	with as_user("huda@one.test"):
-		dubai = ai.tax_now(from_date="2026-01-01")
+		dubai = agent.tax_now(from_date="2026-01-01")
 		frappe.defaults.set_user_default("company", "Sahara Glass Saudi")
 		try:
-			riyadh = ai.tax_now(from_date="2026-01-01")
+			riyadh = agent.tax_now(from_date="2026-01-01")
 		finally:
 			frappe.defaults.set_user_default("company", "Sahara Glass & Aluminium")
 	charged = lambda said: next(one["tax"] for one in said["lines"] if one["line"] == "Total charged")

@@ -360,14 +360,14 @@ def onehr_oneai_answers_and_drafts_for_each_person():
 	Mariam about the payroll, people leaving, an applicant from a CV, and
 	Rania's appraisal. Cards wait for approval; nothing is made yet."""
 	from onedesk.one_demo import hr as demo
-	from onedesk.one_hr import ai, ai_growth, ai_letters, ai_payroll, ai_policy
+	from onedesk.one_hr import agent, ai_growth, ai_letters, ai_payroll, ai_policy
 
 	monday = add_days(today(), 7 - getdate(today()).weekday())
 	with as_user("rania@one.test"):
-		mine = ai.my_leave(str(monday), str(add_days(monday, 1)), "Privilege Leave")
+		mine = agent.my_leave(str(monday), str(add_days(monday, 1)), "Privilege Leave")
 		assert mine.get("balances") or mine.get("left") or mine, mine
-		_card(ai.book_leave(str(monday), str(add_days(monday, 1)), "annual", "A family wedding"))
-		_card(ai.claim_expense(str(add_days(today(), -1)), 64.5, "taxi", "Careem to the Bayview site", "AED"))
+		_card(agent.book_leave(str(monday), str(add_days(monday, 1)), "annual", "A family wedding"))
+		_card(agent.claim_expense(str(add_days(today(), -1)), 64.5, "taxi", "Careem to the Bayview site", "AED"))
 		facts = ai_letters.letter_facts("Salary Certificate")
 		assert "error" not in facts, facts
 		_card(ai_letters.request_letter("Salary Certificate", "This is to certify that Rania Sabbagh works here.", "Emirates NBD", "opening a bank account"))
@@ -386,17 +386,17 @@ def onehr_oneai_answers_and_drafts_for_each_person():
 			pass
 	interview = frappe.db.get_value("Interview", {"interview_type": "Site Engineer Technical"})
 	with as_user("samir@one.test"):
-		assert "error" not in ai.interview_facts(interview)
-		_card(ai.draft_interview_feedback(interview, "Mira knew the unitised system well.", {"Curtain Wall Design": 4}, "Cleared"))
+		assert "error" not in agent.interview_facts(interview)
+		_card(agent.draft_interview_feedback(interview, "Mira knew the unitised system well.", {"Curtain Wall Design": 4}, "Cleared"))
 	appraisal = frappe.db.get_value("Appraisal", {"employee": _employee("Rania")})
 	opening = frappe.db.get_value("Job Opening", {})
 	entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1, "salary_slip_based_on_timesheet": 0})
 	with as_user(demo.HR):
 		assert "error" not in ai_payroll.payroll_changes(entry)
-		assert "error" not in ai.why_people_leave()
-		_card(ai.add_applicant("Dana Aziz", "dana.aziz@example.com", opening, "Eight years on unitised facades; no site supervision yet."))
-		assert "error" not in ai.appraisal_facts(appraisal)
-		_card(ai.draft_feedback(appraisal, "Rania kept the villa on time and ran the snag walk well."))
+		assert "error" not in agent.why_people_leave()
+		_card(agent.add_applicant("Dana Aziz", "dana.aziz@example.com", opening, "Eight years on unitised facades; no site supervision yet."))
+		assert "error" not in agent.appraisal_facts(appraisal)
+		_card(agent.draft_feedback(appraisal, "Rania kept the villa on time and ran the snag walk well."))
 
 
 @check
@@ -749,7 +749,7 @@ def onehr_riyadh_keeps_its_own_people():
 	riyals, Home read in Riyadh counts him in
 	riyals and OneAI's who is in today counts him alone, and Rania, limited to
 	the Dubai company, does not see him."""
-	from onedesk.one_hr import ai, heads, story
+	from onedesk.one_hr import agent, heads, story
 
 	ahmed = frappe.db.get_value("Employee", {"company": "Sahara Glass Saudi"}, "name")
 	assert ahmed, "the Riyadh company has an employee"
@@ -761,7 +761,7 @@ def onehr_riyadh_keeps_its_own_people():
 		frappe.defaults.set_user_default("company", "Sahara Glass Saudi")
 		try:
 			said = story.read()
-			today_said = ai.people_today()
+			today_said = agent.people_today()
 		finally:
 			frappe.defaults.set_user_default("company", COMPANY)
 	assert said["currency"] == "SAR" and said["cards"]["headcount"]["value"] == 1, said["cards"].get("headcount")
@@ -823,10 +823,10 @@ def onehr_oneai_reads_who_is_off_and_whose_papers_run_out():
 	reader's company's."""
 	from frappe.utils import add_days, today
 
-	from onedesk.one_hr import ai
+	from onedesk.one_hr import agent
 
 	with as_user("mariam@one.test"):
-		off = ai.whos_off(today(), add_days(today(), 60))["off"]
-		papers = ai.papers_expiring(400)["expiring"]
+		off = agent.whos_off(today(), add_days(today(), 60))["off"]
+		papers = agent.papers_expiring(400)["expiring"]
 	assert off and any(not one["approved"] for one in off), off
 	assert all(one["expires_on"] >= today() for one in papers), papers

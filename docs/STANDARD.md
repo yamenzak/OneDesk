@@ -562,7 +562,7 @@ is a hole.
 
 Held by: rules on reach and how AI is drawn; before live.
 
-- Every call that changes something is in the module's `ai.py`, in `REACH`
+- Every call that changes something is in the module's `agent.py`, in `REACH`
   naming the tool whose card does it, or in `NOT_FOR_AI` with the reason in
   one sentence (`docs/READY.md`, mechanism 11).
 - Approving a card runs the page's own code as whoever pressed Approve, so
@@ -603,7 +603,7 @@ rules on what a call checks, which method may change data, secrets in the
 code and what a guest is given; before live.
 
 - Each screen is walked as each person who uses it.
-- The module's roles come from its `abilities.py`; one person given more on
+- The module's roles come from its `access.py`; one person given more on
   one record is a `rights.grant`, never a share written by hand
   (`docs/READY.md`, mechanism 7).
 - Only AccessCenter draws the role matrix, and only NotificationCenter a
@@ -613,7 +613,7 @@ code and what a guest is given; before live.
 ### 19. Legal
 
 Every fact about what the module does with data that the agreements must say
-is declared in its `legal.py`, beside the code.
+is declared in its `trust.py`, beside the code.
 
 Why: what people agree to is assembled from these, so the agreements can't
 say other than the code does. No rule can read whether a clause is true, so
@@ -650,6 +650,6 @@ Held by: rules on the folder, the layout and lint; before live.
   folder).
 - No Markdown in it but `AGENTS.md`, `SCRATCHPAD.md` and `docs/`.
 - Logic, endpoints, notifications (`tell.py`), roles (`access.py`), legal and
-  AI (`ai.py`) each in their place. A helper said once.
+  AI (`agent.py`) each in their place. A helper said once.
 - Lint clean (`ruff`). No comment in code but what CLAUDE.md allows; the why
   goes in the commit, AGENTS.md or a docstring.

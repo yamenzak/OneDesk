@@ -55,10 +55,10 @@ def test_the_apps_templates_say_what_they_are_for():
 
 
 def test_oneai_writes_a_template_as_a_card():
-	ai = (tree.APP / "one_mail" / "ai.py").read_text()
+	ai = (tree.APP / "one_mail" / "agent.py").read_text()
 	write = ai.split("def write_mail_template(", 1)[1].split("\ndef ", 1)[0]
 	assert "mail_templates.check(" in write and "proposals.propose(" in write
 	for tool in ("workspace_mail_templates", "write_mail_template"):
-		assert f'"onedesk.one_mail.ai.{tool}"' in HOOKS, tool
-	offers = (tree.APP / "one_mail" / "ai.py").read_text().split('"page:onemail"', 1)[1]
+		assert f'"onedesk.one_mail.agent.{tool}"' in HOOKS, tool
+	offers = (tree.APP / "one_mail" / "agent.py").read_text().split('"page:onemail"', 1)[1]
 	assert '"expects": "write_mail_template"' in offers, "OneMail's page offers to write a template"

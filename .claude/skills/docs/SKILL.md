@@ -1,6 +1,6 @@
 ---
 name: docs
-description: How to write a module's Help — the pages in onedesk/<module>/docs/ that people open from the question mark — with the pictures and short clips (GIFs of nine seconds at most) beside them, and how Help links with What's New. Load it before writing or changing a Help page, taking a picture or recording a clip for Help or a version, and before changing what a screen does without changing its page.
+description: How to write a module's Help — the pages in onedesk/<module>/help/ that people open from the question mark — with the pictures and short clips (GIFs of nine seconds at most) beside them, and how Help links with What's New. Load it before writing or changing a Help page, taking a picture or recording a clip for Help or a version, and before changing what a screen does without changing its page.
 ---
 
 # Docs
@@ -79,7 +79,7 @@ that sits still, which is a picture.
   to each click and stops half a second after the last step:
 
       ONE_DEMO_PASSWORD=… PLAYWRIGHT_FROM=… CHROMIUM=… \
-        node scripts/clip.mjs onedesk/<module>/docs/<page>/<name>.gif \
+        node scripts/clip.mjs onedesk/<module>/help/<page>/<name>.gif \
           --url /desk/<route> --user <demo user> --steps steps.json
 
 - **Scope every selector** to what is on top (`.modal.show …`): a field of
@@ -90,8 +90,8 @@ that sits still, which is a picture.
 
 ## Where pictures and clips live
 
-Beside the page that shows them, in `docs/<page>/`, named for what they
-show (`docs/rules/new-rule.gif`), and named in the page as
+Beside the page that shows them, in `help/<page>/`, named for what they
+show (`help/rules/new-rule.gif`), and named in the page as
 `![What it shows](<page>/<name>.png)`. Never a link to an image anywhere
 else.
 

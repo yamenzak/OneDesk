@@ -856,26 +856,26 @@ def oneai_drafts_a_template_as_a_card():
 	manager approves it, approving makes it as the library would, and a
 	projects user is not offered one."""
 	from onedesk.one_ai import proposals
-	from onedesk.one_project import ai, template_view
+	from onedesk.one_project import agent, template_view
 
 	phases = [
 		{"subject": "Strip-Out", "milestone": True, "tasks": [{"subject": "Protect the floors", "day": 0, "days": 1}, {"subject": "Take out the old units", "day": 1, "days": 2}]},
 		{"subject": "Fit", "milestone": True, "tasks": [{"subject": "Fit the new units", "day": 3, "days": 3}, {"subject": "Worktops", "day": 6, "days": 1, "after": ["Fit the new units"]}]},
 	]
 	with as_user("samir@one.test"):
-		known = ai.project_templates()
+		known = agent.project_templates()
 		assert "Aluminium & Glazing" in known["templates"] and len(known["library"]) == 12
-		said = ai.draft_template("Kitchen Refit", phases, about="A kitchen taken out and fitted again.")
+		said = agent.draft_template("Kitchen Refit", phases, about="A kitchen taken out and fitted again.")
 		assert said.get("state") == "Proposed", said
 		assert not frappe.db.exists("Project Template", "Kitchen Refit"), "nothing is made before it is approved"
-		assert ai.draft_template("Aluminium & Glazing", phases).get("mend") == "draft_template"
-		assert ai.draft_template("Bad", [{"subject": "A", "tasks": [{"subject": "b", "when": 3}]}]).get("mend")
+		assert agent.draft_template("Aluminium & Glazing", phases).get("mend") == "draft_template"
+		assert agent.draft_template("Bad", [{"subject": "A", "tasks": [{"subject": "b", "when": 3}]}]).get("mend")
 		proposals.apply(said["proposal"])
 		made = template_view.read("Kitchen Refit")
 		assert [one["subject"] for one in made["tasks"]] == ["Strip-Out", "Protect the floors", "Take out the old units", "Fit", "Fit the new units", "Worktops"]
 		assert made["days"] == 7 and all(one["is_milestone"] for one in made["tasks"] if one["is_group"])
 	with as_user("rania@one.test"):
-		assert "error" in ai.draft_template("Garden Shed", phases)
+		assert "error" in agent.draft_template("Garden Shed", phases)
 
 
 @check
@@ -918,13 +918,13 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 	manager sees none of it."""
 	from unittest import mock
 
-	from onedesk.one_studio import ai, extensions, forms, mend, record_types, review
+	from onedesk.one_studio import agent, extensions, forms, mend, record_types, review
 
 	screen = frappe.db.get_value(extensions.EXTENSION, {"title": "Say When a Customer Has No Mobile"})
 	server = frappe.db.get_value(extensions.EXTENSION, {"title": "A Lead Needs a Mobile Number"})
 	with as_user("omar@one.test"):
 		extensions.tripped(screen, "frm.dashboard is undefined", "at refresh", frappe.get_all("Customer", pluck="name", limit=1)[0])
-		assert "error" in ai.extensions_here() and "error" in ai.record_types_here()
+		assert "error" in agent.extensions_here() and "error" in agent.record_types_here()
 	with as_user(OWNER):
 		assert len(mend.listed(screen)) >= 2
 		changed = {one["doctype"]: one for one in forms.forms()}
@@ -934,17 +934,17 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 		assert record_types.move("Company Van", "OneInventory", "Vehicles").endswith("Vehicles")
 		assert frappe.db.get_value("Record Type", "Company Van", "rail_group") == "Vehicles"
 
-		assert {one["title"] for one in ai.extensions_here()["extensions"]} >= {"Say When a Customer Has No Mobile", "A Lead Needs a Mobile Number"}
-		assert ai.extension_mistakes("Say When a Customer Has No Mobile")["errors"]
-		assert ai.extension_code(server)["code"].startswith("if not doc.mobile_no")
-		assert ai.extension_places()
-		assert ai.record_types_here()["record_types"][0]["records"] == 2
-		assert ai.forms_here()["changed_forms"] and ai.forms_here("Customer")["extensions"]
-		assert ai.form_relations("Item")
-		assert ai.design_record_type("Tool Loan", "OneInventory", "A tool lent to somebody.", [{"label": "Tool", "fieldtype": "Data"}], "Keep track of lent tools.").get("state") == "Proposed"
+		assert {one["title"] for one in agent.extensions_here()["extensions"]} >= {"Say When a Customer Has No Mobile", "A Lead Needs a Mobile Number"}
+		assert agent.extension_mistakes("Say When a Customer Has No Mobile")["errors"]
+		assert agent.extension_code(server)["code"].startswith("if not doc.mobile_no")
+		assert agent.extension_places()
+		assert agent.record_types_here()["record_types"][0]["records"] == 2
+		assert agent.forms_here()["changed_forms"] and agent.forms_here("Customer")["extensions"]
+		assert agent.form_relations("Item")
+		assert agent.design_record_type("Tool Loan", "OneInventory", "A tool lent to somebody.", [{"label": "Tool", "fieldtype": "Data"}], "Keep track of lent tools.").get("state") == "Proposed"
 		passed = {"verdict": "Pass", "why": "Does what it says."}
 		with mock.patch.object(review, "ask", return_value=passed):
-			written = ai.write_extension(
+			written = agent.write_extension(
 				"A Customer Needs a Mobile Number",
 				"On Screen",
 				"Customer",
@@ -984,8 +984,8 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 			on.enabled = was_on
 			on.save()
 		with mock.patch("frappe.enqueue") as queued:
-			assert "error" in ai.mend_extension(screen)
-			assert ai.mend_extension(screen, "It says nothing on a new customer").get("started")
+			assert "error" in agent.mend_extension(screen)
+			assert agent.mend_extension(screen, "It says nothing on a new customer").get("started")
 			assert queued.call_args.args[0] == "onedesk.one_studio.mend.in_background"
 
 
@@ -1081,7 +1081,7 @@ def oneintake_layla_works_through_what_oneai_read():
 
 	from onedesk.one_ai.reading import (
 		act,
-		ai,
+		agent,
 		bundle,
 		drafts,
 		explain,
@@ -1152,7 +1152,7 @@ def oneintake_layla_works_through_what_oneai_read():
 		assert panel.for_message(mail)["name"] == doubted
 		bundle.year(getdate(today()).year)
 		assert frappe.response["filecontent"][:2] == b"PK", "a zip"
-		assert ai.find_documents("taxi")["documents"]
+		assert agent.find_documents("taxi")["documents"]
 
 	with as_user(intake.ACCOUNTS):
 		folder = intake.folder()
@@ -1237,9 +1237,9 @@ def oneai_a_conversation_its_cards_and_its_settings():
 	called: what the account and the model would say is said here."""
 	from unittest import mock
 
-	from onedesk.one import ai
+	from onedesk.one import agent
 	from onedesk.one_ai import center, chat, files, proposals, run
-	from onedesk.one_crm import ai as crm
+	from onedesk.one_crm import agent as crm
 
 	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
 	with as_user("omar@one.test"):
@@ -1280,7 +1280,7 @@ def oneai_a_conversation_its_cards_and_its_settings():
 			mock.patch("onedesk.one.account.configured", return_value=True),
 			mock.patch("onedesk.one.account.ask", return_value={"actions": [{"action": chat.CHAT, "calls": 3, "credits": 1.5}]}),
 		):
-			said = ai.workspace_oneai()
+			said = agent.workspace_oneai()
 		assert said["last_30_days"][0]["calls"] == 3 and said["summaries"], said
 
 
@@ -1837,7 +1837,7 @@ def onecloud_the_site_team_works_in_its_library():
 	from onedesk.one_demo import storage as demo
 	from PIL import Image
 
-	from onedesk.one_cloud import ai, api, dav, history, library, made, office, pdf, share, upload
+	from onedesk.one_cloud import agent, api, dav, history, library, made, office, pdf, share, upload
 	from onedesk.one_cloud import namespace as ns
 
 	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
@@ -1948,10 +1948,10 @@ def onecloud_the_site_team_works_in_its_library():
 		workshop = library.make("Workshop")["id"]
 		assert frappe.db.get_value("File", workshop, "one_library") == 1
 
-		seen = ai.open_file(drawing)
+		seen = agent.open_file(drawing)
 		assert seen.get("name") == demo.ELEVATIONS or demo.ELEVATIONS in str(seen)
-		assert "Rania Sabbagh" in str(ai.who_can_see(drawing))
-		biggest = ai.largest_files()
+		assert "Rania Sabbagh" in str(agent.who_can_see(drawing))
+		biggest = agent.largest_files()
 		assert demo.ELEVATIONS in {one["name"] for one in biggest["largest"]} and biggest["mine_bytes"] > 0
 
 		address = dav.address(ns.MY)
@@ -2612,7 +2612,7 @@ def settings_open_and_save_for_each_person():
 	Rania's stale save is refused; Layla saves General and Holidays, invites
 	Hana, turns Nadia off and on, and drops a rule OneAI wrote. What OneAI
 	remembers is kept and forgotten."""
-	from onedesk.one import access_center, ai, audit, control, notification_words, privacy, rules
+	from onedesk.one import access_center, agent, audit, control, notification_words, privacy, rules
 	from onedesk.account_center import center
 	from onedesk.one_ai import run as runs
 	from onedesk.one_ai import yours
@@ -2697,7 +2697,7 @@ def settings_open_and_save_for_each_person():
 			frappe.db.set_single_value("System Settings", "enable_two_factor_auth", was)
 		assert rules.fields_of("Sales Invoice")
 		assert rules.watchable("DocType", "Sales", "name", 0, 20)
-		drafted = ai.draft_notification("Big Invoice", "Sales Invoice", "Submit", "Invoice {{ doc.name }} is out", roles=["Accounts Manager"])
+		drafted = agent.draft_notification("Big Invoice", "Sales Invoice", "Submit", "Invoice {{ doc.name }} is out", roles=["Accounts Manager"])
 		runs.apply(drafted["proposal"])
 		rule = frappe.db.get_value("Notification", {"one_rule": 1, "document_type": "Sales Invoice", "event": "Submit"})
 		assert rule, "the rule was not made"
@@ -3569,26 +3569,26 @@ def oneai_lays_out_a_print_format_as_meant():
 	widths in per cent and a sentence after. It prints in the font, page
 	number and look asked for, a later restyle keeps its layout, and
 	print_layout reads all of it back. Omar may not design one."""
-	from onedesk.one import ai
+	from onedesk.one import agent
 
 	with as_user(OWNER):
-		said = ai.print_layout("Sales Invoice")
+		said = agent.print_layout("Sales Invoice")
 		assert said.get("starting_layout") and said.get("fields"), said
 		loose = frappe.as_json(said["starting_layout"], indent=None).replace("true", "True").replace("null", "None") + " That is the layout."
 		assert "True" in loose or "None" in loose, "the starting layout has no true or none to write loosely"
-		_applied(ai.design_print_format("Sales Invoice", "Loose Invoice", sections=loose, css=".print-format-doc { color: #333; }", font="Lora", page_number="Bottom Center"))
+		_applied(agent.design_print_format("Sales Invoice", "Loose Invoice", sections=loose, css=".print-format-doc { color: #333; }", font="Lora", page_number="Bottom Center"))
 		held = frappe.db.get_value("Print Format", "Loose Invoice", ["font", "page_number", "css", "format_data"], as_dict=True)
 		assert (held.font, held.page_number, held.css) == ("Lora", "Bottom Center", ".print-format-doc { color: #333; }"), held
-		read = ai.print_layout("Sales Invoice", "Loose Invoice")
+		read = agent.print_layout("Sales Invoice", "Loose Invoice")
 		assert (read["house_style"], read["css"], read["font"], read["page_number"]) == (False, ".print-format-doc { color: #333; }", "Lora", "Bottom Center"), read
-		_applied(ai.design_print_format("Sales Invoice", "Loose Invoice", css=".section-label { color: #0a5; }", house_style=True))
-		read = ai.print_layout("Sales Invoice", "Loose Invoice")
+		_applied(agent.design_print_format("Sales Invoice", "Loose Invoice", css=".section-label { color: #0a5; }", house_style=True))
+		read = agent.print_layout("Sales Invoice", "Loose Invoice")
 		assert read["house_style"] and read["css"] == ".section-label { color: #0a5; }", read
 		assert frappe.db.get_value("Print Format", "Loose Invoice", "format_data") == held.format_data, "a restyle moved the layout"
-		assert ai._paired(["items", {"columns": ["item_code"]}]) == [{"columns": ["item_code"], "table": "items"}]
-		assert ai._column({"field": "qty", "width": "15%", "label": "Qty"}) == "qty:15:Qty"
+		assert agent._paired(["items", {"columns": ["item_code"]}]) == [{"columns": ["item_code"], "table": "items"}]
+		assert agent._column({"field": "qty", "width": "15%", "label": "Qty"}) == "qty:15:Qty"
 	with as_user("omar@one.test"):
-		assert ai.print_layout("Sales Invoice").get("error")
+		assert agent.print_layout("Sales Invoice").get("error")
 
 
 ACCOUNT = {
@@ -3789,74 +3789,74 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 	leads and an approval on purchase orders are suggested and read, not
 	approved, since each adds a column to its table.
 	"""
-	from onedesk.one import ai, privacy_copy
+	from onedesk.one import agent, privacy_copy
 	from onedesk.one_ai import memory, tools
-	from onedesk.one_mail import ai as mail_ai
+	from onedesk.one_mail import agent as mail_agent
 	from onedesk.one_mail import holders
 	from onedesk.one_studio import printing
 
 	with as_user("rania@one.test"):
-		for said in (ai.my_day(), mail_ai.my_mailboxes(), memory.recall(), ai.my_notifications(), ai.my_sign_in()):
+		for said in (agent.my_day(), mail_agent.my_mailboxes(), memory.recall(), agent.my_notifications(), agent.my_sign_in()):
 			assert "error" not in said, said
 		privacy_copy.ask()
 	asked = frappe.db.get_value(privacy_copy.DOWNLOAD, {"user": "rania@one.test"})
 	kind = frappe.db.get_value("Notification Type", {"one_rule": ["is", "not set"]}) or frappe.db.get_value("Notification Type", {})
 	with as_user(OWNER):
 		read = {
-			"people": ai.workspace_people(),
-			"access": ai.workspace_access(),
-			"reports": ai.workspace_reports(),
+			"people": agent.workspace_people(),
+			"access": agent.workspace_access(),
+			"reports": agent.workspace_reports(),
 			"bin": tools.list_records(
 				"Deleted Document",
 				filters={"creation": [">=", add_days(today(), -30)]},
 				fields=["deleted_doctype", "deleted_name", "owner", "creation", "restored", "new_name"],
 				order_by="creation desc",
 			),
-			"announcements": ai.announcements(),
-			"webhooks": ai.webhooks(7),
-			"audit": ai.audit_log("changes", days=7),
-			"privacy": ai.privacy_request(asked),
-			"intake": ai.workspace_intake(),
-			"holidays": ai.workspace_holidays(),
-			"oneai": ai.workspace_oneai(),
-			"plan": ai.workspace_plan(),
-			"sign-in": ai.workspace_sign_in(),
-			"numbering": ai.workspace_numbering("Quotation"),
-			"printing": ai.workspace_printing("Sales Invoice"),
-			"layout": ai.print_layout("Sales Invoice"),
-			"mail templates": mail_ai.workspace_mail_templates("Sales Invoice"),
-			"approvals": ai.workspace_approvals("Purchase Order"),
-			"automations": ai.workspace_automations("Sales Invoice"),
-			"a notification": ai.notification_type(kind),
+			"announcements": agent.announcements(),
+			"webhooks": agent.webhooks(7),
+			"audit": agent.audit_log("changes", days=7),
+			"privacy": agent.privacy_request(asked),
+			"intake": agent.workspace_intake(),
+			"holidays": agent.workspace_holidays(),
+			"oneai": agent.workspace_oneai(),
+			"plan": agent.workspace_plan(),
+			"sign-in": agent.workspace_sign_in(),
+			"numbering": agent.workspace_numbering("Quotation"),
+			"printing": agent.workspace_printing("Sales Invoice"),
+			"layout": agent.print_layout("Sales Invoice"),
+			"mail templates": mail_agent.workspace_mail_templates("Sales Invoice"),
+			"approvals": agent.workspace_approvals("Purchase Order"),
+			"automations": agent.workspace_automations("Sales Invoice"),
+			"a notification": agent.notification_type(kind),
 		}
 		wrong = {name: said for name, said in read.items() if isinstance(said, dict) and said.get("error")}
 		assert not wrong, wrong
 		assert "cname_target" in read["plan"] and isinstance(read["plan"]["domains"], list), read["plan"]
 
-		field = ai.customize("Lead", add=[{"label": "Site Visit Date", "kind": "Date"}])
+		field = agent.customize("Lead", add=[{"label": "Site Visit Date", "kind": "Date"}])
 		assert "Site Visit Date" in frappe.db.get_value("AI Proposal", field["proposal"], "changes")
 		holiday = f"{getdate(today()).year}-12-31"
-		_applied(ai.change_holidays(add=[{"date": holiday, "name": "Year end closure"}]))
+		_applied(agent.change_holidays(add=[{"date": holiday, "name": "Year end closure"}]))
 		assert frappe.db.exists("Holiday", {"holiday_date": holiday, "description": ["like", "%Year end closure%"]})
 		series = [one["series"] for one in __import__("onedesk.one_studio.numbering", fromlist=["series"]).series("Quotation")]
-		_applied(ai.change_numbering("Quotation", series=[*series, "QTN-SG-.####"]))
+		_applied(agent.change_numbering("Quotation", series=[*series, "QTN-SG-.####"]))
 		assert "QTN-SG-.####" in frappe.get_meta("Quotation").get_field("naming_series").options
-		drawn = ai.design_print_format("Sales Invoice", "Sahara Clean", make_default=True)
+		drawn = agent.design_print_format("Sales Invoice", "Sahara Clean", make_default=True)
 		assert "<" in printing.proposal_preview(drawn["proposal"])
 		_applied(drawn)
 		assert frappe.db.exists("Print Format", "Sahara Clean")
-		assert ai.change_printing(doctype="Sales Invoice", default_format="Sahara Clean").get("error"), "a change to what already prints"
+		assert agent.change_printing(doctype="Sales Invoice", default_format="Sahara Clean").get("error"), "a change to what already prints"
 		other = frappe.db.get_value("Print Format", {"doc_type": "Sales Invoice", "name": ["!=", "Sahara Clean"], "disabled": 0})
-		_applied(ai.change_printing(doctype="Sales Invoice", default_format=other))
+		_applied(agent.change_printing(doctype="Sales Invoice", default_format=other))
 		assert printing.default("Sales Invoice") == other
-		_applied(ai.rewrite_notification(kind, "Something for you to look at"))
+		_applied(agent.rewrite_notification(kind, "Something for you to look at"))
 		ours = frappe.db.get_value("Email Account", holders.workspace(), "email_id")
-		_applied(mail_ai.sign_mailbox(ours, "Sahara Glass\nDubai Investments Park"))
+		_applied(mail_agent.sign_mailbox(ours, "Sahara Glass\nDubai Investments Park"))
 		assert "Dubai Investments Park" in (frappe.db.get_value("Email Account", holders.workspace(), "signature") or "")
-		_applied(mail_ai.write_mail_template("Invoice {{ name }} is due", "Dear {{ customer_name }},\n\nA reminder that invoice {{ name }} is due.", new_name="Payment reminder", for_doctype="Sales Invoice"))
+		_applied(mail_agent.write_mail_template("Invoice {{ name }} is due", "Dear {{ customer_name }},\n\nA reminder that invoice {{ name }} is due.", new_name="Payment reminder", for_doctype="Sales Invoice"))
 		assert frappe.db.exists("Email Template", "Payment reminder")
 		approval = (
-			ai.suggest_approval(
+			agent.suggest_approval(
 				"Purchase Order",
 				[
 					{"state": "Draft", "editable_by": "Purchase User"},
@@ -3872,7 +3872,7 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 			)
 		)
 		assert "Purchase Manager" in frappe.db.get_value("AI Proposal", approval["proposal"], "changes")
-		_applied(ai.suggest_automation("Sales Invoice", "submitted", [{"do": "tell", "who": ["huda@one.test"], "subject": "Invoice {{ doc.name }} is out", "message": "For {{ doc.customer }}."}], title="Tell Huda of invoices", turn_on=True))
+		_applied(agent.suggest_automation("Sales Invoice", "submitted", [{"do": "tell", "who": ["huda@one.test"], "subject": "Invoice {{ doc.name }} is out", "message": "For {{ doc.customer }}."}], title="Tell Huda of invoices", turn_on=True))
 		assert frappe.db.exists("Automation Flow", {"title": "Tell Huda of invoices"}) or frappe.db.count("Automation Flow")
 
 
@@ -4427,7 +4427,7 @@ def help_shows_every_page_in_order():
 		for one in versions.whats_new("OneMail")["versions"]:
 			assert {page["id"] for page in one["docs"]} <= ids, one["docs"]
 		# Who Can Do What shows what OneMail's roles ship with, from its
-		# abilities.py (one/rights.py defaults_table).
+		# access.py (one/rights.py defaults_table).
 		roles = next(one["html"] for one in pages if one["id"] == "who-can-do-what")
 		assert "{roles}" not in roles and "Every Mailbox" in roles and "Ask for Approval" in roles, roles[:200]
 	from onedesk.one.notify import declared
@@ -4502,7 +4502,7 @@ def tour_runs_once_then_from_help():
 @check
 def access_center_finds_and_sets_roles():
 	"""AccessCenter (one/access_center.py) has OneMail's part, found from its
-	abilities.py: its people with their role, which it changes and puts
+	access.py: its people with their role, which it changes and puts
 	back, and what somebody was given on one mailbox, which it takes away.
 	Nobody else may read it."""
 	from onedesk.one import access_center, rights

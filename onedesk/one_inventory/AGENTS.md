@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneInventory is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -272,7 +272,7 @@ a register and a movement form in it would be a rail with five rows.
   the form does not already say: the project, the order it came from, what
   it is worth. A note on a step says one thing, as a sum and a date side by
   side reorder around an Arabic currency sign.
-- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving, counting and buying: `item_facts` reads
+- `agent.py` — OneAI on an item, the stores, receiving, delivering, moving, counting and buying: `item_facts` reads
   an item as its page does, `stock_on_hand` the stores as Stock on Hand does,
   `receipt_facts` a receipt, `still_to_arrive` what is ordered and not yet
   come (with `late_only`, the late orders only, a line per order),
@@ -552,14 +552,14 @@ roles have them:
 ### What READY asks of it
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
-- **Its one ability**, Fix What the Check Finds, is `abilities.py` with its
+- **Its one ability**, Fix What the Check Finds, is `access.py` with its
   Permission Type on Stock Settings in `permission_type/`. `ready.fixes`
   reads it, for Inventory Check's Fix and the batch switch on Lots. Its roles
   are ERPNext's own; `USER` names Stock User, which People gives rather than
   everybody.
 - **Setup** needs nothing of its own (`setup.py`): Inventory Check is it.
   **Its tour** is `tour.py` over Home's figures and views, and **OneAI's
-  reach** is `ai.py`'s NOT_FOR_AI: every change OneAI suggests is a `plan_*`
+  reach** is `agent.py`'s NOT_FOR_AI: every change OneAI suggests is a `plan_*`
   card of its own.
 - **Its foot and settings** are `public/js/one_inventory/inventory_control.js`.
 - **Its screens** are `frontend/src/inventory/`, a folder for each island.

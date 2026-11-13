@@ -1,10 +1,46 @@
-"""Who may do what in OneInventory, where ERPNext's defaults do not fit.
-
-A role that reads one already, by ERPNext's rules or the workspace's, keeps
-what it has (one/roles.py `give`).
+"""Who may do what in OneInventory: its one ability, a Permission Type on
+Stock Settings (one/rights.py, docs/ROLES.md), and the grants where
+ERPNext's defaults do not fit. A role that reads one already keeps what it
+has (one/roles.py `give`); a workspace administrator may do the ability.
 """
 
+from frappe import _lt
+
 from onedesk.one import roles
+
+APP = "OneInventory"
+
+# Not everybody's: People gives it to whoever uses OneInventory.
+USER = "Stock User"
+
+DOCTYPE = "Stock Settings"
+
+WORKSPACE = _lt("Workspace")
+
+SCOPE_LABELS = {"none": _lt("No"), "all": _lt("Yes")}
+
+ABILITIES = [
+	{
+		"key": "fix",
+		"group": WORKSPACE,
+		"label": _lt("Fix What the Check Finds"),
+		"kind": "switch",
+		"all": "inventory_fix",
+		"about": _lt("Make the changes Inventory Check offers, such as turning on batches or naming the home warehouse."),
+	},
+]
+
+# Nothing of OneInventory's is given on one record.
+SHARED = ()
+
+# ERPNext's own roles and what each starts with, written once on migrate
+# (rights.settle); the books' manager could fix the check before, and still does.
+DEFAULTS = {
+	"Stock User": {},
+	"Stock Manager": {"fix": 1},
+	"Accounts Manager": {"fix": 1},
+}
+
 
 STOCK_USER, STOCK_MANAGER = "Stock User", "Stock Manager"
 

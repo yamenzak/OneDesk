@@ -121,7 +121,7 @@ def close_year(company: str, year: dict) -> str:
 
 def locks(user: str | None = None) -> bool:
 	"""Whether somebody may lock the books: OneBook's Lock the Books
-	(abilities.py)."""
+	(access.py)."""
 	from onedesk.one import rights
 
 	return rights.held("Accounts Settings", "books_lock", user)

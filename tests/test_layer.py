@@ -139,9 +139,9 @@ def test_oneai_customizes_only_through_the_page():
 	assert "customize.save(entry.for_doctype" in apply
 	allowed = proposals.split("def _allowed(", 1)[1].split("\ndef ", 1)[0]
 	assert "customize.may(doctype)" in allowed
-	tool = (tree.APP / "one" / "ai.py").read_text(encoding="utf-8").split("def customize(", 1)[1]
+	tool = (tree.APP / "one" / "agent.py").read_text(encoding="utf-8").split("def customize(", 1)[1]
 	assert "page._check(doctype, values)" in tool, "a card that would be refused is not written"
 	assert "roles.administers" in tool or "workspace.administers()" in tool
-	assert '"onedesk.one.ai.customize"' in HOOKS
+	assert '"onedesk.one.agent.customize"' in HOOKS
 
 

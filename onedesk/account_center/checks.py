@@ -45,25 +45,25 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 
 @check
 def write_my_bio_is_an_action_an_administrator_can_turn_off():
-	"""Write My Bio (account_center/ai.py): Layla's words come back from OneAI,
+	"""Write My Bio (account_center/agent.py): Layla's words come back from OneAI,
 	written from what she said and her employee record; turned off in
 	AICenter (one_ai/actions.py) it is gone from the boot and refused, and
 	only an administrator turns it."""
 	from unittest import mock
 
-	from onedesk.account_center import ai
+	from onedesk.account_center import agent
 	from onedesk.one_ai import actions
 
 	with as_user("wsadmin@one.test"):
 		with mock.patch("onedesk.one_ai.run.once", return_value=" I run the company. ") as asked:
-			assert ai.write_bio("I love facades.") == "I run the company."
+			assert agent.write_bio("I love facades.") == "I run the company."
 		told = asked.call_args.args[1]
 		assert "I love facades." in told and "Designation" in told, told
 		try:
 			actions.switch("write_bio", 0)
 			assert not actions.for_boot()["write_bio"]
 			try:
-				ai.write_bio("x")
+				agent.write_bio("x")
 				raise AssertionError("Write My Bio ran while it was off")
 			except frappe.PermissionError:
 				pass

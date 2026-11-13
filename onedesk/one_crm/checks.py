@@ -16,7 +16,7 @@ def onecrm_leads_and_deals_as_omar_works_them():
 	call logged and a step done, a lead from the web form taken, a lead that
 	is not the same person cleared and one that is merged, and what OneAI
 	reads and suggests on the way."""
-	from onedesk.one_crm import ai, board, capture, next, record, story
+	from onedesk.one_crm import agent, board, capture, next, record, story
 
 	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
 	lead = frappe.db.get_value("Lead", {"email_id": "hamad@suwaidi.example"})
@@ -47,17 +47,17 @@ def onecrm_leads_and_deals_as_omar_works_them():
 		assert again.one_duplicate_of == priya
 		assert capture.merge(again.name, priya) == priya and not frappe.db.exists("Lead", again.name)
 
-		assert ai.crm_facts("Opportunity", deal)["history"]
-		assert ai.crm_facts("Lead", lead)["history"]
-		assert ai.crm_facts("Customer", deal).get("error"), "only a deal or a lead"
-		assert "quiet" in ai.gone_quiet("Opportunity") and "quiet" in ai.gone_quiet("Lead")
-		lost = ai.why_we_lose()
+		assert agent.crm_facts("Opportunity", deal)["history"]
+		assert agent.crm_facts("Lead", lead)["history"]
+		assert agent.crm_facts("Customer", deal).get("error"), "only a deal or a lead"
+		assert "quiet" in agent.gone_quiet("Opportunity") and "quiet" in agent.gone_quiet("Lead")
+		lost = agent.why_we_lose()
 		assert lost["won"] == 6 and lost["lost"] == 6, "a year of selling, and this month's"
 		assert [one["reasons"] for one in lost["deals"] if one["deal"] == "Iqbal Clinics reception"] == [["Price"]], lost
-		assert ai.add_lead("Hamad Al Suwaidi", "hamad@suwaidi.example").get("error"), "a lead we have is not suggested twice"
-		assert ai.add_lead("Joanna Pike", "joanna@pike.example", "Pike Hotels").get("state") == "Proposed"
-		assert ai.plan_next_step("Opportunity", deal, "Call to agree the price", str(add_days(today(), 2))).get("state") == "Proposed"
-		assert ai.write_up_call("Lead", lead, "Wants the villa windows quoted by the end of the month.").get("state") == "Proposed"
+		assert agent.add_lead("Hamad Al Suwaidi", "hamad@suwaidi.example").get("error"), "a lead we have is not suggested twice"
+		assert agent.add_lead("Joanna Pike", "joanna@pike.example", "Pike Hotels").get("state") == "Proposed"
+		assert agent.plan_next_step("Opportunity", deal, "Call to agree the price", str(add_days(today(), 2))).get("state") == "Proposed"
+		assert agent.write_up_call("Lead", lead, "Wants the villa windows quoted by the end of the month.").get("state") == "Proposed"
 
 
 @check
@@ -282,10 +282,10 @@ def onecrm_an_issue_late_for_its_first_answer_is_told():
 def onecrm_oneai_lists_the_quotations_still_waiting():
 	"""OneAI's quotes_waiting lists the reader's company's open and replied
 	quotations, soonest last day first."""
-	from onedesk.one_crm import ai
+	from onedesk.one_crm import agent
 
 	with as_user("omar@one.test"):
-		said = ai.quotes_waiting()["quotations"]
+		said = agent.quotes_waiting()["quotations"]
 	assert said and all(one["status"] in ("Open", "Replied") for one in said), said
 	days = [one["days_left"] for one in said if one["days_left"] is not None]
 	assert days == sorted(days), days

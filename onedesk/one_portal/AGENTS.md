@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OnePortal is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -19,7 +19,7 @@ Portal dialog the workspace manages both from.
 - **From OneInventory**: shipments, quote requests, quotes and purchase orders, which a supplier prices on the portal.
 - **From OneBook**: sales and purchase invoices, with what is left to pay.
 - **From OneProject**: a customer's projects and timesheets (one_project/portal.py draws a project's page).
-- **From TrustCenter**: the portal's clause in the Data Processing Addendum (legal.py), and Your Data on the portal.
+- **From TrustCenter**: the portal's clause in the Data Processing Addendum (trust.py), and Your Data on the portal.
 - **To OneMail**: OneAI's replies read what the portal shows the sender (one_mail/theirs.py).
 
 ## Under the hood
@@ -48,7 +48,7 @@ Invite, Invite Again, Revoke Access and Restore call `invite.py` where they
 are listed, and the dialog redraws from `access`.
 
 **Who may invite.** A workspace administrator, whoever holds **Invite to the
-Portal** (`abilities.py`, a Permission Type on Portal Link, a OnePortal
+Portal** (`access.py`, a Permission Type on Portal Link, a OnePortal
 Manager's), and the manager of the contact's customer (Sales Manager) or
 supplier (Purchase Manager) for that party's contacts (`invite.MANAGERS`),
 which is how it was before the ability.

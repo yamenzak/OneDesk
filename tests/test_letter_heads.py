@@ -141,7 +141,7 @@ def test_spread_gives_each_detail_an_equal_share():
 	assert "table-layout:fixed" in spread and "share" in spread
 
 
-AI = (tree.APP / "one" / "ai.py").read_text()
+AI = (tree.APP / "one" / "agent.py").read_text()
 
 
 def test_oneai_reads_each_header_and_footer_as_they_are():

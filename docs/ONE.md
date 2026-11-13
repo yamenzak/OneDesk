@@ -235,7 +235,7 @@ moves its version.
    engines every module uses, and the portal, privacy and webhooks on their
    way to their own modules (`OUTSIDE` must be empty, so `SHARED` says
    where they are going); a module's files leave `SHARED` out. The
-   abilities engine is `one/rights.py`, so `one/abilities.py` is One's own:
+   abilities engine is `one/rights.py`, so `one/access.py` is One's own:
    One User and One Manager, and **Everyone's Deletions**, which lets a role
    see and put back what anybody deleted. One's README became its AGENTS.md
    and twelve Help pages; what it said of OneStudio, OneHR and OneCalendar

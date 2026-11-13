@@ -3,7 +3,7 @@ OneDisplay and beside the clock. It comes through the account
 (one_admin/weather.py), which fetches it from OpenWeather once for every
 workspace nearby and charges five credits a day for each place past the
 first. A place only ever sends its coordinates, and the name searched for
-to find it, and only while the Weather service is on (legal.py)."""
+to find it, and only while the Weather service is on (trust.py)."""
 
 from datetime import datetime, timezone
 from typing import Annotated

@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneBook is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -397,7 +397,7 @@ links to, or add a bank, and keeps the purchase tax templates from accounts:
 - **End of Service** (Gratuity): HRMS shows it to HR alone, but the books pay
   it, so accounts read it.
 
-### ai.py
+### agent.py
 
 Four reads and no writes: `money_now` is Home's own figures and debts
 (`story.read`), `late_invoices` is Today's list (`home._late`, the payment
@@ -411,13 +411,13 @@ suggestion card should never be.
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
 - **Its two abilities**, Lock the Books and Fix What the Check Finds, are
-  `abilities.py` with their Permission Types on Accounts Settings in
+  `access.py` with their Permission Types on Accounts Settings in
   `permission_type/`. `closing.locks` and `ready.fixes` read them. Its roles
   are ERPNext's own; `USER` names Accounts User, which People gives rather
   than everybody.
 - **Setup** needs nothing of its own (`setup.py`): Books Check is it. **Its
   tour** is `tour.py` over Home's figures and views, and **OneAI's reach** is
-  `ai.py`'s NOT_FOR_AI: OneAI reads the books and posts nothing.
+  `agent.py`'s NOT_FOR_AI: OneAI reads the books and posts nothing.
 - **Its foot and settings** are `public/js/one_book/book_control.js`.
 - **Its screens** are `frontend/src/books/`.
 - **Its checks** are `checks.py`, run with the rest by `one_demo/check.py`.

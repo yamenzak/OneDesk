@@ -104,7 +104,7 @@ def _kinds(user: str) -> list[str]:
 
 def _everyone(user: str) -> bool:
 	"""Whether somebody sees what anybody deleted: an administrator, or a role
-	holding One's Everyone's Deletions (one/abilities.py)."""
+	holding One's Everyone's Deletions (one/access.py)."""
 	from onedesk.one import rights
 
 	return rights.held("Deleted Document", "all_deletions", user)

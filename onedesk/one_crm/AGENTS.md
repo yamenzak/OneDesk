@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneCRM is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -102,7 +102,7 @@ none edits erpnext.
    Every group in the rail opened with data in it and fixed: fields nobody
    fills, Company off every filter, names not IDs, and who may see and change
    what.
-8. **OneAI in OneCRM.** *Done* — `ai.py`. Three reads (`crm_facts`,
+8. **OneAI in OneCRM.** *Done* — `agent.py`. Three reads (`crm_facts`,
    for a deal or a lead, `gone_quiet`, `why_we_lose`) and three cards (`add_lead`,
    `plan_next_step`, `write_up_call`), with the panel's suggestions per page.
    A business card is matched to its file by `one_ai/files.uploaded`, which
@@ -219,10 +219,10 @@ into Custom DocPerm before changing one, which is what the Role Permissions
 Manager does. Written once: a doctype that already has Custom DocPerm rows has
 been decided by the workspace, and is left alone.
 
-### ai.py
+### agent.py
 
 The rules are OneAI's: a read runs as the person asking, and anything that
-would write is a card somebody approves. What `ai.py` adds is what sales
+would write is a card somebody approves. What `agent.py` adds is what sales
 knows — that an opportunity is an Opportunity, what an opportunity's history is made of, when
 an opportunity has gone quiet, and when a person is already a lead.
 
@@ -394,7 +394,7 @@ is the answer somebody opened the forecast to find. So is an opportunity with no
 at all. Won is by the day the opportunity was won (`measure.closed`), not the day it
 was expected.
 
-### legal.py
+### trust.py
 
 What the agreements say because of OneCRM: the Privacy Policy that it keeps
 leads from the form and the inbox and compares them by email, phone and
@@ -459,12 +459,12 @@ quotation's timeline says who answered.
 ### What READY asks of it
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
-- **Its one ability**, Merge Duplicate Leads, is `abilities.py` with its
+- **Its one ability**, Merge Duplicate Leads, is `access.py` with its
   Permission Type on CRM Settings in `permission_type/`. `capture.merges`
   reads it; before it, merging needed delete on Lead, which only a Sales
   Manager has. Its roles are ERPNext's own; `USER` names Sales User.
 - **Setup** needs nothing (`setup.py`), **its tour** is `tour.py` over Home's
-  figures and views, and **OneAI's reach** is `ai.py`'s NOT_FOR_AI: the next
+  figures and views, and **OneAI's reach** is `agent.py`'s NOT_FOR_AI: the next
   step it suggests is a card of its own (plan_next_step).
 - **Its foot and settings** are `public/js/one_crm/crm_control.js`; the
   record pages' own scripts (`crm_record.js`, `lead.js`, `lead_list.js`,

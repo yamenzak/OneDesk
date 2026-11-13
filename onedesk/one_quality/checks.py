@@ -58,7 +58,7 @@ Riyadh's Home only. An action made from the problem carries it,
 
 	from onedesk.one_demo.base import as_user
 	from onedesk.one_demo.quality import GOAL
-	from onedesk.one_quality import ai, heads, home, tell
+	from onedesk.one_quality import agent, heads, home, tell
 
 	problem = frappe.db.get_value("Non Conformance", {"subject": "Sealant laid below 5°C"})
 	with as_user("karim@one.test"):
@@ -68,7 +68,7 @@ Riyadh's Home only. An action made from the problem carries it,
 		assert any(one["who"] == "Tariq Haidar" and one["late_by"] > 0 for one in said["needs"]["late"]["rows"]), said["needs"]["late"]
 		assert GOAL in {one["goal"] for one in said["needs"]["failing"]["rows"]}
 		assert said["figures"]["problems"] == said["needs"]["problems"]["count"]
-		now = ai.quality_now()
+		now = agent.quality_now()
 		assert problem in {one["name"] for one in now["open"]} and now["overdue_count"] == said["needs"]["late"]["count"], now
 		before = heads.nc_actions(frappe.get_doc("Non Conformance", problem))
 		made = frappe.get_doc(
@@ -99,7 +99,7 @@ Riyadh's Home only. An action made from the problem carries it,
 		filled = frappe.get_doc({"doctype": "Non Conformance", "subject": "Cap missing", "procedure": PROCEDURE}).insert()
 	assert filled.company, "a problem saved with no company takes the reader's"
 	with as_user("nadia@one.test"):
-		assert ai.quality_now().get("error")
+		assert agent.quality_now().get("error")
 		try:
 			home.read()
 		except frappe.PermissionError:

@@ -571,7 +571,7 @@ def test_updates_keep_their_health_and_lines_and_say_when_the_team_is_asked():
 	import re
 
 	plain = _load(
-		PROJECT / "ai.py", ("plain",), re=re, strip_html_tags=lambda html: re.sub(r"<[^>]+>", "", html)
+		PROJECT / "agent.py", ("plain",), re=re, strip_html_tags=lambda html: re.sub(r"<[^>]+>", "", html)
 	)["plain"]
 	assert plain("Frames are on site.<br>Glass is late.<p>Next: <b>pergola</b></p>") == (
 		"Frames are on site.\nGlass is late.\nNext: pergola"
@@ -594,18 +594,18 @@ def test_updates_keep_their_health_and_lines_and_say_when_the_team_is_asked():
 	assert 'frm.add_custom_button(__("Post Update"), () => onedesk.project.post(frm))' in form and "onedesk.project.ask_updates(" in form
 	actions = (tree.APP / "public" / "js" / "one_project" / "project_actions.js").read_text()
 	assert 'frappe.xcall("frappe.client.save", { doc: { ...doc, ...values } })' in actions
-	ai = (PROJECT / "ai.py").read_text()
+	ai = (PROJECT / "agent.py").read_text()
 	assert '"expects": "draft_update"' in ai and 'proposals.propose("Update", "Project"' in ai
-	assert '"onedesk.one_project.ai.draft_update",' in HOOKS
+	assert '"onedesk.one_project.agent.draft_update",' in HOOKS
 	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
 	update = proposals.split('if entry.kind == "Update":', 1)[1].split("\n\n", 1)[0]
 	assert '"one_project_draft"' in update and "insert" not in update and "save" not in update
 
 
 def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
-	ai = (PROJECT / "ai.py").read_text()
+	ai = (PROJECT / "agent.py").read_text()
 	for tool in ("remind_customer", "add_member", "add_contact"):
-		assert f'"onedesk.one_project.ai.{tool}",' in HOOKS
+		assert f'"onedesk.one_project.agent.{tool}",' in HOOKS
 	assert 'proposals.propose(\n\t\t\t"Mail",' in ai
 	assert '"invoices": _invoices(project),' in ai
 	for key in ('"to_pay"', '"overdue"', '"late"', '"due"'):
@@ -626,24 +626,24 @@ def test_workload_reads_true_follows_and_is_asked_about():
 	assert 'frappe.get_list("Project"' in source.split("def team", 1)[1].split("def ", 1)[0]
 	script = (report / "workload.js").read_text()
 	assert 'frappe.realtime.on("list_update"' in script and '"oneproject_workload.week"' in script
-	ai = (PROJECT / "ai.py").read_text()
+	ai = (PROJECT / "agent.py").read_text()
 	assert '"report:Workload": [WEEK]' in ai and '"expects": "run_report"' in ai.split("WEEK = {", 1)[1].split("}", 1)[0]
 	assert "def team_week(" not in ai and "team_week" not in HOOKS, "run_report reads Workload itself"
 
 
 def test_oneai_reads_a_project_as_its_page_does():
 	for tool in ("project_facts", "projects_needing_attention"):
-		assert f'"onedesk.one_project.ai.{tool}"' in HOOKS
-	assert '"onedesk.one_project.ai.SUGGESTIONS"' in HOOKS
+		assert f'"onedesk.one_project.agent.{tool}"' in HOOKS
+	assert '"onedesk.one_project.agent.SUGGESTIONS"' in HOOKS
 	groups = (tree.APP / "one_ai" / "groups.py").read_text()
 	tools = groups.split('"projects": {', 1)[1].split("},", 1)[0]
 	for tool in ("project_facts", "projects_needing_attention", "draft_update", "remind_customer", "add_member", "add_contact", "project_templates", "draft_template"):
 		assert f'"{tool}"' in tools
 	assert '"one_project": "projects"' in groups
 	for page in ("notifications", "asking-oneai", "who-can-do-what"):
-		assert (PROJECT / "docs" / f"{page}.md").exists(), page
-	assert "## Who Sees a Project" in (PROJECT / "docs" / "who-can-do-what.md").read_text()
-	legal = (PROJECT / "legal.py").read_text()
+		assert (PROJECT / "help" / f"{page}.md").exists(), page
+	assert "## Who Sees a Project" in (PROJECT / "help" / "who-can-do-what.md").read_text()
+	legal = (PROJECT / "trust.py").read_text()
 	assert 'key="oneproject-asks"' in legal
 
 
@@ -1047,9 +1047,9 @@ def test_the_money_is_told_and_read():
 	for name in ("purchase_invoice.json", "sales_invoice.json"):
 		field = json.loads((PROJECT / "custom" / name).read_text())["custom_fields"][0]
 		assert field["fieldname"] == "one_progress" and field["read_only"] == 1 and field["no_copy"] == 1
-	ai = (PROJECT / "ai.py").read_text()
+	ai = (PROJECT / "agent.py").read_text()
 	assert '"money": _money(project)' in ai and '_lt("Where is the money going?")' in ai
-	legal = (PROJECT / "legal.py").read_text()
+	legal = (PROJECT / "trust.py").read_text()
 	assert "its money with the customer and with suppliers" in legal
 
 
@@ -1199,8 +1199,8 @@ def test_a_retainer_is_invoiced_by_the_month():
 
 
 def test_a_projects_form_offers_oneai_what_its_kind_needs():
-	assert '"onedesk.one_project.ai.page"' not in HOOKS, "a project's form is told as any record's"
-	ai = (PROJECT / "ai.py").read_text()
+	assert '"onedesk.one_project.agent.page"' not in HOOKS, "a project's form is told as any record's"
+	ai = (PROJECT / "agent.py").read_text()
 	assert "PAGE" not in ai and "project-view" not in ai
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert 'page.get("name") or page.get("record")' in suggest
@@ -1217,7 +1217,7 @@ def test_a_retainer_tells_whoever_runs_it():
 	assert {"Retainer Month to Invoice", "Retainer Hours Used"} <= set(tree.notifications())
 	assert '"onedesk.one_project.tell.retainer_months"' in HOOKS
 	assert '"on_submit": ["onedesk.one_project.tell.hours_used", "onedesk.one_project.tell.time_over"]' in HOOKS
-	told = (PROJECT / "docs" / "notifications.md").read_text()
+	told = (PROJECT / "help" / "notifications.md").read_text()
 	assert "**Retainer Month to Invoice**" in told and "**Retainer Hours Used**" in told
 
 
@@ -1384,8 +1384,8 @@ def test_a_projects_featured_media_is_a_folder_of_its_own():
 	hooks = tree.hooks()
 	assert hooks.count('"onedesk.one_project.media.changed"') == 3
 	assert '"media": media.shown(project)' in (PROJECT / "portal.py").read_text()
-	assert 'key="oneproject-featured"' in (PROJECT / "legal.py").read_text()
-	assert 'key="oneproject-contacts"' in (PROJECT / "legal.py").read_text()
+	assert 'key="oneproject-featured"' in (PROJECT / "trust.py").read_text()
+	assert 'key="oneproject-contacts"' in (PROJECT / "trust.py").read_text()
 
 
 def test_a_projects_page_is_laid_out_for_its_kind():
@@ -1909,7 +1909,7 @@ def test_a_project_lists_who_outside_the_company_is_on_it():
 	suppliers = (src / "Suppliers.vue").read_text()
 	assert "__('Add Supplier')" in suppliers and "order.supplier_id === one.supplier" in suppliers
 	assert '"supplier_id": head.supplier' in (PROJECT / "money.py").read_text()
-	assert '"contacts": _contacts(project)' in (PROJECT / "ai.py").read_text()
+	assert '"contacts": _contacts(project)' in (PROJECT / "agent.py").read_text()
 
 
 def test_team_lists_everyone_and_any_user_can_be_made_a_member():
@@ -2070,7 +2070,7 @@ def test_a_parent_can_be_read_without_what_is_under_it():
 	assert '"main": {' in view and "overview.own_progress(" in view
 	assert '_("{0} extra work")' in view
 	assert ':rows="[...mainRow, ...subProjects]"' in (src / "Overview.vue").read_text()
-	assert '"main": _main(project)' in (PROJECT / "ai.py").read_text()
+	assert '"main": _main(project)' in (PROJECT / "agent.py").read_text()
 
 
 def test_a_whole_jobs_milestones_are_a_row_per_part():

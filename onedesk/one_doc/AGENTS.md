@@ -1,7 +1,7 @@
 # OneDoc
 
 What OneDoc is, how it works and why; for agents, OneAI and us. What is
-known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
+known to be wrong is `SCRATCHPAD.md`, and the Help people read is `help/`.
 
 Documents in OneCloud: a scope of works, a covering letter, a method
 statement, minutes. Written in the desk, kept beside everything else in the
@@ -46,7 +46,7 @@ typing until somebody unlocks it.
 Templates, where everyone in the company can start from it. **File › Insert
 a Template** puts a template's content where the cursor is; **New › Document**
 offers them too. A template is its own content and nothing else.
-Keeping one is OneDoc's one ability, `template` (`abilities.py`, the
+Keeping one is OneDoc's one ability, `template` (`access.py`, the
 Permission Type `doc_template` on Writer Document): a Manager has it, a User
 does not, and the item is left out of **File** for whoever lacks it.
 

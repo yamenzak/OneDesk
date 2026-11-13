@@ -18,7 +18,7 @@ onedesk.mail.settings = (tab) => {
 	const { esc, saved, heading, heading_with, row, glyph, chevron, empty, fields, button, buttons, remove, view, track, header_switch, switched } =
 		onedesk.module_settings.kit;
 	// What the reader's role lets them do across the workspace's mail
-	// (one/boot.py `one_mail_may`, one_mail/abilities.py).
+	// (one/boot.py `one_mail_may`, one_mail/access.py).
 	const can = frappe.boot.one_mail_may || {};
 
 	// Whose a mailbox is: the workspace's, a team's, the address the workspace

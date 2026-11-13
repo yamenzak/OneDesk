@@ -1,6 +1,6 @@
 """A change One can't work without, run the old way until the day the
 agreements said it takes effect, and the new way from it (docs/READY.md,
-mechanism 13). Declared in a module's `legal.py` (`registry.switchover`);
+mechanism 13). Declared in a module's `trust.py` (`registry.switchover`);
 every one is on the Registry page until it is cleaned up. Pure, apart from
 `today`."""
 

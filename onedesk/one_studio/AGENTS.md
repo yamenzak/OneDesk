@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneStudio is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -16,7 +16,7 @@ what OneAI may write.
 
 **No roles of its own.** OneStudio is for the workspace's administrators,
 whose role (Workspace Administrator) is One's (`one/roles.py`), so it ships
-no `abilities.py`; the manifest's `no_roles` says so. Its records give that
+no `access.py`; the manifest's `no_roles` says so. Its records give that
 role and frappe's System Manager their permissions in their own JSON.
 
 ## Connections
@@ -46,9 +46,9 @@ role and frappe's System Manager their permissions in their own JSON.
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
 | `doctype/workspace_field` | Custom Fields: a virtual doctype read from the workspace's ledger, frappe's own list. |
 | `forms.py` | Each form's app and counts, and the extensions on one form, for OneAI. What OneAI's card saves is `../one_studio/customize.py`. |
-| `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action, and in `NOT_FOR_AI` why each call that changes something is reached by another card or by no card. |
+| `agent.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action, and in `NOT_FOR_AI` why each call that changes something is reached by another card or by no card. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
-| `heads.py`, `legal.py` | The record heads, and what the Terms and the AI Addendum say. |
+| `heads.py`, `trust.py` | The record heads, and what the Terms and the AI Addendum say. |
 | `tell.py`, `notifications.py` | Every notification OneStudio sends, and what each says: an extension turned on, off, deleted or fixed, the ones failing, a collection added, changed or deleted, and a form customized. |
 | `setup.py`, `tour.py` | No setup steps of its own, and the tour of its rail. |
 | `manifest.py` | Its place in One, its Help pages in reading order, and why it ships no roles. |
@@ -148,7 +148,7 @@ Administrator, with permissions written for the app's roles, and a place in
 the app's rail through the sidebar layers `one_studio/reports.py` already uses for
 saved reports. Fields are frappe's own kinds, nothing that runs.
 
-### ai.py
+### agent.py
 
 - `extensions_here` reads what the workspace has: each extension, where and
   when it runs, whether it is on, its review, and whether it ran into a
@@ -185,7 +185,7 @@ level only frappe's System Manager reads, the code; frappe's is made from it
 here, as Administrator, since frappe keeps both to its own managers, and is
 nobody else's to change.
 
-- **Written only by OneAI** (`write`, called by its tool in `ai.py`), after
+- **Written only by OneAI** (`write`, called by its tool in `agent.py`), after
   `guard.py` has read the code and `review.py` has had a second model read it
   against what it says it does. Nothing it writes is on until somebody turns
   it on.
@@ -269,7 +269,7 @@ the extension may do there (`may`).
 This is the whole contract. The browser runs only these events with only
 these powers (`public/js/one_studio/places.js`); `guard.py` refuses code that listens for
 an event the page does not have; and OneAI reads it to know what each page
-allows (`ai.py` `extension_places`), so what it writes and what runs are the
+allows (`agent.py` `extension_places`), so what it writes and what runs are the
 same list.
 
 ### record_types.py
@@ -277,7 +277,7 @@ same list.
 A record type is frappe's own custom DocType (`custom`, module One Studio),
 with a **Record Type** of ours beside it that the administrator reads: what
 it is for, the app it belongs to, who asked. OneAI designs one from what was
-asked (`ai.py`), and approving the card makes it here, as Administrator, since
+asked (`agent.py`), and approving the card makes it here, as Administrator, since
 frappe makes DocTypes for its own managers alone.
 
 What a workspace's record type may be, whoever asks:

@@ -375,15 +375,15 @@ def lately(doctype: str, name: str) -> dict:
 
 
 def opportunity_facts(name: str) -> dict:
-	from onedesk.one_crm import ai
+	from onedesk.one_crm import agent
 
-	return ai._facts("Opportunity", name)
+	return agent._facts("Opportunity", name)
 
 
 def project_facts(name: str) -> dict:
-	from onedesk.one_project import ai
+	from onedesk.one_project import agent
 
-	return {**ai.project_facts(name), **lately("Project", name)}
+	return {**agent.project_facts(name), **lately("Project", name)}
 
 
 FACTS = {

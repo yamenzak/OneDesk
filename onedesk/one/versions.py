@@ -1,4 +1,4 @@
-"""What's New: each module's versions, from its docs/changelog/, and the
+"""What's New: each module's versions, from its updates/, and the
 newest each person has seen (docs/READY.md, Versions and What's New). A
 version names the Help pages it changed (`docs`), and each page lists the
 versions that changed it.

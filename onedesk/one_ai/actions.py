@@ -1,6 +1,6 @@
 """OneAI's actions: a button that does one thing in place, such as Write My
 Bio, rather than a question for the panel. Each app declares its own in its
-ai.py as ACTIONS and names them in hooks.py (`one_ai_actions`), so AICenter
+agent.py as ACTIONS and names them in hooks.py (`one_ai_actions`), so AICenter
 finds every app's without knowing them; an administrator turns any of them
 off there, and then its button is gone and the server refuses it."""
 

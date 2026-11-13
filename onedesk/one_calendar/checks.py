@@ -15,7 +15,7 @@ def onecalendar_shows_each_person_their_week():
 	"""The week's events, days off and layers as the team sees them, an event's
 	card, one moved, a feed link made, renewed, read and stopped, and OneAI's
 	reads and a suggested event."""
-	from onedesk.one_calendar import ai, events, feed, layers
+	from onedesk.one_calendar import agent, events, feed, layers
 
 	start, end = str(add_days(today(), -7)), str(add_days(today(), 7))
 	with as_user("rania@one.test"):
@@ -24,9 +24,9 @@ def onecalendar_shows_each_person_their_week():
 		assert len(meetings) >= 2, seen
 		assert layers.layers() and isinstance(layers.days_off(start, end), list)
 		assert events.card(meetings[0]["name"])
-		assert ai.my_calendar(start, end)
-		assert ai.busy_times(["Tariq"], start, end)
-		assert ai.plan_event("Snag walk", f"{add_days(today(), 4)} 09:00:00").get("state") == "Proposed"
+		assert agent.my_calendar(start, end)
+		assert agent.busy_times(["Tariq"], start, end)
+		assert agent.plan_event("Snag walk", f"{add_days(today(), 4)} 09:00:00").get("state") == "Proposed"
 	with as_user("samir@one.test"):
 		made = events.make({"subject": "Supplier call", "starts_on": f"{add_days(today(), 2)} 15:00:00", "team": ["karim@one.test"]})
 		assert frappe.db.exists("Event Participants", {"parent": made, "reference_docname": "karim@one.test"})

@@ -1,7 +1,7 @@
 # Roles
 
 How a workspace decides who may do what, module by module, and the plan for
-it. The guide for the people using it is One's Help, `onedesk/one/docs/` (Access,
+it. The guide for the people using it is One's Help, `onedesk/one/help/` (Access,
 for the Workspace); this is the design under it.
 
 ## What there was
@@ -59,7 +59,7 @@ them where frappe reads them:
   may do on this one. Frappe always adds Read to a share; for a mailbox that
   is its settings, which whoever manages it may see.
 
-A module declares its abilities once, in `<module>/abilities.py`, named by the
+A module declares its abilities once, in `<module>/access.py`, named by the
 `one_abilities` hook: the doctype, the label, what it means, and its **kind**:
 
 - **Switch**: on or off, one permission type.
@@ -104,7 +104,7 @@ still open a page here with the record-type matrix, until their stage.
 ### Modules everyone has
 
 OneMail joins the apps with roles. Everyone holds its User role
-(`OneMail User`, made from OneMail's abilities.py and given to everybody by
+(`OneMail User`, made from OneMail's access.py and given to everybody by
 a patch and to each new person). There is no None: a person's page offers User, the workspace's own
 roles, and Manager. Mail Manager, made in the last change, becomes OneMail's
 Manager, and the separate Mail Manager switch on a person's page goes.
@@ -112,7 +112,7 @@ Profiles take OneMail like any other app.
 
 ### A module's own roles
 
-A module ships its roles from its own folder: `<module>/abilities.py`
+A module ships its roles from its own folder: `<module>/access.py`
 declares its abilities and, in DEFAULTS, the roles it ships and what each
 starts with. Migrate makes those roles if they aren't there and writes their
 defaults once (`rights.settle`); there is no fixture. The module's Help
@@ -137,6 +137,6 @@ Access is the first. `tests/guards/test_ready.py` holds both.
 5. **The five business apps.** Their abilities beside their record matrix:
    approving, discounts past a limit, seeing cost and margin.
 
-Each stage is the same four steps: a module's `abilities.py`, its permission
+Each stage is the same four steps: a module's `access.py`, its permission
 types, its own checks moved onto `rights.may`, and a Roles tab in its
 settings drawing `role_matrix.js`.

@@ -72,7 +72,7 @@ def oneinventory_an_item_opens_on_its_own_page():
 	low, and a change it suggests to a reorder level is saved when approved.
 	Somebody without OneInventory is refused the page."""
 	from onedesk.one_ai import proposals
-	from onedesk.one_inventory import ai, view
+	from onedesk.one_inventory import agent, view
 
 	with as_user("karim@one.test"):
 		profile = view.read("ALU-6063")
@@ -80,12 +80,12 @@ def oneinventory_an_item_opens_on_its_own_page():
 		assert profile["last_bought"] and profile["last_bought"].supplier, profile["last_bought"]
 		assert profile["buying"]["suppliers"] and profile["making"]["used_in"], "the profile goes into the windows"
 		assert view.files("ALU-6063") == 0
-		facts = ai.item_facts("ALU-6063")
+		facts = agent.item_facts("ALU-6063")
 		assert facts["on_hand"] == profile["summary"]["on_hand"] and facts["suppliers"], facts
-		assert any(one["expects"] == "item_facts" for one in ai.SUGGESTIONS["Item"])
-		low = ai.running_low()
+		assert any(one["expects"] == "item_facts" for one in agent.SUGGESTIONS["Item"])
+		low = agent.running_low()
 		assert {"low", "count"} <= set(low), low
-		card = ai.plan_item_change("ALU-6063", warehouse=wh("Stores"), reorder_level=500, reorder_qty=1000, why="Bigger jobs coming")
+		card = agent.plan_item_change("ALU-6063", warehouse=wh("Stores"), reorder_level=500, reorder_qty=1000, why="Bigger jobs coming")
 		assert "proposal" in card, card
 		proposals.apply(card["proposal"])
 	level = frappe.get_all("Item Reorder", filters={"parent": "ALU-6063", "warehouse": wh("Stores")}, fields=["warehouse_reorder_level", "warehouse_reorder_qty"])
@@ -232,14 +232,14 @@ def oneinventory_home_says_what_needs_somebody_and_where_everything_is():
 	and the drafts left, each counted as its own screen counts it, and a
 	directory of everything the reader may open. Somebody outside the stores
 	sees none of it."""
-	from onedesk.one_inventory import ai, batches, home
+	from onedesk.one_inventory import agent, batches, home
 
 	_before_reordering()
 	with as_user("karim@one.test"):
 		said = home.read()
 		needs = said["needs"]
-		assert needs["late"]["count"] == ai.late_orders()["count"] == said["figures"]["late"] > 0, needs["late"]
-		assert needs["low"]["count"] == ai.running_low()["count"] == said["figures"]["low"] > 0, needs["low"]
+		assert needs["late"]["count"] == agent.late_orders()["count"] == said["figures"]["late"] > 0, needs["late"]
+		assert needs["low"]["count"] == agent.running_low()["count"] == said["figures"]["low"] > 0, needs["low"]
 		assert needs["lots"]["count"] == len(batches.dated()) == said["figures"]["going_off"] > 0, needs["lots"]
 		assert len(needs["late"]["rows"]) <= needs_you.FEW
 		assert said["figures"]["worth"] > 0
@@ -306,7 +306,7 @@ def oneinventory_lots_and_numbers_are_read_where_people_look():
 	lots, and a lot made for it, show at once. Somebody outside the stores
 	sees none of it, and /desk/lots leads to the Batch list."""
 	from onedesk.one_demo.lots import LOCK, LOCKS
-	from onedesk.one_inventory import ai, lots
+	from onedesk.one_inventory import agent, lots
 
 	assert not frappe.db.exists("Page", "lots")
 	with as_user("karim@one.test"):
@@ -335,14 +335,14 @@ def oneinventory_lots_and_numbers_are_read_where_people_look():
 		assert str(made["expiry_date"]) == frappe.utils.add_days(frappe.utils.today(), 90), made
 		assert "CHK-PRIMER" in {one["name"] for one in lots.kept_in_lots()}
 
-		facts = ai.lots_and_numbers(item="SIL-WP")
+		facts = agent.lots_and_numbers(item="SIL-WP")
 		assert [one["lot"] for one in facts["lots"]] == ["SIL-WP-A1", "SIL-WP-B2"], facts
-		assert len(ai.lots_and_numbers(item=LOCK)["numbers"]) == len(LOCKS[1])
-		assert ai.lots_and_numbers().get("figures"), "OneAI reads the counts the list does"
-		assert ai.lots_and_numbers(item="NOPE").get("error")
+		assert len(agent.lots_and_numbers(item=LOCK)["numbers"]) == len(LOCKS[1])
+		assert agent.lots_and_numbers().get("figures"), "OneAI reads the counts the list does"
+		assert agent.lots_and_numbers(item="NOPE").get("error")
 	with as_user("nadia@one.test"):
 		assert lots.figures()["lots"] is None and not frappe.has_permission("Batch", "create")
-		assert ai.lots_and_numbers().get("error")
+		assert agent.lots_and_numbers().get("error")
 
 
 @check
@@ -358,7 +358,7 @@ def oneinventory_quotes_ask_compare_and_order():
 	from erpnext.buying.doctype.request_for_quotation.mapper import make_supplier_quotation_from_rfq
 
 	from onedesk.one_demo.ordering import ALUMINIUM, EURO, STORES_ASKED
-	from onedesk.one_inventory import ai, quotes
+	from onedesk.one_inventory import agent, quotes
 
 	code, qty, rate = STORES_ASKED
 	assert not frappe.db.exists("Page", "quotes")
@@ -400,12 +400,12 @@ def oneinventory_quotes_ask_compare_and_order():
 			assert drafted.docstatus == 0 and [row.supplier for row in drafted.suppliers] == [ALUMINIUM, EURO], drafted.suppliers
 			assert all(row.material_request == pending[0] for row in drafted.items)
 
-		facts = ai.quotes_now()
+		facts = agent.quotes_now()
 		assert facts["figures"] == quotes.figures() and facts["newest_compared"], facts
 	with as_user("nadia@one.test"):
 		assert not quotes.asked() and quotes.figures()["waiting"] is None, quotes.figures()
 		assert not frappe.has_permission("Request for Quotation", "create")
-		assert ai.quotes_now().get("error")
+		assert agent.quotes_now().get("error")
 
 
 @check
@@ -416,7 +416,7 @@ def oneinventory_upkeep_says_what_is_due_broken_and_done():
 	Mark Done on the truck's service takes it off what is due, puts it in
 	the log and moves its next date a quarter on, as ERPNext works it out.
 	OneAI reads it. Somebody outside the stores sees none of it."""
-	from onedesk.one_inventory import ai, upkeep
+	from onedesk.one_inventory import agent, upkeep
 
 	assert not frappe.db.exists("Page", "upkeep")
 	with as_user("karim@one.test"):
@@ -429,7 +429,7 @@ def oneinventory_upkeep_says_what_is_due_broken_and_done():
 		plans = {one["asset_name"]: one for one in upkeep.plans()}
 		assert {"Pickup Truck 1", "Pickup Truck 2", "CNC Profile Machining Centre"} <= set(plans), list(plans)
 		assert any(one["asset_name"] == "CNC Profile Machining Centre" for one in upkeep.log())
-		facts = ai.upkeep_now()
+		facts = agent.upkeep_now()
 		assert any(one["asset"] == "Pickup Truck 2" and one["late"] for one in facts["services"]), facts
 
 		upkeep.done(truck["name"], frappe.utils.today(), "Oil and filters changed.")
@@ -440,7 +440,7 @@ def oneinventory_upkeep_says_what_is_due_broken_and_done():
 	with as_user("nadia@one.test"):
 		assert not upkeep.due() and upkeep.figures()["late"] is None
 		assert not frappe.has_permission("Asset Maintenance Log", "submit")
-		assert ai.upkeep_now().get("error")
+		assert agent.upkeep_now().get("error")
 
 
 @check
@@ -637,7 +637,7 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 	the Stores. Somebody without OneInventory is refused."""
 	from frappe.utils import flt
 
-	from onedesk.one_inventory import ai, heads, ready, stock
+	from onedesk.one_inventory import agent, heads, ready, stock
 
 	_before_reordering()
 	held = sum(flt(one) for one in frappe.get_all("Bin", filters={"company": COMPANY}, pluck="stock_value"))
@@ -661,17 +661,17 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 		assert heads.warehouse_worth(place)
 		group = frappe.db.get_value("Warehouse", {"is_group": 1, "company": COMPANY, "parent_warehouse": ["in", ("", None)]}) or frappe.db.get_value("Warehouse", {"is_group": 1, "company": COMPANY})
 		assert heads.warehouse_items(frappe.get_doc("Warehouse", group)) >= heads.warehouse_items(place), "a group holds what is under it"
-		facts = ai.stock_on_hand(warehouse=wh("Stores"))
+		facts = agent.stock_on_hand(warehouse=wh("Stores"))
 		assert abs(facts["worth"] - in_stores) < 0.01 and any(one["item"] == "SIL-CLR" and one["low_in"] for one in facts["lines"]), facts["worth"]
-		assert ai.stock_on_hand(warehouse="Nowhere").get("error")
-		assert "stock_on_hand" in (ai.page({"page": "stock-on-hand"}) or "")
+		assert agent.stock_on_hand(warehouse="Nowhere").get("error")
+		assert "stock_on_hand" in (agent.page({"page": "stock-on-hand"}) or "")
 	with as_user(OWNER):
 		ready.fix("home")
 		said = {one["key"]: one for one in ready.checks()}
 		assert frappe.db.get_value("Company", ready.company().name, "default_warehouse") == wh("Stores")
 		assert said["home"]["state"] == said["below_zero"]["state"] == said["reorder"]["state"] == ready.READY, said
 	with as_user("nadia@one.test"):
-		assert ai.stock_on_hand().get("error")
+		assert agent.stock_on_hand().get("error")
 		try:
 			stock.on_hand()
 		except frappe.PermissionError:
@@ -691,7 +691,7 @@ def oneinventory_goods_arrive_as_the_receipt_says():
 	from erpnext.stock.doctype.purchase_receipt.mapper import make_purchase_invoice
 
 	from onedesk.one_ai import proposals
-	from onedesk.one_inventory import ai, heads, ready
+	from onedesk.one_inventory import agent, heads, ready
 
 	euro = frappe.db.get_value("Landed Cost Purchase Receipt", {"docstatus": 1}, "receipt_document")
 	assert euro, "no landed cost in the demo"
@@ -713,13 +713,13 @@ def oneinventory_goods_arrive_as_the_receipt_says():
 		assert heads.receipt_rejected(arrived)["tone"] == "alarm" and heads.receipt_rejected(doc) is None
 		printed = frappe.get_print("Purchase Receipt", arrived.name, print_format="One Purchase Receipt")
 		assert "Goods Received Note" in printed and arrived.supplier_name in printed
-		facts = ai.receipt_facts(glass)
+		facts = agent.receipt_facts(glass)
 		assert facts["lines"][0]["rejected"] == 6 and facts["inspections"][0]["item"] == "GLS-TMP10", facts
-		assert ai.receipt_facts(euro)["freight_and_duty"], "freight and duty on the euro hardware"
-		coming = ai.still_to_arrive(supplier="Euro Hardware Trading")
+		assert agent.receipt_facts(euro)["freight_and_duty"], "freight and duty on the euro hardware"
+		coming = agent.still_to_arrive(supplier="Euro Hardware Trading")
 		assert coming["lines"] and all(one["supplier"] == "Euro Hardware Trading" for one in coming["lines"]), coming
 		order = coming["lines"][0]["order"]
-		card = ai.plan_receipt(order, lines=[{"item": coming["lines"][0]["item"], "qty": 1}])
+		card = agent.plan_receipt(order, lines=[{"item": coming["lines"][0]["item"], "qty": 1}])
 		made = proposals.apply(card["proposal"])["record"]
 		drafted = frappe.get_doc("Purchase Receipt", made)
 		assert drafted.docstatus == 0 and [(one.purchase_order, one.qty) for one in drafted.items] == [(order, 1)], drafted.items
@@ -731,7 +731,7 @@ def oneinventory_goods_arrive_as_the_receipt_says():
 		assert [flt(one.qty) for one in bill.items] == [34], "the six rejected are not billed"
 	assert frappe.db.get_value("Notification", "Material Request Receipt Notification", "enabled"), "nobody is told their goods came"
 	with as_user("nadia@one.test"):
-		assert ai.receipt_facts(glass).get("error")
+		assert agent.receipt_facts(glass).get("error")
 
 
 @check
@@ -743,7 +743,7 @@ def oneinventory_goods_go_out_as_the_order_says():
 	list print, anybody who reads an order can open it, and OneAI reads a
 	delivery, says what is still to go and drafts the next one."""
 	from onedesk.one_ai import memory, proposals
-	from onedesk.one_inventory import ai, heads, item, ready, stock, trips
+	from onedesk.one_inventory import agent, heads, item, ready, stock, trips
 
 	villa = frappe.db.get_value("Sales Order", {"project": VILLA, "docstatus": 1})
 	note = frappe.db.get_value("Delivery Note Item", {"against_sales_order": villa, "docstatus": 1}, "parent")
@@ -772,10 +772,10 @@ def oneinventory_goods_go_out_as_the_order_says():
 		facts = memory.about_record("Delivery Note", note)
 		assert {row["against_sales_order"] for row in facts["items"]} == {villa}, facts["items"]
 		assert {"Packing Slip", "Delivery Trip"} <= set(facts["links_here"]), facts["links_here"]
-		going = ai.still_to_deliver(project=VILLA)
+		going = agent.still_to_deliver(project=VILLA)
 		doors = next(one for one in going["lines"] if one["item"] == "DR-SL24")
 		assert doors["held_for_it"] == 20, doors
-		card = ai.plan_delivery(villa, lines=[{"item": "WIN-CS12", "qty": 1}])
+		card = agent.plan_delivery(villa, lines=[{"item": "WIN-CS12", "qty": 1}])
 		made = proposals.apply(card["proposal"])["record"]
 		drafted = frappe.get_doc("Delivery Note", made)
 		assert drafted.docstatus == 0 and [(one.against_sales_order, one.qty) for one in drafted.items] == [(villa, 1)], drafted.items
@@ -854,14 +854,14 @@ def oneinventory_stock_moves_and_counts_reach_the_books():
 		frappe.flags.pop("warehouse_account_map", None)
 
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_inventory import ai
+	from onedesk.one_inventory import agent
 
 	with as_user("karim@one.test"):
 		facts = tools.read_record("Stock Entry", sent.name)
 		assert facts["project"] == sent.project and {(one["item_code"], one["t_warehouse"]) for one in facts["items"]} == {(code, site) for code in ("ALU-6063", "HW-LOCK", "SIL-CLR")}
 		found = tools.read_record("Stock Reconciliation", count.name)
 		assert flt(found["difference_amount"]) == flt(count.difference_amount) and flt(found["items"][0]["current_qty"]) - flt(found["items"][0]["qty"]) == 3
-		card = ai.plan_transfer(site, [{"item": "SEAL-EPDM", "qty": 50}], project=sent.project)
+		card = agent.plan_transfer(site, [{"item": "SEAL-EPDM", "qty": 50}], project=sent.project)
 		made = frappe.get_doc("Stock Entry", proposals.apply(card["proposal"])["record"])
 		assert made.docstatus == 0 and made.purpose == "Material Transfer" and made.project == sent.project
 		assert [(one.item_code, one.qty, one.s_warehouse, one.t_warehouse) for one in made.items] == [("SEAL-EPDM", 50, frappe.get_cached_value("Company", count.company, "default_warehouse"), site)]
@@ -914,7 +914,7 @@ def oneinventory_buying_from_request_to_order():
 	aluminium is agreed for the year, the losing quotes expired, the glass
 	orders never made good are closed, and Gulf Glass and Al Noor are scored.
 	A request line cannot be ordered twice over on drafts."""
-	from onedesk.one_inventory import ai, heads, order, ready, supplier_items, tell
+	from onedesk.one_inventory import agent, heads, order, ready, supplier_items, tell
 
 	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
 	asked = frappe.get_doc("Material Request", {"owner": "rania@one.test", "project": villa, "docstatus": 1, "material_request_type": "Purchase"})
@@ -927,7 +927,7 @@ def oneinventory_buying_from_request_to_order():
 	assert {one.project for one in portal.items} == {villa}
 
 	with as_user("karim@one.test"):
-		compared = ai.quotes_now(request=asked.name)
+		compared = agent.quotes_now(request=asked.name)
 	cheapest = {one["item"]: one["cheapest"] for request in compared["compared"] for one in request["lines"]}
 	assert cheapest == {"SIL-CLR": "Emirates Sealants & Fixings", "FIX-ANCH": "Al Noor Aluminium", "SEAL-EPDM": "Al Noor Aluminium"}, cheapest
 	ordered = {row.item_code: frappe.db.get_value("Purchase Order", row.parent, "supplier") for row in frappe.get_all("Purchase Order Item", filters={"material_request": asked.name, "docstatus": 1}, fields=["item_code", "parent"])}
@@ -948,7 +948,7 @@ def oneinventory_buying_from_request_to_order():
 		tell.orders_late()
 	assert "karim@one.test" in told.to("Order Late")
 	with as_user("karim@one.test"):
-		said = ai.still_to_arrive(late_only=True)
+		said = agent.still_to_arrive(late_only=True)
 	assert late.name in {one["order"] for one in said["orders"]} and all(line["late_by_days"] > 0 for one in said["orders"] for line in one["lines"]), said
 
 	expired = frappe.get_all("Supplier Quotation", filters={"status": "Expired"}, pluck="name")
@@ -988,8 +988,8 @@ def oneinventory_buying_from_request_to_order():
 
 	with as_user("karim@one.test"):
 		assert frappe.has_permission("Blanket Order", "create") and frappe.has_permission("Supplier Scorecard", "write")
-		assert ai.plan_quote_request(asked.name, ["Al Noor Aluminium"]).get("error"), "a request ordered already"
-		card_ = ai.plan_quote_request(glass.parent, ["Gulf Glass Industries", "Al Noor Aluminium"], message="Prices for the villa's glass, please.")
+		assert agent.plan_quote_request(asked.name, ["Al Noor Aluminium"]).get("error"), "a request ordered already"
+		card_ = agent.plan_quote_request(glass.parent, ["Gulf Glass Industries", "Al Noor Aluminium"], message="Prices for the villa's glass, please.")
 		changes = frappe.parse_json(frappe.db.get_value("AI Proposal", card_["proposal"], "changes"))
 		assert {one["supplier"] for one in changes["suppliers"]} == {"Gulf Glass Industries", "Al Noor Aluminium"}
 		assert {(one["item_code"], one["material_request"]) for one in changes["items"]} == {("GLS-DGU", glass.parent)}
@@ -997,7 +997,7 @@ def oneinventory_buying_from_request_to_order():
 		assert frappe.has_permission("Material Request", "create") and frappe.has_permission("Supplier Scorecard", "read")
 		assert not frappe.has_permission("Supplier Scorecard", "write") and not frappe.has_permission("Blanket Order", "cancel")
 	with as_user("nadia@one.test"):
-		assert not frappe.has_permission("Blanket Order", "read") and ai.quotes_now(request=asked.name).get("error")
+		assert not frappe.has_permission("Blanket Order", "read") and agent.quotes_now(request=asked.name).get("error")
 
 
 @check
@@ -1081,30 +1081,30 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	assert frappe.db.exists("Journal Entry", {"name": cut.journal_entry, "docstatus": 1})
 
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_inventory import ai
+	from onedesk.one_inventory import agent
 
 	with as_user(demo.STORES):
-		facts = ai.asset_facts("Pickup Truck 1")
+		facts = agent.asset_facts("Pickup Truck 1")
 		assert facts["held_by"] == "Sanjay Patel" and facts["repairs"][0]["cost"] == 3850 and facts["next_service"]
 		holder = tools.find_records("Employee", "Yousef Bakr")[0]["name"]
 		held = tools.list_records("Asset", {"custodian": holder, "docstatus": 1}, fields=["asset_name", "location", "status"])
 		assert [one["asset_name"] for one in held] == ["Pickup Truck 2"], held
-		due = ai.upkeep_now(days=30)
+		due = agent.upkeep_now(days=30)
 		assert any(one["asset"] == "Pickup Truck 2" and one["late"] for one in due["services"]), due
-		card = ai.plan_handover("Laptop Mariam", "Yousef Bakr", why="Mariam is away for a month")
+		card = agent.plan_handover("Laptop Mariam", "Yousef Bakr", why="Mariam is away for a month")
 		drafted = proposals.apply(card["proposal"])
 	handover = frappe.get_doc("Asset Movement", drafted["record"])
 	assert handover.docstatus == 0 and handover.assets[0].from_employee == mariam and handover.assets[0].to_employee == yousef.name
 	handover.delete()
 	with as_user("nadia@one.test"):
-		assert ai.asset_facts("Pickup Truck 1").get("error")
+		assert agent.asset_facts("Pickup Truck 1").get("error")
 		try:
 			tools.list_records("Asset", {"docstatus": 1})
 		except frappe.PermissionError:
 			pass
 		else:
 			raise AssertionError("somebody outside the stores listed the equipment")
-		assert ai.upkeep_now().get("error") and ai.plan_handover("Laptop Nadia", "Yousef Bakr").get("error")
+		assert agent.upkeep_now().get("error") and agent.plan_handover("Laptop Nadia", "Yousef Bakr").get("error")
 
 	with as_user("yousef@one.test"):
 		assert frappe.has_permission("Asset Maintenance Log", "submit")
@@ -1244,22 +1244,22 @@ def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
 	shows and filters by its company, Karim limited to Sahara never sees
 	Riyadh's, and with Riyadh as his company Stock Summary is in riyals."""
 	from onedesk.one_ai import proposals
-	from onedesk.one_inventory import ai, home, stock
+	from onedesk.one_inventory import agent, home, stock
 
 	with as_user("karim@one.test"):
 		before = stock.on_hand()["worth"], home.read()["figures"]["worth"]
 		books = flt(frappe.db.get_value("Bin", {"item_code": "SIL-CLR", "warehouse": wh("Stores")}, "actual_qty"))
-		card = ai.plan_count(wh("Stores"), [{"item": "SIL-CLR", "qty": books - 2}], why="Month-end count")
+		card = agent.plan_count(wh("Stores"), [{"item": "SIL-CLR", "qty": books - 2}], why="Month-end count")
 		drafted = proposals.apply(card["proposal"])
-		assert ai.plan_count(wh("Stores"), [{"item": "SIL-WP", "qty": 10}]).get("error"), "a batched item is counted batch by batch"
-		assert ai.plan_count(wh("Stores"), [{"item": "SIL-WP", "qty": 48, "batch": "SIL-WP-A1"}]).get("proposal")
-		assert ai.plan_count(wh("Stores"), [{"item": "NOT-AN-ITEM", "qty": 1}]).get("error")
+		assert agent.plan_count(wh("Stores"), [{"item": "SIL-WP", "qty": 10}]).get("error"), "a batched item is counted batch by batch"
+		assert agent.plan_count(wh("Stores"), [{"item": "SIL-WP", "qty": 48, "batch": "SIL-WP-A1"}]).get("proposal")
+		assert agent.plan_count(wh("Stores"), [{"item": "NOT-AN-ITEM", "qty": 1}]).get("error")
 	count = frappe.get_doc("Stock Reconciliation", drafted["record"])
 	assert count.docstatus == 0 and count.set_warehouse == wh("Stores") and count.company == COMPANY, count.as_dict()
 	line = count.items[0]
 	assert (line.item_code, line.qty, line.current_qty) == ("SIL-CLR", books - 2, books), line.as_dict()
 	with as_user("nadia@one.test"):
-		assert ai.plan_count(wh("Stores"), [{"item": "SIL-CLR", "qty": 1}]).get("error")
+		assert agent.plan_count(wh("Stores"), [{"item": "SIL-CLR", "qty": 1}]).get("error")
 
 	from onedesk.one_demo.branch import BRANCH
 
@@ -1302,7 +1302,7 @@ def oneinventory_goods_and_deliveries_are_on_the_calendar():
 	due."""
 	from frappe.utils import add_days, getdate, today
 
-	from onedesk.one_inventory import ai, calendar
+	from onedesk.one_inventory import agent, calendar
 
 	start, end = getdate(add_days(today(), -60)), getdate(add_days(today(), 60))
 	with as_user("karim@one.test"):
@@ -1315,4 +1315,4 @@ def oneinventory_goods_and_deliveries_are_on_the_calendar():
 	if log:
 		frappe.db.set_value("Asset Maintenance Log", log, "due_date", None)
 		with as_user("karim@one.test"):
-			assert log not in {one["service"] for one in ai.services_due().get("services") or []}, "a service with no due date was due"
+			assert log not in {one["service"] for one in agent.services_due().get("services") or []}, "a service with no due date was due"

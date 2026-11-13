@@ -14,7 +14,7 @@ A day's work in a module is one version: when the module already has one
 dated today, a smaller or equal kind is refused (add to its words instead),
 and a bigger kind renumbers today's, keeping its words.
 
-The new file in the module's docs/changelog/ carries today's date, the
+The new file in the module's updates/ carries today's date, the
 kind, the title, the module's fingerprint and what it agrees on (its legal
 stamp); its words are yours to write, for the people who use the module, in
 English. tests/guards/test_ready.py fails until they are.

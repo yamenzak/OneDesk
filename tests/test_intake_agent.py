@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 INTAKE = tree.APP / "one_ai" / "reading"
-AGENT = INTAKE / "agent.py"
+AGENT = INTAKE / "employee.py"
 
 
 def _fn(where: Path, name: str) -> str:
@@ -65,4 +65,4 @@ def test_a_weak_link_waits_like_any_unsure_change():
 
 def test_the_agent_comes_after_the_planners():
 	act_now = _fn(INTAKE / "matters.py", "act_now")
-	assert act_now.index("'the rest'") < act_now.index("agent.think(name)")
+	assert act_now.index("'the rest'") < act_now.index("employee.think(name)")

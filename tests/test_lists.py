@@ -163,6 +163,6 @@ def test_a_value_is_placed_and_renamed_however_it_is_made():
 
 def test_oneai_offers_on_every_list():
 	assert "return {doctype: OFFERED for _module, doctype, _label, _one in kinds_of()}" in SOURCE
-	ai = (tree.APP / "one" / "ai.py").read_text()
+	ai = (tree.APP / "one" / "agent.py").read_text()
 	assert "SUGGESTIONS.update(_lists.suggestions())" in ai
 	assert '"page:masters"' not in ai

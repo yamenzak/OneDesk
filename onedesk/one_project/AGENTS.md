@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneProject is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -277,7 +277,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
     way while work is open, it is refused.
   - Reopened after being completed with no tasks, its progress goes back to
     its tasks: ERPNext turned it to by hand only because there were none.
-- `ai.py` — OneAI's `project_facts` (a project as its page reads it, with its
+- `agent.py` — OneAI's `project_facts` (a project as its page reads it, with its
   late tasks, what waits on them, milestones and updates) and
   `projects_needing_attention`, and the page's suggestions.
 
@@ -292,7 +292,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   trouble.
 
   Both read as the person asking: a project they may not open is not read, and
-  neither are its tasks. Tasks are only suggested (one_task/ai.py
+  neither are its tasks. Tasks are only suggested (one_task/agent.py
   `plan_task`), as cards the reader approves.
 
   `draft_project` checks what it is given (a kind, a customer that exists, a
@@ -797,7 +797,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   translations), and returns that one after. New Project (kinds.py `make`)
   and Add from Template (templates.py `add`) take a preset as `library`.
   `drafted` makes a template OneAI drafted, once a person approves its card
-  (ai.py `draft_template`, a Setup card applied by one_studio/ai_setup.py), the same
+  (agent.py `draft_template`, a Setup card applied by one_studio/ai_setup.py), the same
   way as a preset and as whoever approved it.
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), the money
@@ -1137,12 +1137,12 @@ rebilled to a Time and Materials customer isn't credited to them.
 ### What READY asks of it
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
-- **Its one ability**, See Every Project, is `abilities.py` with its
+- **Its one ability**, See Every Project, is `access.py` with its
   Permission Type in `permission_type/`, a OneProject Manager's.
   `members.manages` reads it, and `access.settle` gives OneProject Manager
   once to whoever already holds Projects Manager (`_every`).
 - **Setup** needs nothing (`setup.py`), **its tour** is `tour.py` over the
-  project page's marks, and **OneAI's reach** is `ai.py`'s REACH and
+  project page's marks, and **OneAI's reach** is `agent.py`'s REACH and
   NOT_FOR_AI.
 - **Its foot and settings** are `public/js/one_project/project_control.js`.
 - **The project page** keeps OneProject's rail on a wide screen, as the task

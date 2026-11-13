@@ -433,7 +433,7 @@ def wire(company_name: str, account: str) -> None:
 
 def fixes(user: str | None = None) -> bool:
 	"""Whether somebody may make what Books Check offers: OneBook's Fix What
-	the Check Finds (abilities.py)."""
+	the Check Finds (access.py)."""
 	from onedesk.one import rights
 
 	return rights.held("Accounts Settings", "books_fix", user)

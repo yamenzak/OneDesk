@@ -10,7 +10,7 @@ from onedesk.one_demo.people import OWNER
 
 @check
 def one_manager_sees_what_anybody_deleted():
-	"""One's roles are made from its abilities.py (rights.settle) and its User
+	"""One's roles are made from its access.py (rights.settle) and its User
 	role is everybody's. Nadia sees only what she deleted herself; made One's
 	Manager in AccessCenter, which holds Everyone's Deletions, she sees what
 	others deleted too, and still can't empty the bin for good. The demo keeps

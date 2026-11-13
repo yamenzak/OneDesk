@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneHR is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -35,7 +35,7 @@ appraisals, and joining and leaving.
 | `marking.py`, `overtime.py`, `timesheet.py`, `setup.py`, `shift.py`, `request.py`, `decision.py` | Marking by hand, overtime, the timer, shift readiness, requests and their Approve/Reject |
 | `leave.py`, `encashment.py`, `payroll.py`, `accounts.py`, `benefit.py`, `expense.py` | Leave, encashment, payroll, the accounts erpnext nominates, benefits, expense claims |
 | `growth.py`, `lifecycle.py`, `letter.py`, `policy.py` | Appraisals, onboarding, appointment letters, HR Settings defaults |
-| `hiring.py`, `ai.py`, `ai_payroll.py`, `ai_letters.py`, `ai_policy.py`, `ai_grievance.py`, `ai_growth.py` | OneAI in OneHR |
+| `hiring.py`, `agent.py`, `ai_payroll.py`, `ai_letters.py`, `ai_policy.py`, `ai_grievance.py`, `ai_growth.py` | OneAI in OneHR |
 
 Doctypes of our own: Clock Attempt, Clock Signal, Clock Device, Clock Network,
 Clock Place, Clock Reason, Attendance Reason, Employee Document, Shift Location
@@ -171,7 +171,7 @@ Year; it just never nominates one.
 It is re-pointed on every migrate rather than written once, because a default that
 is right in January and wrong the following January is worse than none.
 
-### ai.py
+### agent.py
 
 What OneAI can do in OneHR.
 
@@ -1484,7 +1484,7 @@ they are told.
 ### What READY asks of it
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
-- **Its one ability**, Delete an Interview's Sound, is `abilities.py` with
+- **Its one ability**, Delete an Interview's Sound, is `access.py` with
   its Permission Type on HR Settings in `permission_type/`;
   `hiring.keep_sound` reads it. A grievance marked sensitive stays the HR
   Manager's role alone (`ai_grievance.TRUSTED`), not an ability, since an
@@ -1493,7 +1493,7 @@ they are told.
 - **Setup** needs nothing of its own (`setup.py`); what a shift needs before
   check-ins become days is `shift_setup.py`, which was `setup.py` before
   READY took the name. **Its tour** is `tour.py` over Home's figures and
-  views, and **OneAI's reach** is `ai.py`'s NOT_FOR_AI.
+  views, and **OneAI's reach** is `agent.py`'s NOT_FOR_AI.
 - **Its foot and settings** are `public/js/one_hr/hr_control.js`, whose
   Holidays tab is the administrators'.
 - **Its screens** are `frontend/src/hr/`, and **its checks** `checks.py`.

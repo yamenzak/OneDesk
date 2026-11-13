@@ -1,7 +1,7 @@
 """What OneAI makes for OneDisplay from a sentence (one_display/AGENTS.md,
 stage 6): music for a playlist and a widget of your own. A song is added to
 its playlist turned off, and whoever asked is told. Pictures, videos and
-designed slides are made in a presentation now (one_deck/ai.py)."""
+designed slides are made in a presentation now (one_deck/agent.py)."""
 
 import base64
 import re

@@ -1,6 +1,6 @@
 ---
 name: changelog
-description: How to write a module's version — the entry in onedesk/<module>/docs/changelog/<version>.md that What's New shows — what kind it is, what its title and words say and never say, when it carries a picture or a clip, and how it links to Help. Load it whenever test_ready.py says a module changed since its version, before running scripts/version.py, and before writing or editing any changelog entry.
+description: How to write a module's version — the entry in onedesk/<module>/updates/<version>.md that What's New shows — what kind it is, what its title and words say and never say, when it carries a picture or a clip, and how it links to Help. Load it whenever test_ready.py says a module changed since its version, before running scripts/version.py, and before writing or editing any changelog entry.
 ---
 
 # Changelog
@@ -65,7 +65,7 @@ Never:
 
 Only when the change is something to see and new: a new screen, a control
 that moved, a result that looks different. One picture or one clip per
-entry, beside it in `docs/changelog/<version>/`, named in the words as
+entry, beside it in `updates/<version>/`, named in the words as
 `![What it shows](<version>/<name>.png)`. The same limits and the same way
 of making them as Help's (`docs` skill): cropped, demo data, a clip nine
 seconds at most made with `scripts/clip.mjs`. They reach R2 the same way.

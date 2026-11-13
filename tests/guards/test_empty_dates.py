@@ -42,7 +42,7 @@ REVIEWED = {
 	"one_demo/living.py::from_date": ALWAYS + ": a leave application's and a salary structure assignment's",
 	"one_factory/home.py::planned_start_date": ALWAYS + ": a work order's",
 	"one_hr/accounts.py::year_start_date": ALWAYS + ": a fiscal year's",
-	"one_hr/ai.py::from_date": ALWAYS + ": a leave application's and an attendance request's",
+	"one_hr/agent.py::from_date": ALWAYS + ": a leave application's and an attendance request's",
 	"one_hr/ai_payroll.py::start_date": ALWAYS + ": a salary slip's",
 	"one_hr/away.py::from_date": ALWAYS + ": a leave application's",
 	"one_hr/calendar.py::from_date": ALWAYS + ": a leave application's",

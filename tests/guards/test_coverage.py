@@ -72,7 +72,7 @@ def features() -> dict[str, set[str]]:
 
 def reached(name: str) -> bool:
 	"""A check calls it, as `file.function(`, or through an alias ending in
-	the file's name (`mail_ai.function(` for one_mail/ai.py)."""
+	the file's name (`mail_agent.function(` for one_mail/agent.py)."""
 	return re.search(rf"(?<![A-Za-z0-9]){re.escape(name)}\(", SUITE) is not None
 
 

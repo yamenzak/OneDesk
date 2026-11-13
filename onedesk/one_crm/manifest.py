@@ -125,7 +125,7 @@ APP = App(
 		},
 	},
 	hooks={
-		"one_ai_workspace": ("ai.workspace",),
+		"one_ai_workspace": ("agent.workspace",),
 	},
 	settle=(
 		Settle("stages.settle"),

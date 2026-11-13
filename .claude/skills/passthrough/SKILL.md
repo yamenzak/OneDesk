@@ -102,7 +102,7 @@ What an app declares about itself, in its own folder and in
   read the reader's company only (`Bin.company`), and money takes the
   record's company's currency, never the global default.
 - **Permissions.** Each thing the app lets a person do fits a role or is an
-  ability in its `abilities.py`, shown in AccessCenter; a person given more
+  ability in its `access.py`, shown in AccessCenter; a person given more
   on one record gets it through `rights.grant`; every method our screens
   call on the server checks it, beyond what frappe checks, and a write is
   POST only. *Guards: test_ready, test_roles.* *How:* read every
@@ -116,7 +116,7 @@ What an app declares about itself, in its own folder and in
   workbook) and at which levels, with people here, a customer's or
   supplier's contact, or anyone with a link. Until OneAccess's one Share
   is built (`docs/BACKLOG.md`), note where the app shares its own way.
-- **OneAI.** Every action that changes something is a card in its `ai.py`
+- **OneAI.** Every action that changes something is a card in its `agent.py`
   `REACH`, or in `NOT_FOR_AI` with the reason; AICenter shows its part; on
   each screen the panel knows where it is and offers the cards that fit,
   and the page context moves with the screen when an island becomes
@@ -141,15 +141,15 @@ What an app declares about itself, in its own folder and in
   has its entry in `ready.MODULES[app]["interface"]`: an icon for each tab
   and field, up to four head cards, its track, its list's states and its
   shortcuts. The guards hold an entry right, not there. *Guard: test_interface.*
-- **Legal.** What it does with data is in its `legal.py`: a clause for each
+- **Legal.** What it does with data is in its `trust.py`: a clause for each
   promise, a subprocessor or service for each company and host it sends
   to; a change moves the agreements with a version (`legal` skill).
   *Guard: test_legal.*
 - **HelpCenter and What's New.** Its AGENTS.md says how it works now; its
-  `docs/` pages say what a person does, with pictures of the screen as it
+  `help/` pages say what a person does, with pictures of the screen as it
   is, written from what frappe's, ERPNext's and HRMS's own docs say in our
   words (`docs` skill, Where what a page says comes from); each change is a
-  version in `docs/changelog/` (`changelog` skill). *Guards: test_ready,
+  version in `updates/` (`changelog` skill). *Guards: test_ready,
   test_docs_media.* The app's pass also rereads every one of its pages
   and versions against today's screens and today's `docs` and `changelog`
   skills, since most were written before them, and pictures each page that

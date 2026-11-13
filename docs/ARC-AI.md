@@ -10,11 +10,11 @@ The single OneAI turned out dumber, slower and easier to lose than a person, bec
 
 ## What we keep from OneAI and Intake
 
-Most of what OneAI is made of stays; what goes is the one loop that tries to be everything. OneAI today is about 120 tools, 300 module actions across 20 modules' `ai.py`, cards that wait for a person, a credits hold on every call and a search index per workspace. Intake is `one_ai/reading/`: it reads every mail and file, decides what each is, and makes drafts for several modules from inside one folder.
+Most of what OneAI is made of stays; what goes is the one loop that tries to be everything. OneAI today is about 120 tools, 300 module actions across 20 modules' `agent.py`, cards that wait for a person, a credits hold on every call and a search index per workspace. Intake is `one_ai/reading/`: it reads every mail and file, decides what each is, and makes drafts for several modules from inside one folder.
 
 | Part today | Becomes |
 | --- | --- |
-| Each module's `ai.py` tools (`one_ai_reads`, `one_ai_suggests`) and `NOT_FOR_AI` | That module's agent's tools, unchanged in shape |
+| Each module's `agent.py` tools (`one_ai_reads`, `one_ai_suggests`) and `NOT_FOR_AI` | That module's agent's tools, unchanged in shape |
 | AI Proposal cards, checked when written and again when applied | The Draft and Ask First levels: the same card, shown in OneChat and on the record |
 | Reading Action with undo and attribution (`act.py`) | Every agent write, so any agent action can be undone |
 | Credits hold and settle, the gateway, the model tiers, `jobs.py` prompts | Kept as they are; each agent's run is metered the same way |
@@ -35,7 +35,7 @@ What each agent has:
 
 - **A face and a name.** A DiceBear voxel-bot, animated, seeded by the module so it never changes, and a role name people can say: OneBook's accountant, OneHR's people officer, OneMail's receptionist.
 - **Its module, deeply.** The module's Help and AGENTS.md, its record types and their rules, read from the code as Donna learned ERPNext by reading it, so it does not guess an API or a field.
-- **Its tools.** The module's actions, which today are OneAI's cards in each module's `ai.py`, become that agent's tools and no one else's.
+- **Its tools.** The module's actions, which today are OneAI's cards in each module's `agent.py`, become that agent's tools and no one else's.
 - **Its procedures.** What it learned to do, written as a procedure and, once proven, a script it runs the same way every time (Donna's lesson: a script, not a prompt, for anything that must repeat).
 - **Its memory.** What it learned about this workspace: the supplier who always invoices by mail, the approver for travel, the way this company names projects. Shown in AICenter, editable, forgettable.
 - **Its routines.** Work it does on a schedule: the morning reconciliation, the weekly payroll check, the month-end close list.
@@ -119,7 +119,7 @@ The currency is called **OneCredit**, and an amount of it is plain credits: "One
 
 Start with one real job end to end, Donna's job: an invoice arrives by mail, OneMail's agent hands it to OneBook's, and a draft Purchase Invoice is waiting for a person. Everything after that is built on what that job proves.
 
-1. **The foundation and the first two agents.** Agent users, levels, tools from `ai.py`, the runtime on Cloudflare; OneMail hands invoices to OneBook. *Gate: 50 real invoices, at most 2 corrected.*
+1. **The foundation and the first two agents.** Agent users, levels, tools from `agent.py`, the runtime on Cloudflare; OneMail hands invoices to OneBook. *Gate: 50 real invoices, at most 2 corrected.*
 2. **AICenter and OneChat.** The agents' office; channels, messages, and agents with their cards in the conversation. *Gate: a week on OneChat instead of OneAI's panel.*
 3. **An agent for every module.** Module by module; Intake and OneAI's chat retire once their last job has moved. *Gate: no job is left that only the Documents page does.*
 4. **The outside world.** Rooms and the website widget, AutomationCenter, OneCredit's name and mark.

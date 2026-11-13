@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneTask is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -217,7 +217,7 @@ is:
 - `view.py` — the task as the reader may see it, for OneAI's `task_facts`:
   what it waits on and what waits on it, its checklist, its sub-tasks, the
   time on it and the one thing worth saying (`headline`, pure).
-- `ai.py` — the timers page sentence, `my_tasks`, `plan_task` (a Create card; the
+- `agent.py` — the timers page sentence, `my_tasks`, `plan_task` (a Create card; the
   colleagues it names ride on the hidden `one_for` and are given the task by
   `capture.task_made`), `plan_steps` (an Edit card on the checklist; a
   change to the status, due date or priority is the generic `edit_record`,
@@ -227,7 +227,7 @@ is:
   which checks again that the approver may change the task and that each
   colleague is an enabled workspace user, then calls frappe's
   `assign_to.add` as the approver, as the page's Assign does), `task_facts`
-  (a task as its page shows it), and the suggestions. `legal.py` is its line in the AI Addendum. The tasks are read
+  (a task as its page shows it), and the suggestions. `trust.py` is its line in the AI Addendum. The tasks are read
   as the reader (`mine.tasks`), with the same filters as the boards. A task is only ever suggested; approving the card
   makes it, and gives it to whoever the card names then (capture.py), which
   tells them (tell.py). Steps are suggested the same way, as a change to the
@@ -249,11 +249,11 @@ is:
 ### What READY asks of it
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
-- **Its one ability**, See Every Task, is `abilities.py` with its Permission
+- **Its one ability**, See Every Task, is `access.py` with its Permission
   Type in `permission_type/`, a OneTask Manager's; `access.py` reads it in
   both `allowed` and `query` (`every`).
 - **Setup** needs nothing (`setup.py`), **its tour** is `tour.py` over the
-  board's marks, and **OneAI's reach** is `ai.py`'s REACH and NOT_FOR_AI.
+  board's marks, and **OneAI's reach** is `agent.py`'s REACH and NOT_FOR_AI.
 - **Its foot and settings** are `public/js/one_task/task_control.js`.
 - **My Tasks** sits on OneTask's rail as a board, and Add Task is the
   board's own. The task page keeps the rail too.

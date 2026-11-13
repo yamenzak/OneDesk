@@ -42,7 +42,7 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 	OneAI reads of them."""
 	from onedesk.one_project import (
 		activity,
-		ai,
+		agent,
 		billing,
 		budget,
 		buying,
@@ -91,9 +91,9 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 		assert kinds.defaults("Acme Holdings")["currency"] == "USD"
 		assert len(library.presets()) == 12
 		assert progress.progress("Sales Order", frappe.db.get_value("Project", VILLA, "sales_order"))["retention"] == 10
-		facts = ai.project_facts(VILLA)
+		facts = agent.project_facts(VILLA)
 		assert facts["title"] == "Mansour Villa Windows and Doors" and facts["sub_projects"] == 1
-		assert VILLA in {one["project"] for one in ai.projects_needing_attention()["projects"]}
+		assert VILLA in {one["project"] for one in agent.projects_needing_attention()["projects"]}
 	with as_user("huda@one.test"):
 		assert billing.invoices(VILLA)["invoices"], "the books see the villa's invoices"
 
@@ -160,7 +160,7 @@ def oneproject_samir_runs_a_project():
 	villa's tasks, a contract on Acme's lobby, a project grouped above
 	another, a photo added, and the villa closed with its open work."""
 	from onedesk.one_project import (
-		ai,
+		agent,
 		budget,
 		contacts,
 		hours,
@@ -194,7 +194,7 @@ def oneproject_samir_runs_a_project():
 		assert all(one["account"] != account for one in budget.remove_budget(VILLA, account)["lines"] if one.get("budget"))
 		posted = updates.post(VILLA, "Glass for the first floor is in.")
 		assert frappe.db.exists("Project User", {"parenttype": "Project Update", "parent": posted, "user": "samir@one.test"})
-		assert ai.draft_update(VILLA, "I walked the site with Khalid. The first floor glass is in.").get("state") == "Proposed"
+		assert agent.draft_update(VILLA, "I walked the site with Khalid. The first floor glass is in.").get("state") == "Proposed"
 		made = templates.save_as(VILLA, "Villa Glazing")
 		assert frappe.db.count("Project Template Task", {"parent": made}) == frappe.db.count("Task", {"project": VILLA, "status": ["!=", "Cancelled"]})
 		order = kinds.add_contract(ACME, 85000, "SVC-INST", retention=5)
@@ -647,29 +647,29 @@ def oneproject_oneai_reminds_adds_and_the_rules_stand():
 	from unittest.mock import patch
 
 	from onedesk.one_ai import proposals
-	from onedesk.one_project import ai, billing, contacts
+	from onedesk.one_project import agent, billing, contacts
 	from onedesk.one_project.retention import HELD
 
 	with as_user(OWNER):
-		facts = ai.project_facts(TOWER)
+		facts = agent.project_facts(TOWER)
 		late = facts["invoices"]["overdue"]
 		assert late and all(one["days_late"] > 0 for one in late), facts["invoices"]
 		assert all("to_pay" in one and "due" in one for one in facts["money"]["subcontracts"])
 		mails = frappe.db.count("Communication")
-		card = ai.remind_customer(late[0]["invoice"], "Dear Bayview,\n\nA reminder that this invoice is past its date.")
+		card = agent.remind_customer(late[0]["invoice"], "Dear Bayview,\n\nA reminder that this invoice is past its date.")
 		said = proposals.apply(card["proposal"])
 		assert said["mail"]["text"].startswith("Dear Bayview") and said["mail"]["subject"], said
 		assert frappe.db.count("Communication") == mails, "a reminder is opened to send, never sent"
 	with as_user("samir@one.test"):
-		assert not ai.project_facts(TOWER)["invoices"]["overdue"]
+		assert not agent.project_facts(TOWER)["invoices"]["overdue"]
 		on = set(frappe.get_all("Project User", filters={"parent": VILLA, "parenttype": "Project"}, pluck="user"))
 		joins = next(one for one in ("rania@one.test", "nadia@one.test", "tariq@one.test", "omar@one.test", "karim@one.test") if one not in on)
-		card = ai.add_member(VILLA, joins)
+		card = agent.add_member(VILLA, joins)
 		assert card.get("state") == "Proposed", card
 		assert not frappe.db.exists("Project User", {"parent": VILLA, "user": joins})
 		proposals.apply(card["proposal"])
 		assert frappe.db.exists("Project User", {"parent": VILLA, "user": joins})
-		card = ai.add_contact(VILLA, "Engineer", organisation="Gulf Structural Engineers", note="Checks the brackets")
+		card = agent.add_contact(VILLA, "Engineer", organisation="Gulf Structural Engineers", note="Checks the brackets")
 		proposals.apply(card["proposal"])
 		assert "Gulf Structural Engineers" in {one["company"] for one in contacts.contacts(VILLA)["contacts"]}
 	bill = frappe.get_all("Purchase Invoice", filters={"docstatus": 1, "outstanding_amount": [">", 0], "project": ["is", "set"]}, pluck="name")[0]
@@ -991,7 +991,7 @@ def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
 	from unittest import mock
 
 	from onedesk.one_portal import invite as portal_invite
-	from onedesk.one_project import ai, portal, tell, updates
+	from onedesk.one_project import agent, portal, tell, updates
 
 	with _Told() as told:
 		updates._ask(VILLA)
@@ -1004,8 +1004,8 @@ def oneproject_its_people_are_asked_and_its_customer_reads_their_own():
 	assert "samir@one.test" in told.to("Retainer Month to Invoice"), told.said
 
 	with as_user("rania@one.test"):
-		assert ai.project_facts(VILLA)["title"] == "Mansour Villa Windows and Doors"
-		assert "error" in ai.project_facts(MARINA), "a project she is not on"
+		assert agent.project_facts(VILLA)["title"] == "Mansour Villa Windows and Doors"
+		assert "error" in agent.project_facts(MARINA), "a project she is not on"
 
 	contact = next(one.parent for one in frappe.get_all("Dynamic Link", filters={"parenttype": "Contact", "link_doctype": "Customer", "link_name": "Mansour & Sons"}, fields=["parent"]))
 	with as_user("omar@one.test"), mock.patch("onedesk.one.tell.invited_to_portal"):
@@ -1133,7 +1133,7 @@ def oneproject_its_views_read_as_their_people_and_oneai_starts_one():
 
 	from onedesk.one_ai import proposals
 	from onedesk.one_demo.projects import TEMPLATE
-	from onedesk.one_project import ai
+	from onedesk.one_project import agent
 
 	open_ = {"status": "Open", "project_type": ["!=", "Employee Boarding"]}
 	every = frappe.get_all("Project", filters=open_, pluck="name")
@@ -1145,10 +1145,10 @@ def oneproject_its_views_read_as_their_people_and_oneai_starts_one():
 		for name in ("Projects by Kind", "Projects by Health"):
 			drawn = chart(chart_name=name, refresh=1)
 			assert sum(drawn["datasets"][0]["values"]) == len(mine), (name, drawn)
-		assert VILLA in {one["project"] for one in ai.projects_needing_attention()["projects"]}
+		assert VILLA in {one["project"] for one in agent.projects_needing_attention()["projects"]}
 	with as_user("samir@one.test"):
-		assert ai.draft_project("Mansour Garden Room", "Fixed Price", "Mansour & Sons", contract=30000).get("error"), "a contract is billed as an item"
-		card = ai.draft_project("Mansour Garden Room", "Fixed Price", "Mansour & Sons", template=TEMPLATE, contract=30000, item="SVC-INST", ends=add_days(today(), 365))
+		assert agent.draft_project("Mansour Garden Room", "Fixed Price", "Mansour & Sons", contract=30000).get("error"), "a contract is billed as an item"
+		card = agent.draft_project("Mansour Garden Room", "Fixed Price", "Mansour & Sons", template=TEMPLATE, contract=30000, item="SVC-INST", ends=add_days(today(), 365))
 		assert card.get("state") == "Proposed", card
 		assert not frappe.db.exists("Project", {"project_name": "Mansour Garden Room"}), "nothing is made until approved"
 		name = proposals.apply(card["proposal"])
@@ -1169,13 +1169,13 @@ def oneproject_its_overview_keeps_its_rules_and_tells_its_people():
 	from unittest.mock import patch
 
 	from onedesk.one_ai import proposals
-	from onedesk.one_project import ai, tree, view
+	from onedesk.one_project import agent, tree, view
 	from onedesk.one_studio.print_blocks import progress
 
 	told = []
 	with as_user("samir@one.test"), patch("onedesk.one.notify.notify", side_effect=lambda name, *args, **kwargs: told.append(name)):
-		assert ai.add_milestone(VILLA, "Glass signed off", str(add_days(today(), 20)), bill_share=5).get("error"), "the villa's milestones bill all of it already"
-		card = ai.add_milestone(VILLA, "Glass signed off", str(add_days(today(), 20)))
+		assert agent.add_milestone(VILLA, "Glass signed off", str(add_days(today(), 20)), bill_share=5).get("error"), "the villa's milestones bill all of it already"
+		card = agent.add_milestone(VILLA, "Glass signed off", str(add_days(today(), 20)))
 		assert card.get("state") == "Proposed" and not frappe.db.exists("Task", {"project": VILLA, "subject": "Glass signed off"})
 		proposals.apply(card["proposal"])
 		assert frappe.db.get_value("Task", {"project": VILLA, "subject": "Glass signed off"}, "is_milestone") == 1
@@ -1185,8 +1185,8 @@ def oneproject_its_overview_keeps_its_rules_and_tells_its_people():
 			pass
 		else:
 			raise AssertionError("the milestones bill more than the contract")
-		assert ai.set_status(VILLA, "Completed").get("mend") == "set_status", "open work is closed only when asked"
-		card = ai.set_status(ACME, "On hold")
+		assert agent.set_status(VILLA, "Completed").get("mend") == "set_status", "open work is closed only when asked"
+		card = agent.set_status(ACME, "On hold")
 		assert frappe.db.get_value("Project", ACME, "status") == "Open"
 		proposals.apply(card["proposal"])
 		assert frappe.db.get_value("Project", ACME, "status") == "On hold" and "Project Stopped" in told, told
@@ -1221,7 +1221,7 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 	from unittest.mock import patch
 
 	from onedesk.one_ai import proposals
-	from onedesk.one_project import ai, hours
+	from onedesk.one_project import agent, hours
 
 	rania = frappe.db.get_value("Employee", {"user_id": "rania@one.test"})
 	with as_user("samir@one.test"):
@@ -1253,12 +1253,12 @@ def oneproject_its_tasks_time_and_money_keep_their_rules():
 		else:
 			raise AssertionError(f"{doctype} {field} took -1")
 	with as_user("samir@one.test"):
-		card = ai.log_time(SHOWROOM, 3, "Design", task=elsewhere)
-		assert card.get("state") == "Proposed" and ai.log_time(SHOWROOM, 0, "Design").get("mend") == "log_time"
+		card = agent.log_time(SHOWROOM, 3, "Design", task=elsewhere)
+		assert card.get("state") == "Proposed" and agent.log_time(SHOWROOM, 0, "Design").get("mend") == "log_time"
 		before = frappe.db.count("Timesheet Detail", {"project": SHOWROOM})
 		proposals.apply(card["proposal"])
 		assert frappe.db.count("Timesheet Detail", {"project": SHOWROOM}) == before + 1
-		card = ai.set_cost_budget(ACME, "Subcontract Costs", 12000)
+		card = agent.set_cost_budget(ACME, "Subcontract Costs", 12000)
 		assert card.get("state") == "Proposed" and not frappe.db.exists("Budget", {"project": ACME, "docstatus": 1})
 		proposals.apply(card["proposal"])
 		assert frappe.db.exists("Budget", {"project": ACME, "docstatus": 1})

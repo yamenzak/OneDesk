@@ -121,7 +121,7 @@ def overview() -> dict:
 
 
 def _sees_acceptances() -> bool:
-	"""A workspace administrator, or a role given Who Agreed (abilities.py)."""
+	"""A workspace administrator, or a role given Who Agreed (access.py)."""
 	from onedesk.one import rights
 
 	return rights.may("Legal Acceptance", "legal_acceptances")

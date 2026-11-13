@@ -2,7 +2,7 @@
 Portal dialog (public/js/one_portal/portal.js), which also opens on a customer,
 a supplier and a contact to invite their people; and the link's page
 (frontend/portal, /portal/l/<token>), which answers once, then reads. See
-OnePortal's Help (one_portal/docs/)."""
+OnePortal's Help (one_portal/help/)."""
 
 import json
 from urllib.parse import quote

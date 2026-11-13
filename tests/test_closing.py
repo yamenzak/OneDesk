@@ -47,7 +47,7 @@ def test_closing_waits_out_its_notice_and_can_be_undone_until_then():
 	assert "tenant.status not in OPEN" in keep and "_renewal(tenant, ends=False)" in keep
 	ladder = (tree.APP / "one_admin" / "ladder.py").read_text()
 	assert "NOTICE_DAYS = 14" in ladder
-	legal = (tree.APP / "trust_center" / "legal.py").read_text()
+	legal = (tree.APP / "trust_center" / "trust.py").read_text()
 	assert "{NOTICE_DAYS} days" in legal and 'DAYS["Archived"]} days later' in legal
 
 

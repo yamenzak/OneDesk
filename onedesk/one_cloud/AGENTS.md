@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneCloud is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -22,7 +22,7 @@ folder).
 
 ## Under the hood
 
-For the people who build OneCloud. OneAI's `how_to` reads `docs/`, never this file.
+For the people who build OneCloud. OneAI's `how_to` reads `help/`, never this file.
 
 **What OneAI makes** (`made.py`). Four jobs in `one_ai/jobs.py`,
 `cloud_picture`, `cloud_music`, `cloud_video` and `cloud_voice`, each with its
@@ -705,12 +705,12 @@ OneCloud's in each:
 - `notifications.py` — the fourteen kinds of notification it sends, each
   with its channels and sender. Those that go to an address outside the
   workspace (`outside`) go by mail alone.
-- `ai.py` — OneAI's three reads (`READS`), and `NOT_FOR_AI`: every call that
+- `agent.py` — OneAI's three reads (`READS`), and `NOT_FOR_AI`: every call that
   changes something, with why OneAI suggests no card for it.
 - `setup.py` — no steps: files go to storage from the first upload, and
   every folder, share and library is made where it is used.
 - `tour.py` — one tour, of the explorer, at `onecloud-items`.
-- `legal.py` — what OneCloud adds to the agreements: files kept in R2, links
+- `trust.py` — what OneCloud adds to the agreements: files kept in R2, links
   and file requests to people outside, OneAI's reading and making, office
   previews and OneOS.
 - `public/js/one_cloud/cloud_control.js` — Settings, which has no tabs of
@@ -720,7 +720,7 @@ OneCloud's in each:
 - `public/js/one_cloud/record_files.js` and `public/js/one_cloud/record_activity.js` are
   OneCloud's too: the Files and Activity tabs on every record.
 
-### ai.py
+### agent.py
 
 Everything is read as the reader, through the explorer's own rule
 (`namespace.may`), so a file OneAI may read is a file the reader may open. A

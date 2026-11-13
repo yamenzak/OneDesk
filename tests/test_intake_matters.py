@@ -102,11 +102,11 @@ def test_acting_waits_for_quiet_and_lessons_turn_into_asking():
 
 def test_understood_documents_are_still_found_and_only_by_those_who_may_open_them():
 	source = (ROOT / "search.py").read_text()
-	body = (ROOT / "ai.py").read_text()
+	body = (ROOT / "agent.py").read_text()
 	for one in (source, body):
 		assert "state in ('Read', 'Understood')" in one, "understanding a document must not hide it from search"
 	assert "files_of(" in body and "messages_of(" in body, "every hit is checked against the file or the message"
 	hooks = tree.hooks()
-	assert '"onedesk.one_ai.reading.ai.find_documents"' in hooks
+	assert '"onedesk.one_ai.reading.agent.find_documents"' in hooks
 	memory = (ROOT.parent / "memory.py").read_text()
 	assert "search.about(doctype, name)" in memory

@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what AccountCenter is made of, its
 rules, where each file is, and the decisions that cost something. What
-people read is in `docs/`, one page per thing they do, shown in Help and
-searched by OneAI's `how_to`; its versions are `docs/changelog/`. What is
+people read is in `help/`, one page per thing they do, shown in Help and
+searched by OneAI's `how_to`; its versions are `updates/`. What is
 known to be wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A
 module's folder). Why it exists is `docs/ONE.md`.
 
@@ -24,7 +24,7 @@ domains. AccountCenter shows all of it.
 - **To One**: what each role of an app may do is set in AccessCenter; People
   sets which level each person holds.
 - **To OneAI**: One's own tools read people, the plan and domains through
-  `center.py`. OneAI changes nothing here (`ai.py`).
+  `center.py`. OneAI changes nothing here (`agent.py`).
 
 ## Under the hood
 
@@ -69,9 +69,9 @@ the title, the primary action, and the record's actions as menus.
   workspace, what the account says above its fields, closing the workspace,
   and private apps.
 - `doctype/`: Device, Workspace Account, Workspace Add-on, Workspace Domain.
-- `abilities.py`: one ability, `plan`, so a role can read Plan and Credits
+- `access.py`: one ability, `plan`, so a role can read Plan and Credits
   without being an administrator.
-- `notifications.py`, `legal.py`, `setup.py`, `tour.py`, `ai.py`: what it
+- `notifications.py`, `trust.py`, `setup.py`, `tour.py`, `agent.py`: what it
   tells people, adds to the agreements, asks while setting up, tours, and
   leaves to people rather than OneAI.
 

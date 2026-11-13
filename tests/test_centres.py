@@ -70,7 +70,7 @@ def test_a_section_sends_every_field_and_behaves_like_a_form():
 def test_what_oneai_offers_is_for_a_tab_that_exists():
 	"""OneAI's suggestions on a centre's tab are keyed by the page the tab
 	tells it (module_settings.js `activate`, CenterSection.HERE)."""
-	ai = (tree.APP / "one" / "ai.py").read_text()
+	ai = (tree.APP / "one" / "agent.py").read_text()
 	assert not re.findall(r'"page:(?:settings|workspace-settings)/', ai), "OneAI offers something on the old Settings pages"
 	for key in ("one/general", "onestudio/numbering", "onestudio/printing", "onestudio/approvals", "notifications/words", "access/access", "onehr/holidays"):
 		assert f'"page:{key}"' in ai, key

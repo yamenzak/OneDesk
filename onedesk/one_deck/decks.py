@@ -263,7 +263,7 @@ def build(kind: str, words: dict, look: dict) -> dict:
 	return {"background": background, "elements": drawn, "kind": kind}
 
 
-#: The words each kind takes, for OneAI to fill (one_deck/ai.py draft_deck).
+#: The words each kind takes, for OneAI to fill (one_deck/agent.py draft_deck).
 WORDS = {
 	"title": "title, line",
 	"agenda": "title, items (up to 6 strings)",

@@ -1,7 +1,7 @@
 # OneDeck
 
 What OneDeck is, how it works and why; for agents, OneAI and us. What is
-known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
+known to be wrong is `SCRATCHPAD.md`, and the Help people read is `help/`.
 
 Presentations in OneCloud: a tender pitch, a monthly review, a training
 session. Made in the desk, kept beside everything else in the company's
@@ -65,7 +65,7 @@ before, so going back can itself be undone.
 **File › Save as Template** keeps a copy in OneCloud › Presentation Templates.
 Everyone in the company may start from it: **New › Presentation** offers it,
 and **Theme** lists it beside Light and Dark, so its slides become layouts.
-Keeping one is OneDeck's one ability, `template` (`abilities.py`, the
+Keeping one is OneDeck's one ability, `template` (`access.py`, the
 Permission Type `slide_template` on Presentation): a Manager has it, a User
 does not, and the item is left out of **File** for whoever lacks it.
 
@@ -372,7 +372,7 @@ Adding is for whoever keeps company templates (`slide_template`):
 `services.call("google_fonts", …)`. Google's catalogue is asked once a day
 and a family's TTF files once, by our server; nothing is fetched from Google
 when anyone reads. The service, its Google use and the privacy clause are in
-`legal.py`.
+`trust.py`.
 
 A text paragraph takes its direction from its first letter
 (`unicode-bidi: plaintext` in `TextElement.vue` and `play.js`); a box's `dir`
@@ -444,7 +444,7 @@ by Magic Move keeps its own fade and does not move its elements.
 
 ### OneAI
 
-`ai.py`. The jobs are OneDeck's own (`slide_design`, `slide_picture`,
+`agent.py`. The jobs are OneDeck's own (`slide_design`, `slide_picture`,
 `slide_video` in `one_ai/jobs.py`). A design comes back as blocks placed in
 percent of the slide, told the presentation's size, and `convert.py`
 redraws them as Suite's elements on that frame: text as Suite's paragraphs,

@@ -81,6 +81,6 @@ def test_a_profile_keeps_what_else_a_person_holds():
 
 
 def test_oneai_reads_access():
-	ai = (tree.APP / "one" / "ai.py").read_text()
+	ai = (tree.APP / "one" / "agent.py").read_text()
 	assert "def workspace_access(" in ai and '"page:access/access"' in ai
-	assert '"onedesk.one.ai.workspace_access"' in tree.hooks()
+	assert '"onedesk.one.agent.workspace_access"' in tree.hooks()

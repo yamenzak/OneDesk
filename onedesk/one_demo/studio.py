@@ -47,11 +47,11 @@ EXTENSIONS = (
 
 def run(password=None):
 	from onedesk.one_ai import proposals
-	from onedesk.one_studio import ai, extensions, record_types, review
+	from onedesk.one_studio import agent, extensions, record_types, review
 
 	with as_user(OWNER):
 		if not frappe.db.exists(record_types.RECORD_TYPE, {"record_doctype": VAN}):
-			card = ai.design_record_type(
+			card = agent.design_record_type(
 				VAN,
 				"OneInventory",
 				"A van the company owns, who drives it and when it is next serviced.",
@@ -93,7 +93,7 @@ def run(password=None):
 					event=None if on_screen else when,
 				)
 				if on_screen:
-					ai.turn_on({"extension": kept["extension"], "state": extensions.reviewed_as(frappe.get_doc(extensions.EXTENSION, kept["extension"]))})
+					agent.turn_on({"extension": kept["extension"], "state": extensions.reviewed_as(frappe.get_doc(extensions.EXTENSION, kept["extension"]))})
 	screen = frappe.db.get_value(extensions.EXTENSION, {"title": EXTENSIONS[0][0]})
 	with as_user("omar@one.test"):
 		customer = frappe.get_all("Customer", pluck="name", limit=1)[0]

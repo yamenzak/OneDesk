@@ -414,7 +414,7 @@ def oneai_makes_slides_and_pictures():
 	from unittest import mock
 
 	from onedesk.one_doc import api as doc_api
-	from onedesk.one_deck import ai, api, convert
+	from onedesk.one_deck import agent, api, convert
 
 	designed = json.dumps({
 		"background": "#102030", "background2": "#405060", "angle": 90,
@@ -434,11 +434,11 @@ def oneai_makes_slides_and_pictures():
 		), mock.patch("onedesk.one_ai.run.make", return_value={"data": png, "mime": "image/png"}), mock.patch(
 			"onedesk.one_ai.run.begin", return_value="ticket"
 		), mock.patch("onedesk.one_ai.run.collect", return_value={"done": True, "data": base64.b64encode(b"video").decode(), "mime": "video/mp4"}), mock.patch(
-			"onedesk.one_deck.ai.time.sleep"
+			"onedesk.one_deck.agent.time.sleep"
 		), mock.patch("onedesk.one.notify.notify", side_effect=lambda kind, to, **said: told.append((kind, to, said["what"]))):
 			with as_user("karim@one.test"):
 				name = api.make("@my", "OneAI check")["presentation"]
-				slide = ai.design(name, "An open house on Saturday")
+				slide = agent.design(name, "An open house on Saturday")
 				kinds = [(one["type"], one.get("shapeType")) for one in slide["elements"]]
 				assert kinds == [("text", None), ("shape", "blockArrow"), ("image", None), ("image", None)], kinds
 				assert slide["background"] == "linear-gradient(90deg, #102030FF, #405060FF)", slide["background"]
@@ -447,11 +447,11 @@ def oneai_makes_slides_and_pictures():
 				assert slide["elements"][1]["fade"]["to"] == "#FFCC00FF" and slide["elements"][1]["shadowOpacity"] == 40
 				assert slide["elements"][2]["src"].startswith("data:image/svg+xml;base64,"), "a QR code is a picture of one"
 				assert slide["elements"][3]["src"] == "", "an address that is not ours is dropped"
-				made = ai.picture(name, "A tower at dusk")
+				made = agent.picture(name, "A tower at dusk")
 				assert made["file_url"].startswith(api.MEDIA) and frappe.db.get_value("File", made["name"], "attached_to_name") == name
 				before = len(api.get(name)["slides"])
-				assert ai.video(name, "Waves on a glass facade")["begun"]
-				ai.made_later(name, "Waves on a glass facade", "karim@one.test")
+				assert agent.video(name, "Waves on a glass facade")["begun"]
+				agent.made_later(name, "Waves on a glass facade", "karim@one.test")
 				slides = api.get(name)["slides"]
 				video = json.loads(slides[-1]["elements"])[0]
 				assert len(slides) == before + 1 and video["type"] == "video" and video["src"].startswith(api.MEDIA), video
@@ -473,7 +473,7 @@ def oneai_makes_slides_and_pictures():
 		assert play._transition("Magic Move") == "fade" and play._transition("Slide In") == "slide"
 		with mock.patch("onedesk.one.apps.ai_on", return_value=False):
 			try:
-				ai.design(name, "Anything")
+				agent.design(name, "Anything")
 				raise AssertionError("OneAI turned off still designs")
 			except Exception as refused:
 				assert "turned off" in str(refused), refused
@@ -491,16 +491,16 @@ def oneai_writes_a_deck():
 	from unittest import mock
 
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_deck import ai, api, versions
+	from onedesk.one_deck import agent, api, versions
 
 	frappe.db.savepoint("slide_deck_check")
 	try:
 		with mock.patch("onedesk.one.apps.ai_on", return_value=True), as_user(OWNER):
 			name = api.make("@my", "Deck check")["presentation"]
 			first = api.get(name)["slides"][0]["client_id"]
-			told = ai.page({"page": "presentation", "record": name, "selection": {"presentation": name, "slide": first}})
+			told = agent.page({"page": "presentation", "record": name, "selection": {"presentation": name, "slide": first}})
 			assert "timeline: title, steps" in told and "slide 1 open" in told and "pitch: title, agenda" in told, told
-			assert "kind is one of" in ai.draft_deck(name, [{"kind": "poster"}])["error"]
+			assert "kind is one of" in agent.draft_deck(name, [{"kind": "poster"}])["error"]
 			deck = [
 				{"kind": "title", "words": {"title": "Glass for Bayview", "line": "Our offer"}},
 				{"kind": "timeline", "words": {"title": "Programme", "steps": [{"step": "Survey", "when": "May"}, {"step": "Fit", "when": "June"}, {"step": "Hand over", "when": "July"}]}, "notes": "Three steps."},
@@ -508,23 +508,23 @@ def oneai_writes_a_deck():
 			said = tools.run("draft_deck", {"presentation": name, "slides": deck})
 			assert not said["ran"] and said["answer"]["state"] == "Proposed", said
 			proposals.apply(said["answer"]["proposal"])
-			slides = ai.read_presentation(name)["slides"]
+			slides = agent.read_presentation(name)["slides"]
 			plan = slides[-1]
 			assert slides[-2]["texts"][0]["text"] == "Glass for Bayview" and plan["kind"] == "timeline" and plan["notes"] == "Three steps.", slides
 			assert [one["text"] for one in plan["texts"]][:3] == ["Programme", "Survey", "May"], plan
 			said = tools.run("write_slide", {"presentation": name, "slide": plan["id"], "texts": {plan["texts"][0]["id"]: "The plan"}})
 			proposals.apply(said["answer"]["proposal"])
-			assert ai.read_presentation(name)["slides"][-1]["texts"][0]["text"] == "The plan"
-			assert "texts is" in ai.write_slide(name, plan["id"], {"nothing": "x"})["error"]
-			assert "kind is one of" in ai.remake_slide(name, plan["id"], "poster", {})["error"]
+			assert agent.read_presentation(name)["slides"][-1]["texts"][0]["text"] == "The plan"
+			assert "texts is" in agent.write_slide(name, plan["id"], {"nothing": "x"})["error"]
+			assert "kind is one of" in agent.remake_slide(name, plan["id"], "poster", {})["error"]
 			said = tools.run("remake_slide", {"presentation": name, "slide": plan["id"], "kind": "figures", "words": {"figures": [{"figure": "3", "label": "Steps"}]}})
 			proposals.apply(said["answer"]["proposal"])
-			remade = ai.read_presentation(name)["slides"][-1]
+			remade = agent.read_presentation(name)["slides"][-1]
 			assert remade["kind"] == "figures" and "3" in [one["text"] for one in remade["texts"]], remade
 			assert "Before OneAI wrote slides" in [one["title"] for one in versions.listed(name)]
 		with as_user("omar@one.test"):
-			assert ai.page({"page": "presentation", "record": name}) == "The reader is on a presentation's page in OneDeck."
-			assert "error" in ai.read_presentation(name)
+			assert agent.page({"page": "presentation", "record": name}) == "The reader is on a presentation's page in OneDeck."
+			assert "error" in agent.read_presentation(name)
 	finally:
 		frappe.db.rollback(save_point="slide_deck_check")
 

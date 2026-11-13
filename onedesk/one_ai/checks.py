@@ -103,8 +103,8 @@ def a_oneai_manager_writes_knowledge():
 	"""Knowledge (one_ai/center.py keep_knowledge): Nadia, with no role
 	beyond User, is refused; given OneAI Manager she writes a piece, changes
 	it and removes it in AICenter, though the record type's own form is an
-	administrator's; OneAI may do none of it (ai.py NOT_FOR_AI)."""
-	from onedesk.one_ai import ai, center
+	administrator's; OneAI may do none of it (agent.py NOT_FOR_AI)."""
+	from onedesk.one_ai import agent, center
 
 	with as_user("nadia@one.test"):
 		assert not center.may()["knowledge"]
@@ -127,4 +127,4 @@ def a_oneai_manager_writes_knowledge():
 			assert not frappe.db.exists("AI Knowledge", name)
 	finally:
 		user.remove_roles("OneAI Manager")
-	assert "center.keep_knowledge" in ai.NOT_FOR_AI and "center.drop_knowledge" in ai.NOT_FOR_AI
+	assert "center.keep_knowledge" in agent.NOT_FOR_AI and "center.drop_knowledge" in agent.NOT_FOR_AI

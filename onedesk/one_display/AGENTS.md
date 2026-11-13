@@ -2,7 +2,7 @@
 
 The one file for agents, OneAI and us: what OneDisplay is made of, its rules,
 where each file is, and the decisions that cost something. What is known to
-be missing is `SCRATCHPAD.md`; what people read is `docs/`.
+be missing is `SCRATCHPAD.md`; what people read is `help/`.
 
 OneDisplay is digital signage that runs on any screen with a browser: a TV in
 a lobby, a kiosk at a door, a stick behind a meeting room's display. A screen
@@ -331,18 +331,18 @@ were turned into one-slide presentations filed on their playlist by
 `voices.record` records a voice ad. Each comes back as something a person
 keeps or not; nothing goes on a screen by itself. Pictures, videos and
 designed slides are made in a presentation, with OneDeck's own jobs
-(`one_deck/ai.py`).
+(`one_deck/agent.py`).
 
 Music (Lyria) is one call, made in a `long` job. It arrives at the end of its
 playlist **Paused**, its length read from the file, and whoever asked is told
 (**Made by OneAI**, or **Not Made by OneAI**). A voice model is told only its own words, never
-OneAI's voice, which it would read aloud (`jobs.MAKES`). `ai.py` gives the
+OneAI's voice, which it would read aloud (`jobs.MAKES`). `agent.py` gives the
 chat `queue_now`, `screens_now` and `plan_voice_ad` (a card), and says in
 `NOT_FOR_AI` why every other change is a person's.
 
 ## Who may do what
 
-`abilities.py`. **OneDisplay User** works a counter. **OneDisplay Manager**
+`access.py`. **OneDisplay User** works a counter. **OneDisplay Manager**
 runs the screens and what they show, and holds **Send an Emergency Alert**
 (`display_alert`, a permission type on Display Settings). A screen itself is
 nobody: its token lets it read its own channel and, from its own kiosk
@@ -395,7 +395,7 @@ one).
 | `voices.py`, `make.py` | What OneAI records and makes |
 | `worker.py` | Serves the TV's service worker |
 | `tell.py`, `notifications.py` | What it tells people |
-| `abilities.py`, `legal.py`, `setup.py`, `tour.py`, `ai.py` | The READY pieces |
+| `access.py`, `trust.py`, `setup.py`, `tour.py`, `agent.py` | The READY pieces |
 | `demo.py`, `checks.py`, `tests/` | The showroom, its checks, the pure tests |
 | `page/counter/` | The counter's island |
 | `patches/widgets_from_queue.py` | The first slice's queue channels, moved onto widgets |

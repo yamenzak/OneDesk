@@ -54,7 +54,7 @@ WRITTEN = {"AGENTS.md", "SCRATCHPAD.md"}
 
 
 def test_a_module_writes_only_agents_scratchpad_and_docs():
-	"""A module on its way to ready holds AGENTS.md, SCRATCHPAD.md and docs/
+	"""A module on its way to ready holds AGENTS.md, SCRATCHPAD.md, help/ and updates/
 	and no other Markdown (docs/READY.md, A module's folder)."""
 	stray = []
 	for spec in ready.MODULES.values():
@@ -62,7 +62,7 @@ def test_a_module_writes_only_agents_scratchpad_and_docs():
 		assert (folder / "AGENTS.md").exists() and (folder / "SCRATCHPAD.md").exists(), spec["folder"]
 		for path in folder.rglob("*.md"):
 			inside = path.relative_to(folder)
-			if inside.parts[0] != "docs" and str(inside) not in WRITTEN:
+			if inside.parts[0] not in ("help", "updates") and str(inside) not in WRITTEN:
 				stray.append(str(path.relative_to(ROOT)))
 	assert not stray, f"no other Markdown in a module: {stray}"
 
@@ -131,12 +131,12 @@ def test_a_version_is_written_for_the_people_using_it():
 
 def test_every_help_page_is_listed_and_every_link_lands():
 	"""Help shows a module's pages in the order ready.MODULES gives, so every
-	page of its docs/ is listed there, and a version's Read More names only
+	page of its help/ is listed there, and a version's Read More names only
 	pages that are."""
 	for module, spec in ready.MODULES.items():
 		listed = [page for page, _icon in spec.get("help", ())]
-		pages = sorted(path.stem for path in (ROOT / "onedesk" / spec["folder"] / "docs").glob("*.md"))
-		assert sorted(listed) == pages, f"{module}'s help lists {sorted(listed)}, its docs/ has {pages}"
+		pages = sorted(path.stem for path in (ROOT / "onedesk" / spec["folder"] / "help").glob("*.md"))
+		assert sorted(listed) == pages, f"{module}'s help lists {sorted(listed)}, its help/ has {pages}"
 		for one in ready.versions(module):
 			stray = [page for page in one["docs"] if page not in listed]
 			assert not stray, f"{module} {one['version']} reads more in {stray}, which is no help page"
@@ -150,7 +150,7 @@ def test_a_help_page_names_no_code():
 	see and never the file or function behind it; AGENTS.md keeps those.
 	An address, a keyboard key or a search word in backticks is fine."""
 	for module, spec in ready.MODULES.items():
-		for path in sorted((ROOT / "onedesk" / spec["folder"] / "docs").glob("*.md")):
+		for path in sorted((ROOT / "onedesk" / spec["folder"] / "help").glob("*.md")):
 			for number, line in enumerate(path.read_text().splitlines(), 1):
 				for found in CODE.findall(line):
 					if "@" in found or "{" in found:
@@ -239,7 +239,7 @@ def test_a_change_to_what_a_module_agrees_on_is_said():
 
 
 def _declared(path: Path) -> dict:
-	"""A module's abilities.py read without importing it: its top-level
+	"""A module's access.py read without importing it: its top-level
 	names that are plain values."""
 	import ast
 
@@ -254,7 +254,7 @@ def _declared(path: Path) -> dict:
 
 
 def test_a_module_ships_its_roles():
-	"""A module's roles come from its own abilities.py (docs/READY.md,
+	"""A module's roles come from its own access.py (docs/READY.md,
 	mechanism 7): named by the one_abilities hook, its DEFAULTS give every
 	role it ships a value for each ability and are what migrate makes the
 	roles from, and its Help shows them ({roles}), so the page says what
@@ -266,13 +266,13 @@ def test_a_module_ships_its_roles():
 			# records and is given to nobody; it says why instead.
 			said = spec["engine"]
 			assert said.endswith(".") and len(re.findall(r"[.!?](?:\s|$)", said)) == 1, f"{module}: why it ships no roles, in one sentence"
-			assert not (ROOT / "onedesk" / spec["folder"] / "abilities.py").exists(), f"{module} is an engine and ships no roles"
+			assert not (ROOT / "onedesk" / spec["folder"] / "access.py").exists(), f"{module} is an engine and ships no roles"
 			continue
-		path = ROOT / "onedesk" / spec["folder"] / "abilities.py"
+		path = ROOT / "onedesk" / spec["folder"] / "access.py"
 		assert path.exists(), f"{module} ships no roles: write {path.relative_to(ROOT)}"
-		assert f'"onedesk.{spec["folder"]}.abilities"' in hooks, f"one_abilities in hooks.py doesn't name {module}'s"
+		assert f'"onedesk.{spec["folder"]}.access"' in hooks, f"one_abilities in hooks.py doesn't name {module}'s"
 		said = _declared(path)
-		assert said.get("APP") == module, f"{module}'s abilities.py says APP = {said.get('APP')}"
+		assert said.get("APP") == module, f"{module}'s access.py says APP = {said.get('APP')}"
 		abilities = said["ABILITIES"]
 		keys = set()
 		for one in getattr(abilities, "elts", []):
@@ -288,7 +288,7 @@ def test_a_module_ships_its_roles():
 		pages = [page["body"] for page in ready.help_pages(module)]
 		assert any("{roles}" in body for body in pages), f"{module}'s Help doesn't show what its roles start with ({{roles}})"
 	fixtures = (ROOT / "onedesk" / "fixtures").glob("role.json")
-	assert not list(fixtures), "a module's roles are made from its abilities.py, not a fixture"
+	assert not list(fixtures), "a module's roles are made from its access.py, not a fixture"
 
 
 SHARES = re.compile(
@@ -489,7 +489,7 @@ def _changers(module: str) -> set[str]:
 
 def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 	"""Every call of a ready module that changes something (whitelisted for
-	POST alone) is a card OneAI suggests, in its ai.py's REACH: the tool is
+	POST alone) is a card OneAI suggests, in its agent.py's REACH: the tool is
 	hooked, and approving its card makes that very call. Or it is in
 	NOT_FOR_AI with the reason in one sentence (docs/READY.md, mechanism 11)."""
 	import ast
@@ -498,7 +498,7 @@ def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 	approving = (ROOT / "onedesk" / "one_ai" / "proposals.py").read_text(encoding="utf-8")
 	for module, spec in ready.MODULES.items():
 		folder = ROOT / "onedesk" / spec["folder"]
-		path = folder / "ai.py"
+		path = folder / "agent.py"
 		assert path.exists(), f"{module} says nothing of OneAI: write {path.relative_to(ROOT)}"
 		source = path.read_text(encoding="utf-8")
 		declared = _declared(path)
@@ -511,8 +511,8 @@ def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 		assert not gone, f"{module}: named but no longer a call that changes something: {gone}"
 		tools = {node.name for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
 		for call, tool in reach.items():
-			assert tool in tools, f"{module}: {call} is reached by {tool}, which its ai.py doesn't have"
-			assert f'"onedesk.{spec["folder"]}.ai.{tool}"' in hooks, f"{module}: {tool} isn't one of OneAI's tools"
+			assert tool in tools, f"{module}: {call} is reached by {tool}, which its agent.py doesn't have"
+			assert f'"onedesk.{spec["folder"]}.agent.{tool}"' in hooks, f"{module}: {tool} isn't one of OneAI's tools"
 			assert f"{call}(" in source + approving, f"{module}: approving {tool} never calls {call}"
 		for call, why in refused.items():
 			assert len(re.findall(r"[.!?](?:\s|$)", why)) == 1 and why.endswith("."), f"{module}: {call}'s reason is one sentence"

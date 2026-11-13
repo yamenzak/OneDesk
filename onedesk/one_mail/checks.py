@@ -19,7 +19,7 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 	by a rule OneAI suggests, and answered on a card. Her out of office and
 	her workspace's signature. Omar cannot see into her mailbox."""
 	from onedesk.one_demo import intake
-	from onedesk.one_mail import actions, ai, api, holders, linking, rules
+	from onedesk.one_mail import actions, agent, api, holders, linking, rules
 	from onedesk.one_mail import demo as mail
 
 	account = intake.mailbox()
@@ -74,12 +74,12 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 		linking.unfile(names, "Project", VILLA)
 		assert thread not in {one["thread"] for one in linking.record("Project", VILLA)}
 
-		opened = ai.open_conversation(account, thread)
+		opened = agent.open_conversation(account, thread)
 		assert opened["subject"] == "Shop drawings for the New York lobby" and opened["messages"]
-		assert thread in {one["thread"] for one in ai.waiting_for_answer(account, inbox)["waiting"]}
-		reply = ai.draft_reply(account, thread, "Dear Jordan,\n\nThe drawings follow on Monday.\n\nLayla")
+		assert thread in {one["thread"] for one in agent.waiting_for_answer(account, inbox)["waiting"]}
+		reply = agent.draft_reply(account, thread, "Dear Jordan,\n\nThe drawings follow on Monday.\n\nLayla")
 		assert frappe.db.get_value("AI Proposal", reply["proposal"], "state") == "Proposed"
-		rule = ai.suggest_mail_rule("Taxis", mailbox=account, text_contains="taxi", sort_inbox_now=True)["proposal"]
+		rule = agent.suggest_mail_rule("Taxis", mailbox=account, text_contains="taxi", sort_inbox_now=True)["proposal"]
 		from onedesk.one_ai import run as runs
 
 		runs.apply(rule)
@@ -208,7 +208,7 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 	monthly limit; then her own signature from a preset with her name on it,
 	and the workspace's rules for outside mailboxes. Turning
 	OneAI off for her own mailbox stops even the OneAI panel reading it."""
-	from onedesk.one_mail import ai, gate, holders, mail_templates, rules, signatures
+	from onedesk.one_mail import agent, gate, holders, mail_templates, rules, signatures
 	from onedesk.one_cloud import api
 
 	with as_user(OWNER):
@@ -223,7 +223,7 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		own = next(one["name"] for one in holders.mailboxes() if not one["shared"])
 		gate.set_settings(own, on=0)
 		assert not gate.settings_of(own)["on"]
-		assert "error" in ai.open_conversation(own, "anything"), "the panel can't read a mailbox OneAI is off for"
+		assert "error" in agent.open_conversation(own, "anything"), "the panel can't read a mailbox OneAI is off for"
 		gate.set_settings(own, on=1)
 		was = frappe.db.get_value("Email Account", own, ["signature", "one_signature_preset", "one_signature_show"])
 		drawn = signatures.presets_of(own, ["title", "email"])
@@ -791,7 +791,7 @@ def onemail_a_mailbox_says_what_oneai_may_do_with_its_mail():
 
 @check
 def onemail_oneai_reaches_what_the_page_changes():
-	"""OneAI's cards for what OneMail's page changes (ai.REACH), each approved
+	"""OneAI's cards for what OneMail's page changes (agent.REACH), each approved
 	as Layla, so done by the page's own call: a folder made, a conversation
 	moved into it, starred, filed on the villa and back, the folder renamed
 	and deleted; her out of office on and off; a rule turned off and
@@ -803,7 +803,7 @@ def onemail_oneai_reaches_what_the_page_changes():
 
 	from onedesk.one_ai import run as runs
 	from onedesk.one_demo import intake
-	from onedesk.one_mail import actions, addresses, ai, api, holders, mail_templates
+	from onedesk.one_mail import actions, addresses, agent, api, holders, mail_templates
 
 	account = intake.mailbox()
 	email = frappe.db.get_value("Email Account", account, "email_id")
@@ -819,54 +819,54 @@ def onemail_oneai_reaches_what_the_page_changes():
 		names = api.names(account, [thread])
 		external, template = addresses.external(), mail_templates.default("Interview")
 		try:
-			approve(ai.change_folder("make", label="Reach Check", mailbox=email))
+			approve(agent.change_folder("make", label="Reach Check", mailbox=email))
 			folder = frappe.db.get_value("Mail Folder", {"account": account, "label": "Reach Check"}, "name")
 			assert folder
-			approve(ai.sort_conversations("move", [thread], mailbox=email, folder="Reach Check"))
+			approve(agent.sort_conversations("move", [thread], mailbox=email, folder="Reach Check"))
 			assert frappe.db.get_value("Communication", names[0], "one_folder") == frappe.db.get_value("Mail Folder", folder, "path")
-			approve(ai.sort_conversations("star", [thread], mailbox=email))
+			approve(agent.sort_conversations("star", [thread], mailbox=email))
 			assert frappe.db.get_value("Communication", names[0], "one_flagged") == 1
-			approve(ai.sort_conversations("move", [thread], mailbox=email, folder="Inbox"))
+			approve(agent.sort_conversations("move", [thread], mailbox=email, folder="Inbox"))
 			assert frappe.db.get_value("Communication", names[0], "one_folder") == "INBOX"
-			approve(ai.file_conversation(thread, "Project", VILLA, mailbox=email))
+			approve(agent.file_conversation(thread, "Project", VILLA, mailbox=email))
 			assert frappe.db.exists("Communication Link", {"parent": names[0], "link_doctype": "Project", "link_name": VILLA})
-			approve(ai.file_conversation(thread, "Project", VILLA, take_off=True, mailbox=email))
+			approve(agent.file_conversation(thread, "Project", VILLA, take_off=True, mailbox=email))
 			assert not frappe.db.exists("Communication Link", {"parent": names[0], "link_doctype": "Project", "link_name": VILLA})
-			approve(ai.change_folder("rename", label="Reach Checked", folder="Reach Check", mailbox=email))
+			approve(agent.change_folder("rename", label="Reach Checked", folder="Reach Check", mailbox=email))
 			assert frappe.db.get_value("Mail Folder", folder, "label") == "Reach Checked"
-			approve(ai.change_folder("delete", folder="Reach Checked", mailbox=email))
+			approve(agent.change_folder("delete", folder="Reach Checked", mailbox=email))
 			assert not frappe.db.exists("Mail Folder", folder)
 
-			approve(ai.suggest_away(True, mailbox=email, until=str(add_days(today(), 5)), message="Back on Monday."))
+			approve(agent.suggest_away(True, mailbox=email, until=str(add_days(today(), 5)), message="Back on Monday."))
 			assert frappe.db.get_value("Email Account", account, "one_away") == 1
-			approve(ai.suggest_away(False, mailbox=email))
+			approve(agent.suggest_away(False, mailbox=email))
 			assert frappe.db.get_value("Email Account", account, "one_away") == 0
 
-			approve(ai.suggest_mail_rule("Reach Check", mailbox=email, subject_contains="reach check"))
-			rule = next(one["rule"] for one in ai.mail_rules(email)["rules"] if one["title"] == "Sort mail into Reach Check")
-			approve(ai.change_mail_rule(rule, "off"))
+			approve(agent.suggest_mail_rule("Reach Check", mailbox=email, subject_contains="reach check"))
+			rule = next(one["rule"] for one in agent.mail_rules(email)["rules"] if one["title"] == "Sort mail into Reach Check")
+			approve(agent.change_mail_rule(rule, "off"))
 			assert frappe.db.get_value("Mail Rule", rule, "enabled") == 0
-			approve(ai.change_mail_rule(rule, "delete"))
+			approve(agent.change_mail_rule(rule, "delete"))
 			assert not frappe.db.exists("Mail Rule", rule)
 			actions.delete_folder(frappe.db.get_value("Mail Folder", {"account": account, "label": "Reach Check"}))
 
 			ours = holders.workspace()
 			held = {row["user"]: row["sends"] for row in holders._people(ours)}
-			listed = ai.workspace_mail()
+			listed = agent.workspace_mail()
 			assert any(one["workspace"] for one in listed["mailboxes"]), listed
-			approve(ai.share_mailbox(ours, "huda@one.test", sends=False))
+			approve(agent.share_mailbox(ours, "huda@one.test", sends=False))
 			assert frappe.db.exists("User Email", {"parent": "huda@one.test", "email_account": ours})
-			approve(ai.share_mailbox(ours, "huda@one.test", reads=False))
+			approve(agent.share_mailbox(ours, "huda@one.test", reads=False))
 			assert not frappe.db.exists("User Email", {"parent": "huda@one.test", "email_account": ours})
 			assert {row["user"]: row["sends"] for row in holders._people(ours)} == held
 
-			approve(ai.suggest_mail_policy(own_mailboxes=not external))
+			approve(agent.suggest_mail_policy(own_mailboxes=not external))
 			assert addresses.external() == (not external)
 
-			approve(ai.default_mail_template("Interview", "Interview Reminder"))
+			approve(agent.default_mail_template("Interview", "Interview Reminder"))
 			assert mail_templates.default("Interview") == "Interview Reminder"
 			with mock.patch("onedesk.one_mail.connect.hosted_by", return_value=None):
-				card = ai.company_domain("reachcheck.example")
+				card = agent.company_domain("reachcheck.example")
 			made.append(card["proposal"])
 			assert "imap.reachcheck.example" in frappe.db.get_value("AI Proposal", card["proposal"], "changes")
 		finally:
@@ -877,9 +877,9 @@ def onemail_oneai_reaches_what_the_page_changes():
 				frappe.db.delete("Property Setter", {"doc_type": "Interview", "property": "default_email_template"})
 				frappe.clear_cache(doctype="Interview")
 	with as_user("omar@one.test"):
-		assert ai.share_mailbox(holders.workspace(), "huda@one.test").get("error")
-		assert ai.suggest_mail_policy(own_mailboxes=True).get("error")
-		assert ai.company_domain("reachcheck.example").get("error")
+		assert agent.share_mailbox(holders.workspace(), "huda@one.test").get("error")
+		assert agent.suggest_mail_policy(own_mailboxes=True).get("error")
+		assert agent.company_domain("reachcheck.example").get("error")
 	for one in made:
 		frappe.delete_doc("AI Proposal", one, ignore_permissions=True, force=True)
 
@@ -894,7 +894,7 @@ def onemail_a_team_works_its_shared_mailbox():
 
 	from onedesk.one_ai import run as runs
 	from onedesk.one_demo.check import _Told
-	from onedesk.one_mail import ai, api, drafts, holders, sender, team
+	from onedesk.one_mail import agent, api, drafts, holders, sender, team
 
 	account = holders.workspace()
 	email = frappe.db.get_value("Email Account", account, "email_id")
@@ -917,7 +917,7 @@ def onemail_a_team_works_its_shared_mailbox():
 		assert thread not in {one["thread"] for one in api.conversations(account, inbox, team="unassigned")["items"]}
 		assert team.note(account, thread, "Booked the fitter for Tuesday morning.")["notes"][-1]["by"] == "Mariam Saleh"
 		team.replying(account, thread, 1)
-		assert thread in {one["thread"] for one in ai.mail_for_me()["given_to_me"]}
+		assert thread in {one["thread"] for one in agent.mail_for_me()["given_to_me"]}
 		assert team.done(account, thread)["status"] == "Done"
 		assert not frappe.db.exists("ToDo", {"reference_type": "Mail Conversation", "reference_name": conversation, "status": "Open"}), "done closes its assignment"
 		assert thread in {one["thread"] for one in api.conversations(account, inbox, team="done")["items"]}
@@ -965,8 +965,8 @@ def onemail_a_team_works_its_shared_mailbox():
 		assert frappe.db.get_value("Mail Draft", back, "subject") == "Fitter booked" and not frappe.db.exists("Communication", later)
 
 	with as_user(OWNER):
-		card = ai.work_conversation("assign", thread=thread, person="mariam@one.test", mailbox=email)
-		assert ai.work_conversation("done", subject="Balcony doors").get("proposal"), "found by its subject"
+		card = agent.work_conversation("assign", thread=thread, person="mariam@one.test", mailbox=email)
+		assert agent.work_conversation("done", subject="Balcony doors").get("proposal"), "found by its subject"
 		assert card.get("proposal"), card
 		runs.apply(card["proposal"])
 		assert "mariam@one.test" in {one["user"] for one in team.state(account, thread)["assigned"]}

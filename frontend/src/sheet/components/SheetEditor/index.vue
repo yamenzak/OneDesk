@@ -2044,7 +2044,7 @@ function _saved() {
   if (fileSaid.value.loses) writeBack()
   else _writeBackTimer = setTimeout(writeBack, WRITE_BACK_EVERY)
 }
-// One: OneAI wrote in this workbook (one_sheet/ai.py, a card approved):
+// One: OneAI wrote in this workbook (one_sheet/agent.py, a card approved):
 // read it again when nothing here is waiting to be saved.
 const _written = async (said) => {
   if (said?.workbook !== props.id) return

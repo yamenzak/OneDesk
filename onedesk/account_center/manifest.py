@@ -21,7 +21,7 @@ APP = App(
 		"ready": True,
 	},
 	hooks={
-		"one_ai_actions": ("ai.ACTIONS",),
+		"one_ai_actions": ("agent.ACTIONS",),
 	},
 	makes=(
 		"Account",

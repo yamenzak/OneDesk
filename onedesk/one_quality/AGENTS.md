@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneQuality is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -33,9 +33,9 @@ a OneGovernance (policies, risk, compliance) would be a separate app.
 
 - `access.py` — ERPNext gives quality management to its Quality Manager
   alone and lets every desk user read it. `GIVEN` lets the Quality User
-  (One's role, made from `abilities.py` DEFAULTS) work every record and use
+  (One's role, made from `access.py` DEFAULTS) work every record and use
   the feedback templates, and opens the Review report to both.
-- `abilities.py`, `resolve.py` — Resolve Non Conformances, a Permission Type
+- `access.py`, `resolve.py` — Resolve Non Conformances, a Permission Type
   on Non Conformance (`permission_type/`). `resolve.guard` (validate)
   refuses setting a non conformance to Resolved without it.
 - `home.py`, `page/onequality` and `frontend/src/quality/QualityHome.vue` —
@@ -54,9 +54,9 @@ a OneGovernance (policies, risk, compliance) would be a separate app.
   to every Quality Manager but whoever raised it; Non Conformance Resolved
   to whoever raised it; Quality Step Overdue, each morning, to whoever is
   responsible for a step due yesterday.
-- `ai.py` — the suggestions on Home, a non conformance, an action and a
+- `agent.py` — the suggestions on Home, a non conformance, an action and a
   procedure, the Home's sentence (`page`) and `quality_now`, which reads
-  what Home shows. OneAI changes nothing (`legal.py` says so).
+  what Home shows. OneAI changes nothing (`trust.py` says so).
 - `custom/quality_meeting.json` — the meeting list's columns.
 - The demo (`one_demo/quality.py`): the curtain wall's procedure, its goal
   and last month's failed review, the action it asked for, a non conformance
@@ -66,7 +66,7 @@ a OneGovernance (policies, risk, compliance) would be a separate app.
 ### What READY asks of it
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
-- **Its one ability**, Resolve Non Conformances, is `abilities.py`.
+- **Its one ability**, Resolve Non Conformances, is `access.py`.
 - **Setup** needs nothing of its own (`setup.py`). **Its tour** is
   `tour.py`, over the rail, since its screens are frappe's own.
 - **Its foot and settings** are `public/js/one_quality/quality_control.js`.

@@ -1,18 +1,55 @@
 """Who sees a task: the ones they made or were given, a task in a project they
 may see, a template task, and a task shared with them.
+
+What OneTask lets a role do beyond its records (one/rights.py,
+docs/ROLES.md): its one ability is one of frappe's Permission Types on
+Task, declared in permission_type/ beside this file. A workspace
+administrator may do it without.
 """
 
 import json
 
 import frappe
-from frappe.permissions import (
-	SYSTEM_USER_ROLE,
-	add_permission,
-	setup_custom_perms,
-	update_permission_property,
-)
+from frappe import _lt
+from frappe.permissions import SYSTEM_USER_ROLE, add_permission, setup_custom_perms, update_permission_property
 
 from onedesk.one_project import members
+
+APP = "OneTask"
+
+# Everybody keeps tasks: its User role is given to every person
+# (rights.everyone).
+EVERYONE = "OneTask User"
+
+DOCTYPE = "Task"
+
+TITLE = "subject"
+
+WORKSPACE = _lt("Workspace")
+
+SCOPE_LABELS = {"none": _lt("No"), "all": _lt("Yes")}
+
+ABILITIES = [
+	{
+		"key": "every",
+		"group": WORKSPACE,
+		"label": _lt("See Every Task"),
+		"kind": "switch",
+		"all": "task_every",
+		"about": _lt("Open every task in the workspace, not only your own and your projects'."),
+	},
+]
+
+# Nothing of OneTask's is given on one record.
+SHARED = ()
+
+# OneTask's roles and what each starts with: made and written once on
+# migrate (rights.settle), and shown in Help ({roles}).
+DEFAULTS = {
+	"OneTask User": {},
+	"OneTask Manager": {"every": 1},
+}
+
 
 GRANTS = ("read", "write", "create", "delete", "share")
 
@@ -56,7 +93,7 @@ def assigned(doc, user: str) -> bool:
 
 def every(user: str) -> bool:
 	"""Whether this person sees every task: OneTask's See Every Task
-	(abilities.py), a OneTask Manager's."""
+	(access.py), a OneTask Manager's."""
 	from onedesk.one import rights
 
 	return rights.held("Task", "task_every", user)
