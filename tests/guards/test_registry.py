@@ -1,8 +1,9 @@
 """The guard registry holds together. Every guard runs somewhere real in
-tests/guards, every point has a guard or says which is coming, and no id is
-used twice."""
+tests/guards, every point of the standard has a guard, a look or says which
+is coming, and no id is used twice."""
 
 import ast
+import re
 from pathlib import Path
 
 from tests.guards.registry import GUARDS, PLANNED, POINTS
@@ -26,10 +27,10 @@ def test_every_guard_runs_somewhere_real():
 		assert name in _tests_in(ROOT / file), guard.id
 
 
-def test_every_point_has_a_guard_or_says_which_is_coming():
+def test_every_point_has_a_guard_a_look_or_says_which_is_coming():
 	guarded = {guard.point for guard in GUARDS}
-	for point in POINTS:
-		assert point in guarded or point in PLANNED, point
+	for number, point in POINTS.items():
+		assert number in guarded or point.look or number in PLANNED, point.title
 	assert set(PLANNED) <= set(POINTS)
 
 
@@ -39,7 +40,15 @@ def test_ids_are_unique_and_points_real():
 	assert all(guard.point in POINTS and guard.what for guard in GUARDS)
 
 
-def test_the_points_are_the_passovers():
-	passover = (ROOT / "docs" / "PASSOVER.md").read_text()
-	for number, name in POINTS.items():
-		assert f"{number}. **{name}" in passover, name
+def test_the_points_are_the_standards():
+	"""docs/STANDARD.md heads each point as standard.py names it, in its
+	order and under its group, and says how a point with a look is held."""
+	said = (ROOT / "docs" / "STANDARD.md").read_text()
+	heads = re.findall(r"^### (\d+)\. (.+)$", said, re.M)
+	assert heads == [(str(number), point.title) for number, point in POINTS.items()]
+	for number, point in POINTS.items():
+		section = said.split(f"### {number}. ", 1)[1].split("\n### ", 1)[0].split("\n## ", 1)[0]
+		before = said.split(f"\n### {number}. ", 1)[0]
+		assert re.findall(r"^## (.+)$", before, re.M)[-1] == point.group, f"{point.title} sits under {point.group}"
+		assert "Held by" in section, point.title
+		assert not point.look or "look" in section.split("Held by", 1)[1], f"{point.title}: say it has a look"

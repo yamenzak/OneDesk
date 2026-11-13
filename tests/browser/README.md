@@ -18,7 +18,7 @@ node tests/browser/run.mjs project    # those whose address has "project"
 A screen may also say `panel`, whether its module's panel is open on a
 desktop, `phone`, the places its breadcrumb lists as a menu on a phone, and
 `menu`, the places it lists on a desktop
-(docs/PASSOVER.md, The panel).
+(docs/STANDARD.md, The panel).
 
 ## Routes
 

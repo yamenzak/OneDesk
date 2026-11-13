@@ -11,7 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from onedesk.one import ready  # noqa: E402
+from onedesk.one import ready, standard  # noqa: E402
+from tests.guards.registry import GUARDS  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import tree  # noqa: E402
 
@@ -505,19 +506,17 @@ def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 			assert len(re.findall(r"[.!?](?:\s|$)", why)) == 1 and why.endswith("."), f"{module}: {call}'s reason is one sentence"
 
 
-def test_the_registry_holds_the_fourteen_points_by_guards_that_exist():
-	"""ready.POINTS are the fourteen points of docs/READY.md, in its order and
-	by its names; each is held by guards, by a person's look (ready.HAND), or
-	both; and every guard it names is a test that exists."""
-	said = (ROOT / "docs" / "READY.md").read_text(encoding="utf-8").split("## The fourteen points", 1)[1].split("\n## ", 1)[0]
-	titles = re.findall(r"^\d+\. \*\*(.+?)\.\*\*", said, re.M)
-	assert titles == [one["title"] for one in ready.POINTS.values()], "ready.POINTS and docs/READY.md name the points alike"
-	assert set(ready.HAND) <= set(ready.POINTS)
-	for key, point in ready.POINTS.items():
-		assert point["guards"] or key in ready.HAND, f"nothing holds {point['title']}"
-		for guard in point["guards"]:
-			path, name = guard.split("::")
-			assert f"\ndef {name}(" in (ROOT / path).read_text(encoding="utf-8"), f"{point['title']}: no test {guard}"
+def test_the_points_held_before_live_are_the_standards():
+	"""ready.POINTS and ready.HAND are readings of the standard
+	(onedesk/one/standard.py): the points a module is held to before live, in
+	its order, and the looks no rule settles; each is held by a rule of
+	tests/guards/registry.py, a look, or both."""
+	live = [point for point in standard.POINTS.values() if point.live]
+	assert [(point.key, point.title) for point in live] == [(key, one["title"]) for key, one in ready.POINTS.items()]
+	assert set(ready.HAND) <= set(ready.POINTS), "a look is on a point held before live"
+	ruled = {guard.point for guard in GUARDS}
+	for point in live:
+		assert point.number in ruled or point.look, f"nothing holds {point.title}"
 
 
 def _git(*args: str) -> subprocess.CompletedProcess:

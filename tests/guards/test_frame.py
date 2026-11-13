@@ -58,7 +58,7 @@ def test_a_page_keeps_its_forms_menu_and_sidebar(doctype):
 	"""frappe's own form sidebar on the page's right (assigned, attachments,
 	tags, shared, likes, viewers, made and changed by), drawn by desk and not
 	by the page, and frappe's own menu items under the page's own
-	(docs/PASSOVER.md, A record's page)."""
+	(docs/STANDARD.md, A record's page)."""
 	source = ISLANDS[doctype].read_text()
 	assert f'record: "{doctype}"' in DESK_PAGES[doctype].read_text(), "the desk page names its record, for frappe's sidebar"
 	assert "onedesk.record_files.side(frm, open_files)" in RECORD

@@ -106,7 +106,7 @@ only within one item, with its unit; across items it is worth. Money, numbers,
 months and the first day of the week print the way the workspace and reader
 set them, through the kit's `money`, `count`, `hours`, `quantity` and
 `weekdays`. Nobody should have to ask for this.
-`docs/PASSOVER.md`, What ERPNext already does, has the whole of it, and
+`docs/STANDARD.md`, point 4, What ERPNext already does, has the whole of it, and
 `tests/guards/test_formats.py` catches a chart left on the browser's format.
 
 ## A screen of our own follows an app people know
@@ -123,9 +123,10 @@ in `docs/ISLANDS.md` "What each screen follows" says which app, and
 
 ## The passover
 
-`docs/PASSOVER.md` is the seventeen points and how a screen is walked, short
-enough to read before every screen. What each walk found and fixed goes in
-its commit message, as the seventeen-point table. Where each area stands and
+`docs/STANDARD.md` is the twenty points every module and screen is held to,
+and `docs/PASSOVER.md` how a screen is walked against them, short enough to
+read before every screen. What each walk found and fixed goes in its commit
+message, as the twenty-point table. Where each area stands and
 what is up next go in `docs/PASSOVER-LOG.md`, which is kept short; the log of
 every walk up to 18 October 2026 is `git show b22b68f:docs/PASSOVER-LOG.md`. The
 guards and the atlas check what a machine can; the walk is for what it
@@ -215,9 +216,9 @@ break each other's imports on sites that carry only one of them.
   doctypes, what was decided against for now, each module's unbuilt parts and
   what the passover noticed. Something built leaves it; something put off goes
   in it.
-- The rest of `docs/` is written by hand and short: `PASSOVER.md` (the
-  points), `READY.md` (what a module needs before it goes live, what a
-  finished module looks like, and the registry), `SHELL.md` (the
+- The rest of `docs/` is written by hand and short: `STANDARD.md` (the
+  points), `PASSOVER.md` (how a screen is walked), `READY.md` (how a module
+  is finished and goes live, and the registry), `SHELL.md` (the
   record and list frame), `ISLANDS.md` (frappe-ui screens inside desk),
   `WORDING.md`, `ACCOUNTS.md`, and `docs/upstream/<date>.md` for each
   checkpoint.
@@ -280,7 +281,7 @@ which runs only the guard files that name what changed, in seconds. The
 bookkeeping the guards check (docs/, the overrides ledger, a version's
 fingerprint, what is left to translate) is written by `scripts/close.py`, so
 it never fails a run; `--looked` re-dates a ready module's hand looks after
-the commit. Every guard is listed by the passover point
+the commit. Every guard is listed by the point of `docs/STANDARD.md`
 it serves in `tests/guards/registry.py` and lives in `tests/guards/`, except
 the two below that sit in `tests/` and are not in the registry.
 

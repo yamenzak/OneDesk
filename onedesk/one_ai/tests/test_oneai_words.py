@@ -2,7 +2,7 @@
 it reads, so nothing it reads may say Frappe, ERPNext or HRMS, or call a kind
 of record a DocType: not a tool's description, not the help a tool hands
 back, not a job's words, and not the Help `how_to` answers from. Code may
-still call frappe; a sentence about it may not (docs/READY.md, Speaks)."""
+still call frappe; a sentence about it may not (docs/STANDARD.md, Speaks)."""
 
 import ast
 import re

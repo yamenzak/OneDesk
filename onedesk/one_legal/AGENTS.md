@@ -74,7 +74,7 @@ accident.
 - Nothing is promised that is not built yet (a full backup from the settings,
   a storage overage grace period).
 
-**The passover adds each screen's lines** (docs/PASSOVER.md, point 8).
+**The passover adds each screen's lines** (docs/STANDARD.md, point 19).
 
 ### __init__.py
 
@@ -258,7 +258,7 @@ OneApp's `onelegal/legal.py` and corrected for what OneDesk actually does:
   here, so the Terms say what the code does.
 
 Anything not yet confirmed against a screen is left out rather than guessed at.
-The passover (docs/PASSOVER.md, point 8) adds each screen's lines as it reaches
+The passover (docs/STANDARD.md, point 19) adds each screen's lines as it reaches
 them.
 
 **Optional services** (`services.py`, docs/READY.md mechanism 13). A module

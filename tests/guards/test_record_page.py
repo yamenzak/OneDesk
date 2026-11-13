@@ -1,5 +1,5 @@
-"""Point 5: every record's page and every module's places look and move the
-same way (docs/PASSOVER.md, The panel and A record's page).
+"""Point 7: every record's page and every module's places look and move the
+same way (docs/STANDARD.md, The panel and A record's page).
 
 - A record's views are one row of tabs across the top, as a form's are, that
   scrolls sideways when they do not fit, as a form's does

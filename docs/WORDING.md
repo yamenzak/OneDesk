@@ -315,8 +315,8 @@ one Arabic and one German word per term, `scripts/translate.py` hands each
 new string over with its kind, its place and its neighbours, and
 `tests/guards/test_glossary.py` refuses a new translation that says a term
 another way. What was already wrong is listed in
-`onedesk/locale/glossary_debt.json`, which only shrinks: point 5 of
-`docs/READY.md` clears it screen by screen.
+`onedesk/locale/glossary_debt.json`, which only shrinks: point 13 of
+`docs/STANDARD.md` clears it screen by screen.
 
 **`rules.py` is the one exception to `_()`.** It must not import frappe, so its
 signal sentences are wrapped in a local `N_` — a no-op marker babel extracts

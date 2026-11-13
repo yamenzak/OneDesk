@@ -1,4 +1,5 @@
-"""The guards by passover point, and a way to run them all.
+"""The guards by the point of the standard they serve (docs/STANDARD.md), and
+a way to run them all.
 
     python3 scripts/guards.py         list them by point
     python3 scripts/guards.py --run   run every guard
@@ -15,8 +16,8 @@ from tests.guards.registry import GUARDS, PLANNED, POINTS
 
 
 def show() -> None:
-	for number, name in POINTS.items():
-		print(f"{number}. {name}")
+	for number, point in POINTS.items():
+		print(f"{number}. {point.title}")
 		for guard in GUARDS:
 			if guard.point == number:
 				print(f"   {guard.id}: {guard.what}")

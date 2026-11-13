@@ -1,5 +1,5 @@
 """What One's own screens add to the agreements. See one_legal/AGENTS.md, and
-docs/PASSOVER.md point 8: each screen's lines are added as the pass reaches it.
+docs/STANDARD.md point 19: each screen's lines are added as the pass reaches it.
 """
 
 from onedesk.one_legal.registry import clause, service, subprocessor
