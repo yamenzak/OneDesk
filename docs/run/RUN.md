@@ -369,6 +369,10 @@ registry.
   agent, and the calculator counts Durable Objects and re-prices OneCredit;
   scoped checks while working, the whole suite at gates; the three ways a
   screen is made.
+- 13 Nov, Claude: doctypes keep their names through the renames (Writer
+  Document, Workbook, Presentation): a doctype's name is an id, and renaming
+  one risks every link, version and share; where people see one, it reads
+  in One's words through onedesk/translations, as upstream names do.
 - 13 Nov, Claude: OneCloud's and OneStudio's clauses split into sentences
   of 30 words or fewer, saying the same, are recorded as new hashes, not a
   new revision: nobody has agreed to anything yet, so nobody is asked again.
