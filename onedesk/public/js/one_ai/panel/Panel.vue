@@ -1,8 +1,7 @@
-<!-- The panel: a list of conversations, and one conversation.
-
-     Two views rather than a channel rail, because a list of threads is the
-     shape OneMessaging will want too — its threads join this list rather than
-     needing a second panel drawn beside this one. -->
+<!-- The panel: a conversation with an agent, Una or the agent of the app
+     the reader is in, and the list of the reader's conversations with agents.
+     Each is an Agent conversation of OneChat (one_chat/panel.py), kept as its
+     messages and open there too. -->
 <template>
 	<div class="one-ai-panel one-float" :class="`one-ai-panel--${size}`" data-tour="oneai-panel">
 		<div class="one-ai-head">
@@ -14,6 +13,7 @@
 			>
 				<Icon name="chevron-left" />
 			</button>
+			<img v-else-if="agent && agent.face" class="one-ai-head__mark one-ai-face" :src="face(agent)" alt="" />
 			<img v-else class="one-ai-head__mark" :src="mark" alt="" />
 
 			<div class="one-ai-head__title">
@@ -25,10 +25,13 @@
 				>
 					{{ chat.title || __("New conversation") }}
 				</button>
-				<template v-else>{{ view === "chat" ? __("New conversation") : ONEAI }}</template>
+				<template v-else>{{ view === "chat" ? __("New conversation") : who }}</template>
 				<span class="one-ai-head__sub">{{ subtitle }}</span>
 			</div>
 
+			<button v-if="view === 'chat' && chat.name" class="one-ai-icon" :title="__('Open in {0}', [CHAT])" @click="toChat">
+				<Icon name="message-circle" />
+			</button>
 			<button class="one-ai-icon" :title="__('New conversation')" data-tour="oneai-new" @click="fresh">
 				<Icon name="square-pen" />
 			</button>
@@ -44,10 +47,10 @@
 			<template v-if="view === 'threads'">
 				<button v-for="one in threads" :key="one.name" class="one-ai-thread" @click="openChat(one.name)">
 					<span class="one-ai-thread__title">{{ one.title || __("Untitled") }}</span>
-					<span class="one-ai-thread__when">{{ when(one.last_said_on) }}</span>
+					<span class="one-ai-thread__when">{{ one.agent_name }} · {{ when(one.last_said_on) }}</span>
 				</button>
 				<div v-if="!threads.length" class="one-ai-empty">
-					{{ __("Nothing asked yet. Ask something about what is on screen, or anything else.") }}
+					{{ __("No conversations yet") }}
 				</div>
 				<button class="one-ai-remembers" @click="toMemory">
 					<Icon name="brain" />
@@ -95,7 +98,7 @@
 					</div>
 
 					<div v-if="said.text" class="one-ai-said__text" :class="{ 'one-ai-prose': said.role === 'model' }">
-						<span class="one-ai-said__who">{{ said.role === "you" ? __("You") : ONEAI }}</span>
+						<span class="one-ai-said__who">{{ said.role === "you" ? __("You") : who }}</span>
 						<span v-if="said.role === 'you'">{{ said.text }}</span>
 						<span v-else v-html="prose(said.text)"></span>
 					</div>
@@ -129,6 +132,20 @@
 						@answered="answered"
 						@failed="mend"
 					/>
+					<div v-if="said.action && actions[said.action]" class="one-ai-rec one-ai-rec--suggested">
+						<div class="one-ai-rec__foot" :class="`one-ai-rec__foot--${(actions[said.action].level || '').toLowerCase()}`">
+							<div v-if="actions[said.action].why" class="one-ai-rec__why">{{ actions[said.action].why }}</div>
+							<div v-if="actions[said.action].level === 'Proposed' && actions[said.action].may_decide" class="one-ai-rec__doing">
+								<button class="one-ai-btn" :disabled="busy" @click="decide(said.action, 'dismiss')">{{ __("Dismiss") }}</button>
+								<button class="one-ai-btn" :disabled="busy" @click="toChat">{{ __("Change") }}</button>
+								<button class="one-ai-btn one-ai-btn--go" :disabled="busy" @click="decide(said.action, 'approve')">{{ __("Approve") }}</button>
+							</div>
+							<div v-else class="one-ai-rec__state">
+								<Icon :name="actions[said.action].level === 'Done' ? 'check' : 'x'" />
+								<span>{{ __(actions[said.action].level) }}</span>
+							</div>
+						</div>
+					</div>
 					<div v-if="waitingIn(said).length > 1" class="one-ai-all">
 						<button class="one-ai-btn one-ai-btn--go" :disabled="busy || approving" @click="approveAll(said)">
 							{{ __("Approve All ({0})", [waitingIn(said).length]) }}
@@ -187,7 +204,7 @@
 					ref="box"
 					v-model="text"
 					rows="1"
-					:placeholder="__('Ask {0}', [ONEAI])"
+					:placeholder="__('Ask {0}', [who])"
 					@keydown.enter.exact.prevent="send()"
 					@input="fit"
 				></textarea>
@@ -237,6 +254,7 @@ const __ = window.__;
 const mark = "/assets/onedesk/images/oneai.svg";
 
 const ONEAI = onedesk.names.of("one_ai");
+const CHAT = onedesk.names.of("one_chat");
 
 const props = defineProps({ here: { type: Object, default: null } });
 const emit = defineEmits(["closed", "counted"]);
@@ -251,7 +269,10 @@ const waiting = ref([]);
 const doing = ref("");
 const threads = ref([]);
 const cards = ref({});
-const chat = ref({ name: null, title: null, said: [], spent: 0 });
+const chat = ref({ name: null, title: null, said: [], spent: 0, ai_chat: null });
+const agent = ref(null);
+const actions = ref({});
+const who = computed(() => (agent.value ? agent.value.name : ONEAI));
 const useHere = ref(true);
 const body = ref(null);
 const box = ref(null);
@@ -268,7 +289,7 @@ const steps = ref([]);
 const offered = ref([]);
 watch(
 	() => props.here,
-	() => !chat.value.said.length && offer(),
+	() => !chat.value.said.length && (offer(), meet()),
 );
 const POLL = 5000;
 let watching = null;
@@ -323,6 +344,23 @@ function grow() {
 	frappe.model.user_settings.save("AI Chat", "panel_size", size.value);
 }
 
+function face(one) {
+	return `data:image/svg+xml;utf8,${encodeURIComponent(one.face)}`;
+}
+
+function toChat() {
+	frappe.set_route("onechat", { channel: chat.value.name });
+	emit("closed");
+}
+
+async function meet() {
+	try {
+		agent.value = await frappe.xcall("onedesk.one_chat.panel.agent_for", { page: props.here || null }, "GET");
+	} catch (e) {
+		agent.value = null;
+	}
+}
+
 function prose(text) {
 	return frappe.markdown(text || "");
 }
@@ -359,13 +397,16 @@ defineExpose({
 
 async function list() {
 	view.value = "threads";
-	threads.value = await frappe.xcall("onedesk.one_ai.chat.chats");
+	meet();
+	threads.value = await frappe.xcall("onedesk.one_chat.panel.conversations", {}, "GET");
 }
 
 async function openChat(name) {
 	stop();
 	busy.value = false;
-	chat.value = await frappe.xcall("onedesk.one_ai.chat.opened", { chat: name });
+	chat.value = await frappe.xcall("onedesk.one_chat.panel.opened", { channel: name }, "GET");
+	agent.value = chat.value.agent;
+	frappe.xcall("onedesk.one_chat.api.seen", { channel: name });
 	if (!chat.value.said.length) offer();
 	if (chat.value.running) {
 		doing.value = __("Thinking…");
@@ -381,14 +422,13 @@ function fresh() {
 	busy.value = false;
 	target.value = null;
 	about.value = null;
-	chat.value = { name: null, title: null, said: [], spent: 0 };
+	chat.value = { name: null, title: null, said: [], spent: 0, ai_chat: null };
 	cards.value = {};
+	actions.value = {};
 	view.value = "chat";
 	nextTick(() => box.value && box.value.focus());
 	offer();
-	frappe.xcall("onedesk.one_ai.chat.opened").then((empty) => {
-		if (!chat.value.name) chat.value = { ...chat.value, ...empty, said: chat.value.said };
-	});
+	meet();
 }
 
 function toThreads() {
@@ -399,15 +439,15 @@ const SETTLE = 1200;
 
 async function attach(then) {
 	if (!chat.value.name) {
-		chat.value = await frappe.xcall("onedesk.one_ai.chat.start");
+		chat.value = await frappe.xcall("onedesk.one_chat.panel.start", { agent: agent.value && agent.value.agent, page: props.here || null });
 	}
 	let settle = null;
 	new frappe.ui.FileUploader({
-		doctype: "AI Chat",
+		doctype: "Chat Channel",
 		docname: chat.value.name,
 		frm: null,
 		on_success: (file) => {
-			waiting.value.push({ name: file.file_name, url: file.file_url });
+			waiting.value.push({ name: file.file_name, url: file.file_url, file: file.name });
 			if (!then) return;
 			clearTimeout(settle);
 			settle = setTimeout(() => nextTick(then), SETTLE);
@@ -484,18 +524,20 @@ function rename() {
 	frappe.prompt(
 		{ fieldname: "title", fieldtype: "Data", label: __("Name"), default: chat.value.title, reqd: 1 },
 		async ({ title }) => {
-			const now = await frappe.xcall("onedesk.one_ai.chat.rename", { chat: named, title });
-			titled(now.name === named ? { chat: named, title: now.title } : {});
+			const now = await frappe.xcall("onedesk.one_chat.panel.rename", { channel: named, title });
+			if (now.name === chat.value.name) chat.value = { ...chat.value, title: now.title };
+			threads.value = threads.value.map((one) => (one.name === now.name ? { ...one, title: now.title } : one));
 		},
 		__("Rename Conversation"),
 		__("Rename"),
 	);
 }
 
+// OneAI names a conversation after its first answer, by its transcript.
 function titled(said) {
-	if (!said || !said.chat) return;
-	if (chat.value.name === said.chat) chat.value = { ...chat.value, title: said.title };
-	threads.value = threads.value.map((one) => (one.name === said.chat ? { ...one, title: said.title } : one));
+	if (!said || !said.chat || chat.value.ai_chat !== said.chat) return;
+	chat.value = { ...chat.value, title: said.title };
+	threads.value = threads.value.map((one) => (one.name === chat.value.name ? { ...one, title: said.title } : one));
 }
 
 const aimed = ref(null);
@@ -555,15 +597,18 @@ async function send(again) {
 	steps.value = [];
 
 	try {
-		const started = await frappe.xcall("onedesk.one_ai.chat.say", {
+		const started = await frappe.xcall("onedesk.one_chat.panel.say", {
 			text: asked,
-			chat: chat.value.name,
+			channel: chat.value.name,
+			agent: agent.value && agent.value.agent,
 			page: aimed.value || (useHere.value && props.here ? { ...seeing(props.here), ...(about.value ? { field: about.value.fieldname } : {}) } : null),
-			files: sending.map((one) => one.url),
+			files: sending.map((one) => one.file),
 			field: target.value ? { ...target.value, value: current(), ...latest() } : null,
 		});
 		chat.value = started;
-		follow(started.run);
+		agent.value = started.agent;
+		if (started.run) follow(started.run);
+		else busy.value = false;
 	} catch (raised) {
 		fail(_why(raised));
 		frappe.hide_msgprint && frappe.hide_msgprint();
@@ -602,7 +647,7 @@ function heard(step) {
 
 async function finish() {
 	stop();
-	chat.value = await frappe.xcall("onedesk.one_ai.chat.opened", { chat: chat.value.name });
+	chat.value = await frappe.xcall("onedesk.one_chat.panel.opened", { channel: chat.value.name }, "GET");
 	await load();
 	emit("counted");
 	busy.value = false;
@@ -634,9 +679,23 @@ function _why(raised) {
 async function load() {
 	const named = [];
 	for (const said of chat.value.said) named.push(...(said.cards || []));
+	const asked = chat.value.said.filter((said) => said.action).map((said) => said.action);
+	if (asked.length) {
+		const found = await frappe.xcall("onedesk.one_chat.panel.actions", { names: asked }, "GET");
+		actions.value = Object.fromEntries((found || []).map((one) => [one.name, one]));
+	}
 	if (!named.length) return;
 	const found = await frappe.xcall("onedesk.one_ai.chat.cards", { names: named });
 	cards.value = Object.fromEntries((found || []).map((one) => [one.name, one]));
+}
+
+// An agent's Draft or Ask First, answered through the door (one_chat/cards.py).
+async function decide(action, how) {
+	try {
+		await frappe.xcall(`onedesk.one_chat.api.${how}`, { action });
+	} finally {
+		await load();
+	}
 }
 
 async function answered() {

@@ -1,0 +1,34 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-11-13 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "file"
+ ],
+ "fields": [
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "File",
+   "options": "File",
+   "reqd": 1,
+   "in_list_view": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-13 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Chat",
+ "name": "Chat File",
+ "owner": "Administrator",
+ "states": [],
+ "track_changes": 0,
+ "istable": 1,
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "ASC"
+}

@@ -160,7 +160,7 @@ def test_the_panel_has_no_model_to_pick():
 	"""A question carries no model and the panel offers none: One picks it,
 	by the workspace's tier (docs/AICENTER.md)."""
 	panel = PANEL.read_text(encoding="utf-8")
-	said = panel[panel.index('"onedesk.one_ai.chat.say"'):]
+	said = panel[panel.index('"onedesk.one_chat.panel.say"'):]
 	said = said[: said.index("});")]
 	assert "model" not in said
 	assert "choose_model" not in panel and "one-ai-model" not in panel

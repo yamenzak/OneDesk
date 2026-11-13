@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 94 | 2 | 37 | 0 |
+| onedesk | 95 | 2 | 39 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -67,6 +67,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
+| onechat (`frontend/src/chat/OneChat.vue`) | – | – | – | – |
 | oneadmin (`frontend/src/admin/AdminHome.vue`) | Account Request, Account Request Step, Tenant, Workspace Error | – | – | – |
 | oneadmin_servers (`frontend/src/admin/AdminServers.vue`) | Tenant | – | – | – |
 | oneadmin_server_part (`frontend/src/admin/ServerMetrics.vue`) | – | – | – | – |
@@ -945,7 +946,7 @@ Pages: one (on a rail or a home); one-hub (on a rail or a home).
 | File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
-| Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | taught |  | yes |  |  |  |  |
+| Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | events | no | taught |  | yes |  |  |  |  |
 | Reading Lesson | engine: what OneAI learnt from a correction | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Reading Settings | inside: AICenter › Reading | the administrator | untouched | no | general |  |  |  |  |  |  |
 
@@ -999,6 +1000,15 @@ Pages: onecrm (on a rail or a home).
 | Calendar Feed | on a rail or a home | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: onecalendar (on a rail or a home).
+
+## onedesk / One Chat
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Chat Channel | inside: a conversation, listed and opened in OneChat and in OneAI's panel | not read | untouched | yes | general |  | **none** |  |  |  |  |
+| Chat Message | inside: a message, read in its conversation in OneChat | not read | untouched | yes | general |  | **none** |  |  |  |  |
+
+Pages: onechat (on a rail or a home).
 
 ## onedesk / One Cloud
 
