@@ -9,8 +9,14 @@ from frappe.utils import add_days, flt, getdate, today
 from onedesk.one import needs_you
 from onedesk.one import story as stories
 from onedesk.one_demo.base import COMPANY, as_user, wh
-from onedesk.one_demo.check import CENTS, VILLA, _Told, check
+from onedesk.one_demo.checking import CENTS, VILLA, _Told, check
 from onedesk.one_demo.people import OWNER
+
+
+@check
+def stock_never_goes_below_nothing():
+	below = frappe.get_all("Bin", filters={"actual_qty": ["<", 0]}, fields=["item_code", "warehouse", "actual_qty"])
+	assert not below, below
 
 
 def _before_reordering():
@@ -416,7 +422,7 @@ def oneinventory_upkeep_says_what_is_due_broken_and_done():
 	Mark Done on the truck's service takes it off what is due, puts it in
 	the log and moves its next date a quarter on, as ERPNext works it out.
 	OneAI reads it. Somebody outside the stores sees none of it."""
-	from onedesk.one_inventory import agent, upkeep
+	from onedesk.one_inventory import ai_equipment, upkeep
 
 	assert not frappe.db.exists("Page", "upkeep")
 	with as_user("karim@one.test"):
@@ -429,7 +435,7 @@ def oneinventory_upkeep_says_what_is_due_broken_and_done():
 		plans = {one["asset_name"]: one for one in upkeep.plans()}
 		assert {"Pickup Truck 1", "Pickup Truck 2", "CNC Profile Machining Centre"} <= set(plans), list(plans)
 		assert any(one["asset_name"] == "CNC Profile Machining Centre" for one in upkeep.log())
-		facts = agent.upkeep_now()
+		facts = ai_equipment.upkeep_now()
 		assert any(one["asset"] == "Pickup Truck 2" and one["late"] for one in facts["services"]), facts
 
 		upkeep.done(truck["name"], frappe.utils.today(), "Oil and filters changed.")
@@ -440,7 +446,7 @@ def oneinventory_upkeep_says_what_is_due_broken_and_done():
 	with as_user("nadia@one.test"):
 		assert not upkeep.due() and upkeep.figures()["late"] is None
 		assert not frappe.has_permission("Asset Maintenance Log", "submit")
-		assert agent.upkeep_now().get("error")
+		assert ai_equipment.upkeep_now().get("error")
 
 
 @check
@@ -1081,30 +1087,30 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 	assert frappe.db.exists("Journal Entry", {"name": cut.journal_entry, "docstatus": 1})
 
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_inventory import agent
+	from onedesk.one_inventory import ai_equipment
 
 	with as_user(demo.STORES):
-		facts = agent.asset_facts("Pickup Truck 1")
+		facts = ai_equipment.asset_facts("Pickup Truck 1")
 		assert facts["held_by"] == "Sanjay Patel" and facts["repairs"][0]["cost"] == 3850 and facts["next_service"]
 		holder = tools.find_records("Employee", "Yousef Bakr")[0]["name"]
 		held = tools.list_records("Asset", {"custodian": holder, "docstatus": 1}, fields=["asset_name", "location", "status"])
 		assert [one["asset_name"] for one in held] == ["Pickup Truck 2"], held
-		due = agent.upkeep_now(days=30)
+		due = ai_equipment.upkeep_now(days=30)
 		assert any(one["asset"] == "Pickup Truck 2" and one["late"] for one in due["services"]), due
-		card = agent.plan_handover("Laptop Mariam", "Yousef Bakr", why="Mariam is away for a month")
+		card = ai_equipment.plan_handover("Laptop Mariam", "Yousef Bakr", why="Mariam is away for a month")
 		drafted = proposals.apply(card["proposal"])
 	handover = frappe.get_doc("Asset Movement", drafted["record"])
 	assert handover.docstatus == 0 and handover.assets[0].from_employee == mariam and handover.assets[0].to_employee == yousef.name
 	handover.delete()
 	with as_user("nadia@one.test"):
-		assert agent.asset_facts("Pickup Truck 1").get("error")
+		assert ai_equipment.asset_facts("Pickup Truck 1").get("error")
 		try:
 			tools.list_records("Asset", {"docstatus": 1})
 		except frappe.PermissionError:
 			pass
 		else:
 			raise AssertionError("somebody outside the stores listed the equipment")
-		assert agent.upkeep_now().get("error") and agent.plan_handover("Laptop Nadia", "Yousef Bakr").get("error")
+		assert ai_equipment.upkeep_now().get("error") and ai_equipment.plan_handover("Laptop Nadia", "Yousef Bakr").get("error")
 
 	with as_user("yousef@one.test"):
 		assert frappe.has_permission("Asset Maintenance Log", "submit")
@@ -1302,7 +1308,7 @@ def oneinventory_goods_and_deliveries_are_on_the_calendar():
 	due."""
 	from frappe.utils import add_days, getdate, today
 
-	from onedesk.one_inventory import agent, calendar
+	from onedesk.one_inventory import ai_equipment, calendar
 
 	start, end = getdate(add_days(today(), -60)), getdate(add_days(today(), 60))
 	with as_user("karim@one.test"):
@@ -1315,4 +1321,4 @@ def oneinventory_goods_and_deliveries_are_on_the_calendar():
 	if log:
 		frappe.db.set_value("Asset Maintenance Log", log, "due_date", None)
 		with as_user("karim@one.test"):
-			assert log not in {one["service"] for one in agent.services_due().get("services") or []}, "a service with no due date was due"
+			assert log not in {one["service"] for one in ai_equipment.services_due().get("services") or []}, "a service with no due date was due"

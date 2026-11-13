@@ -8,7 +8,7 @@ import frappe
 from frappe.utils import flt
 
 from onedesk.one_demo.base import COMPANY, as_user, wh
-from onedesk.one_demo.check import _Told, check
+from onedesk.one_demo.checking import _Told, check
 from onedesk.one_demo.people import OWNER
 
 

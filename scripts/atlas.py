@@ -571,7 +571,7 @@ def studio(name: str) -> str:
 
 @cache
 def _taught() -> str:
-	return "\n".join(path.read_text() for path in tree.APP.glob("*/ai*.py"))
+	return "\n".join(path.read_text() for path in [*tree.APP.glob("*/agent.py"), *tree.APP.glob("*/ai_*.py")])
 
 
 def ai(name: str) -> str:

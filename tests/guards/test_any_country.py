@@ -52,6 +52,9 @@ REGIONAL = {
 	"one_book/checks.py": "the demo company is in the UAE: its VAT 201, its TRN on a Tax Invoice, its dirhams",
 	"one_inventory/checks.py": "the demo company keeps its stock in dirhams, and buys in other currencies",
 	"one_hr/checks.py": "the demo company is in the UAE: its papers, its end of service, its dirhams",
+	"one/checks.py": "the demo company is in the UAE: its suppliers, its holidays, its VAT settings",
+	"one_ai/checks.py": "the demo company is in the UAE: the VAT on its bills, its dirhams",
+	"account_center/checks.py": "the operator's own address on the demo's bill",
 }
 
 SKIP = ("locale", "one_demo", "fixtures", "dist", "tests")

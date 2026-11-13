@@ -4,7 +4,7 @@ read them, and its one ability."""
 
 import frappe
 
-from onedesk.one_demo.check import _Told, check
+from onedesk.one_demo.checking import _Told, check
 from onedesk.one_demo.quality import PROCEDURE
 
 

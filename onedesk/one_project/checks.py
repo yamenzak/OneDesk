@@ -1,7 +1,10 @@
 """OneProject's part of the integration suite (one_demo/check.py runs it):
 every view of a project's page as its people read it, its money as its
 documents, billing, retention and claims, its terms, its people and its
-portal, and the one ability."""
+portal, its templates, and the one ability.
+
+It stays one file past 1500 lines: the runner imports one checks.py a
+module, and the guards read each module's checks by that name."""
 
 import frappe
 from frappe.utils import (
@@ -18,21 +21,364 @@ from frappe.utils import (
 )
 
 from onedesk.one_demo.base import COMPANY, as_user, wh
-from onedesk.one_demo.check import (
+from onedesk.one_demo.checking import (
 	ACME,
 	MARINA,
 	SHOWROOM,
 	TOWER,
 	VILLA,
-	_another_villa_order,
+	_bulk,
 	_close,
+	_each_way,
 	_employee,
-	_png,
-	_team,
+	_refused,
 	_Told,
 	check,
 )
 from onedesk.one_demo.people import OWNER
+
+
+def _projects():
+	return frappe.get_all("Project", filters={"project_type": ["!=", "Employee Boarding"]}, fields=["name", "project_name", "one_kind"])
+
+
+def _team(project):
+	return set(frappe.get_all("Project User", filters={"parent": project}, pluck="user"))
+
+
+@check
+def every_project_page_opens_for_its_people():
+	"""A project's two reads, as the owner, the project manager, the books
+	and each member of its team."""
+	from onedesk.one_project import money, view
+
+	broken = []
+	for project in _projects():
+		for user in {OWNER, "samir@one.test", "huda@one.test", *_team(project.name)}:
+			if not frappe.has_permission("Project", "read", doc=project.name, user=user):
+				continue
+			if frappe.db.get_value("User", user, "user_type") != "System User":
+				continue
+			try:
+				with as_user(user):
+					view.said(project.name)
+					money.money(project.name)
+			except Exception as e:
+				broken.append((project.project_name, user, f"{type(e).__name__}: {e}"[:160]))
+	assert not broken, broken
+
+
+@check
+def a_project_is_closed_to_who_has_no_part_in_it():
+	from onedesk.one_project import view
+
+	project = next(one.name for one in _projects() if "yousef@one.test" not in _team(one.name))
+	try:
+		with as_user("yousef@one.test"):
+			view.said(project)
+	except frappe.PermissionError:
+		return
+	raise AssertionError("an installer with no projects access read a project page")
+
+
+def _figures(side):
+	return {row["label"]: flt(row["value"]) for row in side}
+
+
+@check
+def a_projects_figures_are_its_documents():
+	"""Ordered, invoiced and billed on the page are the sums of the
+	submitted documents carrying the project, its sub-projects' too."""
+	from onedesk.one_project import money, tree
+	from onedesk.one_project.retention import ITEM
+
+	wrong = []
+	for project in _projects():
+		said = money.money(project.name)
+		scope = sorted(tree.scope(project.name))
+		customer, cost = _figures(said.get("customer", [])), _figures(said.get("cost", []))
+		for label, figures, _doctype, child in (
+			("Ordered", customer, "Sales Order", "Sales Order Item"),
+			("Invoiced", customer, "Sales Invoice", "Sales Invoice Item"),
+			("Billed", cost, "Purchase Invoice", "Purchase Invoice Item"),
+		):
+			if label not in figures:
+				continue
+			held = " and ifnull(one_held, '') = ''" if frappe.db.has_column(child, "one_held") else ""
+			found = frappe.db.sql(
+				f"""select sum(base_net_amount) from `tab{child}` where project in %s and docstatus = 1
+				and ifnull(item_code, '') != %s{held}""",
+				(scope, ITEM),
+			)[0][0]
+			if not _close(figures[label], found, 1):
+				wrong.append((project.project_name, label, figures[label], flt(found)))
+	assert not wrong, wrong
+
+
+@check
+def a_project_shows_how_far_along_it_is():
+	"""Progress is stored on the project, and a project with tasks done says
+	more than nothing."""
+	moved = [p.project_name for p in _projects() if flt(frappe.db.get_value("Project", p.name, "percent_complete"))]
+	assert len(moved) >= 5, moved
+
+
+@check
+def every_retainer_month_is_invoiced_once():
+	twice = frappe.db.sql(
+		"""select project, one_retainer_month, count(*) from `tabSales Invoice`
+		where docstatus = 1 and ifnull(one_retainer_month, '') != '' and ifnull(is_return, 0) = 0
+		group by project, one_retainer_month having count(*) > 1"""
+	)
+	assert not twice, twice
+
+
+@check
+def no_time_is_invoiced_twice():
+	twice = frappe.db.sql(
+		"""select timesheet_detail, count(*) from `tabSales Invoice Timesheet` row
+		join `tabSales Invoice` invoice on invoice.name = row.parent
+		where invoice.docstatus = 1 and ifnull(row.timesheet_detail, '') != ''
+		group by timesheet_detail having count(*) > 1"""
+	)
+	assert not twice, twice
+
+
+@check
+def a_project_manager_logs_and_approves_the_crews_time():
+	"""The workshop has no accounts, so Samir logs their days, two of them
+	at the same hour (one_hr/timesheet.py)."""
+	same_hour = frappe.db.sql(
+		"""select log.from_time from `tabTimesheet Detail` log
+		join `tabTimesheet` sheet on sheet.name = log.parent
+		join `tabEmployee` person on person.name = sheet.employee
+		where sheet.docstatus = 1 and ifnull(person.user_id, '') = ''
+		group by log.from_time having count(distinct sheet.employee) > 1 limit 1"""
+	)
+	assert same_hour, "nobody without an account was logged at the same hour as another"
+	timesheet = frappe.get_all("Timesheet", filters={"docstatus": 1}, fields=["name", "employee"], limit=1)[0]
+	with as_user("samir@one.test"):
+		assert frappe.has_permission("Timesheet", "read", doc=timesheet.name), timesheet
+		assert frappe.has_permission("Timesheet", "submit"), "submit"
+
+
+@check
+def the_books_read_every_project():
+	with as_user("huda@one.test"):
+		seen = set(frappe.get_list("Project", pluck="name", limit=0))
+	assert {p.name for p in _projects()} <= seen, {p.name for p in _projects()} - seen
+
+
+@check
+def a_project_manager_sets_a_projects_budget_and_not_a_cost_centres():
+	from onedesk.one_project.budget import set_budget
+
+	project = frappe.db.get_value("Project", {"project_name": "Bayview Tower Curtain Wall"})
+	account = frappe.db.get_value("Account", {"company": COMPANY, "account_name": "Equipment Hire", "is_group": 0})
+	with as_user("samir@one.test"):
+		set_budget(project, account, 12345, "Warn")
+		made = frappe.get_last_doc("Budget", filters={"project": project, "account": account, "docstatus": 1})
+		budget = frappe.copy_doc(made)
+		budget.update({"budget_against": "Cost Center", "project": None, "cost_center": frappe.db.get_value("Company", COMPANY, "cost_center")})
+		try:
+			budget.insert()
+		except frappe.ValidationError as e:
+			assert "Only an accounts user sets a budget" in str(e), e
+			return
+	raise AssertionError("a project manager set a cost centre's budget")
+
+
+@check
+def a_project_with_open_work_is_not_closed_by_hand():
+	project = frappe.db.get_value("Project", {"project_name": "Bayview Tower Curtain Wall"})
+	_refused(_each_way("samir@one.test", "Project", project, {"status": "Completed"}), "still has open work")
+
+
+@check
+def an_internal_project_bills_nobody():
+	"""A customer's project with nothing billed yet, made internal, bills
+	nobody. One with orders or invoices keeps its customer (kinds.settled)."""
+	from onedesk.one_project.kinds import in_use
+
+	project = next(
+		name
+		for name in frappe.get_all(
+			"Project", filters={"customer": ["is", "set"], "status": "Open", "one_kind": ["!=", "Internal"]}, pluck="name", order_by="name"
+		)
+		if not in_use(name)
+	)
+	seen = _each_way("samir@one.test", "Project", project, {"one_kind": "Internal"}, ("customer", "one_markup"))
+	for way, got in seen.items():
+		assert not isinstance(got, Exception), (way, got)
+		assert got.one_kind == "Internal" and not got.customer and not flt(got.one_markup), (way, got)
+
+
+@check
+def a_projects_budget_is_its_cost_types():
+	budgeted = frappe.get_all("Budget", filters={"docstatus": 1, "budget_against": "Project"}, pluck="project", limit=1)
+	assert budgeted, "no project has a budget"
+	project = budgeted[0]
+	was = frappe.db.get_value("Project", project, "estimated_costing")
+	for way, got in _each_way("samir@one.test", "Project", project, {"estimated_costing": 1}).items():
+		assert not isinstance(got, Exception), (way, got)
+		assert _close(got.estimated_costing, was), (way, got.estimated_costing, was)
+
+
+@check
+def a_cancelled_budget_leaves_its_project():
+	from onedesk.one_project.budget import _budgets
+
+	budget = frappe.get_all("Budget", filters={"docstatus": 1, "budget_against": "Project"}, fields=["name", "project"], limit=1)[0]
+	with as_user("samir@one.test"):
+		_bulk("Budget", budget.name, "cancel")
+	left = sum(flt(one.budget_amount) for one in _budgets(budget.project))
+	assert _close(frappe.db.get_value("Project", budget.project, "estimated_costing"), left), budget
+
+
+@check
+def a_template_is_laid_out_and_changed_on_its_page():
+	"""The project manager opens the Aluminium & Glazing template, changes it
+	in place, copies a preset in from the library and starts a project and a
+	running project's extra tasks from them. A projects user only reads."""
+	from onedesk.one_demo.projects import TEMPLATE
+	from onedesk.one_project import kinds, library, template_view, templates
+
+	with as_user("samir@one.test"):
+		said = template_view.read(TEMPLATE)
+		assert sum(1 for one in said["tasks"] if not one["is_group"]) == 25, said["tasks"]
+		assert all(one["is_milestone"] for one in said["tasks"] if one["is_group"])
+		assert said["used"] >= 1 and said["can_write"]
+		def listed(name):
+			return tuple(frappe.db.get_value("Project Template", name, ["one_tasks", "one_days", "one_projects"]))
+
+		assert listed(TEMPLATE) == (25, said["days"], said["used"]), "the list says what the page says"
+		first, phase = said["tasks"][1]["name"], said["tasks"][0]["name"]
+		template_view.change(TEMPLATE, first, "duration", 4)
+		made = template_view.add(TEMPLATE, "Check the anchors", phase)
+		template_view.wait(TEMPLATE, made, first, 1)
+		template_view.nest(TEMPLATE, made, None)
+		after = {one["name"]: one for one in template_view.read(TEMPLATE)["tasks"]}
+		assert after[first]["duration"] == 4 and after[made]["depth"] == 0 and after[made]["waits"] == [first]
+		assert listed(TEMPLATE)[0] == 26
+		template_view.remove(TEMPLATE, made)
+		assert made not in {one["name"] for one in template_view.read(TEMPLATE)["tasks"]}
+		assert listed(TEMPLATE)[0] == 25
+		last = max(template_view.read(TEMPLATE)["tasks"], key=lambda one: one["start"] + one["duration"])
+		task = frappe.get_doc("Task", last["name"])
+		task.duration += 10
+		task.save()
+		assert listed(TEMPLATE)[1] == said["days"] + 10, listed(TEMPLATE)
+
+		copied = library.copy("website")
+		assert library.copy("website") == copied, "the second use takes the same copy"
+		name = kinds.make({"kind": "Internal", "title": "Our Summer Event", "starts": today(), "library": "event", "time": "Not Tracked"})
+		assert frappe.db.count("Task", {"project": name}) == 20, "an Event's 15 tasks and its 5 phases"
+		event = frappe.db.get_value("Project", name, "project_template")
+		assert listed(event) == (15, 75, 1), listed(event)
+		assert listed(copied)[2] == 0, "a copy nobody has started from"
+		running = frappe.get_all("Project", filters={"project_name": "Mansour Villa Windows and Doors"}, pluck="name")[0]
+		assert templates.add(running, library="client_onboarding", starts=today()) == 14
+
+	with as_user("rania@one.test"):
+		assert not template_view.read(TEMPLATE)["can_write"]
+		try:
+			template_view.change(TEMPLATE, first, "duration", 9)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a projects user changed a template")
+
+
+@check
+def oneai_drafts_a_template_as_a_card():
+	"""A template OneAI drafts is a card: nothing is made until the project
+	manager approves it, approving makes it as the library would, and a
+	projects user is not offered one."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_project import agent, template_view
+
+	phases = [
+		{"subject": "Strip-Out", "milestone": True, "tasks": [{"subject": "Protect the floors", "day": 0, "days": 1}, {"subject": "Take out the old units", "day": 1, "days": 2}]},
+		{"subject": "Fit", "milestone": True, "tasks": [{"subject": "Fit the new units", "day": 3, "days": 3}, {"subject": "Worktops", "day": 6, "days": 1, "after": ["Fit the new units"]}]},
+	]
+	with as_user("samir@one.test"):
+		known = agent.project_templates()
+		assert "Aluminium & Glazing" in known["templates"] and len(known["library"]) == 12
+		said = agent.draft_template("Kitchen Refit", phases, about="A kitchen taken out and fitted again.")
+		assert said.get("state") == "Proposed", said
+		assert not frappe.db.exists("Project Template", "Kitchen Refit"), "nothing is made before it is approved"
+		assert agent.draft_template("Aluminium & Glazing", phases).get("mend") == "draft_template"
+		assert agent.draft_template("Bad", [{"subject": "A", "tasks": [{"subject": "b", "when": 3}]}]).get("mend")
+		proposals.apply(said["proposal"])
+		made = template_view.read("Kitchen Refit")
+		assert [one["subject"] for one in made["tasks"]] == ["Strip-Out", "Protect the floors", "Take out the old units", "Fit", "Fit the new units", "Worktops"]
+		assert made["days"] == 7 and all(one["is_milestone"] for one in made["tasks"] if one["is_group"])
+	with as_user("rania@one.test"):
+		assert "error" in agent.draft_template("Garden Shed", phases)
+
+
+def _another_villa_order(tax=None) -> str:
+	"""A second order for the villa, as its first, submitted, saying `tax` or
+	nothing; checks roll it back."""
+	villa = frappe.db.get_value("Project", VILLA, "sales_order")
+	with as_user(OWNER):
+		order = frappe.copy_doc(frappe.get_doc("Sales Order", villa))
+		order.one_retention_tax = tax
+		order.insert()
+		order.submit()
+	return order.name
+
+
+def _png(**drawn) -> bytes:
+	from onedesk.one_demo.projects import _photo
+
+	return _photo(**drawn)
+
+
+@check
+def a_project_pays_for_stock_once():
+	"""The villa paid for the bar issued to it less the 4 m that came back,
+	at what it was charged, and the return is taken off its cost of goods in
+	the books. A supplier bill line whose goods went into a store isn't the
+	project's cost when billed, only when issued."""
+	from onedesk.one_project import materials, money
+
+	villa = frappe.db.get_value("Project", {"project_name": "Mansour Villa Windows and Doors"})
+	back = frappe.get_all("Stock Entry", filters={"docstatus": 1, "stock_entry_type": materials.RETURN, "project": villa}, pluck="name")
+	try:
+		materials.give_back(wh("Stores"), [{"item": "ALU-6063", "qty": 0}], villa)
+		raise AssertionError("a return of nothing was made")
+	except frappe.ValidationError:
+		pass
+	assert back, "the offcut came back"
+	row = frappe.get_all("Stock Entry Detail", filters={"parent": back[0]}, fields=["qty", "uom", "transfer_qty", "amount", "expense_account"])[0]
+	assert row.uom == "Meter" and flt(row.transfer_qty) == 4, row
+	bar = frappe.db.sql(
+		"""select line.valuation_rate from `tabStock Entry Detail` line join `tabStock Entry` entry on entry.name = line.parent
+		where entry.docstatus = 1 and line.project = %s and line.item_code = 'ALU-6063' and line.uom = 'Bar'""",
+		villa,
+	)
+	assert bar and abs(flt(row.amount) - 4 * flt(bar[0][0])) < 0.01, (row.amount, bar)
+	from erpnext.projects.doctype.project.project import Project
+
+	plain, project = frappe.get_doc("Project", villa), frappe.get_doc("Project", villa)
+	Project.set_consumed_material_cost(plain)
+	project.set_consumed_material_cost()
+	assert abs(flt(plain.total_consumed_material_cost) - flt(project.total_consumed_material_cost) - flt(row.amount)) < 0.01, "less what came back"
+	goods = frappe.get_cached_value("Company", project.company, "default_expense_account")
+	credited = frappe.db.get_value("GL Entry", {"voucher_no": back[0], "account": goods, "is_cancelled": 0}, ["credit", "project"], as_dict=True)
+	assert credited and abs(flt(credited.credit) - flt(row.amount)) < 0.01 and credited.project == villa, credited
+	for name in frappe.get_all("Project", pluck="name"):
+		stored = materials.into_store([name])
+		if not stored:
+			continue
+		bought = money._lines("Purchase Invoice", [name])
+		doc = frappe.get_doc("Project", name)
+		doc.update_purchase_costing()
+		assert flt(doc.total_purchase_cost) <= bought - stored + 0.01 and stored <= bought, (name, stored)
+		break
+	else:
+		raise AssertionError("no project bought anything into a store")
 
 
 @check

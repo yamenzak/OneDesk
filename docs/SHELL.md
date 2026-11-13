@@ -307,7 +307,7 @@ quotation". Applying the card saves them as the administrator, so the same
 hold refuses what it would refuse from them. OneAI never writes code, because
 nobody in the workspace can.
 
-As built: `customize` is in `one/agent.py`. It applies the asks to the page's
+As built: `customize` is in `one/ai_customize.py`. It applies the asks to the page's
 own state and checks the result with the page's `_check`, so a card that
 reaches the administrator is one that applies. The card is a proposal of kind
 `Customize`, one line per change, and a card made before somebody else

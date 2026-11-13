@@ -69,7 +69,7 @@ SQL_FROM_INPUT = {
 }
 
 SECRETS = {
-	"onedesk/one_demo/check.py:push_reaches_a_persons_own_browsers": "safe: a made-up passphrase in a demo check, on a mocked call",
+	"onedesk/one/checks.py:push_reaches_a_persons_own_browsers": "safe: a made-up passphrase in a demo check, on a mocked call",
 }
 
 GUEST_WHOLE: dict[str, str] = {}

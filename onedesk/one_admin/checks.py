@@ -4,7 +4,7 @@ that site, reads back what it did and leaves nothing behind."""
 
 import frappe
 
-from onedesk.one_demo.check import check
+from onedesk.one_demo.checking import check
 
 
 @check

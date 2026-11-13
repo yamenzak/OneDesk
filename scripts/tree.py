@@ -159,9 +159,10 @@ def granted() -> dict:
 
 
 def suite() -> str:
-	"""The integration suite's source: one_demo/check.py and each module's own
-	checks.py, which it imports (docs/READY.md, A module's folder)."""
-	return "\n".join(path.read_text(encoding="utf-8") for path in [APP / "one_demo" / "check.py", *sorted(APP.glob("*/checks.py"))])
+	"""The integration suite's source: one_demo/check.py, what its checks
+	share (checking.py) and each module's own checks.py, which it imports
+	(docs/READY.md, A module's folder)."""
+	return "\n".join(path.read_text(encoding="utf-8") for path in [APP / "one_demo" / "check.py", APP / "one_demo" / "checking.py", *sorted(APP.glob("*/checks.py"))])
 
 
 def hooks() -> str:
