@@ -5,6 +5,9 @@ move, share and delete; this is only what it holds. AGENTS.md, api.py.
 
 from frappe.model.document import Document
 
+from onedesk.one_cloud import editors
+
 
 class WriterDocument(Document):
-	pass
+	def before_insert(self):
+		editors.making(self)

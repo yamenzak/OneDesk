@@ -395,3 +395,47 @@ def a_word_file_is_never_saved_over_with_less():
 			assert not api.get_document(own)["dropped"]
 	finally:
 		frappe.db.rollback(save_point="doc_lose_check")
+
+
+@check
+def a_document_stays_readable_with_onedoc_off():
+	"""OneDoc turned off: Layla's document still lists in OneCloud, opens
+	read-only and says why, and still leaves as a Word file; a save, OneCloud's
+	New and OneAI's card are each refused, and a Word file opens as its
+	preview. Turned back on, she writes in it again. All undone afterwards."""
+	from onedesk.one import apps, registry
+	from onedesk.one_cloud import namespace as ns
+	from onedesk.one_cloud import opening
+	from onedesk.one_doc import agent, api, word
+
+	frappe.db.savepoint("doc_off_check")
+	try:
+		with as_user(OWNER):
+			name = api.make("@my", "Off check")["document"]
+			api.save_document(name, "AAA=", "<p>Kept.</p>")
+			file = api.get_document(name)["file"]
+			apps.save([registry.get("one_doc").sidebar])
+			said = api.get_document(name)
+			assert said["html"] == "<p>Kept.</p>" and not said["can_write"], said
+			assert "turned off" in (said["notice"] or ""), said["notice"]
+			assert ns.node(ns.row(file))["document"] == name, "it still lists in OneCloud"
+			assert any(one["id"] == file for one in ns.children("@made/document")), "and in OneDoc's Recent Documents"
+			assert word.docx(name)[:2] == b"PK", "it still leaves as a Word file"
+			opening.download(file)
+			assert frappe.local.response["filecontent"][:2] == b"PK"
+			for refused in (lambda: api.save_document(name, "BBB=", "<p>Changed.</p>"), lambda: api.make("@my", "New check")):
+				try:
+					refused()
+					raise AssertionError("OneDoc off still changed or made a document")
+				except frappe.PermissionError:
+					frappe.clear_messages()
+			assert "turned off" in agent.draft_document("Letter check", "<p>Dear Sir</p>")["error"]
+			upload = frappe.get_doc({"doctype": "File", "file_name": "Off check.docx", "content": word.docx(name), "is_private": 1, "folder": ns.home()})
+			upload.insert()
+			assert not (ns.node(ns.row(upload.name)).get("office") or {}).get("edit"), "a Word file opens as its preview"
+			apps.save([])
+			api.save_document(name, "BBB=", "<p>Changed.</p>")
+			assert api.get_document(name)["can_write"] and api.get_document(name)["html"] == "<p>Changed.</p>"
+	finally:
+		frappe.db.rollback(save_point="doc_off_check")
+		frappe.clear_cache()

@@ -11,6 +11,7 @@ from onedesk.one import registry, roles
 ROOT, MY, SHARED, COMPANY, RECORDS, BIN = "@root", "@my", "@shared", "@company", "@records", "@bin"
 FEATURED = "@featured/"
 TASKS, OWN = "@tasks/", "@own/"
+MADE = "@made/"
 
 TABS = [{"name": "files", "label": _lt("Files"), "order": 80, "leaves_out": ("File", "Extension", "Record Type")}]
 LIBRARIES, RECENT, STARRED, MOUNTS, REQUESTS = "@libraries", "@recent", "@starred", "@mounts", "@requests"
@@ -55,6 +56,8 @@ def parse(node: str) -> tuple:
 		return ("tasks", node[len(TASKS) :])
 	if node.startswith(OWN):
 		return ("own", node[len(OWN) :])
+	if node.startswith(MADE):
+		return ("made", node[len(MADE) :])
 	if node.startswith(RECORDS + "/"):
 		rest = node[len(RECORDS) + 1 :]
 		doctype, _sep, name = rest.partition("/")
@@ -363,9 +366,9 @@ def node(item: dict) -> dict:
 
 
 def _office(item: dict) -> dict | None:
-	from onedesk.one_cloud import opening
+	from onedesk.one_cloud import editors, opening
 
-	return None if item.get("one_library") else opening.row(item)
+	return None if item.get("one_library") else opening.row(item, frozenset(editors.kinds_off()))
 
 
 def _in_oneos(item: dict) -> dict | None:
@@ -457,6 +460,8 @@ def children(node_id: str, search: str | None = None) -> list[dict]:
 		return project_tasks(kind[1])
 	if kind[0] == "own":
 		return attachments("Project", kind[1], below=False)
+	if kind[0] == "made":
+		return made_in(kind[1])
 	if kind[0] == RECORDS:
 		if len(kind) == 1:
 			return record_doctypes()
@@ -596,6 +601,46 @@ def everywhere(text: str, most: int = 200) -> list[dict]:
 			if not where:
 				continue
 		if not may(one, where=where):
+			continue
+		out.append({**node(one), "where": _where_label(one, folders, user), "parent": _parent_of(one)})
+		if len(out) >= most:
+			break
+	return out
+
+
+MADE_NAMES = {"document": _lt("Recent Documents"), "workbook": _lt("Recent Workbooks"), "presentation": _lt("Recent Presentations")}
+
+
+def _made_urls() -> dict:
+	from onedesk.one_deck.api import URL as DECK
+	from onedesk.one_doc.api import URL as DOC
+	from onedesk.one_sheet.api import URL as SHEET
+
+	return {"document": DOC, "workbook": SHEET, "presentation": DECK}
+
+
+def made_in(kind: str, most: int = 200) -> list[dict]:
+	"""Every document, workbook or presentation the reader may open,
+	wherever it is, the last changed first: what its editor's rail row
+	lists (OneDoc's Recent Documents)."""
+	url = _made_urls().get(kind)
+	if not url:
+		return []
+	found = frappe.get_all(
+		"File",
+		filters={"one_deleted": 0, "is_folder": 0, "file_url": ["like", url + "%"]},
+		fields=FIELDS,
+		order_by="modified desc",
+		limit=most * 5,
+	)
+	folders = _folders()
+	user = frappe.session.user
+	out = []
+	for one in found:
+		if not (one.file_url or "").startswith(url):
+			continue
+		where = ("record", one.attached_to_doctype, one.attached_to_name) if one.attached_to_doctype and one.attached_to_name else placed(one.folder, folders)
+		if not where or not may(one, where=where):
 			continue
 		out.append({**node(one), "where": _where_label(one, folders, user), "parent": _parent_of(one)})
 		if len(out) >= most:
@@ -859,6 +904,8 @@ def trail(node_id: str) -> list[dict]:
 		return [*trail(record_node("Project", kind[1])), {"id": node_id, "name": _("Tasks")}]
 	if kind[0] == "own":
 		return [*trail(record_node("Project", kind[1]))[:-1], {"id": node_id, "name": _titled("Project", kind[1])}]
+	if kind[0] == "made":
+		return top + [{"id": node_id, "name": _(MADE_NAMES[kind[1]]) if kind[1] in MADE_NAMES else node_id}]
 	if kind[0] == RECORDS:
 		out = top + [{"id": RECORDS, "name": _("Records")}]
 		if len(kind) > 1:

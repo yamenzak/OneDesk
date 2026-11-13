@@ -9,7 +9,9 @@ of your files and opened by anybody it is shared with.
 ## A New Workbook
 
 In {one_cloud}, open the folder it belongs in and choose **New › Workbook**,
-blank or from a template. It opens straight away; click its name at the top
+blank or from a template, or choose **New Workbook** on {one_sheet}'s rail to
+make one in your own files. **Recent Workbooks** there lists every workbook
+you can open, the last changed first. It opens straight away; click its name at the top
 to rename it. It is moved, copied, shared and deleted in {one_cloud} like any
 file.
 
@@ -30,3 +32,10 @@ say where it stands, and if a save fails, **Retry** sends it again.
 A workbook left for another screen waits on the bar under its title, after
 the date. Click it to come back, or × to drop it; the bar remembers the last
 five you left, on every device you sign in on.
+
+## When {one_sheet} Is Turned Off
+
+An administrator can turn {one_sheet} off in the Apps screen. Its rail row
+goes and no new workbook can be made, but every workbook already made still opens,
+read-only, and still downloads as Excel. Turned back on, they can be
+changed again.

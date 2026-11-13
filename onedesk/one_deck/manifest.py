@@ -1,6 +1,6 @@
 """OneDeck's place in One (docs/run/RUN.md, OneRegistry)."""
 
-from onedesk.one.registry.model import App, Region, Settle
+from onedesk.one.registry.model import App, Region, Settle, _lt
 
 APP = App(
 	id="one_deck",
@@ -11,7 +11,11 @@ APP = App(
 	regions=(
 		Region("page", "presentation", "a presentation from OneCloud, in OneDeck's editor (Presentation)"),
 	),
+	line=_lt("Make presentations together, present them by link, and send them as PowerPoint or PDF."),
 	mark="onedeck",
+	rail=26,
+	sidebar="OneDeck",
+	needs=("one_cloud",),
 	screens="slide",
 	names=("one_deck", "onedeck"),
 	help=(
@@ -23,7 +27,7 @@ APP = App(
 		("asking-oneai", "sparkles"),
 		("who-can-do-what", "shield"),
 	),
-	windowless="A presentation opens from OneCloud in an editor that fills the window, so OneDeck's foot and settings are OneCloud's.",
+	windowless="Its rail row lists its presentations in OneCloud's explorer and each opens in an editor that fills the window, so OneDeck's settings are OneCloud's.",
 	ready={
 		"ready": True,
 	},

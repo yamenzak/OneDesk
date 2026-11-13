@@ -10,7 +10,9 @@ with.
 ## A New Presentation
 
 **New › Presentation** in {one_cloud} makes one in the folder you are in and
-opens it on its title slide. It asks which template to start from and how
+opens it on its title slide; **New Presentation** on {one_deck}'s rail makes
+one in your own files, and **Recent Presentations** there lists every
+presentation you can open, the last changed first. It asks which template to start from and how
 big the slides are: wide like a screen, 4:3, A4 standing or lying down,
 square, standing like a phone, or a size of your own. **File › Slide Size**
 changes it later, and everything on every slide is redrawn to fit. Click a presentation in {one_cloud} to open it
@@ -32,3 +34,10 @@ way back. Click its name there to rename it.
 | **Present** | Plays the presentation from this slide or from the start. |
 
 {one_display} can play a presentation on a TV too; its own Help says how.
+
+## When {one_deck} Is Turned Off
+
+An administrator can turn {one_deck} off in the Apps screen. Its rail row
+goes and no new presentation can be made, but every presentation already made still opens,
+read-only, and still downloads as PowerPoint. Turned back on, they can be
+changed again.

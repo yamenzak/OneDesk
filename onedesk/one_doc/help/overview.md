@@ -10,8 +10,12 @@ with.
 ## A New Document
 
 **New › Document** in {one_cloud} makes one in the folder you are in, blank or
-from a template, and opens it. Click a document in {one_cloud}, in a record's
-**Files** or in a link in a mail to open it again.
+from a template, and opens it. **New Document** on {one_doc}'s rail makes one
+in your own files. Click a document in {one_cloud}, in a record's **Files**,
+in {one_doc}'s **Recent Documents** or in a link in a mail to open it again.
+
+**Recent Documents** lists every document you can open, wherever it is kept,
+the last changed first.
 
 It saves itself two seconds after you stop typing, and when you leave it: the
 head says **Saving…** and then **Saved**. An untitled document takes its name
@@ -29,3 +33,10 @@ from its first line when you press Enter at the end of it.
 
 A document left for another screen waits on the bar under its title, with
 {one_doc}'s mark, as a workbook does. Click it to go back, or × to drop it.
+
+## When {one_doc} Is Turned Off
+
+An administrator can turn {one_doc} off in the Apps screen. Its rail row
+goes and no new document can be made, but every document already made still opens,
+read-only, and still downloads as Word. Turned back on, they can be
+changed again.

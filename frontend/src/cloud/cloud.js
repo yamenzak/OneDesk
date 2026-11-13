@@ -134,6 +134,7 @@ export function kindOf(node = "") {
 	if (node.startsWith("@records")) return node.split("/").length === 3 ? "record" : "records";
 	if (node === "@libraries") return "libraries";
 	if (node === "@recent") return "recent";
+	if (node.startsWith("@made/")) return "made";
 	if (node === "@starred") return "starred";
 	if (node === "@mounts") return "network";
 	if (node === "@requests") return "requests";
@@ -149,6 +150,7 @@ export function emptyText(kind, searching) {
 		shared: __("Nothing shared with you"),
 		records: __("No records with files"),
 		recent: __("No recent files"),
+		made: __("No files yet"),
 		network: __("No server connections"),
 		requests: __("No file requests"),
 		request: __("No files yet"),
@@ -162,7 +164,7 @@ export function emptyText(kind, searching) {
 // Where things may be dropped: a folder, never a place that only lists.
 export function takes(id) {
 	if (["@root", "@shared", "@bin", "@records", "@libraries", "@mounts", "@requests"].includes(id)) return false;
-	if (id.startsWith("@request/")) return false;
+	if (id.startsWith("@request/") || id.startsWith("@made/")) return false;
 	if (id.startsWith("@records/") && id.split("/").length !== 3) return false;
 	return true;
 }

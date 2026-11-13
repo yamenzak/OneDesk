@@ -1,5 +1,8 @@
 One
 One Cloud
+One Doc
+One Sheet
+One Deck
 One Mail
 One Chat
 One Book
@@ -17,8 +20,5 @@ One AI
 One Studio
 One Admin
 Account Center
-One Deck
-One Doc
 One Interface
-One Sheet
 Trust Center

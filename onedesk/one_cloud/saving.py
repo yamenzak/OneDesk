@@ -1,6 +1,6 @@
 """How OneSheet and OneDoc save over the office file they edit in
-place without losing what nobody chose to lose: read-only for macros and
-older formats, Save Over Original or Save as Copy for a file with parts the
+place without losing what nobody chose to lose: read-only while the editor
+is turned off (editors.py), for macros and older formats, Save Over Original or Save as Copy for a file with parts the
 editor drops (fidelity.py), and a note on One's own record of what a save
 from the drive or OneOS left out. AGENTS.md, Under the hood, Nothing lost
 silently."""
@@ -39,7 +39,7 @@ def state(doctype: str, name: str, item: dict, may_write: bool) -> dict:
 	held = frappe.db.get_value(doctype, name, ["source_kind", "would_lose", "outside_dropped"], as_dict=True) or frappe._dict()
 	found = listed(held.would_lose) if held.source_kind else []
 	alone = lease.blocking(item["name"])
-	why = lease.told(alone) if alone else _read_only(held, item)
+	why = lease.told(alone) if alone else _read_only(doctype, held, item)
 	write = bool(may_write) and not why
 	return {
 		"can_write": write,
@@ -90,13 +90,19 @@ def check(doctype: str, name: str, item: dict) -> None:
 	alone = lease.blocking(item["name"])
 	if alone and not _let_through(alone):
 		frappe.throw(lease.told(alone), frappe.PermissionError)
-	why = _read_only(found, item)
+	why = _read_only(doctype, found, item)
 	if why:
 		frappe.throw(why, frappe.PermissionError)
 
 
-def _read_only(held: dict, item: dict) -> str | None:
-	"""The line saying why a file edited in place opens read-only."""
+def _read_only(doctype: str, held: dict, item: dict) -> str | None:
+	"""The line saying why a file opens read-only: its editor is turned off,
+	or the file edited in place has what the editor can't keep."""
+	from onedesk.one_cloud import editors
+
+	off = editors.read_only(doctype)
+	if off:
+		return off
 	why = held.source_kind and fidelity.read_only(item["file_name"], listed(held.would_lose))
 	return fidelity.why_read_only(item["file_name"], why) if why else None
 

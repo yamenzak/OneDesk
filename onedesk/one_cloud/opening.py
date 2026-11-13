@@ -71,14 +71,17 @@ def weighed(item: dict) -> list:
 	return found
 
 
-def row(item: dict) -> dict | None:
-	"""What a listing says of an office file: what Edit offers, what the
-	editor would drop when that is known already, and whether its preview is
-	kept."""
+def row(item: dict, gone: frozenset = frozenset()) -> dict | None:
+	"""What a listing says of an office file: what Edit offers, less what
+	would open or make one of the editors' kinds `gone` (turned off), what
+	the editor would drop when that is known already, and whether its
+	preview is kept."""
 	if item.get("is_folder"):
 		return None
+	from onedesk.one_cloud import editors
+
 	previewed = {"previewed": True} if item.get("content_hash") and item.get("one_preview_of") == item.get("content_hash") else {}
-	found = way(item.get("file_name"))
+	found = editors.ways(way(item.get("file_name")), gone)
 	if not found:
 		return previewed or None
 	known = kept(item) if found["edit"] else []
@@ -94,11 +97,11 @@ def said(app: str, found: list[str]) -> str:
 def weigh(node: str) -> dict:
 	"""What the editor would drop from an office file, and the question to
 	ask before editing it there."""
-	from onedesk.one_cloud import api
+	from onedesk.one_cloud import api, editors
 
 	item = api._item(node)
 	api._need(item, "read")
-	found = way(item.file_name) or {}
+	found = editors.ways(way(item.file_name), editors.kinds_off()) or {}
 	if not found.get("edit"):
 		return {"loses": []}
 	loses = weighed(item)
@@ -150,7 +153,13 @@ def exported(kind: str, name: str) -> bytes:
 def kept_inside(kind: str, name: str) -> str | None:
 	"""Why One's own can only be changed in its own editor: a workbook of a
 	record's table, a document with a record's fields, a presentation with
-	words from records. None when an outside save may come back into it."""
+	words from records. None when an outside save may come back into it.
+	While its editor is turned off it is changed nowhere (editors.py)."""
+	from onedesk.one_cloud import editors
+
+	off = editors.read_only(editors.KINDS[kind])
+	if off:
+		return off
 	if kind == "workbook" and frappe.db.get_value("Workbook", name, "bound_doctype"):
 		return _("A record's workbook can only be edited in {0}.").format(registry.name("one_sheet"))
 	if kind == "document":

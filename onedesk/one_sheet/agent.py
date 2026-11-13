@@ -192,6 +192,10 @@ def draft_workbook(
 	the values and formulas in them and how they look. Approving makes it in
 	OneCloud as New › Workbook does and opens nothing."""
 	from onedesk.one_ai import proposals
+	from onedesk.one_cloud import editors
+
+	if not editors.on(api.WORKBOOK):
+		return {"error": editors.refused(api.WORKBOOK)}
 
 	laid = []
 	for at, one in enumerate(sheets or []):

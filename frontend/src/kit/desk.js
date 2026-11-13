@@ -142,6 +142,9 @@ export const oneaiMark = "/assets/onedesk/images/oneai.svg";
 
 export const oneaiOn = () => Boolean(window.onedesk?.apps?.ai?.());
 
+/** Whether the editor of a kind ("document", "workbook", "presentation") is on (one_cloud/editors.py). */
+export const editorOn = (kind) => window.onedesk?.apps?.editing?.(kind) !== false;
+
 // What the reader has selected on a page, for the OneAI panel to send with a
 // question (public/js/one_ai/oneai.js, where): null when nothing is.
 export function aiSees(what) {

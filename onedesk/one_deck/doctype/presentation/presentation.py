@@ -10,8 +10,13 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import cstr, flt
 
+from onedesk.one_cloud import editors
+
 
 class Presentation(Document):
+	def before_insert(self):
+		editors.making(self)
+
 	def before_save(self):
 		self.slug = (self.title or "").lower().replace(" ", "-")
 

@@ -27,6 +27,7 @@ extend_bootinfo = [
 	"onedesk.one_sheet.live.boot",
 	"onedesk.one_studio.extensions.boot",
 	"onedesk.one.apps.boot",
+	"onedesk.one_cloud.editors.boot",
 	"onedesk.one.rail.boot",
 ]
 

@@ -197,6 +197,30 @@ The account keeps it (`oneos_on`, `oneos_credits_an_hour`); the listing
 sends it, the island shows Edit in OneOS only with it, and `oneos.start`
 refuses without it. OneAdmin's own start refuses a trial too.
 
+### An editor turned off (editors.py)
+
+OneDoc, OneSheet and OneDeck are apps of their own (P6.2), each a rail row
+(its `sidebar/`): Recent Documents (Workbooks, Presentations) is OneCloud's
+page on `@made/<kind>` (`namespace.made_in`: every one the reader may open,
+the last changed first), and New is OneCloud's page with `?new=<kind>`,
+which `OneCloud.vue` newAsked turns into its own New in My Files. An editor
+is off when its rail row is in `apps.hidden()`; `editors.off()` reads it
+once a request. Off, nothing of its kind is made: each record type's
+`before_insert` calls `editors.making` (but while installing, migrating or
+patching, so OneDeck's themes still sync), which covers New, a template, a
+copy (`api.copied`), a Word or Excel file opened in place, a record's table
+and OneAI's approved card; `draft_document` and `draft_workbook` say so
+before proposing. What was made still opens: each editor's `_may(..,
+"write")` refuses with `editors.read_only`'s line, `saving._read_only` puts
+it on the editor as its notice, OneDeck opens in view, `opening.kept_inside`
+keeps OneOS from editing it, and the drive's saves are refused through the
+same `_may`. Exporting only reads, so Word, Excel and PowerPoint still come
+out. A listing's `office` leaves out what would open or make an off kind
+(`editors.ways`), so such a file opens as its preview; the boot's
+`one_editors` hides OneCloud's New entries and says Open, not Edit, on One's
+own. Tested in this folder's `tests/test_editors.py`; `one_doc/checks.py`
+walks it on the demo.
+
 ### The bars at the foot of the rail (api.capacity)
 
 A linked workspace's files are what the account measured in R2 last night

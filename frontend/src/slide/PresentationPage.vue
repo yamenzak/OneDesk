@@ -20,7 +20,7 @@ import "./stores/element";
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
-import { __, aiSees, call } from "../kit/desk";
+import { __, aiSees, alert, call, editorOn, name as appName } from "../kit/desk";
 import { allow, holdRouter } from "./shim/router.js";
 import { audience } from "./shim/presenter.js";
 import { setSlideRoot } from "./shim/root.js";
@@ -50,6 +50,7 @@ async function open(name) {
 		return;
 	}
 	allow(said);
+	if (said === "view" && !editorOn("presentation")) alert(__("{0} is turned off for this workspace, so this opens read-only.", [appName("one_deck")]), "blue");
 	// the audience's window, opened from the presenter view, plays the slides and nothing else
 	audience.value = Boolean(props.query.audience);
 	const page = audience.value ? "slides-slideshow" : "slides-editor";
