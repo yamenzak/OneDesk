@@ -19,6 +19,7 @@ APP = App(
 	rail=50,
 	sidebar="OneInventory",
 	roles=Roles(user=("Stock User", "Purchase User"), manager=("Stock Manager", "Purchase Manager", "Item Manager")),
+	agent=_lt("storekeeper"),
 	screens="inventory",
 	names=("one_inventory", "oneinventory"),
 	help=(

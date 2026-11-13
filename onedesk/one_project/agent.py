@@ -47,6 +47,16 @@ NOT_FOR_AI = {
 	"updates.post": "OneAI drafts the update with draft_update, and the person posts it in their own name.",
 }
 
+LEVELS = {
+	"kinds.make": "Draft",
+	"status.change": "Draft",
+	"hours.log": "Draft",
+	"budget.set_budget": "Ask First",
+	"team.add": "Ask First",
+	"contacts.save": "Draft",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
 HR = "Employee Boarding"
 
 MOST = 15

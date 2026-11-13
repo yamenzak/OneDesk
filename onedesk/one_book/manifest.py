@@ -17,6 +17,7 @@ APP = App(
 	rail=40,
 	sidebar="OneBook",
 	roles=Roles(user=("Accounts User",), manager=("Accounts Manager",)),
+	agent=_lt("accountant"),
 	screens="books",
 	names=("one_book", "onebook"),
 	help=(

@@ -18,6 +18,7 @@ APP = App(
 	rail=60,
 	sidebar="OneFactory",
 	roles=Roles(user=("Manufacturing User",), manager=("Manufacturing Manager",)),
+	agent=_lt("production planner"),
 	screens="factory",
 	names=("one_factory", "onefactory"),
 	help=(

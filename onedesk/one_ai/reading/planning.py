@@ -33,7 +33,7 @@ def run(name: str, which: str) -> None:
 		from onedesk.one_ai.reading import money
 
 		_money(ctx, reading)
-		wanted = money.plan(said, ctx)
+		wanted = handed_on(reading, money.plan(said, ctx))
 	else:
 		_payable(ctx, reading)
 		ctx["project"] = _project_named(reading) if _supplier(reading) or reading.kind in PROJECT_KINDS else None
@@ -52,6 +52,20 @@ def run(name: str, which: str) -> None:
 	if which == "rest":
 		tell.arrived_after_closing(reading, ctx)
 		_hold_iban(reading)
+
+
+def handed_on(reading, wanted: list) -> list:
+	"""With the agents set up, a bill that came by mail is OneMail's
+	receptionist's to hand to OneBook's accountant, which drafts it
+	(one_ai/agents): Intake drafts it only when the Worker did not take it."""
+	from onedesk.one_ai.agents import connect
+	from onedesk.one_mail import gate
+
+	bills = [one for one in wanted if one.doctype == "Purchase Invoice"]
+	message = gate.message_of(reading.name) if bills and connect.on() else None
+	if not message or not connect.wake("one_mail", {"kind": "mail", "message": message}):
+		return wanted
+	return [one for one in wanted if one.doctype != "Purchase Invoice"]
 
 
 def _made_for(reading, said: dict, made: list) -> bool:

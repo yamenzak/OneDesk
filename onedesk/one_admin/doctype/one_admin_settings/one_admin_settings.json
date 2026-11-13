@@ -31,6 +31,8 @@
   "office_secret",
   "oneos_url",
   "oneos_secret",
+  "agents_url",
+  "agents_secret",
   "backup_bucket",
   "keeper_url",
   "config_copy_key",
@@ -221,6 +223,20 @@
    "fieldname": "oneos_secret",
    "fieldtype": "Password",
    "label": "OneOS Secret",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "agents_url",
+   "fieldtype": "Data",
+   "label": "Agents",
+   "read_only": 1,
+   "description": "Set Up Cloudflare deploys it, and each app's agent runs there."
+  },
+  {
+   "fieldname": "agents_secret",
+   "fieldtype": "Password",
+   "label": "Agents Secret",
    "read_only": 1,
    "hidden": 1
   },
@@ -461,7 +477,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-12 12:00:00.000000",
+ "modified": "2026-11-13 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

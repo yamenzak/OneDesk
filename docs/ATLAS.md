@@ -944,7 +944,7 @@ Pages: one (on a rail or a home).
 | File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
-| Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | Reading Lesson | engine: what OneAI learnt from a correction | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Reading Settings | inside: AICenter › Reading | the administrator | untouched | no | general |  |  |  |  |  |  |
 

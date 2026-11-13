@@ -12,6 +12,7 @@ from frappe import _lt
 from onedesk.one_admin import ledger
 
 NOT_FOR_AI = {
+	"proxy.agents_config": "It is a workspace asking where its agents run, never anything a person does.",
 	"operator.give_credits": "Credits are money, given by an operator who answers for it.",
 	"operator.take_back_credits": "Credits are money, taken back by an operator who answers for it.",
 	"operator.resume": "Restarting a failed job on a workspace is an operator's call after reading why it failed.",

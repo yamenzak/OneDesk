@@ -3723,6 +3723,21 @@ msgstr ""
 msgid "Agent Cost"
 msgstr "Agentenkosten"
 
+#. Label of the agent_action (Data) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json:120
+msgid "Agent's Action"
+msgstr "Aktion des Agenten"
+
+#. Label of the agent_level (Data) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json:113
+msgid "Agent's Level"
+msgstr "Stufe des Agenten"
+
+#. Label of the agents_secret (Password) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:239
+msgid "Agents Secret"
+msgstr "Geheimnis der Agenten"
+
 #. Label of the aggregate (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:68
 #: onedesk/one_display/doctype/display_source/display_source.json:139
@@ -22044,6 +22059,11 @@ msgstr "Übergeben von"
 msgid "Handed To"
 msgstr "Übergeben an"
 
+#: onedesk/one_mail/agent.py:1485
+#, python-brace-format
+msgid "Handed to {0}: {1}"
+msgstr "Übergeben an {0}: {1}"
+
 #. Label of the handled (Check) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:44
 #: onedesk/public/js/one_ai/ai_center.js:128
@@ -22865,6 +22885,11 @@ msgstr "Wie weit ist dieser Arbeitsauftrag, Schritt für Schritt, und liegt alle
 #: onedesk/one_inventory/home.py:141
 msgid "How far each purchase order has come."
 msgstr "Wie weit jede Bestellung ist."
+
+#. Description of the 'Agent's Level' (Data) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json:115
+msgid "How far the agent may go with this action."
+msgstr "Wie weit der Agent bei dieser Aktion gehen darf."
 
 #: onedesk/public/js/one_ai/ai_center.js:253
 #, python-brace-format
@@ -32861,6 +32886,10 @@ msgstr "Niemand hat diese Woche Arbeit"
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
 msgstr "Niemand wird an eine unbezahlte Rechnung erinnert. Die Behebung schreibt dem Kunden eine Woche nach Fälligkeit."
 
+#: onedesk/one_ai/agents/door.py:55
+msgid "Nobody may approve this."
+msgstr "Niemand darf dies genehmigen."
+
 #: frontend/src/factory/floor/FloorSteps.vue:22
 msgid "Nobody on it yet"
 msgstr "Noch niemand daran"
@@ -33157,6 +33186,11 @@ msgstr "Noch nicht alles bestellt, und es wurde vor {0} benötigt."
 #: frontend/src/intake/IntakeReading.vue:95
 msgid "Not allowed"
 msgstr "Nicht erlaubt"
+
+#: onedesk/one_ai/agents/api.py:49 onedesk/one_mail/agent.py:1470
+#: onedesk/one_mail/agent.py:1483
+msgid "Not allowed."
+msgstr "Nicht erlaubt."
 
 #: onedesk/one_ai/chat.py:430 onedesk/one_ai/chat.py:433
 msgid "Not answered"
@@ -46890,6 +46924,11 @@ msgstr "Erneut einrichten"
 msgid "Set Up Cloudflare"
 msgstr "Cloudflare einrichten"
 
+#. Description of the 'Agents' (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:234
+msgid "Set Up Cloudflare deploys it, and each app's agent runs there."
+msgstr "Cloudflare einrichten stellt ihn bereit, und der Agent jeder App läuft dort."
+
 #. Description of the 'Office Containers' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:204
@@ -52825,6 +52864,11 @@ msgstr "Die App, zu der diese Stufe des Arbeitsbereichs gehört. Ihre Personen h
 #: onedesk/one/custom/notification_type.json:14
 msgid "The app whose events send this."
 msgstr "Die App, deren Ereignisse dies senden."
+
+#. Description of the 'Agent' (Link) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json:108
+msgid "The app's agent that did this, as its own user."
+msgstr "Der Agent der App, der dies getan hat, als eigener Benutzer."
 
 #. Description of the 'Frappe App' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:28
@@ -59401,6 +59445,11 @@ msgstr "Wartet auf den Aufbau"
 #: onedesk/one_admin/heads.py:29
 msgid "Waiting to run"
 msgstr "Wartet auf den Start"
+
+#: onedesk/one_ai/agents/door.py:59
+#, python-brace-format
+msgid "Waits for {0}."
+msgstr "Wartet auf {0}."
 
 #: onedesk/one_display/starters.py:889
 msgid "Walk for thirty minutes"
@@ -66318,6 +66367,10 @@ msgstr "eine Breite in Pixeln, etwa 120px"
 msgid "a workspace"
 msgstr "ein Arbeitsbereich"
 
+#: onedesk/one_book/manifest.py:20
+msgid "accountant"
+msgstr "Buchhalter"
+
 #: onedesk/one_project/activity.py:345
 msgid "added task"
 msgstr "hat die Aufgabe hinzugefügt"
@@ -67357,6 +67410,10 @@ msgstr "Passwort"
 msgid "past work"
 msgstr "bisherige Tätigkeiten"
 
+#: onedesk/one_hr/manifest.py:32
+msgid "people officer"
+msgstr "Personalreferent"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1045
 msgid "percent"
 msgstr "Prozent"
@@ -67391,10 +67448,22 @@ msgstr "Platz {0} von {1}"
 msgid "point"
 msgstr "Punkt"
 
+#: onedesk/one_factory/manifest.py:21
+msgid "production planner"
+msgstr "Produktionsplaner"
+
+#: onedesk/one_project/manifest.py:17
+msgid "project coordinator"
+msgstr "Projektkoordinator"
+
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json:33
 msgid "purple"
 msgstr ""
+
+#: onedesk/one_quality/manifest.py:20
+msgid "quality inspector"
+msgstr "Qualitätsprüfer"
 
 #. Option for the 'Tone' (Select) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json:96
@@ -67408,6 +67477,10 @@ msgstr "Angebot, Preisanfrage, Preis"
 #: onedesk/public/js/one_mail/rule_builder.js:280
 msgid "reading their records"
 msgstr "mit ihren Datensätzen"
+
+#: onedesk/one_mail/manifest.py:19
+msgid "receptionist"
+msgstr "Empfang"
 
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Indicator'
 #. Option for the 'Colour' (Select) field in DocType 'Record Head Sentence'
@@ -67472,6 +67545,10 @@ msgstr "hat den Portal-Link für {0} gesperrt"
 #: onedesk/one_mail/custom/communication_link.json:8
 msgid "rule"
 msgstr "Regel"
+
+#: onedesk/one_crm/manifest.py:20
+msgid "sales assistant"
+msgstr "Vertriebsassistent"
 
 #: onedesk/one_cloud/dav_saves.py:185
 #, python-brace-format
@@ -67577,6 +67654,10 @@ msgstr "Zustand"
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:22
 msgid "storage"
 msgstr "Speicher"
+
+#: onedesk/one_inventory/manifest.py:22
+msgid "storekeeper"
+msgstr "Lagerverwalter"
 
 #: onedesk/one_cloud/fidelity.py:193
 msgid "styles"
@@ -71929,6 +72010,11 @@ msgstr "Rolle von {0} in {1}"
 #, python-brace-format
 msgid "{0}'s sessions are deleted, then a line you run on the machine removes the one-box container, its image and the one-copies user."
 msgstr "Die Sitzungen von {0} werden gelöscht, dann entfernt eine Zeile, die Sie auf dem Rechner ausführen, den Container one-box, sein Image und den Benutzer one-copies."
+
+#: onedesk/one_ai/agents/users.py:24
+#, python-brace-format
+msgid "{0}'s {1}"
+msgstr "{1} von {0}"
 
 #: onedesk/one/agent.py:1152 onedesk/one/agent.py:1175
 #, python-brace-format

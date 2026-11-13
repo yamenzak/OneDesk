@@ -74,7 +74,8 @@ class App:
 	that still sit outside its folder (public/, frontend/src/). `parts` are its
 	sub-packages that carry centre parts of their own (OneAI's reading);
 	`hooks` names, relative to the folder, what a hook takes from it beyond
-	what its files declare by convention (registry/hooks.py)."""
+	what its files declare by convention; `agent` is what its agent is
+	called, "accountant" (registry/hooks.py, registry/agents.py)."""
 
 	id: str
 	name: str
@@ -108,3 +109,4 @@ class App:
 	settle: tuple[Settle, ...] = ()
 	centres: tuple[str, ...] = ()
 	makes: tuple[str, ...] = ()
+	agent: str = ""

@@ -59,6 +59,9 @@ ONEOS_IMAGE = "registry.cloudflare.com/{account}/one-os:{tag}"
 ONEOS_TYPE = "standard-1"
 ONEOS_MOST = 10
 ONEOS_FILES = ("worker.js", "guard.js", "package.json")
+AGENTS = "one-agents"
+AGENTS_FILES = ("worker.ts", "token.ts", "package.json", "tsconfig.json")
+COMPATIBILITY_AGENTS = "2026-11-01"
 DEPLOYED_AT = re.compile(r"https://[\w.-]+\.workers\.dev")
 BACKUPS = "one-backups"
 KEEPER = "one-keeper"
@@ -277,6 +280,7 @@ class Setup:
 			self.github,
 			self.office,
 			self.oneos,
+			self.agents,
 			self.backups,
 			self.keeper,
 			self.watcher,
@@ -943,6 +947,14 @@ class Setup:
 				raise
 			self.build_image(name)
 
+	def agents(self) -> None:
+		"""One's agents (deploy/agents): a Worker on Cloudflare's Agents SDK
+		with a Durable Object per agent per workspace, deployed with wrangler
+		like the containers. Its secret is the one every workspace's own is
+		made from (proxy.agents_config). Done again only when its code changes."""
+		name = for_env(self.env, AGENTS)
+		self.contained("agents", name, DEPLOY / "agents", AGENTS_FILES, agents_config(name), "")
+
 	def build_image(self, name: str) -> None:
 		"""The image this code needs is not in the registry yet: production
 		starts the OneOS image workflow through the GitHub App, and the next
@@ -1089,6 +1101,21 @@ def wrangler_config(name: str, kind: str, binding: str, image: str, size: str, m
 		"containers": [{"class_name": kind, "image": image, "instance_type": size, "max_instances": most}],
 		"durable_objects": {"bindings": [{"name": binding, "class_name": kind}]},
 		"migrations": [{"tag": "v1", "new_sqlite_classes": [kind]}],
+		"observability": {"enabled": True},
+	}
+
+
+def agents_config(name: str) -> dict:
+	"""wrangler.jsonc for the Agents Worker: one Durable Object class,
+	ModuleAgent, of which each workspace's agent is an instance, on SQLite
+	storage. Pure."""
+	return {
+		"name": name,
+		"main": "worker.ts",
+		"compatibility_date": COMPATIBILITY_AGENTS,
+		"compatibility_flags": ["nodejs_compat"],
+		"durable_objects": {"bindings": [{"name": "AGENT", "class_name": "ModuleAgent"}]},
+		"migrations": [{"tag": "v1", "new_sqlite_classes": ["ModuleAgent"]}],
 		"observability": {"enabled": True},
 	}
 

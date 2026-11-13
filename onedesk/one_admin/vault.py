@@ -17,6 +17,7 @@ KEPT = (
 	"openweather_key",
 	"office_secret",
 	"oneos_secret",
+	"agents_secret",
 	"keeper_secret",
 	"aws_secret_access_key",
 	"github_token",

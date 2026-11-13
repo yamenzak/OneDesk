@@ -640,6 +640,45 @@ NOT_FOR_AI = {
 	"drafts.unschedule": "Taking back a message about to go is its writer's own choice, made on the message.",
 }
 
+TOOLS = ("incoming", "hand_on")
+"""What its agent calls in the workspace (one_ai/agents/api.py)."""
+
+LEVELS = {
+	"actions.mark": "Draft",
+	"actions.star": "Draft",
+	"actions.move": "Draft",
+	"actions.delete": "Ask First",
+	"actions.create_folder": "Draft",
+	"actions.rename_folder": "Draft",
+	"actions.delete_folder": "Ask First",
+	"linking.file": "Do it",
+	"linking.unfile": "Draft",
+	"rules.set_away": "Ask First",
+	"rules.save_rule": "Ask First",
+	"rules.enable_rule": "Ask First",
+	"rules.delete_rule": "Ask First",
+	"rules.decide_rule": "Ask First",
+	"holders.set_signature": "Ask First",
+	"holders.grant": "Ask First",
+	"holders.revoke": "Ask First",
+	"holders.give": "Ask First",
+	"holders.set_personal_sends": "Ask First",
+	"holders.set_sends": "Ask First",
+	"holders.set_external": "Ask First",
+	"holders.set_allowed_domains": "Ask First",
+	"holders.set_defaults": "Ask First",
+	"connect.add_domain": "Ask First",
+	"connect.remove_domain": "Ask First",
+	"mail_templates.set_default": "Ask First",
+	"team.assign": "Draft",
+	"team.done": "Draft",
+	"team.snooze": "Draft",
+	"team.remind": "Draft",
+	"incoming": "Do it",
+	"hand_on": "Do it",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
 APPROVED = (
 	"mail_rule",
 	"conversations",
@@ -1393,3 +1432,62 @@ SUGGESTS = (
 	"default_mail_template",
 )
 """The tools OneAI suggests, each as a card a person applies here (registry/hooks.py lists them in one_ai_suggests)."""
+
+
+INVOICES = ("Invoice", "Receipt", "Credit Note")
+"""What the receptionist hands to OneBook's accountant: a bill to pay, a
+receipt the company paid, a credit note against a bill."""
+WORTH_READING = ("Action", "Information", "", None)
+READ_AS = ["name", "kind", "verdict", "history", "state", "title"]
+
+
+def is_invoice(reading: dict) -> bool:
+	"""Whether a reading of a mail that arrived is a bill for the accountant:
+	one of INVOICES, worth acting on, and not old mail read again. Pure."""
+	return reading.get("kind") in INVOICES and reading.get("verdict") in WORTH_READING and not reading.get("history") and reading.get("state") == "Understood"
+
+
+def readings_of(message: str) -> list[dict]:
+	"""What Intake read of a message: the mail, its attachments, and their parts."""
+	files = frappe.get_all("File", filters={"attached_to_doctype": "Communication", "attached_to_name": message}, pluck="name")
+	found = frappe.get_all("Reading", filters={"source_doctype": "Communication", "source_name": message}, fields=READ_AS, order_by="creation asc")
+	if files:
+		found += frappe.get_all("Reading", filters={"source_doctype": "File", "source_name": ["in", files]}, fields=READ_AS, order_by="creation asc")
+	at = [one.name for one in found]
+	for _deeper in range(3):
+		parts = frappe.get_all("Reading", filters={"part_of": ["in", at or [""]], "name": ["not in", [one.name for one in found] or [""]]}, fields=READ_AS, order_by="creation asc")
+		if not parts:
+			break
+		found += parts
+		at = [one.name for one in parts]
+	return found
+
+
+def incoming(message: str, asked_by: str | None = None) -> dict:
+	"""The receptionist's first look at a mail that arrived, in a mailbox
+	OneAI reads: which of what Intake read of it are invoices to hand on."""
+	if not frappe.has_permission("Communication", "read", message):
+		frappe.throw(_("Not allowed."), frappe.PermissionError)
+	return {"message": message, "invoices": [one.name for one in readings_of(message) if is_invoice(one)]}
+
+
+def hand_on(message: str, reading: str, to: str = "one_book", asked_by: str | None = None) -> dict:
+	"""The receptionist hands an invoice to another app's agent, and says so
+	on the mail, where its people read it (docs/ARC-AI.md, The agents)."""
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import door, users
+	from onedesk.one_ai.reading.act import Action
+
+	other = agents.get(to)
+	if not other or gate.message_of(reading) != message:
+		frappe.throw(_("Not allowed."), frappe.PermissionError)
+	held = frappe.get_doc("Reading", reading)
+	said = _("Handed to {0}: {1}").format(users.full_name(other), held.title or _(held.kind))
+	row = door.act_for(
+		"one_mail",
+		"hand_on",
+		Action("Comment", "Communication", message, {"content": said}, key=f"handed|{reading}|{to}", sure=True),
+		asked_by=asked_by,
+		reading=held,
+	)
+	return {"to": to, "reading": reading, "action": row}

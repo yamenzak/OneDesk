@@ -2647,3 +2647,56 @@ number in §14, and the test for every change to a prompt.
    and what is due next week (`digest.py`).
 10. **Retention.** Each kind's keeping period, and nothing deleted before it
     (`keep.py`).
+
+
+### The agents
+
+The first step of docs/ARC-AI.md (P8.1): each app's agent, its user, its
+levels, its one door for writes, and the Worker it thinks on. OneMail's
+receptionist and OneBook's accountant are the first two; the rest come with
+P8.3, AICenter's tab for each with P8.2.
+
+- **Users** (`agents/users.py`, `one/registry/agents.py`). An app whose
+  manifest names its `agent` ("accountant") and has User roles gets
+  `<app>@agents.one.invalid`, made on install and every migrate, turned off
+  (no sign-in, no seat, not one of People), holding exactly its app's User
+  roles: any other is taken away, and a manager's role or one that runs the
+  workspace is refused at the registry.
+- **Levels** (`agents/levels.py`). Each app's agent.py declares `LEVELS`
+  for every call REACH names and every tool TOOLS lists: Do it (done as the
+  agent, can be undone), Draft (a new record made as a draft a person
+  submits; any other change becomes a card, since there is nothing to draft)
+  or Ask First (a card for the person who asked, else the app's first
+  manager). An action not declared is Ask First. `tests/guards/test_levels.py`
+  fails an action without one.
+- **The door** (`agents/door.py`). Intake's door with an agent in front:
+  the agent and the person who asked must both be allowed it
+  (`act.allowed`), the level decides, and every write is a Reading Action
+  row carrying `agent`, `agent_level` and `agent_action`. Its key is
+  Intake's, so Intake and an agent never both make the same record.
+  `act.undo_one` takes it back, as the agent; a draft the agent made is
+  deleted even though its role cannot delete.
+- **The Worker** (`deploy/agents`, its README). One Durable Object per agent
+  per workspace on the Agents SDK. Intake's money pass hands a bill that came
+  by mail to the receptionist (`planning.handed_on`) when the Worker takes
+  the wake, and drafts it itself when it does not. The receptionist calls
+  `incoming` and `hand_on` (one_mail/agent.py), the accountant
+  `draft_purchase_invoice` (one_book/agent.py), each through `agents/api.py`
+  with a token of its own (`agents/token.py`). The workspace learns where the
+  Worker is and its own secret from OneAdmin (`proxy.agents_config`), or from
+  `one_agents` in its site config.
+- **The receptionist reads a mailbox OneAI reads** (one_mail/access.py):
+  that switch is the mailbox holder's say, as it is for Intake.
+
+The gate, 50 invoices with at most 2 corrected (`agents/evaluate.py`):
+
+- `bench --site SITE execute onedesk.one_ai.agents.evaluate.run` sends every
+  invoice sample (tests/samples/agents/invoices, then Intake's that make a
+  Purchase Invoice) through the reading, the receptionist and the
+  accountant, each model answering from its sample, and rolls everything
+  back. It needs the demo company (its mailbox). `--kwargs "{'live': 1}"`
+  has the models read them through the gateway, charged in credits.
+- `bench --site SITE execute onedesk.one_ai.agents.evaluate.tally` is the
+  same measure on real use: each draft the accountant made, and whether a
+  person changed its supplier, number, dates, total, currency or lines, or
+  took it back.

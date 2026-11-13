@@ -52,6 +52,7 @@ ALLOWED = {
 	("one_ai/reading/switches.py", "set_folder"): "asks what file_switched asks, without a File save",
 	("one_project/budget.py", "sync"): "is the rule itself, run by the Budget's submit and cancel",
 	("one_mail/holders.py", "set_signature"): "sets both fields as signed() does; a save would try the mail server",
+	("one_ai/agents/users.py", "_made"): "an agent is kept turned off, which takes no seat",
 }
 
 
