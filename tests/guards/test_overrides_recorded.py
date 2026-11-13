@@ -15,13 +15,32 @@ def replaced() -> dict[str, str]:
 	"""{method: the first file that replaces it}."""
 	found = {}
 	for path in sorted(JS.rglob("*.js")):
-		for owner, method in REPLACED.findall(path.read_text()):
-			if not method.startswith(("one_", "__one_")) and not owner.startswith("onedesk."):
-				found.setdefault(method, path.name)
+		for method in replaced_in(path.read_text()):
+			found.setdefault(method, path.name)
 	return found
 
 
+def replaced_in(source: str) -> list[str]:
+	"""The frappe methods a script replaces on a prototype. Pure."""
+	return [method for owner, method in REPLACED.findall(source) if not method.startswith(("one_", "__one_")) and not owner.startswith("onedesk.")]
+
+
+def unrecorded(replaced: dict[str, str], ledger: str) -> list[str]:
+	return [f"{method} ({file})" for method, file in replaced.items() if method not in ledger]
+
+
 def test_every_frappe_method_we_replace_is_recorded():
-	ledger = (ROOT / "scripts" / "overrides.py").read_text()
-	missing = [f"{method} ({file})" for method, file in replaced().items() if method not in ledger]
+	missing = unrecorded(replaced(), (ROOT / "scripts" / "overrides.py").read_text())
 	assert not missing, "Add a row to scripts/overrides.py for:\n" + "\n".join(missing)
+
+
+def test_the_recording_rule_catches_its_example():
+	source = (
+		"frappe.ui.form.Form.prototype.refresh = function () {};\n"
+		"frappe.ui.Page.prototype.one_dressed = true;\n"
+		"frappe.ui.Page.prototype.__one_wrap = function () {};\n"
+		"onedesk.Board.prototype.draw = function () {};\n"
+	)
+	assert replaced_in(source) == ["refresh"]
+	assert unrecorded({"refresh": "form.js"}, 'Row("frappe.ui.form.Form.prototype.setup")') == ["refresh (form.js)"]
+	assert unrecorded({"refresh": "form.js"}, 'Row("Form.prototype.refresh")') == []

@@ -60,12 +60,12 @@ def _tinted_boxes(vue: str) -> list[str]:
 	]
 
 
+def _imports_alert(text: str) -> bool:
+	return bool(re.search(r"import\s*\{[^}]*\bAlert\b[^}]*\}\s*from\s*[\"']frappe-ui[\"']", text))
+
+
 def test_islands_draw_alerts_with_one_alert():
-	bad = [
-		rel
-		for rel, text in _files(ISLANDS, ".vue", ".js")
-		if re.search(r"import\s*\{[^}]*\bAlert\b[^}]*\}\s*from\s*[\"']frappe-ui[\"']", text)
-	]
+	bad = [rel for rel, text in _files(ISLANDS, ".vue", ".js") if _imports_alert(text)]
 	assert not bad, "frappe-ui's Alert is a different card from the desk's; use the kit's OneAlert:\n" + "\n".join(bad)
 
 
@@ -87,6 +87,8 @@ def test_the_scans_would_catch_one():
 	assert not _icons_in_notes('`<span class="one-alert-icon">${frappe.utils.icon(icon, "sm")}`')
 	assert _tinted_boxes('<div v-if="x" class="rounded-3 bg-surface-red-1 px-2 text-ink-red-7">')
 	assert not _tinted_boxes('<div class="rounded-full bg-surface-red-2 text-ink-red-7">')
+	assert _imports_alert('import { Button, Alert } from "frappe-ui"')
+	assert not _imports_alert('import OneAlert from "../kit/OneAlert.vue"')
 
 
 FRAPPE_ICONS = ROOT.parent / "frappe" / "frappe" / "public" / "scss" / "common" / "icons.scss"
@@ -119,8 +121,12 @@ def _lopsided(text: str) -> list[str]:
 	return found
 
 
+def _centres_icons(scss: str) -> bool:
+	return bool(re.search(r"\.icon\s*\{[^}]*margin:\s*0 auto", scss))
+
+
 def test_frappe_still_centres_icons():
-	assert re.search(r"\.icon\s*\{[^}]*margin:\s*0 auto", FRAPPE_ICONS.read_text()), (
+	assert _centres_icons(FRAPPE_ICONS.read_text()), (
 		"frappe no longer gives .icon `margin: 0 auto`; this guard's reason is gone, so revisit it"
 	)
 
@@ -144,3 +150,5 @@ def test_the_margin_scan_would_catch_one():
 	assert _lopsided(".x svg.icon:first-child { margin-bottom: 1px }")
 	assert not _lopsided(".x .note .icon { margin: 2px 0 0; }")
 	assert not _lopsided(".x .icon-sm { margin-top: 2px; }")
+	assert _centres_icons(".icon {\n\tmargin: 0 auto;\n}")
+	assert not _centres_icons(".icon {\n\tmargin: 0;\n}")

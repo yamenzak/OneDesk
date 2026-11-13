@@ -66,53 +66,75 @@ def _fieldnames(doctype: str) -> set[str] | None:
 	return names | {"__details"}
 
 
+def icons_not_drawn(declared: dict, drawn: set) -> list[str]:
+	"""The tab, field and link icons declared that frappe does not draw. Pure."""
+	return [
+		f"{doctype} {kind} {name}: {icon}"
+		for doctype, said in declared.items()
+		for kind in ("tabs", "fields")
+		for name, icon in said[kind].items()
+		if icon not in drawn
+	] + [f"{doctype} link {one['label']}: {one['icon']}" for doctype, said in declared.items() for one in said["links"] if one["icon"] not in drawn]
+
+
 def test_every_icon_is_one_frappe_draws():
 	drawn = icons()
 	if drawn is None:
 		pytest.skip("frappe's icons are not on this bench")
-	wrong = [
-		f"{doctype} {kind} {name}: {icon}"
-		for doctype, said in DECLARED.items()
-		for kind in ("tabs", "fields")
-		for name, icon in said[kind].items()
-		if icon not in drawn
-	] + [f"{doctype} link {one['label']}: {one['icon']}" for doctype, said in DECLARED.items() for one in said["links"] if one["icon"] not in drawn]
+	wrong = icons_not_drawn(DECLARED, drawn)
 	assert not wrong, "Icons frappe does not draw:\n" + "\n".join(wrong)
 
 
-def test_every_tab_and_field_is_its_record_types_own():
+def not_its_own(declared: dict, fieldnames) -> list[str]:
+	"""The tabs and fields declared that their record type has not;
+	`fieldnames` gives a type's names, or None when it is not on this bench. Pure."""
 	wrong = []
-	for doctype, said in DECLARED.items():
-		names = _fieldnames(doctype)
-		if names is None:
-			continue
-		wrong += [f"{doctype}: {name}" for kind in ("tabs", "fields") for name in said[kind] if name not in names]
+	for doctype, said in declared.items():
+		names = fieldnames(doctype)
+		if names is not None:
+			wrong += [f"{doctype}: {name}" for kind in ("tabs", "fields") for name in said[kind] if name not in names]
+	return wrong
+
+
+def test_every_tab_and_field_is_its_record_types_own():
+	wrong = not_its_own(DECLARED, _fieldnames)
 	assert not wrong, "Named but not on the record type:\n" + "\n".join(wrong)
 
 
-def test_every_card_and_track_is_a_row_its_module_declares():
+def not_given(declared: dict, heads) -> list[str]:
+	"""The cards and tracks declared that no head row or chart of the
+	module's heads.py gives; `heads` gives a module's heads.py. Pure."""
 	wrong = []
-	for doctype, said in DECLARED.items():
-		module = READY.MODULES[said["module"]]
-		heads = (ROOT / "onedesk" / module["folder"] / "heads.py").read_text(encoding="utf-8")
+	for doctype, said in declared.items():
+		source = heads(said["module"])
 		keys = [card["key"] for card in said["cards"]] + ([said["track"]] if said["track"] else [])
-		for key in keys:
-			given = re.search(rf'"(?:measure|field|chart)": "{re.escape(key)}"|_lt\("{re.escape(key)}"\)', heads)
-			if not given:
-				wrong.append(f"{doctype}: {key}")
+		wrong += [f"{doctype}: {key}" for key in keys if not re.search(rf'"(?:measure|field|chart)": "{re.escape(key)}"|_lt\("{re.escape(key)}"\)', source)]
+	return wrong
+
+
+def test_every_card_and_track_is_a_row_its_module_declares():
+	def heads(module):
+		return (ROOT / "onedesk" / READY.MODULES[module]["folder"] / "heads.py").read_text(encoding="utf-8")
+
+	wrong = not_given(DECLARED, heads)
 	assert not wrong, "Cards and tracks no head row gives:\n" + "\n".join(wrong)
 
 
+def too_many_cards(declared: dict) -> list[str]:
+	"""The heads declaring more than four cards. Pure."""
+	return [doctype for doctype, said in declared.items() if len(said["cards"]) > 4]
+
+
 def test_a_head_has_at_most_four_cards():
-	assert all(len(said["cards"]) <= 4 for said in DECLARED.values())
+	assert not too_many_cards(DECLARED)
 
 
-def test_a_strip_counts_a_field_its_record_type_has_and_names_only_its_values():
-	"""A strip counts one field's values, or kinds declared as filters on
-	fields the record type has."""
+def strips_wrong(declared: dict, fields_of) -> list[str]:
+	"""The strips counting a field, a value or a filter their record type has
+	not; `fields_of` gives a type's fields by name, or None. Pure."""
 	wrong = []
-	for doctype, said in DECLARED.items():
-		fields = _fields(doctype)
+	for doctype, said in declared.items():
+		fields = fields_of(doctype)
 		if fields is None:
 			continue
 		states = said["states"]
@@ -126,20 +148,29 @@ def test_a_strip_counts_a_field_its_record_type_has_and_names_only_its_values():
 		if field.get("fieldtype") == "Select":
 			values = set((field.get("options") or "").split("\n"))
 			wrong += [f"{doctype}: {states['field']} has no {one}" for one in states["order"] + states["hide"] if one not in values]
+	return wrong
+
+
+def test_a_strip_counts_a_field_its_record_type_has_and_names_only_its_values():
+	"""A strip counts one field's values, or kinds declared as filters on
+	fields the record type has."""
+	wrong = strips_wrong(DECLARED, _fields)
 	assert not wrong, "Strips that name what is not there:\n" + "\n".join(wrong)
 
 
-def test_a_link_opens_a_record_type_that_exists_and_carries_real_fields():
+def links_wrong(declared: dict, fieldnames) -> list[str]:
+	"""The links opening a record type not on this bench, or reading or
+	setting fields that are not there; `fieldnames` as in not_its_own. Pure."""
 	wrong = []
-	for doctype, said in DECLARED.items():
-		ours = _fieldnames(doctype)
+	for doctype, said in declared.items():
+		ours = fieldnames(doctype)
 		for one in said["links"]:
 			if one.get("open"):
 				if ours is not None and one["open"] not in ours:
 					wrong.append(f"{doctype}: {one['label']} opens the record in {one['open']}, which it does not have")
 				continue
 			target = one["new"] or one["list"]
-			theirs = _fieldnames(target)
+			theirs = fieldnames(target)
 			if theirs is None:
 				wrong.append(f"{doctype}: {one['label']} opens {target}, which is not on this bench")
 				continue
@@ -148,7 +179,29 @@ def test_a_link_opens_a_record_type_that_exists_and_carries_real_fields():
 				named = list(one["with"].values()) + [rule[0] for rule in one["when"]]
 				wrong += [f"{doctype}: {one['label']} reads {field}, which it does not have" for field in named if field not in ours | {"name"}]
 				wrong += [f"{doctype}: {one['label']} says {rule[1]}" for rule in one["when"] if rule[1] not in ("=", "!=", "in")]
+	return wrong
+
+
+def test_a_link_opens_a_record_type_that_exists_and_carries_real_fields():
+	wrong = links_wrong(DECLARED, _fieldnames)
 	assert not wrong, "Links that go nowhere:\n" + "\n".join(wrong)
+
+
+def test_the_interface_rules_catch_their_examples():
+	said = {"module": "OneX", "tabs": {"tab_a": "list"}, "fields": {"ghost": "nope"}, "cards": [{"key": "x.y"}] * 5, "track": None, "links": []}
+	said["states"] = {"field": "status", "order": ["Open", "Gone"], "hide": [], "kinds": []}
+	said["links"] = [{"label": "New", "icon": "plus", "new": "Task", "list": None, "with": {"project": "missing"}, "when": [["status", "~", "x"]]}]
+	declared = {"Project": said}
+	assert icons_not_drawn(declared, {"list", "plus"}) == ["Project fields ghost: nope"]
+	names = {"Project": {"tab_a", "status", "name"}, "Task": {"project"}}
+	assert not_its_own(declared, names.get) == ["Project: ghost"]
+	assert not_given(declared, lambda module: '"measure": "x.z"') == ["Project: x.y"] * 5
+	assert not_given(declared, lambda module: '_lt("x.y")') == []
+	assert too_many_cards(declared) == ["Project"]
+	assert strips_wrong(declared, lambda doctype: {"status": {"fieldtype": "Select", "options": "Open\nDone"}}) == ["Project: status has no Gone"]
+	assert strips_wrong(declared, lambda doctype: {}) == ["Project: no field status"]
+	assert links_wrong(declared, names.get) == ["Project: New reads missing, which it does not have", "Project: New says ~"]
+	assert links_wrong({"Project": {**said, "links": [{**said["links"][0], "new": "Nowhere"}]}}, names.get) == ["Project: New opens Nowhere, which is not on this bench"]
 
 
 def _icons():

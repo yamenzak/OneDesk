@@ -15,10 +15,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import glossary
 
 
+def wordless(rows) -> list[str]:
+	"""The terms with a scope other than label or any, or no Arabic. Pure."""
+	return [row["term"] for row in rows if row["scope"] not in ("label", "any") or not row["ar"]]
+
+
 def test_every_term_has_its_words():
-	for row in glossary.terms():
-		assert row["scope"] in ("label", "any"), row["term"]
-		assert row["ar"], f"{row['term']} has no Arabic"
+	assert not wordless(glossary.terms())
 
 
 def test_a_new_translation_keeps_the_glossary():
@@ -37,3 +40,12 @@ def test_the_debt_only_shrinks():
 		"Fixed or gone, so take these out of onedesk/locale/glossary_debt.json:\n"
 		+ "\n".join(f"  {lang}: {msgid!r}" for lang, msgid in cleared)
 	)
+
+
+def test_the_glossary_rules_catch_their_examples():
+	assert wordless([{"term": "Save", "scope": "verb", "ar": "حفظ"}, {"term": "Add", "scope": "label", "ar": ""}]) == ["Save", "Add"]
+	assert not wordless([{"term": "Add", "scope": "label", "ar": "إضافة"}])
+	assert glossary.missed("Employee", "عامل", "ar") == ["Employee"]
+	assert not glossary.missed("Employee", "الموظف", "ar")
+	wrong, debt = {("ar", "Employee"), ("de", "Save")}, {("de", "Save"), ("de", "Fixed")}
+	assert wrong - debt == {("ar", "Employee")} and debt - wrong == {("de", "Fixed")}

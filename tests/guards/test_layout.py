@@ -44,9 +44,10 @@ def test_notifications_go_out_from_tell():
 	assert not outside, outside
 
 
-def test_oneai_hooks_point_at_ai_files():
+def ai_hooks_elsewhere(hooks: str) -> list[str]:
+	"""The one_ai_ hooks naming a module other than agent.py or ai_*.py. Pure."""
 	wrong = []
-	for node in ast.parse(tree.hooks()).body:
+	for node in ast.parse(hooks).body:
 		name = isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "")
 		if not name or not name.startswith("one_ai_"):
 			continue
@@ -54,6 +55,11 @@ def test_oneai_hooks_point_at_ai_files():
 			module = path.rsplit(".", 2)[-2]
 			if module != "agent" and not module.startswith("ai_"):
 				wrong.append(f"{name}: {path}")
+	return wrong
+
+
+def test_oneai_hooks_point_at_ai_files():
+	wrong = ai_hooks_elsewhere(tree.hooks())
 	assert not wrong, wrong
 
 
@@ -81,3 +87,7 @@ def test_the_scans_would_catch_one(tmp_path):
 	assert _calls(stray, "notify", ("notify", "mail")) == [4]
 	stray.write_text("from frappe.permissions import add_permission\n\ndef x():\n\tadd_permission('Note', 'A', 0)\n")
 	assert _writes(stray) == [4]
+	stray.write_text("from onedesk.one import roles\n\ndef x():\n\troles.give('A', 'Note')\n")
+	assert _calls(stray, "roles", ("give", "grant", "raise_once", "open_page")) == [4]
+	hooks = 'one_ai_tools = ["onedesk.one_book.agent.tools", "onedesk.one_hr.tools.read"]\none_ai_more = ["onedesk.one.ai_mail.tools"]'
+	assert ai_hooks_elsewhere(hooks) == ["one_ai_tools: onedesk.one_hr.tools.read"]

@@ -45,21 +45,29 @@ def _theirs() -> set[tuple]:
 	return found
 
 
+def misnamed(rail: str, items: list[dict], pages: dict[str, str], theirs: set[tuple]) -> list[str]:
+	"""Each row of a rail whose label is neither what it opens is called nor
+	what ERPNext's own sidebar calls it. Pure."""
+	wrong = []
+	for row in items:
+		if row.get("type") != "Link" or not row.get("link_to"):
+			continue
+		kind, target = row.get("link_type"), row["link_to"]
+		wanted = target if kind in ("DocType", "Report") else pages.get(target) if kind == "Page" else None
+		if (row["label"], kind, target) in theirs:
+			continue
+		if wanted is not None and row["label"] != wanted and not (kind == "Page" and target in HOMES):
+			wrong.append(f"{rail}: {row['label']!r} opens {kind} {target!r}, called {wanted!r}")
+	return wrong
+
+
 def test_a_rail_row_says_what_it_opens():
 	pages = _pages()
 	theirs = _theirs()
 	wrong = []
 	for module, rail in RAILS.items():
 		items = json.loads((APP / module / "sidebar" / rail / f"{rail}.json").read_text(encoding="utf-8"))["items"]
-		for row in items:
-			if row.get("type") != "Link" or not row.get("link_to"):
-				continue
-			kind, target = row.get("link_type"), row["link_to"]
-			wanted = target if kind in ("DocType", "Report") else pages.get(target) if kind == "Page" else None
-			if (row["label"], kind, target) in theirs:
-				continue
-			if wanted is not None and row["label"] != wanted and not (kind == "Page" and target in HOMES):
-				wrong.append(f"{rail}: {row['label']!r} opens {kind} {target!r}, called {wanted!r}")
+		wrong += misnamed(rail, items, pages, theirs)
 	assert not wrong, "\n".join(wrong)
 
 
@@ -91,13 +99,34 @@ def test_a_field_keeps_erpnexts_label(upstream):
 	wrong = []
 	for place in CUSTOM:
 		for path in [place] if place.is_file() else sorted(place.glob("*.json")):
-			for setter in json.loads(path.read_text(encoding="utf-8")).get("property_setters", []):
-				if setter["property"] != "label" or setter.get("doctype_or_field") != "DocField":
-					continue
-				key = (setter["doc_type"], setter["field_name"])
-				if key not in upstream or not setter["value"]:
-					continue
-				theirs = upstream[key] or ""
-				if setter["value"].lower() != theirs.lower():
-					wrong.append(f"{path.name}: {key[0]}.{key[1]} is {setter['value']!r}, ERPNext says {theirs!r}")
+			wrong += relabelled(path.name, json.loads(path.read_text(encoding="utf-8")), upstream)
 	assert not wrong, "\n".join(wrong)
+
+
+def relabelled(name: str, custom: dict, upstream: dict) -> list[str]:
+	"""Each field label a customization file sets to other words than ERPNext's. Pure."""
+	wrong = []
+	for setter in custom.get("property_setters", []):
+		if setter["property"] != "label" or setter.get("doctype_or_field") != "DocField":
+			continue
+		key = (setter["doc_type"], setter["field_name"])
+		if key not in upstream or not setter["value"]:
+			continue
+		theirs = upstream[key] or ""
+		if setter["value"].lower() != theirs.lower():
+			wrong.append(f"{name}: {key[0]}.{key[1]} is {setter['value']!r}, ERPNext says {theirs!r}")
+	return wrong
+
+
+def test_the_naming_rules_catch_their_examples():
+	rows = [
+		{"type": "Link", "label": "Items", "link_type": "DocType", "link_to": "Item"},
+		{"type": "Link", "label": "Stock Ledger", "link_type": "Report", "link_to": "Stock Ledger"},
+		{"type": "Link", "label": "Products", "link_type": "DocType", "link_to": "Item"},
+	]
+	found = misnamed("oneinventory", rows, {}, {("Items", "DocType", "Item")})
+	assert found == ["oneinventory: 'Products' opens DocType 'Item', called 'Item'"]
+	setter = {"property": "label", "doctype_or_field": "DocField", "doc_type": "Task", "field_name": "subject", "value": ""}
+	upstream = {("Task", "subject"): "Subject"}
+	custom = {"property_setters": [{**setter, "value": "Title"}, {**setter, "value": "SUBJECT"}, setter]}
+	assert relabelled("task.json", custom, upstream) == ["task.json: Task.subject is 'Title', ERPNext says 'Subject'"]

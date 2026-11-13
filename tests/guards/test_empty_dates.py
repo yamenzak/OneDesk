@@ -99,9 +99,20 @@ def test_every_date_before_something_says_it_is_set():
 	)
 
 
+def unneeded(reviewed, seen: set[str]) -> list[str]:
+	"""The REVIEWED entries no date filter needs any more. Pure."""
+	return sorted(set(reviewed) - seen)
+
+
 def test_reviewed_only_shrinks():
-	gone = sorted(set(REVIEWED) - found(tree.APP))
+	gone = unneeded(REVIEWED, found(tree.APP))
 	assert not gone, "these no longer need a reason; take them out of REVIEWED:\n  " + "\n  ".join(gone)
+
+
+def test_the_shrinking_rule_catches_a_reason_left_behind(tmp_path):
+	(tmp_path / "team.py").write_text('filters={"snoozed_until": ["<=", now]}\n', encoding="utf-8")
+	reviewed = {"team.py::snoozed_until": "why", "gone.py::due_date": "why"}
+	assert unneeded(reviewed, found(tmp_path)) == ["gone.py::due_date"]
 
 
 def test_the_guard_catches_a_snooze_with_no_is_set(tmp_path):

@@ -110,9 +110,22 @@ def stale(base: str) -> list[str]:
 			before, after = json.loads(_git("show", f"{base}:{path}") or "null"), json.loads((ROOT / path).read_text())
 		except (ValueError, OSError):
 			continue
-		if isinstance(before, dict) and isinstance(after, dict) and before.get("modified") == after.get("modified") and before != after:
+		if unmoved(before, after):
 			wrong.append(path)
 	return wrong
+
+
+def unmoved(before, after) -> bool:
+	"""Whether a synced JSON changed and kept its `modified`. Pure."""
+	return isinstance(before, dict) and isinstance(after, dict) and before.get("modified") == after.get("modified") and before != after
+
+
+def test_the_modified_rule_catches_its_example():
+	before = {"name": "Task", "label": "Task", "modified": "2026-11-01 10:00:00"}
+	assert _synced("onedesk/one_task/doctype/task/task.json") and not _synced("onedesk/one_task/manifest.json")
+	assert unmoved(before, {**before, "label": "To do"})
+	assert not unmoved(before, {**before, "label": "To do", "modified": "2026-11-13 10:00:00"})
+	assert not unmoved(before, dict(before))
 
 
 def test_a_changed_synced_json_moves_its_modified():

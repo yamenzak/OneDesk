@@ -190,27 +190,46 @@ def test_every_screen_is_drawn_in_frappe_uis_tokens():
 	assert not found, "\n".join(f"{path}:\n  " + "\n  ".join(wrong) for path, wrong in found.items())
 
 
+def undefined(texts: dict[str, str], judged: set[str]) -> dict[str, str]:
+	"""The `--one-*` tokens the judged files read that no file defines, each
+	with the first file reading it. Pure."""
+	defined = {name for text in texts.values() for name in re.findall(r"(--one-[\w-]+)\s*:", text)}
+	used = {}
+	for where, text in texts.items():
+		for name in re.findall(r"var\(\s*(--one-[\w-]+)", text) if where in judged else ():
+			used.setdefault(name, where)
+	return {name: where for name, where in used.items() if name not in defined}
+
+
 def test_every_token_of_ours_is_defined():
 	"""A `--one-*` colour is named, so it has to be defined somewhere of ours,
 	or it falls through to nothing."""
-	defined, used = set(), {}
-	for path in _screens():
-		text = path.read_text(encoding="utf-8", errors="ignore")
-		defined |= set(re.findall(r"(--one-[\w-]+)\s*:", text))
-		for name in re.findall(r"var\(\s*(--one-[\w-]+)", text) if tree.judged(path) else ():
-			used.setdefault(name, str(path.relative_to(tree.ROOT)))
-	assert not {name: where for name, where in used.items() if name not in defined}
+	texts = {str(path.relative_to(tree.ROOT)): path.read_text(encoding="utf-8", errors="ignore") for path in _screens()}
+	assert not undefined(texts, {str(path.relative_to(tree.ROOT)) for path in tree.scoped(_screens())})
+
+
+def wrong_overlays(text: str) -> list[str]:
+	"""The `--one-over-*` overlays a file sets to anything but frappe-ui's
+	own. Pure."""
+	return [f"--one-over-{name}: {value}" for name, value in re.findall(r"--one-over-([\w-]+)\s*:\s*([^;]+);", text) if OVER.get(name) != value.strip()]
 
 
 def test_an_overlay_is_frappe_uis():
-	wrong = []
-	for path in tree.scoped(_screens()):
-		for name, value in re.findall(
-			r"--one-over-([\w-]+)\s*:\s*([^;]+);", path.read_text(encoding="utf-8", errors="ignore")
-		):
-			if OVER.get(name) != value.strip():
-				wrong.append(f"{path.name}: --one-over-{name}: {value}")
+	wrong = [f"{path.name}: {one}" for path in tree.scoped(_screens()) for one in wrong_overlays(path.read_text(encoding="utf-8", errors="ignore"))]
 	assert not wrong, wrong
+
+
+def chart_colours(options: dict) -> list[str]:
+	"""The colours a dashboard chart's options name that are not one of
+	frappe-ui's hues. Pure."""
+	hues = set(HUES.split("|")) | {"gray"}
+	return [one for one in (options.get("one_colors") or {}).values() if one not in hues] + list(options.get("colors") or [])
+
+
+def report_colours(text: str) -> list[str]:
+	"""The literal colours and the variables that are not frappe-ui's tokens
+	in a report's code. Pure."""
+	return LITERAL.findall(text) + [one for one in re.findall(r"var\((--[\w-]+)", text) if not TOKEN.fullmatch(one)]
 
 
 def test_a_chart_is_coloured_by_frappe_uis_hues():
@@ -218,21 +237,22 @@ def test_a_chart_is_coloured_by_frappe_uis_hues():
 	chart names one of frappe-ui's hues and chart_colors.js reads its token as
 	it draws; a report's chart names frappe-charts' own. A report's cells are
 	coloured by token, as a screen is."""
-	hues = set(HUES.split("|")) | {"gray"}
 	wrong = []
 	for path in tree.scoped(tree.APP.rglob("dashboard_chart/*/*.json")):
 		options = json.loads(json.loads(path.read_text()).get("custom_options") or "{}")
-		wrong += [
-			f"{path.name}: {one}" for one in (options.get("one_colors") or {}).values() if one not in hues
-		]
-		wrong += [f"{path.name}: {one}" for one in options.get("colors") or []]
+		wrong += [f"{path.name}: {one}" for one in chart_colours(options)]
 	for path in tree.scoped(tree.APP.rglob("report/*/*.py")):
-		text = path.read_text()
-		wrong += [f"{path.name}: {one}" for one in LITERAL.findall(text)]
-		wrong += [
-			f"{path.name}: {one}" for one in re.findall(r"var\((--[\w-]+)", text) if not TOKEN.fullmatch(one)
-		]
+		wrong += [f"{path.name}: {one}" for one in report_colours(path.read_text())]
 	assert not wrong, wrong
+
+
+def test_the_token_rules_catch_their_examples():
+	texts = {"a.css": ":root { --one-ink: red; }", "b.js": "x.style = 'var(--one-ink) var(--one-lost)'", "c.css": "a { color: var(--one-gone); }"}
+	assert undefined(texts, {"b.js"}) == {"--one-lost": "b.js"}
+	assert wrong_overlays(":root { --one-over-white-100: oklch(1 0 0 / 0.18); --one-over-black-100: rgba(0, 0, 0, 0.2); }") == ["--one-over-black-100: rgba(0, 0, 0, 0.2)"]
+	assert chart_colours({"one_colors": {"Paid": "green", "Due": "orange-ish"}, "colors": ["#ff0000"]}) == ["orange-ish", "#ff0000"]
+	assert not chart_colours({"one_colors": {"Paid": "green", "Due": "gray"}})
+	assert report_colours('style = "color: #c00; background: var(--bg-color); border-color: var(--outline-gray-2)"') == ["#c00", "--bg-color"]
 
 
 def test_the_scan_would_catch_each():

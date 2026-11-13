@@ -33,10 +33,25 @@ def _actions() -> set[str]:
 	return set(re.findall(r'"(intake_\w+)"', source))
 
 
+def unsampled(made: set[str], specs: list[dict]) -> list[str]:
+	"""The record types Intake makes that no sample makes. Pure."""
+	return sorted(made - {want["doctype"] for spec in specs for want in spec["makes"]})
+
+
 def test_every_record_intake_makes_has_a_sample():
-	covered = {want["doctype"] for path in _samples() for want in json.loads(path.read_text())["makes"]}
 	assert _made(), "no planner found"
-	assert _made() <= covered, sorted(_made() - covered)
+	missing = unsampled(_made(), [json.loads(path.read_text()) for path in _samples()])
+	assert not missing, missing
+
+
+def unwhole(name: str, spec: dict, module: bool, file: bool, actions: set[str]) -> list[str]:
+	"""What a sample lacks: a module of its folder's name, its file, what it
+	makes or is, answers Intake asks, and levels it knows. Pure."""
+	out = [] if module else [f"{name}'s folder is not a module"]
+	out += [] if file else [f"{name} has no {spec['file']}"]
+	out += [] if spec["makes"] or spec.get("verdict") or spec.get("states") else [f"{name} says nothing it makes or is"]
+	out += [] if set(spec.get("answers") or {}) <= actions else [f"{name} answers what Intake never asks"]
+	return out + [f"{name}: {want}" for want in spec["makes"] if want.get("level", "Done") not in ("Done", "Proposed")]
 
 
 def test_every_sample_is_whole():
@@ -44,14 +59,22 @@ def test_every_sample_is_whole():
 	assert _samples(), "there are no Intake samples"
 	for path in _samples():
 		spec = json.loads(path.read_text())
-		assert (APP / path.parent.name).is_dir(), f"{path.parent.name} is not a module"
-		assert path.with_name(spec["file"]).exists(), f"{path.name} has no {spec['file']}"
-		assert spec["makes"] or spec.get("verdict") or spec.get("states"), f"{path.name} says nothing it makes or is"
-		assert set(spec.get("answers") or {}) <= actions, f"{path.name} answers what Intake never asks"
-		for want in spec["makes"]:
-			assert want.get("level", "Done") in ("Done", "Proposed"), f"{path.name}: {want}"
+		found = unwhole(path.name, spec, (APP / path.parent.name).is_dir(), path.with_name(spec["file"]).exists(), actions)
+		assert not found, found
+
+
+def runs_the_samples(suite: str) -> bool:
+	return "def every_intake_sample_left_what_it_should" in suite and "samples.samples()" in suite
 
 
 def test_the_suite_runs_every_sample():
-	source = tree.suite()
-	assert "def every_intake_sample_left_what_it_should" in source and "samples.samples()" in source
+	assert runs_the_samples(tree.suite())
+
+
+def test_the_sample_rules_catch_their_examples():
+	spec = {"file": "bill.pdf", "makes": [{"doctype": "Purchase Invoice", "level": "Maybe"}], "answers": {"intake_who": 1}}
+	assert unsampled({"Purchase Invoice", "Lead"}, [spec]) == ["Lead"]
+	found = unwhole("bill.json", spec, False, False, set())
+	assert len(found) == 4 and "says nothing" not in " ".join(found)
+	assert unwhole("bill.json", {**spec, "makes": [{"doctype": "Lead"}]}, True, True, {"intake_who"}) == []
+	assert not runs_the_samples("def every_intake_sample_left_what_it_should():\n\tpass\n")

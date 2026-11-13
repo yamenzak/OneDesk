@@ -19,7 +19,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 2.12.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -45,7 +45,7 @@ Not marked ready yet.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | not yet |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -71,7 +71,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.3.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -97,7 +97,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.3.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -123,7 +123,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 2.1.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -149,7 +149,7 @@ Not marked ready yet.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | not yet |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -175,7 +175,7 @@ Not marked ready yet.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | not yet |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -201,7 +201,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.3.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -227,7 +227,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.2.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -253,7 +253,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.3.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -279,7 +279,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 2.2.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -305,7 +305,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.1.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -331,7 +331,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 2.6.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -357,7 +357,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.2.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -383,7 +383,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.11.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -409,7 +409,7 @@ Not marked ready yet.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | not yet |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -435,7 +435,7 @@ Not marked ready yet.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | not yet |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -461,7 +461,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.2.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -487,7 +487,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.18.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -513,7 +513,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.2.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -539,7 +539,7 @@ Not marked ready yet.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | not yet |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -565,7 +565,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.2.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 
@@ -591,7 +591,7 @@ Ready.
 | 16. OneAI knows and does | 16 | — |
 | 18. Permissions and roles | 16 | — |
 | 19. Legal | 16 | in 1.5.0 |
-| 20. One home, clean code | 24 | — |
+| 20. One home, clean code | 25 | — |
 
 What a person looks at:
 

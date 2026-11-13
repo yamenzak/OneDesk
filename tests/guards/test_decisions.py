@@ -24,21 +24,41 @@ def _answers():
 			yield path, doctype
 
 
+def carries(decision: str) -> bool:
+	"""Whether decision.answer carries the verdict rather than setting it plainly. Pure."""
+	body = decision[decision.index("def answer(") :].split("\n\n\n")[0]
+	return "carry(doc, field, verdict)" in body and not re.search(r"doc\.(status|approval_status) = verdict", body)
+
+
 def test_every_answer_carries_its_verdict_through_the_save():
 	assert len({doctype for _, doctype in _answers()}) >= 3
-	source = DECISION.read_text()
-	body = source[source.index("def answer(") :].split("\n\n\n")[0]
-	assert "carry(doc, field, verdict)" in body
-	assert not re.search(r"doc\.(status|approval_status) = verdict", body)
+	assert carries(DECISION.read_text())
+
+
+def kept_again(doctype: str, hooks: str, read) -> bool:
+	"""Whether the record's before_validate hook is decision.kept or calls it;
+	`read` gives a hook module's source by its dotted name. Pure but for `read`."""
+	block = hooks[hooks.index(f'\t"{doctype}": {{') :].split("\n\t}")[0].split("},")[0]
+	validate = re.search(r'"before_validate": "([\w.]+)"', block)
+	if not validate:
+		return False
+	module, fn = validate.group(1).rsplit(".", 1)
+	if module.endswith("decision") and fn == "kept":
+		return True
+	source = read(module)
+	return "decision.kept(doc)" in source[source.index(f"def {fn}(") :].split("\n\n\n")[0]
 
 
 def test_every_answered_record_sets_the_verdict_again_before_it_validates():
 	for _, doctype in _answers():
-		hooks = HOOKS[HOOKS.index(f'\t"{doctype}": {{') :].split("\n\t}")[0].split("},")[0]
-		validate = re.search(r'"before_validate": "([\w.]+)"', hooks)
-		assert validate, doctype
-		module, fn = validate.group(1).rsplit(".", 1)
-		if module.endswith("decision") and fn == "kept":
-			continue
-		source = (ROOT / (module.replace(".", "/") + ".py")).read_text()
-		assert "decision.kept(doc)" in source[source.index(f"def {fn}(") :].split("\n\n\n")[0], doctype
+		assert kept_again(doctype, HOOKS, lambda module: (ROOT / (module.replace(".", "/") + ".py")).read_text()), doctype
+
+
+def test_the_decision_rules_catch_their_examples():
+	assert carries("def answer(doc, field, verdict):\n\tcarry(doc, field, verdict)\n")
+	assert not carries("def answer(doc, field, verdict):\n\tdoc.status = verdict\n")
+	hooks = '\t"Leave Application": {\n\t\t"before_validate": "onedesk.one_hr.away.held",\n\t},\n\t"Expense Claim": {\n\t},'
+	held = "def held(doc, method=None):\n\tdecision.kept(doc)\n"
+	assert kept_again("Leave Application", hooks, lambda module: held)
+	assert not kept_again("Leave Application", hooks, lambda module: "def held(doc, method=None):\n\tpass\n")
+	assert not kept_again("Expense Claim", hooks, lambda module: held)

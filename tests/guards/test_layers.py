@@ -33,24 +33,50 @@ def sources():
 				yield path
 
 
+def high(text: str) -> list[int]:
+	"""The lines of a source that set a z-index of 100 or more. Pure."""
+	return [n for n, line in enumerate(text.splitlines(), 1) if NUMBER.search(line)]
+
+
 def test_a_z_index_is_a_layer_or_local():
 	found = {}
 	for path in sources():
 		name = path.relative_to(ROOT).as_posix()
 		if name in CANVAS:
 			continue
-		lines = [n for n, line in enumerate(path.read_text(encoding="utf-8", errors="ignore").splitlines(), 1) if NUMBER.search(line)]
+		lines = high(path.read_text(encoding="utf-8", errors="ignore"))
 		if lines:
 			found[name] = lines
 	assert not found, f"use var(--one-layer-*) from tokens.css, or a local order under 100: {found}"
 
 
-def test_the_layers_climb():
-	order = re.findall(r"--one-layer-([a-z]+):\s*(\d+);", TOKENS.read_text(encoding="utf-8"))
-	assert [name for name, _ in order] == ["sticky", "panel", "frame", "backdrop", "dialog", "menu", "tooltip", "toast", "tour"], order
+LAYERS = ["sticky", "panel", "frame", "backdrop", "dialog", "menu", "tooltip", "toast", "tour"]
+
+
+def climbs(tokens: str) -> bool:
+	"""Whether tokens.css names the layers in their order, each above the last. Pure."""
+	order = re.findall(r"--one-layer-([a-z]+):\s*(\d+);", tokens)
 	values = [int(value) for _, value in order]
-	assert values == sorted(values) and len(set(values)) == len(values), order
+	return [name for name, _ in order] == LAYERS and values == sorted(values) and len(set(values)) == len(values)
+
+
+def test_the_layers_climb():
+	assert climbs(TOKENS.read_text(encoding="utf-8"))
+
+
+def gone(names, root: Path) -> list[str]:
+	return sorted(name for name in names if not (root / name).exists())
 
 
 def test_the_canvas_list_is_real():
-	assert all((ROOT / name).exists() for name in CANVAS)
+	assert not gone(CANVAS, ROOT)
+
+
+def test_the_layer_rules_catch_their_examples(tmp_path):
+	assert high(".bar {\n\tz-index: 1050;\n}\n.tip { z-index: 5; }\n<div class='z-[999]'>") == [2, 5]
+	assert high(".bar { z-index: var(--one-layer-dialog); }") == []
+	good = "".join(f"--one-layer-{name}: {100 * n};" for n, name in enumerate(LAYERS, 1))
+	assert climbs(good)
+	assert not climbs(good.replace("--one-layer-tour: 900", "--one-layer-tour: 150"))
+	(tmp_path / "here.vue").write_text("")
+	assert gone({"here.vue", "gone.vue"}, tmp_path) == ["gone.vue"]

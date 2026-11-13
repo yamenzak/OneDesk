@@ -56,42 +56,60 @@ def upstream(lang: str) -> dict[str, str]:
 	return found
 
 
+def pot_missing(locale: Path) -> bool:
+	return not (locale / "main.pot").exists()
+
+
 def test_the_pot_exists():
-	assert (LOCALE / "main.pot").exists(), "run bench generate-pot-file --app onedesk"
+	assert not pot_missing(LOCALE), "run bench generate-pot-file --app onedesk"
+
+
+def untranslated(pot: dict, ours: dict, theirs: dict) -> list[str]:
+	"""The POT's strings neither we nor an installed app translate. Pure."""
+	return sorted(msgid for msgid in pot if not ours.get(msgid) and not theirs.get(msgid))
 
 
 @pytest.mark.parametrize("lang", SHIPPED)
 def test_every_string_reaches_a_reader(lang):
-	ours = read(LOCALE / f"{lang}.po")
-	theirs = upstream(lang)
-
-	missing = sorted(
-		msgid
-		for msgid in read(LOCALE / "main.pot")
-		if not ours.get(msgid) and not theirs.get(msgid)
-	)
+	missing = untranslated(read(LOCALE / "main.pot"), read(LOCALE / f"{lang}.po"), upstream(lang))
 	assert not missing, (
 		f"{lang}.po leaves these untranslated and no installed app translates them:\n  "
 		+ "\n  ".join(missing)
 	)
 
 
+def unsaid(pot: dict, ours: dict) -> list[str]:
+	"""What we translate that the POT no longer says. Pure."""
+	return sorted(msgid for msgid, msgstr in ours.items() if msgstr and msgid not in pot)
+
+
 @pytest.mark.parametrize("lang", SHIPPED)
 def test_nothing_is_translated_that_is_not_said(lang):
 	"""A msgid left behind by a reworded label is a translation nobody reads."""
-	pot = read(LOCALE / "main.pot")
-	stale = sorted(
-		msgid for msgid, msgstr in read(LOCALE / f"{lang}.po").items() if msgstr and msgid not in pot
-	)
+	stale = unsaid(read(LOCALE / "main.pot"), read(LOCALE / f"{lang}.po"))
 	assert not stale, f"{lang}.po translates strings no longer in the POT:\n  " + "\n  ".join(stale)
+
+
+def lost_placeholders(ours: dict) -> list[str]:
+	"""The translations whose placeholders differ from their English. Pure."""
+	return [msgid for msgid, msgstr in ours.items() if msgstr and set(re.findall(r"\{\w*\}", msgid)) != set(re.findall(r"\{\w*\}", msgstr))]
 
 
 @pytest.mark.parametrize("lang", SHIPPED)
 def test_placeholders_survive_translation(lang):
 	"""{0} in the English has to be {0} in the translation, or format() raises."""
-	wrong = [
-		msgid
-		for msgid, msgstr in read(LOCALE / f"{lang}.po").items()
-		if msgstr and set(re.findall(r"\{\w*\}", msgid)) != set(re.findall(r"\{\w*\}", msgstr))
-	]
+	wrong = lost_placeholders(read(LOCALE / f"{lang}.po"))
 	assert not wrong, f"{lang}.po loses or invents placeholders in:\n  " + "\n  ".join(wrong)
+
+
+def test_the_translation_rules_catch_their_examples(tmp_path):
+	assert pot_missing(tmp_path)
+	(tmp_path / "ar.po").write_text('msgid "Leave"\nmsgstr "إجازة"\n\nmsgid "Gone"\nmsgstr "ذهب"\n\nmsgid "Hi {0}"\nmsgstr "مرحبا"\n', encoding="utf-8")
+	ours = read(tmp_path / "ar.po")
+	assert ours["Leave"] == "إجازة"
+	pot = {"Leave": "", "Hi {0}": "", "New": ""}
+	assert untranslated(pot, ours, {}) == ["New"]
+	assert untranslated(pot, ours, {"New": "جديد"}) == []
+	assert unsaid(pot, ours) == ["Gone"]
+	assert lost_placeholders(ours) == ["Hi {0}"]
+	assert lost_placeholders({"Hi {0}": "مرحبا {0}"}) == []

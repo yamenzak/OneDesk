@@ -75,19 +75,22 @@ def sentences(text: str) -> int:
 	return len([one for one in re.split(r"(?<=[.!?])\s+", text.strip()) if one])
 
 
-def test_every_description_is_plain():
+def unplain_description(where: str, said: str) -> list[str]:
+	"""What is out of register in a field's description. Pure."""
 	wrong = []
-	for where, _label, said in _fields():
-		if not said:
-			continue
-		if len(said) > LONGEST:
-			wrong.append(f"{where}: {len(said)} characters")
-		if VOICE.search(said):
-			wrong.append(f"{where}: first person")
-		if "—" in said:
-			wrong.append(f"{where}: em dash")
-		if ":" in said.replace("Example:", ""):
-			wrong.append(f"{where}: a colon, which is a note to self rather than help")
+	if len(said) > LONGEST:
+		wrong.append(f"{where}: {len(said)} characters")
+	if VOICE.search(said):
+		wrong.append(f"{where}: first person")
+	if "—" in said:
+		wrong.append(f"{where}: em dash")
+	if ":" in said.replace("Example:", ""):
+		wrong.append(f"{where}: a colon, which is a note to self rather than help")
+	return wrong
+
+
+def test_every_description_is_plain():
+	wrong = [one for where, _label, said in _fields() if said for one in unplain_description(where, said)]
 	assert not wrong, "out of register, see docs/WORDING.md:\n  " + "\n  ".join(wrong)
 
 
@@ -191,35 +194,43 @@ def _keyed(node):
 	}
 
 
+def python_labels(nodes) -> list[str]:
+	"""The labels and option labels of every field a Python file's nodes build. Pure."""
+	out = []
+	for node in nodes:
+		field = _keyed(node)
+		if "fieldtype" not in field:
+			continue
+		if (label := _text(field.get("label"))) is not None:
+			out.append(label)
+		if isinstance(field.get("options"), ast.List):
+			for option in field["options"].elts:
+				if (label := _text(_keyed(option).get("label"))) is not None:
+					out.append(label)
+	return out
+
+
 def _python():
 	for path in _files(".py"):
-		for node in tree.walked(path):
-			field = _keyed(node)
-			if "fieldtype" not in field:
-				continue
-			if (label := _text(field.get("label"))) is not None:
-				yield path, label
-			if isinstance(field.get("options"), ast.List):
-				for option in field["options"].elts:
-					if (label := _text(_keyed(option).get("label"))) is not None:
-						yield path, label
+		yield from ((path, label) for label in python_labels(tree.walked(path)))
+
+
+def select_options(fields) -> list[str]:
+	"""Every option of the Select fields among `fields`. Pure."""
+	return [option for one in fields if one.get("fieldtype") == "Select" for option in (one.get("options") or "").split("\n") if option]
 
 
 def _options():
 	"""(where, option) for every Select option a doctype or custom field has."""
 	for path in tree.scoped(sorted(tree.APP.glob("*/custom/*.json"))):
-		for one in json.loads(path.read_text(encoding="utf-8")).get("custom_fields", []):
-			if one.get("fieldtype") == "Select":
-				yield from ((path, option) for option in (one.get("options") or "").split("\n") if option)
+		yield from ((path, option) for option in select_options(json.loads(path.read_text(encoding="utf-8")).get("custom_fields", [])))
 	for path in tree.scoped(sorted(tree.APP.parent.glob("**/doctype/*/*.json"))):
 		if SKIPPED & set(path.parts):
 			continue
 		spec = json.loads(path.read_text(encoding="utf-8"))
 		if spec.get("doctype") != "DocType":
 			continue
-		for one in spec.get("fields", []):
-			if one.get("fieldtype") == "Select":
-				yield from ((path, option) for option in (one.get("options") or "").split("\n") if option)
+		yield from ((path, option) for option in select_options(spec.get("fields", [])))
 
 
 FIELD = re.compile(
@@ -228,13 +239,14 @@ FIELD = re.compile(
 OPTION = re.compile(r"\{\s*value:\s*[^,{}]+,\s*label:\s*__\(\"([^\"]+)\"\)\s*\}")
 
 
+def desk_labels(source: str) -> list[str]:
+	"""The labels of the fields and options a desk script builds. Pure."""
+	return [found.group(1) or found.group(2) for found in FIELD.finditer(source)] + [found.group(1) for found in OPTION.finditer(source)]
+
+
 def _desk():
 	for path in _files(".js", ".vue"):
-		source = path.read_text(encoding="utf-8", errors="ignore")
-		for found in FIELD.finditer(source):
-			yield path, found.group(1) or found.group(2)
-		for found in OPTION.finditer(source):
-			yield path, found.group(1)
+		yield from ((path, label) for label in desk_labels(path.read_text(encoding="utf-8", errors="ignore")))
 
 
 def test_a_label_is_a_name_not_a_sentence():
@@ -269,22 +281,25 @@ TELLING = re.compile(r"\b(Open one|Click (one|a|an|the|somebody|someone)|Tap one
 DANGLING = re.compile(r"^(Its|It|Their|They|Them)\b|\bIts [A-Z]")
 
 
+def unplain_on_screen(source: str) -> list[str]:
+	"""What a desk script says that is not plain, or a note too long. Pure."""
+	found = []
+	for one in SCREEN.finditer(source):
+		text = one.group(1)
+		if LABELLED.match(text):
+			continue
+		if JOINED.search(text) or len(text) > SCREEN_LONGEST or TELLING.search(text) or DANGLING.search(text):
+			found.append(text)
+	found += [f"note too long: {one.group(1)}" for one in NOTE.finditer(source) if len(one.group(1)) > NOTE_LONGEST]
+	return found
+
+
 def test_what_a_screen_says_is_plain():
 	"""The desk's own scripts and each doctype's: a button called "Its Items"
 	sat in a doctype script, where this used not to look."""
 	root = tree.APP
-	found = []
 	paths = [*(root / "public" / "js").rglob("*.js"), *root.glob("*/doctype/*/*.js")]
-	for path in tree.scoped(sorted(paths)):
-		for one in SCREEN.finditer(path.read_text(encoding="utf-8")):
-			text = one.group(1)
-			if LABELLED.match(text):
-				continue
-			if JOINED.search(text) or len(text) > SCREEN_LONGEST or TELLING.search(text) or DANGLING.search(text):
-				found.append(f"  {path.relative_to(root)}: {text}")
-		for one in NOTE.finditer(path.read_text(encoding="utf-8")):
-			if len(one.group(1)) > NOTE_LONGEST:
-				found.append(f"  {path.relative_to(root)}: note too long: {one.group(1)}")
+	found = [f"  {path.relative_to(root)}: {text}" for path in tree.scoped(sorted(paths)) for text in unplain_on_screen(path.read_text(encoding="utf-8"))]
 	assert not found, "Write it plainly, as docs/WORDING.md says under On a Screen:\n" + "\n".join(found)
 
 
@@ -300,6 +315,11 @@ CHATTY = re.compile(
 MESSAGE = re.compile(r"""\b_{1,2}\(\s*(?:"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)')""")
 
 
+def chatty(source: str) -> list[str]:
+	"""The translated strings of a source that read as a person talking. Pure."""
+	return [text for one in MESSAGE.finditer(source) if CHATTY.search(text := one.group(1) or one.group(2) or "")]
+
+
 def test_a_message_says_what_happened():
 	"""Every translated string, in Python, the desk's scripts and the islands,
 	is held to the message rule: the plain wording a SaaS product uses, not
@@ -309,11 +329,23 @@ def test_a_message_says_what_happened():
 	for path in tree.scoped(sorted(paths)):
 		if any(part in SKIPPED for part in path.parts) or tree.vendored(path) or path.name.startswith("test_"):
 			continue
-		for one in MESSAGE.finditer(path.read_text(encoding="utf-8")):
-			text = one.group(1) or one.group(2) or ""
-			if CHATTY.search(text):
-				found.append(f"  {path.relative_to(tree.APP.parent)}: {text}")
+		found += [f"  {path.relative_to(tree.APP.parent)}: {text}" for text in chatty(path.read_text(encoding="utf-8"))]
 	assert not found, "Say what happened, as docs/WORDING.md says under A message:\n" + "\n".join(found)
+
+
+THEIR_APP = re.compile(r"\bpress\b", re.I)
+
+
+def commit_like(where: str, text: str) -> list[str]:
+	"""What makes a piece of OneAdmin's field help read like a commit message. Pure."""
+	wrong = []
+	if len(text) > LONGEST:
+		wrong.append(f"{where}: {len(text)} characters")
+	if VOICE.search(text):
+		wrong.append(f"{where}: first person")
+	if THEIR_APP.search(text):
+		wrong.append(f"{where}: says press rather than Frappe Cloud")
+	return wrong
 
 
 def test_no_screen_text_reads_like_a_commit_message():
@@ -332,8 +364,6 @@ def test_no_screen_text_reads_like_a_commit_message():
 	word `press`, because that is the name of Frappe Cloud's own app: correct
 	in code, meaningless to the person reading the form.
 	"""
-	THEIR_APP = re.compile(r"\bpress\b", re.I)
-
 	wrong = []
 	for folder in sorted(one.name for one in (tree.APP / "one_admin" / "doctype").iterdir() if one.is_dir()):
 		path = tree.APP / "one_admin" / "doctype" / folder / f"{folder}.json"
@@ -342,15 +372,7 @@ def test_no_screen_text_reads_like_a_commit_message():
 		doc = json.loads(path.read_text(encoding="utf-8"))
 		said = [("[doctype]", doc.get("description") or "")]
 		said += [(one["fieldname"], one.get("description") or "") for one in doc["fields"]]
-		for where, text in said:
-			if not text:
-				continue
-			if len(text) > LONGEST:
-				wrong.append(f"{folder}.{where}: {len(text)} characters")
-			if VOICE.search(text):
-				wrong.append(f"{folder}.{where}: first person")
-			if THEIR_APP.search(text):
-				wrong.append(f"{folder}.{where}: says press rather than Frappe Cloud")
+		wrong += [one for where, text in said if text for one in commit_like(f"{folder}.{where}", text)]
 	assert not wrong, "screen text out of register:\n  " + "\n  ".join(wrong)
 
 
@@ -369,18 +391,20 @@ REASONING = re.compile(
 REGISTERED = tuple(sorted(one.parent.name for one in tree.APP.glob("*/doctype")))
 
 
+def reasoned(spec: dict) -> list[tuple[str, str]]:
+	"""(where, text) for a doctype's help written as reasoning. Pure."""
+	if spec.get("doctype") != "DocType":
+		return []
+	said = [("[doctype]", spec.get("description") or "")]
+	said += [(one["fieldname"], one.get("description") or "") for one in spec.get("fields", [])]
+	return [(where, text) for where, text in said if text and REASONING.search(text)]
+
+
 def test_field_help_says_what_the_system_does():
 	wrong = []
 	for module in REGISTERED:
 		for path in tree.scoped(sorted((tree.APP / module).glob("doctype/*/*.json"))):
-			spec = json.loads(path.read_text(encoding="utf-8"))
-			if spec.get("doctype") != "DocType":
-				continue
-			said = [("[doctype]", spec.get("description") or "")]
-			said += [(one["fieldname"], one.get("description") or "") for one in spec.get("fields", [])]
-			for where, text in said:
-				if text and REASONING.search(text):
-					wrong.append(f"{path.stem}.{where}: {text}")
+			wrong += [f"{path.stem}.{where}: {text}" for where, text in reasoned(json.loads(path.read_text(encoding="utf-8")))]
 	assert not wrong, "field help reads as reasoning, see docs/WORDING.md, The description:\n  " + "\n  ".join(wrong)
 
 
@@ -407,21 +431,41 @@ def _read():
 				yield module, path, path.read_text(encoding="utf-8")
 
 
+def long_headings(text: str) -> list[str]:
+	"""The headings a script says in more than five words. Pure."""
+	return [_quoted(one) for one in HEADING.finditer(text) if len(_quoted(one).split()) > HEADING_WORDS]
+
+
+def banned_said(text: str) -> list[str]:
+	"""The strings a script shows that say a banned word. Pure."""
+	return [_quoted(one) for one in SAID.finditer(text) if BANNED.search(_quoted(one))]
+
+
 def test_a_heading_is_five_words_or_fewer():
-	found = [
-		f"  {module} {path.name}: {_quoted(one)}"
-		for module, path, text in _read()
-		for one in HEADING.finditer(text)
-		if len(_quoted(one).split()) > HEADING_WORDS
-	]
+	found = [f"  {module} {path.name}: {said}" for module, path, text in _read() for said in long_headings(text)]
 	assert not found, "A heading is five words or fewer (docs/WORDING.md):\n" + "\n".join(found)
 
 
 def test_no_banned_word_is_shown():
-	found = [
-		f"  {module} {path.name}: {_quoted(one)}"
-		for module, path, text in _read()
-		for one in SAID.finditer(text)
-		if BANNED.search(_quoted(one))
-	]
+	found = [f"  {module} {path.name}: {said}" for module, path, text in _read() for said in banned_said(text)]
 	assert not found, "A word we never show (docs/WORDING.md):\n" + "\n".join(found)
+
+
+def test_the_wording_rules_catch_their_examples():
+	assert len(unplain_description("x.y", "We keep it — see: " + "a" * 130)) == 4
+	assert not unplain_description("x.y", "Example: 30 days")
+	note = "a" * 71
+	assert unplain_on_screen(f'__("Its Items"); __("Saved; sent"); note: __("{note}")') == ["Its Items", "Saved; sent", f"note too long: {note}"]
+	assert not unplain_on_screen('__("Approve"); __("Total: {0}")')
+	assert chatty('_("It doesn\'t read any more")') and not chatty('_("Saved")')
+	assert len(commit_like("a.b", "Our press " + "x" * 130)) == 3 and not commit_like("a.b", "Zero means unlimited")
+	spec = {"doctype": "DocType", "description": "Its logo comes from here", "fields": [{"fieldname": "f", "description": "Leave empty to use the default"}]}
+	assert reasoned(spec) == [("[doctype]", "Its logo comes from here")]
+	assert not reasoned({**spec, "doctype": "Report"})
+	assert long_headings('title: __("One two three four five six"), label: __("Short")') == ["One two three four five six"]
+	assert banned_said('__("Simply save"), __("Save")') == ["Simply save"]
+	nodes = tree.nodes('f = {"fieldtype": "Select", "label": _("The Old App Has"), "options": [{"label": "Is Group"}]}\n')
+	assert python_labels(nodes) == ["The Old App Has", "Is Group"]
+	assert desk_labels('{ fieldtype: "Data", label: __("What Was Billed") }, { value: 1, label: __("Net") }') == ["What Was Billed", "Net"]
+	assert select_options([{"fieldtype": "Select", "options": "Open\nThe Old One"}, {"fieldtype": "Data", "options": "x"}]) == ["Open", "The Old One"]
+	assert [label for label in ("What Was Billed", "Net", "The Old One") if sentence(label)] == ["What Was Billed", "The Old One"]

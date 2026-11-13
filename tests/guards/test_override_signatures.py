@@ -56,12 +56,27 @@ def test_an_overridden_doctype_class_takes_what_upstream_passes():
 		assert ours is not None, dotted
 		if theirs is None:
 			continue
-		upstream = {fn.name: fn for fn in theirs.body if isinstance(fn, ast.FunctionDef)}
-		for fn in ours.body:
-			if not isinstance(fn, ast.FunctionDef) or fn.name not in upstream:
-				continue
-			takes, open_ = _accepts(fn)
-			needs, _ = _accepts(upstream[fn.name])
-			if not open_ and needs - takes:
-				wrong.append(f"{dotted}.{fn.name} does not take {sorted(needs - takes)}")
+		wrong += narrower(dotted, ours, theirs)
 	assert not wrong, "\n".join(wrong)
+
+
+def narrower(dotted: str, ours: ast.ClassDef, theirs: ast.ClassDef) -> list[str]:
+	"""Each method of our class that takes fewer arguments than upstream's. Pure."""
+	upstream = {fn.name: fn for fn in theirs.body if isinstance(fn, ast.FunctionDef)}
+	wrong = []
+	for fn in ours.body:
+		if not isinstance(fn, ast.FunctionDef) or fn.name not in upstream:
+			continue
+		takes, open_ = _accepts(fn)
+		needs, _ = _accepts(upstream[fn.name])
+		if not open_ and needs - takes:
+			wrong.append(f"{dotted}.{fn.name} does not take {sorted(needs - takes)}")
+	return wrong
+
+
+def test_the_signature_rule_catches_its_example():
+	theirs = ast.parse("class Notification:\n\tdef send_an_email(self, doc, context, template_content=None):\n\t\tpass\n").body[0]
+	narrow = ast.parse("class Rule(Notification):\n\tdef send_an_email(self, doc, context):\n\t\tpass\n").body[0]
+	open_ = ast.parse("class Rule(Notification):\n\tdef send_an_email(self, doc, *args, **kwargs):\n\t\tpass\n").body[0]
+	assert narrower("x.Rule", narrow, theirs) == ["x.Rule.send_an_email does not take ['template_content']"]
+	assert narrower("x.Rule", open_, theirs) == []

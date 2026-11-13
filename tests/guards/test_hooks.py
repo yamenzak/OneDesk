@@ -117,9 +117,23 @@ def test_the_scans_would_catch_a_typo():
 	assert missing_asset(assets()[0] + ".gone.js")
 
 
-def test_no_hook_table_names_a_doctype_twice():
-	for node in ast.parse(tree.hooks()).body:
+def twice(source: str) -> dict[str, list[str]]:
+	"""Each hook table of the source that names a key twice, with the keys. Pure."""
+	out = {}
+	for node in ast.parse(source).body:
 		if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
 			keys = [key.value for key in node.value.keys if isinstance(key, ast.Constant)]
-			twice = {key for key in keys if keys.count(key) > 1}
-			assert not twice, f"{node.targets[0].id} names {sorted(twice)} twice"
+			doubled = sorted({key for key in keys if keys.count(key) > 1})
+			if doubled:
+				out[node.targets[0].id] = doubled
+	return out
+
+
+def test_no_hook_table_names_a_doctype_twice():
+	doubled = twice(tree.hooks())
+	assert not doubled, "; ".join(f"{table} names {keys} twice" for table, keys in doubled.items())
+
+
+def test_the_twice_rule_catches_its_example():
+	assert twice('doc_events = {"Note": {}, "Task": {}, "Note": {}}') == {"doc_events": ["Note"]}
+	assert twice('doctype_js = {"Note": "a.js", "Task": "b.js"}') == {}

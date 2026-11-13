@@ -23,13 +23,17 @@ def _sources():
 				yield path
 
 
-def test_a_field_group_is_given_one_value_at_a_time():
-	found = [
+def _lines(paths, pattern) -> list[str]:
+	return [
 		f"{path.relative_to(ROOT)}:{n}"
-		for path in _sources()
+		for path in paths
 		for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
-		if DICT_TO_FIELD_GROUP.search(line)
+		if pattern.search(line)
 	]
+
+
+def test_a_field_group_is_given_one_value_at_a_time():
+	found = _lines(_sources(), DICT_TO_FIELD_GROUP)
 	assert not found, f"set_values for several fields: {found}"
 
 
@@ -40,13 +44,13 @@ def _desk_sources():
 
 
 def test_a_button_is_frappes():
+	found = _lines(_desk_sources(), HAND_BUTTON)
+	assert not found, f"frappe.ui.button for a button, change_custom_button_type or button.dress for its look: {found}"
+
+
+def test_the_call_rules_catch_their_examples():
 	assert HAND_BUTTON.search('`<button class="btn btn-xs btn-default">`')
 	assert HAND_BUTTON.search('add_custom_button(label, fn).addClass("btn-primary")')
 	assert not HAND_BUTTON.search('`<button class="btn-reset os-photo">`')
-	found = [
-		f"{path.relative_to(ROOT)}:{n}"
-		for path in _desk_sources()
-		for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
-		if HAND_BUTTON.search(line)
-	]
-	assert not found, f"frappe.ui.button for a button, change_custom_button_type or button.dress for its look: {found}"
+	assert DICT_TO_FIELD_GROUP.search("dialog.set_value({ title: t, date: d });")
+	assert not DICT_TO_FIELD_GROUP.search('frm.set_value({ title: t }); dialog.set_value("title", t);')

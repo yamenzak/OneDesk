@@ -140,9 +140,16 @@ def registry_page() -> str:
 	return "".join(out)
 
 
+def _proved(guard) -> str:
+	if guard.proof:
+		return f", caught in `{guard.proof.split('::')[-1]}`"
+	return f"; no example: {guard.why}"
+
+
 def standard_rules_page() -> str:
 	"""What holds each point of docs/STANDARD.md: its rules, by id, with what
-	each fails on and where it runs (tests/guards/registry.py), and the look a
+	each fails on, where it runs and the test that shows it catching its
+	example (tests/guards/registry.py), and the look a
 	person gives where no rule can settle it (onedesk/one/standard.py)."""
 	out = [
 		HEADER,
@@ -159,7 +166,7 @@ def standard_rules_page() -> str:
 				out.append("A module is held to it before it is marked ready.\n\n")
 			if point.look:
 				out.append(f"A person looks: {point.look}.\n\n")
-			out += [f"- `{guard.id}`: {guard.what} (`{guard.runs}`)\n" for guard in GUARDS if guard.point == point.number]
+			out += [f"- `{guard.id}`: {guard.what} (`{guard.runs}`{_proved(guard)})\n" for guard in GUARDS if guard.point == point.number]
 			if point.number in PLANNED:
 				out.append(f"- coming: {PLANNED[point.number]}\n")
 	return "".join(out)

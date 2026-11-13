@@ -36,12 +36,16 @@ def test_every_chart_prints_through_frappe():
 	browser's way, not in the workspace's number format or the company's
 	currency. Each one is given the kit's formatter (`money`, `count`,
 	`hours`), on itself, an axis or a series, or through `v-bind`."""
-	bare = []
-	for path in _views():
-		if path.suffix != ".vue":
-			continue
-		for match in CHART.finditer(path.read_text()):
-			attrs = match.group(2)
-			if not re.search(r"format|v-bind=", attrs):
-				bare.append(f"{path.relative_to(ROOT)}: {match.group(1)}")
+	bare = [f"{path.relative_to(ROOT)}: {chart}" for path in _views() if path.suffix == ".vue" for chart in unformatted(path.read_text())]
 	assert not bare, bare
+
+
+def unformatted(source: str) -> list[str]:
+	"""The charts in a screen's source given no formatter. Pure."""
+	return [match.group(1) for match in CHART.finditer(source) if not re.search(r"format|v-bind=", match.group(2))]
+
+
+def test_the_format_rules_catch_their_examples():
+	assert BY_HAND.search("total.toFixed(2)") and BY_HAND.search("new Intl.NumberFormat()") and BY_HAND.search("d.toLocaleDateString()")
+	assert not BY_HAND.search("frappe.format(total, { fieldtype: 'Currency' })")
+	assert unformatted('<BarChart :config="c" />\n<LineChart :config="c" :format="money" />') == ["BarChart"]

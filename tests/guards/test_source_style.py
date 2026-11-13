@@ -75,36 +75,50 @@ def test_no_docstring_is_an_essay():
 	)
 
 
+def _comment_and_code(text: str) -> tuple[int, int]:
+	"""The lines that are a comment and the lines that are code. Pure."""
+	lines = text.splitlines()
+	comments = sum(1 for line in lines if line.lstrip().startswith("#"))
+	code = sum(1 for line in lines if line.strip() and not line.lstrip().startswith("#"))
+	return comments, code
+
+
 def test_no_file_is_mostly_comment():
 	dense = []
 	for path in tree.scoped(tree.python()):
-		lines = tree.text(path).splitlines()
-		comments = sum(1 for line in lines if line.lstrip().startswith("#"))
-		code = sum(1 for line in lines if line.strip() and not line.lstrip().startswith("#"))
+		comments, code = _comment_and_code(tree.text(path))
 		if code and comments / code > DENSEST:
 			dense.append(f"{path.relative_to(tree.ROOT)} ({comments}/{code})")
 	assert not dense, f"more comment than code: {dense}"
 
 
+def _unused(text: str) -> set[str]:
+	"""The names a source imports and never uses. Pure."""
+	nodes = tree.nodes(text)
+	imported = {
+		(alias.asname or alias.name).split(".")[0]
+		for node in nodes
+		if isinstance(node, ast.Import | ast.ImportFrom)
+		for alias in node.names
+		if alias.name != "*"
+	}
+	used = {n.id for n in nodes if isinstance(n, ast.Name)} | {n.attr for n in nodes if isinstance(n, ast.Attribute)}
+	used |= set(re.findall(r"\b(\w+)\.", text))
+	return {name for name in imported - used if name}
+
+
 def test_nothing_is_imported_and_unused():
 	"""Ruff's F401 is off for the app; this covers the scripts and tests."""
-	unused = []
-	for path in tree.scoped(tree.python()):
-		text = tree.text(path)
-		nodes = tree.nodes(text)
-		imported = {
-			(alias.asname or alias.name).split(".")[0]
-			for node in nodes
-			if isinstance(node, ast.Import | ast.ImportFrom)
-			for alias in node.names
-			if alias.name != "*"
-		}
-		used = {n.id for n in nodes if isinstance(n, ast.Name)} | {n.attr for n in nodes if isinstance(n, ast.Attribute)}
-		used |= set(re.findall(r"\b(\w+)\.", text))
-		unused += [
-			f"{path.relative_to(tree.ROOT)}: {name}" for name in imported - used if name
-		]
+	unused = [f"{path.relative_to(tree.ROOT)}: {name}" for path in tree.scoped(tree.python()) for name in _unused(tree.text(path))]
 	assert not unused, f"imported and never used: {unused}"
+
+
+def test_the_comment_and_import_rules_catch_their_examples():
+	comments, code = _comment_and_code("# one\n# two\nx = 1\n")
+	assert comments / code > DENSEST
+	assert _comment_and_code("# why\nx = 1\ny = 2\nz = 3\n") == (1, 3)
+	assert _unused("import json\nimport os\nos.getcwd()\n") == {"json"}
+	assert _unused("from pathlib import Path\nPath('.')\n") == set()
 
 
 def test_the_essay_scan_would_catch_one(tmp_path):
@@ -124,17 +138,38 @@ def test_the_essay_scan_would_catch_one(tmp_path):
 LINTED = ("onedesk/one_project", "onedesk/one_demo")
 
 
+def _ruff_finds(ruff: str, paths, cwd: Path) -> str:
+	"""What ruff says of these paths, or nothing when they lint clean."""
+	import subprocess
+
+	found = subprocess.run([ruff, "check", "--quiet", *map(str, paths)], cwd=cwd, capture_output=True, text=True)
+	return found.stdout[-3000:] or "ruff failed" if found.returncode else ""
+
+
 def test_a_closed_module_lints_clean():
 	import shutil
-	import subprocess
 
 	import pytest
 
 	ruff = shutil.which("ruff")
 	if not ruff:
 		pytest.skip("ruff isn't installed here")
-	found = subprocess.run([ruff, "check", "--quiet", *LINTED], cwd=tree.ROOT, capture_output=True, text=True)
-	assert found.returncode == 0, found.stdout[-3000:]
+	said = _ruff_finds(ruff, LINTED, tree.ROOT)
+	assert not said, said
+
+
+def test_the_lint_rule_catches_its_example(tmp_path):
+	import shutil
+
+	import pytest
+
+	ruff = shutil.which("ruff")
+	if not ruff:
+		pytest.skip("ruff isn't installed here")
+	(tmp_path / "bad.py").write_text("def f(:\n")
+	(tmp_path / "good.py").write_text("x = 1\n")
+	assert _ruff_finds(ruff, ["bad.py"], tmp_path)
+	assert not _ruff_finds(ruff, ["good.py"], tmp_path)
 
 
 PARSES = """

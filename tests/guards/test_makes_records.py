@@ -90,23 +90,34 @@ def upstream():
 	return _upstream()
 
 
-def test_every_kind_made_is_declared(upstream):
-	declared = _declared()
-	missing = [
+def undeclared(made: dict, declared: dict) -> list[str]:
+	"""Each kind a module makes that one_makes_records does not give it. Pure."""
+	return [
 		f"{kind} made by {module} ({where})"
-		for kind, modules in sorted(_made(upstream).items())
+		for kind, modules in sorted(made.items())
 		for module, where in sorted(modules.items())
 		if module not in declared.get(kind, [])
 	]
+
+
+def stale(declared: dict, made: dict) -> list[str]:
+	"""Each kind one_makes_records gives a module that it no longer makes. Pure."""
+	return [f"{kind}: {module}" for kind, modules in sorted(declared.items()) for module in modules if module not in made.get(kind, {})]
+
+
+def test_every_kind_made_is_declared(upstream):
+	missing = undeclared(_made(upstream), _declared())
 	assert not missing, "Add to the making folder's manifest `makes`:\n" + "\n".join(missing)
 
 
 def test_nothing_declared_is_stale(upstream):
-	made = _made(upstream)
-	stale = [
-		f"{kind}: {module}"
-		for kind, modules in sorted(_declared().items())
-		for module in modules
-		if module not in made.get(kind, {})
-	]
-	assert not stale, "No longer made, so take out of hooks.py one_makes_records:\n" + "\n".join(stale)
+	found = stale(_declared(), _made(upstream))
+	assert not found, "No longer made, so take out of hooks.py one_makes_records:\n" + "\n".join(found)
+
+
+def test_the_making_rules_catch_their_examples():
+	assert MADE.findall('frappe.get_doc({"doctype": "Sales Order", "x": 1})\nfrappe.new_doc("Lead")') == ["Sales Order", "Lead"]
+	made = {"Lead": {"one_crm": "onedesk/one_crm/x.py"}}
+	assert undeclared(made, {}) == ["Lead made by one_crm (onedesk/one_crm/x.py)"]
+	assert undeclared(made, {"Lead": ["one_crm"]}) == []
+	assert stale({"Lead": ["one_crm"], "Task": ["one_task"]}, made) == ["Task: one_task"]
