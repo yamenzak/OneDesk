@@ -10,11 +10,11 @@ from pathlib import Path
 from onedesk.one import registry
 
 CONVENTIONS = {
-	"one_abilities": ("abilities", None, None),
-	"one_ai_page": ("ai", "page", None),
-	"one_ai_suggestions": ("ai", "SUGGESTIONS", None),
-	"one_ai_reads": ("ai", "READS", "each"),
-	"one_ai_suggests": ("ai", "SUGGESTS", "each"),
+	"one_abilities": ("access", "ABILITIES", "module"),
+	"one_ai_page": ("agent", "page", None),
+	"one_ai_suggestions": ("agent", "SUGGESTIONS", None),
+	"one_ai_reads": ("agent", "READS", "each"),
+	"one_ai_suggests": ("agent", "SUGGESTS", "each"),
 	"one_record_heads": ("heads", "HEADS", None),
 	"one_measures": ("heads", "MEASURES", None),
 	"one_verbs": ("heads", "VERBS", None),
@@ -24,7 +24,8 @@ CONVENTIONS = {
 }
 """hook: (file stem, the name it must define or None for the module itself,
 "each" when the name is a tuple of tools to list one by one: a tool of the
-file itself, or "ai_payroll.payroll_changes" for one in a file beside it)."""
+file itself, or "ai_payroll.payroll_changes" for one in a file beside it;
+"module" when the module itself is listed, only if it defines the name)."""
 
 ENGINES = {"one_portal": "one_portal"}
 """A hook's own engine, whose file of that name is the engine, not a part."""
@@ -63,12 +64,12 @@ def hook(name: str) -> list[str]:
 
 
 def ai_parts() -> dict[str, str]:
-	"""AICenter's part of each app: its ai.py when that declares JOBS, the
+	"""AICenter's part of each app: its agent.py when that declares JOBS, the
 	switches an administrator turns on (onedesk/one_ai/center.py)."""
 	return {
-		app.name: f"onedesk.{app.id}.ai"
+		app.name: f"onedesk.{app.id}.agent"
 		for app in registry.apps()
-		if (registry.FOLDERS / app.id / "ai.py").exists() and "JOBS" in _names(registry.FOLDERS / app.id / "ai.py")
+		if (registry.FOLDERS / app.id / "agent.py").exists() and "JOBS" in _names(registry.FOLDERS / app.id / "agent.py")
 	}
 
 
@@ -116,6 +117,8 @@ def _declared(place: str, stem: str, attr: str | None, each: str | None) -> list
 	names = _names(path)
 	if attr not in names:
 		return []
+	if each == "module":
+		return [module]
 	if each:
 		return [f"onedesk.{place}.{tool}" if "." in tool else f"{module}.{tool}" for tool in names[attr]]
 	return [f"{module}.{attr}"]

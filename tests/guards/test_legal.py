@@ -1,7 +1,7 @@
 """TrustCenter: the documents assemble, every change to them is a decision, and
 every company One sends data to is in the Subprocessors list.
 
-Pure: the registry, the documents and every module's `legal.py` import nothing
+Pure: the registry, the documents and every module's `trust.py` import nothing
 of frappe, so the documents are assembled here exactly as a site assembles them.
 """
 
@@ -86,7 +86,7 @@ def test_every_company_one_calls_is_a_declared_subprocessor():
 	declared = set(registry.SUBPROCESSORS)
 	called = set()
 	for path in tree.python():
-		if "trust_center" in path.parts or path.name == "legal.py":
+		if "trust_center" in path.parts or path.name == "trust.py":
 			continue
 		called |= set(re.findall(r"https://([a-z0-9.-]+\.[a-z]+)/", path.read_text(encoding="utf-8")))
 	outside = {host for host in called if not host.endswith(("frappe.io", "github.com", "example.com"))}
@@ -173,7 +173,7 @@ def test_every_company_that_runs_a_model_is_a_declared_subprocessor():
 def test_every_modules_legal_file_is_assembled():
 	from onedesk.trust_center.assemble import places
 
-	found = {path.parent.name for path in tree.APP.glob("one*/legal.py")}
+	found = {path.parent.name for path in tree.APP.glob("one*/trust.py")}
 	assert found <= set(places()), f"not a folder or part in the registry: {sorted(found - set(places()))}"
 
 
@@ -190,7 +190,7 @@ def test_a_service_is_reached_only_through_services_call():
 		assert all(HOSTS.get(host) in companies for host in one["hosts"]), f"{key}: each host is one of its companies'"
 		for path in tree.python():
 			text = path.read_text(encoding="utf-8")
-			if path.name != "legal.py" and any(host in text for host in one["hosts"]):
+			if path.name != "trust.py" and any(host in text for host in one["hosts"]):
 				assert "services.call(" in text, f"{path.name} calls {key}'s host without services.call"
 	uses = [use["service"] for row in registry.subprocessor_rows() for use in row["uses"] if use["service"]]
 	assert set(uses) <= set(registry.SERVICES), f"a use names a service nobody declared: {sorted(set(uses) - set(registry.SERVICES))}"
@@ -278,7 +278,7 @@ def test_a_core_change_waits_for_its_day():
 		assert all(HOSTS.get(host) in companies for host in one["hosts"]), f"{key}: each host is one of the companies it starts"
 		for path in tree.python():
 			text = path.read_text(encoding="utf-8")
-			if path.name != "legal.py" and any(host in text for host in one["hosts"]):
+			if path.name != "trust.py" and any(host in text for host in one["hosts"]):
 				assert "switchovers.when(" in text, f"{path.name} calls {key}'s host before its day; go through switchovers.when"
 		assert today <= one["clean_by"], (
 			f"{key} took effect on {one['effective']}: remove the old way and the switchover, drop starts= from its "

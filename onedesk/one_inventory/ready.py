@@ -376,7 +376,7 @@ def add_categories(one) -> list[str]:
 
 def fixes(user: str | None = None) -> bool:
 	"""Whether somebody may make what Inventory Check offers: OneInventory's
-	Fix What the Check Finds (abilities.py)."""
+	Fix What the Check Finds (access.py)."""
 	from onedesk.one import rights
 
 	return rights.held("Stock Settings", "inventory_fix", user)

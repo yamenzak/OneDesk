@@ -14,7 +14,7 @@ MAIL_MANAGER = "Mail Manager"
 
 def ensure(*_args) -> None:
 	"""The role exists on every site, workspace or admin alike. Mail Manager
-	is made from OneMail's abilities.py (rights.settle)."""
+	is made from OneMail's access.py (rights.settle)."""
 	if frappe.db.exists("Role", ADMINISTRATOR):
 		return
 	frappe.get_doc(

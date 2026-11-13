@@ -1,15 +1,51 @@
-"""Access: who sees and does what, past the app levels People sets.
+"""Access: who sees and does what, past the app levels People sets, and
+One's own abilities.
 
 Four things on top of People's None, User and Manager, each frappe's own:
-levels, record access, profiles and groups.
+levels, record access, profiles and groups. One's one ability, a Permission
+Type on Deleted Document (one/rights.py, docs/ROLES.md), is ABILITIES; the
+rest of the workspace stays its administrator's (roles.require).
 """
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 from frappe.permissions import setup_custom_perms
 
 from onedesk.one import roles, tell
 from onedesk.one_studio.customize import REFUSED_MODULES
+
+APP = "One"
+
+# Everybody uses One: its User role is given to every person (rights.everyone).
+EVERYONE = "One User"
+
+DOCTYPE = "Deleted Document"
+
+WORKSPACE = _lt("Workspace")
+
+SCOPE_LABELS = {"none": _lt("No"), "all": _lt("Yes")}
+
+ABILITIES = [
+	{
+		"key": "bin",
+		"group": WORKSPACE,
+		"label": _lt("Everyone's Deletions"),
+		"kind": "switch",
+		"all": "all_deletions",
+		"about": _lt("See and put back what anybody deleted, of the kinds of record they may read."),
+	},
+]
+
+# Nothing of One's is given on one record.
+SHARED = ()
+
+# One's roles and what each starts with: made and written once on migrate
+# (rights.settle), and shown in Help ({roles}).
+DEFAULTS = {
+	"One User": {},
+	"One Manager": {"bin": 1},
+}
+
 
 RIGHTS = ("select", "read", "write", "create", "delete", "submit", "cancel", "export")
 
@@ -48,7 +84,7 @@ NOT_SINGLE = {"report", "import", "export"}
 
 BASE = ("User", "Manager")
 
-EVERYONE = ("All", "Desk User", "Guest")
+ANYONE = ("All", "Desk User", "Guest")
 
 
 def _apps() -> dict:
@@ -373,7 +409,7 @@ def save_level(key: str, title: str | None, rows: list[dict], abilities: dict | 
 		doctype: _wanted(doctype, chosen.get(doctype, set()), had.get(doctype, set()))
 		for doctype in allowed | set(chosen)
 	}
-	everyone = set(EVERYONE)
+	everyone = set(ANYONE)
 	picked = {}
 	for doctype in sorted(wanted):
 		if not {"write", "create"} & wanted[doctype]:

@@ -49,7 +49,7 @@ def test_turning_an_app_off_hides_and_never_refuses():
 def test_a_turned_off_apps_records_open_elsewhere():
 	outside = (tree.APP / "one" / "outside.py").read_text()
 	assert "name not in off" in outside and "apps.rehome(said)" in outside
-	help_page = (tree.APP / "one" / "docs" / "settings.md").read_text()
+	help_page = (tree.APP / "one" / "help" / "settings.md").read_text()
 	assert "**Apps**, at the bottom of the rail" in help_page, "how_to answers it"
 
 

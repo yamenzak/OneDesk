@@ -23,7 +23,7 @@ def _parties(contact) -> list[tuple[str, str]]:
 
 def _may(contact) -> bool:
 	"""A workspace administrator, whoever holds Invite to the Portal
-	(abilities.py), or the manager of one of the contact's parties."""
+	(access.py), or the manager of one of the contact's parties."""
 	if roles.administers() or rights.held("Portal Link", "portal_invite"):
 		return True
 	mine = set(frappe.get_roles())

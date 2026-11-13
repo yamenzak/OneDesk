@@ -22,7 +22,7 @@ def onefactory_the_shop_floor_runs_a_step_from_start_to_close():
 	from erpnext.manufacturing.doctype.workstation.workstation import update_job_card
 	from erpnext.manufacturing.page.shop_floor import shop_floor
 
-	from onedesk.one_factory import ai, floor
+	from onedesk.one_factory import agent, floor
 
 	at = frappe.utils.now_datetime()
 	with as_user("tariq@one.test"):
@@ -37,7 +37,7 @@ def onefactory_the_shop_floor_runs_a_step_from_start_to_close():
 		assert cut["people"] == ["Arun Kumar"] and cut["minutes"] == 0 and cut["since"], cut
 		assert joint["may"]["start"] and not joint["may"]["pause"], joint["may"]
 		assert said["employee"], "Tariq starts a step as himself"
-		running = ai.on_the_floor()
+		running = agent.on_the_floor()
 		assert any(one["job_card"] == cut["name"] and one["state"] == "running" for one in running["steps"]), running
 		assert running["figures"]["running"] >= 1, running["figures"]
 
@@ -60,7 +60,7 @@ def onefactory_the_shop_floor_runs_a_step_from_start_to_close():
 		saw = floor.read(workstation="Saw Line")
 		assert all(one["workstation"] == "Saw Line" for one in saw["steps"]), saw["steps"]
 	with as_user("nadia@one.test"):
-		assert ai.on_the_floor().get("error")
+		assert agent.on_the_floor().get("error")
 		try:
 			floor.read()
 		except frappe.PermissionError:
@@ -136,7 +136,7 @@ def onefactory_sent_out_says_what_went_and_what_came_back():
 	)
 
 	from onedesk.one_demo.making import COATER, COATING
-	from onedesk.one_factory import ai, sent_out
+	from onedesk.one_factory import agent, sent_out
 
 	metres = COATING[0]
 	assert not frappe.db.exists("Page", "sent_out")
@@ -149,7 +149,7 @@ def onefactory_sent_out_says_what_went_and_what_came_back():
 		figures = sent_out.figures()
 		assert figures["out"] >= 1 and figures["worth"] > 0, figures
 		assert any(one["status"] == "Completed" for one in sent_out.orders(done=True))
-		facts = ai.sent_out_now()
+		facts = agent.sent_out_now()
 		assert any(one["order"] == tower["name"] for one in facts["out"]), facts
 
 		receipt = frappe.get_doc(make_subcontracting_receipt(tower["name"]))
@@ -161,7 +161,7 @@ def onefactory_sent_out_says_what_went_and_what_came_back():
 		assert sent_out.figures()["out"] is not None
 	with as_user("nadia@one.test"):
 		assert not sent_out.orders() and sent_out.figures()["out"] is None
-		assert ai.sent_out_now().get("error")
+		assert agent.sent_out_now().get("error")
 
 
 @check
@@ -172,7 +172,7 @@ def onefactory_the_plant_floor_shows_each_workstation():
 	at each, and the stock kept on the floor. A status changed on a
 	workstation shows at once, and the figures follow. OneAI reads it.
 	Somebody outside the workshop sees none of it."""
-	from onedesk.one_factory import ai, plant
+	from onedesk.one_factory import agent, plant
 
 	with as_user("tariq@one.test"):
 		assert not frappe.db.exists("Page", "plant")
@@ -196,11 +196,11 @@ def onefactory_the_plant_floor_shows_each_workstation():
 		frappe.client.set_value("Workstation", "Glazing Table", "status", "Production")
 		after = plant.now()
 		assert after["figures"]["making"] == making_before + 1 and after["figures"]["stopped"] == 0, after["figures"]
-		facts = ai.plant_floor_now()
+		facts = agent.plant_floor_now()
 		assert {one["workstation"]: one["status"] for one in facts["workstations"]}["Glazing Table"] == "Production"
-		assert ai.plant_floor_now("Nowhere").get("error")
+		assert agent.plant_floor_now("Nowhere").get("error")
 	with as_user("nadia@one.test"):
-		assert ai.plant_floor_now().get("error")
+		assert agent.plant_floor_now().get("error")
 		try:
 			plant.now()
 		except frappe.PermissionError:
@@ -294,7 +294,7 @@ def onefactory_making_from_bill_to_finished_goods():
 		imported.delete()
 
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_factory import ai
+	from onedesk.one_factory import agent
 
 	open_work = {"docstatus": 1, "status": ["in", ["Not Started", "In Process"]]}
 	with as_user(making.SUPERVISOR):
@@ -305,16 +305,16 @@ def onefactory_making_from_bill_to_finished_goods():
 			order_by="expected_delivery_date asc",
 		)
 		assert [one["name"] for one in hand] == [going.name] and hand[0]["produced_qty"] == 12, hand
-		facts = ai.work_order_facts(going.name)
+		facts = agent.work_order_facts(going.name)
 		assert {one["step"]: one["done"] for one in facts["steps"]} == {"Cutting": 30, "Assembly": 12, "Glazing": 12}
 		assert facts["cost_so_far"]["workshop_time"] > 0 and facts["materials"]
-		card = ai.plan_work_order("Casement Window 1200", 10, project=making.VILLA, why="The villa's last windows")
+		card = agent.plan_work_order("Casement Window 1200", 10, project=making.VILLA, why="The villa's last windows")
 		drafted = proposals.apply(card["proposal"])
 	order_ = frappe.get_doc("Work Order", drafted["record"])
 	assert order_.docstatus == 0 and order_.project == villa and len(order_.operations) == 3
 	order_.delete()
 	with as_user("nadia@one.test"):
-		assert ai.plan_work_order("WIN-CS12", 1).get("error")
+		assert agent.plan_work_order("WIN-CS12", 1).get("error")
 		try:
 			tools.list_records("Work Order", open_work)
 		except frappe.PermissionError:

@@ -1,6 +1,6 @@
 """Document templates: a document kept in OneCloud's Document Templates
 folder to start others from. Anyone in the company opens them; a role with
-the template ability (abilities.py) keeps one; whoever made one, or an
+the template ability (access.py) keeps one; whoever made one, or an
 administrator, changes it, as with any company file. A template is its own
 content and nothing else. AGENTS.md, Templates.
 """

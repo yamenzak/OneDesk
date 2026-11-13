@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneAI is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder). The plan it was rebuilt to is `docs/AICENTER.md`.
 
@@ -44,7 +44,7 @@ logged and can be undone.
 ### What it does
 
 What each part does, as people meet it. Help says the same for them, in
-`docs/`.
+`help/`.
 
 #### Opening OneAI
 
@@ -374,7 +374,7 @@ deliberately not here.
   has it on the next round. A guess that misses costs a round, never an
   answer. The groups are declared in `groups.py` rather than worked out from
   module paths, because a group is what a person asks about (their mail, the
-  workspace's setup), and that is not always where the code lives: `one/ai.py`
+  workspace's setup), and that is not always where the code lives: `one/agent.py`
   holds both somebody's own day and the workspace's numbering.
 - `proposals.py`: the card. Permissions are checked when it is written and
   again when it is applied, as an ordinary insert, save or delete. A card
@@ -635,7 +635,7 @@ deliberately not here.
   its tiers use, in Arabic, English and German, unbilled, on the admin site.
 - `heads.py`: the head of an `AI Proposal` (its state, its sentence, Apply and
   Refuse).
-- `legal.py`: the subprocessors and the privacy clause OneAI adds to the
+- `trust.py`: the subprocessors and the privacy clause OneAI adds to the
   agreements.
 - `report/ai_credits`: the Credits report, from `proxy.ai_usage`, with the
   person read from the conversation.
@@ -1614,10 +1614,10 @@ of it, numbered §1 to §16, which the code's docstrings cite.
 
 What is not built yet is in `docs/BACKLOG.md`.
 
-#### agent.py
+#### employee.py
 
 OneAI as an employee. After `parties`, filing, `money` and `second`,
-`matters.act_now` calls `agent.think`, which runs the `intake_act` action on
+`matters.act_now` calls `employee.think`, which runs the `intake_act` action on
 OneAI's own loop (`run.ask` with `only` and `nudges=False`) as the reading's
 `on_behalf_of`, so every lookup is that person's. The model is shown the
 reading (`told`): what it says, who it names, its references, asks and

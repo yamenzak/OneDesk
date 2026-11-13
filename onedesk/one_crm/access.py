@@ -1,17 +1,50 @@
-"""Who may do what in OneCRM, where ERPNext's defaults do not fit.
-
-What sales may do with deals, Prospects, Call Logs, the Campaigns, Support
-and Setup groups and Assignment Rules, written once per doctype.
+"""Who may do what in OneCRM: its one ability, a Permission Type on CRM
+Settings (one/rights.py, docs/ROLES.md), and what sales may do with deals,
+Prospects, Call Logs, the Campaigns, Support and Setup groups and Assignment
+Rules where ERPNext's defaults do not fit, written once per doctype.
 """
 
 import ast
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 from frappe.model import no_value_fields
 from frappe.permissions import add_permission, update_permission_property
 
 from onedesk.one import layer, roles
+
+APP = "OneCRM"
+
+# Not everybody's: People gives it to whoever uses OneCRM.
+USER = "Sales User"
+
+DOCTYPE = "CRM Settings"
+
+WORKSPACE = _lt("Workspace")
+
+SCOPE_LABELS = {"none": _lt("No"), "all": _lt("Yes")}
+
+ABILITIES = [
+	{
+		"key": "merge",
+		"group": WORKSPACE,
+		"label": _lt("Merge Duplicate Leads"),
+		"kind": "switch",
+		"all": "crm_merge",
+		"about": _lt("Fold a lead that is somebody already known into the one kept, which deletes it."),
+	},
+]
+
+# Nothing of OneCRM's is given on one record.
+SHARED = ()
+
+# ERPNext's own roles and what each starts with, written once on migrate
+# (rights.settle); merging deleted a lead, so it was a Sales Manager's, and still is.
+DEFAULTS = {
+	"Sales User": {},
+	"Sales Manager": {"merge": 1},
+}
+
 
 CHANGES = {
 	"Opportunity": [("Sales User", "delete", 0)],

@@ -4,7 +4,7 @@ What is known to be wrong and what is planned, kept short.
 
 - **Not ready.** It is registered so its foot and the module checks apply, and
   stays off `ready: True` until every point is met.
-- **Roles.** `test_ready.py` asks for an `abilities.py`. One Operator is given
+- **Roles.** `test_ready.py` asks for an `access.py`. One Operator is given
   on the admin site by `site.py`, not by AccessCenter, and the abilities hook
   runs on every site. Whether operators get abilities is undecided.
 - **Help.** Overview, Workspaces and Settings are the pages so far. The rest of

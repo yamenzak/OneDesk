@@ -262,7 +262,7 @@ def validate(doc, method=None) -> None:
 
 def may_publish(user: str | None = None) -> bool:
 	"""Whether somebody may put an event on everyone's calendar: OneCalendar's
-	publish ability (abilities.py), which an administrator always has."""
+	publish ability (access.py), which an administrator always has."""
 	from onedesk.one import rights
 
 	return rights.held("Event", "calendar_publish", user)

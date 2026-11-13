@@ -141,7 +141,7 @@ def test_the_code_never_reaches_the_conversation():
 	"""The code is in the extension alone. A run may hand it to the model to
 	change (extension_code), but neither what the model wrote nor what the tool
 	answered is kept in the conversation with it."""
-	ai = (STUDIO / "ai.py").read_text()
+	ai = (STUDIO / "agent.py").read_text()
 	assert 'write_extension.unshown = extension_code.unshown = ("code",)' in ai
 	assert (
 		'write_extension.action = mend_extension.action = design_record_type.action = extension_code.action = "studio"'
@@ -156,10 +156,10 @@ def test_the_code_never_reaches_the_conversation():
 
 def test_it_is_wired():
 	for hook in (
-		'"onedesk.one_studio.ai.extensions_here"',
-		'"onedesk.one_studio.ai.write_extension"',
-		'"onedesk.one_studio.ai.extension_code"',
-		'"onedesk.one_studio.ai.SUGGESTIONS"',
+		'"onedesk.one_studio.agent.extensions_here"',
+		'"onedesk.one_studio.agent.write_extension"',
+		'"onedesk.one_studio.agent.extension_code"',
+		'"onedesk.one_studio.agent.SUGGESTIONS"',
 		'"onedesk.one_studio.extensions.failing"',
 		'"onedesk.one_studio.heads.HEADS"',
 	):
@@ -192,8 +192,8 @@ def test_a_record_type_with_records_is_never_deleted_and_a_field_with_data_is_ne
 
 
 def test_record_types_are_wired():
-	assert '"onedesk.one_studio.ai.design_record_type"' in HOOKS
-	assert '"onedesk.one_studio.ai.record_types_here"' in HOOKS
+	assert '"onedesk.one_studio.agent.design_record_type"' in HOOKS
+	assert '"onedesk.one_studio.agent.record_types_here"' in HOOKS
 	assert 'if what == "record_type":' in (tree.APP / "one_studio" / "ai_setup.py").read_text()
 	assert '"DocType": ("Your Records", "table-2")' in (tree.APP / "one_studio" / "reports.py").read_text()
 	spec = json.loads((STUDIO / "doctype" / "record_type" / "record_type.json").read_text())
@@ -264,9 +264,9 @@ def test_an_extension_is_nobody_elses_to_share_attach_or_save():
 	assert "hide_name_column: true" in listed and "hide_name_filter: true" in listed
 	files = (tree.APP / "one_cloud" / "namespace.py").read_text()
 	assert '"leaves_out": ("File", "Extension", "Record Type")' in files
-	ai = (STUDIO / "ai.py").read_text()
+	ai = (STUDIO / "agent.py").read_text()
 	assert '"expects": "extension_mistakes"' in ai and '_lt("Change this one…")' in ai
-	assert '"onedesk.one_studio.ai.extension_mistakes"' in HOOKS
+	assert '"onedesk.one_studio.agent.extension_mistakes"' in HOOKS
 
 
 def _mend():
@@ -313,8 +313,8 @@ def test_the_errors_are_a_tab_on_the_extension_and_mending_a_verb_at_its_top():
 	assert 'onedesk.record_tabs.register("errors"' in tab and "onedesk.one_studio.mend.listed" in tab
 	heads = (STUDIO / "heads.py").read_text()
 	assert '"extension.mend"' in heads and '_lt("Errors in the Last 7 Days")' in heads
-	assert '"onedesk.one_studio.ai.mend_extension"' in HOOKS
-	legal = (STUDIO / "legal.py").read_text()
+	assert '"onedesk.one_studio.agent.mend_extension"' in HOOKS
+	legal = (STUDIO / "trust.py").read_text()
 	assert "asks OneAI to mend one" in legal
 
 
@@ -374,7 +374,7 @@ def test_a_change_keeps_where_and_when():
 	"""Measured: asked to change a limit, Gemma read the code with
 	extension_code, changed only the number, and sent no event. A change that
 	leaves out where or when keeps what the extension has."""
-	write = (STUDIO / "ai.py").read_text().split("def write_extension(", 1)[1].split("\ndef ", 1)[0]
+	write = (STUDIO / "agent.py").read_text().split("def write_extension(", 1)[1].split("\ndef ", 1)[0]
 	assert "view, event, place = view or was.view, event or was.event, place or was.place" in write
 	sys.path.insert(0, str(tree.ROOT))
 	from onedesk.one_ai import jobs
@@ -458,7 +458,7 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	assert '"Form Customized",\n\t\troles.administrators()' in (tree.APP / "one" / "tell.py").read_text()
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert 'bool((page.get("record") or "").strip()) != one["record"]' in suggest
-	assert '"onedesk.one_studio.ai.forms_here"' in HOOKS
+	assert '"onedesk.one_studio.agent.forms_here"' in HOOKS
 	assert '"forms_here"' in (tree.APP / "one_ai" / "groups.py").read_text()
 	forms = (STUDIO / "forms.py").read_text()
 	assert "module in one.owns" in forms and "\tmay(doctype)\n" in forms
@@ -475,11 +475,11 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 	layer = (tree.APP / "one" / "layer.py").read_text()
 	assert '"fetch_from",' in layer and "_fetched(doc, where)" in layer
 	assert "there.permlevel" in layer and 'frappe.has_permission(through.options, "read")' in layer
-	ai = (tree.APP / "one" / "ai.py").read_text()
+	ai = (tree.APP / "one" / "agent.py").read_text()
 	assert 'customize.action = "studio"' in ai and "also_on" in ai
-	studio = (STUDIO / "ai.py").read_text()
+	studio = (STUDIO / "agent.py").read_text()
 	assert 'form_relations.action = "studio"' in studio
-	assert '"onedesk.one_studio.ai.form_relations"' in HOOKS
+	assert '"onedesk.one_studio.agent.form_relations"' in HOOKS
 	sys.path.insert(0, str(tree.ROOT))
 	from onedesk.one_ai import jobs
 
@@ -549,7 +549,7 @@ def test_a_collections_records_are_numbered_from_its_initials():
 	assert "onedesk.one_studio.patches.number_collections" in (tree.APP / "patches.txt").read_text()
 	numbering = (tree.APP / "one_studio" / "numbering.py").read_text()
 	assert 'named |= set(frappe.get_all("Record Type", pluck="record_doctype"))' in numbering
-	ai = (STUDIO / "ai.py").read_text()
+	ai = (STUDIO / "agent.py").read_text()
 	assert "Int for whole numbers" in ai.split("def design_record_type(", 1)[1].split('"""', 1)[0]
 
 
@@ -573,7 +573,7 @@ def test_a_collection_sits_in_the_group_of_its_apps_rail_that_was_chosen():
 	assert "rail_group" in spec["field_order"]
 	listed = (STUDIO / "doctype" / "record_type" / "record_type_list.js").read_text()
 	assert '__("Move")' in listed and "new frappe.ui.Dialog(" in listed and "record_types.groups_of" in listed
-	ai = (STUDIO / "ai.py").read_text()
+	ai = (STUDIO / "agent.py").read_text()
 	design = ai.split("def design_record_type(", 1)[1].split('"""', 1)[0]
 	assert "group:" in design and '"groups": {app: record_types.groups(app)' in ai
 	assert "onedesk.one_studio.patches.collection_groups" in (tree.APP / "patches.txt").read_text()

@@ -44,8 +44,12 @@ def base() -> str:
 
 def files(module: str) -> list[Path]:
 	"""Every picture and clip a module's Help and What's New show."""
-	folder = ready.APP / ready.MODULES[module]["folder"] / "docs"
-	return sorted(path for path in folder.rglob("*") if path.suffix.lower() in KINDS)
+	return sorted(path for folder in folders(module) for path in folder.rglob("*") if path.suffix.lower() in KINDS)
+
+
+def folders(module: str) -> tuple[Path, Path]:
+	"""Where a module's pictures sit: beside its Help pages and its versions."""
+	return ready.help_folder(module).resolve(), ready.changelog(module).resolve()
 
 
 def every() -> list[Path]:
@@ -55,16 +59,17 @@ def every() -> list[Path]:
 def pictured(module: str, body: str, beside: Path) -> str:
 	"""Markdown with each picture beside it drawn as an image at its R2
 	address, carrying the address this site serves it from if R2 does not
-	have it yet. A picture outside the module's docs, or not there, leaves
+	have it yet. A picture outside the module's help/ and updates/, or not there, leaves
 	its words."""
-	folder = (ready.APP / ready.MODULES[module]["folder"] / "docs").resolve()
+	mine = folders(module)
+	home = mine[0].parent
 
 	def draw(found: re.Match) -> str:
 		alt, named = found.group(1), found.group(2)
 		path = (beside.parent / named).resolve()
-		if not path.is_relative_to(folder) or not path.exists() or path.suffix.lower() not in KINDS:
+		if not any(path.is_relative_to(one) for one in mine) or not path.exists() or path.suffix.lower() not in KINDS:
 			return alt
-		held = path.relative_to(folder).as_posix()
+		held = path.relative_to(home).as_posix()
 		here = f"/api/method/onedesk.one.media.picture?module={quote(module)}&path={quote(held)}"
 		said = frappe.utils.escape_html(alt)
 		return (
@@ -78,18 +83,27 @@ def pictured(module: str, body: str, beside: Path) -> str:
 @frappe.whitelist()
 def picture(module: str, path: str):
 	"""A picture of a module's Help from the repository, for when R2 does
-	not have it yet."""
+	not have it yet. `path` is from the module's folder; one from before
+	P2.10, from its old docs/, still answers (`moved`)."""
 	if module not in ready.MODULES:
 		frappe.throw(_("{0} has no help.").format(module))
-	folder = (ready.APP / ready.MODULES[module]["folder"] / "docs").resolve()
-	found = (folder / path).resolve()
-	if not found.is_relative_to(folder) or not found.is_file() or found.suffix.lower() not in KINDS:
+	mine = folders(module)
+	found = (mine[0].parent / moved(path)).resolve()
+	if not any(found.is_relative_to(one) for one in mine) or not found.is_file() or found.suffix.lower() not in KINDS:
 		raise frappe.DoesNotExistError
 	frappe.local.response.filename = found.name
 	frappe.local.response.filecontent = found.read_bytes()
 	frappe.local.response.content_type = KINDS[found.suffix.lower()]
 	frappe.local.response.display_content_as = "inline"
 	frappe.local.response.type = "download"
+
+
+def moved(path: str) -> str:
+	"""A picture's path as a page drawn before P2.10 held it, under docs/:
+	changelog/ is updates/ now and the rest is help/. Removed with D13."""
+	if path.startswith(("help/", "updates/")):
+		return path
+	return "updates/" + path.removeprefix("changelog/") if path.startswith("changelog/") else "help/" + path
 
 
 def kind(path: Path) -> str:

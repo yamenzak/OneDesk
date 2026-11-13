@@ -22,16 +22,16 @@ TIERS = {
 	"full": (_lt("Full"), _lt("The strongest models for the hardest questions, at the highest cost.")),
 }
 
-# Modules whose `ai.py` declares `JOBS`: what OneAI does there on its own, as
+# Modules whose `agent.py` declares `JOBS`: what OneAI does there on its own, as
 # a single's fields, each drawn with its own label and description.
 PARTS = registry_hooks.ai_parts()
-"""Each app whose ai.py declares JOBS, AICenter's switches for it."""
+"""Each app whose agent.py declares JOBS, AICenter's switches for it."""
 
 
 def may() -> dict:
 	"""What the reader may open of AICenter beyond Yours: everything, for a
 	workspace administrator; Usage and Knowledge, for a role that holds them
-	(abilities.py)."""
+	(access.py)."""
 	from onedesk.one import rights
 
 	admin = roles.administers()

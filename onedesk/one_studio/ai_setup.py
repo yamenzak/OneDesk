@@ -732,23 +732,23 @@ def apply(changes: dict) -> str:
 
 		return library.drafted(changes["preset"])
 	if what in ("project", "status", "milestone", "time", "budget", "member", "contact"):
-		from onedesk.one_project import ai as project_ai
+		from onedesk.one_project import agent as project_ai
 
 		return project_ai.approved(changes)
 	if what in ("workbook", "cells", "note"):
-		from onedesk.one_sheet import ai as sheet_ai
+		from onedesk.one_sheet import agent as sheet_ai
 
 		return sheet_ai.approved(changes)
 	if what in ("document", "writing"):
-		from onedesk.one_doc import ai as doc_ai
+		from onedesk.one_doc import agent as doc_ai
 
 		return doc_ai.approved(changes)
 	if what in ("deck", "slide", "remake"):
-		from onedesk.one_deck import ai as slide_ai
+		from onedesk.one_deck import agent as slide_ai
 
 		return slide_ai.approved(changes)
 	if what == "assign":
-		from onedesk.one_task import ai as task_ai
+		from onedesk.one_task import agent as task_ai
 
 		return task_ai.assigned(changes)
 	if what == "report":
@@ -805,14 +805,14 @@ def apply(changes: dict) -> str:
 			changes["name"] if changes.get("exists") else None, changes["name"], changes["members"]
 		)
 	if what == "extension":
-		from onedesk.one_studio import ai
+		from onedesk.one_studio import agent
 
-		return ai.turn_on(changes)
+		return agent.turn_on(changes)
 	if what == "record_type":
-		from onedesk.one_studio import ai
+		from onedesk.one_studio import agent
 
-		return ai.make_record_type(changes)
-	from onedesk.one_mail import ai as mail_ai
+		return agent.make_record_type(changes)
+	from onedesk.one_mail import agent as mail_ai
 
 	if what in mail_ai.APPROVED:
 		return mail_ai.approved(changes)

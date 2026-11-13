@@ -17,7 +17,7 @@ LARGEST_CLIP = 4 * 1024 * 1024
 
 
 def docs() -> list[Path]:
-	return sorted(path for path in APP.glob("*/docs") if path.is_dir())
+	return sorted(path for kind in ("help", "updates") for path in APP.glob(f"*/{kind}") if path.is_dir())
 
 
 def media() -> list[Path]:

@@ -317,7 +317,7 @@ function saveAsTemplate() {
 	);
 }
 
-// What OneAI makes here (onedesk/one_deck/ai.py): a slide after this one, a
+// What OneAI makes here (onedesk/one_deck/agent.py): a slide after this one, a
 // picture on this one, or a video that arrives later on a slide of its own.
 const making = ref("");
 const aiMenu = computed(() => [
@@ -330,7 +330,7 @@ const aiMenu = computed(() => [
 			...(screen.value ? [] : [{ label: __("Make a Video"), icon: "lucide-film", onClick: makeVideo }]),
 		],
 	},
-	// in OneAI's panel, as cards to approve (one_deck/ai.py draft_deck, write_slide, remake_slide)
+	// in OneAI's panel, as cards to approve (one_deck/agent.py draft_deck, write_slide, remake_slide)
 	...(screen.value ? [] : [{
 		group: __("In the OneAI Panel"),
 		options: [
@@ -391,7 +391,7 @@ async function asking(saying, method, description) {
 
 function designSlide() {
 	described(__("Design a Slide"), __("Design"), async (description) => {
-		const made = await asking(__("OneAI is designing the slide…"), "onedesk.one_deck.ai.design", description);
+		const made = await asking(__("OneAI is designing the slide…"), "onedesk.one_deck.agent.design", description);
 		const at = slideIndex.value;
 		insertSlide(getNewSlide(false, { background: made.background, elements: made.elements }), at);
 		changeSlide(at + 1);
@@ -401,7 +401,7 @@ function designSlide() {
 function makePicture() {
 	const slide = currentSlide.value;
 	described(__("Make a Picture"), __("Make"), async (description) => {
-		const made = await asking(__("OneAI is making the picture…"), "onedesk.one_deck.ai.picture", description);
+		const made = await asking(__("OneAI is making the picture…"), "onedesk.one_deck.agent.picture", description);
 		await addMediaElement(made, "image", slide);
 	});
 }
@@ -409,7 +409,7 @@ function makePicture() {
 function makeVideo() {
 	described(__("Make a Video"), __("Make"), async (description) => {
 		await saveWithoutDelay();
-		await asking(__("OneAI is starting the video…"), "onedesk.one_deck.ai.video", description);
+		await asking(__("OneAI is starting the video…"), "onedesk.one_deck.agent.video", description);
 		alert(__("OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."));
 	});
 }

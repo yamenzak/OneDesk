@@ -456,8 +456,8 @@ def givable() -> dict:
 		for role in (*app.roles.user, *app.roles.manager):
 			out.setdefault(role, app.name)
 	# A module everybody uses gives its User role to everybody and its Manager
-	# in AccessCenter (people.with_roles), both read off its abilities.py.
-	for path in sorted(tree.APP.glob("*/abilities.py")):
+	# in AccessCenter (people.with_roles), both read off its access.py.
+	for path in sorted(tree.APP.glob("*/access.py")):
 		said = {
 			node.targets[0].id: node.value
 			for node in ast.parse(path.read_text()).body
@@ -575,7 +575,7 @@ def _taught() -> str:
 
 
 def ai(name: str) -> str:
-	"""OneAI reads any record its reader may; `taught` where a module's ai.py
+	"""OneAI reads any record its reader may; `taught` where a module's agent.py
 	gives it tools or knowledge of its own about this one."""
 	return "taught" if f'"{name}"' in _taught() else "general"
 

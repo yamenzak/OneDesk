@@ -14,7 +14,7 @@ def trustcenter_every_person_has_agreed_and_reads_what_to():
 	"""Everybody accepted what they must on their first sign-in, so nothing is
 	outstanding; the documents, an old version and what was agreed read back,
 	and OneAI reads an agreement."""
-	from onedesk.trust_center import ai, gate, reading
+	from onedesk.trust_center import agent, gate, reading
 
 	for user in (OWNER, "rania@one.test"):
 		with as_user(user):
@@ -31,7 +31,7 @@ def trustcenter_every_person_has_agreed_and_reads_what_to():
 		assert reading.document("terms", agreed[0]["version"])["version"] == agreed[0]["version"]
 		gate.accept(["terms"])
 		assert gate.accept(["terms"])["accepted"] == [], "agreeing again at the same version records nothing"
-		assert ai.agreement("privacy").get("text")
+		assert agent.agreement("privacy").get("text")
 
 
 @check

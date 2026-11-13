@@ -287,7 +287,7 @@ No doctypes yet.
 
 ## Whitelisted methods
 
-* `onedesk.account_center.ai.write_bio`
+* `onedesk.account_center.agent.write_bio`
 * `onedesk.account_center.bills.auto_topup`
 * `onedesk.account_center.bills.change_card`
 * `onedesk.account_center.bills.invoices`
@@ -727,9 +727,9 @@ No doctypes yet.
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`
 * `onedesk.one_crm.story.read`
-* `onedesk.one_deck.ai.design`
-* `onedesk.one_deck.ai.picture`
-* `onedesk.one_deck.ai.video`
+* `onedesk.one_deck.agent.design`
+* `onedesk.one_deck.agent.picture`
+* `onedesk.one_deck.agent.video`
 * `onedesk.one_deck.api.download`
 * `onedesk.one_deck.api.get`
 * `onedesk.one_deck.api.get_editor_access`

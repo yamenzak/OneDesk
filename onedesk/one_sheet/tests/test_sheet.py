@@ -250,7 +250,7 @@ def test_a_table_cell_is_checked_as_its_field():
 
 def test_oneai_writes_cells_formats_and_notes_into_the_saved_shape():
 	room = _lifted(SHEET / "cells.py", ("CELL", "letters"), {"re": __import__("re")})
-	_lifted(SHEET / "ai.py", ("MOST_CELLS", "LOOKS", "_at", "_span", "_cells_given", "written", "noted"), room)
+	_lifted(SHEET / "agent.py", ("MOST_CELLS", "LOOKS", "_at", "_span", "_cells_given", "written", "noted"), room)
 	assert room["_at"]("B12") == (11, 1) and room["_at"]("AA1") == (0, 26) and room["_at"]("12B") is None
 	assert room["_span"]("A1:B2") == [(0, 0), (0, 1), (1, 0), (1, 1)] and room["_span"]("nonsense") == []
 	given, styled, wrong = room["_cells_given"]({"a1": "Item", "D2": "=B2*C2", "C2": 4}, {"A1:B1": {"bold": True, "colour": "x"}})

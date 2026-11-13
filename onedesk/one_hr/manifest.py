@@ -224,8 +224,8 @@ APP = App(
 		},
 	},
 	hooks={
-		"one_ai_reader": ("ai.reader",),
-		"one_ai_workspace": ("ai.workspace",),
+		"one_ai_reader": ("agent.reader",),
+		"one_ai_workspace": ("agent.workspace",),
 	},
 	settle=(
 		Settle("names.hide"),

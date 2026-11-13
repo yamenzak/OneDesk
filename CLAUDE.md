@@ -205,11 +205,11 @@ break each other's imports on sites that carry only one of them.
   because OneAI's `how_to` tool reads it to answer them; the rest is for us.
   A module keeps one README rather than plans and audits in `docs/`: git keeps
   the history. This is moving to `docs/READY.md`'s **A module's folder**
-  (`AGENTS.md`, `SCRATCHPAD.md`, and `docs/` for help pages and versions),
+  (`AGENTS.md`, `SCRATCHPAD.md`, `help/` for help pages and `updates/` for versions),
   module by module.
 - **A module in `onedesk/one/ready.py` changes only with a new version.**
   `python3 scripts/version.py <folder> <major|minor|fix> "<title>"` writes the
-  next `docs/changelog/<version>.md` with the module's fingerprint; say in it,
+  next `updates/<version>.md` with the module's fingerprint; say in it,
   in English and for the people using the module, what they can do now.
   `tests/guards/test_ready.py` fails until it matches and is written.
 - **`docs/BACKLOG.md` is what waits**: what is due now, the P3 frappe

@@ -1,6 +1,6 @@
 """OneAI on the hiring walk: every applicant read, rated and placed.
 
-What it does for the people using it is `one_hr/docs/hiring.md`. The short version: a number goes
+What it does for the people using it is `one_hr/help/hiring.md`. The short version: a number goes
 in a field so it sorts, an opinion goes in a comment so it has an author, and
 nothing here changes an applicant's status or reaches the candidate.
 """
@@ -63,7 +63,7 @@ def _desk() -> None:
 	"""frappe makes a user with no desk role a Website User, which loses
 	Desk User and with it the tasks OneAI made. Written directly: saving a
 	user queues the contact OneAI must not have."""
-	from onedesk.one_ai.abilities import EVERYONE
+	from onedesk.one_ai.access import EVERYONE
 
 	if not frappe.db.exists("Has Role", {"parent": AUTHOR, "parenttype": "User", "role": EVERYONE}):
 		frappe.get_doc({"doctype": "Has Role", "parent": AUTHOR, "parenttype": "User", "parentfield": "roles", "role": EVERYONE}).db_insert()
@@ -845,7 +845,7 @@ def purge() -> None:
 
 def keep_sound(doc, method=None) -> None:
 	"""A recording's sound is deleted by its retention or by whoever holds
-	OneHR's Delete an Interview's Sound (abilities.py), and by nobody else."""
+	OneHR's Delete an Interview's Sound (access.py), and by nobody else."""
 	if doc.attached_to_doctype != "Interview Recording" or frappe.flags.get("one_purging_sound"):
 		return
 	from onedesk.one import rights

@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 
 import tree
 
-AI = tree.APP / "one_cloud" / "ai.py"
+AI = tree.APP / "one_cloud" / "agent.py"
 NAMESPACE = tree.APP / "one_cloud" / "namespace.py"
 REQUESTS = tree.APP / "one_cloud" / "file_requests.py"
 LAUNCHER = tree.APP / "public" / "js" / "one_ai" / "oneai.js"
@@ -39,9 +39,9 @@ def test_the_panel_is_offered_a_file_only_with_one_chosen():
 def test_every_onecloud_tool_is_registered():
 	hooks = tree.hooks()
 	for name in ("open_file", "who_can_see", "largest_files"):
-		assert f"onedesk.one_cloud.ai.{name}" in hooks
-	assert "onedesk.one_cloud.ai.SUGGESTIONS" in hooks
-	assert "onedesk.one_cloud.ai.page" in hooks
+		assert f"onedesk.one_cloud.agent.{name}" in hooks
+	assert "onedesk.one_cloud.agent.SUGGESTIONS" in hooks
+	assert "onedesk.one_cloud.agent.page" in hooks
 
 
 def test_a_file_is_read_only_after_the_explorers_own_rule():

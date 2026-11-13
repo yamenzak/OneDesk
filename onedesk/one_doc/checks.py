@@ -108,7 +108,7 @@ def a_document_keeps_its_versions_and_asks_oneai():
 	letter on a quotation from the template. A reader who may not open the
 	document is not told it exists. All undone afterwards."""
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_doc import ai, api, versions
+	from onedesk.one_doc import agent, api, versions
 
 	frappe.db.savepoint("doc_ai_check")
 	try:
@@ -120,7 +120,7 @@ def a_document_keeps_its_versions_and_asks_oneai():
 			assert versions.new_version(name, "<p>Second</p>", "Before review")["title"] == "Before review"
 			assert [one["title"] for one in versions.listed(name)][-1] == "Before review"
 			page = {"page": "document", "record": name, "selection": {"page": "document", "document": name, "text": "at nine", "block": "Frames follow."}}
-			told = ai.page(page)
+			told = agent.page(page)
 			assert "Glass arrives **Monday** at nine." in told and 'selected: """at nine"""' in told, told
 			frappe.flags.one_ai_page = page
 			try:
@@ -134,11 +134,11 @@ def a_document_keeps_its_versions_and_asks_oneai():
 			assert "Glass arrives <strong>Monday</strong> at noon." in held.html, held.html
 			assert "<p>Frames follow.</p><p>Fixings last.</p>" in held.html and held.html.endswith("<p>Next meeting Friday.</p>"), held.html
 			assert not held.content, "the editor opens from the HTML"
-			assert "Nothing is selected" in ai.write_document(name, "<p>x</p>", "selection")["error"]
-			found = ai.my_documents("Minutes check")
+			assert "Nothing is selected" in agent.write_document(name, "<p>x</p>", "selection")["error"]
+			found = agent.my_documents("Minutes check")
 			assert [one["document"] for one in found] == [name], found
-			assert "Next meeting Friday." in ai.read_document(name)["text"]
-			assert "send its words" in ai.draft_document("Empty", "<p> </p>")["error"]
+			assert "Next meeting Friday." in agent.read_document(name)["text"]
+			assert "send its words" in agent.draft_document("Empty", "<p> </p>")["error"]
 			said = tools.run("draft_document", {"name": "Agenda check", "html": "<h1>Agenda</h1><p>Glass.</p>"})
 			made = proposals.apply(said["answer"]["proposal"])["record"]
 			assert "<h1>Agenda</h1>" in frappe.db.get_value(api.DOCUMENT, made, "html")
@@ -149,8 +149,8 @@ def a_document_keeps_its_versions_and_asks_oneai():
 			assert api.get_document(letter)["record"] == {"doctype": "Quotation", "name": quote}, "filed on the quotation"
 			assert 'data-field="grand_total"' in frappe.db.get_value(api.DOCUMENT, letter, "html"), "from the template"
 		with as_user("rania@one.test"):
-			assert ai.my_documents("Minutes check") == [] and "error" in ai.read_document(name)
-			assert ai.page({"page": "document", "record": name}) == "The reader is on a document's page in OneDoc."
+			assert agent.my_documents("Minutes check") == [] and "error" in agent.read_document(name)
+			assert agent.page({"page": "document", "record": name}) == "The reader is on a document's page in OneDoc."
 			try:
 				versions.listed(name)
 				raise AssertionError("Rania read Layla's versions")

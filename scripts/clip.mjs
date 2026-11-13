@@ -2,7 +2,7 @@
 // while a few steps are done on it, written as a GIF of at most 9 seconds
 // (one/media.py LONGEST_CLIP, the docs skill).
 //
-//   ONE_DEMO_PASSWORD=… PLAYWRIGHT_FROM=/path/with/playwright node scripts/clip.mjs onedesk/one_mail/docs/rules/new-rule.gif \
+//   ONE_DEMO_PASSWORD=… PLAYWRIGHT_FROM=/path/with/playwright node scripts/clip.mjs onedesk/one_mail/help/rules/new-rule.gif \
 //     --url /desk/onemail --user huda@one.test --steps steps.json
 //
 // steps.json is a list, done in order, each one of:

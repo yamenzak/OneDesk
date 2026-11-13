@@ -1,5 +1,5 @@
 """Who sees what making costs: OneFactory's See What Making Costs
-(abilities.py). Without it a bill of materials' Costing tab and its cost per
+(access.py). Without it a bill of materials' Costing tab and its cost per
 unit at the top of the page are not shown."""
 
 from onedesk.one import rights

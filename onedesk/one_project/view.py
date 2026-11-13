@@ -1311,7 +1311,7 @@ PICKED = 12
 def updates(project: Annotated[str, "The project."]) -> list[dict]:
 	"""The team's updates on the project, newest first: who, when, what."""
 	frappe.has_permission("Project", "read", doc=project, throw=True)
-	from onedesk.one_project.ai import _updates
+	from onedesk.one_project.agent import _updates
 
 	said = _updates(project)
 	people = _people_of({one["user"] for one in said})

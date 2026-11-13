@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneMail is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -288,7 +288,7 @@ Stage 6, mail in OneCloud, is built.
   HTML text. The links are made once per message however many recipients
   it has. A file that cannot be found stays attached.
 
-Stage 7, faces and logos, is built. Both are optional services (`legal.py`
+Stage 7, faces and logos, is built. Both are optional services (`trust.py`
 `service()`, trust_center/services.py), off until an administrator turns them
 on in TrustCenter: `fetch` asks through `services.call`, and `lookup` queues
 only what a service that is on would answer.
@@ -468,8 +468,8 @@ Stage 10, drafts and the team inbox, is built (November 2026).
 
 ### Where Help's claims are kept
 
-The pages in `docs/` name no code, so what each claim rests on is here. Their
-pictures sit beside them, one folder per page (`docs/<page>/`), and are
+The pages in `help/` name no code, so what each claim rests on is here. Their
+pictures sit beside them, one folder per page (`help/<page>/`), and are
 cropped from the demo with Layla signed in.
 
 - **Answering from their records** (rules-and-out-of-office): the portal's
@@ -626,7 +626,7 @@ Google's favicon service and Gravatar.
 - Marketing and bulk mail. Cloudflare forbids it.
 - POP3.
 
-### ai.py
+### agent.py
 
 Everything is read as the reader, and only from a mailbox they hold
 (`actions.require`), so the rule that decides who may open a message

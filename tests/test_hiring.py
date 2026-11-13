@@ -1,6 +1,6 @@
 """OneAI on the hiring walk: read, rated and placed, and never decided.
 
-See `one_hr/docs/hiring.md`. What this keeps: the model's answer is read however it
+See `one_hr/help/hiring.md`. What this keeps: the model's answer is read however it
 is wrapped; the pool is shown under labels and a label the model made up
 reaches no record; nothing here writes an applicant's status or the rating a
 person gives; every job runs as OneAI; and the instruction says what a CV may
@@ -132,7 +132,7 @@ def test_only_retention_or_an_hr_manager_deletes_what_was_said():
 
 
 def test_feedback_is_only_ever_drafted_for_one_of_the_interviewers():
-	ai = (tree.APP / "one_hr" / "ai.py").read_text(encoding="utf-8")
+	ai = (tree.APP / "one_hr" / "agent.py").read_text(encoding="utf-8")
 	draft = ast.unparse(next(n for n in ast.parse(ai).body if getattr(n, "name", "") == "draft_interview_feedback"))
 	assert "me not in on_it" in draft
 	assert "'interviewer': me" in draft

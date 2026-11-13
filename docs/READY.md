@@ -54,16 +54,16 @@ in Markdown:
 onedesk/<module>/
   AGENTS.md            the one file for agents: OneAI and us
   SCRATCHPAD.md        known issues and plans, kept short
-  docs/
-    <page>.md          the wiki, one page per thing people do
-    changelog/
-      <version>.md     one per version, the newest is the version
-  legal.py             what it adds to the agreements
+  help/
+    <page>.md          the wiki, one page per thing people do (HelpCenter)
+  updates/
+    <version>.md       one per version, the newest is the version (UpdateCenter)
+  trust.py             what it adds to the agreements (TrustCenter)
   notifications.py     what it tells people, and on which channels
-  abilities.py         what its roles may do
+  access.py            what its roles may do and the grants it gives (AccessCenter)
   setup.py             what the setup wizard may ask
   tour.py              its first-visit tour
-  ai.py                its OneAI tools, and NOT_FOR_AI
+  agent.py             its OneAI tools, and NOT_FOR_AI (AICenter)
   demo.py, checks.py   its part of the demo company, and its checks
   tests/               its tests
   doctype/, page/, permission_type/, custom/, patches/
@@ -75,11 +75,12 @@ onedesk/<module>/
 - **`SCRATCHPAD.md`** is what is known to be wrong and what is planned. What
   `docs/BACKLOG.md` says about a module moves here, and something done
   leaves it.
-- **`docs/`** is for the people who use the module. Its pages are the Help
-  dialog, and its `changelog/` is What's New.
+- **`help/`** and **`updates/`** are for the people who use the module: the
+  Help dialog's pages, and What's New. Pictures and clips sit beside the page
+  or version that shows them.
 - **No other `.md` file in a module.** A notification type, today a
   Markdown file in `notifications/<module>/`, becomes a declaration in the
-  module's `notifications.py`, as a clause is in `legal.py`.
+  module's `notifications.py`, as a clause is in `trust.py`.
   `tests/guards/test_ready.py` fails on any other.
 
 What frappe makes live elsewhere goes to a folder of the module's own name
@@ -129,7 +130,7 @@ joined clauses). A module on its way to ready is held to harder limits by
 (`onedesk/one/ready.py`):
 
 - **The folder,** `onedesk/one_mail/`. It holds the Python, the doctypes, the
-  notification types (`notifications.py`), the OneAI tools (`ai.py`, now
+  notification types (`notifications.py`), the OneAI tools (`agent.py`, now
   including the mailbox and template tools), mail templates
   (`mail_templates.py`), its demo step (`demo.py`, still called "mail" by the
   build), its checks (`checks.py`, which the suite imports through
@@ -318,7 +319,7 @@ HelpCenter beside every other module's.
 **An engine module.** A module that is the frame the others are drawn in,
 rather than an app somebody is given, keeps no records of its own and has
 no roles to ship. OneInterface is the one there is. It says so in one
-sentence, as `engine` in its registry entry, writes no `abilities.py`, and
+sentence, as `engine` in its registry entry, writes no `access.py`, and
 the roles guard skips it; it still declares what it sends (nothing), what
 setting it up takes (nothing), what OneAI may do (nothing of its own) and a
 tour, of the window itself, which waits for Help to offer it
@@ -327,7 +328,7 @@ tour, of the window itself, which waits for Help to offer it
 ### 6. Legal in the module
 
 **Today.** Each module declares what it adds to the agreements in its own
-`legal.py`: `clause()` for a paragraph of a document, `subprocessor()` for a
+`trust.py`: `clause()` for a paragraph of a document, `subprocessor()` for a
 company it sends data to (OneMail names Cloudflare, Gravatar and Google).
 `trust_center/assemble.py` puts them into the eight documents, and those are
 what the Agreements page shows, what is printed, and what people are asked
@@ -353,7 +354,7 @@ the agreement.
 
 ### 7. Roles that ship
 
-**Built.** A module's roles come from its folder alone. `<module>/abilities.py`,
+**Built.** A module's roles come from its folder alone. `<module>/access.py`,
 named by the `one_abilities` hook, declares its abilities, the role everyone
 holds (EVERYONE), or for a space over ERPNext the role every user of it holds
 (USER, given on People), and DEFAULTS: every role it ships and what each
@@ -365,7 +366,7 @@ on a page becomes `rights.defaults_table`, in English as Help is, so the
 page can't say other than what ships. Overrides are one idea: `rights.grant`
 gives one person more on one record than their role says, as a share frappe
 answers, and nothing else in a module writes a share. `test_ready.py` fails on
-a ready module without abilities.py or its hook, with defaults naming an
+a ready module without access.py or its hook, with defaults naming an
 ability it doesn't declare, without `{roles}` in its Help, with a Role fixture,
 or writing a share itself.
 
@@ -439,12 +440,12 @@ beside the module are translated, guarded and versioned like the rest of it.
 ### 11. OneAI reach
 
 **Built.** A call of a module's that changes something is one whitelisted for
-POST alone; every such call is in the module's `ai.py`, either in `REACH`,
+POST alone; every such call is in the module's `agent.py`, either in `REACH`,
 naming the OneAI tool whose card does it, or in `NOT_FOR_AI` with the reason
 in one sentence. A card is a Setup proposal; approving it runs the module's
 `approved`, which makes the page's own call as whoever pressed Approve, so a
 card is refused exactly where the page would refuse. `test_ready.py` fails on
-a changing call in neither, in both, or named but gone; a tool its `ai.py`
+a changing call in neither, in both, or named but gone; a tool its `agent.py`
 doesn't have or OneAI isn't given; an approval that never makes the call; or
 a reason longer than a sentence.
 
@@ -495,7 +496,7 @@ at, which makes it stale. A fix leaves a look standing.
   **Your Data** and **Changes**. The Agreements island and the Legal tab
   are gone.
 - **The laws.** `trust_center/laws.py`; One's own clauses name their duties in
-  `legal.py`'s `MEETS`; three clauses were added where no clause met one
+  `trust.py`'s `MEETS`; three clauses were added where no clause met one
   (privacy by default, the record of processing, switching provider), and
   Saudi Arabia's law named in rights, complaints and transfers.
 - **Changes.** `documents.CHANGES` and `BASELINE`; `gate.effective`; only a
@@ -524,7 +525,7 @@ production.
 **Core changes wait for their day.** A notice is only worth something if
 nothing changes before the day it gives. So a change One can't work
 without is a **switchover** (`registry.switchover` in the module's
-`legal.py`): it names the published change in `documents.CHANGES`, whose
+`trust.py`): it names the published change in `documents.CHANGES`, whose
 day is at least thirty days after it was published, and the code runs the
 old way until that day and the new way from it (`switchovers.when(key,
 new, old)`). A new company's uses say `starts=` the switchover, and
@@ -561,7 +562,7 @@ sidebar is:
 - **Changes**: what is coming, from when, and what changed before.
 
 Everybody reads it. Switches and agreeing are for workspace administrators
-(`trust_center/abilities.py`).
+(`trust_center/access.py`).
 
 **2. The laws.** `trust_center/laws.py` lists each law One answers and the
 duties it puts on us, and every `clause()` and `subprocessor()` names the
@@ -617,7 +618,7 @@ ships as an optional service. The version that adds it says so, and
 `scripts/version.py` writes `terms: notice` or `terms: service <key>` into
 its front matter, so the guard can hold the words to it.
 
-**4. Optional services.** A module declares one in its `legal.py` with
+**4. Optional services.** A module declares one in its `trust.py` with
 `service()`: a key, a title, what it is for, what it sends and to whom (its
 `subprocessor()`s), the clauses that hold only while it is on, and
 `default=False`. The code that calls out goes through
@@ -640,7 +641,7 @@ the GDPR asks of them (Art. 12): `we` is Four Degree Labs, `you` is the
 organisation, a defined term is capitalised and defined once, one duty to a
 sentence, a number where there is one (72 hours, 30 days), and nothing
 promised that isn't built. The rules go in `docs/WORDING.md` beside the copy
-rules, and `test_copy.py` reads `legal.py` too. Every module's `legal.py`
+rules, and `test_copy.py` reads `trust.py` too. Every module's `trust.py`
 is rewritten to them as it goes through the points held before live.
 
 **6. The registry.** Legal (point 19 of `docs/STANDARD.md`) is held by the
@@ -662,7 +663,7 @@ changed in place as People changes it (`put`, which takes somebody off a
 profile that says otherwise); and **On One Record**, everybody given more
 than their role on one record (`records`, read from the module's shares),
 with Edit and Remove through `rights.grant` (`give`). A record is named
-by the field its `abilities.py` names (`TITLE`, OneMail's `email_id`).
+by the field its `access.py` names (`TITLE`, OneMail's `email_id`).
 A module everybody uses (`EVERYONE`: One, OneAI, AccountCenter, TrustCenter) is
 not one of People's apps, so its People tab offers User and Manager only,
 its User role being everybody's (`people.with_roles`), and it has no On One
@@ -713,7 +714,7 @@ dialog (`onedesk.CENTERS.ai`). For everybody, **Yours**: what OneAI
 remembers about the reader. For administrators, **OneAI** (on or off, the
 tier with what an answer costs at each, credits left), **Knowledge**, each
 module's part, **Summaries** and **Usage**. A module's part is found from
-`JOBS` in its `ai.py`, each a field on one of its singles, drawn with the
+`JOBS` in its `agent.py`, each a field on one of its singles, drawn with the
 field's own label and description; a module whose OneAI settings are per
 record (OneMail's mailboxes) is listed and opens that record's tab.
 
@@ -743,10 +744,10 @@ the shell, Home and a few screens of its own; the rest is in `docs/ONE.md`.
 **ShortcutCenter**, **HelpCenter** and **UpdateCenter** (`onedesk.CENTERS`). Every one of them is
 One's, and every module but AccountCenter adds its part to them from its own
 files rather than drawing one: its settings and Lists (ControlCenter), its
-`abilities.py` (AccessCenter), `notifications.py` (NotificationCenter),
-`legal.py` (TrustCenter), `ai.py` (AICenter), `shortcuts.py`
+`access.py` (AccessCenter), `notifications.py` (NotificationCenter),
+`trust.py` (TrustCenter), `agent.py` (AICenter), `shortcuts.py`
 (ShortcutCenter), `docs/` (HelpCenter) and
-`docs/changelog/` (UpdateCenter). AccountCenter is One's alone.
+`updates/` (UpdateCenter). AccountCenter is One's alone.
 
 **Two ways in, and no third.**
 
@@ -914,7 +915,7 @@ German before it is committed.
 **16 OneAI knows and does.** OneAI reads a project as its reader sees it on
 the page, and does what the page does as a card: a project, its status, a
 milestone, time, a budget, a member, a contact, a reminder, a template
-(`one_project/ai.py`, the `projects` group in `one_ai/groups.py`). Approving
+(`one_project/agent.py`, the `projects` group in `one_ai/groups.py`). Approving
 a card runs the page's own code (`one_studio/ai_setup.py`).
 
 **17 Intake.** OneProject's sample is a scaffolding bill that names the

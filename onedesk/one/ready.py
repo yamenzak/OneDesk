@@ -138,8 +138,8 @@ SHARED = {
 	"onedesk/templates/emails/one_mail.html": "the frame every mail One sends is laid in, OneMail's or not",
 	"brand/oneai.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/public/images/oneai.svg": "the mark as an image, for the places that can't use the sprite",
-	"onedesk/one_mail/docs/asking-oneai.md": "OneMail's own Help page on what OneAI does in mail",
-	"onedesk/one_mail/docs/asking-oneai/reading.png": "the picture on OneMail's page on OneAI",
+	"onedesk/one_mail/help/asking-oneai.md": "OneMail's own Help page on what OneAI does in mail",
+	"onedesk/one_mail/help/asking-oneai/reading.png": "the picture on OneMail's page on OneAI",
 	"tests/samples/intake/one_ai/ignore-instructions.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_ai/ignore-instructions.json": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_ai/locked-invoice.eml": "reading's samples sit with every module's, under tests/samples",
@@ -273,7 +273,7 @@ def shipped(module: str) -> list[Path]:
 		for path in files(module)
 		if path.name not in UNSHIPPED
 		and "tests" not in path.parts
-		and "changelog" not in path.parts
+		and changelog(module) not in path.parents
 		and path.suffix not in (".pyc",)
 	]
 
@@ -288,7 +288,11 @@ def fingerprint(module: str) -> str:
 
 
 def changelog(module: str) -> Path:
-	return APP / MODULES[module]["folder"] / "docs" / "changelog"
+	return APP / MODULES[module]["folder"] / "updates"
+
+
+def help_folder(module: str) -> Path:
+	return APP / MODULES[module]["folder"] / "help"
 
 
 def number(version: str) -> tuple[int, int, int]:
@@ -299,7 +303,7 @@ def number(version: str) -> tuple[int, int, int]:
 def versions(module: str) -> list[dict]:
 	"""Every version of a module, newest first: its front matter (version,
 	date, kind, title, fingerprint) and its words, read from
-	docs/changelog/<version>.md."""
+	updates/<version>.md."""
 	found = []
 	for path in changelog(module).glob("*.md"):
 		text = path.read_text(encoding="utf-8")
@@ -335,7 +339,7 @@ def help_pages(module: str) -> list[dict]:
 	"""A module's help pages in reading order: id, icon, title (its first
 	heading), the rest of its words, and where it is, which its pictures sit
 	beside."""
-	folder = APP / MODULES[module]["folder"] / "docs"
+	folder = help_folder(module)
 	found = []
 	for page, icon in MODULES[module].get("help", ()):
 		text = (folder / f"{page}.md").read_text(encoding="utf-8")

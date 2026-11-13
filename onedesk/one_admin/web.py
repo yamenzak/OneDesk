@@ -1,7 +1,7 @@
 """Web search through Cloudflare's AI Gateway (docs/AICENTER.md, Web search):
 the question alone, to one provider, billed to the workspace at the
 provider's list price. Whether a workspace may ask is its own optional
-service (one_ai/legal.py, web_search); the account only searches."""
+service (one_ai/trust.py, web_search); the account only searches."""
 
 import requests
 

@@ -1,6 +1,6 @@
 """Point 17: a module keeps one layout. Who is told lives in its tell.py,
-what OneAI reads and offers in its ai.py (or ai_<topic>.py), the rights it
-gives roles in access.py, its clauses in legal.py, and the long form in its
+what OneAI reads and offers in its agent.py (or ai_<topic>.py), the rights it
+gives roles in access.py, its clauses in trust.py, and the long form in its
 README.
 These read the code."""
 
@@ -52,7 +52,7 @@ def test_oneai_hooks_point_at_ai_files():
 			continue
 		for path in {one.value for one in ast.walk(node.value) if isinstance(one, ast.Constant) and str(one.value).startswith("onedesk.")}:
 			module = path.rsplit(".", 2)[-2]
-			if module != "ai" and not module.startswith("ai_"):
+			if module != "agent" and not module.startswith("ai_"):
 				wrong.append(f"{name}: {path}")
 	assert not wrong, wrong
 

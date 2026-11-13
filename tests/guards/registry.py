@@ -760,7 +760,7 @@ GUARDS = [
 	Guard(
 		"ai-in-place",
 		20,
-		"a OneAI hook pointing at anything but a module's ai.py or ai_<topic>.py",
+		"a OneAI hook pointing at anything but a module's agent.py or ai_<topic>.py",
 		"tests/guards/test_layout.py::test_oneai_hooks_point_at_ai_files",
 	),
 	Guard(
@@ -838,7 +838,7 @@ GUARDS = [
 	Guard(
 		"roles-shipped",
 		18,
-		"a module whose roles do not ship from its abilities.py",
+		"a module whose roles do not ship from its access.py",
 		"tests/guards/test_ready.py::test_a_module_ships_its_roles",
 	),
 	Guard(

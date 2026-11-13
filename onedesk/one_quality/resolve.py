@@ -1,5 +1,5 @@
 """Who may resolve a non conformance: OneQuality's Resolve Non Conformances
-(abilities.py)."""
+(access.py)."""
 
 import frappe
 from frappe import _

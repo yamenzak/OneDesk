@@ -547,7 +547,7 @@ def onedisplay_fills_the_lobby_from_its_sources():
 	"""The lobby plays its slides and widgets, the projects figure reads as
 	the person who saved it, the night plays the screensaver, and OneAI reads
 	the queue and the screens and suggests a voice ad."""
-	from onedesk.one_display import ai, programme, sources
+	from onedesk.one_display import agent, programme, sources
 
 	with as_user(OWNER):
 		lobby = programme.compose(CHANNEL)
@@ -561,9 +561,9 @@ def onedisplay_fills_the_lobby_from_its_sources():
 		assert programme.plays(channel, night)["mode"] == "screensaver", "the lobby sleeps at night"
 		rates = {row["currency"]: row for row in sources.read("Exchange Rates")}
 		assert set(rates) == {"USD", "EUR", "GBP"} and rates["USD"]["base"] == frappe.get_cached_value("Company", frappe.db.get_default("company"), "default_currency"), rates
-		assert ai.queue_now(QUEUE)["queues"][0]["waiting"]
-		assert isinstance(ai.screens_now()["screens"], list)
-		assert ai.plan_voice_ad("Summer Sale", "Ask us about our summer prices.")["state"] == "Proposed"
+		assert agent.queue_now(QUEUE)["queues"][0]["waiting"]
+		assert isinstance(agent.screens_now()["screens"], list)
+		assert agent.plan_voice_ad("Summer Sale", "Ask us about our summer prices.")["state"] == "Proposed"
 
 
 @check

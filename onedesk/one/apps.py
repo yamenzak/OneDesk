@@ -2,7 +2,7 @@
 
 An app turned off leaves the rail, search and the pickers for everybody, and
 nothing is deleted or refused. OneAI off refuses every model call and turns
-reading off with it; OnePortal off closes the portal (one_portal/gate.py). The rest is in One's Help, under Settings (one/docs/settings.md).
+reading off with it; OnePortal off closes the portal (one_portal/gate.py). The rest is in One's Help, under Settings (one/help/settings.md).
 """
 
 import json

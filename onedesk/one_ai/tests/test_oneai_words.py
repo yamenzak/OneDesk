@@ -114,7 +114,7 @@ def test_neither_the_voice_nor_a_job_says_it():
 
 def test_no_guide_it_answers_from_says_it():
 	found = []
-	for readme in sorted([*tree.APP.glob("*/README.md"), *tree.APP.glob("*/docs/*.md")]):
+	for readme in sorted([*tree.APP.glob("*/README.md"), *tree.APP.glob("*/help/*.md")]):
 		told = readme.read_text(encoding="utf-8").split("## Under the hood")[0]
 		for n, line in enumerate(told.splitlines(), 1):
 			if UNDERNEATH.search(line):

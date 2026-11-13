@@ -1,6 +1,6 @@
 """What a module declares, and where it declares it.
 
-A clause or a subprocessor, registered at import time from `<module>/legal.py`,
+A clause or a subprocessor, registered at import time from `<module>/trust.py`,
 and given out in a stable order so a document's hash moves only with its text.
 """
 

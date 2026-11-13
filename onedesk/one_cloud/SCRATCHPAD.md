@@ -8,7 +8,7 @@ Known issues and plans, kept short. Something done leaves it.
 - **Settings of its own.** OneCloud's ControlCenter has no tabs yet and opens
   on its centres. Drive passwords and the server connections are the first
   candidates, both kept in dialogs today.
-- **OneAI cards.** Every call that changes something is in `ai.py`
+- **OneAI cards.** Every call that changes something is in `agent.py`
   NOT_FOR_AI. Sharing, moving and making a folder are the first that could
   be cards.
 - **Read-only in OneOS.** Somebody else's OneOS lease opens the viewer,

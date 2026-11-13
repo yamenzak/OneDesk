@@ -151,7 +151,7 @@ def fetch_many(keys: list[str]) -> None:
 
 
 def service_of(key: str) -> str:
-	"""The optional service a face or a logo comes from (legal.py). Pure."""
+	"""The optional service a face or a logo comes from (trust.py). Pure."""
 	return "gravatar" if is_person(key) else "logos"
 
 

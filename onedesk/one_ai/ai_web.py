@@ -1,6 +1,6 @@
 """What OneAI may look up on the web (docs/AICENTER.md, Web search): the
 question alone goes out, through the account, and only while the workspace
-has its web search service on (legal.py). Off, the tool is not offered."""
+has its web search service on (trust.py). Off, the tool is not offered."""
 
 from typing import Annotated
 

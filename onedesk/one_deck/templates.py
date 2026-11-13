@@ -1,7 +1,7 @@
 """Presentation templates: a presentation kept in OneCloud's Presentation
 Templates folder to start others from, and to take slides from, as the
 themes' layouts are taken. Anyone in the company opens them; a role with
-the template ability (abilities.py) keeps one; whoever made one, or an
+the template ability (access.py) keeps one; whoever made one, or an
 administrator, changes it, as with any company file. AGENTS.md, Templates.
 """
 

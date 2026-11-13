@@ -1,7 +1,7 @@
 # OneSheet
 
 What OneSheet is, how it works and why; for agents, OneAI and us. What is
-known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
+known to be wrong is `SCRATCHPAD.md`, and the Help people read is `help/`.
 
 OneSheet is One's spreadsheet: sheets, formulas, formatting, charts, pivot
 tables and notes, in a workbook that lives in OneCloud with the rest of your
@@ -217,7 +217,7 @@ lines into a record's table, type the formula in the table, such as
 **File › Save as Template** keeps a copy of the workbook in OneCloud ›
 Workbook Templates, where everyone in the company can start from it; you,
 and administrators, can change it there like any workbook. Keeping one is
-OneSheet's one ability, `template` (`abilities.py`, the Permission Type
+OneSheet's one ability, `template` (`access.py`, the Permission Type
 `sheet_template` on Workbook): a Manager has it, a User does not, and the
 item is left out of **File** for whoever lacks it. **New ›
 Workbook** in OneCloud then asks which template to start from, or a blank
@@ -372,7 +372,7 @@ every open copy the same, so the saves agree. `boot.one_sheet_live` turns it
 on for everybody signed in. A late joiner loads the saved workbook, then asks
 the room and is answered by whoever is there.
 
-### OneAI on the page, `ai.py`
+### OneAI on the page, `agent.py`
 
 The editor tells the panel the sheet and range selected on every selection
 (`kit/desk.js`, `aiSees`); the panel sends it with the question, and
@@ -625,7 +625,7 @@ bar's lead, the `open` group after the date; one workbook is a tile and an
 edited has frappe's own unsaved-changes guard and its own place in
 breadcrumbs.
 
-### OneAI's tools, `ai.py`
+### OneAI's tools, `agent.py`
 
 `my_workbooks` and `read_workbook` run as the person asking (OneCloud's
 answer for the workbook's File); `draft_workbook`, `write_cells` and

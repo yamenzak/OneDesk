@@ -80,11 +80,11 @@ def test_intake_takes_the_approval_step_and_oneai_never_does():
 
 
 def test_oneai_suggests_an_approval_as_a_card():
-	ai = (tree.APP / "one" / "ai.py").read_text()
+	ai = (tree.APP / "one" / "agent.py").read_text()
 	suggest = ai.split("def suggest_approval(", 1)[1].split("\ndef ", 1)[0]
 	assert "approvals.plain_condition(" in suggest and 'proposals.propose(\n\t\t\t"Approval"' in suggest
 	for tool in ("workspace_approvals", "suggest_approval"):
-		assert f'"onedesk.one.ai.{tool}"' in HOOKS, tool
+		assert f'"onedesk.one.agent.{tool}"' in HOOKS, tool
 	proposals = (tree.APP / "one_ai" / "proposals.py").read_text()
 	assert 'entry.kind == "Approval"' in proposals and "approvals.make(" in proposals
 

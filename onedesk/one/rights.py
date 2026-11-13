@@ -1,6 +1,6 @@
 """What a role may do in a module beyond its records (docs/ROLES.md).
 
-A module declares its abilities in `<module>/abilities.py`, named by the
+A module declares its abilities in `<module>/access.py`, named by the
 `one_abilities` hook. Each is one of frappe's Permission Types on a doctype,
 or two for one with a scope (their own, or every one). A role holds them on
 Custom DocPerm, a person holds them on one record through a DocShare, and
@@ -16,12 +16,12 @@ SCOPES = ("none", "own", "all")
 
 
 def modules() -> list:
-	"""Every module that declares abilities, as its `abilities` module."""
+	"""Every module that declares abilities, as its `access` module."""
 	return [frappe.get_module(path) for path in frappe.get_hooks("one_abilities")]
 
 
 def of_app(app: str):
-	"""The `abilities` module of one app, or None."""
+	"""The `access` module of one app, or None."""
 	return next((one for one in modules() if one.APP == app), None)
 
 
@@ -216,7 +216,7 @@ def unshare(doctype: str, name: str, user: str, *, flags: dict) -> None:
 
 
 def settle(*_args) -> None:
-	"""after_migrate: each module's own roles, made from its `abilities.py`
+	"""after_migrate: each module's own roles, made from its `access.py`
 	(its DEFAULTS name them, docs/READY.md mechanism 7), and given their
 	default abilities once. A role that has a row on the doctype already
 	keeps what the workspace made of it."""

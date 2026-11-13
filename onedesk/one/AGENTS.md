@@ -7,7 +7,7 @@ Bin, and the centres that hold the workspace's settings
 Log) and how people are told (NotificationCenter). docs/ONE.md is how it was
 cut down to that, and docs/STANDARD.md what it is held to.
 
-Its Help pages, docs/ beside this file, are what people read and what OneAI
+Its Help pages, help/ beside this file, are what people read and what OneAI
 answers "how do I…" from. This file is for the people who build One. Files
 in this folder that are not One's own (the engines every module uses, and
 privacy on its way to its own module) are named, with why, in
@@ -54,7 +54,7 @@ the settings and DiceBear's own `<metadata>` inside every SVG.
 | File | What it does |
 |---|---|
 | `sidebar/one/one.json` | One's sidebar, with a link per section |
-| `ai.py` | What OneAI offers on these pages, what it is told about where the reader is, and its suggestion tools: a notification rule, its text, and a form customized (`customize`) |
+| `agent.py` | What OneAI offers on these pages, what it is told about where the reader is, and its suggestion tools: a notification rule, its text, and a form customized (`customize`) |
 | `notify.py` | The one door every notification goes through, and the sandbox an edited text renders in; see `onedesk/notifications/README.md` |
 | `push.py`, `doctype/push_device`, `../public/js/one/push.js` | Web Push: a person's browsers, the site's keys, sending, and the service worker |
 | `rules.py` | The workspace's own notification rules: frappe's Notification, held to what a workspace rule may do |
@@ -270,7 +270,7 @@ the provider for up to its own sixty seconds, or 110 for a call that thinks
 (`gateway.THOUGHT`), so a caller giving up at ten gave up on answers that were
 on their way — a drafted appraisal is longer than a lookup.
 
-### ai.py
+### agent.py
 
 `suggest_approval`, `suggest_automation` and `draft_notification` are run by
 Workspace Setup, on a stronger model, for the same reason the two tools that
@@ -540,7 +540,7 @@ already had stays, so frappe's own per-country templates can be reworded.
 
 ### news/
 
-News Sources and their News Items (one/docs/news.md is the Help).
+News Sources and their News Items (one/help/news.md is the Help).
 
 - **Two record types and a third for colour.** `News Source` says where and
   how often; `News Item` is one headline, its own record because items are

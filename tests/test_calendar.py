@@ -230,12 +230,12 @@ def test_every_layer_is_declared_whole_and_registered():
 
 def test_who_may_publish_is_one_ability_in_both_halves():
 	"""Putting an event on everyone's calendar is OneCalendar's publish
-	ability (abilities.py): the server asks it, and the page reads it from boot."""
+	ability (access.py): the server asks it, and the page reads it from boot."""
 	source = (CAL / "events.py").read_text()
 	js = (CAL / "page" / "onecalendar" / "onecalendar.js").read_text()
 	assert 'rights.held("Event", "calendar_publish", user)' in source and "if not may_publish():" in source
 	assert "frappe.boot.one_calendar_publish" in js
-	assert '"all": "calendar_publish"' in (CAL / "abilities.py").read_text()
+	assert '"all": "calendar_publish"' in (CAL / "access.py").read_text()
 	assert (
 		'"validate": "onedesk.one_calendar.events.validate"'
 		in HOOKS.split('"Event": {', 1)[1].split("}", 1)[0]
@@ -363,7 +363,7 @@ def test_events_are_told_through_the_hub_and_frappes_own_morning_mail_is_stopped
 
 
 def test_oneai_sees_when_colleagues_are_busy_never_what_they_do():
-	source = (CAL / "ai.py").read_text()
+	source = (CAL / "agent.py").read_text()
 	busy = source.split("def busy_times(", 1)[1].split("\ndef ", 1)[0]
 	given = busy.split("found[user].append(", 1)[1].split(")", 1)[0]
 	for said in ("subject", "title", "description", "location"):

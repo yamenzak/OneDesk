@@ -13,7 +13,7 @@ _loaded = False
 
 
 def places() -> list[str]:
-	"""Every folder, and every part of one, whose legal.py may say something:
+	"""Every folder, and every part of one, whose trust.py may say something:
 	each app in the registry and its `parts`."""
 	from onedesk.one import registry
 
@@ -21,9 +21,9 @@ def places() -> list[str]:
 
 
 def _load() -> None:
-	"""Import every module's `legal.py`, once.
+	"""Import every module's `trust.py`, once.
 
-	A module with no `legal.py` is not an error: most of what a module does
+	A module with no `trust.py` is not an error: most of what a module does
 	needs nothing said about it, and a mandatory empty file is a file nobody
 	reads.
 	"""
@@ -34,12 +34,12 @@ def _load() -> None:
 
 	import importlib
 
-	importlib.import_module("onedesk.trust_center.legal")
+	importlib.import_module("onedesk.trust_center.trust")
 	for module in places():
 		try:
-			importlib.import_module(f"onedesk.{module}.legal")
+			importlib.import_module(f"onedesk.{module}.trust")
 		except ModuleNotFoundError as missing:
-			if missing.name != f"onedesk.{module}.legal":
+			if missing.name != f"onedesk.{module}.trust":
 				raise
 
 

@@ -10,7 +10,7 @@ BOOKS = ("Accounts User", "Accounts Manager")
 
 def manages(user: str) -> bool:
 	"""Whether this person sees every project: OneProject's See Every Project
-	(abilities.py), a OneProject Manager's."""
+	(access.py), a OneProject Manager's."""
 	from onedesk.one import rights
 
 	return rights.held("Project", "project_every", user)

@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneAdmin is made of, its rules,
 where each file is and the decisions that cost something. What operators read
-is in `docs/`, shown in Help and searched by OneAI's `how_to`; its versions are
-`docs/changelog/`. What is known to be wrong and what is planned is
+is in `help/`, shown in Help and searched by OneAI's `how_to`; its versions are
+`updates/`. What is known to be wrong and what is planned is
 `SCRATCHPAD.md` (docs/READY.md, A module's folder). The sections above **Under
 the hood** are the operators' guide until each becomes a Help page.
 
@@ -1148,7 +1148,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   where it stopped, a job that is due and has not moved is run now, a
   workspace over its storage is opened, a paid signup with no workspace is
   built again, a domain is asked about again, and a workspace owing is
-  opened. OneAI's `console_today` reads `needs` (`ai.py`), and so does
+  opened. OneAI's `console_today` reads `needs` (`agent.py`), and so does
   nothing else: the page and the model are told the same thing.
 - `tell.py`, with the types in `notifications/one_admin/`: the machinery writes with `db_set`, so
   there is no document hook to hang a notice on. Each is called where the
@@ -1162,7 +1162,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   Link, the two Workspace Moved, Confirm Your New Email, Account Email
   Changed) and Finish Signing Up are here too, unwrapped, called from
   `accounts.py` and `signup.remind`.
-- `ai.py`: `console_today` is `home.needs` for OneAI, and `workspace_facts`
+- `agent.py`: `console_today` is `home.needs` for OneAI, and `workspace_facts`
   one workspace's head and connections; both are refused to anybody who is
   not an operator on the admin site. Every reader there is the operator's
   own, on the admin site only and for One Operator only, as every console

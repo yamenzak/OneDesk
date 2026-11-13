@@ -1,9 +1,52 @@
-"""Who may do what in OneProject, where ERPNext's defaults do not fit."""
+"""Who may do what in OneProject, where ERPNext's defaults do not fit.
+
+What OneProject lets a role do beyond its records (one/rights.py,
+docs/ROLES.md): its one ability is one of frappe's Permission Types on
+Project, declared in permission_type/ beside this file. A workspace
+administrator may do it without.
+"""
 
 import frappe
+from frappe import _lt
 from frappe.permissions import add_permission, setup_custom_perms, update_permission_property
 
 from onedesk.one import roles
+
+APP = "OneProject"
+
+# Everybody may be on a project: its User role is given to every person
+# (rights.everyone).
+EVERYONE = "OneProject User"
+
+DOCTYPE = "Project"
+
+TITLE = "project_name"
+
+WORKSPACE = _lt("Workspace")
+
+SCOPE_LABELS = {"none": _lt("No"), "all": _lt("Yes")}
+
+ABILITIES = [
+	{
+		"key": "every",
+		"group": WORKSPACE,
+		"label": _lt("See Every Project"),
+		"kind": "switch",
+		"all": "project_every",
+		"about": _lt("Open every project in the workspace, not only those you are on."),
+	},
+]
+
+# Nothing of OneProject's is given on one record.
+SHARED = ()
+
+# OneProject's roles and what each starts with: made and written once on
+# migrate (rights.settle), and shown in Help ({roles}).
+DEFAULTS = {
+	"OneProject User": {},
+	"OneProject Manager": {"every": 1},
+}
+
 
 GIVEN = {
 	"Projects Settings": {"Projects Manager": ("read", "write")},
@@ -24,7 +67,7 @@ def settle() -> None:
 
 def _every() -> None:
 	"""Whoever managed projects saw every project before See Every Project
-	was an ability (abilities.py): each such person is made a OneProject
+	was an ability (access.py): each such person is made a OneProject
 	Manager once, when nobody holds that role yet."""
 	if not frappe.db.exists("Role", "OneProject Manager") or frappe.db.exists(
 		"Has Role", {"role": "OneProject Manager", "parenttype": "User"}

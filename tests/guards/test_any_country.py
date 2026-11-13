@@ -45,7 +45,7 @@ REGIONAL = {
 	"trust_center/documents.py": "the operator's own address and law",
 	"one_admin/costs.py": "what the operator pays, in its own currency, and its Stripe account's country",
 	"one_admin/price_list.py": "the operator's own currency and tax registration",
-	"trust_center/legal.py": "the operator's own law",
+	"trust_center/trust.py": "the operator's own law",
 	"trust_center/laws.py": "the laws the agreements answer, the UAE's among them",
 	"one_portal/checks.py": "the demo company's own customers and suppliers, which its checks sign in as",
 	"one_project/checks.py": "the demo company is in the UAE, where tax on retention falls due as it's released",

@@ -21,7 +21,7 @@ ORDER = ("Inbox", "Drafts", "Sent", "Archive", "Junk", "Trash", "Other")
 
 
 def _ability(key: str) -> dict:
-	from onedesk.one_mail import abilities as declared
+	from onedesk.one_mail import access as declared
 
 	return next(one for one in declared.ABILITIES if one["key"] == key)
 
@@ -29,9 +29,9 @@ def _ability(key: str) -> dict:
 def may_do(key: str, user: str | None = None) -> bool:
 	"""Whether somebody's roles let them do a workspace-wide thing in
 	OneMail: connect shared mailboxes, set the address policy, keep the mail
-	templates (one_mail/abilities.py)."""
+	templates (one_mail/access.py)."""
 	from onedesk.one import rights
-	from onedesk.one_mail.abilities import DOCTYPE
+	from onedesk.one_mail.access import DOCTYPE
 
 	return rights.held(DOCTYPE, _ability(key)["all"], user)
 
@@ -46,7 +46,7 @@ def may_open_others() -> bool:
 	"""Whether somebody's roles reach other people's mailboxes at all: any
 	ability on every mailbox, or the address policy. What opens People's
 	Mailboxes."""
-	from onedesk.one_mail import abilities as declared
+	from onedesk.one_mail import access as declared
 
 	return any(may_do(key) for key in (*declared.SHARED, "policy"))
 
@@ -80,14 +80,14 @@ def system_sender() -> str | None:
 
 def may(account: str, key: str, user: str | None = None) -> bool:
 	"""Whether somebody may change one part of a mailbox (`key`, one of
-	one_mail/abilities.py SHARED): a mailbox they connected for themselves is
+	one_mail/access.py SHARED): a mailbox they connected for themselves is
 	theirs; any other through their roles (every mailbox, or for an ability
 	with a scope, the address the workspace issued them), or through a share
 	of that one mailbox. Workspace administrators may do everything, except
 	in a private mailbox (addresses.is_private), which only its holder may."""
 	from onedesk.one import rights, roles
 	from onedesk.one_mail import actions
-	from onedesk.one_mail.abilities import DOCTYPE
+	from onedesk.one_mail.access import DOCTYPE
 
 	user = user or frappe.session.user
 	shared, hosted, email = frappe.db.get_value(
@@ -116,14 +116,14 @@ def must(account: str, key: str) -> None:
 def may_manage(account: str) -> bool:
 	"""Whether the reader may change any part of a mailbox: what opens its
 	settings to them."""
-	from onedesk.one_mail.abilities import SHARED
+	from onedesk.one_mail.access import SHARED
 
 	return any(may(account, key) for key in SHARED)
 
 
 def mays(account: str) -> dict:
 	"""{key: 0/1} for every part of a mailbox, for its settings' tabs."""
-	from onedesk.one_mail.abilities import SHARED
+	from onedesk.one_mail.access import SHARED
 
 	return {key: int(may(account, key)) for key in SHARED}
 
@@ -265,11 +265,11 @@ def mailbox(account: str) -> dict:
 
 def _by_role(user: str) -> dict:
 	"""A person's OneMail role (one/access.py), and the parts of any mailbox
-	(one_mail/abilities.py SHARED) it already lets them change, which a
+	(one_mail/access.py SHARED) it already lets them change, which a
 	share of one mailbox can add nothing to."""
 	from onedesk.one import access, rights, roles
 	from onedesk.one.people import level_of
-	from onedesk.one_mail.abilities import DOCTYPE, SHARED
+	from onedesk.one_mail.access import DOCTYPE, SHARED
 
 	cache = frappe.local.flags.setdefault("one_mail_by_role", {})
 	if user not in cache:
@@ -322,7 +322,7 @@ def shared() -> dict:
 		account["workspace"] = int(account.name == ours)
 		account["sends_default"] = int(account.name == sends)
 	accounts.sort(key=lambda one: -one["workspace"])
-	from onedesk.one_mail import abilities as declared
+	from onedesk.one_mail import access as declared
 
 	return {
 		"mailboxes": accounts,
@@ -409,7 +409,7 @@ def set_access(account: str, people) -> list[dict]:
 @frappe.whitelist(methods=["POST"])
 def give(account: str, user: str, keys: str | list) -> list[str]:
 	"""What one person who holds a mailbox may change in it, beyond what
-	their role allows: [key, ...] of one_mail/abilities.py SHARED, kept as a
+	their role allows: [key, ...] of one_mail/access.py SHARED, kept as a
 	share of the mailbox (one/rights.py grant)."""
 	from onedesk.one import rights
 

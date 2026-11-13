@@ -171,7 +171,7 @@ def _sender(ctx: dict, mail: dict, structured: dict) -> None:
 	if user:
 		ctx["sender_employee"] = frappe.db.get_value("Employee", {"user_id": user, "status": "Active"}, "name")
 		if ctx["sender_employee"]:
-			from onedesk.one_hr import ai as hr_ai
+			from onedesk.one_hr import agent as hr_ai
 
 			ctx["expense_approver"] = frappe.db.get_value("Employee", ctx["sender_employee"], "expense_approver")
 			ctx["expense_type"] = hr_ai.kind("", "", frappe.get_all("Expense Claim Type", pluck="name"))
@@ -353,7 +353,7 @@ def _employee(ctx: dict, reading) -> None:
 	if reading.kind == "Sick Note":
 		from hrms.hr.doctype.leave_application.leave_application import get_employee_leave_approver
 
-		from onedesk.one_hr import ai as hr_ai
+		from onedesk.one_hr import agent as hr_ai
 
 		ctx["sick_leave_type"] = hr_ai._leave_type("sick", frappe.get_all("Leave Type", pluck="name"))
 		ctx["leave_approver"] = get_employee_leave_approver(found)

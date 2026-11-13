@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneFactory is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -84,7 +84,7 @@ heir of ERPNext's Manufacturing and Subcontracting.
 - `heads.py` — the head cards and measures of Work Order, BOM, Job Card,
   Subcontracting Order and Receipt (hooks `one_record_heads`,
   `one_measures`).
-- `costs.py`, `abilities.py` and `public/js/one_factory/bom.js` — See What
+- `costs.py`, `access.py` and `public/js/one_factory/bom.js` — See What
   Making Costs, a Permission Type on Manufacturing Settings
   (`permission_type/`), the managers' to begin with. Without it a BOM's
   Costing tab is hidden (`onload` sets `one_costs_hidden`) and its head has
@@ -94,7 +94,7 @@ heir of ERPNext's Manufacturing and Subcontracting.
   maker, else the work order's) and the project's manager once the work
   order is Completed; Back From Supplier Late, the day after subcontracted
   goods were due back.
-- `ai.py` — OneAI on the floor: `on_the_floor`, `plant_floor_now`,
+- `agent.py` — OneAI on the floor: `on_the_floor`, `plant_floor_now`,
   `sent_out_now`, `work_order_facts` (one work order's materials, steps and
   cost so far) and `plan_work_order` (a draft from an item's bill), with
   each page's suggestions and the Shop Floor's sentence (`page`).
@@ -114,7 +114,7 @@ heir of ERPNext's Manufacturing and Subcontracting.
 ### What READY asks of it
 
 - **Notifications** are `notifications.py`, sent by `tell.py`.
-- **Its one ability**, See What Making Costs, is `abilities.py`.
+- **Its one ability**, See What Making Costs, is `access.py`.
 - **Setup** needs nothing of its own (`setup.py`); OneInventory's Inventory
   Check still sets the company's workshop account and work order
   warehouses. **Its tour** is `tour.py` over the Shop Floor's figures and

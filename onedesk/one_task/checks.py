@@ -16,13 +16,13 @@ def onetask_works_for_whoever_has_tasks():
 	the timer started and stopped on one, and a task and its steps suggested
 	as cards, and a change to one approved."""
 	from onedesk.one_ai import proposals, tools
-	from onedesk.one_task import ai, mine, task, timer
+	from onedesk.one_task import agent, mine, task, timer
 
 	with as_user("rania@one.test"):
 		groups = mine.tasks("mine")
 		counts = mine.counts()
 		assert groups and counts.get("mine"), (groups, counts)
-		assert ai.my_tasks("mine")["groups"]
+		assert agent.my_tasks("mine")["groups"]
 		one = groups[0]["tasks"][0].name
 		doc = frappe.get_doc("Task", one)
 		doc.append("one_steps", {"step": "Photograph the anchors"})
@@ -47,8 +47,8 @@ def onetask_works_for_whoever_has_tasks():
 		timer.stop()
 		timer.stop(other)
 		assert timer.timers() == {"running": None, "paused": []}
-		assert ai.plan_task("Send the snag photos", due=str(on(12, 1))).get("state") == "Proposed"
-		assert ai.plan_steps(one, ["Check the seals", "Clean the frames"]).get("state") == "Proposed"
+		assert agent.plan_task("Send the snag photos", due=str(on(12, 1))).get("state") == "Proposed"
+		assert agent.plan_steps(one, ["Check the seals", "Clean the frames"]).get("state") == "Proposed"
 		said = tools.edit_record("Task", one, {"priority": "Urgent"}, why="The client asked for it this week.")
 		assert said.get("state") == "Proposed" and frappe.db.get_value("Task", one, "priority") != "Urgent", said
 		proposals.apply(said["proposal"])
@@ -72,7 +72,7 @@ def onetask_oneai_gives_a_task_on_approval():
 	to nobody, not a task she may not change, and not to somebody switched off
 	since the card was made."""
 	from onedesk.one_ai import proposals
-	from onedesk.one_task import ai, mine
+	from onedesk.one_task import agent, mine
 
 	frappe.db.savepoint("onetask_assign")
 	try:
@@ -83,18 +83,18 @@ def onetask_oneai_gives_a_task_on_approval():
 				for t in group["tasks"]
 				if "tariq@one.test" not in (frappe.parse_json(frappe.db.get_value("Task", t.name, "_assign")) or [])
 			)
-			said = ai.assign_task(one, ["Tariq Haidar"], why="He is on site tomorrow.")
+			said = agent.assign_task(one, ["Tariq Haidar"], why="He is on site tomorrow.")
 			assert said.get("state") == "Proposed", said
 			assert "tariq@one.test" not in frappe.parse_json(frappe.db.get_value("Task", one, "_assign")), "not before approval"
 			proposals.apply(said["proposal"])
 			assert "tariq@one.test" in frappe.parse_json(frappe.db.get_value("Task", one, "_assign"))
 			todo = {"reference_type": "Task", "reference_name": one, "allocated_to": "tariq@one.test", "status": "Open"}
 			assert frappe.db.get_value("ToDo", todo, "assigned_by") == "rania@one.test", "given by the approver"
-			assert ai.assign_task(one, ["tariq@one.test"]).get("error"), "he has it already"
-			assert ai.assign_task(one, ["Nobody Called This"]).get("error"), "a colleague, or ask"
+			assert agent.assign_task(one, ["tariq@one.test"]).get("error"), "he has it already"
+			assert agent.assign_task(one, ["Nobody Called This"]).get("error"), "a colleague, or ask"
 			samirs = frappe.db.get_value("Task", {"subject": "Call Acme about the lobby drawings"})
-			assert ai.assign_task(samirs, ["tariq@one.test"]).get("error"), "only a task she may change"
-			later = ai.assign_task(one, ["yousef@one.test"])
+			assert agent.assign_task(samirs, ["tariq@one.test"]).get("error"), "only a task she may change"
+			later = agent.assign_task(one, ["yousef@one.test"])
 			assert later.get("state") == "Proposed", later
 		frappe.db.set_value("User", "yousef@one.test", "enabled", 0)
 		with as_user("rania@one.test"):
@@ -256,7 +256,7 @@ def onetask_my_tasks_and_the_inbox_are_the_readers_own():
 	bill), each read as the reader and each a board of frappe's. A task waiting on open work
 	says so, a phase is not waiting on its own sub-tasks, and the late count
 	is the Overdue group."""
-	from onedesk.one_task import ai, mine
+	from onedesk.one_task import agent, mine
 
 	def names(groups):
 		return {one.name for group in groups for one in group["tasks"]}
@@ -268,7 +268,7 @@ def onetask_my_tasks_and_the_inbox_are_the_readers_own():
 		late = next((group for group in groups if group["key"] == "overdue"), {"tasks": []})
 		assert counts["late"] == len(late["tasks"]) > 0 and counts["inbox"] == len(names(inbox))
 		assert frappe.db.exists("Kanban Board", "My Tasks") and frappe.db.exists("Kanban Board", "Inbox")
-		assert ai.page({"page": "my-tasks"}) is None, "the boards are frappe's, OneAI reads them as Task"
+		assert agent.page({"page": "my-tasks"}) is None, "the boards are frappe's, OneAI reads them as Task"
 	with as_user("rania@one.test"):
 		assert not own & names(mine.tasks("inbox")), "Samir's to-dos are his"
 	with as_user(OWNER):
@@ -288,7 +288,7 @@ def onetask_a_task_opens_on_its_own_page():
 	waits on, and a step waiting on another says so. OneAI reads the task as
 	the page does, and somebody who may not see the project's tasks is
 	refused."""
-	from onedesk.one_task import ai, view
+	from onedesk.one_task import agent, view
 
 	glass = frappe.db.get_value("Task", {"project": VILLA, "subject": "Install glass"})
 	phase = frappe.db.get_value("Task", glass, "parent_task")
@@ -303,7 +303,7 @@ def onetask_a_task_opens_on_its_own_page():
 		assert group["sub_tasks"] and not {one.name for one in group["sub_tasks"]} & {one["name"] for one in group["waits"]}
 		assert view.read(snag)["headline"]["key"] == "waiting"
 		assert view.files(glass) == 0
-		facts = ai.task_facts(glass)
+		facts = agent.task_facts(glass)
 		assert facts["late_by_days"] > 0 and facts["hours_by_person"], facts
 	elsewhere = frappe.db.get_value("Task", {"project": SHOWROOM, "is_group": 0})
 	with as_user("rania@one.test"):
@@ -313,7 +313,7 @@ def onetask_a_task_opens_on_its_own_page():
 			pass
 		else:
 			raise AssertionError("Rania read a task on a project she may not see")
-		assert ai.task_facts(elsewhere).get("error")
+		assert agent.task_facts(elsewhere).get("error")
 
 
 @check

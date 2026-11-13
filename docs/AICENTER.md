@@ -103,10 +103,10 @@ Ledger Entry links to it.
 
 Most of the product is sound and is rebuilt rather than thrown away: the
 tool loop (`run.py ask`), the tools and their declarations (`tools.py`,
-`one/ai.py` and each module's `ai.py`), cards and chains (`proposals.py`),
+`one/agent.py` and each module's `agent.py`), cards and chains (`proposals.py`),
 writing in a field (`touch.py`), memory and Knowledge (`memory.py`),
 summaries (`brief.py`), healing (`heal.py`), and Help as OneAI reads it
-(`guide.py`). `one/ai.py` holds a print-layout compiler that is not OneAI
+(`guide.py`). `one/agent.py` holds a print-layout compiler that is not OneAI
 at all; it moves to OneStudio.
 
 Two things found on the way: the default Workers AI model in `gateway.py`
@@ -512,7 +512,7 @@ For workspace administrators:
 For everybody: **Yours**, what OneAI remembers about you and what it reads,
 as today in Settings.
 
-A module declares what AICenter shows in its `ai.py`, beside `REACH` and
+A module declares what AICenter shows in its `agent.py`, beside `REACH` and
 `NOT_FOR_AI`:
 
     JOBS = [
@@ -595,7 +595,7 @@ the screen), a commit, and the docs it changes.
    with about what an answer costs at each (`proxy.ai_tiers`, priced on a
    typical 6,000 tokens in and 400 out), credits left, Knowledge, each
    module's part, Summaries, Usage by job, and Yours. A module's part is
-   found, not drawn: `ai.py` declares `JOBS` as `{"key", "single"}`, and the
+   found, not drawn: `agent.py` declares `JOBS` as `{"key", "single"}`, and the
    label and the sentence under it are the field's own, so OneHR's six
    (screening, interviews, recording, transcribing, how long audio is kept,
    grievances) are drawn once; OneMail's part lists each mailbox and how
@@ -664,7 +664,7 @@ the screen), a commit, and the docs it changes.
    `AI Chunk` keeps only which pieces there are. Cloudflare's AI Search,
    built first and never switched on, is gone.
 6. **Web search.** Built, and off until a workspace administrator turns
-   it on in TrustCenter (`web_search`, one_ai/legal.py). On, OneAI is given
+   it on in TrustCenter (`web_search`, one_ai/trust.py). On, OneAI is given
    `web_search` and the `web` group (one_ai/ai_web.py); off, neither is
    offered, and asking reaches nobody. Only the question leaves: the
    account asks Cloudflare's web search (`POST /accounts/{a}/ai/websearch`,
@@ -710,7 +710,7 @@ the screen), a commit, and the docs it changes.
    (translated now). It ships two roles (OneAI User, everyone; OneAI
    Manager, who sees Usage), a tour of the panel, no setup steps, a foot
    on Documents whose settings are AICenter, and says why OneAI never
-   changes its own settings (`ai.py` NOT_FOR_AI). Reading's events go on a
+   changes its own settings (`agent.py` NOT_FOR_AI). Reading's events go on a
    calendar as a participant (OneCalendar's `invite`) rather than a
    share. What is left is the look a person signs off. The plan was: Prompt-injection checks moved from flag to
    block where measured, the agreements, Help, the demo, and OneAI taken

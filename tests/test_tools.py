@@ -296,7 +296,7 @@ def test_no_tool_takes_a_type_a_model_cannot_be_told():
 
 	found = [
 		f"{path.relative_to(tree.APP)}:{at}"
-		for path in sorted(tree.APP.glob("*/ai.py"))
+		for path in sorted(tree.APP.glob("*/agent.py"))
 		for at, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
 		if re.search(r"Annotated\[\s*str \| (dict|list)\b", line)
 		or (re.match(r"\s*str \| (dict|list),\s*$", line))

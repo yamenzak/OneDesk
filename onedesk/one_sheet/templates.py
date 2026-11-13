@@ -1,6 +1,6 @@
 """Workbook templates: a workbook kept in OneCloud's Workbook Templates folder
 to start others from. Anyone in the company opens them; a role with the
-template ability (abilities.py) keeps one; whoever made one, or an
+template ability (access.py) keeps one; whoever made one, or an
 administrator, changes it, as with any company file. A template is its own
 sheets and nothing else: made from a record's table workbook, it keeps the
 sheets beside the table, not the table. AGENTS.md, Templates.

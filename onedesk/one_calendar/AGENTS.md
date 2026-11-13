@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what OneCalendar is made of, its
 rules, where each file is, and the decisions that cost something. What
-people read is in `docs/`, one page per thing they do, shown in Help and
-searched by OneAI's `how_to`; its versions are `docs/changelog/`. What is
+people read is in `help/`, one page per thing they do, shown in Help and
+searched by OneAI's `how_to`; its versions are `updates/`. What is
 known to be wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A
 module's folder).
 
@@ -20,7 +20,7 @@ is copied: a deal's next step belongs to the deal and moves with it.
 - **From OneHR**: My Leave, My Interviews, Holidays and Who's Off come from OneHR. The holiday list also shades the weekly days off. An employee's own calendar shows their leave.
 - **From OneInventory**: Asset maintenance that's due shows under My Maintenance and Maintenance Due.
 - **From OneAI**: Deadlines read from bills and letters, a contract's last day to cancel and expiring employee documents show as layers. An appointment that arrives by mail or in a file becomes an event.
-- **To One**: Home shows how many events you have today. Putting an event on everyone's calendar is OneCalendar's one ability, set in AccessCenter, and a OneCalendar Manager holds it (abilities.py).
+- **To One**: Home shows how many events you have today. Putting an event on everyone's calendar is OneCalendar's one ability, set in AccessCenter, and a OneCalendar Manager holds it (access.py).
 - **To OneMail**: Guests outside the workspace get their invitations and cancellations by mail, sent through OneMail.
 
 ## Under the hood
@@ -68,7 +68,7 @@ is copied: a deal's next step belongs to the deal and moves with it.
   away, so "readable because of the record it is about" cannot be a hook; and
   `get_events` leaves out events a user is only a participant in.
   `occurrences` expands repeats; `validate` keeps Public to whoever holds the
-  publish ability (`may_publish`, abilities.py).
+  publish ability (`may_publish`, access.py).
 
   An Event is frappe's: something at a time, with a subject, a place and the
   people it is with. frappe lets a person see a Public event, one they made,
@@ -116,7 +116,7 @@ is copied: a deal's next step belongs to the deal and moves with it.
   the same read the calendar makes for them. frappe's own morning mail is
   stopped (`install`): it went around the hub, in frappe's template, and left
   out events a person is only invited to.
-- `ai.py` — OneAI here: `my_calendar`, `busy_times` (times only) and
+- `agent.py` — OneAI here: `my_calendar`, `busy_times` (times only) and
   `plan_event`, a Create card whose guests ride on Event's `one_guests`.
   The calendar is read as the reader, through the same merge the page draws
   (`layers.entries`), so OneAI sees on it exactly what they do. A colleague's
@@ -158,7 +158,7 @@ is copied: a deal's next step belongs to the deal and moves with it.
   schedule books "Reference: …, Item Code: … and Customer: …"; it is titled
   with the visit and the customer, and the patch
   `maintenance_visits_named` titles the ones booked before.
-- `abilities.py`, `notifications.py`, `setup.py`, `tour.py` — the READY
+- `access.py`, `notifications.py`, `setup.py`, `tour.py` — the READY
   mechanisms: the publish ability and its two roles, the seven kinds of
   notification, no setup steps, and the calendar's tour.
 - `public/js/one_calendar/calendar_control.js` — its settings (Your Calendar

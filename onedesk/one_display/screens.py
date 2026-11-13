@@ -349,7 +349,7 @@ def control(screen: Annotated[str, "The screen."], command: Annotated[str, "relo
 @frappe.whitelist(methods=["POST"])
 def alert(message: Annotated[str, "What every screen shows; empty ends the alert."] = "") -> str:
 	"""Show a message on every screen, over everything, or end it: whoever
-	holds OneDisplay's Send an Emergency Alert (abilities.py)."""
+	holds OneDisplay's Send an Emergency Alert (access.py)."""
 	from onedesk.one import rights
 
 	if not rights.held("Display Settings", "display_alert"):

@@ -116,7 +116,7 @@ def merge(lead: str, into: Annotated[str, "The lead this one is the same as."]) 
 
 def merges(user: str | None = None) -> bool:
 	"""Whether somebody may fold one lead into another, which deletes it:
-	OneCRM's Merge Duplicate Leads (abilities.py)."""
+	OneCRM's Merge Duplicate Leads (access.py)."""
 	from onedesk.one import rights
 
 	return rights.held("CRM Settings", "crm_merge", user)

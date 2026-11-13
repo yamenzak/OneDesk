@@ -167,20 +167,20 @@ def test_a_task_given_is_said_in_ours_and_a_task_done_is_told():
 
 
 def test_oneai_only_suggests_a_task_and_its_steps():
-	source = (TASK / "ai.py").read_text()
+	source = (TASK / "agent.py").read_text()
 	for name in ("plan_task", "plan_steps"):
 		body = _body(source, name)
 		assert "proposals.propose(" in body
 		assert ".insert(" not in body and ".save(" not in body
 	assert "one_for" in _body((TASK / "capture.py").read_text(), "task_made"), "the card's colleagues get it"
 	for name in ("my_tasks", "plan_task", "plan_steps", "SUGGESTIONS", "page"):
-		assert f'"onedesk.one_task.ai.{name}"' in HOOKS
+		assert f'"onedesk.one_task.agent.{name}"' in HOOKS
 	assert "plan_change" not in HOOKS and '"expects": "edit_record"' in source, "a change to a task is edit_record"
-	assert (TASK / "legal.py").exists() and "registry.apps()" in (tree.APP / "trust_center" / "assemble.py").read_text(), "its AI Addendum line is read"
+	assert (TASK / "trust.py").exists() and "registry.apps()" in (tree.APP / "trust_center" / "assemble.py").read_text(), "its AI Addendum line is read"
 
 
 def test_oneai_gives_a_task_only_on_approval_and_as_the_approver():
-	source = (TASK / "ai.py").read_text()
+	source = (TASK / "agent.py").read_text()
 	body = _body(source, "assign_task")
 	assert 'proposals.propose("Setup", "Task"' in body and "assign_to" not in body
 	assert '"write", doc=task' in body and "_person(" in body, "a task the reader may change, a colleague"
@@ -188,7 +188,7 @@ def test_oneai_gives_a_task_only_on_approval_and_as_the_approver():
 	assert '"write", doc=task' in approved and '"enabled": 1' in approved, "checked again as the approver"
 	assert "from frappe.desk.form.assign_to import add" in approved and "_add(" not in approved
 	assert '"expects": "assign_task"' in source
-	assert '"onedesk.one_task.ai.assign_task",' in HOOKS
+	assert '"onedesk.one_task.agent.assign_task",' in HOOKS
 	groups = (tree.APP / "one_ai" / "groups.py").read_text()
 	assert '"assign_task"' in groups.split('"you": {', 1)[1].split("},", 1)[0]
 	setup = (tree.APP / "one_studio" / "ai_setup.py").read_text()

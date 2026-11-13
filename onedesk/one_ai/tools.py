@@ -606,7 +606,7 @@ def hooked() -> tuple[tuple, tuple]:
 	"""The tools a module adds, as reads and as suggestions.
 
 	Named in `hooks.py` under `one_ai_reads` and `one_ai_suggests`, so a module
-	owns what OneAI can do in it — OneHR's live in `one_hr/ai.py` — and the two
+	owns what OneAI can do in it — OneHR's live in `one_hr/agent.py` — and the two
 	lists stay two lists for the reason these tuples do. The rules are the same:
 	a read runs as the person asking, and a suggestion writes a card.
 	"""

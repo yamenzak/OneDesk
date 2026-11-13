@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree  # noqa: E402
 
 GUARD = (tree.APP / "one_ai" / "reading" / "guard.py").read_text()
-AGENT = (tree.APP / "one_ai" / "reading" / "agent.py").read_text()
+AGENT = (tree.APP / "one_ai" / "reading" / "employee.py").read_text()
 
 
 def _unsafe():

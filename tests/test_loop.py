@@ -337,11 +337,11 @@ def test_gemmas_thinking_marker_never_reaches_the_person():
 def test_extension_code_sent_on_one_line_is_read_as_its_lines():
 	"""Measured on Gemma 4: a whole extension came with its line breaks
 	written out as `\\n`, and the review refused it as not Python."""
-	room = _lifted(tree.APP / "one_studio" / "ai.py", ("_unescaped",), {})
+	room = _lifted(tree.APP / "one_studio" / "agent.py", ("_unescaped",), {})
 	assert room["_unescaped"]('if doc.x:\\n\\tfrappe.throw(\\"No\\")') == 'if doc.x:\n\tfrappe.throw("No")'
 	kept = 'a = 1\nb = "x\\ny"'
 	assert room["_unescaped"](kept) == kept, "code with real lines is left as written"
-	assert "code=_unescaped(code)" in spoken(tree.APP / "one_studio" / "ai.py", "write_extension")
+	assert "code=_unescaped(code)" in spoken(tree.APP / "one_studio" / "agent.py", "write_extension")
 
 
 def test_an_action_with_no_tools_is_never_told_to_look_something_up():

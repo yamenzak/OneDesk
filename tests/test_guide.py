@@ -65,7 +65,7 @@ def test_every_module_readme_has_something_for_its_readers():
 		above = text.split("## Under the hood", 1)[0]
 		assert above.count("\n## ") >= 3, f"{readme} says little to the people using it"
 	for agents in sorted(tree.APP.glob("*/AGENTS.md")):
-		pages = sorted((agents.parent / "docs").glob("*.md"))
+		pages = sorted((agents.parent / "help").glob("*.md"))
 		assert len(pages) >= 3, f"{agents.parent.name}'s docs/ says little to the people using it"
 		for one in pages:
 			assert one.read_text(encoding="utf-8").startswith("# "), f"{one} has no title"

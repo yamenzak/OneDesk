@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-AI = tree.APP / "one_hr" / "ai.py"
+AI = tree.APP / "one_hr" / "agent.py"
 SUGGEST = tree.APP / "one_ai" / "suggest.py"
 PROPOSALS = tree.APP / "one_ai" / "proposals.py"
 GATEWAY = tree.APP / "one_admin" / "gateway.py"
@@ -77,8 +77,8 @@ def test_ohr_registers_its_own_tool_and_suggestion():
 	hooks = tree.hooks()
 	suggests = hooks.split("one_ai_suggests =", 1)[1].split("]", 1)[0]
 	for tool in ("claim_expense", "book_leave", "add_applicant"):
-		assert f'"onedesk.one_hr.ai.{tool}"' in suggests, tool
-	assert '"onedesk.one_hr.ai.SUGGESTIONS"' in hooks
+		assert f'"onedesk.one_hr.agent.{tool}"' in suggests, tool
+	assert '"onedesk.one_hr.agent.SUGGESTIONS"' in hooks
 
 
 def test_a_suggestion_is_only_offered_to_somebody_who_can_take_it():
@@ -183,7 +183,7 @@ def test_the_fit_line_fits_the_notes_field_without_cutting_a_word():
 
 def test_a_suggestion_for_one_record_is_not_offered_on_the_list():
 	assert 'one.get("view") and one["view"] != view' in (tree.APP / "one_ai" / "suggest.py").read_text()
-	openings = (tree.APP / "one_hr" / "ai.py").read_text().split('"Job Opening": [', 1)[1].split("\n\t],", 1)[0]
+	openings = (tree.APP / "one_hr" / "agent.py").read_text().split('"Job Opening": [', 1)[1].split("\n\t],", 1)[0]
 	assert '"view": "Form"' in openings and '"view": "List"' in openings
 
 
@@ -207,7 +207,7 @@ def test_a_suggestion_that_exists_to_make_a_card_is_asked_for_it():
 	assert "expects not in called" in run and "CALL_IT.format(expects)" in run
 	assert "and not _asks(out)" in run, "a question to the person is theirs to answer first"
 	assert "expects=suggest.expected(text)" in (tree.APP / "one_ai" / "chat.py").read_text()
-	hr = (tree.APP / "one_hr" / "ai.py").read_text()
+	hr = (tree.APP / "one_hr" / "agent.py").read_text()
 	for tool in ("claim_expense", "add_applicant", "draft_feedback"):
 		assert f'"expects": "{tool}"' in hr, tool
 
@@ -216,7 +216,7 @@ def test_why_people_leave_is_read_as_the_reader_and_counts_each_person_once():
 	said = _source(AI, "why_people_leave")
 	assert "frappe.get_all" not in said and "ignore_permissions" not in said
 	assert "one.name not in heard" in said, "an interviewed leaver is not counted twice"
-	assert '"onedesk.one_hr.ai.why_people_leave"' in tree.hooks()
+	assert '"onedesk.one_hr.agent.why_people_leave"' in tree.hooks()
 
 
 def test_a_model_that_asks_the_person_something_is_not_pressed_for_the_card():

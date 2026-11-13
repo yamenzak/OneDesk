@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-AI = tree.APP / "one_crm" / "ai.py"
+AI = tree.APP / "one_crm" / "agent.py"
 ACCESS = tree.APP / "one_crm" / "access.py"
 
 
@@ -25,7 +25,7 @@ def _source(name: str) -> str:
 	for node in ast.walk(ast.parse(AI.read_text(encoding="utf-8"))):
 		if isinstance(node, ast.FunctionDef) and node.name == name:
 			return ast.unparse(node)
-	raise AssertionError(f"{name} is not in ai.py")
+	raise AssertionError(f"{name} is not in agent.py")
 
 
 def _quiet():
@@ -59,12 +59,12 @@ def test_every_tool_is_registered_as_a_read_or_a_card():
 	reads = hooks.split("one_ai_reads = [", 1)[1].split("]", 1)[0]
 	suggests = hooks.split("one_ai_suggests = [", 1)[1].split("]", 1)[0]
 	for name in ("crm_facts", "gone_quiet", "why_we_lose"):
-		assert f"onedesk.one_crm.ai.{name}" in reads
+		assert f"onedesk.one_crm.agent.{name}" in reads
 	for name in ("add_lead", "plan_next_step", "write_up_call"):
-		assert f"onedesk.one_crm.ai.{name}" in suggests
+		assert f"onedesk.one_crm.agent.{name}" in suggests
 		assert "proposals.propose(" in _source(name)
-	assert '"onedesk.one_crm.ai.SUGGESTIONS"' in hooks
-	assert '"onedesk.one_crm.ai.workspace"' in hooks
+	assert '"onedesk.one_crm.agent.SUGGESTIONS"' in hooks
+	assert '"onedesk.one_crm.agent.workspace"' in hooks
 
 
 def test_nothing_here_writes_except_through_a_card():
@@ -103,5 +103,5 @@ def test_a_next_step_is_never_in_the_past():
 def test_the_file_a_record_came_from_is_found_in_one_place():
 	"""A CV and a business card are matched to their file by one function."""
 	assert "files.uploaded(" in _source("add_lead")
-	assert "files.uploaded(" in (tree.APP / "one_hr" / "ai.py").read_text()
-	assert "def _cv(" not in (tree.APP / "one_hr" / "ai.py").read_text()
+	assert "files.uploaded(" in (tree.APP / "one_hr" / "agent.py").read_text()
+	assert "def _cv(" not in (tree.APP / "one_hr" / "agent.py").read_text()

@@ -786,8 +786,8 @@ def test_oneai_suggests_a_mail_rule_as_a_card():
 	is made, and Intake switched on for a rule about meaning, only when a
 	holder of the mailbox approves it."""
 	hooks = tree.hooks()
-	assert '"onedesk.one_mail.ai.suggest_mail_rule"' in hooks
-	ai = (MAIL / "ai.py").read_text()
+	assert '"onedesk.one_mail.agent.suggest_mail_rule"' in hooks
+	ai = (MAIL / "agent.py").read_text()
 	make = ai.split("def make_rule(", 1)[1]
 	assert "actions.require(account)" in make and "actions.create_folder(" in make
 	assert "switches.set_mailbox(account, 1)" in make

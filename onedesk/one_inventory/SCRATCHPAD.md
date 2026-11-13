@@ -108,14 +108,14 @@ What moves out of `one_inventory` (and its places):
   one_subcontracting_receipt, one_subcontracting_inward_order (their JSON's
   module too).
 - [x] `number_card/`: none after all (Made and Sent Out This Month are the stock story's).
-- [x] From shared files, the making parts: `ai.py` (on_the_floor,
+- [x] From shared files, the making parts: `agent.py` (on_the_floor,
   plant_floor_now, sent_out_now, the making tools and suggestions, REACH
   and NOT_FOR_AI entries), `notifications.py` (work orders, back from
-  supplier late, …), `abilities.py` (Manufacturing roles), `heads.py`
+  supplier late, …), `access.py` (Manufacturing roles), `heads.py`
   (BOM, Work Order, Job Card, Workstation, Subcontracting Order), `home.py`
   (the making section, EVERYTHING rows), `tour.py`, `setup.py`
   (Manufacturing Settings), `boards.py` (the Manufacturing dashboard),
-  `checks.py` (the making checks), `access.py`, `legal.py` if any.
+  `checks.py` (the making checks), `access.py`, `trust.py` if any.
 - [x] Sidebar: the Manufacturing group leaves `oneinventory` for a new
   `onefactory` sidebar; the dock (`dock/onedesk/onedesk.json`) gains a row;
   `add_to_apps_screen` if each app has one.
@@ -137,9 +137,9 @@ done: files moved with git mv, their JSON's module, imports; the rail
 Order, Job Card, Production Plan, BOM, Subcontracting Order) and the dock
 row; the mark (brand/onefactory.svg, icons.py); modules.txt; people.APPS
 and APP_SAID; demo people (Tariq Manager, Karim and Yousef User);
-abilities.py; ready.MODULES (ready False); ai.py (tools, suggestions,
+access.py; ready.MODULES (ready False); agent.py (tools, suggestions,
 page, hooks); notifications.py and tell.py (Back From Supplier Late, Work
 Order Done, hooks); heads.py (HEADS, MEASURES, hooks).
 next: home.py (making rows, the work count), tour.py, setup.py, boards.py,
-checks.py, access.py, legal.py, AGENTS, SCRATCHPAD, docs and 1.0.0,
+checks.py, access.py, trust.py, AGENTS, SCRATCHPAD, docs and 1.0.0,
 tiers/ISLANDS/guards for the floor's new path, then close and the gates.

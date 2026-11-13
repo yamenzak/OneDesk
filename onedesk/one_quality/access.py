@@ -1,14 +1,48 @@
-"""Who may do what in OneQuality, where ERPNext's defaults do not fit:
-ERPNext gives quality management to a Quality Manager alone, and lets every
-desk user read it. Its Quality User records and works them.
-
-A role that reads one already, by ERPNext's rules or the workspace's, keeps
-what it has (one/roles.py `give`).
+"""Who may do what in OneQuality: its one ability, a Permission Type on Non
+Conformance (one/rights.py, docs/ROLES.md), and the grants ERPNext leaves
+out: it gives quality management to a Quality Manager alone and lets every
+desk user read it; its Quality User records and works them. A role that
+reads one already keeps what it has (one/roles.py `give`).
 """
+
+from frappe import _lt
 
 from onedesk.one import roles
 
-USER, MANAGER = "Quality User", "Quality Manager"
+APP = "OneQuality"
+
+# Not everybody's: People gives it to whoever uses OneQuality.
+USER = "Quality User"
+
+DOCTYPE = "Non Conformance"
+
+WORKSPACE = _lt("Workspace")
+
+SCOPE_LABELS = {"none": _lt("No"), "all": _lt("Yes")}
+
+ABILITIES = [
+	{
+		"key": "resolve",
+		"group": WORKSPACE,
+		"label": _lt("Resolve Non Conformances"),
+		"kind": "switch",
+		"all": "quality_resolve",
+		"about": _lt("Set a non conformance to Resolved once its actions are done."),
+	},
+]
+
+# Nothing of OneQuality's is given on one record.
+SHARED = ()
+
+# Its roles and what each starts with, written once on migrate
+# (rights.settle): anybody in quality raises a problem, its manager closes it.
+DEFAULTS = {
+	"Quality User": {},
+	"Quality Manager": {"resolve": 1},
+}
+
+
+MANAGER = "Quality Manager"
 
 QUALITY = (
 	"Quality Goal",

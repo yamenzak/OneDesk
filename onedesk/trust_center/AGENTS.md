@@ -2,8 +2,8 @@
 
 The one file for agents, OneAI and us: what TrustCenter is made of, its rules,
 where each file is, and the decisions that cost something. What people read
-is in `docs/`, one page per thing they do, shown in Help and searched by
-OneAI's `how_to`; its versions are `docs/changelog/`. What is known to be
+is in `help/`, one page per thing they do, shown in Help and searched by
+OneAI's `how_to`; its versions are `updates/`. What is known to be
 wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A module's
 folder).
 
@@ -30,11 +30,11 @@ the bottom bar and every module's foot open, so it has no foot or
 settings dialog of its own (`windowless` in manifest.py).
 `/desk/legal` is only an address for it (`page/legal`), and the dialog that
 asks at sign-in is `public/js/trust_center/legal.js`. Its one ability, **Who
-Agreed** (`abilities.py`, on `Legal Acceptance`), is a TrustCenter Manager's
+Agreed** (`access.py`, on `Legal Acceptance`), is a TrustCenter Manager's
 and a Workspace Administrator's; its two notifications are
 `notifications.py`, sent from `tell.py`.
 
-**Each module declares what follows from what it does**, in its own `legal.py`
+**Each module declares what follows from what it does**, in its own `trust.py`
 beside the code the clause is about: `clause()` for a paragraph of a document,
 `subprocessor()` for a company it sends data to. `assemble.py` puts them into the
 documents. So adding a supplier is a line in the module that uses it, and the
@@ -44,14 +44,14 @@ Privacy Policy and the Subprocessors list change with it.
 |---|---|
 | `registry.py` | `clause()` and `subprocessor()`, and the order they come out in |
 | `documents.py` | Who we are (`PARTY`), each document's sections, audience and revision |
-| `legal.py` | The text true of One as a whole |
-| `<module>/legal.py` | That module's clauses and suppliers |
+| `trust.py` | The text true of One as a whole |
+| `<module>/trust.py` | That module's clauses and suppliers |
 | `assemble.py` | Declarations into text and HTML, and the version |
 | `gate.py` | Who has agreed to what; `outstanding`, `accept`, `require` |
 | `reading.py` | What TrustCenter asks for, and who agreed (`acceptances`) |
 | `page/legal`, `../public/js/trust_center/trust_center.js`, `../public/js/trust_center/legal.js` | The `/desk/legal` address, TrustCenter, and the dialog that asks at sign-in |
 | `services.py` | The optional services, their switch and the wizard's slide |
-| `abilities.py`, `notifications.py`, `tell.py`, `tour.py`, `setup.py`, `ai.py` | Who Agreed, the two notifications, the tour, no setup steps, and what OneAI may read and not do |
+| `access.py`, `notifications.py`, `tell.py`, `tour.py`, `setup.py`, `agent.py` | Who Agreed, the two notifications, the tour, no setup steps, and what OneAI may read and not do |
 | `Legal Document Version`, `Legal Acceptance` | Every agreed version's text; every acceptance |
 
 **A version is `revision.hash`.** `revision` is a number in `documents.py`, bumped
@@ -79,7 +79,7 @@ accident.
 ### __init__.py
 
 Each module declares the clauses that follow from what it does, in its own
-`legal.py` beside the code the clause is about, and TrustCenter assembles them into
+`trust.py` beside the code the clause is about, and TrustCenter assembles them into
 the documents a person is shown and asked to agree to. The package deliberately
 imports nothing: `registry`, `documents`, `legal` and `assemble` are pure, so the
 tests can assemble every document and check its hash without a site.
@@ -94,7 +94,7 @@ made from the module the fact belongs to:
 * a **subprocessor**: a third party that module hands customer data to.
 
 Both are registered by calling a function at import time from
-`<module>/legal.py`. Import time rather than a scan of the source, because a
+`<module>/trust.py`. Import time rather than a scan of the source, because a
 clause that has to be found by a regular expression is a clause somebody will
 break by reformatting it.
 
@@ -131,8 +131,8 @@ accident, and that is the difference between a legal page and a legal system.
 ### documents.py
 
 The documents themselves: who we are, what each one is for, and where its
-clauses go. The text comes from two places: `legal.py`, for what is true of One
-as a whole, and each module's own `legal.py`, for what follows from what that
+clauses go. The text comes from two places: `trust.py`, for what is true of One
+as a whole, and each module's own `trust.py`, for what follows from what that
 module does. What is in `documents.py` is the frame they are slotted into.
 
 **Revisions.** Each document carries a `revision`. Bump it when a change is
@@ -240,15 +240,15 @@ reader's language. They are listed in `gate.py` rather than marked in
 there would give every language a different version. The documents themselves
 are in English, which governs.
 
-### legal.py
+### trust.py
 
 TrustCenter's own clauses: the part of each document about One as a whole. Every
-other module's `legal.py` says something about that module. This one says what
+other module's `trust.py` says something about that module. This one says what
 is true of the product, the company and the contract, and it is the file to read
 first to know what a customer is agreeing to.
 
 Our own drafting from what the product does, not a lawyer's. Ported from
-OneApp's `trustcenter/legal.py` and corrected for what OneDesk actually does:
+OneApp's `trustcenter/trust.py` and corrected for what OneDesk actually does:
 
 - OneAI's reading writes without being asked each time, so "nothing is written without
   somebody asking" is gone.
@@ -262,7 +262,7 @@ The passover (docs/STANDARD.md, point 19) adds each screen's lines as it reaches
 them.
 
 **Optional services** (`services.py`, docs/READY.md mechanism 13). A module
-declares one in its `legal.py` with `service()`, and a subprocessor use that
+declares one in its `trust.py` with `service()`, and a subprocessor use that
 only happens while it is on names it (`service=`). Its version is
 `reach.words`: `reach` hashes where it sends data, `words` what it says.
 Turning it on records a `Legal Acceptance` of `service:<key>` at that version;
@@ -278,5 +278,5 @@ a later revision is told (`gate.told_of_changes`: administrators by mail,
 everybody else in the bell) and the version agreed to holds until its day.
 
 **The laws.** `laws.py` lists each law and the duties it puts on us; a
-clause names the duties it meets (`meets=`, in `legal.py`'s `MEETS` for
+clause names the duties it meets (`meets=`, in `trust.py`'s `MEETS` for
 One's own), and `test_legal.py` fails on a duty no clause meets.
