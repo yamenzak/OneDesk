@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 CURRENCY = "AED"
 EUR_PER_AED = 0.235
 
-ONECREDIT = 0.039
+ONECREDIT = 0.04
 MARGIN_FLOOR = 0.40
 
 YEARLY_MONTHS = 10
@@ -79,7 +79,7 @@ ADDONS = (
 PACKS = (
 	Pack("credits-1k@2026-12", "1,000 Credits", 45, 1000),
 	Pack("credits-5k@2026-12", "5,000 Credits", 199, 5000),
-	Pack("credits-20k@2026-12", "20,000 Credits", 749, 20000),
+	Pack("credits-20k@2026-12", "20,000 Credits", 769, 20000),
 )
 
 SERVICES = (

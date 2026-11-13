@@ -378,19 +378,17 @@ registry.
   new revision: nobody has agreed to anything yet, so nobody is asked again.
 - 13 Nov, Claude: the optional services, the People screen and every other
   list of apps follow the rail's order.
-- 13 Nov, Claude (proposed, for Yamen; P4.11): a OneCredit is AED 0.039,
-  down from 0.04, so every credit charge is 2.6% more credits (94.17 a
-  dollar of our cost, from 91.83). Cloudflare's Workers Paid prices read
-  that day (one_admin/agent_costs.py) put the agents at AED 0.79 a month
-  for a 10-person workspace, about 0.04 an agent, 7.70 for Scale's 100;
-  plans keep 60-64% (Business 53%). A credit spent on an agent's message
-  carries its Cloudflare cost, 1.1% on the model's cost at the usual tier
-  and 2.2% at Fast, the worst. With that, at 0.04, the 20,000-credit pack
-  fell from 40.9% to 39.7%, under the 40% floor; at 0.039 it keeps 41.0%,
-  the 1,000 pack 48% and a credit on OneAI 52%. Lowering the credit's
-  value rather than repricing the pack keeps every pack and plan version
-  as sold and holds for any usage that rides on credits; the other way, a
-  new 20,000 pack version at AED 769, would leave 0.04 alone.
+- 13 Nov, Claude (P4.11): a OneCredit stays AED 0.04 and the 20,000-credit
+  pack is AED 769, from 749. Cloudflare's Workers Paid prices read that day
+  (one_admin/agent_costs.py) put the agents at AED 0.79 a month for a
+  10-person workspace, about 0.04 an agent, 7.70 for Scale's 100; plans keep
+  53-64%. A credit spent on an agent's message carries its Cloudflare cost,
+  1.1% on the model's cost at the usual tier and 2.2% at Fast, the worst, and
+  with it the 20,000 pack at 749 fell from 40.9% to 39.7%, under the 40%
+  floor. Lowering the credit to 0.039 would have held it too, but would have
+  charged every use 2.6% more credits and moved a round number people learn;
+  repricing the one pack that broke keeps a credit at four fils. Nothing is
+  sold yet: the packs are their launch versions (@2026-12).
 - 12 Nov, Claude: an app is one self-contained folder whose parts are named
   for their centres (Folders); OneOS keeps its name for opening files and
   OneGuard is protection only (P9.4).

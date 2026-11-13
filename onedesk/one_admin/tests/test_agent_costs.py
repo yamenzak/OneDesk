@@ -51,11 +51,11 @@ def test_a_plan_and_a_pack_count_their_agents():
 	assert plans.agents(pack, held) == 1.0
 
 
-def test_onecredit_at_four_fils_breaks_the_floor_once_agents_are_counted():
+def test_the_biggest_pack_keeps_the_floor_once_agents_are_counted():
 	pack = max(price_list.PACKS, key=lambda one: one.credits)
-	with mock.patch.object(price_list, "ONECREDIT", 0.04):
-		assert pack.key in [one.offer for one in margins.findings() if one.rule == "margin"]
 	assert not [one for one in margins.findings() if one.offer == pack.key]
+	with mock.patch.object(price_list, "PACKS", tuple(dataclasses.replace(one, price=749) if one is pack else one for one in price_list.PACKS)):
+		assert pack.key in [one.offer for one in margins.findings() if one.rule == "margin"]
 
 
 def test_a_shorter_wake_costs_less():

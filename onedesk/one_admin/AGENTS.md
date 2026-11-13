@@ -2428,9 +2428,9 @@ the dollar and most of what we pay is in dollars:
 worst: every seat working, storage and database full, every credit a plan
 gives spent. A OneCredit spent on any kind of usage is priced at its cost
 times `MARKUP` for that kind, and must also keep 40% when bought in the
-smallest pack at the worst fee. A OneCredit is AED 0.039 since 13 Nov 2026
-(it was 0.04): once a credit carried its agent's Cloudflare cost, the
-20,000-credit pack kept 39.7%, under the floor; at 0.039 it keeps 41.0%. The ladder rules of `plans.py` still hold:
+smallest pack at the worst fee. A OneCredit is AED 0.04. Once a credit
+carried its agent's Cloudflare cost (13 Nov 2026), the 20,000-credit pack at
+AED 749 kept 39.7%, under the floor, so it is AED 769. The ladder rules of `plans.py` still hold:
 moving up beats buying the difference as add-ons, and a bigger add-on is
 cheaper per unit.
 
