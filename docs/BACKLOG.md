@@ -6,6 +6,7 @@ module's README says what it does.
 
 ## Due now
 
+- AICenter's What It Did rows read like code ("Create · Purchase Invoice ACC-PINV-2026-00027", then "Done · Draft Purchase Invoice"): say it as an activity line, "Drafted Purchase Invoice ACC-PINV-2026-00027", with the level only when it is not Done.
 - Each agent's Approver in AICenter is Administrator on the demo and on a new workspace: it should start as the workspace's owner (a person who reads Ask First cards), and the demo's as Layla.
 - OneChat's agent list cuts a long agent's name ("OneFactory's production p…", frontend/src/chat/ChannelList.vue): wrap it to two lines, or show the agent's role alone under the app's mark.
 - A rule: no lazy text (_lt) reaches a response. Five times on 13–14 Nov a `_(x)` of an _lt passed it on lazy and frappe failed to serialize it (the wizard's steps, AICenter's line, the hub's lines, OneCloud's Recent name): `str()` it where it is said, and a guard that finds `_(NAME)` of a module-level _lt or a response built from one.
