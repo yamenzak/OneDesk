@@ -35,6 +35,9 @@ FLOOR = 70
 
 CHANGES = ("Create", "Update", "Add")
 
+WAITS = "(level = 'Proposed' or (level = 'Done' and audit = 'Wrong'))"
+"""What waits on a person: a card to approve, or a thing done that the auditor doubts."""
+
 
 @dataclass
 class Action:
@@ -538,6 +541,30 @@ def settle_for(row, take: bool, why: str) -> str:
 
 		mark.mark(row.target_doctype, row.target_name, row.reading)
 	return "Done"
+
+
+def waiting(user: str | None = None) -> int:
+	"""How many of what OneAI and the agents did for a person wait on them."""
+	return frappe.db.sql(
+		f"select count(*) from `tabReading Action` where on_behalf_of = %s and {WAITS}",
+		user or frappe.session.user,
+	)[0][0]
+
+
+def is_waiting(row) -> bool:
+	"""Whether a Reading Action waits on a person. Pure."""
+	return row.level == "Proposed" or (row.level == "Done" and row.audit == "Wrong")
+
+
+@frappe.whitelist(methods=["POST"])
+def keep(action: str) -> dict:
+	"""A person keeps what the auditor thought wrong."""
+	row = frappe.get_doc("Reading Action", action)
+	_may_decide(row)
+	if row.level != "Done" or row.audit != "Wrong":
+		frappe.throw(_("This was already {0}.").format(_(row.level).lower()))
+	row.db_set("audit", "Kept")
+	return {"audit": "Kept"}
 
 
 @frappe.whitelist(methods=["POST"])

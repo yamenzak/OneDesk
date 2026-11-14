@@ -17,7 +17,7 @@ that arrive, and files them where they belong.
 | **The round button** in the corner | Opens the panel on any page, already knowing what is on it. |
 | **A text field** | Writes or improves what goes in it. |
 | **The top of a record** | Keeps a short summary of what matters now. |
-| **Documents**, first in {one_ai}'s rail | Lists what arrived and what {one_ai} did with it, and what waits for you. |
+| **Actions**, first in {one_ai}'s rail | Lists what {one_ai} and the agents did for you, with **Undo**. What waits for you is a card in {one_chat}. |
 | **The search bar** | Finds documents and mail by what they say. |
 
 ## Where to Start

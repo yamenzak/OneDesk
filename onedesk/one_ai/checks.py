@@ -42,8 +42,8 @@ def _sample(stem: str) -> str:
 
 @check
 def oneintake_layla_works_through_what_oneai_read():
-	"""Layla's Intake inbox as she works it: what waits and what is done, a
-	document opened and explained, the expense claim the auditor doubted kept,
+	"""Layla works through what OneAI read for her: what waits on her, a
+	document explained, the expense claim the auditor doubted kept,
 	the new employee OneAI proposed turned down and a contact taken back, a task undone, a
 	mark cleared, the drafts submitted, a duplicate supplier cleared and
 	another merged, her mailbox switched off and on, and the year's documents
@@ -57,7 +57,6 @@ def oneintake_layla_works_through_what_oneai_read():
 		drafts,
 		explain,
 		identity,
-		inbox,
 		mark,
 		panel,
 		switches,
@@ -66,15 +65,11 @@ def oneintake_layla_works_through_what_oneai_read():
 
 	doubted = _sample("taxi-receipt-doubted")
 	with as_user(OWNER):
-		before = inbox.counts()
-		waiting = {one["name"] for one in inbox.listing("waiting")["items"]}
-		assert doubted in waiting and before["waiting"] >= 2, (before, waiting)
-		assert len(inbox.listing("done")["items"]) >= 15
-		opened = inbox.item(doubted)
-		wrong = next(one for one in opened["actions"] if one.get("audit") == "Wrong")
-		assert inbox.keep(wrong["name"]) == {"audit": "Kept"}
-		assert doubted not in {one["name"] for one in inbox.listing("waiting")["items"]}
-		assert inbox.seen_all("done") >= 15 and inbox.counts()["unread"] < before["unread"]
+		before = act.waiting()
+		wrong = frappe.db.get_value("Reading Action", {"reading": doubted, "level": "Done", "audit": "Wrong"}, "name")
+		assert wrong and before >= 2, (before, wrong)
+		assert act.keep(wrong) == {"audit": "Kept"}
+		assert act.waiting() == before - 1
 		said = {"explanation": "Tariq paid for a taxi and asks for the fare back.", "todo": [{"what": "Approve the fare", "by": None}], "reply": "", "reply_language": "en"}
 		with mock.patch("onedesk.one_ai.run.once", return_value=frappe.as_json(said)) as asked:
 			assert explain.explain(doubted)["explanation"] == said["explanation"]
@@ -700,7 +695,8 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 @check
 def aicenter_keeps_the_agents_levels_limits_and_switch():
 	"""AICenter as the agents' office (one_ai/office.py): the owner sees
-	every agent and raises one action's level, which the door then works at;
+	every agent, its queue of what waits on a person and what it read, and
+	raises one action's level, which the door then works at;
 	a month's limit reached and agents turned off each stop the door with
 	the reason; Nadia, who neither administers nor asked, may read none of
 	it and undo nothing an agent did for somebody else."""
@@ -716,6 +712,8 @@ def aicenter_keeps_the_agents_levels_limits_and_switch():
 			assert {"one_mail", "one_book"} <= {one["app"] for one in team["agents"]}, team
 			said = office.agent("one_book")
 			assert [one["level"] for one in said["actions"] if one["action"] == "draft_purchase_invoice"] == ["Draft"], said["actions"]
+			assert all(act.is_waiting(frappe._dict(one)) for one in said["waiting"]), said["waiting"]
+			assert said["read"], "the accountant's queue lists the bills it read"
 			assert office.set_level("one_book", "draft_purchase_invoice", "Do it") == "Do it"
 			assert levels.of("one_book", "draft_purchase_invoice") == "Do it"
 			assert office.set_level("one_book", "draft_purchase_invoice", "Draft") == "Draft"

@@ -31,7 +31,6 @@
         <li v-for="(line, at) in said.dropped" :key="at">{{ line }}</li>
       </ul>
     </details>
-    <IntakePay v-if="withPay && said.pay" :pay="said.pay" />
   </div>
 </template>
 
@@ -42,11 +41,9 @@ import { computed } from "vue";
 import { Badge } from "frappe-ui";
 
 import { __, date, money, recordRoute } from "../kit";
-import IntakePay from "./IntakePay.vue";
+const props = defineProps({ said: { type: Object, required: true } });
 
-const props = defineProps({ said: { type: Object, required: true }, withPay: Boolean, withMatter: Boolean });
-
-const matter = computed(() => (props.withMatter ? props.said.matter : null));
+const matter = computed(() => props.said.matter || null);
 // The words around the title, in the reader's language, with the title a link.
 const matterSaid = computed(() => (matter.value?.copy ? __("A copy of {0}") : __("About {0}")).split("{0}"));
 const facts = computed(() => props.said.facts || []);

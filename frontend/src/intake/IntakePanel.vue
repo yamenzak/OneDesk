@@ -34,8 +34,8 @@
 <script setup>
 // What OneAI read from a file or a message, beside it in OneCloud's preview
 // and under it in OneMail: what it is, the few facts that matter, what OneAI
-// did with it (in Documents), how to pay it and its plain-words
-// explanation.
+// and the agents did with it (the Reading Action list), how to pay it and
+// its plain-words explanation. This is where Explain and Pay live.
 import { computed, ref, watch } from "vue";
 import { Badge, Button } from "frappe-ui";
 
@@ -69,7 +69,7 @@ const junk = computed(() => !said.value.read_by_ai || (JUNK.includes(said.value.
 const acts = computed(() => said.value.actions || []);
 const waits = computed(() => acts.value.filter((one) => one.level === "Proposed" || (one.level === "Done" && one.audit === "Wrong")).length);
 const done = computed(() => acts.value.filter((one) => one.level === "Done").length);
-const statusRoute = computed(() => `/desk/intake?box=${waits.value ? "waiting" : "done"}&reading=${encodeURIComponent(said.value.name)}`);
+const statusRoute = computed(() => `/desk/reading-action?reading=${encodeURIComponent(said.value.name)}`);
 
 const quickValue = (one) => (one.type === "currency" ? money(one.value, one.currency) : one.type === "date" ? date(one.value) : String(one.value));
 const fold = (key) => (open.value = open.value === key ? null : key);

@@ -5,8 +5,6 @@ read, files each one with the record it belongs to, and makes what it asks
 for: a draft bill from an invoice, a lead from an enquiry, a leave request
 from a sick note.
 
-![Documents, with one open beside the list](reading/documents.png)
-
 ## Letting {one_ai} Read
 
 | What | Where it is switched on |
@@ -35,17 +33,14 @@ and never read in full. Phishing is reported to the person {one_ai} reads for.
 > **A document that tells {one_ai} what to do is not obeyed.** What reads like
 > instructions to {one_ai} waits for a person instead.
 
-## Documents
+## Where You Find It
 
-**Documents**, first in {one_ai}'s rail, has two boxes:
-
-| Box | What is in it |
+| What | Where it is |
 | --- | --- |
-| **Waiting** | What needs your decision, with **Apply** and **Dismiss** |
-| **Done** | Everything {one_ai} handled, with what it made and changed, and **Undo** |
-
-Click a line to read it on the right: what {one_ai} understood, **All Details**,
-**Open Document** and **What {one_ai} did**.
+| What a document is and what {one_ai} read from it, **Explain** and **Pay** | Beside the file in {one_cloud}, under the message in {one_mail} |
+| What waits for your decision | A card in {one_chat}, in your conversation with the agent that did it |
+| Everything {one_ai} and the agents did for you, with **Undo** | **Actions**, first in {one_ai}'s rail |
+| A whole year's documents as a zip | **Documents for the Tax Year** on the **Spending** report |
 
 ## Undo
 
@@ -59,4 +54,6 @@ acting.
 
 Changing a value a record already has, such as a tax number or a bank
 account, waits for you, and so does anything {one_ai} is unsure of. You are told
-once a document has something waiting.
+once a document has something waiting, and each thing is a card in {one_chat}:
+**Approve** or **Dismiss** it. Something already done that the auditor doubts
+is a card too, with **Keep** and **Undo**.

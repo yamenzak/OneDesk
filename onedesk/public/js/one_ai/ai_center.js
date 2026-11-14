@@ -119,27 +119,27 @@ onedesk.centers.declare("ai", {
 			async render(panel) {
 				const said = await frappe.xcall(C + "reading", {}, "GET");
 				const $body = panel.body.empty();
-				const $on = kit.row({ lead: kit.glyph("oneintake"), title: __("Reading"), sub: esc(__("If off, nothing new is read and Documents keeps what it holds.")) }).appendTo(
+				const $on = kit.row({ lead: kit.glyph("oneintake"), title: __("Reading"), sub: esc(__("If off, nothing new is read and nothing read is lost.")) }).appendTo(
 					$(`<div class="one-set-list"></div>`).appendTo($body)
 				);
 				toggle($on.find(".one-set-end"), { value: said.on, label: __("Reading"), change: (on) => frappe.xcall(C + "set_reading_on", { on }).then(() => panel.refresh()) });
 				if (!said.on) return;
 				const month = said.month || {};
-				const inbox = (box) => () => {
+				const listed = (doctype, filters) => () => {
 					ctx.centre.hide();
-					frappe.set_route("intake", { box, everyone: 1 });
+					frappe.set_route("List", doctype, filters);
 				};
 				$body.append(kit.heading(__("This Month")));
 				await frappe.require(["desk_charts.bundle.js", "desk_charts.bundle.css"]);
 				const $figures = $(`<div class="es-stat-card-grid one-ai-month"></div>`).appendTo($body);
-				for (const [value, label, box] of [
-					[month.arrived, __("Received"), "done"],
-					[month.handled, __("Handled"), "done"],
-					[month.needed, __("Needed Review"), "waiting"],
-					[month.waiting, __("Waiting"), "waiting"],
-					[month.undone, __("Undone"), "done"],
+				for (const [value, label, doctype, filters] of [
+					[month.arrived, __("Received"), "Reading", {}],
+					[month.handled, __("Handled"), "Reading", {}],
+					[month.needed, __("Needed Review"), "Reading Action", { level: "Proposed" }],
+					[month.waiting, __("Waiting"), "Reading Action", { level: "Proposed" }],
+					[month.undone, __("Undone"), "Reading Action", { level: "Undone" }],
 				]) {
-					$figures.append(frappe.ui.stat_card({ label, value: format_number(value || 0, null, 0), onclick: inbox(box) }));
+					$figures.append(frappe.ui.stat_card({ label, value: format_number(value || 0, null, 0), onclick: listed(doctype, filters) }));
 				}
 				$body.append(kit.heading(__("Settings")));
 				const $settings = $(`<div class="one-set-list"></div>`).appendTo($body);
@@ -377,8 +377,62 @@ onedesk.centers.declare("ai", {
 			}
 		};
 
-		// One agent: who it is, what it may do and how that went, what it
-		// never does, what it learned, what it did with Undo, and its credits.
+		// What waits on a person, oldest first: a card to approve or dismiss,
+		// or what the auditor doubts, to keep or undo (reading/act.py, which
+		// checks who decides). Each opens its Reading Action.
+		const draw_waiting = ($waiting, rows, panel) => {
+			if (!rows.length) $waiting.append(kit.empty(__("Nothing waiting")));
+			const A = "onedesk.one_ai.reading.act.";
+			const decide = (method, args, said) => async (event) => {
+				event.stopPropagation();
+				const done = await frappe.xcall(A + method, args);
+				if (done && done.why) frappe.msgprint(done.why);
+				else frappe.show_alert({ message: said, indicator: "green" });
+				panel.refresh();
+			};
+			for (const row of rows) {
+				const sub = [row.doubted ? __("Auditor Disagrees") : __("Needs Review"), row.action_label, row.person, frappe.datetime.prettyDate(row.creation), row.doubted ? row.audit_why : row.why]
+					.filter(Boolean)
+					.join(" · ");
+				const $row = kit
+					.row({
+						lead: kit.glyph(row.doubted ? "triangle-alert" : "clock"),
+						title: `${row.kind_label} · ${__(row.target_doctype || "")} ${row.target_name || ""}`,
+						sub: esc(sub),
+						open: () => (ctx.centre.hide(), frappe.set_route("Form", "Reading Action", row.name)),
+					})
+					.appendTo($waiting);
+				const $end = $row.find(".one-set-end");
+				const buttons = row.doubted
+					? [
+							[__("Undo"), "subtle", decide("undo_one", { action: row.name }, __("Undone"))],
+							[__("Keep"), "solid", decide("keep", { action: row.name }, __("Kept"))],
+					  ]
+					: [
+							[__("Dismiss"), "subtle", decide("settle", { action: row.name, take: 0 }, __("Dismissed"))],
+							[__("Approve"), "solid", decide("settle", { action: row.name, take: 1 }, __("Approved"))],
+					  ];
+				for (const [label, variant, click] of buttons) kit.button({ label, variant, size: "sm" }).on("click", click).appendTo($end);
+			}
+		};
+
+		// The documents an agent worked on, each opening where it arrived.
+		const draw_read = ($read, rows) => {
+			if (!rows.length) $read.append(kit.empty(__("Nothing read yet")));
+			for (const row of rows) {
+				const sub = [row.kind_label, row.person, frappe.datetime.prettyDate(row.worked)].filter(Boolean).join(" · ");
+				kit.row({
+					lead: kit.glyph("file-text"),
+					title: row.title || row.kind_label || __("Document"),
+					sub: esc(sub),
+					open: row.route ? () => window.location.assign(row.route) : null,
+				}).appendTo($read);
+			}
+		};
+
+		// One agent: who it is, what it may do and how that went, what waits
+		// on a person, what it read, what it never does, what it learned, what
+		// it did with Undo, and its credits.
 		const agent_tab = (one, part) => ({
 			id: `agent:${one.app}`,
 			label: one.module,
@@ -406,6 +460,12 @@ onedesk.centers.declare("ai", {
 						change: (level) => frappe.xcall(O + "set_level", { app: one.app, action: action.action, level }).then(() => panel.refresh()),
 					});
 				}
+				$body.append(kit.heading(__("Waiting on a Person"), __("What the agent put to a person, and what the auditor doubts.")));
+				draw_waiting($(`<div class="one-set-list"></div>`).appendTo($body), said.waiting, panel);
+
+				$body.append(kit.heading(__("What It Read")));
+				draw_read($(`<div class="one-set-list"></div>`).appendTo($body), said.read);
+
 				if (part) draw_part($body, part);
 				if (said.never.length) {
 					$body.append(kit.heading(__("Never Done by the Agent")));

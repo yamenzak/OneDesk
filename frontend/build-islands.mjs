@@ -36,7 +36,6 @@ export const ISLANDS = {
 	"onedesk.workbook": "src/islands/workbook.js",
 	"onedesk.document": "src/islands/document.js",
 	"onedesk.presentation": "src/islands/presentation.js",
-	"onedesk.intake": "src/islands/intake.js",
 	"onedesk.onemail": "src/mail/island.js",
 	"onedesk.onecloud": "src/cloud/island.js",
 	"onedesk.onechat": "src/chat/island.js",

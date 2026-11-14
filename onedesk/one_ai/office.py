@@ -1,6 +1,7 @@
 """AICenter as the agents' office (docs/ARC-AI.md, AICenter): every app's
 agent, who it is, how far it may go with each action and how that went,
-what it learned, what it did and what it cost this month; and for them all,
+what waits on a person and what it read, what it learned, what it did and
+what it cost this month; and for them all,
 the rules they follow, their credits and the switch that turns them off.
 A workspace administrator's to read and to change; what is chosen is kept
 by agents/workspace.py."""
@@ -18,6 +19,11 @@ from onedesk.one_ai.agents import door, levels, users, workspace
 MOST_DONE = 30
 
 MOST_LEARNED = 10
+
+MOST_READ = 20
+
+PRIVATE = ("Medical", "Pay", "Personal")
+"""What an administrator never reads of a document read for somebody else."""
 
 
 def _agent(app: str):
@@ -153,10 +159,50 @@ def _did(app: str, email: str) -> list[dict]:
 	return rows
 
 
+def _waiting(app: str, email: str) -> list[dict]:
+	"""The agent's queue: what it put to a person and what the auditor doubts,
+	oldest first, as it waits."""
+	from onedesk.one_ai.reading.act import WAITS
+
+	rows = frappe.db.sql(
+		f"""select name, kind, level, audit, audit_why, target_doctype, target_name, agent_action, why, on_behalf_of, creation
+		from `tabReading Action` where agent = %s and {WAITS} order by creation asc limit %s""",
+		(email, MOST_DONE),
+		as_dict=True,
+	)
+	for one in rows:
+		one["kind_label"] = _(one.kind)
+		one["action_label"] = levels.label(app, one.agent_action) if one.agent_action else None
+		one["person"] = _person(one.on_behalf_of)
+		one["doubted"] = one.level == "Done"
+	return rows
+
+
+def _read(email: str) -> list[dict]:
+	"""The documents the agent worked on, newest first, each opening where it
+	arrived; another person's medical, pay and personal ones are left out."""
+	from onedesk.one_ai.reading import panel
+
+	rows = frappe.db.sql(
+		"""select r.name, r.title, r.kind, r.on_behalf_of, max(a.creation) as worked
+		from `tabReading Action` a join `tabReading` r on r.name = a.reading
+		where a.agent = %(agent)s and (r.on_behalf_of = %(me)s or ifnull(r.sensitivity, '') not in %(private)s)
+		group by r.name order by worked desc limit %(most)s""",
+		{"agent": email, "me": frappe.session.user, "private": PRIVATE, "most": MOST_READ},
+		as_dict=True,
+	)
+	for one in rows:
+		one["kind_label"] = _(one.kind) if one.kind else None
+		one["person"] = _person(one.on_behalf_of)
+		one["route"] = (panel.document_of(one.name) or {}).get("route")
+	return rows
+
+
 @frappe.whitelist(methods=["GET"])
 def agent(app: str) -> dict:
 	"""One agent's tab: who it is, what it may do with its record on each,
-	what it never does and why, what it learned, what it did and its credits."""
+	what waits on a person, what it read, what it never does and why, what it
+	learned, what it did and its credits."""
 	roles.require()
 	held = _agent(app)
 	module = _agent_py(app)
@@ -169,6 +215,8 @@ def agent(app: str) -> dict:
 		"approver": _person(door.approver(app)),
 		"actions": _actions(app, held.email),
 		"never": list((getattr(module, "NOT_FOR_AI", {}) or {}).values()),
+		"waiting": _waiting(app, held.email),
+		"read": _read(held.email),
 		"learned": _learned(held.email),
 		"did": _did(app, held.email),
 		"spent": workspace.spent().get(app, 0.0),

@@ -22,6 +22,7 @@ why is this invoice unpaid?". It answers in a thread under your message.
 
 When an agent prepares something for you, such as a draft invoice, or needs
 your approval before it acts, a card appears in your conversation with it.
+What {one_ai} proposes while reading your mail and files comes from Una.
 
 | Button | What it does |
 | --- | --- |
@@ -29,5 +30,7 @@ your approval before it acts, a card appears in your conversation with it.
 | **Change** | Edits what the card proposes before you approve it. |
 | **Dismiss** | Leaves it undone. |
 | **Open** | Opens the draft the agent made, for you to check and submit. |
+| **Keep** | Keeps something done that the auditor doubts. |
+| **Undo** | Takes back something done that the auditor doubts. |
 
 Only the person the card asks, or an administrator, can answer it.

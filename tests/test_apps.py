@@ -67,12 +67,11 @@ def test_oneai_is_a_rail_and_reading_off_leaves_every_rail():
 		INTAKE="Reading",
 		MEMORY={"url": "/desk/one?center=ai&at=yours"},
 		AI_CENTER={"url": "/desk/one?center=ai"},
-		READS=({"link_to": "intake"}, {"link_to": "Ready to Submit"}, {"url": "/desk/one?center=ai&at=reads"}),
+		READS=({"link_to": "Ready to Submit"}, {"url": "/desk/one?center=ai&at=reads"}),
 	)
 	rows = [
 		{"label": "What OneAI Remembers", "url": "/desk/one?center=ai&at=yours"},
 		{"label": "What OneAI Reads", "url": "/desk/one?center=ai&at=reads"},
-		{"label": "Documents", "link_to": "intake"},
 		{"label": "Ready to Submit", "link_to": "Ready to Submit"},
 		{"label": "AICenter", "url": "/desk/one?center=ai"},
 		{"label": "Changes", "link_to": "Version"},

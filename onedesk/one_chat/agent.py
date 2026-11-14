@@ -20,6 +20,8 @@ NOT_FOR_AI = {
 	"api.approve": "A card is the agent asking a person; only that person answers it.",
 	"api.dismiss": "A card is the agent asking a person; only that person answers it.",
 	"api.change": "A card is the agent asking a person; only that person changes it.",
+	"api.keep": "A card is the agent asking a person; only that person keeps what the auditor doubted.",
+	"api.undo": "A card is the agent asking a person; only that person takes it back.",
 	"panel.start": "A conversation with an agent is opened by the person who talks to it.",
 	"panel.say": "It is the person asking the agent, in the panel.",
 	"panel.rename": "A conversation is named by the person it belongs to.",

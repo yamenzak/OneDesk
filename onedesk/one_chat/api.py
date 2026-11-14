@@ -204,5 +204,15 @@ def dismiss(action: str) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
+def keep(action: str) -> dict:
+	return cards.keep(action)
+
+
+@frappe.whitelist(methods=["POST"])
+def undo(action: str) -> dict:
+	return cards.undo(action)
+
+
+@frappe.whitelist(methods=["POST"])
 def change(action: str, values) -> dict:
 	return cards.change(action, values)

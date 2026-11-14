@@ -202,7 +202,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"record_head.drawn": (public / "head.js").read_text(),
 		"onecalendar.event": (APP / "one_calendar" / "page" / "onecalendar" / "onecalendar.js").read_text(),
 		"onecloud.file": (ROOT / "frontend" / "src" / "cloud" / "CloudPreview.vue").read_text(),
-		"intake.reading": (ROOT / "frontend" / "src" / "intake" / "IntakeReading.vue").read_text(),
 		"onecrm.board": (public / "one_crm" / "opportunity_list.js").read_text(),
 		"space.home": (public / "one_studio" / "places.js").read_text(),
 		**{

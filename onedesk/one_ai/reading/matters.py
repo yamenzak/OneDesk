@@ -359,9 +359,9 @@ def _files_only(name: str) -> bool:
 
 
 def after(name: str) -> None:
-	"""Once everything is made: the auditor has its say, the document is
-	unread again in its Intake box, and whatever still waits is said once."""
-	from onedesk.one_ai.reading import audit, inbox, tell
+	"""Once everything is made: the auditor has its say, and whatever still
+	waits is put to the person and said once."""
+	from onedesk.one_ai.reading import audit, tell
 
 	try:
 		audit.run(name)
@@ -369,7 +369,6 @@ def after(name: str) -> None:
 	except Exception:
 		frappe.db.rollback()
 		frappe.log_error(title=f"OneAI could not audit {name}")
-	inbox.fresh(name)
 	tell.waiting(name)
 	frappe.db.commit()
 

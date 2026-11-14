@@ -22,7 +22,7 @@ ADMIN = tree.APP / "one_admin" / "sidebar" / "one_admin" / "one_admin.json"
 CREDITS = tree.APP / "one_ai" / "report" / "ai_credits"
 PROXY = tree.APP / "one_admin" / "proxy.py"
 JS = tree.APP / "public" / "js"
-HELD = {"AI Credits", "AI Chat", "AI Proposal", "AI Knowledge", "intake"}
+HELD = {"AI Credits", "AI Chat", "AI Proposal", "AI Knowledge", "Reading Action"}
 
 
 def _hook(name: str):

@@ -44,7 +44,6 @@ ANSWERS = {
 	("DocType", "Presentation Version"): (ENGINE, "what a presentation's slides were at a moment, listed and restored from its Version History"),
 	("DocType", "AI Touch"): (ENGINE, "what OneAI wrote into a record, read back as the AI badge on it"),
 	("DocType", "Cloud Mount"): (ENGINE, "a mounted folder, which OneCloud keeps and shows as a folder"),
-	("DocType", "Reading Action"): (ENGINE, "what OneAI did with an item, shown in its inbox"),
 	("DocType", "Chat Channel"): (INSIDE, "a conversation, listed and opened in OneChat and in OneAI's panel"),
 	("DocType", "Chat Message"): (INSIDE, "a message, read in its conversation in OneChat"),
 	("DocType", "Push Device"): (ENGINE, "a browser that asked for notifications, kept by the bell"),

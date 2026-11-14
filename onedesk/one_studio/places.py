@@ -185,20 +185,6 @@ PLACES = {
 			},
 		},
 	},
-	"intake": {
-		"label": "Documents",
-		"record": "Reading",
-		"events": {
-			"reading": {
-				"about": _lt("A document is opened in Documents."),
-				"gives": (
-					"reading.name, reading.title, reading.kind, reading.person, reading.summary, reading.route, "
-					"reading.actions, each with said, level (Done, Proposed or Refused) and record ([doctype, name] or null)"
-				),
-				"may": ("note", "action"),
-			},
-		},
-	},
 	"onecrm": {
 		"label": registry.name("one_crm"),
 		"record": "Opportunity",
