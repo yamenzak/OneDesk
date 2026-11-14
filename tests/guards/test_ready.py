@@ -303,7 +303,7 @@ def centres_misplaced(keys: tuple[str, ...], centre: str, rail: list[dict], fram
 	"""Given the registry's centre keys, the centre frame's script, One's
 	rail and the window's scripts: a centre One's rail does not open, one a
 	module's ControlCenter does not find, or one the window opens. Pure."""
-	wrong = [] if len(keys) == 10 else [f"ten centres, not {keys}"]
+	wrong = [] if len(keys) == 11 else [f"eleven centres, not {keys}"]
 	opened = {re.search(r"center=(\w+)", row.get("url") or "").group(1) for row in rail if "center=" in (row.get("url") or "")}
 	if opened != set(keys):
 		wrong.append(f"One's rail opens {sorted(opened)}, not {sorted(keys)}")
@@ -869,7 +869,7 @@ def test_the_declaration_rules_catch_their_examples():
 		"b.vue",
 		"tray does not take the centres from onedesk.centers.reachable",
 	]
-	names = tuple(f"c{n}" for n in range(10))
+	names = tuple(f"c{n}" for n in range(11))
 	centre = "onedesk.centers.found = (module) => {" + " ".join(f'opens("{one}")' for one in FOUND) + "\n};"
 	rail = [{"url": f"/app/one?center={name}"} for name in names]
 	assert centres_misplaced(names, centre, rail, "") == []

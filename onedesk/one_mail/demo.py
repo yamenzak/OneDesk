@@ -103,7 +103,34 @@ def run(password=None):
 		theirs = frappe.db.get_value("User Email", {"parent": user, "email_account": ["like", own]}, "email_account")
 		if theirs:
 			arrive(frappe.get_doc("Email Account", theirs), sender, subject, days, body)
+	automations(account)
 	frappe.db.commit()
+
+
+AUTOMATIONS = (
+	(
+		"Supplier Invoices",
+		[{"type": "if", "id": "i1", "test": {"any": False, "items": [{"field": "sender_is", "op": "is", "value": "Supplier"}, {"field": "attachment", "value": True}]}, "then": [{"type": "star"}, {"type": "link"}], "else": []}],
+	),
+	(
+		"Newsletters",
+		[{"type": "if", "id": "i1", "test": {"any": True, "items": [{"field": "from", "op": "contains", "value": "newsletter, noreply, no-reply"}, {"field": "text", "op": "contains", "value": "unsubscribe"}]}, "then": [{"type": "read"}], "else": []}],
+	),
+)
+"""The workspace mailbox's rules, made by Layla in AutomationCenter after the
+week's mail arrived, so they sort what comes next."""
+
+
+def automations(account: str) -> None:
+	from onedesk.one_demo.base import as_user, tag
+	from onedesk.one_mail import blocks, rules
+
+	for priority, (title, steps) in enumerate(AUTOMATIONS, 1):
+		if frappe.db.exists("Automation", {"trigger": blocks.ARRIVES, "scope": account, "title": title}):
+			continue
+		with as_user(OWNER):
+			made = rules.save_rule(account, {"title": title, "steps": steps, "priority": priority * 10})
+		tag(frappe.get_doc("Automation", made))
 
 
 def arrive(box, sender: tuple, subject: str, days: int, body: str) -> None:

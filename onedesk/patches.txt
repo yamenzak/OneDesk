@@ -136,3 +136,4 @@ onedesk.one_cloud.patches.one_lease_on_file
 onedesk.one_cloud.patches.excel_weighed_again
 onedesk.one_chat.patches.conversations
 onedesk.one_ai.patches.no_documents_page
+onedesk.one_mail.patches.rules_are_automations

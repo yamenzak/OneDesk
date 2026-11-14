@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-14 12:00:00.000000",
+ "description": "What happens by itself when something starts it, step by step, each step done by the app it belongs to.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "enabled",
+  "priority",
+  "column_break_when",
+  "trigger",
+  "scope_type",
+  "scope",
+  "section_steps",
+  "steps",
+  "requested_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Name",
+   "in_list_view": 1,
+   "description": "What the automation is for. Example: Quotes from customers."
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "label": "Order",
+   "default": "10",
+   "description": "Lower runs first."
+  },
+  {
+   "fieldname": "column_break_when",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trigger",
+   "fieldtype": "Data",
+   "label": "Starts When",
+   "reqd": 1,
+   "read_only": 1,
+   "search_index": 1,
+   "description": "The block that starts it, from the app it belongs to."
+  },
+  {
+   "fieldname": "scope_type",
+   "fieldtype": "Link",
+   "options": "DocType",
+   "label": "Belongs To Type",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "scope",
+   "fieldtype": "Dynamic Link",
+   "options": "scope_type",
+   "label": "Belongs To",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1,
+   "description": "Where it runs. Example: a mailbox."
+  },
+  {
+   "fieldname": "section_steps",
+   "fieldtype": "Section Break",
+   "label": "Steps"
+  },
+  {
+   "fieldname": "steps",
+   "fieldtype": "JSON",
+   "label": "Steps",
+   "description": "What the automation checks and does, top to bottom, as the automation builder draws it."
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Requested By",
+   "read_only": 1,
+   "description": "Who asked for this automation, which runs once it is approved."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Automation",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Inbox User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "OneMail User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Mail Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "priority",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

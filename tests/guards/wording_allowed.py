@@ -117,7 +117,7 @@ ALLOWED = {
 	"onedesk/one_mail/custom/email_account.json": 2,
 	"onedesk/one_mail/custom/user.json": 1,
 	"onedesk/one_mail/doctype/mail_folder/mail_folder.json": 2,
-	"onedesk/one_mail/doctype/mail_rule/mail_rule.json": 2,
+	"onedesk/one/doctype/automation/automation.json": 2,
 	"onedesk/one_project/custom/projects_settings.json": 1,
 	"onedesk/one_studio/doctype/extension/extension.json": 5,
 	"onedesk/one_task/custom/task.json": 1,

@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 96 | 2 | 39 | 0 |
+| onedesk | 97 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -68,6 +68,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 | onechat (`frontend/src/chat/OneChat.vue`) | – | – | – | – |
+| automation (`frontend/src/automation/AutomationBuilder.vue`) | – | – | – | – |
 | oneadmin (`frontend/src/admin/AdminHome.vue`) | Account Request, Account Request Step, Tenant, Workspace Error | – | – | – |
 | oneadmin_servers (`frontend/src/admin/AdminServers.vue`) | Tenant | – | – | – |
 | oneadmin_server_part (`frontend/src/admin/ServerMetrics.vue`) | – | – | – | – |
@@ -923,6 +924,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| Automation | opened by our screens | OneMail | untouched | no | taught |  | yes |  |  |  |  |
 | News Category | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | News Item | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | News Source | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
@@ -1099,7 +1101,6 @@ Pages: inventory (on a rail or a home); stock-on-hand (on a rail or a home); to-
 | Mail Conversation | inside: a conversation in OneMail: Assign, Mark Done, Snooze and Remind Me, and the notes for the team; its row opens there | **nobody** | form script | yes | taught |  | **none** |  |  |  | No Reply Yet |
 | Mail Draft | inside: OneMail's Drafts folder and a conversation's Continue Draft, which the composer writes as it is typed | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
 | Mail Folder | engine: a mailbox's folders, which OneMail's sidebar shows and makes | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
-| Mail Rule | inside: OneMail's settings, a mailbox's Automation tab, which writes it | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |
 
 Pages: onemail (on a rail or a home).
 

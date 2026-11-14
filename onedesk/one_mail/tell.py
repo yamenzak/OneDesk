@@ -59,24 +59,25 @@ def rule_requested(rule) -> None:
 	when, then = said_of(rule)
 	notify.notify(
 		"Mail Rule Requested",
-		rights.people_with("Email Account", "mail_rules", rule.account),
-		link=f"/desk/onemail?settings=mailbox:{rule.account}:rules",
+		rights.people_with("Email Account", "mail_rules", rule.scope),
+		link=f"/desk/onemail?settings=mailbox:{rule.scope}:rules",
 		who=frappe.utils.get_fullname(frappe.session.user),
-		mailbox=frappe.db.get_value("Email Account", rule.account, "email_id") or rule.account,
+		mailbox=frappe.db.get_value("Email Account", rule.scope, "email_id") or rule.scope,
 		when=frappe.utils.escape_html(when),
 		then=frappe.utils.escape_html(then),
 	)
 
 
 def said_of(rule) -> tuple[str, str]:
-	"""A rule's steps in words (one_mail/flow.py summary), with its folders'
+	"""A mail automation's steps in words (engine.summary), with its folders'
 	and people's names."""
-	from onedesk.one_mail import flow, rules
+	from onedesk.one.automation import engine, flow
+	from onedesk.one_mail.blocks import ARRIVES
 
-	steps = rules.flow_of(rule)
-	folders = dict(frappe.get_all("Mail Folder", filters={"account": rule.account}, fields=["name", "label"], as_list=True))
-	people = {one.get("user"): frappe.utils.get_fullname(one.get("user")) for one in flow.actions_in(steps) if one.get("user")}
-	return flow.summary(steps, folders, people)
+	steps = engine.steps_of(rule)
+	names = dict(frappe.get_all("Mail Folder", filters={"account": rule.scope}, fields=["name", "label"], as_list=True))
+	names.update({one.get("user"): frappe.utils.get_fullname(one.get("user")) for one in flow.actions_in(steps) if one.get("user")})
+	return engine.summary(ARRIVES, steps, {"names": names})
 
 
 def rule_notice(rule, user: str, name: str) -> None:

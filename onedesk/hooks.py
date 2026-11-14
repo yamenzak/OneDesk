@@ -728,7 +728,7 @@ has_permission = {
 	"Chat Channel": "onedesk.one_chat.channels.has_permission",
 	"Chat Message": "onedesk.one_chat.channels.message_permission",
 	"Communication": "onedesk.one_mail.access.allowed",
-	"Mail Rule": "onedesk.one_mail.rules.rule_allowed",
+	"Automation": "onedesk.one.automation.who.allowed",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
 	"Salary Slip": "onedesk.one_hr.everybody.pay_allowed",
 	"Salary Structure Assignment": "onedesk.one_hr.everybody.pay_allowed",
@@ -786,7 +786,7 @@ permission_query_conditions = {
 	"Reading Action": "onedesk.one_ai.reading.act.query",
 	"Chat Channel": "onedesk.one_chat.channels.query",
 	"Chat Message": "onedesk.one_chat.channels.message_query",
-	"Mail Rule": "onedesk.one_mail.rules.rule_query",
+	"Automation": "onedesk.one.automation.who.query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"Salary Slip": "onedesk.one_hr.everybody.pay_query",
 	"Salary Structure Assignment": "onedesk.one_hr.everybody.pay_query",
@@ -1045,6 +1045,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/account_center/account_center.js",
 	"/assets/onedesk/js/one/access_center.js",
 	"/assets/onedesk/js/one_ai/ai_center.js",
+	"/assets/onedesk/js/one/automation_center.js",
 	"/assets/onedesk/js/one/notification_center.js",
 	"/assets/onedesk/js/one/setup_center.js",
 	"/assets/onedesk/js/one/one_control.js",
@@ -1193,6 +1194,8 @@ one_charts = hook("one_charts")
 one_record_tabs = hook("one_record_tabs")
 
 one_calendar_layers = hook("one_calendar_layers")
+
+one_automation_blocks = hook("one_automation_blocks")
 
 additional_timeline_content = {
 	"Project": ["onedesk.one_project.updates.timeline", "onedesk.one_project.activity.timeline"],

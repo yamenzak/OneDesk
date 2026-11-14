@@ -3,7 +3,7 @@ the count of names typed where people read them. A file's count only falls,
 and a file leaves when it reaches none. Most of what is left is a doctype's
 own label or description (frappe reads a doctype's JSON as it is, so it has
 no `{0}`), an `_lt` whose words name an app (lazy, so nothing formats it), a
-name stored as a value (a Mail Rule step's `with`, a Select option, a
+name stored as a value (a mail automation step's `with`, a Select option, a
 user-settings key), which is an id for what was saved under it, and "One" as
 a word ("Remove One", "Opening One"). The centres and engines inside another
 app's folder (registry.parts: ControlCenter, OneOS, OneCredit and the rest)
@@ -27,7 +27,7 @@ ALLOWED = {
 	"one/onboarding_step/one_add_a_customer/one_add_a_customer.json": 1,
 	"one/onboarding_step/one_add_an_employee/one_add_an_employee.json": 1,
 	"one/privacy_copy.py": 2,
-	"one/sidebar/one/one.json": 7,
+	"one/sidebar/one/one.json": 8,
 	"one_admin/agent.py": 3,
 	"one_admin/boxes.py": 2,
 	"one_admin/doctype/offering/offering_list.js": 2,
@@ -104,11 +104,10 @@ ALLOWED = {
 	"one_mail/access.py": 1,
 	"one_mail/custom/communication.json": 1,
 	"one_mail/custom/email_account.json": 2,
-	"one_mail/doctype/mail_rule/mail_rule.json": 2,
-	"one_mail/doctype/mail_rule/mail_rule.py": 1,
-	"one_mail/flow.py": 3,
+	"one_mail/blocks.py": 5,
 	"one_mail/notifications.py": 1,
-	"one_mail/rules.py": 1,
+	"one_mail/rules.py": 3,
+	"one_mail/starters.py": 2,
 	"one_mail/tour.py": 1,
 	"one_portal/notifications.py": 2,
 	"one_project/help/starting-a-project.md": 1,
@@ -130,7 +129,6 @@ ALLOWED = {
 	"public/js/one_calendar/calendar_control.js": 1,
 	"public/js/one_cloud/onecloud_dialogs.js": 8,
 	"public/js/one_hr/hr_control.js": 1,
-	"public/js/one_mail/rule_builder.js": 7,
 	"public/js/one_studio/studio_control.js": 2,
 	"trust_center/gate.py": 6,
 }

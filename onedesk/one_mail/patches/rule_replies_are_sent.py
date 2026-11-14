@@ -7,7 +7,7 @@ import frappe
 
 
 def execute():
-	from onedesk.one_mail import flow
+	from onedesk.one.automation import flow
 
 	for name, steps in frappe.get_all("Mail Rule", fields=["name", "steps"], as_list=True):
 		said = frappe.parse_json(steps) if steps else []

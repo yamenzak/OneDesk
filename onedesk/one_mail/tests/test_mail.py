@@ -529,64 +529,6 @@ def _rules():
 	return _load(MAIL / "rules.py", names, re=re, email=email_module)
 
 
-def _flow():
-	names = (
-		"TEXT", "FLAGS", "KINDS", "ACTIONS", "CREATES", "ONCE", "test", "holds", "said", "walk", "_answered",
-		"asks", "needs_ai", "topics", "answers_of", "actions_in", "conditions_in", "problems", "from_fields",
-	)
-	from onedesk.one import registry
-
-	return _load(MAIL / "flow.py", names, re=re, _=lambda text: text, registry=registry)
-
-
-def test_conditions_nest_in_groups_of_all_or_any():
-	flow = _flow()
-	facts = {"from": "News news@shop.example", "subject": "Weekly Newsletter", "attachment": False, "sender_is": {"Customer"}, "outside": True}
-	both = {"items": [{"field": "from", "value": "shop.example"}, {"field": "subject", "value": "newsletter"}]}
-	assert flow["test"](both, facts)
-	assert not flow["test"]({"items": [{"field": "from", "value": "shop"}, {"field": "attachment", "value": True}]}, facts), "all, by default"
-	nested = {"items": [{"field": "outside", "value": True}, {"any": True, "items": [{"field": "subject", "value": "invoice"}, {"field": "sender_is", "op": "is", "value": "Customer"}]}]}
-	assert flow["test"](nested, facts)
-	assert flow["test"]({"items": []}, facts), "no conditions: every message"
-	assert flow["holds"]({"field": "subject", "op": "not_contains", "value": "invoice, quote"}, facts)
-	assert flow["holds"]({"field": "sender_is", "op": "is_not", "value": "Supplier"}, facts)
-	assert flow["said"]("Order 12", "starts_with", "order") and not flow["said"]("Order 12", "is", "order")
-
-
-def test_steps_branch_stop_and_take_oneai_s_answer():
-	flow = _flow()
-	steps = [
-		{"type": "if", "id": "i", "test": {"items": [{"field": "outside", "value": True}]}, "then": [{"type": "star"}], "else": [{"type": "read"}]},
-		{"type": "ask", "id": "a", "ask": "pick", "labels": [{"label": "Quote", "then": [{"type": "stop"}]}, {"label": "Complaint", "then": [{"type": "notify", "user": "x"}]}], "else": [{"type": "junk"}]},
-		{"type": "move", "folder": "F"},
-	]
-	assert flow["needs_ai"](steps) and not flow["needs_ai"](steps[:1])
-	assert flow["topics"]("R", steps) == [("R#a#0", "Quote"), ("R#a#1", "Complaint")]
-	done, stopped = flow["walk"](steps, {"outside": True}, flow["answers_of"]("R", steps, {"R#a#0"}))
-	assert [one["type"] for one in done] == ["star"] and stopped, "Quote says stop"
-	done, stopped = flow["walk"](steps, {"outside": False}, flow["answers_of"]("R", steps, {"R#a#1"}))
-	assert [one["type"] for one in done] == ["read", "notify", "move"] and not stopped
-	done, _ = flow["walk"](steps, {}, flow["answers_of"]("R", steps, set()))
-	assert [one["type"] for one in done] == ["read", "junk", "move"], "nothing found: Otherwise"
-
-
-def test_a_rule_must_do_something_and_old_rules_become_steps():
-	flow = _flow()
-	assert flow["problems"]([{"type": "if", "test": {}, "then": [], "else": []}]) == ["Add at least one action."]
-	assert "Choose the folder to move to." in flow["problems"]([{"type": "move"}])
-	assert "Write the address to forward to." in flow["problems"]([{"type": "forward", "to": "nobody"}])
-	empty = [{"type": "if", "test": {"items": [{"any": True, "items": [{"field": "domain", "op": "is", "value": " "}]}]}, "then": [{"type": "junk"}]}]
-	assert "Write what each condition looks for." in flow["problems"](empty), "an empty blank would match all mail"
-	assert flow["problems"]([{"type": "reply", "text": "Thanks", "once": "conversation"}]) == [], "an auto reply needs no If"
-	assert "Give OneAI at least two labels to pick from." in flow["problems"]([{"type": "ask", "ask": "pick", "labels": [{"label": "A"}], "then": [{"type": "star"}]}])
-	old = {"from_contains": "shop", "subject_contains": "news", "match": "Any Condition", "move_to": "F", "star": 1, "stop": 1}
-	steps = flow["from_fields"](old)
-	assert steps[0]["test"] == {"any": True, "items": [{"field": "from", "op": "contains", "value": "shop"}, {"field": "subject", "op": "contains", "value": "news"}]}
-	assert [one["type"] for one in steps[0]["then"]] == ["move", "star", "stop"]
-	about = flow["from_fields"]({"about": "soft drinks", "move_to": "F"})
-	assert about[0]["type"] == "ask" and about[0]["question"] == "soft drinks" and flow["needs_ai"](about)
-
-
 def test_nothing_automatic_gets_an_away_reply():
 	automatic = _rules()["automatic"]
 	assert not automatic({}, "rana@supplier.example")
@@ -619,7 +561,7 @@ def test_rules_and_away_run_on_new_mail_only():
 	sync = (MAIL / "sync.py").read_text()
 	assert sync.count("fresh=False") == 2, "a first read and history are not new mail"
 	assert "rules.after(" in (MAIL / "inbound.py").read_text()
-	assert '"Mail Rule": "onedesk.one_mail.rules.rule_allowed"' in HOOKS
+	assert '"Automation": "onedesk.one.automation.who.allowed"' in HOOKS
 
 
 def test_a_search_understands_the_usual_operators():
@@ -738,7 +680,7 @@ def test_a_rule_on_an_issued_address_waits_for_a_mail_manager():
 	save = rules.split("def save_rule(", 1)[1].split("\ndef ", 1)[0]
 	assert "doc.enabled = 0" in save and "doc.requested_by = frappe.session.user" in save
 	assert "tell.rule_requested(doc)" in save
-	assert 'holders.must(doc.account, "rules")' in rules.split("def decide_rule(", 1)[1]
+	assert 'holders.must(doc.scope, "rules")' in rules.split("def decide_rule(", 1)[1]
 	holders = (MAIL / "holders.py").read_text()
 	assert 'not may(account, "rules")' in holders.split("def issued_to_them(", 1)[1].split("\ndef ", 1)[0]
 

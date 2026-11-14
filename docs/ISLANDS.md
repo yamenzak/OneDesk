@@ -151,6 +151,7 @@ that exists.
 | `src/admin/AdminSessions.vue` | GitHub Codespaces: every session with its state, its link and when it expires; New Session, Stop and Delete each one |
 | `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging; drawn on a list's own head (the folder's name, New, the views) and card |
 | `src/chat/OneChat.vue` | Slack and Gameplan: channels, direct messages and the agents down the side, the conversation open beside them with the box at its foot, a thread beside that, mentions after @, reactions under a message, and an agent's card in the conversation with Approve and Change |
+| `src/automation/AutomationBuilder.vue` | Zapier's and n8n's editors, on frappe's own flow canvas (`@framework/ui/AutomationCanvas`): what starts it, then each step a card to its right with a plus at the end, a step that branches with an arm for each answer, and the chosen step's settings beside it, its conditions in frappe's ConditionBuilder; a new one starts from Zapier's templates, a card each |
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
 | `src/interface/RecordHead.vue` | OneBook's and OneInventory's Homes: the same figure cards, at most four, at the head of a record, as its module declares them |
 | `src/inventory/item/ItemPart.vue` | Shopify's product page and Odoo's product form, drawn inside ERPNext's own Item tabs: where it is kept and what moved, who it is bought from at what price, who buys it and what can go now, what it is made of and what is being made |
@@ -170,16 +171,15 @@ that exists.
 Read on 2026-10-29 against frappe `19e5f0fa2b`. Of the islands' 57,000
 lines, 42,000 are the sheet and writer editors, which it has nothing like;
 the module screens are frappe-ui already, and use its `ActivityTimeline`,
-`Composer` and island mount. Three places overlap, and each stays ours for
+`Composer` and island mount. AutomationCenter's builder (14 November) takes its
+`AutomationCanvas` and `ConditionBuilder` whole, in place of OneMail's jQuery
+rule builder. Two places overlap, and each stays ours for
 now:
 
 - `kit/FieldEdit.vue` against `FormLayout` and its fields: ours lends the
   desk's own control and form, so erpnext's and hrms's form scripts still
   run when a field is changed on an island record page. `FormLayout` would
   go round them.
-- The conditions in `one_mail/rule_builder.js` against `ConditionBuilder`:
-  about a hundred lines of a jQuery dialog. Worth taking only when the rule
-  builder is rewritten as an island.
 - `cloud/CloudUploads.vue` against `UploadTray`: the tray's words are
   English in its source with no `__()`, and it sets a shadow. Take it when
   frappe translates it; it would bring cancel and retry per file.

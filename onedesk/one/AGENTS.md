@@ -1180,6 +1180,52 @@ Every call is in the Webhook Request Log: what was sent, what came back,
 and whether it was delivered, failed and will be tried again, or gave up.
 The administrators hear each morning of any that gave up the day before.
 
+### automation/ and automation_center.py (AutomationCenter)
+
+An automation is a trigger, then steps, kept in `Automation` (one/doctype).
+Nothing in `automation/` knows mail: every block is declared by the module
+that owns it, in its own `blocks.py` as `BLOCKS`, found through the
+`one_automation_blocks` hook the registry builds (registry/hooks.py
+CONVENTIONS). `kinds.py` has the four kinds:
+
+- **Trigger**: what starts one (`one_mail.arrives`), the record type it
+  belongs to (`scope`, a mailbox), what a run is about (`doctype`, the
+  message), whether OneAI's reading answers its Ask steps (`reads`), its
+  starters, and `keeps`: the module's functions that keep its automations,
+  as its own screens did. `scopes` lists the places the reader keeps or asks
+  for, `offers` what a place's steps may name (folders, people, who writes
+  a reply), `listed` a place's automations in words, `save`, `enable`,
+  `delete` and `decide` change them (outright, or asked for and waiting for
+  whoever approves), `allowed` and `query` are Automation's permission hooks
+  for its rows (`who.py` asks the trigger), and `validate` what a place
+  needs beyond the steps.
+- **Condition**: what an If may test of the trigger's facts, "text",
+  "flag" or "kind".
+- **Action**: one thing done, `run(automation, name, step, context)`, its
+  module's own function, so an automation can do no more than its owner
+  could with that module's screens; its params, its `check`, its `words`,
+  `ai` (offered only where OneAI may read) and `offers` of its own.
+- **Param**: what an action asks, and when (`shown`).
+
+`flow.py` is pure: If, Ask and Stop, groups of All or Any, walking the steps
+against the facts. `engine.run` is what a trigger's code calls with the
+record and its facts; each action is tried on its own and logged if it fails.
+No OneAI is needed for any of it: only an Ask and an AI block use it.
+
+Decided 14 November 2026 (P8.4): frappe's own Automation Flow was the first
+place to look, and it does not fit a rule. It runs after commit in the
+drainer, so a rule's reply could not stand in for the away reply; it has no
+order or Stop between flows; its conditions and values are Python and Jinja
+it trusts its System Manager to write, the opposite of a block that writes
+only its own part; and a mail rule is kept by a mailbox's holders and Mail
+Managers, who are not System Managers. The builder does take frappe's own
+parts whole: `@framework/ui`'s AutomationCanvas and ConditionBuilder.
+
+`automation_center.py` is the centre's calls; it decides nothing, asking the
+trigger's `keeps`. The builder is the island `onedesk.automation`
+(frontend/src/automation/), mounted in a place's section of
+`public/js/one/automation_center.js`.
+
 ### hooks.py
 
 - `after_sync` runs when the app is installed, after its custom fields are

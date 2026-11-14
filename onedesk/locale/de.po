@@ -530,6 +530,10 @@ msgstr "Ein neues Gespräch"
 msgid "A PDF can only be saved to {0} or attached to the record."
 msgstr "Ein PDF kann nur in {0} gespeichert oder an den Datensatz angehängt werden."
 
+#: frontend/src/automation/StepPanel.vue:102
+msgid "A Question"
+msgstr "Eine Frage"
+
 #: onedesk/public/js/one/one_control.js:108
 msgid "A Sale's Total"
 msgstr "Summe eines Verkaufs"
@@ -2942,6 +2946,10 @@ msgstr "Quelle hinzufügen"
 #: onedesk/public/js/one_mail/rule_builder.js:414
 msgid "Add Step"
 msgstr "Schritt hinzufügen"
+
+#: frontend/src/automation/StepPanel.vue:76
+msgid "Add Step After"
+msgstr "Schritt danach hinzufügen"
 
 #: onedesk/public/js/account_center/account_center.js:769
 msgid "Add Storage"
@@ -6241,10 +6249,6 @@ msgstr "Jede neue Unterhaltung von außen einer Person zuweisen."
 msgid "Assign gives it to somebody, and Activity holds the comments and every change."
 msgstr "Zuweisen gibt sie jemandem, und die Aktivität enthält die Kommentare und jede Änderung."
 
-#: onedesk/public/js/one_mail/rule_builder.js:295
-msgid "Assign it to"
-msgstr "Weise sie zu an"
-
 #: onedesk/public/js/one_mail/rule_builder.js:698
 msgid "Assign quote requests to one person and invoices to another."
 msgstr "Angebotsanfragen einer Person und Rechnungen einer anderen zuweisen."
@@ -6773,6 +6777,11 @@ msgstr "Automatisierungshinweis"
 #, python-brace-format
 msgid "Automation rules that ask {0} need this level."
 msgstr "Automatisierungsregeln, die {0} fragen, brauchen diese Stufe."
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json:281
+msgid "AutomationCenter"
+msgstr "AutomationCenter"
 
 #. Label of a Sidebar Item
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:206
@@ -7599,6 +7608,11 @@ msgstr "Wird eingerichtet"
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:63
 msgid "Belongs To"
 msgstr "Gehört zu"
+
+#. Label of the scope_type (Link) field in DocType 'Automation'
+#: onedesk/one/doctype/automation/automation.json:61
+msgid "Belongs To Type"
+msgstr "Gehört zu Typ"
 
 #. Description of the 'Workspace Mailbox' (Check) field in DocType 'Email
 #. Account'
@@ -10111,6 +10125,10 @@ msgstr "Wählen Sie die Nachrichtenquellen, deren Schlagzeilen gezeigt werden."
 #: onedesk/one_book/report/books_check/books_check.js:47
 msgid "Choose the Tax Charged by Default"
 msgstr "Standardmäßig berechnete Steuer wählen"
+
+#: onedesk/one_ai/blocks.py:68
+msgid "Choose the agent."
+msgstr "Wählen Sie den Agent."
 
 #: onedesk/public/js/one_hr/hr_control.js:108
 msgid "Choose the country first."
@@ -12788,10 +12806,6 @@ msgstr "Arbeitsmappe erstellen"
 msgid "Create Workbook {0}"
 msgstr "Arbeitsmappe {0} erstellen"
 
-#: onedesk/public/js/one_mail/rule_builder.js:304
-msgid "Create a"
-msgstr "Erstelle eine"
-
 #: onedesk/public/js/one_mail/rule_builder.js:48
 msgid "Create a Record"
 msgstr "Datensatz erstellen"
@@ -14598,6 +14612,10 @@ msgstr "Serie {0} löschen?"
 #: onedesk/one_hr/access.py:32
 msgid "Delete the sound of a recorded interview before its retention does, keeping what was written from it."
 msgstr "Den Ton eines aufgezeichneten Gesprächs vor Ablauf der Aufbewahrung löschen; was daraus geschrieben wurde, bleibt."
+
+#: onedesk/public/js/one/automation_center.js:46
+msgid "Delete this automation?"
+msgstr "Diese Automatisierung löschen?"
 
 #: onedesk/public/js/doctype_settings.js:961
 #: onedesk/public/js/one_mail/onemail_settings.js:862
@@ -20270,6 +20288,11 @@ msgstr "Füllen Sie Ihre Selbstbeurteilung bis {date} aus."
 msgid "Fill in {0}"
 msgstr "{0} ergänzen"
 
+#: frontend/src/automation/AutomationBuilder.vue:105
+#, python-brace-format
+msgid "Fill in {0}."
+msgstr "Füllen Sie {0} aus."
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:108
 msgid "Fill right"
 msgstr "Nach rechts ausfüllen"
@@ -21281,10 +21304,6 @@ msgstr "Kunden-E-Mails, die nach Feierabend oder an einem Feiertag ankommen, an 
 #: onedesk/public/js/one_mail/rule_builder.js:715
 msgid "Forward every new message to another address."
 msgstr "Jede neue Nachricht an eine andere Adresse weiterleiten."
-
-#: onedesk/public/js/one_mail/rule_builder.js:293
-msgid "Forward it to"
-msgstr "Leite sie weiter an"
 
 #: onedesk/public/js/one_mail/rule_builder.js:739
 msgid "Forward mail with a CV attached to whoever handles hiring."
@@ -22800,6 +22819,15 @@ msgstr "Übergib diese Anlage an "
 msgid "Hand this to somebody…"
 msgstr "An jemanden übergeben…"
 
+#: onedesk/one_ai/blocks.py:85
+msgid "Hand to an Agent"
+msgstr "An einen Agent übergeben"
+
+#: onedesk/one_ai/blocks.py:79
+#, python-brace-format
+msgid "Hand to {0}"
+msgstr "An {0} übergeben"
+
 #. Label in the One Equipment Handover print format
 #. Label in the One Shipment print format
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
@@ -22904,11 +22932,6 @@ msgstr "Sie haben einen Code für eine private App? Geben Sie ihn hier ein. Einm
 #: onedesk/one_display/starters.py:355
 msgid "Have your ticket ready when your number is called."
 msgstr "Halten Sie Ihre Nummer bereit, wenn sie aufgerufen wird."
-
-#: onedesk/public/js/one_mail/rule_builder.js:276
-#, python-brace-format
-msgid "Have {0} write a reply that follows"
-msgstr "{0} eine Antwort schreiben lassen nach"
 
 #. Label of the head_seq (Int) field in DocType 'Workbook'
 #: onedesk/one_sheet/doctype/workbook/workbook.json:58
@@ -27181,6 +27204,10 @@ msgstr "Beschriftungsfarbe"
 msgid "Labels"
 msgstr "Beschriftungen"
 
+#: frontend/src/automation/StepPanel.vue:103
+msgid "Labels to Pick From"
+msgstr "Auswählbare Bezeichnungen"
+
 #: onedesk/one_hr/papers.py:12
 msgid "Labour Card"
 msgstr "Arbeitskarte"
@@ -28641,10 +28668,6 @@ msgstr "Link-URL"
 msgid "Link expired"
 msgstr "Link abgelaufen"
 
-#: onedesk/public/js/one_mail/rule_builder.js:303
-msgid "Link it to the sender's customer, supplier or lead"
-msgstr "Verknüpfe sie mit dem Kunden, Lieferanten oder Lead des Absenders"
-
 #: frontend/portal/src/pages/Link.vue:7
 msgid "Link not working"
 msgstr "Link funktioniert nicht"
@@ -29486,6 +29509,11 @@ msgstr "E-Mail-Entwurf"
 msgid "Mail Folder"
 msgstr "E-Mail-Ordner"
 
+#. Name of a role
+#: onedesk/one/doctype/automation/automation.json:126
+msgid "Mail Manager"
+msgstr "Mail-Verwaltung"
+
 #. Label of the one_mail_name (Data) field in DocType 'User'
 #: onedesk/one_mail/custom/user.json:10
 msgid "Mail Name"
@@ -30181,10 +30209,6 @@ msgstr "Als gelesen markieren"
 #: frontend/src/mail/OneMail.vue:189 frontend/src/mail/OneMail.vue:218
 msgid "Mark as unread"
 msgstr "Als ungelesen markieren"
-
-#: onedesk/public/js/one_mail/rule_builder.js:270
-msgid "Mark it as read"
-msgstr "Markiere sie als gelesen"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1101
 msgid "Mark resolved"
@@ -31306,14 +31330,6 @@ msgstr "Element verschieben"
 msgid "Move element by 10px"
 msgstr "Element um 10 px verschieben"
 
-#: onedesk/public/js/one_mail/rule_builder.js:267
-msgid "Move it to"
-msgstr "Verschiebe sie nach"
-
-#: onedesk/public/js/one_mail/rule_builder.js:272
-msgid "Move it to Junk"
-msgstr "Verschiebe sie in Junk"
-
 #: onedesk/public/js/one_mail/rule_builder.js:581
 msgid "Move mail from customers into a folder and file it on their record."
 msgstr "E-Mails von Kunden in einen Ordner verschieben und bei ihrem Datensatz ablegen."
@@ -31693,9 +31709,9 @@ msgstr "Benennen Sie die Aufgabe."
 msgid "Name the template."
 msgstr "Geben Sie der Vorlage einen Namen."
 
-#: onedesk/public/js/one_mail/rule_builder.js:430
-msgid "Name this rule"
-msgstr "Benenne diese Regel"
+#: frontend/src/automation/AutomationBuilder.vue:5
+msgid "Name this automation"
+msgstr "Diese Automatisierung benennen"
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:72
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:241
@@ -32130,10 +32146,6 @@ msgstr "Neue Buchung"
 msgid "New Knowledge"
 msgstr "Neues Wissen"
 
-#: onedesk/public/js/one_mail/rule_builder.js:313
-msgid "New Label"
-msgstr "Neues Label"
-
 #: frontend/src/crm/CrmHome.vue:279 onedesk/one_crm/shortcuts.py:8
 msgid "New Lead"
 msgstr "Neuer Lead"
@@ -32165,11 +32177,6 @@ msgstr "Neuer Link"
 #: onedesk/public/js/one_mail/onemail_settings.js:508
 msgid "New Mail"
 msgstr "Neue E-Mails"
-
-#: onedesk/public/js/one_mail/onemail_settings.js:815
-#: onedesk/public/js/one_mail/onemail_settings.js:869
-msgid "New Mail Rule"
-msgstr "Neue E-Mail-Regel"
 
 #: onedesk/public/js/one_mail/mail_templates.js:348
 #: onedesk/public/js/one_mail/onemail_settings.js:1356
@@ -33105,6 +33112,10 @@ msgstr "Kein Anlagegut ist als wartungspflichtig markiert."
 #: onedesk/public/js/doctype_settings.js:202
 msgid "No automations"
 msgstr "Keine Automatisierungen"
+
+#: onedesk/public/js/one/automation_center.js:89
+msgid "No automations yet"
+msgstr "Noch keine Automatisierungen"
 
 #: onedesk/public/js/one_admin/tenant.js:118
 #, python-brace-format
@@ -34676,6 +34687,10 @@ msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Bere
 msgid "Nothing here is real."
 msgstr "Nichts hier ist echt."
 
+#: onedesk/public/js/one/automation_center.js:130
+msgid "Nothing here runs by itself for you yet."
+msgstr "Hier läuft für Sie noch nichts von selbst."
+
 #: onedesk/public/js/one/shortcut_center.js:214
 msgid "Nothing here uses this key."
 msgstr "Hier verwendet nichts diese Taste."
@@ -34777,6 +34792,11 @@ msgstr "Nichts angefordert oder erhalten"
 msgid "Nothing shared with you"
 msgstr "Nichts mit Ihnen geteilt"
 
+#: onedesk/one/automation/kinds.py:121
+#, python-brace-format
+msgid "Nothing starts an automation as {0}."
+msgstr "Nichts startet eine Automatisierung als {0}."
+
 #: onedesk/public/js/desk.js:222
 #, python-brace-format
 msgid "Nothing to check in. You're {0} today."
@@ -34825,6 +34845,10 @@ msgstr "Hier gibt es nichts einzustellen."
 #: onedesk/public/js/one/setup_center.js:81
 msgid "Nothing to set up."
 msgstr "Nichts einzurichten."
+
+#: frontend/src/automation/StepPanel.vue:72
+msgid "Nothing to set."
+msgstr "Nichts einzustellen."
 
 #: onedesk/public/js/shell.js:91
 msgid "Nothing to show"
@@ -36318,6 +36342,11 @@ msgstr "Wenn die Startseite von OneInventory geöffnet wird und jedes Mal, wenn 
 msgid "OneMail"
 msgstr "OneMail"
 
+#. Name of a role
+#: onedesk/one/doctype/automation/automation.json:119
+msgid "OneMail User"
+msgstr "OneMail-Benutzer"
+
 #. Label of the oneos_url (Data) field in DocType 'One Admin Settings'
 #. Label of a Sidebar Item
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:216
@@ -37201,11 +37230,6 @@ msgstr "{0} öffnen"
 #, python-brace-format
 msgid "Open {0} Older Entries"
 msgstr "{0} ältere Einträge öffnen"
-
-#: onedesk/public/js/one_mail/rule_builder.js:367
-#, python-brace-format
-msgid "Open {0} Tab"
-msgstr "{0}-Tab öffnen"
 
 #. The button on a notification's mail
 #: onedesk/account_center/notifications.py
@@ -40162,6 +40186,10 @@ msgstr "Wählen Sie eine Vertragsvorlage oder geben Sie {0} seine Geschäftsbedi
 msgid "Pick a series to see a preview"
 msgstr "Wählen Sie eine Datenreihe, um eine Vorschau zu sehen"
 
+#: frontend/src/automation/StepPanel.vue:15
+msgid "Pick a step to change it, or add one after it with the plus."
+msgstr "Wählen Sie einen Schritt, um ihn zu ändern, oder fügen Sie mit dem Plus einen danach hinzu."
+
 #: onedesk/one_project/templates.py:127
 #: onedesk/public/js/one_project/project_actions.js:75
 msgid "Pick a template."
@@ -42494,6 +42522,10 @@ msgstr "Die Menge muss größer als null sein."
 #: onedesk/one_display/starters.py:959
 msgid "Quarterly town hall"
 msgstr "Quartalsversammlung"
+
+#: frontend/src/automation/StepPanel.vue:33
+msgid "Question"
+msgstr "Frage"
 
 #: onedesk/one_hr/hiring.py:512
 msgid "Questions"
@@ -44909,10 +44941,6 @@ msgstr "Im Thread antworten"
 msgid "Reply saying…"
 msgstr "Antworten mit…"
 
-#: onedesk/public/js/one_mail/rule_builder.js:289
-msgid "Reply with"
-msgstr "Antworte mit"
-
 #: frontend/src/doc/components/FloatingComments.vue:62
 msgid "Replying to:"
 msgstr "Antwort auf:"
@@ -45039,6 +45067,11 @@ msgstr "Neubuchung fehlgeschlagen"
 msgid "Request"
 msgstr "Anfrage"
 
+#: onedesk/public/js/one/automation_center.js:53
+#: onedesk/public/js/one/automation_center.js:82
+msgid "Request Automation"
+msgstr "Automatisierung anfragen"
+
 #: onedesk/one/privacy_public.py:88
 msgid "Request Confirmed"
 msgstr "Anfrage bestätigt"
@@ -45055,11 +45088,6 @@ msgstr ""
 #: frontend/src/hr/HrHome.vue:254 onedesk/one_hr/shortcuts.py:8
 msgid "Request Leave"
 msgstr "Urlaub beantragen"
-
-#: onedesk/public/js/one_mail/onemail_settings.js:815
-#: onedesk/public/js/one_mail/onemail_settings.js:869
-msgid "Request Mail Rule"
-msgstr "E-Mail-Regel anfragen"
 
 #: onedesk/public/js/one_inventory/item.js:27
 msgid "Request Material"
@@ -45098,10 +45126,6 @@ msgstr "Neue Kopie anfordern"
 #: onedesk/one_studio/print_blocks.py:24
 msgid "Request No"
 msgstr "Anfrage-Nr."
-
-#: onedesk/public/js/one_mail/onemail_settings.js:745
-msgid "Request Rule"
-msgstr "Regel anfragen"
 
 #. Label of the one_status (Select) field in DocType 'Personal Data Download
 #. Request'
@@ -46297,6 +46321,15 @@ msgstr "Jetzt ausführen"
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:167
 msgid "Run as Recipient"
 msgstr "Als Empfänger ausführen"
+
+#: onedesk/public/js/one/automation_center.js:80
+msgid "Run in order on each new message once a Mail Manager approves them."
+msgstr "Laufen der Reihe nach bei jeder neuen Nachricht, sobald die Mail-Verwaltung sie genehmigt."
+
+#: onedesk/public/js/one/automation_center.js:79
+#, python-brace-format
+msgid "Run in order on each new message, before what {0} does."
+msgstr "Laufen der Reihe nach bei jeder neuen Nachricht, vor dem, was {0} tut."
 
 #: onedesk/one_admin/doctype/workspace_server/workspace_server_list.js:24
 msgid "Run once on the machine as root within an hour."
@@ -51025,10 +51058,6 @@ msgstr "Stern"
 msgid "Star Conversations"
 msgstr "Unterhaltungen mit Stern markieren"
 
-#: onedesk/public/js/one_mail/rule_builder.js:271
-msgid "Star it"
-msgstr "Markiere sie mit Stern"
-
 #: onedesk/public/js/one_mail/rule_builder.js:592
 msgid "Star mail from one address or domain and tell someone on the bell."
 msgstr "E-Mails von einer Adresse oder Domain markieren und jemanden über die Glocke benachrichtigen."
@@ -51237,6 +51266,11 @@ msgstr "Startet von"
 #: onedesk/one_studio/print_blocks.py:92 onedesk/one_studio/print_blocks.py:96
 msgid "Starts On"
 msgstr "Beginnt am"
+
+#. Label of the trigger (Data) field in DocType 'Automation'
+#: onedesk/one/doctype/automation/automation.json:51
+msgid "Starts When"
+msgstr "Startet, wenn"
 
 #: onedesk/one_mail/flow.py:301
 msgid "Starts a Conversation"
@@ -53569,10 +53603,6 @@ msgstr "Telefonie"
 msgid "Telephony Call Type"
 msgstr "Anrufart"
 
-#: onedesk/public/js/one_mail/rule_builder.js:299
-msgid "Tell"
-msgstr "Benachrichtige"
-
 #: onedesk/one_studio/automation_steps.py:24
 msgid "Tell People"
 msgstr "Personen benachrichtigen"
@@ -54528,6 +54558,11 @@ msgstr "Die Glocke ist immer an. Dies sind die Kanäle, die man hinzufügen kann
 #: onedesk/one_display/starters.py:676
 msgid "The best service in town."
 msgstr "Der beste Service der Stadt."
+
+#. Description of the 'Starts When' (Data) field in DocType 'Automation'
+#: onedesk/one/doctype/automation/automation.json:55
+msgid "The block that starts it, from the app it belongs to."
+msgstr "Der Baustein, der sie startet, aus der App, zu der er gehört."
 
 #. Who a notification is sent to
 #: onedesk/one_display/notifications.py
@@ -58340,10 +58375,6 @@ msgstr "Zu beheben"
 msgid "To make"
 msgstr "Zu fertigen"
 
-#: onedesk/public/js/one_mail/rule_builder.js:17
-msgid "To or Cc"
-msgstr "An oder Cc"
-
 #: onedesk/one_book/report/tax_return/tax_return.py:79
 #: onedesk/one_portal/portal.py:502
 msgid "To pay"
@@ -59419,6 +59450,11 @@ msgstr "Zwei Tage mit Vorträgen, Workshops und netten Leuten"
 #: onedesk/one_display/starters.py:856
 msgid "Two drinks for the price of one"
 msgstr "Zwei Getränke zum Preis von einem"
+
+#: onedesk/one/automation/kinds.py:109
+#, python-brace-format
+msgid "Two modules declare the block {0}."
+msgstr "Zwei Module deklarieren den Baustein {0}."
 
 #: onedesk/one_book/home.py:417
 msgid "Two or more accounts combined into one."
@@ -62261,10 +62297,14 @@ msgstr "Was mit jeder Anlage geschah, und wann."
 msgid "What happened, when this is sent."
 msgstr "Was passiert ist, wenn dies gesendet wird."
 
+#: onedesk/one/manifest.py:87
+msgid "What happens by itself when mail arrives, step by step."
+msgstr "Was von selbst passiert, wenn E-Mail ankommt, Schritt für Schritt."
+
 #. Description of a DocType
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json:6
-msgid "What happens to mail arriving in a mailbox's Inbox: conditions, OneAI's reading and actions, top to bottom."
-msgstr "Was mit E-Mails im Posteingang eines Postfachs geschieht: Bedingungen, das Lesen durch OneAI und Aktionen, von oben nach unten."
+#: onedesk/one/doctype/automation/automation.json:6
+msgid "What happens by itself when something starts it, step by step, each step done by the app it belongs to."
+msgstr "Was von selbst passiert, wenn etwas es startet, Schritt für Schritt, jeder Schritt von der App, zu der er gehört."
 
 #: onedesk/one_display/starters.py:1151
 msgid "What happens today, when and where."
@@ -62564,6 +62604,10 @@ msgstr "Was der Agent in dieser Antwort nachgeschlagen und vorgeschlagen hat."
 msgid "What the agent put to a person, and what the auditor doubts."
 msgstr "Was der Agent einer Person vorgelegt hat und was die Prüfinstanz bezweifelt."
 
+#: onedesk/one_ai/blocks.py:91
+msgid "What the agent should do with it, whole: it sees only this and the record."
+msgstr "Was der Agent damit tun soll, vollständig: Er sieht nur dies und den Datensatz."
+
 #. Description of the 'Reading Action' (Link) field in DocType 'Chat Message'
 #: onedesk/one_chat/doctype/chat_message/chat_message.json:121
 msgid "What the agent waits for a person to approve."
@@ -62573,6 +62617,16 @@ msgstr "Worauf der Agent wartet, dass jemand es genehmigt."
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:118
 msgid "What the auditor said of it, or Kept when a person kept what the auditor doubted."
 msgstr "Was der Prüfer dazu sagte, oder Behalten, wenn ein Mensch behielt, woran der Prüfer zweifelte."
+
+#. Description of the 'Steps' (JSON) field in DocType 'Automation'
+#: onedesk/one/doctype/automation/automation.json:84
+msgid "What the automation checks and does, top to bottom, as the automation builder draws it."
+msgstr "Was die Automatisierung prüft und tut, von oben nach unten, wie der Automatisierungs-Editor sie zeichnet."
+
+#. Description of the 'Name' (Data) field in DocType 'Automation'
+#: onedesk/one/doctype/automation/automation.json:28
+msgid "What the automation is for. Example: Quotes from customers."
+msgstr "Wofür die Automatisierung ist. Beispiel: Angebote von Kunden."
 
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:64
@@ -62762,16 +62816,6 @@ msgstr "Was der Anbieter für den Aufruf berechnet hat, vor dem Aufschlag."
 #: onedesk/one_mail/custom/email_unsubscribe.json:10
 msgid "What the receiving server said when mail to this address failed for good."
 msgstr "Was der empfangende Server sagte, als Mail an diese Adresse endgültig scheiterte."
-
-#. Description of the 'Steps' (JSON) field in DocType 'Mail Rule'
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json:64
-msgid "What the rule checks and does, top to bottom, as OneMail's rule builder draws it."
-msgstr "Was die Regel prüft und tut, von oben nach unten, wie der Regel-Builder von OneMail sie zeigt."
-
-#. Description of the 'Name' (Data) field in DocType 'Mail Rule'
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json:53
-msgid "What the rule is for. Example: Quotes from customers."
-msgstr "Wofür die Regel ist. Beispiel: Angebote von Kundschaft."
 
 #: onedesk/one_factory/home.py:39
 msgid "What the schedule needs, and what to buy or make for it."
@@ -63117,15 +63161,15 @@ msgstr "Was {0} in diesem Arbeitsbereich sendet, und welche Kanäle gewählt wer
 msgid "What {0} tells you, and how."
 msgstr "Was {0} Ihnen mitteilt, und wie."
 
-#: onedesk/public/js/one_mail/rule_builder.js:237
-#, python-brace-format
-msgid "What {0}'s reply should do, such as answering from their orders and promising an answer within a day."
-msgstr "Was die Antwort von {0} tun soll, etwa aus ihren Aufträgen antworten und eine Antwort innerhalb eines Tages zusagen."
-
 #: onedesk/public/js/one_ai/ai_center.js:256
 #, python-brace-format
 msgid "What {1}'s buttons in {0} do, each using credits."
 msgstr "Was die {1}-Schaltflächen in {0} tun, jede verbraucht Credits."
+
+#: onedesk/one_mail/blocks.py:215
+#, python-brace-format
+msgid "What {one_ai}'s reply should do, such as answering from their orders and promising an answer within a day."
+msgstr "Was die Antwort von {one_ai} tun soll, etwa aus ihren Aufträgen antworten und eine Antwort innerhalb eines Tages zusagen."
 
 #. Label in the One Maintenance Record print format
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
@@ -63353,10 +63397,9 @@ msgstr "Wenn ein Postfach seine Credits für den Monat verbraucht hat. Einmal im
 msgid "When a mailbox you hold stops connecting. Once, when it breaks."
 msgstr "Wenn ein Postfach, das Sie haben, keine Verbindung mehr bekommt. Einmal, wenn es ausfällt."
 
-#: onedesk/public/js/one_mail/rule_builder.js:438
-#, python-brace-format
-msgid "When a message arrives in {0}"
-msgstr "Wenn eine Nachricht in {0} ankommt"
+#: onedesk/one_mail/blocks.py:159
+msgid "When a message arrives"
+msgstr "Wenn eine Nachricht ankommt"
 
 #. When a notification is sent
 #: onedesk/one_project/notifications.py
@@ -64837,6 +64880,11 @@ msgstr "Wohin fließt das Geld?"
 msgid "Where is this project's money going? Say what the customer has been invoiced and paid, what it has cost and on what, which cost types are close to or over their budget, and where the forecast margin is heading."
 msgstr "Wohin fließt das Geld dieses Projekts? Sag, was dem Kunden in Rechnung gestellt wurde und was er bezahlt hat, was es gekostet hat und wofür, welche Kostenarten nahe an ihrem Budget oder darüber sind und wohin die prognostizierte Marge geht."
 
+#. Description of the 'Belongs To' (Dynamic Link) field in DocType 'Automation'
+#: onedesk/one/doctype/automation/automation.json:73
+msgid "Where it runs. Example: a mailbox."
+msgstr "Wo sie läuft. Beispiel: ein Postfach."
+
 #: onedesk/one_hr/home.py:545
 msgid "Where people work."
 msgstr "Wo Personen arbeiten."
@@ -65246,10 +65294,10 @@ msgstr "Wer gibt was frei?"
 msgid "Who approves which records, step by step."
 msgstr "Wer welche Datensätze genehmigt, Schritt für Schritt."
 
-#. Description of the 'Requested By' (Link) field in DocType 'Mail Rule'
-#: onedesk/one_mail/doctype/mail_rule/mail_rule.json:72
-msgid "Who asked for this rule on their own workspace address. It runs once a Mail Manager approves it."
-msgstr "Wer diese Regel für die eigene Workspace-Adresse angefragt hat. Sie läuft, sobald ein E-Mail-Manager sie genehmigt."
+#. Description of the 'Requested By' (Link) field in DocType 'Automation'
+#: onedesk/one/doctype/automation/automation.json:92
+msgid "Who asked for this automation, which runs once it is approved."
+msgstr "Wer diese Automatisierung angefragt hat, die nach der Genehmigung läuft."
 
 #: onedesk/one_hr/home.py:360
 msgid "Who came on each shift, late or early."
@@ -67031,6 +67079,10 @@ msgstr "Schreib, wonach jede Bedingung sucht."
 msgid "Write what is changing, when, and who to ask about it."
 msgstr "Schreiben Sie, was sich ändert, wann, und wen man fragen kann."
 
+#: onedesk/one_ai/blocks.py:70
+msgid "Write what the agent should do."
+msgstr "Schreiben Sie, was der Agent tun soll."
+
 #: onedesk/one_mail/flow.py:198
 #, python-brace-format
 msgid "Write what {0}'s reply should say."
@@ -68583,10 +68635,6 @@ msgstr "nach {0}"
 msgid "alarm"
 msgstr "Alarm"
 
-#: onedesk/public/js/one_mail/rule_builder.js:179
-msgid "all of these:"
-msgstr "all diese:"
-
 #. Option for the 'Folder Color' (Select) field in DocType 'File'
 #: onedesk/one_cloud/custom/file.json:81
 msgid "amber"
@@ -68613,10 +68661,6 @@ msgstr "eine offene Stelle"
 msgid "an operator"
 msgstr "einem Betreiber"
 
-#: onedesk/public/js/one_mail/rule_builder.js:170
-msgid "and"
-msgstr ""
-
 #: onedesk/one_hr/control.py:160 onedesk/public/js/one_ai/panel/Panel.vue:114
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:645
 #, python-brace-format
@@ -68630,10 +68674,6 @@ msgstr "eine weitere Stempelung in derselben Sekunde"
 #: onedesk/public/js/one_mail/rule_builder.js:183
 msgid "any message"
 msgstr "jede Nachricht"
-
-#: onedesk/public/js/one_mail/rule_builder.js:179
-msgid "any of these:"
-msgstr "eines davon:"
 
 #: onedesk/one_hr/tell.py:818
 msgid "approved"
@@ -68960,10 +69000,6 @@ msgstr "seit {0} · üblich {1}"
 msgid "form controls"
 msgstr "Formularsteuerelemente"
 
-#: onedesk/public/js/one_mail/rule_builder.js:304
-msgid "from it"
-msgstr "daraus"
-
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:64
 #, python-brace-format
 msgid "from {0}"
@@ -69092,59 +69128,15 @@ msgstr "ist kein"
 msgid "isn't {0}"
 msgstr "ist nicht {0}"
 
-#: onedesk/public/js/one_mail/rule_builder.js:59
-msgid "issue"
-msgstr "Ticket"
-
-#: onedesk/public/js/one_mail/rule_builder.js:34
-msgid "it arrives after hours"
-msgstr "sie kommt außerhalb der Arbeitszeit an"
-
-#: onedesk/public/js/one_mail/rule_builder.js:34
-msgid "it arrives in working hours"
-msgstr "sie kommt während der Arbeitszeit an"
-
-#: onedesk/public/js/one_mail/rule_builder.js:35
-msgid "it arrives on a holiday"
-msgstr "sie kommt an einem Feiertag an"
-
 #: onedesk/one/agent.py:3016
 #, python-brace-format
 msgid "it does not print {0}"
 msgstr "es druckt {0} nicht"
 
-#: onedesk/public/js/one_mail/rule_builder.js:35
-msgid "it doesn't arrive on a holiday"
-msgstr "sie kommt nicht an einem Feiertag an"
-
-#: onedesk/public/js/one_mail/rule_builder.js:33
-msgid "it has an attachment"
-msgstr "sie hat einen Anhang"
-
 #: onedesk/one_ai/reading/act.py:594 onedesk/one_ai/reading/act.py:606
 #: onedesk/one_ai/reading/act.py:621
 msgid "it has been submitted"
 msgstr "es wurde gebucht"
-
-#: onedesk/public/js/one_mail/rule_builder.js:33
-msgid "it has no attachment"
-msgstr "sie hat keinen Anhang"
-
-#: onedesk/public/js/one_mail/rule_builder.js:32
-msgid "it starts a conversation"
-msgstr "sie beginnt eine Unterhaltung"
-
-#: onedesk/public/js/one_mail/rule_builder.js:32
-msgid "it's a reply"
-msgstr "sie ist eine Antwort"
-
-#: onedesk/public/js/one_mail/rule_builder.js:31
-msgid "it's from inside the workspace"
-msgstr "sie kommt aus dem Arbeitsbereich"
-
-#: onedesk/public/js/one_mail/rule_builder.js:31
-msgid "it's from outside the workspace"
-msgstr "sie kommt von außerhalb des Arbeitsbereichs"
 
 #: onedesk/one_ai/reading/act.py:578
 msgid "it's in use elsewhere"
@@ -69185,10 +69177,6 @@ msgstr "zu spät"
 #: onedesk/one/tell.py:180
 msgid "later"
 msgstr "später"
-
-#: onedesk/public/js/one_mail/rule_builder.js:58
-msgid "lead"
-msgstr "Lead"
 
 #: onedesk/public/js/account_center/account_center.js:786
 msgid "left"
@@ -69443,10 +69431,6 @@ msgstr "älteste zuerst"
 msgid "on hold"
 msgstr "pausiert"
 
-#: onedesk/public/js/one_mail/rule_builder.js:301
-msgid "on the bell"
-msgstr "über die Glocke"
-
 #: onedesk/one_crm/heads.py:60 onedesk/one_studio/ai_setup.py:138
 #, python-brace-format
 msgid "on {0}"
@@ -69653,10 +69637,6 @@ msgstr "ruhig"
 msgid "quote, quotation, price"
 msgstr "Angebot, Preisanfrage, Preis"
 
-#: onedesk/public/js/one_mail/rule_builder.js:280
-msgid "reading their records"
-msgstr "mit ihren Datensätzen"
-
 #: onedesk/one_mail/manifest.py:19
 msgid "receptionist"
 msgstr "Empfang"
@@ -69862,10 +69842,6 @@ msgstr "hat gebucht"
 msgid "tables"
 msgstr "Tabellen"
 
-#: onedesk/public/js/one_mail/rule_builder.js:60
-msgid "task"
-msgstr "Aufgabe"
-
 #: onedesk/public/js/one_crm/crm_record.js:32
 msgid "tax number"
 msgstr "Steuernummer"
@@ -69934,34 +69910,9 @@ msgstr "die an Sie gesendeten Angebotsanfragen und Bestellungen"
 msgid "the self appraisal"
 msgstr "die Selbsteinschätzung"
 
-#: onedesk/public/js/one_mail/rule_builder.js:122
-#: onedesk/public/js/one_mail/rule_builder.js:144
-msgid "the sender"
-msgstr "der Absender"
-
-#: onedesk/public/js/one_mail/rule_builder.js:130
-msgid "the sender is a…"
-msgstr "der Absender ist ein…"
-
-#: onedesk/public/js/one_mail/rule_builder.js:20
-msgid "the sender's domain"
-msgstr "die Domain des Absenders"
-
-#: onedesk/public/js/one_mail/rule_builder.js:16
-msgid "the sender's name or address"
-msgstr "Name oder Adresse des Absenders"
-
 #: onedesk/one_admin/heads.py:236
 msgid "the start"
 msgstr "dem Anfang"
-
-#: onedesk/public/js/one_mail/rule_builder.js:18
-msgid "the subject"
-msgstr "der Betreff"
-
-#: onedesk/public/js/one_mail/rule_builder.js:19
-msgid "the subject or text"
-msgstr "Betreff oder Text"
 
 #: onedesk/public/js/doctype_settings.js:686
 msgid "the week of the year"
@@ -70123,18 +70074,6 @@ msgstr "vorher {0}"
 msgid "what {0} can do in {1}"
 msgstr "was {0} in {1} darf"
 
-#: onedesk/public/js/one_mail/rule_builder.js:336
-msgid "whether it's"
-msgstr "ob es"
-
-#: onedesk/public/js/one_mail/rule_builder.js:337
-msgid "which of these it is:"
-msgstr "welches davon es ist:"
-
-#: onedesk/public/js/one_mail/rule_builder.js:281
-msgid "without their records"
-msgstr "ohne ihre Datensätze"
-
 #: onedesk/public/js/one_mail/rule_builder.js:159
 msgid "words, with commas"
 msgstr "Wörter, mit Kommas"
@@ -70168,14 +70107,6 @@ msgstr "gestern"
 #: onedesk/one/tell.py:348
 msgid "your data to be deleted"
 msgstr "die Löschung Ihrer Daten"
-
-#: onedesk/public/js/one_mail/rule_builder.js:277
-msgid "your instruction"
-msgstr "deiner Anweisung"
-
-#: onedesk/public/js/one_mail/rule_builder.js:290
-msgid "your message"
-msgstr "deine Nachricht"
 
 #: onedesk/one_portal/invite.py:49
 msgid "your quotations, orders and invoices"
@@ -70700,10 +70631,10 @@ msgstr "{0} als {1}"
 msgid "{0} asked for a copy of their data. Send it within one month."
 msgstr "{0} hat eine Kopie seiner Daten angefordert. Senden Sie sie innerhalb eines Monats."
 
-#: onedesk/public/js/one_mail/onemail_settings.js:872
+#: onedesk/public/js/one/automation_center.js:56
 #, python-brace-format
-msgid "{0} asked for this rule, which runs once approved."
-msgstr "{0} hat diese Regel angefragt; sie läuft nach der Freigabe."
+msgid "{0} asked for this automation, which runs once approved."
+msgstr "{0} hat diese Automatisierung angefragt; sie läuft nach der Genehmigung."
 
 #: onedesk/public/js/trust_center/privacy_request.js:6
 #, python-brace-format
@@ -72904,11 +72835,6 @@ msgstr "{0} passende Abschnitte"
 #, python-brace-format
 msgid "{0} may only compare the record's fields with plain values, such as {1}."
 msgstr "{0} darf nur die Felder des Datensatzes mit einfachen Werten vergleichen, zum Beispiel {1}."
-
-#: onedesk/public/js/one_mail/rule_builder.js:245
-#, python-brace-format
-msgid "{0} may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified."
-msgstr "{0} darf die Aufträge, Rechnungen und Lieferungen lesen, die der Absender im Portal sieht, sobald seine Adresse bestätigt ist."
 
 #: onedesk/one_display/watch.py:25
 #, python-brace-format
@@ -75294,6 +75220,11 @@ msgstr "{one_ai} hat sich {extension} angesehen"
 #, python-brace-format
 msgid "{one_ai} made it in the folder you asked from."
 msgstr "{one_ai} hat es in dem Ordner erstellt, aus dem Sie es angefordert haben."
+
+#: onedesk/one_mail/blocks.py:216
+#, python-brace-format
+msgid "{one_ai} may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified."
+msgstr "{one_ai} darf die Aufträge, Rechnungen und Lieferungen lesen, die der Absender im Portal sieht, sobald seine Adresse bestätigt ist."
 
 #: onedesk/one_book/manifest.py:15
 #, python-brace-format

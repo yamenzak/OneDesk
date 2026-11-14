@@ -7,6 +7,7 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| Automation | 10 | document |
 | News Category | 2 | document |
 | News Item | 19 | document |
 | News Source | 34 | document |
@@ -78,7 +79,6 @@
 | Mail Conversation | 9 | document |
 | Mail Draft | 15 | document |
 | Mail Folder | 15 | document |
-| Mail Rule | 8 | document |
 
 ## One Chat
 
@@ -377,6 +377,15 @@ No doctypes yet.
 * `onedesk.one.apps.save`
 * `onedesk.one.apps.search_link`
 * `onedesk.one.audit.log`
+* `onedesk.one.automation_center.automation`
+* `onedesk.one.automation_center.automations`
+* `onedesk.one.automation_center.blocks`
+* `onedesk.one.automation_center.decide`
+* `onedesk.one.automation_center.delete`
+* `onedesk.one.automation_center.enable`
+* `onedesk.one.automation_center.places`
+* `onedesk.one.automation_center.problems`
+* `onedesk.one.automation_center.save`
 * `onedesk.one.avatars.gallery`
 * `onedesk.one.avatars.pick`
 * `onedesk.one.company.use`

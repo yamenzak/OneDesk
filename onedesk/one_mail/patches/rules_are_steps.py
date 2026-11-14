@@ -1,4 +1,4 @@
-"""Mail rules are steps (one_mail/flow.py): each rule of the old shape is
+"""Mail rules are steps (one/automation/flow.py): each rule of the old shape is
 written as steps from its old columns, which stay in the table unread; and a
 shared mailbox's Auto Reply that was on becomes a rule that answers new
 conversations from outside, once a day to each sender."""
@@ -8,14 +8,15 @@ from frappe import _
 
 
 def execute():
-	from onedesk.one_mail import flow
+	from onedesk.one.automation import engine
+	from onedesk.one_mail import blocks
 
 	columns = set(frappe.db.get_table_columns("Mail Rule"))
 	for row in frappe.db.sql("select * from `tabMail Rule`", as_dict=True):
 		if row.get("steps"):
 			continue
-		steps = flow.from_fields(row) if "from_contains" in columns else []
-		when, _then = flow.summary(steps)
+		steps = blocks.from_fields(row) if "from_contains" in columns else []
+		when, _then = engine.summary(blocks.ARRIVES, steps)
 		frappe.db.set_value(
 			"Mail Rule",
 			row.name,

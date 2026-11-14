@@ -84,7 +84,7 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 
 		runs.apply(rule)
 		taxis = frappe.db.get_value("Mail Folder", {"account": account, "label": "Taxis"}, "path")
-		assert frappe.db.exists("Mail Rule", {"account": account, "steps": ["like", "%taxi%"]})
+		assert frappe.db.exists("Automation", {"trigger": "one_mail.arrives", "scope": account, "steps": ["like", "%taxi%"]})
 		assert frappe.db.count("Communication", {"email_account": account, "one_folder": taxis}) >= 2
 
 		rules.set_away(account, 1, str(add_days(today(), 7)), "Back next week.")
@@ -236,7 +236,7 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		made = rules.save_rule(own, {"title": "Invoices", "steps": [{"type": "if", "id": "i1", "test": {"items": [{"field": "subject", "op": "contains", "value": "invoice"}]}, "then": [{"type": "star"}], "else": []}]})
 		assert any(one["name"] == made for one in rules.rules_of_mailbox(own)["rules"])
 		rules.enable_rule(made, 0)
-		assert not frappe.db.get_value("Mail Rule", made, "enabled")
+		assert not frappe.db.get_value("Automation", made, "enabled")
 		rules.delete_rule(made)
 		holders.set_external(0)
 		holders.set_allowed_domains(["gmail.com"])
@@ -281,7 +281,7 @@ def onemail_people_ask_and_mail_managers_decide():
 		assert holders.issued_to_them(theirs), "an issued address is the workspace's"
 		assert holders.may(theirs, "away") and not holders.may(theirs, "signature"), "her own out-of-office, nothing more"
 		asked = rules.save_rule(theirs, {"title": "Invoices", "steps": [{"type": "if", "id": "i1", "test": {"items": [{"field": "subject", "op": "contains", "value": "invoice"}]}, "then": [{"type": "star"}], "else": []}]})
-		assert frappe.db.get_value("Mail Rule", asked, ["enabled", "requested_by"]) == (0, "rania@one.test")
+		assert frappe.db.get_value("Automation", asked, ["enabled", "requested_by"]) == (0, "rania@one.test")
 		try:
 			rules.enable_rule(asked, 1)
 		except frappe.PermissionError:
@@ -299,7 +299,7 @@ def onemail_people_ask_and_mail_managers_decide():
 		assert rules.on_leave(theirs) is None or rules.away_of(theirs)["leave_until"]
 	with as_user(OWNER):
 		rules.decide_rule(asked, 1)
-		assert frappe.db.get_value("Mail Rule", asked, ["enabled", "requested_by"]) == (1, None)
+		assert frappe.db.get_value("Automation", asked, ["enabled", "requested_by"]) == (1, None)
 		rules.delete_rule(asked)
 	frappe.get_doc("User", "tariq@one.test").add_roles(roles.MAIL_MANAGER)
 	try:
@@ -383,7 +383,8 @@ def onemail_rules_are_steps_that_branch_and_ask_oneai():
 	and a folder in its own mailbox."""
 	from unittest import mock
 
-	from onedesk.one_mail import flow, holders, rules
+	from onedesk.one.automation import engine, flow
+	from onedesk.one_mail import blocks, holders, rules
 	from onedesk.one_mail.patches import rules_are_steps
 
 	ours = holders.workspace()
@@ -463,8 +464,8 @@ def onemail_rules_are_steps_that_branch_and_ask_oneai():
 		assert (f"{sort}#a1#0", "Maintenance") in topics
 		assert rules.run_rules(made_, {f"{sort}#a1#0"}) == [sort]
 		assert frappe.db.get_value("Communication", message, "one_folder") == frappe.db.get_value("Mail Folder", archive, "path")
-		steps = rules.flow_of(frappe.get_doc("Mail Rule", sort))
-		assert flow.walk(steps, rules.facts_of(message), flow.answers_of(sort, steps, set()))[0] == [{"type": "read"}], "Otherwise"
+		steps = engine.steps_of(frappe.get_doc("Automation", sort))
+		assert flow.walk(steps, rules.facts_of(message), engine.kinds_of(blocks.ARRIVES), flow.answers_of(sort, steps, set()))[0] == [{"type": "read"}], "Otherwise"
 	finally:
 		with as_user(OWNER):
 			for one in made:
@@ -845,9 +846,9 @@ def onemail_oneai_reaches_what_the_page_changes():
 			approve(agent.suggest_mail_rule("Reach Check", mailbox=email, subject_contains="reach check"))
 			rule = next(one["rule"] for one in agent.mail_rules(email)["rules"] if one["title"] == "Sort mail into Reach Check")
 			approve(agent.change_mail_rule(rule, "off"))
-			assert frappe.db.get_value("Mail Rule", rule, "enabled") == 0
+			assert frappe.db.get_value("Automation", rule, "enabled") == 0
 			approve(agent.change_mail_rule(rule, "delete"))
-			assert not frappe.db.exists("Mail Rule", rule)
+			assert not frappe.db.exists("Automation", rule)
 			actions.delete_folder(frappe.db.get_value("Mail Folder", {"account": account, "label": "Reach Check"}))
 
 			ours = holders.workspace()
@@ -1037,3 +1038,90 @@ def onemail_a_connected_mailboxs_drafts_are_on_its_server():
 		said.clear()
 		drafts.off_server(account, message_id)
 		assert [one for one in said if one[0] == "expunge"] and not [one for one in said if one[0] == "append"], "thrown away, it leaves the server"
+
+
+@check
+def onemail_rules_are_automations_and_every_block_runs_from_automationcenter():
+	"""Layla opens AutomationCenter: the workspace's mailbox is a place she
+	keeps, with the demo's two rules in it as automations, its conditions and
+	actions OneMail's blocks, and a new one may start from a starter. One she
+	makes there with every condition OneMail declares and every action runs
+	on a message as a rule did: junked, forwarded once, assigned to her, a
+	task made from it and filed, linked, starred, read and told. Off, it does
+	nothing; asked for, she approves it; deleted, it is gone."""
+	from unittest import mock
+
+	from onedesk.one import automation_center
+	from onedesk.one.automation import kinds
+	from onedesk.one_mail import blocks, holders, rules
+
+	ours = holders.workspace()
+	message = frappe.db.get_value("Communication", {"email_account": ours, "sent_or_received": "Received"}, "name")
+	was = frappe.db.get_value("Communication", message, ["one_folder", "one_flagged", "seen"])
+	tasks = set(frappe.get_all("Task", pluck="name"))
+	made = None
+	try:
+		with as_user(OWNER):
+			place = next(one for one in automation_center.places() if one["trigger"] == blocks.ARRIVES)
+			assert any(one["scope"] == ours and one["manages"] for one in place["scopes"]), place
+			listed = automation_center.automations(blocks.ARRIVES, ours)
+			assert {"Supplier Invoices", "Newsletters"} <= {one["title"] for one in listed["rules"]}, "the demo's rules arrive as automations"
+			offered = automation_center.blocks(blocks.ARRIVES, ours)
+			assert {one["key"] for one in offered["conditions"]} == {one.key for one in kinds.conditions(blocks.ARRIVES)}
+			every = {"move", "read", "star", "junk", "reply", "forward", "assign", "notify", "link", "create"}
+			assert every <= {one["key"] for one in offered["actions"]}, offered["actions"]
+			assert any(one["key"] == "acknowledge" for one in offered["starters"])
+			assert automation_center.problems(blocks.ARRIVES, []) == [frappe._("Add at least one action.")]
+			test = {
+				"any": True,
+				"items": [
+					*({"field": one.key, "op": "contains", "value": "nothing like this"} for one in kinds.conditions(blocks.ARRIVES) if one.kind == "text"),
+					*({"field": one.key, "value": True} for one in kinds.conditions(blocks.ARRIVES) if one.kind == "flag"),
+					{"field": "sender_is", "op": "is", "value": "Employee"},
+					{"field": "from", "op": "contains", "value": "@"},
+				],
+			}
+			then = [
+				{"type": "junk"},
+				{"type": "forward", "to": "check@example.com"},
+				{"type": "assign", "user": OWNER},
+				{"type": "create", "doctype": "Task"},
+				{"type": "link"},
+				{"type": "star"},
+				{"type": "read"},
+				{"type": "notify", "user": OWNER},
+			]
+			made = automation_center.save(blocks.ARRIVES, ours, {"title": "Every Block", "priority": 1, "steps": [{"type": "if", "id": "i1", "test": test, "then": then, "else": []}, {"type": "stop"}]})
+			assert automation_center.automation(made)["steps"][0]["then"] == then
+		with mock.patch("frappe.core.doctype.communication.email.make") as sent:
+			assert rules.run_rules(frappe.get_doc("Communication", message), headers={}) == [made], "stop: the rules after it do not run"
+			rules.run_rules(frappe.get_doc("Communication", message), headers={})
+		if frappe.db.get_value("Email Account", ours, "enable_outgoing"):
+			assert sent.call_count == 1, "forwarded once"
+		junk = frappe.db.get_value("Mail Folder", {"account": ours, "kind": "Junk"}, "path")
+		if junk:
+			assert frappe.db.get_value("Communication", message, "one_folder") == junk
+		assert frappe.db.get_value("Communication", message, ["one_flagged", "seen"]) == (1, 1)
+		assert frappe.db.exists("ToDo", {"reference_type": "Communication", "reference_name": message, "allocated_to": OWNER, "status": "Open"})
+		task = frappe.db.get_value("Communication Link", {"parent": message, "link_doctype": "Task", "one_linked_by": "rule"}, "link_name")
+		assert task and frappe.db.get_value("Task", task, "owner") == OWNER, "made as whoever made the rule, and filed with the message"
+		with as_user(OWNER):
+			automation_center.enable(made, 0)
+		assert rules.run_rules(frappe.get_doc("Communication", message), headers={}) != [made], "off, it does nothing"
+		frappe.db.set_value("Automation", made, "requested_by", "rania@one.test")
+		with as_user(OWNER):
+			automation_center.decide(made, 1)
+		assert frappe.db.get_value("Automation", made, ["enabled", "requested_by"]) == (1, None)
+		with as_user(OWNER):
+			automation_center.delete(made)
+		assert not frappe.db.exists("Automation", made)
+		made = None
+	finally:
+		if made:
+			frappe.delete_doc("Automation", made, ignore_permissions=True, force=True)
+		for one in set(frappe.get_all("Task", pluck="name")) - tasks:
+			frappe.db.delete("Communication Link", {"parent": message, "link_name": one})
+			frappe.delete_doc("Task", one, ignore_permissions=True, force=True)
+		frappe.db.delete("ToDo", {"reference_type": "Communication", "reference_name": message, "allocated_to": OWNER})
+		frappe.db.set_value("Communication", message, dict(zip(("one_folder", "one_flagged", "seen"), was, strict=True)), update_modified=False)
+		frappe.db.delete("Notification Log", {"for_user": ["in", [OWNER, "rania@one.test"]], "creation": [">=", frappe.utils.add_to_date(None, minutes=-5)]})
