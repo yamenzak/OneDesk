@@ -1,0 +1,17 @@
+{
+ "file": "clean-newsletter.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Newsletter",
+   "why": "A supplier's news about its products.",
+   "about": []
+  }
+ },
+ "makes": [],
+ "verdict": "Newsletter",
+ "mail": {
+  "held": false,
+  "warned": false,
+  "why": []
+ }
+}

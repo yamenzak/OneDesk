@@ -1,0 +1,12 @@
+{
+ "file": "mismatched-link.eml",
+ "makes": [],
+ "mail": {
+  "held": true,
+  "warned": true,
+  "why": [
+   "link_shown",
+   "link_ip"
+  ]
+ }
+}

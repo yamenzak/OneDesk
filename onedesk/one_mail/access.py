@@ -144,11 +144,13 @@ def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	"""The has_permission hook for Communication. It can only refuse. OneMail's
 	receptionist reads Communication by its own role (GIVEN) and opens only
 	the mail of a mailbox OneAI reads, which is what the mailbox's switch
-	allows (gate.reads)."""
+	allows (gate.reads). No agent opens a message held back (held.py)."""
 	from onedesk.one_mail import gate
 
 	user = user or frappe.session.user
 	email = doc.communication_medium == "Email" and doc.email_account
+	if email and doc.get("one_held") and agents.by_email(user):
+		return False
 	if user == agents.email("one_mail"):
 		return bool(email) and gate.reads(doc.email_account)
 	if user == "Administrator" or not email:

@@ -84,7 +84,7 @@ def found(path: Path) -> Handled | None:
 	its readings. None when it never arrived."""
 	readings = readings_of(path)
 	if not readings:
-		return None
+		return Handled([], []) if message_of(path) else None
 	made = frappe.get_all(
 		"Reading Action",
 		filters={"reading": ["in", readings]},
@@ -116,6 +116,50 @@ def readings_of(path: Path) -> list[str]:
 	return [*top, *frappe.get_all("Reading", filters={"part_of": ["in", top]}, pluck="name")]
 
 
+def message_of(path: Path) -> dict | None:
+	"""The message a mail sample became in the demo, with what OneMail made
+	of its risk (one_mail/held.py), found by its Message-ID. None for a file,
+	or a mail that never arrived."""
+	from email import message_from_bytes
+
+	spec = json.loads(path.read_text())
+	if not spec["file"].endswith(".eml"):
+		return None
+	said = (message_from_bytes(path.with_name(spec["file"]).read_bytes()).get("Message-ID") or "").strip()
+	return frappe.db.get_value(
+		"Communication",
+		{"message_id": ["in", [said, said.strip("<>")]], "communication_medium": "Email"},
+		["name", "one_risk", "one_held", "one_risks"],
+		as_dict=True,
+	)
+
+
+def risk_unmet(spec: dict, message: dict | None) -> list[str]:
+	"""What a mail sample says OneMail makes of its risk and it did not:
+	held or let through, warned or not, which domain it imitates, and every
+	signal it must give."""
+	want = spec.get("mail")
+	if not want:
+		return []
+	if not message:
+		return ["it never arrived"]
+	from onedesk.one_mail import held
+
+	said = held.said_of(message) or {}
+	found = {one.get("why") for one in (frappe.parse_json(message.get("one_risks") or "{}") or {}).get("found") or []}
+	out = []
+	if bool(said.get("held")) != bool(want.get("held")):
+		out.append(f"held is {bool(said.get('held'))}, not {bool(want.get('held'))}, at {message.get('one_risk')}")
+	if bool(said) != bool(want.get("warned")):
+		out.append(f"warned is {bool(said)}, not {bool(want.get('warned'))}, at {message.get('one_risk')}")
+	if want.get("imitates") and said.get("imitates") != want["imitates"]:
+		out.append(f"imitates {said.get('imitates')}, not {want['imitates']}")
+	out += [f"no {why} signal: {sorted(found)}" for why in want.get("why") or [] if why not in found]
+	if not want.get("why") and found:
+		out.append(f"signals {sorted(found)} on a clean message")
+	return out
+
+
 def done_by(stem: str, app: str) -> list[dict]:
 	"""What an app's agent did with a sample the demo kept, as its Reading
 	Action rows (one_ai/agents/work.py), for each module's check of its agent."""
@@ -135,6 +179,7 @@ def unmet(path: Path, handled: Handled) -> list[str]:
 	made = handled.made
 	out = [f"no answer for {action}" for action in dict.fromkeys(handled.unanswered)]
 	spec = json.loads(path.read_text())
+	out += risk_unmet(spec, message_of(path))
 	read = frappe.get_all("Reading", filters={"name": ["in", readings_of(path) or [""]]}, fields=["verdict", "state"])
 	if spec.get("verdict") and spec["verdict"] not in {one.verdict for one in read}:
 		out.append(f"not read as {spec['verdict']}: {sorted({one.verdict or '' for one in read})}")

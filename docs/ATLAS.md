@@ -531,7 +531,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Audit Trail | replaced: Audit Log › Changes | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Background Task | engine: work run after a click, whose result the page shows | everybody | untouched | no | general |  | **none** |  |  | ar 5 |  |
 | Comment | engine: a record's comments, written and read on the record | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
-| Communication | inside: a record's activity, and OneMail | everybody | 8 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
+| Communication | inside: a record's activity, and OneMail | everybody | 11 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
 | Custom DocPerm | inside: AccessCenter › Roles and Profiles | **nobody** | untouched | no | general |  | yes |  |  | ar 1 |  |
 | Custom Icon | replaced: One's dock | **nobody** | untouched | no | general |  | yes |  |  | ar 3 |  |
 | Custom Role | inside: AccessCenter › Roles and Profiles, which writes it | **nobody** | 2 settings | no | general |  | yes |  |  |  |  |

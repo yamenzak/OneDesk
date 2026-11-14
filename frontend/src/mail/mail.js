@@ -12,6 +12,7 @@ export const KINDS = {
 	Archive: ["lucide-archive", () => __("Archive")],
 	Junk: ["lucide-shield-alert", () => __("Junk")],
 	Trash: ["lucide-trash-2", () => __("Trash")],
+	Held: ["lucide-shield-ban", () => __("Held")],
 	Other: ["lucide-folder", null],
 };
 

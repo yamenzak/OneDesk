@@ -1,0 +1,23 @@
+From: Priya Nair <orders@gulf-glass.example>
+To: Layla Haddad <layla.4dl@m.4dl.app>
+Subject: New bank details for our invoices
+Date: Mon, 09 Nov 2026 09:14:00 +0400
+Message-ID: <lookalike-domain@samples.sahara-glass.test>
+Authentication-Results: mx.cloudflare.net; dkim=pass header.d=gulf-glass.example; spf=pass smtp.mailfrom=orders@gulf-glass.example; dmarc=pass header.from=gulf-glass.example
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+Dear Layla,
+
+Our bank has changed. From today please pay every invoice from Gulf Glass
+Industries to our new account:
+
+IBAN AE07 0331 2345 6789 0123 456
+Emirates Islamic Bank
+
+Please confirm once you have updated your records.
+
+Regards,
+Priya Nair
+Gulf Glass Industries

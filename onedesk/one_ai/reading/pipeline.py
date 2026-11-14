@@ -304,7 +304,8 @@ def _most_pages() -> int:
 
 def read_mail(name: str, history: int = 0, automatic: int = 0) -> str | None:
 	"""A message, read: its words, whom it is really from when it is a
-	forward, and each of its attachments as a Reading of its own."""
+	forward, and each of its attachments as a Reading of its own. Never one
+	OneMail holds back as risky (one_mail/held.py) until it is released."""
 	from onedesk.one_ai.reading.readers import mail
 
 	comm = frappe.db.get_value(
@@ -323,10 +324,11 @@ def read_mail(name: str, history: int = 0, automatic: int = 0) -> str | None:
 			"message_id",
 			"email_account",
 			"communication_medium",
+			"one_held",
 		],
 		as_dict=True,
 	)
-	if not comm or comm.communication_medium != "Email":
+	if not comm or comm.communication_medium != "Email" or comm.one_held:
 		return None
 	person = switches.of_mailbox(comm.email_account)
 	key = "mail-" + hashlib.md5((comm.message_id or comm.name).encode()).hexdigest()

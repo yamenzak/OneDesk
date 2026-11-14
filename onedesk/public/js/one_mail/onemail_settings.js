@@ -1248,6 +1248,55 @@ onedesk.mail.sections = (ctx) => {
 		},
 	};
 
+	// ── Risky Mail ──────────────────────────────────────────────────────────
+	// The score a message is warned from and held from (one_mail/held.py).
+	const risky = {
+		id: "risky",
+		label: __("Risky Mail"),
+		icon: "shield-ban",
+		title: __("Risky Mail"),
+		description: __("Every message that arrives gets a score from 0 to 100, from its sender's checks, its links and its attachments."),
+		actions: [
+			{
+				label: __("Save"),
+				variant: "solid",
+				class: "one-set-save",
+				click: async (panel) => {
+					await frappe.xcall("onedesk.one_mail.held.set_levels", { warn: panel.get_value("warn"), hold: panel.get_value("hold") });
+					saved();
+					panel.clean && panel.clean();
+				},
+			},
+		],
+		/** The two levels, each a number with what it starts at: a form saved once something changed. */
+		async render(panel) {
+			const was = panel.shown;
+			const said = await frappe.xcall("onedesk.one_mail.held.settings");
+			if (panel.shown !== was) return;
+			panel.add_fields([
+				{
+					fieldname: "warn",
+					fieldtype: "Int",
+					label: __("Warn From"),
+					default: said.warn,
+					non_negative: 1,
+					placeholder: String(said.defaults.warn),
+					description: __("A message scoring this or more shows a warning above it."),
+				},
+				{
+					fieldname: "hold",
+					fieldtype: "Int",
+					label: __("Hold From"),
+					default: said.hold,
+					non_negative: 1,
+					placeholder: String(said.defaults.hold),
+					description: __("A new message scoring this or more waits in Held, unseen by any rule, reply or agent until someone releases it."),
+				},
+			]);
+			track(panel);
+		},
+	};
+
 	// ── Mail Templates ──────────────────────────────────────────────────────
 	// One opens in place, as everything else here does (onedesk.mail_templates
 	// in doctype_settings.js draws its fields and saves it). One a setting still
@@ -1338,10 +1387,11 @@ onedesk.mail.sections = (ctx) => {
 	system.needs = ["policy", "others"];
 	organization.needs = ["policy", "others"];
 	private_tab.needs = "policy";
+	risky.needs = "policy";
 	templates.needs = "templates";
 	const tabs = [
 		{ group: __("Your Mail"), items: [mailboxes] },
-		{ group: __("Workspace"), items: [setup, shared, system, organization, private_tab, templates] },
+		{ group: __("Workspace"), items: [setup, shared, system, organization, private_tab, risky, templates] },
 	];
 	// `connect` and `connect-shared` open a tab on its Connect view, and
 	// `mailbox:<name>[:signature|away]` on one mailbox.

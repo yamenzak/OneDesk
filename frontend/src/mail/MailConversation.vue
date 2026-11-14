@@ -91,6 +91,7 @@
             <span class="min-w-0 flex-1 text-ink-gray-8">{{ __("Sends {0}", [when(message.scheduled, true)]) }}</span>
             <Button size="sm" variant="ghost" :label="__('Edit Before It Sends')" @click="unschedule(message)" />
           </div>
+          <MailRisk v-if="message.risk" :risk="message.risk" class="mt-3" @release="emit('release')" @discard="emit('discard')" />
           <MailBody :content="message.content" class="mt-3" />
           <div v-if="(message.attachments || []).length || (message.unsaved || []).length" class="mt-3 flex flex-wrap gap-2">
             <span v-for="file in message.attachments || []" :key="file.name" class="inline-flex items-center gap-1 rounded-3 border border-outline-gray-2 ps-2 text-sm">
@@ -154,6 +155,7 @@ import { when } from "./mail";
 import MailBody from "./MailBody.vue";
 import MailFace from "./MailFace.vue";
 import MailPanel from "./MailPanel.vue";
+import MailRisk from "./MailRisk.vue";
 import { useTeam } from "./team";
 
 const props = defineProps({
@@ -166,7 +168,7 @@ const props = defineProps({
   replying: { type: Array, default: () => [] },
   back: Boolean,
 });
-const emit = defineEmits(["write", "draft", "discard", "changed", "back"]);
+const emit = defineEmits(["write", "draft", "discard", "changed", "back", "release"]);
 defineExpose({ fileOn, team: () => team });
 
 const more = [

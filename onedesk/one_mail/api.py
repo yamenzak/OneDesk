@@ -9,7 +9,7 @@ import frappe
 from frappe.query_builder.functions import Coalesce, Count, Max, Sum
 from frappe.utils import cint, strip_html
 
-from onedesk.one_mail import actions, faces, holders
+from onedesk.one_mail import actions, faces, held, holders
 
 PAGE = 50
 
@@ -115,7 +115,17 @@ def _paths(account: str, folder: str) -> list[str]:
 
 @frappe.whitelist()
 def mailboxes() -> list[dict]:
-	return holders.mailboxes()
+	"""The reader's mailboxes, each with Held after its Inbox while it holds
+	any message back (held.py). Only this page lists Held."""
+	from onedesk.one_mail import held
+
+	boxes = holders.mailboxes()
+	counts = held.count([one["name"] for one in boxes])
+	for one in boxes:
+		if counts.get(one["name"]):
+			at = next((i + 1 for i, each in enumerate(one["folders"]) if each.get("kind") == "Inbox"), 0)
+			one["folders"].insert(at, held.folder(one["name"], counts[one["name"]]))
+	return boxes
 
 
 @frappe.whitelist()
@@ -154,12 +164,16 @@ def _conversations(account: str, folder: str | None, search: str | None, start: 
 	)
 	query = _team(query, M, team)
 	search = (search or "").strip()
+	holding = folder == held.FOLDER and not search
+	query = query.where(C.one_held == int(holding))
 	if search:
 		from onedesk.one_ai.reading import search as documents
 
 		asked = operators(search)
 		inside = documents.in_mail(account, " ".join(asked["words"])) if asked["words"] else []
 		query = searched(query, C, asked, inside).where(C.one_folder.isnotnull())
+	elif holding:
+		query = query.where(C.one_folder.isnotnull())
 	elif folder:
 		query = query.where(C.one_folder.isin(_paths(account, folder)))
 		if frappe.db.get_value("Mail Folder", folder, "kind") == "Inbox":
@@ -242,18 +256,19 @@ def _conversations(account: str, folder: str | None, search: str | None, start: 
 
 
 @frappe.whitelist()
-def conversation(account: str, thread: str) -> dict:
+def conversation(account: str, thread: str, held_back: int = 0) -> dict:
 	"""Every message of one conversation in a mailbox, oldest first, with
-	their attachments."""
+	their attachments and any warning (held.said_of). A message held back
+	is shown only when Held is open (`held_back`)."""
 	actions.require(account)
 	messages = frappe.get_all(
 		"Communication",
-		filters={"email_account": account, "communication_medium": "Email", "one_folder": ["is", "set"]},
+		filters={"email_account": account, "communication_medium": "Email", "one_folder": ["is", "set"], "one_held": cint(bool(cint(held_back)))},
 		or_filters={"one_thread": thread, "name": thread},
 		fields=[
 			"name", "subject", "sender", "sender_full_name", "recipients", "cc", "bcc", "content",
 			"communication_date", "sent_or_received", "seen", "one_flagged", "one_folder", "has_attachment",
-			"reference_doctype", "reference_name", "message_id", "one_unsaved",
+			"reference_doctype", "reference_name", "message_id", "one_unsaved", "one_risk", "one_held", "one_risks",
 		],
 		order_by="communication_date asc",
 	)  # fmt: skip
@@ -272,6 +287,9 @@ def conversation(account: str, thread: str) -> dict:
 		one["attachments"] = files.get(one.name, [])
 		one["unsaved"] = frappe.parse_json(one.pop("one_unsaved") or "[]") or []
 		one["snippet"] = snippet(one.content)
+		one["risk"] = held.said_of(one)
+		for field in ("one_risk", "one_held", "one_risks"):
+			one.pop(field, None)
 	from onedesk.one_mail import drafts
 
 	waiting = drafts.scheduled([one.name for one in messages if one.sent_or_received == "Sent"])
@@ -290,7 +308,9 @@ def names(account: str, threads, folder: str | None = None) -> list[str]:
 	if not threads:
 		return []
 	filters = {"email_account": account, "communication_medium": "Email", "one_folder": ["is", "set"]}
-	if folder:
+	if folder == held.FOLDER:
+		filters["one_held"] = 1
+	elif folder:
 		filters["one_folder"] = ["in", _paths(account, folder)]
 	return frappe.get_all(
 		"Communication",

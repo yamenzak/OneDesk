@@ -1,0 +1,12 @@
+{
+ "file": "failing-dmarc.eml",
+ "makes": [],
+ "mail": {
+  "held": true,
+  "warned": true,
+  "why": [
+   "dmarc",
+   "spf"
+  ]
+ }
+}

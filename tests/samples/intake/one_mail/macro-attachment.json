@@ -1,0 +1,11 @@
+{
+ "file": "macro-attachment.eml",
+ "makes": [],
+ "mail": {
+  "held": true,
+  "warned": true,
+  "why": [
+   "macro"
+  ]
+ }
+}

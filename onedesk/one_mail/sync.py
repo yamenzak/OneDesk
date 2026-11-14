@@ -172,7 +172,7 @@ def sync_folder(session, doc, folder) -> dict:
 	folder.modseq = str(now["modseq"]) if now["modseq"] else folder.modseq
 	folder.total = now["exists"]
 	folder.unread = frappe.db.count(
-		"Communication", {"email_account": doc.name, "one_folder": folder.path, "seen": 0}
+		"Communication", {"email_account": doc.name, "one_folder": folder.path, "seen": 0, "one_held": 0}
 	)
 	folder.last_synced = now_datetime()
 	folder.flags.ignore_permissions = True

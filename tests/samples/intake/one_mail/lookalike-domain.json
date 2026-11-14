@@ -1,0 +1,21 @@
+{
+ "file": "lookalike-domain.eml",
+ "answers": {
+  "intake_look": {
+   "verdict": "Phishing",
+   "why": "It asks to pay a supplier's invoices to a new account, from an address that is not the supplier's.",
+   "about": []
+  }
+ },
+ "makes": [],
+ "verdict": "Phishing",
+ "mail": {
+  "held": true,
+  "warned": true,
+  "imitates": "gulfglass.example",
+  "why": [
+   "lookalike",
+   "phishing"
+  ]
+ }
+}

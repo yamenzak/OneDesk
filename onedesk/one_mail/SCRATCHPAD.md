@@ -9,6 +9,11 @@ Known issues and plans, kept short. Something done leaves it.
 - **Signing in with Google or Microsoft** to connect an organization mailbox,
   instead of a password. Microsoft needs an Entra app registered first; Google
   needs domain-wide delegation. Put off on 2026-10-24.
+- **Risky mail, what P9.1 left.** Nobody is told on the bell that mail was
+  held, only by Held's count; a conversation row in the list carries no
+  mark of its warning; on a connected mailbox the server's copy is not moved,
+  so a phone still shows a held message; a rar or 7z attachment is not looked
+  inside. Links and files opened in a sandbox are P9.2.
 
 ## Known issues
 
