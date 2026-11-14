@@ -7,6 +7,10 @@ frappe.ui.form.on("Reading Action", {
 			frm.change_custom_button_type(__("Apply"), null, "primary");
 			frm.add_custom_button(__("Dismiss"), () => settle(0));
 		}
+		if (frm.doc.level === "Done" && frm.doc.audit === "Wrong") {
+			frm.add_custom_button(__("Keep"), () => frappe.xcall("onedesk.one_ai.reading.act.keep", { action: frm.doc.name }).then(() => frm.reload_doc()));
+			frm.change_custom_button_type(__("Keep"), null, "primary");
+		}
 		if (frm.doc.level === "Done") {
 			frm.add_custom_button(__("Undo"), () =>
 				frappe.xcall("onedesk.one_ai.reading.act.undo_one", { action: frm.doc.name }).then((said) => {

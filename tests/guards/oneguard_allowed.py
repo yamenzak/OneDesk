@@ -61,7 +61,6 @@ GET_WRITES = {
 
 SQL_FROM_INPUT = {
 	"one_admin/ledger.py:_summed": "safe: every caller passes a query of its own; the tenant goes as a parameter",
-	"one_ai/reading/inbox.py:listing": "safe: `_box` picks one of two clauses of its own, whatever `box` says",
 	"one_book/report/tax_return/tax_return.py:_rows": "safe: the tables and fields come from the report's own SOURCES",
 	"one_demo/history.py:_shift": "safe: the demo's own record types, from its build",
 	"one_project/view.py:_past_due": "safe: callers pass Sales Invoice or Purchase Invoice",

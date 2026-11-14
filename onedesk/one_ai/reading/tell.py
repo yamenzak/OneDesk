@@ -27,21 +27,25 @@ def phishing(reading) -> None:
 
 
 def waiting(name: str) -> None:
-	"""Something still waits for the person once the auditor has had its say, told once."""
-	from onedesk.one_ai.reading.inbox import WAITS
+	"""Something still waits for the person once the auditor has had its say:
+	each thing is put to them where they talk to the agents (the
+	one_ai_waiting hook, OneChat's cards), and they are told once."""
+	from onedesk.one_ai.reading.act import WAITS
 
 	reading = frappe.db.get_value("Reading", name, ["name", "title", "on_behalf_of", "change"], as_dict=True)
 	if not reading or not reading.on_behalf_of or reading.change == "Nothing New":
 		return
-	waiting = frappe.db.sql(f"select count(*) from `tabReading Action` a where a.reading = %s and {WAITS}", name)[0][0]
+	waiting = frappe.db.sql(f"select count(*) from `tabReading Action` where reading = %s and {WAITS}", name)[0][0]
 	email = frappe.db.get_value("User", reading.on_behalf_of, "email")
 	if not waiting or not email:
 		return
+	for path in frappe.get_hooks("one_ai_waiting"):
+		frappe.get_attr(path)(name)
 	notify.notify(
 		"Documents Waiting" if waiting > 1 else "Documents Waiting, One Thing",
 		email,
 		record=("Reading", name),
-		link=f"/app/intake?box=waiting&reading={name}",
+		link=f"/app/reading-action?reading={name}",
 		sender=notify.ONEAI,
 		dedupe_on=["document_type", "document_name"],
 		count=waiting,

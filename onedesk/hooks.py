@@ -1142,6 +1142,10 @@ one_ai_workspace = hook("one_ai_workspace")
 # conversation (one_chat/answers.py).
 one_ai_chat_kept = hook("one_ai_chat_kept")
 
+# What a person is shown of what still waits on them once the auditor has
+# had its say on a document: OneChat posts each as a card (one_chat/cards.py).
+one_ai_waiting = hook("one_ai_waiting")
+
 # Each app's OneAI actions, the buttons that do one thing in place, which
 # AICenter lists and an administrator turns off (one_ai/actions.py).
 one_ai_actions = hook("one_ai_actions")

@@ -1,10 +1,8 @@
-"""An agent's Draft and Ask First, as a card in the conversation between
-the agent and the person it asks (docs/ARC-AI.md, OneChat). The card is
-the Reading Action the door wrote (one_ai/agents/door.py), read as it
-stands now; Approve is the door's own approval (reading/act.py settle), so
-nothing here decides or writes a record itself. Change edits what the card
-proposes before it is approved, under the same rule as Approve: only the
-person asked, or an administrator."""
+"""An agent's Draft and Ask First, and whatever else waits on a person
+once the auditor has had its say, as a card in the person's conversation
+with the agent (docs/ARC-AI.md, OneChat). The card is the Reading Action
+read as it stands; every answer is the door's own (reading/act.py), so
+nothing here decides or writes a record itself. AGENTS.md, Cards."""
 
 import json
 from contextlib import contextmanager
@@ -21,15 +19,32 @@ PLAIN = (str, int, float, bool, type(None))
 
 def posted(doc, method=None) -> None:
 	"""doc_event, Reading Action after_insert: an agent's draft or question
-	lands in its conversation with the person it acted for. Never stops the
-	door: a card that cannot be posted is logged."""
+	lands in its conversation with the person it acted for."""
 	app = agents.of_user(doc.agent)
-	if not app or doc.level not in SHOWN or not doc.on_behalf_of:
+	if app and doc.level in SHOWN:
+		_post(doc, app)
+
+
+def waiting(reading: str) -> None:
+	"""one_ai_waiting, once the auditor has had its say on a document: every
+	action of it that waits on a person and has no card yet becomes one."""
+	from onedesk.one_ai.reading import act
+
+	rows = frappe.get_all("Reading Action", filters={"reading": reading}, fields=["name", "level", "audit", "agent"])
+	for row in rows:
+		if act.is_waiting(row) and not frappe.db.exists("Chat Message", {"action": row.name}):
+			_post(frappe.get_doc("Reading Action", row.name), agents.of_user(row.agent) or agents.UNA)
+
+
+def _post(doc, agent: str) -> None:
+	"""The card in the person's latest conversation with the agent. Never
+	stops the door: a card that cannot be posted is logged."""
+	if not doc.on_behalf_of:
 		return
 	try:
 		with _as(doc.on_behalf_of):
-			channel = frappe.get_doc("Chat Channel", channels.last_with(app, doc.on_behalf_of) or channels.with_agent(app, doc.on_behalf_of).name)
-		messages.post(channel, said(doc), sender=agents.user_of(app), agent=app, action=doc.name)
+			channel = frappe.get_doc("Chat Channel", channels.last_with(agent, doc.on_behalf_of) or channels.with_agent(agent, doc.on_behalf_of).name)
+		messages.post(channel, said(doc), sender=agents.user_of(agent) or "", agent=agent, action=doc.name)
 	except Exception:
 		frappe.log_error(title="OneChat could not post an agent's card", reference_doctype="Reading Action", reference_name=doc.name)
 
@@ -47,6 +62,8 @@ def _as(user: str):
 def said(row) -> str:
 	"""The card's one line: what the agent did or asks."""
 	what = _(row.target_doctype or "")
+	if row.level == "Done" and row.audit == "Wrong":
+		return _("The auditor doubts this {0} {1}.").format(what, row.target_name or "").strip()
 	if row.level == "Done":
 		return _("Drafted {0} {1}.").format(what, row.target_name or "").strip()
 	return _("Approve this {0}?").format(what) if row.kind == "Create" else _("Approve this change to {0} {1}?").format(what, row.target_name or "")
@@ -67,6 +84,8 @@ def card(name: str) -> dict:
 		"doctype": row.target_doctype,
 		"record": row.target_name,
 		"why": row.why or "",
+		"doubted": row.level == "Done" and row.audit == "Wrong",
+		"audit_why": row.audit_why or "",
 		"asked": row.on_behalf_of,
 		"fields": [{**one, "label": _(meta.get_label(one["fieldname"]))} for one in shown_values(values)] if meta else shown_values(values),
 		"may_decide": _may(row),
@@ -109,6 +128,26 @@ def dismiss(name: str) -> dict:
 
 	reach(name)
 	done = act.settle(name, 0)
+	_told(name)
+	return done
+
+
+def keep(name: str) -> dict:
+	"""Keep what the auditor doubted (act.keep)."""
+	from onedesk.one_ai.reading import act
+
+	reach(name)
+	done = act.keep(name)
+	_told(name)
+	return done
+
+
+def undo(name: str) -> dict:
+	"""Take back what was done (act.undo_one), which checks who asks."""
+	from onedesk.one_ai.reading import act
+
+	reach(name)
+	done = act.undo_one(name)
 	_told(name)
 	return done
 

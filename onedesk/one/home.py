@@ -40,10 +40,10 @@ def meetings_today() -> int:
 
 
 def intake_waiting() -> int:
-	"""Documents OneAI read that wait for the reader."""
-	from onedesk.one_ai.reading import inbox
+	"""What OneAI and the agents did for the reader that waits on them."""
+	from onedesk.one_ai.reading import act
 
-	return inbox.counts()["waiting"]
+	return act.waiting()
 
 
 def suggestions_waiting() -> int:

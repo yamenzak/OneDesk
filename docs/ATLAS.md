@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 96 | 2 | 39 | 0 |
+| onedesk | 96 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -65,7 +65,6 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/doc/DocumentPage.vue`) | Letter Head | – | – | – |
 | presentation (`frontend/src/slide/PresentationPage.vue`) | File | File | – | – |
-| intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 | onechat (`frontend/src/chat/OneChat.vue`) | – | – | – | – |
@@ -947,13 +946,11 @@ Pages: marketplace (opened by our screens); one (on a rail or a home); one-hub (
 | File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
-| Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | events | no | taught |  | yes |  |  |  |  |
+| Reading Action | on a rail or a home | everybody | events | no | taught |  | yes |  |  |  |  |
 | Reading Lesson | engine: what OneAI learnt from a correction | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Reading Settings | inside: AICenter › Reading | the administrator | untouched | no | general |  |  |  |  |  |  |
 
 Reports: AI Credits (on a rail or a home); Deadlines (on a rail or a home); Ready to Submit (on a rail or a home); Spending (on a rail or a home).
-
-Pages: intake (on a rail or a home).
 
 ## onedesk / One Admin
 

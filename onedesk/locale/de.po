@@ -800,10 +800,6 @@ msgstr "Ein Dokument ist eingegangen"
 msgid "A document arrived for {0}"
 msgstr "Ein Dokument für {0} ist eingegangen"
 
-#: onedesk/one_studio/places.py:193
-msgid "A document is opened in Documents."
-msgstr "Ein Dokument wird in Dokumente geöffnet."
-
 #: onedesk/one_doc/manifest.py:20
 msgid "A document kept on its record"
 msgstr "Ein Dokument direkt am Datensatz"
@@ -4053,10 +4049,6 @@ msgstr "Alle Prüfungen"
 msgid "All Day"
 msgstr ""
 
-#: frontend/src/intake/IntakeReading.vue:48
-msgid "All Details"
-msgstr "Alle Details"
-
 #: onedesk/public/js/one_mail/onemail_settings.js:894
 msgid "All Mailboxes"
 msgstr "Alle Postfächer"
@@ -6497,10 +6489,6 @@ msgstr "Prüfen, was OneAI getan hat"
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Audit plan agreed with the auditors"
 msgstr "Prüfungsplan mit den Prüfern abgestimmt"
-
-#: frontend/src/intake/IntakeReading.vue:96
-msgid "Auditor Approved"
-msgstr "Vom Prüfer bestätigt"
 
 #: frontend/src/intake/IntakeReading.vue:93
 msgid "Auditor Disagrees"
@@ -18879,10 +18867,6 @@ msgstr "Alle, die {0} nutzen"
 msgid "Everyone who works here needs an account. Add them now and they can sign in while you finish setting up."
 msgstr "Alle, die hier arbeiten, brauchen ein Konto. Legen Sie sie jetzt an, dann können sie sich anmelden, während Sie die Einrichtung abschließen."
 
-#: frontend/src/intake/IntakeInbox.vue:79
-msgid "Everyone's"
-msgstr "Alle"
-
 #: onedesk/one/access.py:32
 msgid "Everyone's Deletions"
 msgstr "Gelöschtes aller"
@@ -24287,9 +24271,9 @@ msgstr "Wenn ausgeschaltet, liest oder ändert kein Agent etwas."
 msgid "If off, nobody can ask {0} and none of its jobs run."
 msgstr "Wenn aus, kann niemand {0} fragen und keine seiner Aufgaben läuft."
 
-#: onedesk/public/js/one_ai/ai_center.js:113
-msgid "If off, nothing new is read and Documents keeps what it holds."
-msgstr "Wenn aus, wird nichts Neues gelesen, und Dokumente behält, was es enthält."
+#: onedesk/public/js/one_ai/ai_center.js:122
+msgid "If off, nothing new is read and nothing read is lost."
+msgstr "Wenn ausgeschaltet, wird nichts Neues gelesen und nichts Gelesenes geht verloren."
 
 #. Description of the 'Applies To' (Link) field in DocType 'AI Knowledge'
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:32
@@ -29957,10 +29941,6 @@ msgstr "Marge diesen Monat"
 msgid "Margin at Worst"
 msgstr "Niedrigste Marge"
 
-#: frontend/src/intake/IntakeInbox.vue:5
-msgid "Mark All as Read"
-msgstr "Alle als gelesen markieren"
-
 #. Label of the one_mark_section (Section Break) field in DocType 'Employee
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json:24
@@ -33085,14 +33065,6 @@ msgstr "Keine Standardstückliste"
 msgid "No deleted items"
 msgstr "Keine gelöschten Elemente"
 
-#: frontend/src/intake/IntakeReading.vue:5
-msgid "No document selected"
-msgstr "Kein Dokument ausgewählt"
-
-#: frontend/src/intake/IntakeInbox.vue:15
-msgid "No documents"
-msgstr "Keine Dokumente"
-
 #: frontend/src/doc/components/DocumentList.vue:6
 msgid "No documents found"
 msgstr "Keine Dokumente gefunden"
@@ -34085,10 +34057,6 @@ msgstr "Für Ihre Organisation noch nicht zugestimmt"
 msgid "Not all ordered yet, and it was wanted {0} ago."
 msgstr "Noch nicht alles bestellt, und es wurde vor {0} benötigt."
 
-#: frontend/src/intake/IntakeReading.vue:95
-msgid "Not allowed"
-msgstr "Nicht erlaubt"
-
 #: onedesk/one_ai/agents/api.py:49 onedesk/one_mail/agent.py:1470
 #: onedesk/one_mail/agent.py:1483
 msgid "Not allowed."
@@ -34602,6 +34570,10 @@ msgstr "Noch nichts bestellt. Holen Sie Angebote ein oder bestellen Sie."
 #: onedesk/www/tv.py:52
 msgid "Nothing playing"
 msgstr "Keine Wiedergabe"
+
+#: onedesk/public/js/one_ai/ai_center.js:421
+msgid "Nothing read yet"
+msgstr "Noch nichts gelesen"
 
 #: frontend/src/project/Suppliers.vue:128
 msgid "Nothing requested or received"
@@ -36745,10 +36717,6 @@ msgstr "Unterhaltung öffnen"
 #: onedesk/one_ai/notifications.py
 msgid "Open Deadlines"
 msgstr "Fristen öffnen"
-
-#: frontend/src/intake/IntakeReading.vue:14
-msgid "Open Document"
-msgstr "Dokument öffnen"
 
 #. The button on a notification's mail
 #: onedesk/account_center/notifications.py
@@ -54208,6 +54176,11 @@ msgstr "Die passenden Apps werden eingeschaltet. Im nächsten Schritt können Si
 msgid "The audience's window was closed."
 msgstr "Das Fenster für das Publikum wurde geschlossen."
 
+#: onedesk/one_chat/cards.py:66
+#, python-brace-format
+msgid "The auditor doubts this {0} {1}."
+msgstr "Die Prüfinstanz bezweifelt {0} {1}."
+
 #. Description of the 'Sign Count' (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:124
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
@@ -60974,6 +60947,10 @@ msgstr "Wartet auf Angebote von {0} Lieferanten."
 msgid "Waiting for {0}; wanted by {1}."
 msgstr "Wartet auf {0}; benötigt bis {1}."
 
+#: onedesk/public/js/one_ai/ai_center.js:463
+msgid "Waiting on a Person"
+msgstr "Wartet auf eine Person"
+
 #: onedesk/one_task/heads.py:44
 #, python-brace-format
 msgid "Waiting on {0}"
@@ -61544,6 +61521,10 @@ msgstr "Gelerntes"
 #: onedesk/public/js/one_ai/ai_center.js:396
 msgid "What It May Do"
 msgstr "Erlaubte Aktionen"
+
+#: onedesk/public/js/one_ai/ai_center.js:466
+msgid "What It Read"
+msgstr "Was er gelesen hat"
 
 #: onedesk/public/js/one_ai/ai_center.js:385
 msgid "What It Reads"
@@ -62182,6 +62163,10 @@ msgstr "Was der Workspace braucht"
 msgid "What the agent looked up and suggested in this answer."
 msgstr "Was der Agent in dieser Antwort nachgeschlagen und vorgeschlagen hat."
 
+#: onedesk/public/js/one_ai/ai_center.js:463
+msgid "What the agent put to a person, and what the auditor doubts."
+msgstr "Was der Agent einer Person vorgelegt hat und was die Prüfinstanz bezweifelt."
+
 #. Description of the 'Reading Action' (Link) field in DocType 'Chat Message'
 #: onedesk/one_chat/doctype/chat_message/chat_message.json:121
 msgid "What the agent waits for a person to approve."
@@ -62696,11 +62681,6 @@ msgstr "Was {0} hinzufügt."
 #, python-brace-format
 msgid "What {0} can send out, and to whom."
 msgstr "Was {0} senden kann, und an wen."
-
-#: frontend/src/intake/IntakeReading.vue:19
-#, python-brace-format
-msgid "What {0} did"
-msgstr "Was {0} getan hat"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:439
 #, python-brace-format
@@ -73501,11 +73481,6 @@ msgstr "{0} Werte"
 #, python-brace-format
 msgid "{0} waiting"
 msgstr "{0} wartend"
-
-#: onedesk/public/js/desk.js:184
-#, python-brace-format
-msgid "{0} waiting in Documents"
-msgstr "{0} warten in Dokumente"
 
 #: onedesk/one_inventory/heads.py:879
 #, python-brace-format

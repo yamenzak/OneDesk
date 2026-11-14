@@ -17,6 +17,12 @@
       <Button size="sm" :label="__('Change')" :disabled="busy || !card.fields.length" @click="change" />
       <Button size="sm" variant="solid" :label="__('Approve')" :loading="busy" @click="decide('approve')" />
     </div>
+    <p v-if="card.doubted && card.audit_why" class="mt-2 whitespace-pre-line text-sm text-ink-gray-6">{{ card.audit_why }}</p>
+    <div v-if="card.doubted && card.may_decide" class="mt-3 flex justify-end gap-2">
+      <Button v-if="card.record" size="sm" variant="ghost" :label="__('Open {0}', [__(card.doctype)])" @click="goTo('Form', card.doctype, card.record)" />
+      <Button size="sm" :label="__('Undo')" :disabled="busy" @click="undo" />
+      <Button size="sm" variant="solid" :label="__('Keep')" :loading="busy" @click="keep" />
+    </div>
     <div v-else-if="card.level === 'Done' && card.record" class="mt-3 flex justify-end">
       <Button size="sm" :label="__('Open {0}', [__(card.doctype)])" @click="goTo('Form', card.doctype, card.record)" />
     </div>
@@ -26,11 +32,12 @@
 <script setup>
 // An agent's Draft or Ask First (one_chat/cards.py): Approve and Dismiss
 // are the door's own approval (reading/act.py settle); Change edits what
-// it proposes before it is approved.
+// it proposes before it is approved. What the auditor doubts is kept or
+// undone.
 import { computed, ref } from "vue";
 import { Badge, Button } from "frappe-ui";
 
-import { __, alert, call, dialog, goTo } from "../kit";
+import { __, alert, call, confirm, dialog, goTo, msgprint } from "../kit";
 import { method } from "./chat";
 
 const props = defineProps({ card: { type: Object, required: true } });
@@ -41,11 +48,12 @@ const busy = ref(false);
 const STATES = {
   Proposed: { label: __("Waiting"), theme: "amber" },
   Done: { label: __("Draft"), theme: "blue" },
+  Doubted: { label: __("Auditor Disagrees"), theme: "red" },
   Dismissed: { label: __("Dismissed"), theme: "gray" },
   Refused: { label: __("Refused"), theme: "red" },
   Undone: { label: __("Undone"), theme: "gray" },
 };
-const state = computed(() => STATES[props.card.level] || { label: props.card.level, theme: "gray" });
+const state = computed(() => STATES[props.card.doubted ? "Doubted" : props.card.level] || { label: props.card.level, theme: "gray" });
 
 async function decide(how) {
   busy.value = true;
@@ -56,6 +64,31 @@ async function decide(how) {
   } finally {
     busy.value = false;
   }
+}
+
+async function keep() {
+  busy.value = true;
+  try {
+    await call(method("keep"), { action: props.card.name });
+    alert(__("Kept"));
+    emit("changed", { ...props.card, doubted: false });
+  } finally {
+    busy.value = false;
+  }
+}
+
+function undo() {
+  confirm(__("Undo this?"), async () => {
+    busy.value = true;
+    try {
+      const done = await call(method("undo"), { action: props.card.name });
+      if (done.why) msgprint(done.why);
+      else alert(__("Undone"));
+      emit("changed", { ...props.card, doubted: false, level: done.why ? props.card.level : "Undone" });
+    } finally {
+      busy.value = false;
+    }
+  });
 }
 
 function change() {

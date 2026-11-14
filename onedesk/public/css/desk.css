@@ -467,15 +467,6 @@ body .es-stat-card__value {
 	background: var(--surface-green-5);
 }
 
-.one-intake-row .one-intake-count.one-intake-dot {
-	min-width: 8px;
-	width: 8px;
-	height: 8px;
-	padding: 0;
-	border-radius: var(--radius-full);
-	background: var(--ink-gray-9);
-}
-
 .one-clock .one-clock-dot.one-clock-late {
 	background: var(--surface-amber-5);
 }

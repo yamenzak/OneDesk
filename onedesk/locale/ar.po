@@ -800,10 +800,6 @@ msgstr "وصل مستند"
 msgid "A document arrived for {0}"
 msgstr "وصل مستند لـ {0}"
 
-#: onedesk/one_studio/places.py:193
-msgid "A document is opened in Documents."
-msgstr "يُفتح مستند في المستندات."
-
 #: onedesk/one_doc/manifest.py:20
 msgid "A document kept on its record"
 msgstr "مستند محفوظ على سجله"
@@ -4053,10 +4049,6 @@ msgstr "كل الفحوصات"
 msgid "All Day"
 msgstr ""
 
-#: frontend/src/intake/IntakeReading.vue:48
-msgid "All Details"
-msgstr "كل التفاصيل"
-
 #: onedesk/public/js/one_mail/onemail_settings.js:894
 msgid "All Mailboxes"
 msgstr "كل صناديق البريد"
@@ -6497,10 +6489,6 @@ msgstr "تدقيق ما فعله OneAI"
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Audit plan agreed with the auditors"
 msgstr "الاتفاق على خطة التدقيق مع المدققين"
-
-#: frontend/src/intake/IntakeReading.vue:96
-msgid "Auditor Approved"
-msgstr "وافق المدقق"
 
 #: frontend/src/intake/IntakeReading.vue:93
 msgid "Auditor Disagrees"
@@ -18879,10 +18867,6 @@ msgstr "كل من يستخدم {0}"
 msgid "Everyone who works here needs an account. Add them now and they can sign in while you finish setting up."
 msgstr "كل من يعمل هنا يحتاج إلى حساب. أضفهم الآن ليتمكنوا من تسجيل الدخول بينما تُكمل الإعداد."
 
-#: frontend/src/intake/IntakeInbox.vue:79
-msgid "Everyone's"
-msgstr "للجميع"
-
 #: onedesk/one/access.py:32
 msgid "Everyone's Deletions"
 msgstr "محذوفات الجميع"
@@ -24287,9 +24271,9 @@ msgstr "عند الإيقاف، لا يقرأ أي وكيل شيئًا ولا ي
 msgid "If off, nobody can ask {0} and none of its jobs run."
 msgstr "عند الإيقاف، لا يمكن لأحد سؤال {0} ولا تعمل أي من مهامه."
 
-#: onedesk/public/js/one_ai/ai_center.js:113
-msgid "If off, nothing new is read and Documents keeps what it holds."
-msgstr "عند الإيقاف، لا يُقرأ شيء جديد وتحتفظ المستندات بما فيها."
+#: onedesk/public/js/one_ai/ai_center.js:122
+msgid "If off, nothing new is read and nothing read is lost."
+msgstr "إذا أُوقف، لا يُقرأ شيء جديد ولا يضيع شيء مما قُرئ."
 
 #. Description of the 'Applies To' (Link) field in DocType 'AI Knowledge'
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:32
@@ -29957,10 +29941,6 @@ msgstr "هامش هذا الشهر"
 msgid "Margin at Worst"
 msgstr "أدنى هامش"
 
-#: frontend/src/intake/IntakeInbox.vue:5
-msgid "Mark All as Read"
-msgstr "تعليم الكل كمقروء"
-
 #. Label of the one_mark_section (Section Break) field in DocType 'Employee
 #. Attendance Tool'
 #: onedesk/one_hr/custom/employee_attendance_tool.json:24
@@ -33085,14 +33065,6 @@ msgstr "لا قائمة مواد افتراضية"
 msgid "No deleted items"
 msgstr "لا توجد عناصر محذوفة"
 
-#: frontend/src/intake/IntakeReading.vue:5
-msgid "No document selected"
-msgstr "لم يتم تحديد مستند"
-
-#: frontend/src/intake/IntakeInbox.vue:15
-msgid "No documents"
-msgstr "لا توجد مستندات"
-
 #: frontend/src/doc/components/DocumentList.vue:6
 msgid "No documents found"
 msgstr "لم يُعثر على مستندات"
@@ -34085,10 +34057,6 @@ msgstr "لم توافق مؤسستك بعد"
 msgid "Not all ordered yet, and it was wanted {0} ago."
 msgstr "لم يُطلب الكل بعد، وكان مطلوبًا منذ {0}."
 
-#: frontend/src/intake/IntakeReading.vue:95
-msgid "Not allowed"
-msgstr "غير مسموح"
-
 #: onedesk/one_ai/agents/api.py:49 onedesk/one_mail/agent.py:1470
 #: onedesk/one_mail/agent.py:1483
 msgid "Not allowed."
@@ -34602,6 +34570,10 @@ msgstr "لم يُطلب شيء بعد. اطلب عروض أسعار أو اطل�
 #: onedesk/www/tv.py:52
 msgid "Nothing playing"
 msgstr "لا شيء قيد التشغيل"
+
+#: onedesk/public/js/one_ai/ai_center.js:421
+msgid "Nothing read yet"
+msgstr "لم يُقرأ شيء بعد"
 
 #: frontend/src/project/Suppliers.vue:128
 msgid "Nothing requested or received"
@@ -36745,10 +36717,6 @@ msgstr "فتح المحادثة"
 #: onedesk/one_ai/notifications.py
 msgid "Open Deadlines"
 msgstr "فتح المواعيد النهائية"
-
-#: frontend/src/intake/IntakeReading.vue:14
-msgid "Open Document"
-msgstr "فتح المستند"
 
 #. The button on a notification's mail
 #: onedesk/account_center/notifications.py
@@ -54208,6 +54176,11 @@ msgstr "تُفعَّل التطبيقات التي تناسبها. يمكنك ت
 msgid "The audience's window was closed."
 msgstr "أُغلقت نافذة الجمهور."
 
+#: onedesk/one_chat/cards.py:66
+#, python-brace-format
+msgid "The auditor doubts this {0} {1}."
+msgstr "يشكّ المدقّق في {0} {1} هذا."
+
 #. Description of the 'Sign Count' (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:124
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
@@ -60974,6 +60947,10 @@ msgstr "بانتظار عروض أسعار من {0} موردين."
 msgid "Waiting for {0}; wanted by {1}."
 msgstr "بانتظار {0}؛ مطلوب بحلول {1}."
 
+#: onedesk/public/js/one_ai/ai_center.js:463
+msgid "Waiting on a Person"
+msgstr "بانتظار شخص"
+
 #: onedesk/one_task/heads.py:44
 #, python-brace-format
 msgid "Waiting on {0}"
@@ -61544,6 +61521,10 @@ msgstr "ما تعلّمه"
 #: onedesk/public/js/one_ai/ai_center.js:396
 msgid "What It May Do"
 msgstr "ما يُسمح له به"
+
+#: onedesk/public/js/one_ai/ai_center.js:466
+msgid "What It Read"
+msgstr "ما قرأه"
 
 #: onedesk/public/js/one_ai/ai_center.js:385
 msgid "What It Reads"
@@ -62182,6 +62163,10 @@ msgstr "ما تحتاجه مساحة العمل"
 msgid "What the agent looked up and suggested in this answer."
 msgstr "ما بحث عنه الوكيل واقترحه في هذه الإجابة."
 
+#: onedesk/public/js/one_ai/ai_center.js:463
+msgid "What the agent put to a person, and what the auditor doubts."
+msgstr "ما عرضه الوكيل على شخص، وما يشكّ فيه المدقّق."
+
 #. Description of the 'Reading Action' (Link) field in DocType 'Chat Message'
 #: onedesk/one_chat/doctype/chat_message/chat_message.json:121
 msgid "What the agent waits for a person to approve."
@@ -62696,11 +62681,6 @@ msgstr "ما يضيفه {0} إليها."
 #, python-brace-format
 msgid "What {0} can send out, and to whom."
 msgstr "ما يمكن لـ {0} إرساله، وإلى من."
-
-#: frontend/src/intake/IntakeReading.vue:19
-#, python-brace-format
-msgid "What {0} did"
-msgstr "ما فعله {0}"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:439
 #, python-brace-format
@@ -73501,11 +73481,6 @@ msgstr "{0} قيم"
 #, python-brace-format
 msgid "{0} waiting"
 msgstr "{0} بالانتظار"
-
-#: onedesk/public/js/desk.js:184
-#, python-brace-format
-msgid "{0} waiting in Documents"
-msgstr "{0} بانتظارك في المستندات"
 
 #: onedesk/one_inventory/heads.py:879
 #, python-brace-format

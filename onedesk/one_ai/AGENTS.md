@@ -23,13 +23,13 @@ logged and can be undone.
 ## Connections
 
 - **From OneAdmin**: OneAdmin runs every OneAI answer on the model One chose for the job at the workspace's tier, and charges it to the workspace's credits. With too few credits, OneAI can't answer.
-- **To One**: Home counts the cards and documents waiting for you. **What OneAI Remembers** and **What OneAI Reads** are under You in One's rail. **Documents**, **Conversations**, **Suggestions**, **Knowledge**, its reports and **AICenter** are OneAI's own rail, on the dock.
+- **To One**: Home counts the cards and documents waiting for you. **What OneAI Remembers** and **What OneAI Reads** are under You in One's rail. **Actions**, **Conversations**, **Suggestions**, **Knowledge**, its reports and **AICenter** are OneAI's own rail, on the dock.
 - **To OneHR**: Applicants are screened, interviews prepared, interview recordings written out and grievances sorted with OneAI.
 - **To OneMail**: Opening OneAI with a mail window open writes in its message, and a reply OneAI drafts opens there to edit and send.
 - **To OneStudio**: Every extension is reviewed by OneAI before it can be turned on, and mended when it runs into errors.
 - **To TrustCenter**: The Subprocessors list names Cloudflare and Google, which run OneAI's models, and what they receive. The Privacy Policy says OneAI reads only what you can open.
-- **From OneMail**: Every message, sent or received, can be found by its text. In a mailbox OneAI reads, each new message and its attachments appear in Documents.
-- **From OneCloud**: Every new file can be found by its text. In a folder OneAI reads, each new file appears in Documents.
+- **From OneMail**: Every message, sent or received, can be found by its text. In a mailbox OneAI reads, each new message and its attachments are read, and what waits is a card in OneChat.
+- **From OneCloud**: Every new file can be found by its text. In a folder OneAI reads, each new file is read, and what waits is a card in OneChat.
 - **To OneCRM**: An enquiry creates a Lead, and an order creates the Customer and a draft Sales Order. The sender gets a Contact, and a contract becomes a Contract with a Cancel By date.
 - **To OneInventory**: An invoice from a new sender with a tax ID creates the Supplier. A delivery note becomes a draft Purchase Receipt against its order, and a quote becomes a Supplier Quotation.
 - **To OneBook**: Bills, credit notes and paid receipts become draft Purchase Invoices, listed in Ready to Submit. A payment advice becomes a draft Payment Entry, and a bank statement becomes Bank Transactions.
@@ -1229,26 +1229,28 @@ Ready to Submit, and the supplier's IBAN is never changed from a document.
 
 #### Documents
 
-**Documents**, the first row of OneAI's rail, opens it. **OneAI** is also in
-the bar across the top of the page, with a count when something is waiting
-for you. On a phone it is at the top of the panel. It has two boxes that
-work like a mailbox, one line per document, bold until you open it.
+There is no Documents page any more (P8.3). What it did lives here:
 
-- **Waiting**: what needs a decision. This includes proposals the auditor was
-  unsure of or couldn't apply (with the reason), with **Apply** and
-  **Dismiss**, and actions the auditor thinks are wrong (**Auditor
-  Disagrees**), with **Keep** and **Undo**.
-- **Done**: everything OneAI handled, each document with what it created and
-  changed, field by field, and **Undo** next to each.
-
-Click a line to read it on the right: what OneAI understood, **All
-Details**, **Open Document**, and **What OneAI did**. **Mark All as Read**
-at the top clears the bold. Read status is kept per person. A document is
-unread until you open it, and unread again when OneAI does something new
-with it.
-
-You see documents read for you. Administrators can tick **Everyone's**,
-which still excludes medical, pay and personal documents.
+- **What waits on a person** is a card in OneChat, in the person's latest
+  conversation with the agent that did it (`one_chat/cards.py`). An agent's
+  Draft and Ask First are posted as the door writes them; once the auditor
+  has had its say on a document (`tell.waiting`, the `one_ai_waiting` hook)
+  everything else of it that waits gets its card: what OneAI's own reading
+  proposed, from Una, and whatever was done that the auditor doubts
+  (`act.WAITS`), from whoever did it, with **Keep** (`act.keep`) and
+  **Undo**. A card is posted once. Read and unread is OneChat's, per
+  conversation.
+- **Each agent's queue** is its tab in AICenter (`office.agent`): **Waiting
+  on a Person** with Approve and Dismiss, or Keep and Undo, and **What It
+  Read**, each document opening where it arrived; another person's medical,
+  pay and personal documents are left out.
+- **Everything done**, a person's own, is frappe's Reading Action list,
+  **Actions** in OneAI's rail (`act.query` scopes it), and its form with
+  Apply, Dismiss, Keep and Undo. The panel's "did N things with it" and the
+  Documents Waiting notification open that list filtered to the document.
+- **Explain and Pay** are the panel's beside the file and the message, and
+  the year's zip is **Documents for the Tax Year** on Spending; neither was
+  the page's alone.
 
 ##### The panel
 
@@ -1636,7 +1638,7 @@ Before the loop, `guard.holds` shows Llama Guard what the model would be
 shown (the `guard` job, told nothing, since Llama Guard judges whatever it
 is given). Anything but "safe", or a check that could not run, and OneAI
 does not act: the reading is marked unsure, and its dropped lines say it
-read like instructions to OneAI, so it waits in Documents for a person.
+read like instructions to OneAI, so it waits for a person.
 Measured on the 25 reading samples through the door: the one written to
 instruct OneAI came back unsafe, the other 24 safe.
 
@@ -1679,7 +1681,7 @@ as the letters cut from it.
 
 #### explain.py
 
-**Explain** in the Documents panel asks OneAI, once, what a document means in
+**Explain** in the panel asks OneAI, once, what a document means in
 plain words in the reader's own language, what they have to do and by when,
 and for a letter, a reply in the letter's own language. For a contract with a
 last day to cancel, **Write the cancellation** asks for the cancellation
@@ -1731,7 +1733,7 @@ books and has no keeping periods, and neither has a country not listed here.
 
 #### pay.py
 
-A bill that asks to be paid by transfer shows, in the Documents panel, whom to
+A bill that asks to be paid by transfer shows, in the panel, whom to
 pay, the IBAN, the amount and the reference, each ready to copy, and, when
 the currency read off the bill is the euro, a GiroCode: the EPC QR code every
 European banking app scans into a filled-in transfer. Nothing is paid from here; the bank does that, as the person.

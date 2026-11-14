@@ -104,16 +104,6 @@ $.extend(onedesk.interface, {
 				group: "find",
 			});
 		}
-		if (onedesk.apps.intake()) {
-			add({
-				label: __("Documents"),
-				icon: "inbox",
-				css: "one-intake-row",
-				badge: `<span class="one-intake-count one-bar-badge hide"></span>`,
-				click: () => frappe.set_route("intake"),
-				group: "waiting",
-			});
-		}
 		if (frappe.boot.desk_settings.notifications) {
 			const $bell = add({
 				label: __("Notifications"),

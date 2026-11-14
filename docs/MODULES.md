@@ -637,6 +637,7 @@ No doctypes yet.
 * `onedesk.one_ai.office.set_limit`
 * `onedesk.one_ai.office.set_on`
 * `onedesk.one_ai.office.team`
+* `onedesk.one_ai.reading.act.keep`
 * `onedesk.one_ai.reading.act.settle`
 * `onedesk.one_ai.reading.act.undo`
 * `onedesk.one_ai.reading.act.undo_one`
@@ -646,11 +647,6 @@ No doctypes yet.
 * `onedesk.one_ai.reading.explain.explain`
 * `onedesk.one_ai.reading.identity.merge`
 * `onedesk.one_ai.reading.identity.not_duplicate`
-* `onedesk.one_ai.reading.inbox.counts`
-* `onedesk.one_ai.reading.inbox.item`
-* `onedesk.one_ai.reading.inbox.keep`
-* `onedesk.one_ai.reading.inbox.listing`
-* `onedesk.one_ai.reading.inbox.seen_all`
 * `onedesk.one_ai.reading.mark.looks_right`
 * `onedesk.one_ai.reading.panel.for_file`
 * `onedesk.one_ai.reading.panel.for_message`
@@ -704,6 +700,7 @@ No doctypes yet.
 * `onedesk.one_chat.api.direct`
 * `onedesk.one_chat.api.dismiss`
 * `onedesk.one_chat.api.join`
+* `onedesk.one_chat.api.keep`
 * `onedesk.one_chat.api.leave`
 * `onedesk.one_chat.api.make`
 * `onedesk.one_chat.api.react`
@@ -711,6 +708,7 @@ No doctypes yet.
 * `onedesk.one_chat.api.send`
 * `onedesk.one_chat.api.start`
 * `onedesk.one_chat.api.talk`
+* `onedesk.one_chat.api.undo`
 * `onedesk.one_chat.panel.actions`
 * `onedesk.one_chat.panel.agent_for`
 * `onedesk.one_chat.panel.conversations`

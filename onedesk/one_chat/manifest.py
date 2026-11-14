@@ -35,5 +35,6 @@ APP = App(
 	),
 	hooks={
 		"one_ai_chat_kept": ("agent.kept",),
+		"one_ai_waiting": ("cards.waiting",),
 	},
 )

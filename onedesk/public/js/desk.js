@@ -109,15 +109,6 @@ onedesk.dock.rows = (sidebar) => {
 		suffix: `<span class="one-clock-dot"></span>`,
 		onClick: () => onedesk.dock.punch(),
 	});
-	if (onedesk.apps.intake()) {
-		add({
-			label: __("Documents"),
-			icon: "inbox",
-			class: "one-intake-row",
-			suffix: `<span class="one-intake-count es-badge hide" data-variant="ghost"></span>`,
-			onClick: () => frappe.set_route("intake"),
-		});
-	}
 	if (onedesk.dock.times()) {
 		add({
 			label: __("Timers"),
@@ -130,10 +121,8 @@ onedesk.dock.rows = (sidebar) => {
 	onedesk.interface.bars();
 	onedesk.interface.folds.setup();
 	onedesk.dock.refresh();
-	onedesk.dock.intake();
 	onedesk.dock.timers();
 	const listen = () => {
-		frappe.realtime.on("intake_inbox", () => onedesk.dock.intake());
 		frappe.realtime.on("one_timers", () => onedesk.dock.timers());
 	};
 	frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
@@ -172,19 +161,6 @@ onedesk.dock.timers_open = (el) => {
 
 onedesk.dock.name = ($item, label) =>
 	$item.attr("aria-label", label).each((_, el) => $(el).data("one-tip")?.set_text(label));
-
-onedesk.dock.intake = () =>
-	onedesk.apps.intake() &&
-	frappe.xcall("onedesk.one_ai.reading.inbox.counts").then((said) => {
-		const $rows = $(".one-intake-row");
-		const $badge = $rows.find(".one-intake-count");
-		$badge.toggleClass("hide", !said.waiting && !said.unread);
-		$badge.toggleClass("one-intake-dot", !said.waiting && !!said.unread);
-		$badge.text(said.waiting ? (said.waiting > 99 ? "99+" : String(said.waiting)) : "");
-		onedesk.dock.name($rows, said.waiting ? __("{0} waiting in Documents", [said.waiting]) : __("Documents"));
-		return said;
-	});
-
 
 onedesk.dock.refresh = () =>
 	onedesk.clock.ready().then((ready) => {

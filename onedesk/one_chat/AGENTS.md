@@ -104,6 +104,15 @@ and that they may do it themselves; **Change** edits the plain values the
 card proposes (`cards.changed`, pure) under the same rule, before it is
 approved. Nothing in OneChat writes a record.
 
+Once the auditor has had its say on a document, `one_ai/reading/tell.py
+waiting` runs the `one_ai_waiting` hook, and `cards.waiting` posts a card for
+each of its Reading Actions that waits on a person (`act.WAITS`) and has none
+yet: what OneAI's own reading proposed comes from Una, and a Done the auditor
+doubts (audit Wrong) from whoever did it. A doubted card has **Keep**
+(`act.keep`, the audit becomes Kept) and **Undo** (`act.undo_one`). This is
+what OneAI's Documents page did; a person's queue is their conversations with
+the agents, and read and unread are each conversation's.
+
 ## The panel
 
 `public/js/one_ai/panel/Panel.vue` reads and writes through `panel.py`: its

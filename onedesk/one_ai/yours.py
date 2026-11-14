@@ -162,11 +162,11 @@ INTAKE_HR = ("one_ai_screen", "one_ai_prepare", "one_ai_transcribe", "one_ai_gri
 def _intake_month() -> dict:
 	from frappe.utils import get_first_day, today
 
-	from onedesk.one_ai.reading import digest, inbox
+	from onedesk.one_ai.reading import act, digest
 
 	month = digest.this_month()
 	start = get_first_day(today())
-	waiting = frappe.db.sql(f"select count(*) from `tabReading` r where {inbox._box('waiting')}")[0][0]
+	waiting = frappe.db.sql(f"select count(distinct reading) from `tabReading Action` where reading is not null and {act.WAITS}")[0][0]
 	undone = frappe.db.count("Reading Action", {"level": "Undone", "modified": [">=", start]})
 	return {**month, "waiting": int(waiting or 0), "undone": int(undone or 0)}
 

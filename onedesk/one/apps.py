@@ -33,7 +33,6 @@ ACCESS_CENTER = {"url": "/desk/one?center=access"}
 SETUP_CENTER = {"url": "/desk/one?center=setup"}
 # What reading shows in the rails, which goes when reading is off.
 READS = (
-	{"link_to": "intake"},
 	{"link_to": "Ready to Submit"},
 	{"link_to": "Deadlines"},
 	{"link_to": "Spending"},
