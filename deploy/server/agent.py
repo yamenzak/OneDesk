@@ -424,6 +424,12 @@ def session_ready_demo(config: dict, one: dict) -> None:
 	restored(_kept(config, one["release"], DEMOS, "demo", "demo.tar.gz"), one["bench"], one["site"])
 
 
+def session_setup(_config: dict, one: dict) -> None:
+	"""A fresh training copy a workspace asked for, set up from its own
+	answers by the setup job, as a new workspace is."""
+	frappe_on(one["bench"], one["site"], "execute", "onedesk.one.setup_job.run", "--kwargs", json.dumps({"answers": one["answers"]}))
+
+
 def session_quiet(_config: dict, one: dict) -> None:
 	"""A copy of a workspace, cut off from everything the workspace sends."""
 	frappe_on(one["bench"], one["site"], "execute", "onedesk.one_admin.sessions.quieted")
@@ -446,7 +452,7 @@ def update_agent(_config: dict, one: dict) -> None:
 		new.unlink(missing_ok=True)
 
 
-KINDS = {"prepare": prepare, "spare": spare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, READY_DEMO: session_ready_demo, "session-quiet": session_quiet, UPDATE: update_agent}
+KINDS = {"prepare": prepare, "spare": spare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, READY_DEMO: session_ready_demo, "session-setup": session_setup, "session-quiet": session_quiet, UPDATE: update_agent}
 
 
 def report(config: dict, said: dict) -> bool:

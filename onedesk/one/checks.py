@@ -1841,6 +1841,71 @@ def the_update_window_is_oneadmins_and_an_administrators_to_change():
 
 
 @check
+def training_copies_are_an_administrators_to_make_and_open_on_the_fields_company():
+	"""AccountCenter's Training Copies (one/copies.py), with OneAdmin's
+	answers faked: Nadia may not open it or make a copy; the owner sees why
+	none can be made while Training Copies is off, makes one from the demo
+	for the clinic through proxy.copies_start, is told OneAdmin's refusal in
+	words, and a copy from the demo opens on the clinic's company."""
+	from unittest import mock
+
+	from onedesk.account_center import center
+	from onedesk.one import copies
+	from onedesk.one_demo import clinic_field
+
+	listed = [{"name": "WS-1", "kind": "demo", "field": "clinic", "status": "Running", "link": "https://s-1.example.com", "expires_on": "2026-11-20 09:00:00"}]
+
+	def oneadmin(endpoint, **said):
+		return {"onedesk.one_admin.proxy.copies_listed": listed, copies.START: {**listed[0], "status": "Starting"}}.get(endpoint, {"ok": True})
+
+	with (
+		mock.patch("onedesk.one.account.configured", return_value=True),
+		mock.patch("onedesk.trust_center.services.offered", return_value=True),
+		mock.patch("onedesk.one.account.ask", side_effect=oneadmin) as asked,
+	):
+		with as_user("nadia@one.test"):
+			for refused in (lambda: center.load("copies"), lambda: copies.start("demo", "7 Days", "clinic")):
+				try:
+					refused()
+					raise AssertionError("Nadia reached Training Copies")
+				except frappe.PermissionError:
+					pass
+		with as_user(OWNER), mock.patch("onedesk.trust_center.services.on", return_value=False):
+			said = center.load("copies")
+			assert said["why_not"] == "agreed" and said["copies"] == listed, said
+			try:
+				copies.start("demo", "7 Days", "clinic")
+				raise AssertionError("a copy was made with Training Copies off")
+			except frappe.ValidationError:
+				pass
+		asked.reset_mock()
+		with as_user(OWNER), mock.patch("onedesk.trust_center.services.on", return_value=True):
+			assert center.load("copies")["why_not"] is None
+			copies.start("demo", "7 Days", "clinic")
+			assert asked.call_args.args == (copies.START,), asked.call_args
+			assert asked.call_args.kwargs == {"kind": "demo", "lasts": "7 Days", "field": "clinic", "by": OWNER}, asked.call_args
+			with mock.patch("onedesk.one.account.ask", return_value={"refused": "many", "most": 3}):
+				try:
+					copies.start("data", "1 Day")
+					raise AssertionError("OneAdmin's refusal was not said")
+				except frappe.ValidationError as raised:
+					assert str(raised) == copies.refused("many", 3), raised
+			with mock.patch("onedesk.one.account.ask", return_value={"url": "https://s-1.example.com/app?sid=once"}) as opened:
+				assert copies.open_copy("WS-1")["url"].startswith("https://s-1.example.com")
+				copies.end("WS-1")
+				assert [one.args[0] for one in opened.call_args_list] == ["onedesk.one_admin.proxy.copies_sign_in", "onedesk.one_admin.proxy.copies_end"], opened.call_args_list
+	was = frappe.defaults.get_global_default("company")
+	with mock.patch.object(frappe.db, "commit"):
+		try:
+			copies.open_on({"one_copy_company": clinic_field.COMPANY})
+			assert frappe.defaults.get_global_default("company") == clinic_field.COMPANY
+			copies.open_on({"one_copy_company": "No Such Company"})
+			assert frappe.defaults.get_global_default("company") == clinic_field.COMPANY, "a company the copy has not made yet waits"
+		finally:
+			frappe.defaults.set_global_default("company", was)
+
+
+@check
 def setup_steps_are_slides_then_to_dos():
 	"""OneMail's setup steps (one/setup_steps.py): Layla, who administers the
 	workspace, sees all three and Nadia none; the two with fields would be

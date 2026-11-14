@@ -63,17 +63,17 @@ service(
 	key="training_copies",
 	module=M,
 	title="Training Copies",
-	does="Lets us make a temporary copy of your workspace's database, on a separate server, for your people to train on.",
-	sends="A copy of your workspace's database, not its files, to a server we rent from Oracle.",
+	does="Lets your administrators make temporary copies of your workspace, on a separate server, for your people to train on.",
+	sends="For a copy of your data, your workspace's database, not its files. For a fresh copy, your setup answers. Each goes to a server we rent from Oracle.",
 	off="No copy can be made. Copies already made are deleted within 48 hours.",
-	hosts=("onedesk.one_admin.proxy.copies_agreed",),
+	hosts=("onedesk.one_admin.proxy.copies_agreed", "onedesk.one_admin.proxy.copies_start"),
 )
 
 subprocessor(
 	name="Oracle Corporation",
 	module=M,
-	purpose="A temporary copy of a workspace's database, on a separate server, for the people who train on it",
-	data="A copy of the workspace's database, never its files",
+	purpose="A temporary copy of a workspace, on a separate server, for the people who train on it",
+	data="A copy of the workspace's database, never its files, or for a fresh copy the workspace's setup answers",
 	where="Germany (Frankfurt)",
 	safeguard="Standard Contractual Clauses and Oracle's data processing agreement",
 	url="https://www.oracle.com/corporate/contracts/cloud-services/",
@@ -86,11 +86,15 @@ clause(
 	key="oneadmin-training-copies",
 	module=M,
 	body="""
-		Training Copies is off until your workspace's administrators turn it on. While it is on, we can make a
-		copy of your workspace's newest nightly database backup, without its files, on a separate server we rent
-		from Oracle. Its mail and scheduled jobs are off. We do not sign in to a copy. Your people sign in with
-		their own passwords. We delete a copy when its time ends, at most 30 days after it was made, and within
-		48 hours of your administrators turning Training Copies off.
+		Training Copies is off until your workspace's administrators turn it on. While it is on, your administrators
+		can make a temporary copy on a separate server we rent from Oracle, and so can we. A fresh copy is set up
+		from your workspace's setup answers, with the administrator who made it as its owner. It holds none of your
+		people and no records. A copy from the demo holds only our demo companies. A copy of your data is your
+		workspace's newest nightly database backup, without its files. In it, your people's passwords and API keys
+		are cleared, nobody stays signed in and no scheduled job runs. Mail and webhooks are off in every copy. We
+		do not sign in to a copy. Your administrators open it from your workspace. We delete a copy when its time
+		ends, at most 30 days after it was made, or when your administrators end it. We delete every copy within 48
+		hours of your administrators turning Training Copies off.
 	""",
 )
 

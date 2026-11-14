@@ -2224,6 +2224,28 @@ so only a workspace with the service on sends anything. Past 48 hours with no
 word, its copies are deleted. A bench stays while a session is on
 it (`releases._drop_the_empty`).
 
+A workspace's administrator starts a training copy too, from AccountCenter's
+Training Copies (one/copies.py): `proxy.copies_start` (tenant token, POST,
+ten an hour) reaches `start_for`, which refuses with a key the workspace says
+in its reader's words (`why_not_started`: the plan, Training Copies on, at
+most `MOST_AT_ONCE` live; then the answers or a backup the kind needs, then
+room). The workspace says it is on (`copies_agreed`) just before asking, so
+a service turned on a minute ago passes. Such a session has `tenant` and
+`started_by` whatever its kind. **Fresh** walks `OWN_WALK`: after
+`configure`, `set_up` sends the agent `session-setup` with `fresh_answers`
+(the workspace's own from `answers.of`, without `people` and `steps`, owned
+by the administrator who asked, inviting nobody), which runs the setup job.
+**From the demo** keeps the `field`; `configure` writes `one_copy_company`
+(`fields.demo`) and the copy's boot makes it the default company once
+(`copies.open_on`). **From our data** is a Workspace Copy, and `quieted` now
+also clears every User's password and API secret and the Sessions table, so
+nothing that opens the workspace opens its copy. The operator's `sign_in`
+refuses any session with a tenant; the workspace's administrator gets the
+one-time sign-in instead (`copies_sign_in`), lists its copies
+(`copies_listed`, `_row_of`: never the server, step or error) and ends one
+(`copies_end`). `tick` deletes any session with a tenant once its plan or
+service lapses.
+
 ### Errors: errors.py, one/errors.py
 
 Each workspace's hourly `pushed` reads its Error Log since the last push and

@@ -1,8 +1,8 @@
 """Sessions on a server we connected: a site started fresh, from the demo
 company or from a copy of a workspace's database, with its own address, and
-deleted by itself when its time is up. A session from the demo restores the
-release's ready demo when it has one (deploy/release/demo.py) and builds the
-demo otherwise, and its timeline says which. README, Sessions and copies.
+deleted by itself when its time is up. An operator starts one on the
+Sessions screen, a workspace's administrator a training copy of its own
+through proxy.copies_start (`start_for`). AGENTS.md, Sessions and copies.
 """
 
 import secrets
@@ -10,7 +10,9 @@ import secrets
 import frappe
 from frappe.utils import add_to_date, get_datetime, now_datetime
 
-from onedesk.one_admin import backups, boxes, cloudflare, faults, features, fleet, hosts, pilot, servers, site, steps
+from onedesk.one import setup_answers
+from onedesk.one.registry import fields
+from onedesk.one_admin import answers, backups, boxes, cloudflare, faults, features, fleet, hosts, pilot, servers, site, steps
 from onedesk.one_admin.site import OPERATOR
 
 DOCTYPE = "Workspace Session"
@@ -30,6 +32,16 @@ COPIES = "training_copies"
 AGREED_WITHIN_HOURS = 3
 LAPSED_AFTER_HOURS = 48
 
+KINDS = {"fresh": FRESH, "demo": DEMO, "data": COPY}
+"""What a workspace asks for, and the session it is."""
+MOST_AT_ONCE = 3
+"""The training copies a workspace may have at once."""
+UNCOPIED = ("people", "steps")
+"""What a fresh copy leaves out of the workspace's answers: nobody is
+invited to it, and an app's steps can reach outside (a mail domain), which
+a copy never does."""
+SET_UP = "session-setup"
+
 
 WALKS = {
 	FRESH: ("create", "created", "configure", LAST_STEP),
@@ -40,16 +52,23 @@ WALKS = {
 
 READY_WALK = (READY, "agent_done", "configure", LAST_STEP)
 
+OWN_WALK = ("create", "created", "configure", "set_up", "agent_done", LAST_STEP)
 
-def walk_of(source: str, ready: bool = False) -> tuple:
+
+def walk_of(source: str, ready: bool = False, own: bool = False) -> tuple:
 	"""A session's steps: a demo restored from its release's ready demo has
-	no site to create and no demo to build. Pure."""
-	return READY_WALK if source == DEMO and ready else WALKS[source]
+	no site to create and no demo to build, and a fresh copy a workspace
+	asked for is set up from its own answers. Pure."""
+	if source == DEMO and ready:
+		return READY_WALK
+	if source == FRESH and own:
+		return OWN_WALK
+	return WALKS[source]
 
 
-def after(source: str, step: str, ready: bool = False) -> str | None:
+def after(source: str, step: str, ready: bool = False, own: bool = False) -> str | None:
 	"""The step that follows this one. Pure."""
-	walk = walk_of(source, ready)
+	walk = walk_of(source, ready, own)
 	at = walk.index(step) + 1
 	return walk[at] if at < len(walk) else None
 
@@ -83,16 +102,56 @@ def expires_on(start, lasts: str):
 	return add_to_date(start, hours=LASTS[lasts])
 
 
-def config_for(source: str, link: str, ends=None) -> dict:
+def config_for(source: str, link: str, ends=None, company: str | None = None) -> dict:
 	"""What a site is told: a copy's mail and jobs stay off, only a demo may
-	build the demo company, and every session says when it ends, which the
-	frame's band shows (one/dev.py, kind). Pure."""
+	build the demo company, every session says when it ends, which the
+	frame's band shows (one/dev.py, kind), and a demo copy asked for a field
+	names the company it opens on (one/copies.py, open_on). Pure."""
 	config = {"hostname": link, "mute_emails": 1, "pause_scheduler": 1 if source == COPY else 0}
 	if ends:
 		config["one_copy_ends"] = str(ends)
 	if source == DEMO:
 		config["one_dev"] = 1
+		if company:
+			config["one_copy_company"] = company
 	return config
+
+
+def opens_on(source: str, field: str | None) -> str | None:
+	"""The demo company a copy from the demo opens on: its field's
+	(registry/fields.py, demo), or the demo's own default when no field was
+	chosen. Pure."""
+	return fields.demo(field) if source == DEMO and field else None
+
+
+def fresh_answers(held: dict | None, email: str | None) -> dict | None:
+	"""A fresh copy's setup answers: the workspace's own, without its people
+	or its apps' steps (UNCOPIED), owned by the administrator who asked and
+	inviting nobody, since nothing in a copy sends mail. None when the
+	workspace's answers are not kept or would not set a site up. Pure."""
+	if not held or not email:
+		return None
+	kept = {key: value for key, value in held.items() if key not in UNCOPIED}
+	kept["owner"] = {"email": email.strip().lower(), "first_name": email.split("@", 1)[0], "invite": False}
+	try:
+		return setup_answers.check(kept)
+	except setup_answers.Invalid:
+		return None
+
+
+def why_not_started(kind: str, lasts: str, field: str | None, held, agreed_on, now, live: int) -> str | None:
+	"""Why a workspace's administrator may not start this copy: an unknown
+	kind or length (`asked`), a field that is not one (`field`), a plan
+	without Training Copies (`plan`), Training Copies not on (`agreed`), or
+	MOST_AT_ONCE copies already (`many`). None when it may. Pure."""
+	if kind not in KINDS or lasts not in LASTS:
+		return "asked"
+	if kind == "demo" and field and field not in fields.IDS:
+		return "field"
+	why = why_not_copied(held, agreed_on, now)
+	if why:
+		return why
+	return "many" if live >= MOST_AT_ONCE else None
 
 
 def agreed(agreed_on, now, within_hours: int = AGREED_WITHIN_HOURS) -> bool:
@@ -112,16 +171,26 @@ def why_not_copied(held, agreed_on, now, within_hours: int = AGREED_WITHIN_HOURS
 	return None
 
 
-def _server():
-	"""The connected server with the fewest sessions on it that has room."""
+def _roomy():
+	"""The connected server with the fewest sessions on it that has room,
+	or None and why (`none`, `full`)."""
 	rows = [one for one in fleet.rows() if one.connected and one.status == "Up"]
 	counts = {one.server: frappe.db.count(DOCTYPE, {"server": one.server, "status": ["in", ON_THE_SERVER]}) for one in rows}
 	room = [one for one in rows if not one.capacity or counts[one.server] < one.capacity]
 	if not rows:
-		frappe.throw(frappe._("No server is connected yet. Connect one under Servers."))
+		return None, "none"
 	if not room:
+		return None, "full"
+	return min(room, key=lambda one: counts[one.server]), None
+
+
+def _server():
+	row, why = _roomy()
+	if why == "none":
+		frappe.throw(frappe._("No server is connected yet. Connect one under Servers."))
+	if why:
 		frappe.throw(frappe._("Every connected server is full. Delete a session first."))
-	return min(room, key=lambda one: counts[one.server])
+	return row
 
 
 def _allowed_workspaces() -> list[dict]:
@@ -176,7 +245,11 @@ def start(title: str, source: str, lasts: str, tenant: str | None = None) -> str
 			frappe.throw(frappe._("{0}'s plan doesn't include Training Copies.").format(tenant))
 		if why:
 			frappe.throw(frappe._("{0} has not turned on Training Copies.").format(tenant))
-	row = _server()
+	return _begin(_server(), title, source, lasts, tenant if source == COPY else None).name
+
+
+def _begin(row, title: str | None, source: str, lasts: str, tenant: str | None, field: str | None = None, by: str | None = None):
+	"""The session's record, on this server, and its first step queued."""
 	bench = servers.current(row)
 	release, said = _ready(row, bench) if source == DEMO else (None, None)
 	slug = f"s-{secrets.token_hex(4)}"
@@ -188,7 +261,9 @@ def start(title: str, source: str, lasts: str, tenant: str | None = None) -> str
 			"title": (title or "").strip() or slug,
 			"status": "Starting",
 			"source": source,
-			"tenant": tenant if source == COPY else None,
+			"tenant": tenant,
+			"field": field if source == DEMO else None,
+			"started_by": by,
 			"lasts": lasts,
 			"expires_on": expires_on(now_datetime(), lasts),
 			"server": row.server,
@@ -197,13 +272,89 @@ def start(title: str, source: str, lasts: str, tenant: str | None = None) -> str
 			"site": name,
 			"link": f"https://{name}",
 			"upload": release,
-			"step": walk_of(source, bool(release))[0],
+			"step": walk_of(source, bool(release), bool(tenant and by))[0],
 		}
 	).insert(ignore_permissions=True)
 	if said:
 		doc.add_comment("Info", said)
 	_queue(doc.name)
-	return doc.name
+	return doc
+
+
+def _live_of(tenant: str) -> int:
+	return frappe.db.count(DOCTYPE, {"tenant": tenant, "status": ["in", ON_THE_SERVER]})
+
+
+def start_for(tenant, kind: str, lasts: str, field: str | None, by: str) -> dict:
+	"""A training copy a workspace's administrator asked for, through
+	proxy.copies_start. Refused unless the plan has Training Copies, the
+	workspace has them on and is under MOST_AT_ONCE; the refusal is a key
+	(`refused`) the workspace says in its reader's language (one/copies.py).
+	Fresh is set up from the workspace's own answers, From the demo opens
+	on the field's company, From our data restores last night's backup with
+	its passwords cleared (`quieted`)."""
+	held = frappe.get_doc("Tenant", tenant.name)
+	why = why_not_started(kind, lasts, field, features.of_tenant(held.name), held.copies_agreed_on, now_datetime(), _live_of(held.name))
+	if not why and kind == "fresh" and not fresh_answers(answers.of(held), by):
+		why = "answers"
+	if not why and kind == "data" and not _kept_backup(held.slug):
+		why = "data"
+	row, full = (None, None) if why else _roomy()
+	if why or full:
+		return {"refused": why or "room", "most": MOST_AT_ONCE}
+	doc = _begin(row, f"{held.workspace_name or held.name} · {KINDS[kind]}", KINDS[kind], lasts, held.name, field or None, by)
+	return _said_of(doc.name)
+
+
+def _kept_backup(slug: str) -> dict | None:
+	return next((one for one in backups.listed(slug) if one["where"] == "daily" and "database" in one["parts"]), None)
+
+
+WHAT_IS_SAID = ("name", "source", "status", "link", "expires_on", "field", "started_by", "creation")
+
+
+def _row_of(row) -> dict:
+	"""A copy as its workspace sees it: its kind as asked, never the
+	server, the step or the error. Pure."""
+	kind = next((key for key, source in KINDS.items() if source == row.get("source")), None)
+	said = {key: row.get(key) for key in WHAT_IS_SAID if key != "source"}
+	return {**said, "kind": kind, "expires_on": str(row.get("expires_on") or ""), "creation": str(row.get("creation") or "")}
+
+
+def _said_of(name: str) -> dict:
+	return _row_of(frappe.db.get_value(DOCTYPE, name, list(WHAT_IS_SAID), as_dict=True) or {})
+
+
+def of_workspace(tenant) -> list[dict]:
+	"""A workspace's copies that are not deleted yet, newest first."""
+	rows = frappe.get_all(DOCTYPE, filters={"tenant": tenant.name, "status": ["!=", "Deleted"]}, fields=list(WHAT_IS_SAID), order_by="creation desc")
+	return [_row_of(one) for one in rows]
+
+
+def _theirs(tenant, name: str):
+	"""One of this workspace's copies, or a refusal that says no more."""
+	if not name or frappe.db.get_value(DOCTYPE, name, "tenant") != tenant.name:
+		frappe.throw(frappe._("This workspace has no such training copy."), frappe.DoesNotExistError)
+	return frappe.get_doc(DOCTYPE, name)
+
+
+def end_for(tenant, name: str) -> dict:
+	"""A workspace's administrator ends one of its copies: deleted now."""
+	doc = _theirs(tenant, name)
+	if doc.status not in ("Deleting", "Deleted"):
+		_begin_deleting(doc)
+	return _said_of(name)
+
+
+def sign_in_for(tenant, name: str) -> dict:
+	"""A one-time sign-in to one of a workspace's copies, for the
+	administrator who asked from it: a copy of its data keeps no password
+	(`quieted`), so this is the way in."""
+	doc = _theirs(tenant, name)
+	if doc.status != "Running":
+		frappe.throw(frappe._("The copy isn't ready yet. It can be opened once it says Ready."))
+	said = _asked(pilot.on, doc, "POST", f"/sites/{doc.site}/login") or {}
+	return {"url": said.get("url") or doc.link}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -260,11 +411,12 @@ def _begin_deleting(doc) -> None:
 
 @frappe.whitelist(methods=["POST"])
 def sign_in(name: str) -> dict:
-	"""A one-time sign-in to a Fresh or Demo session. A copy has none here: it
-	is the workspace's own data, for the people it belongs to."""
+	"""A one-time sign-in to a Fresh or Demo session an operator started. A
+	workspace's copy has none here: it is the workspace's, opened by its own
+	administrator (`sign_in_for`)."""
 	_may()
 	doc = frappe.get_doc(DOCTYPE, name)
-	if doc.source == COPY:
+	if doc.source == COPY or doc.tenant:
 		return {"url": doc.link}
 	said = _asked(pilot.on, doc, "POST", f"/sites/{doc.site}/login") or {}
 	return {"url": said.get("url") or doc.link}
@@ -282,7 +434,16 @@ def created(doc) -> str | None:
 
 
 def configure(doc) -> None:
-	pilot.on(doc, "PATCH", f"/sites/{doc.site}/configuration", json=config_for(doc.source, doc.link, doc.expires_on))
+	pilot.on(doc, "PATCH", f"/sites/{doc.site}/configuration", json=config_for(doc.source, doc.link, doc.expires_on, opens_on(doc.source, doc.field)))
+
+
+def set_up(doc) -> None:
+	"""A fresh copy a workspace asked for, set up by the box's agent through
+	the setup job (one/setup_job.py) from the workspace's own answers."""
+	said = fresh_answers(answers.of(frappe.get_doc("Tenant", doc.tenant)), doc.started_by)
+	if not said:
+		raise faults.Refused("the workspace's setup answers are not kept")
+	servers.instruct(doc.server, SET_UP, session=doc.name, bench=doc.bench, site=doc.site, answers=said)
 
 
 def demo(doc) -> None:
@@ -300,7 +461,7 @@ def copy(doc) -> None:
 	"""The workspace's newest nightly backup, its database alone, sent to the
 	server and held for `restore`."""
 	slug = frappe.db.get_value("Tenant", doc.tenant, "slug")
-	kept = next((one for one in backups.listed(slug) if one["where"] == "daily" and "database" in one["parts"]), None)
+	kept = _kept_backup(slug)
 	if not kept:
 		raise faults.Refused(f"no backup of {slug} is kept yet")
 	upload, _parts = backups.to_server(doc, {"database": kept["parts"]["database"]})
@@ -338,8 +499,14 @@ def _origin(server: str) -> str:
 
 def quieted() -> None:
 	"""Run in a copy, by the box's agent: nothing it does reaches the
-	workspace's own world, and mail and webhooks stay off."""
+	workspace's own world, and mail and webhooks stay off. Its people's
+	passwords and API keys are cleared and nobody stays signed in, so
+	nothing that opens the workspace opens its copy: the administrator who
+	asked opens it once (`sign_in_for`) and sets passwords for whoever
+	trains."""
 	frappe.db.delete("Webhook")
+	frappe.db.delete("__Auth", {"doctype": "User"})
+	frappe.db.delete("Sessions")
 	for account in frappe.get_all("Email Account", pluck="name"):
 		frappe.db.set_value("Email Account", account, {"enable_outgoing": 0, "enable_incoming": 0}, update_modified=False)
 	frappe.db.commit()
@@ -353,8 +520,9 @@ def _queue(name: str) -> None:
 
 def _walking(doc) -> tuple:
 	"""Which walk a session is on: `upload` names the release of a demo
-	restored from its ready demo, as it names a copy's upload."""
-	return doc.source, bool(doc.upload)
+	restored from its ready demo, as it names a copy's upload, and a fresh
+	one a workspace's administrator started is set up from its answers."""
+	return doc.source, bool(doc.upload), bool(doc.tenant and doc.started_by)
 
 
 def advance(name: str) -> None:
@@ -365,8 +533,8 @@ def advance(name: str) -> None:
 		return
 	if doc.status != "Starting":
 		return
-	source, ready = _walking(doc)
-	for _ in range(len(walk_of(source, ready))):
+	source, ready, own = _walking(doc)
+	for _ in range(len(walk_of(source, ready, own))):
 		try:
 			said = STEPS[doc.step](doc)
 		except faults.Again:
@@ -376,7 +544,7 @@ def advance(name: str) -> None:
 			return
 		if said == WAIT:
 			return
-		following = after(source, doc.step, ready)
+		following = after(source, doc.step, ready, own)
 		if not following:
 			doc.db_set({"status": "Running", "task": None, "step": None}, notify=True)
 			return
@@ -404,7 +572,7 @@ def _deleting(doc) -> None:
 	doc.db_set({"status": "Deleted", "task": None}, notify=True)
 
 
-STEPS = {"create": create, "created": created, "configure": configure, "demo": demo, READY: ready_demo, "copy": copy, "restore": restore, "restored": restored, "quiet": quiet, "agent_done": agent_done, "route": route}
+STEPS = {"create": create, "created": created, "configure": configure, "set_up": set_up, "demo": demo, READY: ready_demo, "copy": copy, "restore": restore, "restored": restored, "quiet": quiet, "agent_done": agent_done, "route": route}
 
 
 def heard(said: dict) -> None:
@@ -417,15 +585,16 @@ def heard(said: dict) -> None:
 		doc.db_set({"status": "Failed", "error": str(said.get("error"))[: faults.KEPT]}, notify=True)
 		return
 	if doc.status == "Starting" and doc.step == "agent_done":
-		source, ready = _walking(doc)
-		doc.db_set("step", after(source, "agent_done", ready))
+		source, ready, own = _walking(doc)
+		doc.db_set("step", after(source, "agent_done", ready, own))
 		_queue(doc.name)
 
 
 def tick() -> None:
 	"""Every two minutes, on the admin site: starting sessions move on, what
-	has run its time is deleted, and a copy whose workspace turned Training
-	Copies off, or whose plan no longer includes them, goes too."""
+	has run its time is deleted, and a copy of a workspace, or one it
+	started, goes too once the workspace turned Training Copies off or its
+	plan no longer includes them."""
 	if not site.is_admin():
 		return
 	now = now_datetime()
@@ -433,7 +602,7 @@ def tick() -> None:
 		_safely(_queue, row.name)
 	for row in frappe.get_all(DOCTYPE, filters=[["status", "in", ("Starting", "Running", "Stopped", "Failed")], ["expires_on", "is", "set"], ["expires_on", "<=", now]], fields=["name"]):
 		_safely(_expired, row.name)
-	for row in frappe.get_all(DOCTYPE, filters={"status": ["in", ("Running", "Stopped")], "source": COPY}, fields=["name", "tenant"]):
+	for row in frappe.get_all(DOCTYPE, filters={"status": ["in", ("Running", "Stopped")], "tenant": ["is", "set"]}, fields=["name", "tenant"]):
 		if why_not_copied(features.of_tenant(row.tenant), frappe.db.get_value("Tenant", row.tenant, "copies_agreed_on"), now, LAPSED_AFTER_HOURS):
 			_safely(_expired, row.name)
 

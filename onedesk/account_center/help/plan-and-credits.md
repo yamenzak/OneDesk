@@ -40,3 +40,19 @@ An administrator can have a credit pack bought on the saved card when the
 balance falls under **Minimum Balance**, up to **Monthly Pack Limit** packs a
 month. It is off until somebody turns it on. If the card cannot be charged, it
 turns off and the workspace's owner gets an email.
+
+## Training Copies
+
+**Training Copies**, under Workspace, makes a temporary copy of the
+workspace for people to train on, on a plan that includes it and once an
+administrator has turned Training Copies on in {trust_center}'s Optional
+Services. **New Training Copy** asks what it starts from: **Fresh**, an empty
+workspace set up like this one; **From the Demo**, the demo with a year of
+records, opened on the company of the field you choose; or **From Our
+Data**, last night's backup of this workspace. Nothing in a copy sends mail,
+and a band at the top says it is a copy and when it ends.
+
+A copy says **Ready** when it can be opened, and **Open** signs you in to it.
+In a copy of your data the passwords are cleared, so set a password for each
+person who trains. **End** deletes a copy at once; otherwise it is deleted
+when its time is up.

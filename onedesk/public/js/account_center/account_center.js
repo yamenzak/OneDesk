@@ -1,7 +1,7 @@
 // AccountCenter (docs/ONE.md): your own account and the workspace's, on the
 // centre frame (one_interface/centre.js). For everybody, Yours: Profile
 // and Sign-in; for administrators, Workspace: People, Devices, Plan and
-// Credits, and Domains. Each section is a CenterSection (center_section.js).
+// Credits, Domains and Training Copies. Each section is a CenterSection (center_section.js).
 frappe.provide("onedesk.account_center");
 
 onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
@@ -1652,6 +1652,131 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		});
 	}
 
+	draw_copies(data) {
+		const esc = frappe.utils.escape_html;
+		const why = {
+			linked: { title: __("Not Connected Yet"), description: __("This workspace isn't connected to its account yet, so training copies can't be made.") },
+			plan: { title: __("Not on This Plan"), description: __("The workspace's plan doesn't include Training Copies.") },
+			agreed: { title: __("Training Copies Is Off"), description: __("Turn on Training Copies in Optional Services to make a copy.") },
+		}[data.why_not];
+		if (!data.why_not) this.page.set_primary_action(__("New Training Copy"), () => this.new_copy(data), "plus");
+		if (data.why_not !== "linked") this.page.add_inner_button(__("Refresh"), () => this.refresh());
+		const told = why
+			? `<div class="one-record-news">${frappe.ui.alert.html({ ...why, theme: "yellow" })}${
+					data.why_not === "agreed" ? frappe.ui.button.html({ label: __("Open Optional Services"), variant: "outline", attrs: { "data-services": "1" } }) : ""
+			  }</div>`
+			: "";
+		const unheard = data.unheard ? `<div class="one-record-news">${frappe.ui.alert.html({ title: __("Account Not Reached"), description: __("The copies show once the account answers again."), theme: "yellow" })}</div>` : "";
+		this.$content.html(told + unheard + '<div class="one-shell-section" data-list="copies"></div>');
+		this.$content.find("[data-services]").on("click", () => this.leave(() => onedesk.centers.open("trust", { at: "services" })));
+		const kinds = AccountSection.copy_kinds();
+		const fields = Object.fromEntries((data.fields || []).map((one) => [one.value, one.label]));
+		const states = {
+			Starting: [__("Being Made"), "blue"],
+			Running: [__("Ready"), "green"],
+			Stopped: [__("Stopped"), "gray"],
+			Deleting: [__("Ending"), "gray"],
+			Failed: [__("Not Made"), "red"],
+		};
+		onedesk.shell.table(this.$content.find('[data-list="copies"]'), {
+			rows: data.copies || [],
+			icon: "graduation-cap",
+			empty: __("No training copies yet"),
+			columns: [
+				{
+					label: __("Copy"),
+					render: (one) =>
+						`<div>${esc((kinds[one.kind] || {}).label || "")}</div><div class="one-shell-quiet">${esc(
+							[one.kind === "demo" ? fields[one.field] : "", one.started_by].filter(Boolean).join(" · ")
+						)}</div>`,
+				},
+				{
+					label: __("Status"),
+					render: (one) => {
+						const [label, theme] = states[one.status] || [one.status, "gray"];
+						return frappe.ui.badge.html({ label, theme });
+					},
+				},
+				{ label: __("Ends On"), render: (one) => `<span class="one-shell-quiet">${esc(one.expires_on ? frappe.datetime.str_to_user(one.expires_on) : "-")}</span>` },
+				{
+					label: "",
+					render: (one) =>
+						`<div class="one-shell-row-actions" data-copy-of="${esc(one.name)}">${
+							one.status === "Running" ? onedesk.shell.button(__("Open"), { "data-open-copy": "1" }, "ghost") : ""
+						}${["Deleting", "Deleted"].includes(one.status) ? "" : onedesk.shell.button(__("End"), { "data-end-copy": "1" }, "ghost", null, "red")}</div>`,
+				},
+			],
+		});
+		const of = (event) => $(event.currentTarget).closest("[data-copy-of]").attr("data-copy-of");
+		this.$content.on("click", "[data-open-copy]", async (event) => {
+			event.stopPropagation();
+			const opened = window.open("", "_blank");
+			try {
+				const said = await frappe.xcall("onedesk.one.copies.open_copy", { session: of(event) });
+				if (opened) opened.location = said.url;
+				else window.open(said.url, "_blank", "noopener");
+			} catch (e) {
+				opened && opened.close();
+				throw e;
+			}
+		});
+		this.$content.on("click", "[data-end-copy]", (event) => {
+			event.stopPropagation();
+			const session = of(event);
+			frappe.confirm(`<strong>${esc(__("End this training copy?"))}</strong><br>${esc(__("The copy and everything done in it are deleted."))}`, async () => {
+				await frappe.xcall("onedesk.one.copies.end", { session });
+				frappe.show_alert({ message: __("Training copy ended"), indicator: "green" });
+				this.refresh();
+			});
+		});
+	}
+
+	static copy_kinds() {
+		return {
+			fresh: { label: __("Fresh"), about: __("An empty workspace set up like this one, with its companies, apps and settings, and no records.") },
+			demo: { label: __("From the Demo"), about: __("The demo, with a year of records, opened on the company of the field you choose.") },
+			data: {
+				label: __("From Our Data"),
+				about: __("Last night's backup of this workspace, with each person's password cleared."),
+			},
+		};
+	}
+
+	new_copy(data) {
+		const kinds = AccountSection.copy_kinds();
+		const lasts = { "8 Hours": __("8 Hours"), "1 Day": __("1 Day"), "7 Days": __("7 Days"), "30 Days": __("30 Days") };
+		const dialog = new frappe.ui.Dialog({
+			title: __("New Training Copy"),
+			fields: [
+				{
+					fieldname: "kind",
+					fieldtype: "Select",
+					label: __("Starts From"),
+					reqd: 1,
+					options: data.kinds.map((value) => ({ value, label: kinds[value].label })),
+					default: "fresh",
+					description: kinds.fresh.about,
+					onchange: () => dialog.set_df_property("kind", "description", (kinds[dialog.get_value("kind")] || {}).about || ""),
+				},
+				{ fieldname: "field", fieldtype: "Select", label: __("Field"), options: data.fields, default: data.field || (data.fields[0] || {}).value, depends_on: "eval:doc.kind==='demo'", mandatory_depends_on: "eval:doc.kind==='demo'" },
+				{ fieldname: "lasts", fieldtype: "Select", label: __("Expires After"), reqd: 1, options: data.lasts.map((value) => ({ value, label: lasts[value] || value })), default: "7 Days" },
+			],
+			primary_action_label: __("Make Copy"),
+			primary_action: async (values) => {
+				dialog.disable_primary_action();
+				try {
+					await frappe.xcall("onedesk.one.copies.start", values, "POST", { freeze: true });
+					dialog.hide();
+					frappe.show_alert({ message: __("The copy is being made. It says Ready here when it can be opened."), indicator: "green" });
+					this.refresh();
+				} finally {
+					dialog.enable_primary_action();
+				}
+			},
+		});
+		dialog.show();
+	}
+
 	static dns_records(names, target) {
 		const esc = frappe.utils.escape_html;
 		const copy = (value) =>
@@ -1725,6 +1850,7 @@ onedesk.account_center.sections = () => [
 	{ id: "devices", about: __("The company's computers and phones, and the passkeys on people's own.") },
 	{ id: "plan", about: __("The plan, its seats and storage, credits and invoices.") },
 	{ id: "domains", about: __("The addresses the workspace answers on.") },
+	{ id: "copies", about: __("Temporary copies of the workspace for people to train on.") },
 ];
 
 // The help page each tab is explained on (account_center/help).
@@ -1739,6 +1865,7 @@ onedesk.account_center.HELP = {
 	devices: "people-and-devices",
 	plan: "plan-and-credits",
 	domains: "plan-and-credits",
+	copies: "plan-and-credits",
 };
 
 // AccountCenter: Yours for everybody, Workspace for administrators. at
