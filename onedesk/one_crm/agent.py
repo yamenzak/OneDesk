@@ -29,6 +29,36 @@ NOT_FOR_AI = {
 	"record.log_call": "A call is logged by whoever made it, since only they heard it.",
 }
 
+PLANS = {
+	"add_customer_or_lead": ("parties", "onedesk.one_crm.planner.customer_or_lead"),
+	"add_sender_as_contact": ("rest", "onedesk.one_crm.planner.contact"),
+	"add_contacts_from_mail": ("rest", "onedesk.one_crm.planner.people"),
+	"draft_sales_order": ("money", "onedesk.one_crm.planner.sales_order"),
+	"draft_extra_work_quotation": ("money", "onedesk.one_crm.planner.extra_work"),
+	"add_contract": ("money", "onedesk.one_crm.planner.contract"),
+}
+"""What its agent makes of what OneAI read, at which of Intake's stages (one_ai/agents/work.py)."""
+
+LEVELS = {
+	"add_customer_or_lead": "Draft",
+	"add_sender_as_contact": "Draft",
+	"add_contacts_from_mail": "Draft",
+	"draft_sales_order": "Draft",
+	"draft_extra_work_quotation": "Draft",
+	"add_contract": "Draft",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
+LABELS = {
+	"add_customer_or_lead": _lt("Add Customer or Lead"),
+	"add_sender_as_contact": _lt("Add Sender as Contact"),
+	"add_contacts_from_mail": _lt("Add Contacts from Mail"),
+	"draft_sales_order": _lt("Draft Sales Order"),
+	"draft_extra_work_quotation": _lt("Draft Extra Work Quotation"),
+	"add_contract": _lt("Add Contract"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
+
 SUGGESTIONS = {
 	"Opportunity": [
 		{

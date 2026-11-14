@@ -852,3 +852,20 @@ def onehr_oneai_reads_who_is_off_and_whose_papers_run_out():
 		papers = agent.papers_expiring(400)["expiring"]
 	assert off and any(not one["approved"] for one in off), off
 	assert all(one["expires_on"] >= today() for one in papers), papers
+
+
+@check
+def onehr_its_people_officer_files_what_mail_brings():
+	"""OneHR's people officer's work on what OneAI read (planner.py): the
+	applicant a CV came from, the sick note as leave and a colleague's taxi
+	receipt as their expense claim, each under its own name and action and
+	left a draft for a person to submit."""
+	from onedesk.one_demo import samples
+
+	applicant = [one for one in samples.done_by("cv", "one_hr") if one.target_doctype == "Job Applicant"]
+	assert applicant and applicant[0].agent_action == "add_job_applicant" and applicant[0].level == "Done", applicant
+	leave = [one for one in samples.done_by("sick-note", "one_hr") if one.target_doctype == "Leave Application"]
+	assert leave and leave[0].agent_action == "file_employee_documents", leave
+	claim = [one for one in samples.done_by("taxi-receipt", "one_hr") if one.target_doctype == "Expense Claim" and one.level == "Done"]
+	assert claim and claim[0].agent_action == "draft_expense_claim", claim
+	assert frappe.db.get_value("Expense Claim", claim[0].target_name, "docstatus") == 0, "a person submits it"

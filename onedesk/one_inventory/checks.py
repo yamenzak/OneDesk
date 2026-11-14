@@ -1322,3 +1322,17 @@ def oneinventory_goods_and_deliveries_are_on_the_calendar():
 		frappe.db.set_value("Asset Maintenance Log", log, "due_date", None)
 		with as_user("karim@one.test"):
 			assert log not in {one["service"] for one in ai_equipment.services_due().get("services") or []}, "a service with no due date was due"
+
+
+@check
+def oneinventory_its_storekeeper_drafts_what_suppliers_send():
+	"""OneInventory's storekeeper's work on what OneAI read (planner.py): a
+	delivery note as a draft Purchase Receipt and a supplier's offer as a
+	Supplier Quotation, each under its own name and action."""
+	from onedesk.one_demo import samples
+
+	receipt = [one for one in samples.done_by("delivery-note", "one_inventory") if one.target_doctype == "Purchase Receipt"]
+	assert receipt and receipt[0].agent_action == "draft_purchase_receipt" and receipt[0].agent_level == "Draft", receipt
+	quote = [one for one in samples.done_by("supplier-quote", "one_inventory") if one.target_doctype == "Supplier Quotation"]
+	assert quote and quote[0].agent_action == "add_supplier_quotation" and quote[0].level == "Done", quote
+	assert frappe.db.get_value("Supplier Quotation", quote[0].target_name, "docstatus") == 0, "a person submits it"

@@ -8,6 +8,8 @@ from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
+APP = ROOT.parent.parent
+PLANNERS = [APP / app / "planner.py" for app in ("one_crm", "one_hr", "one_project", "one_calendar")]
 
 
 def _getdate(value):
@@ -26,7 +28,10 @@ def _load(path, space, names=None):
 
 ACT = _load(ROOT / "act.py", {"dataclass": dataclass, "field": field, "hashlib": hashlib, "json": json, "cint": lambda v: int(v or 0), "flt": lambda v, p=None: float(v or 0)}, {"KINDS", "FLOOR", "CHANGES", "Action", "level", "_filled", "_same"})
 Action = ACT["Action"]
-PLANS = _load(ROOT / "plans.py", {"Action": Action, "getdate": _getdate, "timedelta": timedelta, "task_in": lambda project, day: project})
+PLANS = _load(ROOT / "plans.py", {"Action": Action, "_Action": Action, "getdate": _getdate, "timedelta": timedelta, "task_in": lambda project, day: project})
+for _path in PLANNERS:
+	_load(_path, PLANS, {name for name in ("contact", "people", "customer_or_lead", "applicant", "employee_documents", "receipt", "period", "LEAD_DAYS", "LEAD_DEFAULT", "tasks", "_step", "_follow", "promises", "site_log", "PRIORITY", "event")})
+PLANS["parties"] = lambda reading, ctx: PLANS["supplier"](reading, ctx) + PLANS["customer_or_lead"](reading, ctx) + PLANS["applicant"](reading, ctx)
 STEPS = _load(ROOT / "steps.py", {"getdate": _getdate, "flt": lambda v, p=None: float(v or 0), "json": json}, {"holds", "passed"})
 
 SAID = {
@@ -205,14 +210,15 @@ def test_a_placeholder_is_filled_rather_than_proposed():
 
 
 def test_planners_are_pure():
-	source = (ROOT / "plans.py").read_text()
-	assert "import frappe\n" not in source and "frappe." not in source.replace("from frappe.utils import getdate", "")
-	for write in (".insert(", ".save(", "db.", "enqueue("):
-		assert write not in source, f"plans.py writes with {write}; that is the door's"
+	for path in (ROOT / "plans.py", *PLANNERS):
+		source = path.read_text()
+		assert "import frappe\n" not in source and "frappe." not in source.replace("from frappe.utils import getdate", "")
+		for write in (".insert(", ".save(", "db.", "enqueue("):
+			assert write not in source, f"{path.parent.name}/{path.name} writes with {write}; that is the door's"
 
 
 def test_flows_that_check_the_signed_in_user_are_written_as_the_person():
-	source = (ROOT / "plans.py").read_text()
+	source = "".join(path.read_text() for path in PLANNERS)
 	assert '"Leave Application"' in source and source.count("as_person=True") == 4
 	act = (ROOT / "act.py").read_text()
 	assert "with as_oneai(person if action.as_person else None, person):" in act

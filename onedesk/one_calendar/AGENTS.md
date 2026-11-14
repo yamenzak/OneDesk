@@ -183,3 +183,7 @@ is copied: a deal's next step belongs to the deal and moves with it.
    merge; what it had that this did not was the calendar of a record other
    than a project, which is stage 5 now. It had no feed, no dragging and no
    events about a record, so nothing else was taken, and it is deleted.
+
+### planner.py
+
+An appointment OneAI read, as an Event for whoever it is for (`event`). OneCalendar has no roles and so no agent: OneProject's coordinator makes it (one_project/agent.py `PLANS`).

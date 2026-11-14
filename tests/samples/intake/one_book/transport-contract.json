@@ -64,6 +64,7 @@
  "makes": [
   {
    "doctype": "Contract",
+   "level": "Proposed",
    "values": {
     "party_name": "Desert Logistics"
    }

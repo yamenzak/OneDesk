@@ -59,7 +59,7 @@ def test_a_workspace_s_level_stands_over_the_declared_one(store):
 def test_a_level_chosen_that_is_none_of_the_three_is_ask_first(store, monkeypatch):
 	monkeypatch.setattr(workspace, "chosen_level", lambda app, action: "Sometimes")
 	assert levels.of("one_mail", "linking.file") == "Do it", "a stray choice falls back to the declared level"
-	assert levels.actions("one_book") == ("draft_purchase_invoice",)
+	assert levels.actions("one_book") == ("draft_purchase_invoice", "draft_payment_entry", "add_bank_transactions", "ask_for_missing_invoice"), "a tool that is also a planner is one action"
 	assert "actions.mark" in levels.actions("one_mail") and "hand_on" in levels.actions("one_mail")
 
 

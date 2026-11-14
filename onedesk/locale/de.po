@@ -2737,6 +2737,10 @@ msgstr "Adresse hinzufügen"
 msgid "Add Bank Account"
 msgstr "Bankkonto hinzufügen"
 
+#: onedesk/one_book/agent.py:48
+msgid "Add Bank Transactions"
+msgstr "Bank-Transaktionen hinzufügen"
+
 #: onedesk/public/js/one_hr/checkin_list.js:48
 msgid "Add Checkin for Another Employee"
 msgstr "Stempelung für andere Mitarbeitende hinzufügen"
@@ -2762,6 +2766,10 @@ msgstr "Unternehmensdomain hinzufügen"
 msgid "Add Contact"
 msgstr "Kontakt hinzufügen"
 
+#: onedesk/one_crm/agent.py:55
+msgid "Add Contacts from Mail"
+msgstr "Kontakte aus E-Mail hinzufügen"
+
 #: onedesk/public/js/one_project/project.js:175
 #: onedesk/public/js/one_project/project_actions.js:185
 #: onedesk/public/js/one_project/project_actions.js:240
@@ -2777,6 +2785,10 @@ msgstr "Kostenart hinzufügen"
 msgid "Add Credits"
 msgstr "Guthaben aufladen"
 
+#: onedesk/one_crm/agent.py:53
+msgid "Add Customer or Lead"
+msgstr "Kunde oder Interessent hinzufügen"
+
 #: onedesk/public/js/account_center/account_center.js:779
 msgid "Add Database"
 msgstr "Datenbank hinzufügen"
@@ -2790,6 +2802,10 @@ msgstr "Datum hinzufügen"
 #: onedesk/public/js/one_mail/onemail_settings.js:1069
 msgid "Add Domain"
 msgstr "Domain hinzufügen"
+
+#: onedesk/one_project/agent.py:83
+msgid "Add Event"
+msgstr "Termin hinzufügen"
 
 #: onedesk/one_studio/doctype/extension/extension_list.js:16
 msgid "Add Extension"
@@ -2813,6 +2829,10 @@ msgstr "Ordner hinzufügen"
 #: onedesk/public/js/one_inventory/item_new.js:326
 msgid "Add Item"
 msgstr ""
+
+#: onedesk/one_hr/agent.py:63
+msgid "Add Job Applicant"
+msgstr "Bewerbung hinzufügen"
 
 #: frontend/src/inventory/item/ItemBuying.vue:17
 msgid "Add Manufacturer"
@@ -2875,6 +2895,10 @@ msgstr "Regel hinzufügen"
 msgid "Add Seats"
 msgstr "Plätze hinzufügen"
 
+#: onedesk/one_crm/agent.py:54
+msgid "Add Sender as Contact"
+msgstr "Absender als Kontakt hinzufügen"
+
 #: onedesk/public/js/doctype_settings.js:285
 #: onedesk/public/js/doctype_settings.js:336
 msgid "Add Series"
@@ -2914,6 +2938,10 @@ msgstr "Teilprojekt hinzufügen"
 msgid "Add Supplier"
 msgstr "Lieferant hinzufügen"
 
+#: onedesk/one_inventory/agent.py:51
+msgid "Add Supplier Quotation"
+msgstr "Lieferantenangebot hinzufügen"
+
 #: frontend/src/template/Tasks.vue:98 frontend/src/template/TemplatePart.vue:58
 #: onedesk/public/js/one_task/task_new.js:43
 msgid "Add Task"
@@ -2923,6 +2951,14 @@ msgstr "Aufgabe hinzufügen"
 #: frontend/src/template/TemplatePart.vue:57
 msgid "Add Task Under"
 msgstr "Aufgabe darunter hinzufügen"
+
+#: onedesk/one_project/agent.py:82
+msgid "Add Task from Document"
+msgstr "Aufgabe aus Dokument hinzufügen"
+
+#: onedesk/one_project/agent.py:84
+msgid "Add Task from Promise"
+msgstr "Aufgabe aus Zusage hinzufügen"
 
 #: onedesk/public/js/one_project/project_actions.js:72
 msgid "Add Tasks"
@@ -5745,6 +5781,10 @@ msgstr "Details erfahren Sie am Schalter."
 #: onedesk/one_mail/access.py:53
 msgid "Ask for Approval"
 msgstr "Genehmigung anfragen"
+
+#: onedesk/one_book/agent.py:49
+msgid "Ask for Missing Invoice"
+msgstr "Fehlende Rechnung anfordern"
 
 #: frontend/src/project/Suppliers.vue:124
 #: onedesk/public/js/one_inventory/quotes_actions.js:8
@@ -9526,6 +9566,10 @@ msgstr ""
 #: frontend/src/factory/floor/FloorSteps.vue:109
 msgid "Check Quality"
 msgstr "Qualität prüfen"
+
+#: onedesk/one_inventory/agent.py:50
+msgid "Check Unordered Delivery"
+msgstr "Unbestellte Lieferung prüfen"
 
 #: onedesk/one_ai/jobs.py:66
 msgid "Check What Arrived Before Acting"
@@ -16156,6 +16200,14 @@ msgstr "Entwurf"
 msgid "Draft Assets"
 msgstr "Anlagen im Entwurf"
 
+#: onedesk/one_hr/agent.py:65
+msgid "Draft Expense Claim"
+msgstr "Spesenabrechnung als Entwurf"
+
+#: onedesk/one_crm/agent.py:57
+msgid "Draft Extra Work Quotation"
+msgstr "Angebot für Zusatzarbeiten als Entwurf"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:410
 msgid "Draft Invoices, Orders and Payments"
 msgstr "Rechnungen, Bestellungen und Zahlungen entwerfen"
@@ -16169,6 +16221,10 @@ msgstr "Entwurfs-Nr."
 msgid "Draft Orders"
 msgstr "Bestellentwürfe erstellen"
 
+#: onedesk/one_book/agent.py:47
+msgid "Draft Payment Entry"
+msgstr "Zahlung als Entwurf"
+
 #: onedesk/one_book/agent.py:35
 msgid "Draft Purchase Invoice"
 msgstr "Entwurf einer Eingangsrechnung"
@@ -16176,6 +16232,14 @@ msgstr "Entwurf einer Eingangsrechnung"
 #: onedesk/one_inventory/shortcuts.py:10
 msgid "Draft Purchase Orders"
 msgstr "Bestellungen als Entwurf anlegen"
+
+#: onedesk/one_inventory/agent.py:49
+msgid "Draft Purchase Receipt"
+msgstr "Wareneingang als Entwurf"
+
+#: onedesk/one_crm/agent.py:56
+msgid "Draft Sales Order"
+msgstr "Kundenauftrag als Entwurf"
 
 #: onedesk/one_ai/jobs.py:49
 msgid "Draft a Reply"
@@ -28724,6 +28788,10 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
 msgid "Log No"
 msgstr "Protokoll-Nr."
+
+#: onedesk/one_project/agent.py:81
+msgid "Log Site Report"
+msgstr "Baustellenbericht erfassen"
 
 #: frontend/src/project/Time.vue:15
 #: onedesk/public/js/one_project/project_actions.js:355

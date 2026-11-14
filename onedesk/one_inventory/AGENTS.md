@@ -564,3 +564,7 @@ roles have them:
 - **Its foot and settings** are `public/js/one_inventory/inventory_control.js`.
 - **Its screens** are `frontend/src/inventory/`, a folder for each island.
 - **Its checks** are `checks.py`, run with the rest by `one_demo/check.py`.
+
+### planner.py
+
+OneInventory's storekeeper's share of what OneAI reads (one_ai/agents/work.py): `goods` (a delivery note as a draft Purchase Receipt against its order), `unordered` (a task to check a delivery nobody ordered, a card since the storekeeper may not make a task) and `quotation` (an offer as a Supplier Quotation). agent.py's `PLANS` names each with its stage, level and label.

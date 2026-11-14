@@ -1,6 +1,7 @@
-"""How far an agent goes with each action, a call REACH names or a tool
-TOOLS lists: Do it, Draft or Ask First, declared in each app's agent.py as
-LEVELS, and Ask First where it is not (one_ai/AGENTS.md, The agents)."""
+"""How far an agent goes with each action, a call REACH names, a tool
+TOOLS lists or a planner PLANS names: Do it, Draft or Ask First, declared in
+each app's agent.py as LEVELS, and Ask First where it is not
+(one_ai/AGENTS.md, The agents)."""
 
 import ast
 import importlib
@@ -9,6 +10,10 @@ from pathlib import Path
 DO_IT, DRAFT, ASK_FIRST = "Do it", "Draft", "Ask First"
 LEVELS = (DO_IT, DRAFT, ASK_FIRST)
 CAUTIOUS = ASK_FIRST
+
+STAGES = ("parties", "money", "rest")
+"""Intake's passes over an understood reading (reading/matters.py act_now),
+at which a planner in PLANS runs (work.py)."""
 
 
 def declared(app: str) -> dict:
@@ -32,12 +37,13 @@ def of(app: str, action: str) -> str:
 
 
 def actions(app: str) -> tuple[str, ...]:
-	"""Every action an app's agent has: each call REACH names, then each tool."""
+	"""Every action an app's agent has: each call REACH names, then each
+	tool, then each planner."""
 	try:
 		agent = importlib.import_module(f"onedesk.{app}.agent")
 	except ModuleNotFoundError:
 		return ()
-	return tuple(dict.fromkeys([*getattr(agent, "REACH", {}), *getattr(agent, "TOOLS", ())]))
+	return tuple(dict.fromkeys([*getattr(agent, "REACH", {}), *getattr(agent, "TOOLS", ()), *getattr(agent, "PLANS", {})]))
 
 
 def label(app: str, action: str) -> str:
@@ -51,15 +57,17 @@ def label(app: str, action: str) -> str:
 
 
 def unlevelled(source: str) -> list[str]:
-	"""Given an agent.py: a REACH call or a TOOLS entry without a level or
-	a label, a level that is none of the three, a level or a label on
-	something that is no action, a level on a call NOT_FOR_AI keeps from
-	OneAI, or a tool agent.py lacks. Pure."""
+	"""Given an agent.py: a REACH call, a TOOLS entry or a PLANS planner
+	without a level or a label, a level that is none of the three, a level
+	or a label on something that is no action, a level on a call NOT_FOR_AI
+	keeps from OneAI, a tool agent.py lacks, or a planner at no stage of
+	STAGES or outside onedesk. Pure."""
 	said = _said(source)
 	labels = _labelled(source)
 	reach, refused, tools, levels = said.get("REACH", {}), said.get("NOT_FOR_AI", {}), said.get("TOOLS", ()), said.get("LEVELS", {})
+	plans = said.get("PLANS", {})
 	functions = {node.name for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
-	actions = set(reach) | set(tools)
+	actions = set(reach) | set(tools) | set(plans)
 	wrong = [f"{one} has no level" for one in sorted(actions - set(levels))]
 	wrong += [f"{one}'s level {levels[one]!r} is not one of {LEVELS}" for one in sorted(levels) if levels[one] not in LEVELS]
 	wrong += [f"{one} has a level but is no action" for one in sorted(set(levels) - actions)]
@@ -67,6 +75,8 @@ def unlevelled(source: str) -> list[str]:
 	wrong += [f"the tool {one} is not in agent.py" for one in sorted(set(tools) - functions)]
 	wrong += [f"{one} has no label in LABELS" for one in sorted(actions - set(labels))]
 	wrong += [f"{one} has a label but is no action" for one in sorted(set(labels) - actions)]
+	wrong += [f"{one}'s stage {plans[one][0]!r} is not one of {STAGES}" for one in sorted(plans) if plans[one][0] not in STAGES]
+	wrong += [f"{one}'s planner {plans[one][1]!r} is not in onedesk" for one in sorted(plans) if not str(plans[one][1]).startswith("onedesk.")]
 	return wrong
 
 
@@ -90,5 +100,18 @@ def _said(source: str) -> dict:
 
 
 def every(folders: Path) -> dict[str, list[str]]:
-	"""What is wrong with each app's levels, by folder."""
-	return {path.parent.name: wrong for path in sorted(folders.glob("*/agent.py")) if (wrong := unlevelled(path.read_text(encoding="utf-8")))}
+	"""What is wrong with each app's levels, by folder, and each planner
+	PLANS names that is no function of ours."""
+	out = {}
+	for path in sorted(folders.glob("*/agent.py")):
+		source = path.read_text(encoding="utf-8")
+		wrong = unlevelled(source) + [f"{one}'s planner {at} is no function" for one, (_stage, at) in sorted(_said(source).get("PLANS", {}).items()) if not _defined(folders, at)]
+		if wrong:
+			out[path.parent.name] = wrong
+	return out
+
+
+def _defined(folders: Path, dotted: str) -> bool:
+	module, _dot, function = str(dotted).rpartition(".")
+	path = folders.parent / (module.replace(".", "/") + ".py")
+	return path.exists() and function in {node.name for node in ast.parse(path.read_text(encoding="utf-8")).body if isinstance(node, ast.FunctionDef)}

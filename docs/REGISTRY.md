@@ -185,22 +185,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneBook 1.4.1
+## OneBook 1.5.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | in 1.4.0 |
+| 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 82 | in 1.4.0 |
-| 11. Notifications | 10 | in 1.4.0 |
-| 13. Plain words | 24 | in 1.4.0 |
+| 7. Our look | 82 | not yet |
+| 11. Notifications | 10 | not yet |
+| 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 1.4.0 |
+| 19. Legal | 16 | not yet |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -211,22 +211,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInventory 2.2.1
+## OneInventory 2.3.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | in 2.2.0 |
+| 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 82 | in 2.2.0 |
-| 11. Notifications | 10 | in 2.2.0 |
-| 13. Plain words | 24 | in 2.2.0 |
+| 7. Our look | 82 | not yet |
+| 11. Notifications | 10 | not yet |
+| 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 2.2.0 |
+| 19. Legal | 16 | not yet |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -289,22 +289,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneCRM 1.4.1
+## OneCRM 1.5.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | in 1.4.0 |
+| 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 82 | in 1.4.0 |
-| 11. Notifications | 10 | in 1.4.0 |
-| 13. Plain words | 24 | in 1.4.0 |
+| 7. Our look | 82 | not yet |
+| 11. Notifications | 10 | not yet |
+| 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 1.4.0 |
+| 19. Legal | 16 | not yet |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -315,22 +315,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneHR 1.3.1
+## OneHR 1.4.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | in 1.3.0 |
+| 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 82 | in 1.3.0 |
-| 11. Notifications | 10 | in 1.3.0 |
-| 13. Plain words | 24 | in 1.3.0 |
+| 7. Our look | 82 | not yet |
+| 11. Notifications | 10 | not yet |
+| 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 1.3.0 |
+| 19. Legal | 16 | not yet |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -367,22 +367,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneProject 2.3.1
+## OneProject 2.4.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | in 2.3.0 |
+| 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 82 | in 2.3.0 |
-| 11. Notifications | 10 | in 2.3.0 |
-| 13. Plain words | 24 | in 2.3.0 |
+| 7. Our look | 82 | not yet |
+| 11. Notifications | 10 | not yet |
+| 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 2.3.0 |
+| 19. Legal | 16 | not yet |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:
@@ -471,22 +471,22 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneAI 1.12.1
+## OneAI 1.13.0
 
 Ready.
 
 | Point | Rules | Last looked at |
 |---|--:|---|
-| 1. Demo and tests | 14 | in 1.12.0 |
+| 1. Demo and tests | 14 | not yet |
 | 5. Settings and setup | 5 | — |
-| 7. Our look | 82 | in 1.12.0 |
-| 11. Notifications | 10 | in 1.12.0 |
-| 13. Plain words | 24 | in 1.12.0 |
+| 7. Our look | 82 | not yet |
+| 11. Notifications | 10 | not yet |
+| 13. Plain words | 24 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
 | 18. Permissions and roles | 16 | — |
-| 19. Legal | 16 | in 1.12.0 |
+| 19. Legal | 16 | not yet |
 | 20. One home, clean code | 25 | — |
 
 What a person looks at:

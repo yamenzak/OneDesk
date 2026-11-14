@@ -2737,6 +2737,10 @@ msgstr "إضافة عنوان"
 msgid "Add Bank Account"
 msgstr "إضافة حساب بنكي"
 
+#: onedesk/one_book/agent.py:48
+msgid "Add Bank Transactions"
+msgstr "إضافة حركات البنك"
+
 #: onedesk/public/js/one_hr/checkin_list.js:48
 msgid "Add Checkin for Another Employee"
 msgstr "إضافة تسجيل حضور لموظف آخر"
@@ -2762,6 +2766,10 @@ msgstr "إضافة نطاق الشركة"
 msgid "Add Contact"
 msgstr "إضافة جهة اتصال"
 
+#: onedesk/one_crm/agent.py:55
+msgid "Add Contacts from Mail"
+msgstr "إضافة جهات اتصال من البريد"
+
 #: onedesk/public/js/one_project/project.js:175
 #: onedesk/public/js/one_project/project_actions.js:185
 #: onedesk/public/js/one_project/project_actions.js:240
@@ -2777,6 +2785,10 @@ msgstr "إضافة نوع تكلفة"
 msgid "Add Credits"
 msgstr "إضافة رصيد"
 
+#: onedesk/one_crm/agent.py:53
+msgid "Add Customer or Lead"
+msgstr "إضافة عميل أو عميل محتمل"
+
 #: onedesk/public/js/account_center/account_center.js:779
 msgid "Add Database"
 msgstr "إضافة قاعدة بيانات"
@@ -2790,6 +2802,10 @@ msgstr "إضافة التاريخ"
 #: onedesk/public/js/one_mail/onemail_settings.js:1069
 msgid "Add Domain"
 msgstr "إضافة نطاق"
+
+#: onedesk/one_project/agent.py:83
+msgid "Add Event"
+msgstr "إضافة حدث"
 
 #: onedesk/one_studio/doctype/extension/extension_list.js:16
 msgid "Add Extension"
@@ -2813,6 +2829,10 @@ msgstr "إضافة مجلد"
 #: onedesk/public/js/one_inventory/item_new.js:326
 msgid "Add Item"
 msgstr ""
+
+#: onedesk/one_hr/agent.py:63
+msgid "Add Job Applicant"
+msgstr "إضافة متقدم لوظيفة"
 
 #: frontend/src/inventory/item/ItemBuying.vue:17
 msgid "Add Manufacturer"
@@ -2875,6 +2895,10 @@ msgstr "إضافة قاعدة"
 msgid "Add Seats"
 msgstr "إضافة مقاعد"
 
+#: onedesk/one_crm/agent.py:54
+msgid "Add Sender as Contact"
+msgstr "إضافة المرسل كجهة اتصال"
+
 #: onedesk/public/js/doctype_settings.js:285
 #: onedesk/public/js/doctype_settings.js:336
 msgid "Add Series"
@@ -2914,6 +2938,10 @@ msgstr "إضافة مشروع فرعي"
 msgid "Add Supplier"
 msgstr "إضافة مورد"
 
+#: onedesk/one_inventory/agent.py:51
+msgid "Add Supplier Quotation"
+msgstr "إضافة عرض سعر مورد"
+
 #: frontend/src/template/Tasks.vue:98 frontend/src/template/TemplatePart.vue:58
 #: onedesk/public/js/one_task/task_new.js:43
 msgid "Add Task"
@@ -2923,6 +2951,14 @@ msgstr "إضافة مهمة"
 #: frontend/src/template/TemplatePart.vue:57
 msgid "Add Task Under"
 msgstr "إضافة مهمة تحتها"
+
+#: onedesk/one_project/agent.py:82
+msgid "Add Task from Document"
+msgstr "إضافة مهمة من مستند"
+
+#: onedesk/one_project/agent.py:84
+msgid "Add Task from Promise"
+msgstr "إضافة مهمة من وعد"
 
 #: onedesk/public/js/one_project/project_actions.js:72
 msgid "Add Tasks"
@@ -5745,6 +5781,10 @@ msgstr "اسأل عند الكاونتر عن التفاصيل."
 #: onedesk/one_mail/access.py:53
 msgid "Ask for Approval"
 msgstr "طلب الموافقة"
+
+#: onedesk/one_book/agent.py:49
+msgid "Ask for Missing Invoice"
+msgstr "طلب الفاتورة المفقودة"
 
 #: frontend/src/project/Suppliers.vue:124
 #: onedesk/public/js/one_inventory/quotes_actions.js:8
@@ -9526,6 +9566,10 @@ msgstr "تسجيل الانصراف"
 #: frontend/src/factory/floor/FloorSteps.vue:109
 msgid "Check Quality"
 msgstr "فحص الجودة"
+
+#: onedesk/one_inventory/agent.py:50
+msgid "Check Unordered Delivery"
+msgstr "فحص توريد غير مطلوب"
 
 #: onedesk/one_ai/jobs.py:66
 msgid "Check What Arrived Before Acting"
@@ -16156,6 +16200,14 @@ msgstr "مسودة"
 msgid "Draft Assets"
 msgstr "أصول مسودة"
 
+#: onedesk/one_hr/agent.py:65
+msgid "Draft Expense Claim"
+msgstr "مسودة مطالبة مصروفات"
+
+#: onedesk/one_crm/agent.py:57
+msgid "Draft Extra Work Quotation"
+msgstr "مسودة عرض سعر لأعمال إضافية"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:410
 msgid "Draft Invoices, Orders and Payments"
 msgstr "مسودات الفواتير والطلبات والمدفوعات"
@@ -16169,6 +16221,10 @@ msgstr "رقم المسودة"
 msgid "Draft Orders"
 msgstr "إنشاء مسودات الأوامر"
 
+#: onedesk/one_book/agent.py:47
+msgid "Draft Payment Entry"
+msgstr "مسودة قيد دفعة"
+
 #: onedesk/one_book/agent.py:35
 msgid "Draft Purchase Invoice"
 msgstr "مسودة فاتورة شراء"
@@ -16176,6 +16232,14 @@ msgstr "مسودة فاتورة شراء"
 #: onedesk/one_inventory/shortcuts.py:10
 msgid "Draft Purchase Orders"
 msgstr "إعداد مسودات أوامر الشراء"
+
+#: onedesk/one_inventory/agent.py:49
+msgid "Draft Purchase Receipt"
+msgstr "مسودة إيصال استلام مشتريات"
+
+#: onedesk/one_crm/agent.py:56
+msgid "Draft Sales Order"
+msgstr "مسودة أمر بيع"
 
 #: onedesk/one_ai/jobs.py:49
 msgid "Draft a Reply"
@@ -28724,6 +28788,10 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
 msgid "Log No"
 msgstr "رقم السجل"
+
+#: onedesk/one_project/agent.py:81
+msgid "Log Site Report"
+msgstr "تسجيل تقرير موقع"
 
 #: frontend/src/project/Time.vue:15
 #: onedesk/public/js/one_project/project_actions.js:355

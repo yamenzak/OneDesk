@@ -583,12 +583,8 @@ def ai(name: str) -> str:
 @cache
 def _made() -> frozenset:
 	found = set()
-	for name in ("plans.py", "money.py"):
-		found |= set(
-			re.findall(
-				r'Action\(\s*"Create",\s*"([A-Z][\w ]+)"', (tree.APP / "one_ai" / "reading" / name).read_text()
-			)
-		)
+	for path in (tree.APP / "one_ai" / "reading" / "plans.py", *sorted(tree.APP.glob("*/planner.py"))):
+		found |= set(re.findall(r'Action\(\s*"Create",\s*"([A-Z][\w ]+)"', path.read_text()))
 	return frozenset(found)
 
 

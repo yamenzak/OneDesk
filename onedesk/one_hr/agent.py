@@ -45,6 +45,27 @@ NOT_FOR_AI = {
 	"shift_setup.start_reading": "Turning on a shift's check-ins starts marking people's days, so HR does it.",
 }
 
+PLANS = {
+	"add_job_applicant": ("parties", "onedesk.one_hr.planner.applicant"),
+	"file_employee_documents": ("rest", "onedesk.one_hr.planner.employee_documents"),
+	"draft_expense_claim": ("rest", "onedesk.one_hr.planner.receipt"),
+}
+"""What its agent makes of what OneAI read, at which of Intake's stages (one_ai/agents/work.py)."""
+
+LEVELS = {
+	"add_job_applicant": "Draft",
+	"file_employee_documents": "Draft",
+	"draft_expense_claim": "Draft",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
+LABELS = {
+	"add_job_applicant": _lt("Add Job Applicant"),
+	"file_employee_documents": _lt("File Employee Documents"),
+	"draft_expense_claim": _lt("Draft Expense Claim"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
+
 # What OneAI does in OneHR on its own, each a field of HR Settings that
 # AICenter draws with its own label and description (one_ai/center.py).
 JOBS = [

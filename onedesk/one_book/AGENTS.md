@@ -421,3 +421,7 @@ suggestion card should never be.
 - **Its foot and settings** are `public/js/one_book/book_control.js`.
 - **Its screens** are `frontend/src/books/`.
 - **Its checks** are `checks.py`, run with the rest by `one_demo/check.py`.
+
+### planner.py
+
+OneBook's accountant's share of what OneAI reads (one_ai/agents/work.py): `purchase` (a bill, a paid receipt, a credit note or a timesheet as a draft Purchase Invoice, or the bill already there linked), `payment` (a payment advice as a draft Payment Entry), `bank` (a statement's lines as Bank Transactions, submitted, since reconciliation reads only those) and `never_received` (a task to ask for an invoice a reminder names, a card since the accountant may not make a task). agent.py's `PLANS` names each with its stage, level and label; the supplier a new bill came from is OneAI's own (one_ai/reading/plans.py `supplier`).

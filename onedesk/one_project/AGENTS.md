@@ -463,7 +463,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
     due, is in Needs You (`asks`), and a project's manager is told on the day
     any of it falls due, either side (`due`).
 - `intake.py` — which open project a document names, for the bills OneAI
-  drafts (one_ai/reading/money.py).
+  drafts (one_book/planner.py) and the tasks its coordinator makes (planner.py).
 
   A supplier's bill for the villa's glass says "Villa Al Barsha" somewhere: in
   its reference, a line, the delivery address. Booked with no project, it was
@@ -1148,3 +1148,7 @@ rebilled to a Time and Materials customer isn't credited to them.
 - **The project page** keeps OneProject's rail on a wide screen, as the task
   page keeps OneTask's; `window/frame.css` lets the page's column shrink so
   the record panel beside it stays inside the window.
+
+### planner.py
+
+OneProject's coordinator's share of what OneAI reads (one_ai/agents/work.py): `tasks` (one task per matter, nudged, moved or closed by what follows), `promises` (what our own mail promised) and `site_log` (a site's day report on its project). agent.py's `PLANS` names each with its stage, level and label, and OneCalendar's `event` too, since OneCalendar and OneTask have no roles and so no agent.

@@ -629,3 +629,21 @@ def onebook_oneai_reads_the_tax_return_of_one_company():
 	charged = lambda said: next(one["tax"] for one in said["lines"] if one["line"] == "Total charged")
 	assert dubai["currency"] == "AED" and riyadh["currency"] == "SAR", (dubai["currency"], riyadh["currency"])
 	assert charged(dubai) > 0 and charged(riyadh) != charged(dubai), (charged(dubai), charged(riyadh))
+
+
+@check
+def onebook_its_accountant_drafts_what_mail_and_files_bring():
+	"""OneBook's accountant's work on what OneAI read (planner.py): a
+	payment advice as a draft Payment Entry and a bank statement's lines as
+	Bank Transactions, each under its own name and action; the supplier a
+	new bill came from is OneAI's own, made before the accountant works."""
+	from onedesk.one.registry import agents
+	from onedesk.one_demo import samples
+
+	paid = [one for one in samples.done_by("payment-advice", "one_book") if one.target_doctype == "Payment Entry"]
+	assert paid and paid[0].agent_action == "draft_payment_entry" and paid[0].level == "Done", paid
+	assert frappe.db.get_value("Payment Entry", paid[0].target_name, "docstatus") == 0, "a person submits it"
+	lines = [one for one in samples.done_by("bank-statement", "one_book") if one.target_doctype == "Bank Transaction"]
+	assert len(lines) >= 2 and {one.agent_action for one in lines} == {"add_bank_transactions"}, lines
+	made = frappe.get_all("Reading Action", filters={"target_doctype": "Supplier", "kind": "Create", "key": ["like", "%party|supplier"]}, fields=["agent"])
+	assert made and not {one.agent for one in made} & {one.email for one in agents.listed()}, made
