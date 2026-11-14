@@ -6,6 +6,7 @@ module's README says what it does.
 
 ## Due now
 
+- AICenter's agent tab draws an empty box for each of Waiting on a Person, What It Read, What It Learned and What It Did when there is nothing (the ui rule: an empty list is not drawn); and the demo never runs the screen keeper's, the planner's or the inspector's jobs, so their tabs say 0 done: the demo should leave one of each.
 - AICenter's What It Did rows read like code ("Create · Purchase Invoice ACC-PINV-2026-00027", then "Done · Draft Purchase Invoice"): say it as an activity line, "Drafted Purchase Invoice ACC-PINV-2026-00027", with the level only when it is not Done.
 - Each agent's Approver in AICenter is Administrator on the demo and on a new workspace: it should start as the workspace's owner (a person who reads Ask First cards), and the demo's as Layla.
 - OneChat's agent list cuts a long agent's name ("OneFactory's production p…", frontend/src/chat/ChannelList.vue): wrap it to two lines, or show the agent's role alone under the app's mark.
