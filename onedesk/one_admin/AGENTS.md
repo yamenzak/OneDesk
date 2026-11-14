@@ -2199,7 +2199,16 @@ Home's figures, Workspaces or the costs. `start` picks the connected server
 with the most room and queues `advance`; `tick` (every two minutes) moves
 Starting and Deleting ones on and deletes what has run out. Each kind has its
 own steps in `WALKS`: Fresh and Demo make the site through Pilot and route it
-like a workspace, the demo company is built by the box's agent. A Workspace
+like a workspace, the demo company is built by the box's agent. A Demo
+session on a bench whose release carries a ready demo (`demo` in
+`releases/<sha>.json`, `ready_release`) walks `READY_WALK` instead: the
+agent's `session-ready-demo` restores `releases/<sha>.demo.tar.gz` as a new
+site the way `spare` restores the template (its own database user, config
+over the archive's, a fresh Administrator password; the demo's people have no
+password, as `as_template` left them), then `configure` and `route`. The
+release is kept in the session's `upload`, which is how `_walking` tells the
+two walks apart, and the session's timeline says which way it was made and,
+when built, why. A Workspace
 Copy is the newest nightly backup's database alone, sent up through the same
 path as a Rebuild; it keeps the new site's own encryption key, so the
 workspace's encrypted secrets stay unreadable, and `quieted`, run by the agent,
@@ -2424,7 +2433,20 @@ the Python its virtualenv points at), beside its template site
 and does what `pilot init` still would (redis, process config, common site
 config), then `setup production`: about a minute, against 6 to 7 of
 building. A release without one, or a bench that does not import its apps,
-is built from its commits as before. The workflow then calls
+is built from its commits as before.
+
+The build runs in three workflow steps, each a stage of `build.sh`
+(`build`, `demo`, `publish`; with no stage it runs all three, and
+`--dry-run` makes `publish` print what it would put up and touch nothing,
+`--no-demo` skips the demo). `demo` restores the template as `demo.one`,
+marks it a dev site, runs `one_demo.build.load` (the setup job and every
+builder, from scratch), empties it with `spares.as_template` and packs it as
+the template is packed (`<sha>.demo.tar.gz`, `deploy/release/demo.py`).
+It is kept in the template's cache beside it with the commit it was made at,
+and reused at the same commit. A demo that fails, or is over its budget
+(`demo.BUDGET_MB`), is left out with a warning, the step is
+`continue-on-error`, and the release ships without `demo`: a Demo session on
+it builds the demo. The workflow then calls
 `releases.released`, signed with `one_release_secret` (this site's config,
 and the workflow's `ONE_RELEASE_SECRET`, with `ONE_ADMIN_URL`, both written
 by `github_app.write_release`), and the check

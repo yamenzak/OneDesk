@@ -11,6 +11,10 @@ on:
         description: Start from the last build on the same upstream commits
         type: boolean
         default: true
+      demo:
+        description: Build the ready demo a training copy restores
+        type: boolean
+        default: true
   push:
     branches: [main]
 
@@ -29,7 +33,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
         with:
@@ -117,11 +121,30 @@ jobs:
           key: ${{ steps.base.outputs.template }}
           restore-keys: ${{ steps.base.outputs.templates }}
 
-      - name: Build and publish
+      - name: Build
         if: steps.built.outputs.yes != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_BRANCH: ${{ github.ref_name }}
+        run: |
+          sudo chown -R frappe:frappe "$ONE_BASE" "$ONE_TEMPLATE"
+          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" ONE_BASE="$ONE_BASE" ONE_TEMPLATE="$ONE_TEMPLATE" \
+            GH_TOKEN="$GH_TOKEN" RELEASE_BRANCH="$RELEASE_BRANCH" \
+            bash /tmp/onedesk/deploy/release/build.sh build
+
+      - name: Demo database
+        if: steps.built.outputs.yes != 'true'
+        timeout-minutes: 60
+        continue-on-error: true
+        env:
+          ONE_DEMO: ${{ (github.event_name == 'push' || inputs.demo != false) && 'true' || 'false' }}
+        run: |
+          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" ONE_TEMPLATE="$ONE_TEMPLATE" ONE_DEMO="$ONE_DEMO" \
+            bash /tmp/onedesk/deploy/release/build.sh demo
+
+      - name: Publish
+        if: steps.built.outputs.yes != 'true'
+        env:
           PUBLISH: ${{ (github.event_name == 'push' || inputs.publish != false) && 'true' || 'false' }}
           R2_ENDPOINT: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.R2_ENDPOINT || '' }}
           R2_ASSETS_BUCKET: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.R2_ASSETS_BUCKET || '' }}
@@ -130,11 +153,10 @@ jobs:
           ONE_ADMIN_URL: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.ONE_ADMIN_URL || '' }}
           ONE_RELEASE_SECRET: ${{ (github.event_name == 'push' || inputs.publish != false) && secrets.ONE_RELEASE_SECRET || '' }}
         run: |
-          sudo chown -R frappe:frappe "$ONE_BASE" "$ONE_TEMPLATE"
-          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" PUBLISH="$PUBLISH" ONE_BASE="$ONE_BASE" ONE_TEMPLATE="$ONE_TEMPLATE" \
-            GH_TOKEN="$GH_TOKEN" RELEASE_BRANCH="$RELEASE_BRANCH" R2_ENDPOINT="$R2_ENDPOINT" R2_ASSETS_BUCKET="$R2_ASSETS_BUCKET" \
-            R2_ASSETS_KEY="$R2_ASSETS_KEY" R2_ASSETS_SECRET="$R2_ASSETS_SECRET" ONE_ADMIN_URL="$ONE_ADMIN_URL" ONE_RELEASE_SECRET="$ONE_RELEASE_SECRET" \
-            bash /tmp/onedesk/deploy/release/build.sh
+          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" PUBLISH="$PUBLISH" \
+            R2_ENDPOINT="$R2_ENDPOINT" R2_ASSETS_BUCKET="$R2_ASSETS_BUCKET" R2_ASSETS_KEY="$R2_ASSETS_KEY" R2_ASSETS_SECRET="$R2_ASSETS_SECRET" \
+            ONE_ADMIN_URL="$ONE_ADMIN_URL" ONE_RELEASE_SECRET="$ONE_RELEASE_SECRET" \
+            bash /tmp/onedesk/deploy/release/build.sh publish
 
       - name: Cache folders back to the runner
         if: steps.built.outputs.yes != 'true'

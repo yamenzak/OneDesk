@@ -1,8 +1,8 @@
 """One's agent on a box. Once a minute it reads OneAdmin's signed instructions
 from R2, carries out the next one and reports how it went. It only ever calls
 out, so no port opens: it unpacks a release as a new bench, makes a spare site
-from the release's template, moves a workspace between benches, and drops a
-bench that has emptied.
+from the release's template and a training copy from its ready demo, moves
+a workspace between benches, and drops a bench that has emptied.
 """
 
 import fcntl
@@ -25,6 +25,7 @@ CONFIG = HOME / ".one-agent.json"
 DONE = HOME / ".one-agent-done"
 LOCK = HOME / ".one-agent-lock"
 TEMPLATES = HOME / "templates"
+DEMOS = HOME / "demos"
 BENCHES = HOME / "pilot" / "benches"
 PILOT_HOME = HOME / "pilot"
 PILOT = str(PILOT_HOME / "bin" / "pilot")
@@ -98,6 +99,7 @@ SiteCommands(Bench(Path.home() / "pilot" / "benches" / bench).site(site)).restor
 TIMEOUT = 8 * 3600
 BUILD_MEMORY_MB = 2800
 UPDATE = "update-agent"
+READY_DEMO = "session-ready-demo"
 LOADS = "import importlib.util, sys; spec = importlib.util.spec_from_file_location('agent', sys.argv[1]); agent = importlib.util.module_from_spec(spec); spec.loader.exec_module(agent); assert callable(agent.main) and sys.argv[2] in agent.KINDS"
 
 
@@ -301,17 +303,18 @@ def _unpack(config: dict, bench: Path, release: str) -> None:
 			link.symlink_to(public)
 
 
-def _template(config: dict, release: str) -> Path:
-	"""The release's template site, fetched once and kept until the next
-	release's is."""
-	held = TEMPLATES / release
+def _kept(config: dict, release: str, folder: Path, part: str, suffix: str) -> Path:
+	"""A site the release carries, fetched once into `folder` and kept until
+	the next release's is: its template (`template`, `site.tar.gz`) or its
+	ready demo (`demo`, `demo.tar.gz`)."""
+	held = folder / release
 	if (held / ".ready").exists():
 		return held
-	TEMPLATES.mkdir(exist_ok=True)
-	for other in TEMPLATES.iterdir():
+	folder.mkdir(exist_ok=True)
+	for other in folder.iterdir():
 		shutil.rmtree(other, ignore_errors=True)
 	held.mkdir()
-	archive = _fetch(config, f"releases/{release}.site.tar.gz", _about(config, release)["template"]["sha256"], TEMPLATES / f".{release}.tar.gz")
+	archive = _fetch(config, f"releases/{release}.{suffix}", _about(config, release)[part]["sha256"], folder / f".{release}.tar.gz")
 	try:
 		run("tar", "xzf", str(archive), "-C", str(held), *TEMPLATE)
 	finally:
@@ -320,20 +323,31 @@ def _template(config: dict, release: str) -> Path:
 	return held
 
 
-def spare(config: dict, one: dict) -> None:
-	"""A spare site: the release's template restored under a new name, with
-	its own database, user and password, encryption key and Administrator
-	password, and its scheduler paused until it is claimed."""
-	bench, site = one["bench"], one["site"]
-	held = _template(config, one["release"])
+def merged(carried: dict, own: dict, **more) -> dict:
+	"""A restored site's config: what the archive carried, under the site's
+	own (its database, user and keys), under what this instruction adds. Pure."""
+	return {**carried, **own, **more}
+
+
+def restored(held: Path, bench: str, site: str, **more) -> None:
+	"""A new site made from an archive unpacked in `held`: its database
+	restored under its own database user and password, the files copied,
+	the config merged, then an Administrator password of its own."""
 	password = secrets.token_urlsafe(18)
 	on_pilot(SPARE, bench, site, str(held / "database.sql.gz"), password)
 	path = BENCHES / bench / "sites" / site
 	for part in ("public/files", "private/files"):
 		shutil.copytree(held / part, path / part, dirs_exist_ok=True)
 	made = path / "site_config.json"
-	_write_config(made, {**json.loads((held / "site_config.json").read_text()), **json.loads(made.read_text()), "pause_scheduler": 1})
+	_write_config(made, merged(json.loads((held / "site_config.json").read_text()), json.loads(made.read_text()), **more))
 	frappe_on(bench, site, "set-admin-password", password)
+
+
+def spare(config: dict, one: dict) -> None:
+	"""A spare site: the release's template restored under a new name, with
+	its own database, user and password, encryption key and Administrator
+	password, and its scheduler paused until it is claimed."""
+	restored(_kept(config, one["release"], TEMPLATES, "template", "site.tar.gz"), one["bench"], one["site"], pause_scheduler=1)
 
 
 def _newest(folder: Path, pattern: str) -> str:
@@ -398,8 +412,16 @@ def drop_bench(_config: dict, one: dict) -> None:
 
 
 def session_demo(_config: dict, one: dict) -> None:
-	"""A session's demo company, built in its own site."""
+	"""A session's demo company, built in its own site, for a release with no
+	ready demo."""
 	frappe_on(one["bench"], one["site"], "execute", "onedesk.one_demo.build.load", "--kwargs", json.dumps({"password": secrets.token_urlsafe(18)}))
+
+
+def session_ready_demo(config: dict, one: dict) -> None:
+	"""A session's site made from the release's ready demo, as a spare is from
+	its template: about a minute, where building the demo takes many. Its
+	people keep no password; OneAdmin signs the operator in."""
+	restored(_kept(config, one["release"], DEMOS, "demo", "demo.tar.gz"), one["bench"], one["site"])
 
 
 def session_quiet(_config: dict, one: dict) -> None:
@@ -424,7 +446,7 @@ def update_agent(_config: dict, one: dict) -> None:
 		new.unlink(missing_ok=True)
 
 
-KINDS = {"prepare": prepare, "spare": spare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, "session-quiet": session_quiet, UPDATE: update_agent}
+KINDS = {"prepare": prepare, "spare": spare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, READY_DEMO: session_ready_demo, "session-quiet": session_quiet, UPDATE: update_agent}
 
 
 def report(config: dict, said: dict) -> bool:

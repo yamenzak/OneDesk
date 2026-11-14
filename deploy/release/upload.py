@@ -1,10 +1,12 @@
 """A release into the registry, run by build.sh. `publish` puts up the
-screens' archive, the ready-made bench, the template site and the box's agent
-of that commit, then what they are (`releases/<sha>.json`, last, since its
-arrival is what makes the release exist), and tells OneAdmin. What they are
+screens' archive, the ready-made bench, the template site, the ready demo
+when the build made one (deploy/release/demo.py) and the box's agent of that
+commit, then what they are (`releases/<sha>.json`, last, since its arrival
+is what makes the release exist), and tells OneAdmin. What they are
 includes the private apps under `private/`, as each one's manifest.py
-declares itself, which OneAdmin keeps as its Private App records. `config` prints the
-template site's config without anything a site must not share."""
+declares itself, which OneAdmin keeps as its Private App records. `publish
+--dry-run` prints what it would put up and touches nothing. `config` prints
+a site's config without anything a site must not share."""
 
 import hashlib
 import hmac
@@ -18,9 +20,12 @@ from pathlib import Path
 
 SHARED_NEVER = ("db_", "encryption_key", "admin_password", "pilot_", "cloud_", "onedesk_vapid", "host_name", "installed_apps", "maintenance", "pause_", "domains", "route", "ssl", "cert_name", "email_sender_name", "backup")
 SECRET_WORDS = ("secret", "token", "password", "key")
+PARTS = ("tar.gz", "bench.tar.gz", "site.tar.gz")
+DRY_RUN = "--dry-run"
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(ROOT))
 
+from deploy.release import demo  # noqa: E402
 from onedesk.one.registry import private  # noqa: E402
 
 
@@ -54,10 +59,47 @@ def commit_of(repo: Path, sha: str) -> dict:
 	return {"subject": subject, "committed_at": at} if found.returncode == 0 and at else {}
 
 
-def publish(out: str, onedesk: str, frappe: str, erpnext: str, hrms: str) -> None:
+def parts(out: Path, onedesk: str) -> list[str]:
+	"""The archives a release puts up, by suffix: every build's three, and
+	the ready demo when this build made one and checked it."""
+	made = out / demo.name(onedesk)
+	return [*PARTS, *([demo.SUFFIX] if made.exists() and Path(f"{made}.sha256").exists() else [])]
+
+
+def about(out: Path, onedesk: str, frappe: str, erpnext: str, hrms: str) -> dict:
+	"""What `releases/<sha>.json` says the release is. One without `demo`
+	has no ready demo, and a training copy from the demo builds it."""
+	held = {
+		"onedesk": onedesk,
+		"frappe": frappe,
+		"erpnext": erpnext,
+		"hrms": hrms,
+		**_part(out, f"{onedesk}.tar.gz"),
+		"bench": {**_part(out, f"{onedesk}.bench.tar.gz"), "python": (out / f"{onedesk}.bench.python").read_text().split()},
+		"template": _part(out, f"{onedesk}.site.tar.gz"),
+		**commit_of(ROOT, onedesk),
+		"built_at": int(time.time()),
+		"built_in": int(os.environ.get("BUILT_IN") or 0) or None,
+		"private_apps": declared(),
+	}
+	if demo.SUFFIX in parts(out, onedesk):
+		held["demo"] = _part(out, demo.name(onedesk))
+	return held
+
+
+def publish(out: str, onedesk: str, frappe: str, erpnext: str, hrms: str, dry_run: bool = False) -> list[str]:
+	"""The release put up, its description last, and the keys it wrote.
+	With `dry_run` the keys are only printed: neither R2 nor OneAdmin hears."""
+	held = Path(out)
+	key = f"releases/{onedesk}"
+	described = about(held, onedesk, frappe, erpnext, hrms)
+	keys = [*(f"{key}.{suffix}" for suffix in parts(held, onedesk)), f"{key}.agent.py", f"{key}.json"]
+	if dry_run:
+		print("\n".join(f"would put up {one}" for one in keys))
+		print(json.dumps(described))
+		return keys
 	import boto3
 
-	held = Path(out)
 	bucket = os.environ["R2_ASSETS_BUCKET"]
 	store = boto3.client(
 		"s3",
@@ -66,26 +108,13 @@ def publish(out: str, onedesk: str, frappe: str, erpnext: str, hrms: str) -> Non
 		aws_access_key_id=os.environ["R2_ASSETS_KEY"],
 		aws_secret_access_key=os.environ["R2_ASSETS_SECRET"],
 	)
-	key = f"releases/{onedesk}"
-	for suffix in ("tar.gz", "bench.tar.gz", "site.tar.gz"):
+	for suffix in parts(held, onedesk):
 		store.upload_file(str(held / f"{onedesk}.{suffix}"), bucket, f"{key}.{suffix}")
 	store.upload_file(str(Path(__file__).resolve().parents[1] / "server" / "agent.py"), bucket, f"{key}.agent.py")
-	about = {
-		"onedesk": onedesk,
-		"frappe": frappe,
-		"erpnext": erpnext,
-		"hrms": hrms,
-		**_part(held, f"{onedesk}.tar.gz"),
-		"bench": {**_part(held, f"{onedesk}.bench.tar.gz"), "python": (held / f"{onedesk}.bench.python").read_text().split()},
-		"template": _part(held, f"{onedesk}.site.tar.gz"),
-		**commit_of(Path(__file__).resolve().parents[2], onedesk),
-		"built_at": int(time.time()),
-		"built_in": int(os.environ.get("BUILT_IN") or 0) or None,
-		"private_apps": declared(),
-	}
-	store.put_object(Bucket=bucket, Key=f"{key}.json", Body=json.dumps(about).encode(), ContentType="application/json")
-	print(json.dumps(about))
+	store.put_object(Bucket=bucket, Key=f"{key}.json", Body=json.dumps(described).encode(), ContentType="application/json")
+	print(json.dumps(described))
 	announce(onedesk)
+	return keys
 
 
 def signed(secret: str, body: str) -> str:
@@ -116,4 +145,5 @@ if __name__ == "__main__":
 	if sys.argv[1] == "config":
 		print(json.dumps(shareable(json.loads(Path(sys.argv[2]).read_text())), indent=1))
 	else:
-		publish(*sys.argv[2:])
+		given = sys.argv[2:]
+		publish(*(one for one in given if one != DRY_RUN), dry_run=DRY_RUN in given)

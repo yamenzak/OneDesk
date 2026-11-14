@@ -1,6 +1,8 @@
 """Sessions on a server we connected: a site started fresh, from the demo
 company or from a copy of a workspace's database, with its own address, and
-deleted by itself when its time is up. README, Sessions and copies.
+deleted by itself when its time is up. A session from the demo restores the
+release's ready demo when it has one (deploy/release/demo.py) and builds the
+demo otherwise, and its timeline says which. README, Sessions and copies.
 """
 
 import secrets
@@ -8,7 +10,7 @@ import secrets
 import frappe
 from frappe.utils import add_to_date, get_datetime, now_datetime
 
-from onedesk.one_admin import backups, cloudflare, faults, features, fleet, hosts, pilot, servers, site, steps
+from onedesk.one_admin import backups, boxes, cloudflare, faults, features, fleet, hosts, pilot, servers, site, steps
 from onedesk.one_admin.site import OPERATOR
 
 DOCTYPE = "Workspace Session"
@@ -20,6 +22,8 @@ LIVE = ("Starting", "Running", "Stopped", "Deleting", "Failed")
 ON_THE_SERVER = ("Starting", "Running", "Stopped", "Deleting")
 LAST_STEP = "route"
 WAIT = "wait"
+READY = "ready_demo"
+READY_KIND = "session-ready-demo"
 
 ADVANCE_TIMEOUT = 3600
 COPIES = "training_copies"
@@ -34,11 +38,44 @@ WALKS = {
 }
 
 
-def after(source: str, step: str) -> str | None:
+READY_WALK = (READY, "agent_done", "configure", LAST_STEP)
+
+
+def walk_of(source: str, ready: bool = False) -> tuple:
+	"""A session's steps: a demo restored from its release's ready demo has
+	no site to create and no demo to build. Pure."""
+	return READY_WALK if source == DEMO and ready else WALKS[source]
+
+
+def after(source: str, step: str, ready: bool = False) -> str | None:
 	"""The step that follows this one. Pure."""
-	walk = WALKS[source]
+	walk = walk_of(source, ready)
 	at = walk.index(step) + 1
 	return walk[at] if at < len(walk) else None
+
+
+def ready_release(release: str | None, about: dict | None) -> str | None:
+	"""The release whose ready demo a session from the demo restores, or None
+	when the demo must be built: the bench names no release, or its release
+	carries no demo. Pure."""
+	return release if release and (about or {}).get("demo") else None
+
+
+def _ready(row, bench: str) -> tuple[str | None, str]:
+	"""The release a demo session restores from, if any, and what its
+	timeline says about it."""
+	release = next((one.get("release") for one in servers.benches(row) if one.get("bench") == bench), None)
+	about = None
+	if release:
+		try:
+			about = boxes.release_of(servers._keys(), release)
+		except Exception:
+			frappe.log_error(title=f"Reading release {release} for a demo session")
+	if ready_release(release, about):
+		return release, frappe._("Made from the ready demo of release {0}, so it starts in about a minute.").format(release[:8])
+	if about is not None:
+		return None, frappe._("Release {0} has no ready demo, so the demo is built on this copy. That takes a while.").format(release[:8])
+	return None, frappe._("The server could not say which release it runs, so the demo is built on this copy. That takes a while.")
 
 
 def expires_on(start, lasts: str):
@@ -140,6 +177,8 @@ def start(title: str, source: str, lasts: str, tenant: str | None = None) -> str
 		if why:
 			frappe.throw(frappe._("{0} has not turned on Training Copies.").format(tenant))
 	row = _server()
+	bench = servers.current(row)
+	release, said = _ready(row, bench) if source == DEMO else (None, None)
 	slug = f"s-{secrets.token_hex(4)}"
 	domain = frappe.get_cached_value("One Admin Settings", None, "tenant_domain") or "t.4dl.app"
 	name = hosts.under(slug, domain)
@@ -153,13 +192,16 @@ def start(title: str, source: str, lasts: str, tenant: str | None = None) -> str
 			"lasts": lasts,
 			"expires_on": expires_on(now_datetime(), lasts),
 			"server": row.server,
-			"bench": servers.current(row),
+			"bench": bench,
 			"slug": slug,
 			"site": name,
 			"link": f"https://{name}",
-			"step": WALKS[source][0],
+			"upload": release,
+			"step": walk_of(source, bool(release))[0],
 		}
 	).insert(ignore_permissions=True)
+	if said:
+		doc.add_comment("Info", said)
 	_queue(doc.name)
 	return doc.name
 
@@ -247,6 +289,13 @@ def demo(doc) -> None:
 	servers.instruct(doc.server, "session-demo", session=doc.name, bench=doc.bench, site=doc.site)
 
 
+def ready_demo(doc) -> None:
+	"""The box's agent makes the site from the release's ready demo, as it
+	makes a spare from the template: the copy's own database user, config
+	and Administrator password, the demo's records and files."""
+	servers.instruct(doc.server, READY_KIND, session=doc.name, bench=doc.bench, site=doc.site, release=doc.upload)
+
+
 def copy(doc) -> None:
 	"""The workspace's newest nightly backup, its database alone, sent to the
 	server and held for `restore`."""
@@ -302,6 +351,12 @@ def _queue(name: str) -> None:
 	frappe.enqueue("onedesk.one_admin.sessions.advance", queue="long", timeout=ADVANCE_TIMEOUT, job_id=f"one_session_{name}", deduplicate=True, enqueue_after_commit=True, name=name)
 
 
+def _walking(doc) -> tuple:
+	"""Which walk a session is on: `upload` names the release of a demo
+	restored from its ready demo, as it names a copy's upload."""
+	return doc.source, bool(doc.upload)
+
+
 def advance(name: str) -> None:
 	"""One step of a session, and on from there until it waits."""
 	doc = frappe.get_doc(DOCTYPE, name)
@@ -310,7 +365,8 @@ def advance(name: str) -> None:
 		return
 	if doc.status != "Starting":
 		return
-	for _ in range(len(WALKS[doc.source])):
+	source, ready = _walking(doc)
+	for _ in range(len(walk_of(source, ready))):
 		try:
 			said = STEPS[doc.step](doc)
 		except faults.Again:
@@ -320,7 +376,7 @@ def advance(name: str) -> None:
 			return
 		if said == WAIT:
 			return
-		following = after(doc.source, doc.step)
+		following = after(source, doc.step, ready)
 		if not following:
 			doc.db_set({"status": "Running", "task": None, "step": None}, notify=True)
 			return
@@ -348,7 +404,7 @@ def _deleting(doc) -> None:
 	doc.db_set({"status": "Deleted", "task": None}, notify=True)
 
 
-STEPS = {"create": create, "created": created, "configure": configure, "demo": demo, "copy": copy, "restore": restore, "restored": restored, "quiet": quiet, "agent_done": agent_done, "route": route}
+STEPS = {"create": create, "created": created, "configure": configure, "demo": demo, READY: ready_demo, "copy": copy, "restore": restore, "restored": restored, "quiet": quiet, "agent_done": agent_done, "route": route}
 
 
 def heard(said: dict) -> None:
@@ -361,7 +417,8 @@ def heard(said: dict) -> None:
 		doc.db_set({"status": "Failed", "error": str(said.get("error"))[: faults.KEPT]}, notify=True)
 		return
 	if doc.status == "Starting" and doc.step == "agent_done":
-		doc.db_set("step", after(doc.source, "agent_done"))
+		source, ready = _walking(doc)
+		doc.db_set("step", after(source, "agent_done", ready))
 		_queue(doc.name)
 
 

@@ -29124,6 +29124,11 @@ msgstr "Von {1} aus {0} erstellt. Noch nicht geprüft."
 msgid "Made for {0}"
 msgstr "Für {0} gemacht"
 
+#: onedesk/one_admin/sessions.py:75
+#, python-brace-format
+msgid "Made from the ready demo of release {0}, so it starts in about a minute."
+msgstr "Aus den fertigen Demodaten von Release {0} erstellt, daher startet sie in etwa einer Minute."
+
 #: onedesk/one_ai/reading/planning.py:110
 #, python-brace-format
 msgid "Made from {0}."
@@ -43849,6 +43854,11 @@ msgstr "{0} vor dem Löschen freigeben."
 msgid "Release {0} first."
 msgstr "Zuerst {0} freigeben."
 
+#: onedesk/one_admin/sessions.py:77
+#, python-brace-format
+msgid "Release {0} has no ready demo, so the demo is built on this copy. That takes a while."
+msgstr "Release {0} enthält keine fertigen Demodaten, daher werden sie auf dieser Kopie aufgebaut. Das dauert eine Weile."
+
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.js:35
 #, python-brace-format
 msgid "Release {0}?"
@@ -55459,6 +55469,10 @@ msgstr "Die Bereichs-IDs des OAuth-Clients, durch Leerzeichen getrennt."
 #: onedesk/public/js/doctype_settings.js:767
 msgid "The selected field becomes required and unique."
 msgstr "Das ausgewählte Feld wird Pflichtfeld und eindeutig."
+
+#: onedesk/one_admin/sessions.py:78
+msgid "The server could not say which release it runs, so the demo is built on this copy. That takes a while."
+msgstr "Der Server konnte nicht sagen, welches Release er ausführt, daher werden die Demodaten auf dieser Kopie aufgebaut. Das dauert eine Weile."
 
 #: onedesk/one_mail/imap.py:341
 msgid "The server didn't respond in time."

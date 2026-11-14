@@ -49,7 +49,37 @@ def test_a_site_moves_only_to_a_bench_holding_every_app_it_has():
 
 
 def test_every_instruction_the_admin_sends_is_one_the_agent_knows():
-	assert {"prepare", "spare", "move", "drop-bench", agent.UPDATE} <= set(agent.KINDS)
+	from onedesk.one_admin import sessions
+
+	assert {"prepare", "spare", "move", "drop-bench", agent.UPDATE, sessions.READY_KIND} <= set(agent.KINDS)
+
+
+def test_a_restored_site_keeps_its_own_config_over_what_the_archive_carried():
+	carried = {"one_tenant": "sahara", "one_dev": 1, "db_name": "_old"}
+	own = {"db_name": "_new", "db_password": "p", "encryption_key": "k"}
+	made = agent.merged(carried, own, pause_scheduler=1)
+	assert made == {"one_tenant": "sahara", "one_dev": 1, "db_name": "_new", "db_password": "p", "encryption_key": "k", "pause_scheduler": 1}
+
+
+def test_a_ready_demo_is_restored_database_first_and_given_its_own_password_last(tmp_path, monkeypatch):
+	held = tmp_path / "held"
+	for part in ("public/files", "private/files"):
+		(held / part).mkdir(parents=True)
+	(held / "site_config.json").write_text('{"one_tenant": "sahara"}')
+	site = tmp_path / "pilot" / "benches" / "r1" / "sites" / "s-1.t.x"
+	site.mkdir(parents=True)
+	(site / "site_config.json").write_text('{"db_name": "_own"}')
+	order = []
+	monkeypatch.setattr(agent, "BENCHES", tmp_path / "pilot" / "benches")
+	monkeypatch.setattr(agent, "on_pilot", lambda code, *args: order.append(("database", args[2].endswith("database.sql.gz"))))
+	monkeypatch.setattr(agent.shutil, "copytree", lambda *_a, **_k: order.append(("files", True)))
+	monkeypatch.setattr(agent, "_write_config", lambda path, config: order.append(("config", config == {"one_tenant": "sahara", "db_name": "_own"})))
+	monkeypatch.setattr(agent, "frappe_on", lambda bench, site, *args: order.append((args[0], bench == "r1")))
+	kept = []
+	monkeypatch.setattr(agent, "_kept", lambda config, release, folder, part, suffix: kept.append((release, folder, part, suffix)) or held)
+	agent.session_ready_demo({}, {"bench": "r1", "site": "s-1.t.x", "release": "abc"})
+	assert kept == [("abc", agent.DEMOS, "demo", "demo.tar.gz")]
+	assert order == [("database", True), ("files", True), ("files", True), ("config", True), ("set-admin-password", True)]
 
 
 def test_an_instruction_is_only_believed_when_signed():

@@ -29259,6 +29259,11 @@ msgstr ""
 msgid "Made for {0}"
 msgstr ""
 
+#: onedesk/one_admin/sessions.py:75
+#, python-brace-format
+msgid "Made from the ready demo of release {0}, so it starts in about a minute."
+msgstr ""
+
 #: onedesk/one_ai/reading/planning.py:124
 #, python-brace-format
 msgid "Made from {0}."
@@ -44013,6 +44018,11 @@ msgstr ""
 msgid "Release {0} first."
 msgstr ""
 
+#: onedesk/one_admin/sessions.py:77
+#, python-brace-format
+msgid "Release {0} has no ready demo, so the demo is built on this copy. That takes a while."
+msgstr ""
+
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.js:35
 #, python-brace-format
 msgid "Release {0}?"
@@ -55683,6 +55693,10 @@ msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:767
 msgid "The selected field becomes required and unique."
+msgstr ""
+
+#: onedesk/one_admin/sessions.py:78
+msgid "The server could not say which release it runs, so the demo is built on this copy. That takes a while."
 msgstr ""
 
 #: onedesk/one_mail/imap.py:341
