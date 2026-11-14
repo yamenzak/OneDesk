@@ -89,6 +89,8 @@ def _each(chosen, failed, unkept) -> None:
 			frappe.set_user("Administrator")
 			frappe.local.flags = frappe._dict(flags)
 			frappe.local.cache = {}
+			for name in [name for name, _value in frappe.local if name.startswith("one")]:
+				delattr(frappe.local, name)
 
 
 def _modules() -> None:

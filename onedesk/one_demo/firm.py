@@ -9,8 +9,8 @@ from dataclasses import dataclass
 import frappe
 from frappe.utils import add_days, flt, getdate
 
-from onedesk.one_book.currency import bill_in
-from onedesk.one_demo.base import as_user, dated, make, on, once, rated, save, tag, today
+from onedesk.one_book.currency import bill_in, payable_in
+from onedesk.one_demo.base import as_user, dated, make, on, rated, save, tag, today
 
 
 @dataclass(frozen=True)
@@ -221,12 +221,7 @@ def _payable(firm: Firm, name: str, currency: str) -> None:
 	party = frappe.get_doc("Supplier", name)
 	if any(row.company == firm.name for row in party.get("accounts")):
 		return
-	parent = frappe.db.get_value("Account", {"company": firm.name, "account_type": "Payable", "is_group": 0}, "parent_account")
-	ledger = once(
-		"Account",
-		{"company": firm.name, "account_name": f"Creditors {currency}"},
-		{"account_name": f"Creditors {currency}", "parent_account": parent, "company": firm.name, "account_type": "Payable", "account_currency": currency},
-	).name
+	ledger = payable_in(firm.name, currency)
 	party.append("accounts", {"company": firm.name, "account": ledger})
 	party.save()
 

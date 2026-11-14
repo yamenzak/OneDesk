@@ -67,3 +67,30 @@ def bill_in(doc, party_type: str, party: str) -> str:
 	date = doc.get("transaction_date") or doc.get("posting_date")
 	doc.conversion_rate = rate(doc.currency, get_company_currency(doc.company), date)
 	return doc.currency
+
+
+def payable_in(company: str, currency: str) -> str:
+	"""The company's payable in `currency`, Creditors USD and the like, made
+	once. In a group it is made at the group's root company, which ERPNext
+	then makes in every company under it, as it refuses an account a
+	company's root does not have."""
+	from erpnext.accounts.doctype.account.account import get_root_company
+
+	name = frappe.db.get_value("Account", {"company": company, "account_name": f"Creditors {currency}"})
+	if name:
+		return name
+	at = (get_root_company(company) or [company])[0]
+	parent = frappe.db.get_value("Account", {"company": at, "account_type": "Payable", "is_group": 0}, "parent_account")
+	account = frappe.get_doc(
+		{
+			"doctype": "Account",
+			"account_name": f"Creditors {currency}",
+			"parent_account": parent,
+			"company": at,
+			"account_type": "Payable",
+			"account_currency": currency,
+		}
+	)
+	account.flags.ignore_permissions = True
+	account.insert()
+	return frappe.db.get_value("Account", {"company": company, "account_name": f"Creditors {currency}"})

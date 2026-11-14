@@ -27,7 +27,6 @@ APP = App(
 		"one_ai_actions": ("agent.ACTIONS",),
 	},
 	makes=(
-		"Account",
 		"Item",
 		"Purchase Invoice",
 		"Supplier",

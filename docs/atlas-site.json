@@ -463,6 +463,14 @@
 "Chart of Accounts Importer": [
 "Accounts Manager"
 ],
+"Chat Channel": [
+"OneChat User",
+"System Manager"
+],
+"Chat Message": [
+"OneChat User",
+"System Manager"
+],
 "Cheque Print Template": [
 "Accounts Manager",
 "Accounts User",
@@ -3749,6 +3757,9 @@
 "legal": [
 "Desk User"
 ],
+"marketplace": [
+"Desk User"
+],
 "notifications": [],
 "one": [
 "Desk User"
@@ -3763,6 +3774,9 @@
 "oneadmin-status": [],
 "onecalendar": [
 "Desk User"
+],
+"onechat": [
+"OneChat User"
 ],
 "onecloud": [
 "Desk User"

@@ -184,7 +184,7 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 	with as_user("wsadmin@one.test"), mock.patch("onedesk.one.account.ask", return_value=[]):
 		said = center.sections_of()
 		keys = {one["key"] for one in said["sections"]}
-		assert keys == {"profile", "personal", "work", "documents", "signin", "people", "companies", "devices", "plan", "domains"}, keys
+		assert keys == {"profile", "personal", "work", "documents", "signin", "people", "companies", "devices", "plan", "domains", "copies"}, keys
 		for key in keys:
 			center.load(key)
 		people = center.load("people")

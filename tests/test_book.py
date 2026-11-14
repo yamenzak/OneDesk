@@ -258,7 +258,7 @@ def test_an_invoice_is_a_tax_invoice_only_where_the_law_calls_it_one():
 	"""Not wherever the company has a tax ID: by its country (one/countries.py),
 	which paper.titled tells the builder's formats before printing."""
 	assert '"before_print": "onedesk.one_book.paper.titled"' in HOOKS
-	assert '"onedesk.one_studio.print_blocks.offered"' in HOOKS, "a company saved in the UAE is offered its simplified invoice"
+	assert '"onedesk.one_studio.print_blocks.retire"' in HOOKS, "a company saved in the UAE is offered its simplified invoice"
 	countries = (tree.APP / "one" / "countries.py").read_text(encoding="utf-8")
 	listed = countries.split("TAX_INVOICE = (", 1)[1].split(")", 1)[0]
 	assert '"United Arab Emirates"' in listed and '"Germany"' not in listed and '"United States"' not in listed

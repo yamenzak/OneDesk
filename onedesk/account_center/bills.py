@@ -11,6 +11,7 @@ from frappe.utils import flt, nowdate
 
 from onedesk.one import registry, roles
 from onedesk.one.company import workspace_company
+from onedesk.one_book.currency import payable_in
 
 ITEM = "One Subscription"
 
@@ -193,25 +194,7 @@ def _payable_for(supplier: str, currency: str | None) -> None:
 	held = frappe.get_doc("Supplier", supplier)
 	if any(row.company == company for row in held.accounts):
 		return
-	abbr = frappe.get_cached_value("Company", company, "abbr")
-	name = f"Creditors {currency} - {abbr}"
-	if not frappe.db.exists("Account", name):
-		parent = frappe.db.get_value(
-			"Account", {"company": company, "account_type": "Payable", "is_group": 0}, "parent_account"
-		)
-		account = frappe.get_doc(
-			{
-				"doctype": "Account",
-				"account_name": f"Creditors {currency}",
-				"parent_account": parent,
-				"company": company,
-				"account_type": "Payable",
-				"account_currency": currency,
-			}
-		)
-		account.flags.ignore_permissions = True
-		account.insert()
-		name = account.name
+	name = payable_in(company, currency)
 	held.append("accounts", {"company": company, "account": name})
 	held.default_currency = held.default_currency or currency
 	held.flags.ignore_permissions = True

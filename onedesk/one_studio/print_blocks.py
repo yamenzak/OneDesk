@@ -311,15 +311,12 @@ REPLACES = {
 }
 
 
-def settle() -> None:
-	"""The blocks, a country's formats offered only there, ERPNext's formats
-	One's replace turned off, and One's format as each record's default where
-	nobody has chosen one or the default is the one ERPNext set when it was
-	installed. A format the workspace chose (Printing, or frappe's own Set as
-	Default) is kept."""
+def retire(doc=None, method=None) -> None:
+	"""ERPNext's formats that One's replace turned off, and on again where
+	One's is not offered. Also after a company is saved, since ERPNext turns
+	a country's own formats back on whenever it sets a company up."""
 	from onedesk.one import countries
 
-	_sync_blocks()
 	here = offered()
 	for ours, theirs in REPLACES.items():
 		ready = frappe.db.exists("Print Format", {"name": ours, "disabled": 0})
@@ -327,6 +324,16 @@ def settle() -> None:
 			if frappe.db.exists("Print Format", one):
 				off = ready or not countries.shown(ours, here)
 				frappe.db.set_value("Print Format", one, "disabled", 1 if off else 0, update_modified=False)
+
+
+def settle() -> None:
+	"""The blocks, a country's formats offered only there, ERPNext's formats
+	One's replace turned off, and One's format as each record's default where
+	nobody has chosen one or the default is the one ERPNext set when it was
+	installed. A format the workspace chose (Printing, or frappe's own Set as
+	Default) is kept."""
+	_sync_blocks()
+	retire()
 	for doctype, (name, _module) in FORMATS.items():
 		if not frappe.db.exists("Print Format", name):
 			continue
@@ -353,8 +360,8 @@ def settle() -> None:
 
 
 def offered(*_args) -> set[str]:
-	"""after_migrate, and when a company is saved: a format that is one
-	country's (one/countries.py) is offered only where a company is in it."""
+	"""A format that is one country's (one/countries.py) is offered only
+	where a company is in it."""
 	from onedesk.one import countries
 
 	here = countries.ours()

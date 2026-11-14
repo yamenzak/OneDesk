@@ -388,7 +388,9 @@ def onebook_the_bank_says_what_is_left_to_match():
 	from onedesk.one import head
 
 	with as_user("huda@one.test"):
-		account = frappe.get_all("Bank Account", filters={"is_company_account": 1, "is_default": 1}, pluck="name")[0]
+		from onedesk.one.company import reader_company
+
+		account = frappe.get_all("Bank Account", filters={"is_company_account": 1, "is_default": 1, "company": reader_company()}, pluck="name")[0]
 		said = head.said(frappe.get_doc("Bank Account", account), frappe.get_doc("Record Head", "Bank Account"))
 		unmatched = frappe.db.count("Bank Transaction", {"bank_account": account, "docstatus": 1, "status": "Unreconciled"})
 		assert unmatched and any(one.get("value") == str(unmatched) for one in said["band"]), said["band"]
