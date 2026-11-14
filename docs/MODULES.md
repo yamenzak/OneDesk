@@ -980,6 +980,7 @@ No doctypes yet.
 * `onedesk.one_hr.signin.offered`
 * `onedesk.one_hr.story.read`
 * `onedesk.one_hr.tell.reschedule_interview`
+* `onedesk.one_interface.identity.manifest`
 * `onedesk.one_inventory.assets.said`
 * `onedesk.one_inventory.custody.give`
 * `onedesk.one_inventory.custody.take_back`

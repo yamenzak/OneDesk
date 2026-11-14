@@ -22,7 +22,17 @@ small picture of {one} in that choice, and a choice shows at once.
 All three are yours alone: they follow you to any computer you sign in on, and
 nobody else's {one} changes.
 
-## Your Workspace's Colour
+## Your Workspace's Own Look
 
-The frame around every screen takes your workspace's colour, which an
-administrator sets with its logo in {one}'s settings.
+An administrator sets them once, in **Branding** in {one}'s settings, and
+every screen takes them for everyone:
+
+- the **Workspace Name** and **Workspace Logo** at the start of the top bar,
+  on the sign-in page, in the browser tab, on the app installed from the
+  browser and at the top of mails;
+- the **Brand Colour** on the main buttons, on what is chosen (a tab, a
+  view, the row you are on), on done steps and ticks, in every palette and
+  in light and dark, made lighter in dark so it can still be read;
+- the **Frame Colour** on the rail and the bars around every screen.
+
+Empty, each is {one}'s own. {one}'s own marks on its centres stay.

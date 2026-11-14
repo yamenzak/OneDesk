@@ -178,6 +178,11 @@ Each row is something that would still run but stop working if upstream moved. `
 | The Employee band is not a notice | `set_headline` paints its band for an alert; this one is a permanent summary | `onedesk/public/css/desk.css` | `frappe/frappe/public/js/frappe/form/layout.js` | `form-message border-bottom` |
 | Framework leaves the apps screen | it is frappe's own administration and everyone who needs it holds System Manager | `onedesk/one/boot.py` | `frappe/frappe/boot.py` | `on_apps_screen` |
 | The site wears One at install | `get_app_logo` reads Website Settings first, then Navbar Settings, then a hook we cannot win | `onedesk/one/brand.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def get_app_logo` |
+| The sign-in page wears the workspace's name and logo | Branding writes the workspace's name into Website Settings' and System Settings' App Name and its logo into Website Settings' App Logo, which frappe's login page reads in this order | `onedesk/one_interface/identity.py` | `frappe/frappe/www/login.py` | `frappe.get_website_settings("app_name") or frappe.get_system_settings("app_name") or _("Frappe")` |
+| The desk's tab is titled with the workspace's name | the desk's <title> is Website Settings' App Name, which Branding writes | `onedesk/one_interface/identity.py` | `frappe/frappe/www/desk.py` | `frappe.get_website_settings("app_name") or frappe.get_system_settings("app_name") or "Frappe"` |
+| The desk's tab icon is the workspace's logo | the desk's icon links are Website Settings' favicon, which Branding writes with the logo; chrome.js `brand` repoints them when it changes | `onedesk/one_interface/identity.py` | `frappe/frappe/www/desk.html` | `href="{{ favicon or "/assets/frappe/images/frappe-favicon.svg" }}" type="image/x-icon">` |
+| The desk's splash is the workspace's logo | the splash shown while the desk loads is Website Settings' Splash Image, which Branding writes with the logo | `onedesk/one_interface/identity.py` | `frappe/frappe/templates/includes/splash_screen.html` | `<img src="{{ splash_image or "/assets/frappe/images/frappe-framework-logo.svg" }}"` |
+| A logo uploaded in Branding is public | a centre's form has no record, so frappe's Attach control takes make_attachments_public from the field's options | `onedesk/one/control.py` | `frappe/frappe/public/js/frappe/form/controls/attach.js` | `Object.assign(options, this.df.options);` |
 | Three navbar rows are hidden | Frappe Support, About and erpnext's Delete Demo Data; `sync_table` matches by label, so hiding sticks | `onedesk/one/declutter.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def sync_table` |
 | erpnext and hrms checklists are marked complete | they are written in erpnext's voice and open over One's own page | `onedesk/one/declutter.py` | `frappe/frappe/desk/desktop.py` | `get_onboarding_doc` |
 | erpnext and hrms mount on One | a companion has no tile and no rail of its own, so their doctypes open in One's shell even cold | `onedesk/one/companions.py` | `frappe/frappe/desk/doctype/dock/dock.py` | `def mounted_apps` |
@@ -486,7 +491,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A list loads as it scrolls on a desktop too | one_interface/list.js replaces ListView.load_more_on_scroll without its phone-only check, watches the end of the list from its own scroll box and hides the paging area, as frappe does on a phone | `onedesk/public/js/one_interface/list.js` | `frappe/frappe/public/js/frappe/list/list_view.js` | `load_more_on_scroll() {` |
 | Quick filters are edited beside them | one_interface/list.js takes Customize Quick Filters out of ListView.get_menu_items, sets a person's choice on the meta's in_standard_filter before BaseList.setup_filter_area, and rebuilds them with FilterArea.make_standard_filters | `onedesk/public/js/one_interface/list.js` | `frappe/frappe/public/js/frappe/list/base_list.js` | `async make_standard_filters() {` |
 
-480 overrides.
+485 overrides.
 
 ## What we would ask upstream
 

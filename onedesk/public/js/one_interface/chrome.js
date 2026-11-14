@@ -24,6 +24,31 @@ $.extend(onedesk.interface, {
 		root.dataset.oneFrameInk = ink === "dark" ? "dark" : "light";
 	},
 
+	/** The workspace's own name, logo and colour (one_interface/identity.py),
+	 * set in One's ControlCenter › Branding: the name and the logo lead the
+	 * top bar, the logo is the tab's icon, the page names the installed app's
+	 * manifest, and the colour's shades, worked out on the server so each
+	 * reads where it stands, are the accent every look, palette and theme
+	 * draws in (tokens.css, The workspace's colour). Unset, each is One's. */
+	brand(said = frappe.boot.one_brand || {}) {
+		frappe.boot.one_brand = said;
+		const root = document.documentElement;
+		const shades = said.shades;
+		const roles = { colour: "--one-brand", ink: "--one-brand-ink", accent: "--one-brand-accent", dark: "--one-brand-dark", dark_ink: "--one-brand-dark-ink" };
+		for (const [key, role] of Object.entries(roles)) {
+			if (shades && /^#[0-9a-f]{6}$/i.test(shades[key] || "")) root.style.setProperty(role, shades[key]);
+			else root.style.removeProperty(role);
+		}
+		if (shades) root.dataset.oneBrand = "workspace";
+		else delete root.dataset.oneBrand;
+		const $lead = $('.one-bar[data-at="top"] .one-bar-lead');
+		$lead.find(".one-bar-name").text(said.name || frappe.boot.one_workspace_name || frappe.boot.sysdefaults?.company || "");
+		$lead.find(".one-bar-logo").remove();
+		if (said.logo) $('<img class="one-bar-logo" alt="">').attr("src", said.logo).prependTo($lead);
+		if (said.favicon) $('link[rel~="icon"]').attr("href", said.favicon);
+		if (!$('link[rel="manifest"]').length) $('<link rel="manifest">').attr("href", "/api/method/onedesk.one_interface.identity.manifest").appendTo(document.head);
+	},
+
 	company_switch(css) {
 		const said = frappe.boot.one_companies;
 		if (!said) return null;
@@ -75,7 +100,7 @@ $.extend(onedesk.interface, {
 				<div class="one-bar-group" data-group="when"><button class="one-bar-tool one-bar-now"></button></div>
 			</div>
 		</footer>`).appendTo(document.body);
-		$top.find(".one-bar-name").text(frappe.boot.one_workspace_name || frappe.boot.sysdefaults?.company || "");
+		onedesk.interface.brand();
 		onedesk.interface.company_switch("one-bar-tool one-bar-company")?.appendTo($top.find(".one-bar-lead"));
 		$("body").addClass("one-barred");
 		const $bars = $top.add($bottom);
@@ -604,4 +629,8 @@ onedesk.interface.rail = {
 };
 
 onedesk.interface.frame();
-$(document).on("app_ready", () => frappe.realtime.on("one_frame", (said) => onedesk.interface.frame(said.colour, said.ink)));
+onedesk.interface.brand();
+$(document).on("app_ready", () => {
+	frappe.realtime.on("one_frame", (said) => onedesk.interface.frame(said.colour, said.ink));
+	frappe.realtime.on("one_brand", (said) => onedesk.interface.brand(said));
+});

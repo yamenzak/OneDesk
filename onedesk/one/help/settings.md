@@ -14,10 +14,14 @@ only administrators see it. Each tab saves on its own, from the top right.
   email the workspace sends. It starts as the company's address and follows it
   when the address changes, until you write something else; empty, mails have
   none.
-- **Branding**: the **Company Logo** on printed and sent invoices, quotations
-  and orders, the **Brand Colour** at the top of letter heads, and the **Frame
-  Colour**, the rail and the bars around every screen, for everyone; leave it
-  empty for {one}'s own. The Company Logo doesn't replace {one}'s own logo.
+- **Branding**: under **Workspace**, the **Workspace Name** and **Workspace
+  Logo** shown on the sign-in page, the browser tab, the top bar, the app
+  installed from the browser and mails sent from the workspace; the **Brand
+  Colour** of the main buttons and of what is chosen on every screen, in
+  light and dark, and of letter heads and mails; and the **Frame Colour**,
+  the rail and the bars around every screen, for everyone. Leave any of them
+  empty for {one}'s own. Under **Documents**, the **Company Logo** on printed
+  and sent invoices, quotations and orders.
 - **Region and Formats**: the default language and time zone for people who
   haven't chosen their own in Profile, and how dates, times and numbers are
   shown, with a line showing how they'll look. Then three tiles: **Rounded
