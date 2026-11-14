@@ -278,7 +278,7 @@ doc_events = watched({
 		"after_insert": "onedesk.one_mail.faces.dress_later",
 		"on_update": "onedesk.one_mail.faces.dress_later",
 	},
-	"Bank Account": {"on_update": "onedesk.one_book.ready.wired"},
+	"Bank Account": {"on_update": ["onedesk.one_book.ready.wired", "onedesk.one_book.details.changed"]},
 	"Sales Invoice": {
 		"on_recurring": "onedesk.one_book.repeat.repeated",
 		"before_print": "onedesk.one_book.paper.titled",
@@ -302,8 +302,11 @@ doc_events = watched({
 		],
 		"on_cancel": "onedesk.one_ai.reading.steps.paid",
 		"validate": ["onedesk.one_project.chain.paid_for", "onedesk.one_book.paid.titled"],
+		"on_update": "onedesk.one_book.unusual.asked",
+		"before_submit": "onedesk.one_book.unusual.refused",
 	},
 	"Journal Entry": {
+		"before_submit": "onedesk.one_book.unusual.journal_refused",
 		"on_submit": "onedesk.one_ai.reading.steps.paid",
 		"on_cancel": "onedesk.one_ai.reading.steps.paid",
 		"validate": "onedesk.one_book.journal.titled",
@@ -416,7 +419,12 @@ doc_events = watched({
 	"Employee": {
 		"validate": ["onedesk.one_hr.leaving.notice_ends_on", "onedesk.one_hr.everybody.employee"],
 		"after_insert": "onedesk.one_mail.faces.dress_later",
-		"on_update": ["onedesk.one_hr.leaving.on_employee_update", "onedesk.one_mail.faces.dress_later", "onedesk.account_center.sync.from_employee"],
+		"on_update": [
+			"onedesk.one_hr.leaving.on_employee_update",
+			"onedesk.one_mail.faces.dress_later",
+			"onedesk.account_center.sync.from_employee",
+			"onedesk.one_hr.bank.changed",
+		],
 	},
 	"Overtime Slip": {
 		"before_validate": "onedesk.one_hr.overtime.before_validate",
@@ -691,11 +699,17 @@ override_whitelisted_methods = {
 	"frappe.utils.print_format_generator.render_jinja_template": "onedesk.one_studio.printing.render_jinja_template",
 	"frappe.email.doctype.email_template.email_template.get_email_template": "onedesk.one_mail.mail_templates.get_email_template",
 	"frappe.desk.search.search_link": "onedesk.one.apps.search_link",
+	"frappe.desk.reportview.export_query": "onedesk.one.exports.report_view",
+	"frappe.desk.query_report.export_query": "onedesk.one.exports.query_report",
+	"frappe.core.doctype.data_export.exporter.export_data": "onedesk.one.exports.data_export",
+	"frappe.core.doctype.data_import.data_import.download_template": "onedesk.one.exports.data_import_export",
+	"frappe.core.api.file.zip_files": "onedesk.one.exports.zip_files",
 }
 
 ignore_links_on_delete = ["Reading Action", "Reading Lesson", "Reading", "Reading Party", "Portal Link"]
 
 has_permission = {
+	"Second Approval": "onedesk.one.second.has_permission",
 	"Mail Draft": "onedesk.one_mail.drafts.has_permission",
 	"Mail Conversation": "onedesk.one_mail.team.has_permission",
 	"Dashboard": "onedesk.one_hr.access.dashboard_allowed",
@@ -758,6 +772,7 @@ has_permission = {
 }
 
 permission_query_conditions = {
+	"Second Approval": "onedesk.one.second.query",
 	"Dashboard": "onedesk.one_hr.access.dashboard_query",
 	"Interview": "onedesk.one_hr.access.interview_query",
 	"Clock Device": "onedesk.one_hr.passkey.query",

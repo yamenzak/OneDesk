@@ -55,6 +55,12 @@ NOT_FOR_AI = {
 	"recycle.restore": "Putting a deleted record back is the reader's decision in the bin, never OneAI's.",
 	"recycle.bulk_restore": "Putting deleted records back is the reader's decision in the bin, never OneAI's.",
 	"start_again.start": "Deleting every transaction can't be undone, so only an administrator starts it, never OneAI.",
+	"exports.report_view": "An export is the person's own download from the list or report they have open, and a large one is an administrator's decision.",
+	"exports.query_report": "An export is the person's own download from the report they have open, and a large one is an administrator's decision.",
+	"exports.data_export": "An export is the person's own download from Data Export, and a large one is an administrator's decision.",
+	"exports.data_import_export": "An export is the person's own download from Data Import, and a large one is an administrator's decision.",
+	"exports.zip_files": "Downloading files is the person's own, from the file list, and many at once is an administrator's decision.",
+	"exports.may_export": "Asking to download many files at once is the person's own, from OneCloud's Download, and an administrator decides it.",
 }
 
 SUGGESTIONS = {

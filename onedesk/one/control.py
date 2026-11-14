@@ -54,7 +54,7 @@ HOLDS = {
 		"allow_consecutive_login_attempts",
 		"allow_login_after_fail",
 	),
-	"sharing": ("one_calendar_links", "one_record_sharing"),
+	"sharing": ("one_calendar_links", "one_record_sharing", "one_export_limit"),
 }
 
 
@@ -127,7 +127,7 @@ def _hearing(opened) -> None:
 	frappe.flags.one_opened = {f"{one['doctype']}:{one['name']}": one["modified"] for one in frappe.parse_json(opened) or []}
 
 
-SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links")
+SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week", "one_calendar_links", "one_export_limit")
 
 
 def _company():

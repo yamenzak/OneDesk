@@ -55,7 +55,7 @@ def test_it_is_wired_to_every_save_submit_and_cancel_and_runs_hourly():
 		assert "onedesk.one_ai.brief.touched" in block[: block.index("]")], event
 	hourly = hooks[hooks.index('"hourly": [') :]
 	assert "onedesk.one_ai.brief.due" in hourly[: hourly.index("]")]
-	assert 'one_record_notices = ["onedesk.one_ai.heads.NOTICES"]' in hooks
+	assert '"onedesk.one_ai.heads.NOTICES"' in hooks[hooks.index("one_record_notices = ") :].split("\n")[0]
 
 
 def test_a_draft_saved_is_not_news_and_a_summary_is_never_a_comment():

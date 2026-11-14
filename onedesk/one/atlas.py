@@ -235,6 +235,7 @@ ANSWERS = {
 	("DocType", "Cloud Link"): (INSIDE, "a OneCloud file's Share"),
 	("DocType", "Device"): (INSIDE, "AccountCenter › Devices"),
 	("DocType", "Personal Data Deletion Request"): (INSIDE, "TrustCenter › Your Data, under Requests, each opening its request"),
+	("DocType", "Second Approval"): (INSIDE, "Home › Waiting for Your Approval and its notification, each opening the approval, and the payment, bank account or employee it is about"),
 	("DocType", "Credit Reservation"): (ENGINE, "credits held while OneAI works, released when it is done"),
 	("DocType", "AI Chunk"): (ENGINE, "which pieces of documents, mail and records the search index on R2 holds, which Ctrl+K, OneCloud, OneMail and OneAI search"),
 	("DocType", "Face"): (ENGINE, "the faces OneMail draws beside a sender"),

@@ -21,6 +21,7 @@ NOT_FOR_AI = {
 	"closing.lock": "Locking the books is the accountant's word that a period is final.",
 	"paid.settle": "A payment is money that moved, so whoever saw it move records it.",
 	"ready.fix": "What Books Check fixes changes how the whole workspace keeps its books, so a manager presses Fix.",
+	"control.save_approval": "When a payment needs a second person is the company's own rule, set by whoever keeps the books.",
 }
 
 TOOLS = ("draft_purchase_invoice",)

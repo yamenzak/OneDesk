@@ -497,6 +497,39 @@ disabled rather than deleted: the row is theirs and a `bench update` would
 write it back, and this runs on every migrate so it settles again after one
 does. A tenant who wants the original back enables it.
 
+### exports.py
+
+A large export waits for a workspace administrator (second.py). Every way
+frappe takes records out in a file is held to the workspace's **Export
+Limit** (System Settings `one_export_limit`, 1,000 by default, 0 for none,
+in ControlCenter › Sharing), each by `override_whitelisted_methods`:
+
+| Path | frappe's method | Ours |
+|---|---|---|
+| A list's, the report view's and the report builder's Export | `frappe.desk.reportview.export_query` | `report_view` |
+| A report's Export | `frappe.desk.query_report.export_query` | `query_report` |
+| Data Export | `frappe.core.doctype.data_export.exporter.export_data` | `data_export` |
+| Data Import's Export Data | `frappe.core.doctype.data_import.data_import.download_template` | `data_import_export` |
+| The file list's Download (a zip) | `frappe.core.api.file.zip_files` | `zip_files` |
+| OneCloud's Download of several files | (one request per file) | `may_export`, asked first by OneCloud.vue |
+
+Each runs frappe's own method and then counts the rows of the file it made
+(`rows`: a CSV's lines or a workbook's rows, less the heading), so what is
+counted is what would have gone out, whatever filters or grouping made it.
+Over the limit the file is dropped from the response and frappe's own
+message page (`respond_as_web_page`, which frappe's export already uses for
+"No data to export") says it waits, with Back to the screen it came from;
+the Export approval is asked of the administrators the first time
+(`asked`). An approved export of at least that many records of that kind,
+decided in the last day and unused, lets the same person export once
+(`used_on`). An export frappe makes in the background and mails is counted
+in our job (`report_view_job`, `query_report_job`, enqueued as frappe
+enqueues its own), and when it is held the person is told on their bell
+(Export Held) rather than mailed a file. Not held here: frappe's bulk
+print, which keeps its own limit (System Settings, Max Documents for Bulk
+Print), and reading through the REST API a page at a time, which is not an
+export.
+
 ### home.py
 
 Home is the page `one` (so `/desk/one`, where every `?center=` link opens a
@@ -957,6 +990,44 @@ people chose. A module that declares one as a type (`rule` in its
 through the hub, in the rule's own words, and only an address that is nobody
 here is still mailed (`Rule.send_an_email`). The rule itself is not changed,
 so a new version of it arrives with the app.
+
+### second.py
+
+What waits for a second person (docs/run/RUN.md P9.3): a payment out of the
+ordinary (one_book/unusual.py), a party's changed bank details
+(one_book/details.py, one_hr/bank.py) and a large export (exports.py). Each
+is a **Second Approval** (doctype in `one/doctype/second_approval`), read
+only, made and brought up to date by `ask`, keyed so the same payment, the
+same party or the same person's export of a kind is one waiting request.
+
+- **Who may decide** (`may_decide`): an enabled System User holding the
+  request's `approver_role` (Accounts Manager for a payment and a
+  supplier's or customer's bank details, HR Manager for an employee's,
+  Workspace Administrator for an export), or any workspace administrator,
+  who is not the person who asked. `deciders` is who is told and who Home
+  lists it for (`waiting_for`, Home's APPROVALS).
+- **Never a machine** (`machine`): an agent, OneAI, Administrator, or
+  anybody while OneAI writes for them (`frappe.flags.one_intake_writing`),
+  can't decide one; `_decide` refuses it before anything else. An agent's
+  request is asked for the person it works for (`asker`). The head's verbs
+  are the only door, and no agent's REACH or TOOLS names them.
+- **Alone** (`alone`): where nobody but the person who asked may decide
+  (one administrator who keeps the books too), they approve it themselves,
+  and only with remarks, which the record keeps with `alone` set. Refusing
+  would leave a one-person workspace unable to pay anybody; letting it pass
+  silently would hide it. As soon as a second person holds the role, it is
+  theirs again.
+- **What approving does** (`DONE`): a payment is submitted by whoever
+  approved it, as themselves, so their own right to submit is checked
+  (unusual.approved). Bank details and exports are only recorded.
+- **Told**: each kind's waiting is its module's notification (Payment
+  Waiting for Approval and Bank Details Waiting for Approval in OneBook's,
+  Export Waiting for Approval in One's), with the kind's one action as its
+  button; whoever asked hears the decision (Approval Decided).
+- **Read**: the person who asked and whoever holds its role
+  (`has_permission`, `query`); an administrator reads all. A bank number is
+  kept masked to its last four (`masked`), so the request never holds the
+  whole number; the record it is about has it, for those who may read it.
 
 ### setup_wizard.py
 

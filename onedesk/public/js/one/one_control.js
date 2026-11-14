@@ -183,7 +183,7 @@ onedesk.OneSection = class OneSection extends onedesk.CenterSection {
 	}
 
 	draw_sharing(data) {
-		this.form(data, { rows: [{ stack: ["one_calendar_links", "one_record_sharing"] }] });
+		this.form(data, { rows: [{ stack: ["one_calendar_links", "one_record_sharing", "one_export_limit"] }] });
 	}
 };
 

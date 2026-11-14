@@ -1,0 +1,266 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-11-14 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "kind",
+  "status",
+  "reasons",
+  "column_break_asked",
+  "asked_by",
+  "asked_on",
+  "company",
+  "section_details",
+  "reference_doctype",
+  "reference_name",
+  "amount",
+  "currency",
+  "party_type",
+  "party",
+  "changes",
+  "export_from",
+  "records",
+  "method",
+  "used_on",
+  "approver_role",
+  "also_asked_by",
+  "section_decision",
+  "decided_by",
+  "decided_on",
+  "column_break_decision",
+  "alone",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "read_only": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "Payment\nBank Details\nExport",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Waiting\nApproved\nRefused",
+   "default": "Waiting",
+   "reqd": 1,
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "reasons",
+   "fieldtype": "Small Text",
+   "label": "Reasons",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_asked",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "asked_by",
+   "fieldtype": "Link",
+   "label": "Asked By",
+   "options": "User",
+   "read_only": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "asked_on",
+   "fieldtype": "Datetime",
+   "label": "Asked On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Document Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Name",
+   "options": "reference_doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "options": "currency",
+   "read_only": 1,
+   "depends_on": "eval:doc.kind=='Payment'"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "label": "Party Type",
+   "options": "DocType",
+   "read_only": 1,
+   "depends_on": "eval:doc.party_type"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type",
+   "read_only": 1,
+   "depends_on": "eval:doc.party_type"
+  },
+  {
+   "fieldname": "changes",
+   "fieldtype": "Small Text",
+   "label": "Changes",
+   "read_only": 1,
+   "depends_on": "eval:doc.kind=='Bank Details'"
+  },
+  {
+   "fieldname": "export_from",
+   "fieldtype": "Link",
+   "label": "Export From",
+   "options": "DocType",
+   "read_only": 1,
+   "depends_on": "eval:doc.kind=='Export'"
+  },
+  {
+   "fieldname": "records",
+   "fieldtype": "Int",
+   "label": "Records",
+   "read_only": 1,
+   "depends_on": "eval:doc.kind=='Export'"
+  },
+  {
+   "fieldname": "method",
+   "fieldtype": "Data",
+   "label": "Method",
+   "read_only": 1,
+   "depends_on": "eval:doc.kind=='Export'"
+  },
+  {
+   "fieldname": "used_on",
+   "fieldtype": "Datetime",
+   "label": "Used On",
+   "read_only": 1,
+   "depends_on": "eval:doc.used_on"
+  },
+  {
+   "fieldname": "approver_role",
+   "fieldtype": "Link",
+   "label": "Approver Role",
+   "options": "Role",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "also_asked_by",
+   "fieldtype": "Small Text",
+   "label": "Also Asked By",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "section_decision",
+   "fieldtype": "Section Break",
+   "label": "Decision",
+   "depends_on": "eval:doc.status!='Waiting'"
+  },
+  {
+   "fieldname": "decided_by",
+   "fieldtype": "Link",
+   "label": "Decided By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decided_on",
+   "fieldtype": "Datetime",
+   "label": "Decided On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_decision",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "alone",
+   "fieldtype": "Check",
+   "label": "Approved Alone",
+   "read_only": 1,
+   "depends_on": "eval:doc.alone"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "links": [],
+ "modified": "2026-11-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Second Approval",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Desk User",
+   "read": 1,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "report": 1,
+   "print": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "show_title_field_in_link": 1,
+ "track_changes": 1
+}

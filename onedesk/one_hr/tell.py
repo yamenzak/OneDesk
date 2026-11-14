@@ -903,3 +903,11 @@ def employee_details_changed(employee, said: list[str]) -> None:
 		employee=employee.employee_name or employee.name,
 		what=what,
 	)
+
+
+def bank_details_changed(user: str, employee: str) -> None:
+	"""The employee, on their bell, that the bank details their pay goes
+	into changed (bank.py)."""
+	from frappe.utils import get_fullname
+
+	notify.notify("Your Bank Details Changed", user, record=("Employee", employee), who=get_fullname(frappe.session.user))

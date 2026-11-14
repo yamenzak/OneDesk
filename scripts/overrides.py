@@ -3421,6 +3421,41 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/list/base_list.js",
 		"async make_standard_filters() {",
 	),
+	(
+		"A list's export larger than the workspace allows waits for an administrator",
+		"override_whitelisted_methods puts one/exports.report_view in place of reportview.export_query: it runs theirs and counts the file's rows, and its background export runs their _export_query in our job",
+		"onedesk/one/exports.py",
+		"frappe/frappe/desk/reportview.py",
+		"def _export_query(form_params, csv_params, populate_response=True):",
+	),
+	(
+		"A report's export larger than the workspace allows waits for an administrator",
+		"override_whitelisted_methods puts one/exports.query_report in place of query_report.export_query, which runs theirs, and their _export_query in our job when it is mailed",
+		"onedesk/one/exports.py",
+		"frappe/frappe/desk/query_report.py",
+		"def _export_query(form_params, csv_params, populate_response=True):",
+	),
+	(
+		"Data Export larger than the workspace allows waits for an administrator",
+		"override_whitelisted_methods puts one/exports.data_export in place of exporter.export_data, which runs theirs and reads the CSV they leave in frappe.response",
+		"onedesk/one/exports.py",
+		"frappe/frappe/core/doctype/data_export/exporter.py",
+		'frappe.response["type"] = "csv"',
+	),
+	(
+		"Data Import's export larger than the workspace allows waits for an administrator",
+		"override_whitelisted_methods puts one/exports.data_import_export in place of data_import.download_template, with its arguments",
+		"onedesk/one/exports.py",
+		"frappe/frappe/core/doctype/data_import/data_import.py",
+		"def download_template(",
+	),
+	(
+		"The file list's zip of more files than the workspace allows waits for an administrator",
+		"override_whitelisted_methods puts one/exports.zip_files in place of file.zip_files, which it calls when the count is within the limit",
+		"onedesk/one/exports.py",
+		"frappe/frappe/core/api/file.py",
+		"def zip_files(files: str):",
+	),
 ]
 
 

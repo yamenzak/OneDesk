@@ -705,3 +705,47 @@ def approval_answered(action, record, state: str) -> None:
 			title=record.get_title() or record.name,
 			state=_lt(state),
 		)
+
+
+def approval_decided(doc) -> None:
+	"""Whoever asked for a second person's approval (one/second.py), once it
+	is approved or refused."""
+	from frappe.utils import get_fullname
+
+	notify.notify(
+		"Approval Decided",
+		doc.asked_by,
+		record=("Second Approval", doc.name),
+		what=doc.title,
+		status=_lt("approved") if doc.status == "Approved" else _lt("refused"),
+		by=get_fullname(doc.decided_by),
+		remarks=doc.remarks or "",
+	)
+
+
+def export_waiting(row, people: list[str]) -> None:
+	"""The administrators, of an export larger than the workspace allows (one/exports.py)."""
+	from frappe.utils import fmt_money, get_fullname
+
+	notify.notify(
+		"Export Waiting for Approval",
+		people,
+		record=("Second Approval", row.name),
+		who=get_fullname(row.asked_by),
+		records=fmt_money(row.records, precision=0),
+		doctype=_(row.export_from),
+		method=row.method,
+	)
+
+
+def export_held(row) -> None:
+	"""Whoever asked for an export by mail that waits for an administrator instead."""
+	from frappe.utils import fmt_money
+
+	notify.notify(
+		"Export Held",
+		row.asked_by,
+		record=("Second Approval", row.name),
+		records=fmt_money(row.records, precision=0),
+		doctype=_(row.export_from),
+	)

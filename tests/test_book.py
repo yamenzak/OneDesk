@@ -95,7 +95,7 @@ def test_a_first_fiscal_year_begins_when_the_countrys_does():
 
 
 def test_a_company_bank_account_wires_the_bank_modes_of_payment():
-	assert '"Bank Account": {"on_update": "onedesk.one_book.ready.wired"}' in HOOKS
+	assert '"Bank Account": {"on_update": ["onedesk.one_book.ready.wired", ' in HOOKS
 
 
 def test_the_books_check_opens_setup():

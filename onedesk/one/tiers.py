@@ -87,6 +87,7 @@ HEADS = (
 	"Salary Slip",
 	"Sales Invoice",
 	"Sales Order",
+	"Second Approval",
 	"Shift Request",
 	"Shift Type",
 	"Stock Entry",

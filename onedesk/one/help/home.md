@@ -5,7 +5,9 @@ across your apps. Your tasks, meetings and documents are on their own apps'
 homes.
 
 - **Waiting for Your Approval**: leave applications, expense claims and
-  approval steps waiting on you, from every app, oldest first.
+  approval steps waiting on you, from every app, oldest first. With them,
+  what waits for a second person you may be: a large payment, changed bank
+  details or a large export, each opening with **Approve** and **Refuse**.
 - **Asked of You**: files someone has asked you for, from any app, such as
   HR asking for your passport. Click one to send it, with anything asked
   beside it.

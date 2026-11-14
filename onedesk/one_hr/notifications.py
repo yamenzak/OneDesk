@@ -674,5 +674,18 @@ TYPES = [
 		"subject": "It is {employee}'s work anniversary",
 		"message": "They joined on {joined}.",
 	},
+	{
+		"name": "Your Bank Details Changed",
+		"app": registry.name("one_hr"),
+		"roles": ("Employee",),
+		"about": "When somebody changes the bank details your pay goes into.",
+		"to": "The employee",
+		"channels": ALL,
+		"email_default": True,
+		"push_default": True,
+		"sender": "workspace",
+		"subject": "{who} changed your bank details",
+		"message": "Your pay goes into the new account once a second person approves it. If you did not ask for this, tell HR at once.",
+	},
 ]
 

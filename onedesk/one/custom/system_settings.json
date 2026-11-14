@@ -19,9 +19,21 @@
    "insert_after": "one_login_with_passkey",
    "label": "Calendar Links",
    "module": "One"
+  },
+  {
+   "default": "1000",
+   "description": "An export of more records than this at once needs an administrator's approval, unless set to 0.",
+   "dt": "System Settings",
+   "fieldname": "one_export_limit",
+   "fieldtype": "Int",
+   "insert_after": "one_calendar_links",
+   "label": "Export Limit",
+   "module": "One",
+   "non_negative": 1
   }
  ],
  "doctype": "System Settings",
+ "modified": "2026-11-14 12:00:00.000000",
  "links": [],
  "property_setters": [],
  "sync_on_migrate": 1

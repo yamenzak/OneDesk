@@ -1,0 +1,50 @@
+{
+ "custom_fields": [
+  {
+   "collapsible": 1,
+   "dt": "Company",
+   "fieldname": "one_approval_section",
+   "fieldtype": "Section Break",
+   "insert_after": "asset_received_but_not_billed",
+   "label": "Payment Approval",
+   "module": "One Book"
+  },
+  {
+   "default": "10000",
+   "description": "A payment above this needs a second person's approval, unless set to 0.",
+   "dt": "Company",
+   "fieldname": "one_approve_above",
+   "fieldtype": "Currency",
+   "insert_after": "one_approval_section",
+   "label": "Payment Approval Limit",
+   "module": "One Book",
+   "non_negative": 1,
+   "options": "default_currency"
+  },
+  {
+   "default": "1",
+   "description": "If enabled, the first payment to a supplier or customer needs a second person's approval.",
+   "dt": "Company",
+   "fieldname": "one_approve_first_payment",
+   "fieldtype": "Check",
+   "insert_after": "one_approve_above",
+   "label": "Require Approval of First Payments",
+   "module": "One Book"
+  },
+  {
+   "default": "30",
+   "description": "Number of days after a party's bank details change in which paying them needs approval, unless set to 0.",
+   "dt": "Company",
+   "fieldname": "one_approve_bank_days",
+   "fieldtype": "Int",
+   "insert_after": "one_approve_first_payment",
+   "label": "Approval After Bank Change (Days)",
+   "module": "One Book",
+   "non_negative": 1
+  }
+ ],
+ "doctype": "Company",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

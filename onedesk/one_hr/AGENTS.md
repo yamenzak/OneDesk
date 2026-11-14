@@ -309,6 +309,14 @@ Everything else the gates raise — an impossible journey, a shared browser, a
 missing passkey — is about the person rather than the place, and an approved
 request has nothing to say about any of it.
 
+### bank.py
+
+An employee's Bank Name, Bank A/C No. or IBAN changing from what it was
+waits for an HR Manager other than whoever changed it (one/second.py,
+one_book/details.py `asked`); until approved, payroll's bank entry and any
+payment to them is refused. The employee is told on their bell (Your Bank
+Details Changed). Filling them in the first time asks nothing.
+
 ### benefit.py
 
 A benefit application and a benefit claim work out their own limits.

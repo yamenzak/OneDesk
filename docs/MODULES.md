@@ -18,6 +18,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
+| Second Approval | 28 | document |
 | Weather Place | 8 | document |
 | Workspace Customization | 5 | document |
 
@@ -385,6 +386,12 @@ No doctypes yet.
 * `onedesk.one.copies.end`
 * `onedesk.one.copies.open_copy`
 * `onedesk.one.copies.start`
+* `onedesk.one.exports.data_export`
+* `onedesk.one.exports.data_import_export`
+* `onedesk.one.exports.may_export`
+* `onedesk.one.exports.query_report`
+* `onedesk.one.exports.report_view`
+* `onedesk.one.exports.zip_files`
 * `onedesk.one.head.foresee`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
@@ -661,6 +668,8 @@ No doctypes yet.
 * `onedesk.one_ai.yours.load`
 * `onedesk.one_book.bank.reconciling`
 * `onedesk.one_book.closing.lock`
+* `onedesk.one_book.control.approval`
+* `onedesk.one_book.control.save_approval`
 * `onedesk.one_book.home.cash`
 * `onedesk.one_book.home.due_this_week`
 * `onedesk.one_book.home.overdue`

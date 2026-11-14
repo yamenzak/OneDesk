@@ -869,3 +869,46 @@ def onehr_its_people_officer_files_what_mail_brings():
 	claim = [one for one in samples.done_by("taxi-receipt", "one_hr") if one.target_doctype == "Expense Claim" and one.level == "Done"]
 	assert claim and claim[0].agent_action == "draft_expense_claim", claim
 	assert frappe.db.get_value("Expense Claim", claim[0].target_name, "docstatus") == 0, "a person submits it"
+
+
+@check
+def onehr_changed_bank_details_wait_for_a_second_person():
+	"""Mariam fills Tariq's IBAN in, which asks nobody, then changes it:
+	Layla is asked and Tariq is told on his bell. Payroll's bank entry to him
+	is refused until Layla approves; Mariam can't approve her own change."""
+	from onedesk.one import second
+	from onedesk.one_book import unusual
+	from onedesk.one_hr import bank
+
+	tariq = _employee("Tariq")
+	frappe.db.set_value("Employee", tariq, {"iban": None, "bank_name": None, "bank_ac_no": None})
+	for name in frappe.get_all("Second Approval", filters={"party": tariq}, pluck="name"):
+		frappe.delete_doc("Second Approval", name, force=True, ignore_permissions=True)
+	with _Told() as told, as_user("mariam@one.test"):
+		doc = frappe.get_doc("Employee", tariq)
+		doc.iban = "AE070331234567890123456"
+		doc.save()
+		assert not second.held("Employee", tariq), "filling it in asks nobody"
+		doc = frappe.get_doc("Employee", tariq)
+		doc.iban = "AE460260001015333439201"
+		doc.save()
+		row = frappe.get_doc("Second Approval", second.held("Employee", tariq))
+		assert (row.kind, row.approver_role, row.asked_by) == ("Bank Details", bank.ROLE, "mariam@one.test"), row.as_dict()
+		assert "tariq@one.test" in told.to("Your Bank Details Changed"), told.said
+		assert OWNER in told.to("Bank Details Waiting for Approval") and "mariam@one.test" not in told.to("Bank Details Waiting for Approval")
+		try:
+			second.approve(row.name)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("approved by the person who changed them")
+	payroll = frappe._dict(accounts=[frappe._dict(party_type="Employee", party=tariq)])
+	try:
+		unusual.journal_refused(payroll)
+	except frappe.ValidationError as e:
+		assert "new bank details" in str(e), e
+	else:
+		raise AssertionError("paid while the new details wait")
+	with as_user(OWNER):
+		second.approve(row.name)
+	unusual.journal_refused(payroll)

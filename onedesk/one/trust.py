@@ -94,6 +94,22 @@ clause(
 
 clause(
 	document="privacy",
+	section="modules",
+	key="second-approval",
+	module=M,
+	body="""
+		Some actions in a workspace wait for a second person: a large payment, a change to the bank details somebody is paid into, and a large export.
+		Each request records who asked, why, who decided, when, and any remarks they wrote.
+		It shows a bank account number only by its last four digits.
+		When bank details change, whoever is paid into them is told at the address on their record.
+		Requests are kept with the workspace.
+	""",
+	order=10,
+)
+
+
+clause(
+	document="privacy",
 	section="rights",
 	key="privacy-requests",
 	module=M,

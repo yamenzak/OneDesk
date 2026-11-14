@@ -21,5 +21,8 @@ changes how each person hears of each one.
 - **HR's own** — Letter Requested and Letter Issued, Grievance Raised and
   Answered, Expense Claim Paid, Passkey Reset Asked and Done, and a new
   network or location learned.
+- **Your bank details** — when somebody changes the bank details your pay
+  goes into, you are told (Your Bank Details Changed). Your pay goes there
+  once a second person approves the change.
 - **Everybody** — birthdays, work anniversaries and upcoming holidays, in
   the morning.

@@ -2665,3 +2665,87 @@ def turn_off_these_emails_works_without_signing_in():
 		frappe.local.request = was_request
 		with as_user("nadia@one.test"):
 			notification_center.choose(kind, "email", 1)
+
+
+def _exported(user: str, call, **form) -> dict:
+	"""An export as the browser posts it, as `user`: what was answered."""
+	frappe.local.response = frappe._dict({"docs": []})
+	frappe.local.form_dict = frappe._dict(form)
+	with as_user(user):
+		call()
+	return dict(frappe.local.response)
+
+
+@check
+def a_large_export_waits_for_an_administrator():
+	"""Over the workspace's export limit, Omar's export of the customer list
+	is not sent: Layla is asked, Omar sees a page saying so, and once Layla
+	approves he exports it again, once. Data Import's export, Data Export,
+	a report's export, the file list's zip and OneCloud's Download are held
+	the same way; within the limit nothing asks."""
+	from unittest.mock import patch
+
+	from onedesk.one import exports, second
+
+	frappe.db.set_single_value("System Settings", exports.FIELD, 3)
+	assert exports.limit() == 3 and exports.rows("name\nA\nB\nC\nD\n") == 4 and exports.rows(None) == 0
+	customers = {"doctype": "Customer", "fields": '["`tabCustomer`.`name`"]', "filters": "[]", "file_format_type": "CSV", "title": "Customer"}
+	with _Told() as told:
+		said = _exported("omar@one.test", lambda: exports.report_view(), **customers)
+		assert said.get("type") == "page" and not said.get("filecontent"), said
+		row = frappe.get_doc("Second Approval", {"kind": "Export", "asked_by": "omar@one.test", "export_from": "Customer", "status": "Waiting"})
+		assert row.records > 3 and row.approver_role == "Workspace Administrator", row.as_dict()
+		assert OWNER in told.to("Export Waiting for Approval") and "omar@one.test" not in told.to("Export Waiting for Approval")
+	with _Told() as told, as_user(OWNER):
+		assert row.name in second.waiting_for(OWNER)
+		second.approve(row.name)
+		assert told.to("Approval Decided") == {"omar@one.test"}
+	said = _exported("omar@one.test", lambda: exports.report_view(), **customers)
+	assert said.get("filecontent") and exports.rows(said["filecontent"], said.get("filename") or "") == row.records, said.get("type")
+	assert frappe.db.get_value("Second Approval", row.name, "used_on"), "an approval is used once"
+	said = _exported("omar@one.test", lambda: exports.report_view(), **customers)
+	assert said.get("type") == "page", "the second time asks again"
+
+	said = _exported("omar@one.test", lambda: exports.data_import_export("Customer", export_fields='{"Customer": ["name"]}', export_records="all"))
+	assert said.get("type") == "page", said.get("type")
+
+	def made(**_kwargs):
+		frappe.response["type"], frappe.response["result"] = "csv", "name\nA\nB\nC\nD\nE\n"
+
+	with patch("frappe.core.doctype.data_export.exporter.export_data", side_effect=made):
+		said = _exported("karim@one.test", lambda: exports.data_export(doctype="Item", with_data=True))
+		assert said.get("type") == "page" and frappe.db.exists("Second Approval", {"asked_by": "karim@one.test", "export_from": "Item"})
+	report = frappe.get_all("Report", filters={"ref_doctype": "Item", "report_type": "Script Report"}, pluck="name", limit=1)[0]
+	with patch("frappe.desk.query_report.export_query", side_effect=lambda: made()):
+		said = _exported("karim@one.test", lambda: exports.query_report(), report_name=report, file_format_type="CSV")
+		assert said.get("type") == "page"
+	with patch("frappe.core.api.file.zip_files", side_effect=AssertionError("zipped")):
+		said = _exported("karim@one.test", lambda: exports.zip_files('["a", "b", "c", "d"]'))
+		assert said.get("type") == "page"
+	with as_user("karim@one.test"):
+		assert exports.may_export("File", 2)["allowed"], "within the limit"
+		held = exports.may_export("File", 9)
+		assert not held["allowed"] and held["approval"], held
+
+
+@check
+def the_only_administrator_approves_alone_with_remarks():
+	"""Where nobody else may decide, the person who asked approves it
+	alone, and only with remarks, which the record keeps."""
+	from unittest.mock import patch
+
+	from onedesk.one import exports, second
+
+	with as_user(OWNER):
+		row = exports.asked("Customer", exports.limit() + 1, "Report View")
+	with patch.object(second, "_holders", return_value={OWNER}), as_user(OWNER):
+		assert second.alone(row) and row.name in second.waiting_for(OWNER)
+		try:
+			second.approve(row.name)
+		except frappe.ValidationError as e:
+			assert "Remarks" in str(e), e
+		else:
+			raise AssertionError("approved alone without a reason")
+		second.approve(row.name, "Year-end copy for the auditors.")
+	done = frappe.get_doc("Second Approval", row.name)
+	assert (done.status, done.alone, done.remarks) == ("Approved", 1, "Year-end copy for the auditors."), done.as_dict()

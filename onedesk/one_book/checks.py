@@ -688,3 +688,132 @@ def onebook_the_accountant_drafts_a_bill_once_its_new_supplier_is_approved():
 	if row.level == "Done":
 		bill = frappe.db.get_value("Purchase Invoice", row.target_name, ["supplier", "docstatus", "bill_no"], as_dict=True)
 		assert (bill.supplier, bill.docstatus, bill.bill_no) == (made, 0, "GS-11873"), bill
+
+
+def _payment_to(supplier: str | None = None, above: float = 0) -> str:
+	filters = {"company": COMPANY, "docstatus": 1, "outstanding_amount": [">", above], "currency": "AED"}
+	if supplier:
+		filters["supplier"] = supplier
+	return frappe.get_all("Purchase Invoice", filters=filters, order_by="outstanding_amount desc", pluck="name", limit=1)[0]
+
+
+def _drafted(bill: str, reference: str):
+	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+
+	payment = get_payment_entry("Purchase Invoice", bill)
+	payment.reference_no, payment.reference_date = reference, today()
+	return payment.insert()
+
+
+@check
+def onebook_an_unusual_payment_waits_for_a_second_person():
+	"""Huda sets the company's limit in OneBook's settings. Karim's payment
+	above it waits for Huda or Layla, who are told: he can submit it no more
+	than he can approve it, OneAI can't approve it for Huda, and Huda's
+	Approve Payment submits it, as hers, and tells Karim. The demo's own
+	waiting payment is on Huda's Home."""
+	from onedesk.one import home, second
+	from onedesk.one_ai.reading import act
+	from onedesk.one_book import control, unusual
+	from onedesk.one_demo.checking import _Told
+
+	with as_user("huda@one.test"):
+		said = control.approval()
+		assert said["may"] and said["currency"] == "AED" and said["one_approve_first_payment"] == 1, said
+		control.save_approval(one_approve_above=5000, one_approve_first_payment=0, one_approve_bank_days=30)
+		assert control.approval()["one_approve_above"] == 5000
+		demo = frappe.get_all("Second Approval", filters={"kind": "Payment", "status": "Waiting"}, pluck="name")
+		assert demo and set(demo) <= set(second.waiting_for("huda@one.test")), demo
+		assert home.read()["waiting"] >= len(demo)
+	bill = _payment_to(above=5000)
+	with _Told() as told, as_user("karim@one.test"):
+		payment = _drafted(bill, "CHK-UNUSUAL")
+		row = frappe.get_doc("Second Approval", {"reference_name": payment.name, "status": "Waiting"})
+		assert row.asked_by == "karim@one.test" and row.approver_role == unusual.ROLE, row.as_dict()
+		assert row.reasons.startswith(frappe._("Above {0}").split("{")[0]), row.reasons
+		assert {"huda@one.test", OWNER} <= told.to("Payment Waiting for Approval") and "karim@one.test" not in told.to("Payment Waiting for Approval")
+		try:
+			frappe.get_doc("Payment Entry", payment.name).submit()
+		except frappe.ValidationError as e:
+			assert "second person" in str(e), e
+		else:
+			raise AssertionError("submitted by the person who made it")
+		try:
+			second.approve(row.name)
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("approved by the person who asked")
+		assert row.name not in second.waiting_for("karim@one.test")
+	with as_user("huda@one.test"):
+		with act.as_oneai("huda@one.test", "huda@one.test"):
+			try:
+				second.approve(row.name)
+			except frappe.PermissionError:
+				pass
+			else:
+				raise AssertionError("OneAI approved a payment")
+	with _Told() as told, as_user("huda@one.test"):
+		assert row.name in second.waiting_for("huda@one.test")
+		second.approve(row.name)
+		assert told.to("Approval Decided") == {"karim@one.test"}, told.said
+	assert frappe.db.get_value("Payment Entry", payment.name, "docstatus") == 1
+	done = frappe.get_doc("Second Approval", row.name)
+	assert (done.status, done.decided_by, done.alone) == ("Approved", "huda@one.test", 0), done.as_dict()
+	with as_user("karim@one.test"):
+		small = _drafted(bill, "CHK-ORDINARY")
+		small.paid_amount = small.received_amount = 100
+		small.references[0].allocated_amount = 100
+		small.save()
+		assert not frappe.db.exists("Second Approval", {"reference_name": small.name}), "an ordinary payment asks nobody"
+
+
+@check
+def onebook_changed_bank_details_wait_and_hold_payments():
+	"""Huda changes a supplier's IBAN: Layla is asked, the supplier is mailed
+	at its own address, and nothing is paid to it, by a payment or a journal
+	entry, until Layla approves; then a payment to it asks a second person
+	for the next thirty days. Its first account asked nothing."""
+	from unittest.mock import patch
+
+	from onedesk.one import second
+	from onedesk.one_book import unusual
+	from onedesk.one_demo.checking import _Told
+
+	bill = _payment_to(above=0)
+	supplier = frappe.db.get_value("Purchase Invoice", bill, "supplier")
+	frappe.db.set_value("Supplier", supplier, "email_id", "accounts@supplier.example")
+	for name in frappe.get_all("Second Approval", filters={"party": supplier}, pluck="name"):
+		frappe.delete_doc("Second Approval", name, force=True, ignore_permissions=True)
+	bank = frappe.db.get_value("Bank Account", {"is_company_account": 1, "company": COMPANY}, "bank")
+	mailed = []
+	with _Told() as told, patch("onedesk.one.notify.mail", side_effect=lambda name, to, **k: mailed.append((name, to))), as_user("huda@one.test"):
+		account = frappe.get_doc({"doctype": "Bank Account", "account_name": f"{supplier} Check", "bank": bank, "party_type": "Supplier", "party": supplier, "iban": "AE070331234567890123456"}).insert()
+		assert not second.held("Supplier", supplier), "a first account asks nothing"
+		account.iban = "AE460260001015333439201"
+		account.save()
+		row = frappe.get_doc("Second Approval", second.held("Supplier", supplier))
+		assert row.kind == "Bank Details" and "9201" in row.changes and "3439201" not in row.changes, row.changes
+		assert OWNER in told.to("Bank Details Waiting for Approval") and "huda@one.test" not in told.to("Bank Details Waiting for Approval")
+		assert mailed == [("Bank Details Changed", "accounts@supplier.example")], mailed
+	with as_user("huda@one.test"):
+		payment = _drafted(bill, "CHK-HELD")
+		try:
+			payment.submit()
+		except frappe.ValidationError as e:
+			assert "new bank details" in str(e), e
+		else:
+			raise AssertionError("paid while the new details wait")
+		journal = frappe._dict(accounts=[frappe._dict(party_type="Supplier", party=supplier)])
+		try:
+			unusual.journal_refused(journal)
+		except frappe.ValidationError:
+			pass
+		else:
+			raise AssertionError("a journal entry paid while the new details wait")
+	with as_user(OWNER):
+		second.approve(row.name)
+	assert not second.held("Supplier", supplier)
+	with as_user("huda@one.test"):
+		again = frappe.get_doc("Payment Entry", payment.name)
+		assert frappe._("Bank details changed in the last {0} days").format(30) in unusual.reasons(again), unusual.reasons(again)

@@ -53,6 +53,7 @@ STEPS = (
 	"realty",
 	"trading",
 	"consulting",
+	"approvals",
 )
 
 

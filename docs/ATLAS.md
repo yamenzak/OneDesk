@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 96 | 2 | 38 | 0 |
+| onedesk | 96 | 2 | 39 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -370,14 +370,14 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Authorization Rule | replaced: Approvals in Workspace Settings, where a step can ask a manager to approve above an amount | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | 1 fields | yes | general |  | **none** |  |  |  |  |
-| Company | opened by our screens | everybody | 3 fields | yes | taught |  | yes |  |  |  |  |
+| Company | opened by our screens | everybody | 7 fields | yes | taught |  | yes |  |  |  |  |
 | Currency Exchange | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Department | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Designation | on a rail or a home | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | OneHR, OneInventory | 1 settings | yes | general |  | yes |  |  |  |  |
 | Email Digest | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Employee | on a rail or a home | everybody | a head, form script, 11 fields, 28 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
+| Employee | on a rail or a home | everybody | a head, form script, 11 fields, 28 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked, Your Bank Details Changed |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Global Defaults | inside: One's ControlCenter › Region and Formats: how amounts read | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
@@ -585,7 +585,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Session Default Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Submission Queue | engine: a large record submitted in the background | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Success Action | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| System Settings | inside: One's ControlCenter › Region and Formats, Sign-in and Sharing | **nobody** | 2 fields | no | taught |  |  |  |  | ar 12, de 8 |  |
+| System Settings | inside: One's ControlCenter › Region and Formats, Sign-in and Sharing | **nobody** | 3 fields | no | taught |  |  |  |  | ar 12, de 8 |  |
 | Translation | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | User | through a form's link (Project Update: user) | **nobody** | 2 fields, 1 settings | no | taught |  | yes |  |  |  |  |
 | User Group | inside: AccessCenter › Roles and Profiles, which writes it | everybody | untouched | no | taught |  | **none** |  |  |  |  |
@@ -928,6 +928,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 | News Source | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Push Device | engine: a browser that asked for notifications, kept by the bell | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Second Approval | inside: Home › Waiting for Your Approval and its notification, each opening the approval, and the payment, bank account or employee it is about | not read | a head | no | general |  | **none** |  |  |  | Approval Decided, Bank Details Waiting for Approval, Export Held, Export Waiting for Approval, Payment Waiting for Approval |
 | Weather Place | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 

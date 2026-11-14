@@ -114,6 +114,12 @@ and DEWA bill.
 | trading | Creek Trading: four people, Vikram and Lina signing in. Chairs and desks imported from Shenzhen in dollars, paper, toner and cabinets bought in Dubai, sixteen sales to five customers taken from the stores on their invoices, a school's order delivered and invoiced, freight bills, some invoices late and some not yet due |
 | consulting | Bayan Consulting: four people, Daniel and Meera signing in. Nexa Telecom's operating model, done, and Emirates Retail's pricing review, under way, with their tasks and weekly timesheets, invoiced by the hour each month; Jebel Ali Logistics Park's retainer invoiced each month with the hours over it; a workshop billed alone and unpaid; software and research bills |
 
+### Demo steps: waiting for a second person
+
+| Step | What it makes |
+|---|---|
+| approvals | One of each thing waiting for a second person, on Home's Waiting for Your Approval: Karim's payment to the supplier owed the most, above the limit, for Huda or Layla; Huda's change to Gulf Office Supplies' bank account, for Layla, with the supplier told; and Omar's export of more customers than the workspace allows at once, for Layla |
+
 ## Who works there, and signing in as them
 
 Each person signs in with their address below and the password given to the

@@ -559,6 +559,8 @@ def _asks(doc) -> list[dict]:
 
 def _record(doc, amount, account, on=None, reference=None) -> str:
 	entry = paid.settle(doc.doctype, doc.name, amount, account, reference=reference, on=on)
+	if frappe.db.get_value("Payment Entry", entry, "docstatus") == 0:
+		return _("Payment {0} saved. It waits for a second person to approve it.").format(entry)
 	return _("Payment {0} recorded.").format(entry)
 
 

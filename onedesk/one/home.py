@@ -63,12 +63,20 @@ APPROVALS = (
 		"employee_name",
 	),
 	("Workflow Action", lambda user: {"status": "Open"}, "reference_name"),
+	("Second Approval", lambda user: {"name": ["in", _second(user) or [""]]}, "title"),
 )
 
 
+def _second(user: str) -> list[str]:
+	from onedesk.one import second
+
+	return second.waiting_for(user)
+
+
 def _approvals() -> list[dict]:
-	"""Leave and expense claims waiting on the reader as their approver, and
-	approval steps their roles take, oldest first."""
+	"""Leave and expense claims waiting on the reader as their approver,
+	approval steps their roles take, and payments, bank details and exports
+	waiting for a second person they may be (one/second.py), oldest first."""
 	user = frappe.session.user
 	found = []
 	for doctype, wanted, title in APPROVALS:

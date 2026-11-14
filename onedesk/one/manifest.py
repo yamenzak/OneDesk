@@ -51,6 +51,7 @@ APP = App(
 	hooks={
 		"one_homes": ("lists.homes",),
 		"one_record_tabs": ("tabs.TABS",),
+		"one_record_notices": ("heads.NOTICES",),
 	},
 	settle=(
 		Settle("roles.ensure"),

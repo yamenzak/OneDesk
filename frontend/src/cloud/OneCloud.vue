@@ -946,8 +946,14 @@ async function act(name) {
       await call("onedesk.one_cloud.oneos.close", { node: picked[0].id });
       alert(__("{0} closed in OneOS.", [picked[0].name]));
       return refresh();
-    case "download":
-      return download(picked.filter((one) => !one.folder && one.url));
+    case "download": {
+      const files = picked.filter((one) => !one.folder && one.url);
+      if (files.length > 1) {
+        const said = await call("onedesk.one.exports.may_export", { doctype: "File", records: files.length });
+        if (!said.allowed) return alert(said.message, "yellow");
+      }
+      return download(files);
+    }
     case "download-csv":
       return goTo("workbook", picked[0].workbook, { export: "csv" });
     case "copy-link":

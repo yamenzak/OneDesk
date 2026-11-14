@@ -33,6 +33,10 @@ only administrators see it. Each tab saves on its own, from the top right.
     ones can be made.
   - **Record Sharing** lets people share a record with someone who couldn't
     otherwise open it. When off, no one can.
+  - **Export Limit**: how many records one person may export at once, from a
+    list, a report, Data Export or several files in {one_cloud}. More waits
+    for an administrator to press **Approve Export**, then the person exports
+    it again within a day. 0 turns it off.
 
 If another administrator saved while you had the page open, the page tells you
 instead of saving over their change.

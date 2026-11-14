@@ -137,3 +137,46 @@ def _theirs(owner: str, customer: str) -> list[str]:
 		"User", filters={"name": ["in", [one for one in people if one]], "enabled": 1}, pluck="name"
 	)
 	return found or get_users_with_role("Accounts Manager")
+
+
+def payment_waiting(row, people: list[str], doc, reasons: list[str]) -> None:
+	"""Who may approve a payment out of the ordinary (unusual.py)."""
+	from frappe.utils import get_fullname
+
+	notify.notify(
+		"Payment Waiting for Approval",
+		people,
+		record=("Second Approval", row.name),
+		who=get_fullname(row.asked_by),
+		amount=fmt_money(doc.paid_amount, currency=doc.paid_from_account_currency),
+		party=doc.party_name or doc.party,
+		reasons=" · ".join(reasons),
+	)
+
+
+def bank_details_waiting(row, people: list[str], party: str, changes: list[str]) -> None:
+	"""Who may approve a party's changed bank details (details.py)."""
+	from frappe.utils import get_fullname
+
+	notify.notify(
+		"Bank Details Waiting for Approval",
+		people,
+		record=("Second Approval", row.name),
+		who=get_fullname(row.asked_by),
+		party=party,
+		changes=" · ".join(changes),
+	)
+
+
+def bank_details_changed(address: str, party: str) -> None:
+	"""A supplier or customer, at its own address, that the bank details it is
+	paid into changed (details.py)."""
+	from onedesk.one.company import workspace_company
+
+	company = workspace_company()
+	notify.mail(
+		"Bank Details Changed",
+		address,
+		party=party,
+		company=frappe.db.get_value("Company", company, "company_name") if company else "",
+	)

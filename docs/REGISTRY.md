@@ -29,7 +29,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneCloud 1.0.1
+## OneCloud 1.1.0
 
 Not marked ready yet.
 

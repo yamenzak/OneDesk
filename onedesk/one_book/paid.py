@@ -23,8 +23,9 @@ def allocate(amount: float, owed: list[float]) -> list[float]:
 @frappe.whitelist(methods=["POST"])
 def settle(doctype: str, name: str, amount: float, account: str, reference: str | None = None, on: str | None = None) -> str:
 	"""A submitted Payment Entry for `amount` of the invoice or bill, into or out
-	of `account`. The bank's reference defaults to the invoice's number, since
-	ERPNext will not submit a bank payment without one."""
+	of `account`, or a draft where it waits for a second person (unusual.py).
+	The bank's reference defaults to the invoice's number, since ERPNext will
+	not submit a bank payment without one."""
 	if doctype not in SETTLED:
 		frappe.throw(_("Only an invoice or a bill is paid here."))
 	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
@@ -45,7 +46,10 @@ def settle(doctype: str, name: str, amount: float, account: str, reference: str 
 	entry.posting_date = entry.reference_date = on
 	entry.reference_no = (reference or "").strip() or name
 	entry.insert()
-	entry.submit()
+	from onedesk.one_book import unusual
+
+	if not unusual.reasons(entry):
+		entry.submit()
 	return entry.name
 
 

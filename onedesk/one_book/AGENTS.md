@@ -422,6 +422,41 @@ suggestion card should never be.
 - **Its screens** are `frontend/src/books/`.
 - **Its checks** are `checks.py`, run with the rest by `one_demo/check.py`.
 
+### unusual.py, details.py and control.py
+
+Payment approval, OneBook's part of a second person (one/second.py).
+
+- **A payment out of the ordinary** (`unusual.reasons`): a Payment Entry
+  paying somebody (Pay) whose amount in the company's currency
+  (`base_paid_amount`) is above the company's **Payment Approval Limit**
+  (10,000 by default), the first to a party who is not an employee while
+  **Require Approval of First Payments** is on (the default), or to a party
+  whose bank details changed within **Approval After Bank Change (Days)**
+  (30). Each is the company's own field (`custom/company.json`), set in
+  OneBook's settings, Payment Approval (`control.py`, book_control.js) for
+  the reader's company. 10,000 is one number in every currency: where a
+  unit is worth less it asks more often, never less.
+- **Saving asks** (`asked`, on_update of a draft): the request is made or
+  updated, and withdrawn when the payment no longer asks. **Submitting**
+  (`refused`, before_submit) is refused unless Approve Payment is doing it,
+  which submits as the person who approved. Record Payment saves such a
+  payment as a draft (`paid.settle`) and says it waits.
+- **Not a Workflow**: a doctype has one, so a workspace's own approvals for
+  payments (OneStudio's Approvals) would be shut out, and every receipt and
+  transfer would pass through it; ERPNext's Authorization Rule knows no
+  Payment Entry and only refuses. A before_submit rule asks only of the
+  payments that need it and leaves the Workflow free.
+- **Changed bank details** (`details.changed`, Bank Account on_update): a
+  party's account whose IBAN, account number, bank or branch changes from
+  what it was, or a second account added for a party that has one, asks an
+  Accounts Manager. The supplier or customer is mailed at its own address
+  (Bank Details Changed, no numbers in it); an employee is told on their
+  bell (one_hr/bank.py). While it waits or was refused (`second.held`), a
+  payment or a journal entry to the party is refused (`unusual.refused`,
+  `journal_refused`), payroll's bank entry included.
+- **Skipped** while installing, migrating, patching or building the demo
+  (`skipped`); the demo's own approvals step turns it on for itself.
+
 ### planner.py
 
 OneBook's accountant's share of what OneAI reads (one_ai/agents/work.py): `purchase` (a bill, a paid receipt, a credit note or a timesheet as a draft Purchase Invoice, or the bill already there linked), `payment` (a payment advice as a draft Payment Entry), `bank` (a statement's lines as Bank Transactions, submitted, since reconciliation reads only those) and `never_received` (a task to ask for an invoice a reminder names, a card since the accountant may not make a task). agent.py's `PLANS` names each with its stage, level and label; the supplier a new bill came from is OneAI's own (one_ai/reading/plans.py `supplier`).
