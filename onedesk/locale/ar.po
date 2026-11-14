@@ -1358,6 +1358,13 @@ msgstr "كلمة مرور تفتح محرك OneCloud الخاص بشخص ولا 
 msgid "A pattern such as SN-.#####, or empty to type each number in."
 msgstr "نمط مثل SN-.#####، أو فارغ ليُكتب كل رقم يدويًا."
 
+#. Description of the 'Payment Approval Limit' (Currency) field in DocType
+#. 'Company'
+#: onedesk/one_book/custom/company.json:14
+#: onedesk/public/js/one_book/book_control.js:31
+msgid "A payment above this needs a second person's approval, unless set to 0."
+msgstr "تحتاج الدفعة التي تتجاوز هذا المبلغ إلى اعتماد شخص ثانٍ، ما لم يُضبط على 0."
+
 #. Message of a notification
 #: onedesk/one_admin/notifications.py
 #, python-brace-format
@@ -2148,6 +2155,11 @@ msgstr "فوق"
 msgid "Above its level"
 msgstr "فوق مستواه"
 
+#: onedesk/one_book/checks.py:733 onedesk/one_book/unusual.py:55
+#, python-brace-format
+msgid "Above {0}"
+msgstr "أكثر من {0}"
+
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: frontend/src/hr/HrStory.vue:89
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:311
@@ -2503,6 +2515,16 @@ msgstr "اعتماد الحسابات وتوقيعها"
 #: onedesk/one_portal/manifest.py:14
 msgid "Accounts for customers and suppliers"
 msgstr "حسابات للعملاء والموردين"
+
+#. Who a notification is sent to
+#: onedesk/one_book/notifications.py
+msgid "Accounts managers and the workspace's administrators, but whoever made it"
+msgstr "مديرو الحسابات ومسؤولو مساحة العمل، عدا من أنشأها"
+
+#. Who a notification is sent to
+#: onedesk/one_book/notifications.py
+msgid "Accounts managers, HR managers for an employee, and the workspace's administrators, but whoever changed them"
+msgstr "مديرو الحسابات، ومديرو الموارد البشرية للموظف، ومسؤولو مساحة العمل، عدا من غيّرها"
 
 #. Label in the One Arrear print format
 #: onedesk/one_hr/print_format/one_arrear/one_arrear.json
@@ -4302,6 +4324,11 @@ msgstr "مضاف أيضًا إلى"
 msgid "Also Allow Check-in From"
 msgstr "السماح أيضاً بتسجيل الحضور من"
 
+#. Label of the also_asked_by (Small Text) field in DocType 'Second Approval'
+#: onedesk/one/doctype/second_approval/second_approval.json:198
+msgid "Also Asked By"
+msgstr "طلبها أيضًا"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:405
 msgid "Also Leads and Job Applicants, for unknown senders."
 msgstr "وكذلك العملاء المحتملون والمتقدمون للوظائف، للمرسلين غير المعروفين."
@@ -4679,6 +4706,11 @@ msgstr "تُفتح بطاقة حدث في OneCalendar."
 #: onedesk/one_display/starters.py:1198
 msgid "An event's date, place and a code to register."
 msgstr "تاريخ الفعالية ومكانها ورمز للتسجيل."
+
+#. Description of the 'Export Limit' (Int) field in DocType 'System Settings'
+#: onedesk/one/custom/system_settings.json:25
+msgid "An export of more records than this at once needs an administrator's approval, unless set to 0."
+msgstr "يحتاج تصدير سجلات أكثر من هذا العدد دفعة واحدة إلى اعتماد مسؤول، ما لم يُضبط على 0."
 
 #: onedesk/one_studio/extensions.py:171
 #, python-brace-format
@@ -5257,10 +5289,21 @@ msgstr "المقيّم"
 msgid "Approval"
 msgstr "الاعتماد"
 
+#. Label of the one_approve_bank_days (Int) field in DocType 'Company'
+#: onedesk/one_book/custom/company.json:41
+#: onedesk/public/js/one_book/book_control.js:35
+msgid "Approval After Bank Change (Days)"
+msgstr "الاعتماد بعد تغيير بيانات البنك (أيام)"
+
 #. Name of a notification
 #: onedesk/one/notifications.py
 msgid "Approval Answered"
 msgstr "الرد على الموافقة"
+
+#. Name of a notification
+#: onedesk/one/notifications.py
+msgid "Approval Decided"
+msgstr "صدر قرار الاعتماد"
 
 #. Name of a notification
 #: onedesk/one/notifications.py
@@ -5294,9 +5337,24 @@ msgstr "اعتماد"
 msgid "Approve All ({0})"
 msgstr "الموافقة على الكل ({0})"
 
+#. The button on a notification's mail
+#: onedesk/one_book/notifications.py
+msgid "Approve Bank Details"
+msgstr "اعتماد بيانات البنك"
+
+#. The button on a notification's mail
+#: onedesk/one/notifications.py
+msgid "Approve Export"
+msgstr "اعتماد التصدير"
+
 #: onedesk/one_mail/agent.py:696
 msgid "Approve Mail Rule"
 msgstr "اعتماد قاعدة البريد"
+
+#. The button on a notification's mail
+#: onedesk/one_book/notifications.py
+msgid "Approve Payment"
+msgstr "اعتماد الدفعة"
 
 #: onedesk/public/js/trust_center/privacy_request.js:13
 msgid "Approve and Delete"
@@ -5338,6 +5396,11 @@ msgstr "الموافقة على {0}"
 #: onedesk/public/js/one_ai/panel/Record.vue:163
 msgid "Approved"
 msgstr "معتمد"
+
+#. Label of the alone (Check) field in DocType 'Second Approval'
+#: onedesk/one/doctype/second_approval/second_approval.json:228
+msgid "Approved Alone"
+msgstr "اعتُمد منفردًا"
 
 #. Label in the One Budget print format
 #. Label in the One Cost Center Allocation print format
@@ -5435,6 +5498,11 @@ msgstr "معتمد ومتاح"
 msgid "Approved by {0}"
 msgstr "وافق عليه {0}"
 
+#: onedesk/one/heads.py:56
+#, python-brace-format
+msgid "Approved by {0} {1}."
+msgstr "اعتمده {0} {1}."
+
 #: onedesk/public/js/trust_center/privacy_copy.js:8
 #, python-brace-format
 msgid "Approved. The copy will be sent to {0} when it's ready."
@@ -5444,6 +5512,11 @@ msgstr "تمت الموافقة. ستُرسل النسخة إلى {0} عندما
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 msgid "Approver"
 msgstr "المعتمِد"
+
+#. Label of the approver_role (Link) field in DocType 'Second Approval'
+#: onedesk/one/doctype/second_approval/second_approval.json:190
+msgid "Approver Role"
+msgstr "دور المعتمد"
 
 #: onedesk/one_hr/heads.py:224
 #, python-brace-format
@@ -7129,6 +7202,16 @@ msgstr "تسوية البنك"
 msgid "Bank Details"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/one_book/notifications.py
+msgid "Bank Details Changed"
+msgstr "تغيّرت بيانات البنك"
+
+#. Name of a notification
+#: onedesk/one_book/notifications.py
+msgid "Bank Details Waiting for Approval"
+msgstr "بيانات بنك بانتظار الاعتماد"
+
 #. Label in the One Bank Guarantee print format
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 msgid "Bank Guarantee Given"
@@ -7177,6 +7260,16 @@ msgstr "قاعدة المعاملات البنكية"
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Bank and cash reconciled"
 msgstr "تسوية البنك والنقد"
+
+#: onedesk/one_book/checks.py:819 onedesk/one_book/unusual.py:60
+#, python-brace-format
+msgid "Bank details changed in the last {0} days"
+msgstr "تغيّرت بيانات البنك خلال آخر {0} يومًا"
+
+#: onedesk/one_book/details.py:64
+#, python-brace-format
+msgid "Bank details of {0}"
+msgstr "بيانات بنك {0}"
 
 #: onedesk/one_book/manifest.py:18
 msgid "Bank matching"
@@ -16199,6 +16292,11 @@ msgstr "تنزيل بصيغة Word"
 msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr "نزّله أولًا. لا يمكن تصدير أي شيء بعد إغلاق مساحة العمل."
 
+#: onedesk/one/exports.py:279
+#, python-brace-format
+msgid "Downloading {0} files needs a workspace administrator's approval. They have been asked, and you are told when one decides."
+msgstr "يحتاج تنزيل {0} ملفًا إلى اعتماد مسؤول مساحة العمل. أُرسل إليهم الطلب، وستُبلَّغ عندما يقرر أحدهم."
+
 #: onedesk/one_inventory/heads.py:1483
 msgid "Downtime"
 msgstr "التوقف"
@@ -19386,6 +19484,21 @@ msgstr "الشرح"
 msgid "Export"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/one/notifications.py
+msgid "Export Held"
+msgstr "أُوقف التصدير"
+
+#. Label of the one_export_limit (Int) field in DocType 'System Settings'
+#: onedesk/one/custom/system_settings.json:30
+msgid "Export Limit"
+msgstr "حد التصدير"
+
+#. Name of a notification
+#: onedesk/one/exports.py:121 onedesk/one/notifications.py
+msgid "Export Waiting for Approval"
+msgstr "تصدير بانتظار الاعتماد"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1951
 msgid "Export as CSV"
 msgstr "تصدير بتنسيق CSV"
@@ -19406,9 +19519,19 @@ msgstr "تصدير بصيغة PowerPoint"
 msgid "Export as XLSX"
 msgstr "تصدير بتنسيق XLSX"
 
+#: onedesk/one/exports.py:69
+#, python-brace-format
+msgid "Export of {0} {1}"
+msgstr "تصدير {0} {1}"
+
 #: onedesk/one/audit.py:133
 msgid "Exported"
 msgstr "صُدّر"
+
+#: onedesk/one/exports.py:122
+#, python-brace-format
+msgid "Exporting {0} {1} needs a workspace administrator's approval. They have been asked, and you are told when one decides."
+msgstr "يحتاج تصدير {0} {1} إلى اعتماد مسؤول مساحة العمل. أُرسل إليهم الطلب، وستُبلَّغ عندما يقرر أحدهم."
 
 #: onedesk/public/js/one/access_center.js:211
 #: onedesk/public/js/one/audit_list.js:41
@@ -20437,6 +20560,11 @@ msgstr "إصلاحات الشهر الأول"
 #: onedesk/one_project/library/erp_rollout.json
 msgid "First month-end closed"
 msgstr "إقفال أول نهاية شهر"
+
+#: onedesk/one_book/unusual.py:57
+#, python-brace-format
+msgid "First payment to {0}"
+msgstr "أول دفعة إلى {0}"
 
 #. Task in the New Client Onboarding project template
 #: onedesk/one_project/library/client_onboarding.json
@@ -21673,6 +21801,12 @@ msgstr "من {device}، من العنوان {address}، في {when}. إن كنت
 #, python-brace-format
 msgid "From {from_date} to {to_date}. Approve or reject it."
 msgstr "من {from_date} إلى {to_date}. وافق عليه أو ارفضه."
+
+#. Message of a notification
+#: onedesk/one/notifications.py
+#, python-brace-format
+msgid "From {method}. Approve it or refuse it."
+msgstr "من {method}. اعتمده أو ارفضه."
 
 #. Message of a notification
 #: onedesk/one_crm/notifications.py
@@ -24242,6 +24376,13 @@ msgstr "عند التفعيل، يمكن لمن لديه الرابط رفع م�
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json:24
 msgid "If enabled, scans and photos attached to records are also read, on behalf of the user who attached them."
 msgstr "عند التفعيل، تُقرأ أيضاً المسوحات والصور المرفقة بالسجلات نيابةً عن المستخدم الذي أرفقها."
+
+#. Description of the 'Require Approval of First Payments' (Check) field in
+#. DocType 'Company'
+#: onedesk/one_book/custom/company.json:26
+#: onedesk/public/js/one_book/book_control.js:34
+msgid "If enabled, the first payment to a supplier or customer needs a second person's approval."
+msgstr "إذا فُعّل، تحتاج أول دفعة إلى مورد أو عميل إلى اعتماد شخص ثانٍ."
 
 #. Description of the 'Connected' (Check) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:73
@@ -31031,6 +31172,11 @@ msgstr "يحتجز أكثر من عميل محتجزات هنا. أفرج عنه
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "هناك محتجزات لأكثر من مورد هنا. ادفعها من كل فاتورة مورد."
 
+#: onedesk/one/exports.py:70
+#, python-brace-format
+msgid "More than {0} records"
+msgstr "أكثر من {0} سجل"
+
 #: onedesk/public/js/one_interface/frame.js:806
 msgid "More views"
 msgstr "طرق عرض أخرى"
@@ -33753,6 +33899,11 @@ msgstr "لا أحد يستطيع اعتماد طلب مناوبة لـ {0}. عي
 msgid "Nobody can upload a file until there is room, including people sending files through a link. Free some space or add storage in Plan and Credits."
 msgstr "لا يمكن لأحد رفع ملف حتى تتوفر مساحة، بمن فيهم من يرسلون ملفات عبر رابط. حرّر بعض المساحة أو أضف تخزينًا من الخطة والرصيد."
 
+#: onedesk/one/heads.py:53
+#, python-brace-format
+msgid "Nobody else may approve this, so {0} approves it alone, with remarks."
+msgstr "لا يحق لأحد غيره اعتماد هذا، لذا يعتمده {0} منفردًا مع ملاحظات."
+
 #: onedesk/public/js/account_center/account_center.js:1451
 msgid "Nobody has a passkey yet"
 msgstr "لا أحد لديه مفتاح مرور بعد"
@@ -34954,6 +35105,13 @@ msgstr "عدد الأسهم"
 #: frontend/src/sheet/components/SheetEditor/index.vue:1018
 msgid "Number of columns"
 msgstr "عدد الأعمدة"
+
+#. Description of the 'Approval After Bank Change (Days)' (Int) field in
+#. DocType 'Company'
+#: onedesk/one_book/custom/company.json:36
+#: onedesk/public/js/one_book/book_control.js:35
+msgid "Number of days after a party's bank details change in which paying them needs approval, unless set to 0."
+msgstr "عدد الأيام بعد تغيّر بيانات بنك الطرف التي يحتاج الدفع له خلالها إلى اعتماد، ما لم يُضبط على 0."
 
 #. Description of the 'Confirmation Threshold' (Int) field in DocType 'HR
 #. Settings'
@@ -36380,6 +36538,10 @@ msgstr "لا يمكن ربط صندوق بريد لشخص آخر إلا إذا �
 #: onedesk/one_chat/channels.py:137
 msgid "Only a member can add you to this conversation."
 msgstr "لا يضيفك إلى هذه المحادثة إلا أحد أعضائها."
+
+#: onedesk/one/second.py:130
+msgid "Only a person can approve or refuse this."
+msgstr "لا يعتمد هذا أو يرفضه إلا شخص."
 
 #: onedesk/one_admin/doctype/offering/offering.py:59
 msgid "Only a recurring offering can have a trial."
@@ -39180,6 +39342,19 @@ msgstr "الدفع"
 msgid "Payment Advice"
 msgstr "إشعار دفع"
 
+#. Label of the one_approval_section (Section Break) field in DocType 'Company'
+#: onedesk/one_book/custom/company.json:9
+#: onedesk/public/js/one_book/book_control.js:15
+#: onedesk/public/js/one_book/book_control.js:17
+msgid "Payment Approval"
+msgstr "اعتماد الدفعات"
+
+#. Label of the one_approve_above (Currency) field in DocType 'Company'
+#: onedesk/one_book/custom/company.json:19
+#: onedesk/public/js/one_book/book_control.js:31
+msgid "Payment Approval Limit"
+msgstr "حد اعتماد الدفعات"
+
 #: onedesk/one_hr/heads.py:780
 msgid "Payment Days"
 msgstr ""
@@ -39371,6 +39546,11 @@ msgstr ""
 msgid "Payment Voucher"
 msgstr "قسيمة دفع"
 
+#. Name of a notification
+#: onedesk/one_book/notifications.py
+msgid "Payment Waiting for Approval"
+msgstr "دفعة بانتظار الاعتماد"
+
 #. Subject of a notification
 #: onedesk/account_center/notifications.py
 msgid "Payment for the workspace is overdue"
@@ -39395,6 +39575,11 @@ msgstr "تتم الدفعة عبر Stripe. والخطة ذات التجربة ت
 #: onedesk/www/start.py:62
 msgid "Payment is taken by Stripe. Nothing is charged until it is confirmed there."
 msgstr "تتم الدفعة عبر Stripe. ولا يُخصم شيء حتى تُؤكَّد هناك."
+
+#: onedesk/one_book/unusual.py:69
+#, python-brace-format
+msgid "Payment of {0} to {1}"
+msgstr "دفعة بقيمة {0} إلى {1}"
 
 #: onedesk/account_center/heads.py:17 onedesk/one_admin/accounts.py:121
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:13
@@ -39426,6 +39611,11 @@ msgstr "تم استلام الدفعة. {workspace} مفتوحة مجددًا ع
 #, python-brace-format
 msgid "Payment {0} recorded."
 msgstr "تم تسجيل الدفعة {0}."
+
+#: onedesk/one_book/heads.py:563
+#, python-brace-format
+msgid "Payment {0} saved. It waits for a second person to approve it."
+msgstr "حُفظت الدفعة {0}. وهي بانتظار اعتماد شخص ثانٍ."
 
 #. Label in the One Payment Order print format
 #. Task in the Mobile App project template
@@ -39463,6 +39653,11 @@ msgstr "مدفوعات تُطابق مع الفواتير لعدة أطراف د
 #: onedesk/one_book/home.py:326
 msgid "Payments matched to the invoices they settle."
 msgstr "مدفوعات مطابقة للفواتير التي تسددها."
+
+#: onedesk/one/heads.py:95 onedesk/one_book/unusual.py:132
+#, python-brace-format
+msgid "Payments to {0} wait until their new bank details are approved."
+msgstr "تنتظر الدفعات إلى {0} حتى تُعتمد بيانات بنكهم الجديدة."
 
 #: frontend/src/hr/HrStory.vue:34
 msgid "Payroll"
@@ -43130,6 +43325,11 @@ msgstr "سبب عدم وجود رقم"
 msgid "Reason for Withholding"
 msgstr "سبب الحجب"
 
+#. Label of the reasons (Small Text) field in DocType 'Second Approval'
+#: onedesk/one/doctype/second_approval/second_approval.json:71
+msgid "Reasons"
+msgstr "الأسباب"
+
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json:427
 msgid "Reasons offered to employees on check out."
@@ -43899,6 +44099,11 @@ msgstr "مرفوض"
 msgid "Refused by Review"
 msgstr "رفضتها المراجعة"
 
+#: onedesk/one/heads.py:56
+#, python-brace-format
+msgid "Refused by {0} {1}."
+msgstr "رفضه {0} {1}."
+
 #: onedesk/public/js/one_ai/panel/Record.vue:164
 msgid "Refused."
 msgstr "مرفوض."
@@ -44160,6 +44365,10 @@ msgstr "ملاحظة"
 #: onedesk/public/js/one_inventory/item_actions.js:222
 msgid "Remarks"
 msgstr ""
+
+#: onedesk/one/second.py:135
+msgid "Remarks are required, since nobody else can approve this."
+msgstr "الملاحظات مطلوبة، لأن لا أحد غيرك يستطيع اعتماد هذا."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:120
 #, python-brace-format
@@ -44970,6 +45179,12 @@ msgstr "الطلبات حسب مساحة العمل"
 #: onedesk/public/js/trust_center/trust_center.js:160
 msgid "Requests to delete an account or copy its data, newest first."
 msgstr "طلبات حذف حساب أو نسخ بياناته، الأحدث أولًا."
+
+#. Label of the one_approve_first_payment (Check) field in DocType 'Company'
+#: onedesk/one_book/custom/company.json:31
+#: onedesk/public/js/one_book/book_control.js:34
+msgid "Require Approval of First Payments"
+msgstr "طلب اعتماد أول الدفعات"
 
 #. Label of the one_gate_passkey (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json:65
@@ -47138,6 +47353,11 @@ msgstr "بحث…"
 #: onedesk/public/js/account_center/account_center.js:1209
 msgid "Seats"
 msgstr "المقاعد"
+
+#. Name of a DocType
+#: onedesk/one/doctype/second_approval/second_approval.json:244
+msgid "Second Approval"
+msgstr "اعتماد ثانٍ"
 
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
@@ -54293,6 +54513,12 @@ msgstr "يشكّ المدقّق في {0} {1} هذا."
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "العدّاد الخاص بأداة المصادقة. القيمة الأقل من المخزَّنة تعني أن مفتاح المرور قد استُنسخ."
 
+#. Message of a notification
+#: onedesk/one_book/notifications.py
+#, python-brace-format
+msgid "The bank details {company} pays {party} into were changed. If you did not ask for this, reply to this mail at once."
+msgstr "تغيّرت بيانات البنك التي تدفع إليها {company} لـ {party}. إن لم تطلب ذلك، فرُدّ على هذه الرسالة فورًا."
+
 #. Description of the 'Channels' (Section Break) field in DocType 'Notification
 #. Type'
 #: onedesk/one/custom/notification_type.json:109
@@ -55146,6 +55372,10 @@ msgstr "صاحب الحساب الجديد"
 msgid "The new address"
 msgstr "العنوان الجديد"
 
+#: onedesk/one/heads.py:100
+msgid "The new bank details were refused. Nothing is paid until they are changed and approved."
+msgstr "رُفضت بيانات البنك الجديدة. لن يُدفع شيء حتى تُغيَّر وتُعتمد."
+
 #: onedesk/one_display/starters.py:735
 msgid "The new collection"
 msgstr "المجموعة الجديدة"
@@ -55894,6 +56124,11 @@ msgid "The subscription item Stripe bills it on."
 msgstr "عنصر الاشتراك الذي يحاسب عليه Stripe."
 
 #. Who a notification is sent to
+#: onedesk/one_book/notifications.py
+msgid "The supplier or customer, at the address on their record"
+msgstr "المورد أو العميل، على العنوان المسجل لديه"
+
+#. Who a notification is sent to
 #: onedesk/one_inventory/notifications.py
 msgid "The supplier's contact"
 msgstr "جهة اتصال المورد"
@@ -56168,6 +56403,16 @@ msgstr "صارت مساحة العمل تفتح على {domain}. لاستخدا�
 #: frontend/portal/src/pages/Start.vue:71
 msgid "The workspace takes its name, and its address starts with it."
 msgstr "تأخذ مساحة العمل اسمها، ويبدأ عنوانها به."
+
+#. Message of a notification
+#: onedesk/one/notifications.py
+msgid "The workspace's administrators were asked. Export it again once one approves it."
+msgstr "أُرسل الطلب إلى مسؤولي مساحة العمل. صدّره مجددًا بعد أن يعتمده أحدهم."
+
+#. Who a notification is sent to
+#: onedesk/one/notifications.py
+msgid "The workspace's administrators, but whoever asked"
+msgstr "مسؤولو مساحة العمل، عدا من طلب"
 
 #: onedesk/public/js/apps.js:140
 msgid "The workspace's apps changed. Reload to see them."
@@ -57051,6 +57296,11 @@ msgstr "لم يتم بناء هذه الصفحة"
 #: onedesk/one_hr/rules.py:18
 msgid "This passkey was registered on a different browser."
 msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف."
+
+#: onedesk/one_book/unusual.py:115
+#, python-brace-format
+msgid "This payment waits for a second person to approve it: {0}."
+msgstr "هذه الدفعة بانتظار اعتماد شخص ثانٍ: {0}."
 
 #: frontend/src/cloud/CloudEditor.vue:6
 msgid "This picture could not be opened."
@@ -60270,6 +60520,11 @@ msgstr "المستخدم (آخر 30 يوماً)"
 msgid "Used By"
 msgstr "يستخدمه"
 
+#. Label of the used_on (Datetime) field in DocType 'Second Approval'
+#: onedesk/one/doctype/second_approval/second_approval.json:183
+msgid "Used On"
+msgstr "استُخدم في"
+
 #: onedesk/one_admin/heads.py:165
 msgid "Used This Month"
 msgstr "المستخدم هذا الشهر"
@@ -61034,6 +61289,10 @@ msgstr "بانتظار موافقتك"
 msgid "Waiting for a Window"
 msgstr "بانتظار موعد"
 
+#: onedesk/one/heads.py:92
+msgid "Waiting for a second person to approve it."
+msgstr "بانتظار اعتماد شخص ثانٍ."
+
 #: onedesk/public/js/trust_center/trust_center.js:208
 msgid "Waiting for an administrator"
 msgstr "بانتظار مسؤول"
@@ -61069,6 +61328,11 @@ msgstr "بانتظارك"
 #, python-brace-format
 msgid "Waiting for {0} suppliers to quote."
 msgstr "بانتظار عروض أسعار من {0} موردين."
+
+#: onedesk/one/heads.py:51
+#, python-brace-format
+msgid "Waiting for {0}."
+msgstr "بانتظار {0}."
 
 #: onedesk/one_inventory/heads.py:562
 #, python-brace-format
@@ -63146,8 +63410,17 @@ msgstr "عند فشل دفعة مساحة عمل، مع يوم تعليقها."
 
 #. When a notification is sent
 #: onedesk/one_book/notifications.py
+msgid "When a payment out of the ordinary is saved, and waits for a second person."
+msgstr "عند حفظ دفعة غير معتادة، وهي بانتظار شخص ثانٍ."
+
+#. When a notification is sent
+#: onedesk/one_book/notifications.py
 msgid "When a payment request is submitted, with its link to pay, unless it is set to stay quiet."
 msgstr "عند اعتماد طلب دفع، مع رابط الدفع، ما لم يُضبط على عدم الإرسال."
+
+#: onedesk/public/js/one_book/book_control.js:18
+msgid "When a payment waits for a second person to approve it."
+msgstr "عندما تنتظر دفعة اعتماد شخص ثانٍ."
 
 #. When a notification is sent
 #: onedesk/one_hr/notifications.py
@@ -63502,6 +63775,11 @@ msgid "When an event you are on starts soon, as its reminders say, or ten minute
 msgstr "حين يقترب موعد حدث أنت مدعو إليه، كما تقول تذكيراته، أو قبله بعشر دقائق."
 
 #. When a notification is sent
+#: onedesk/one/notifications.py
+msgid "When an export you asked to be mailed is larger than the workspace allows."
+msgstr "عندما يكون التصدير الذي طلبت إرساله بالبريد أكبر مما تسمح به مساحة العمل."
+
+#. When a notification is sent
 #: onedesk/one_hr/notifications.py
 msgid "When an interview is scheduled with an applicant."
 msgstr "عند تحديد موعد مقابلة مع متقدّم."
@@ -63779,6 +64057,11 @@ msgid "When somebody applies for leave."
 msgstr "عندما يتقدّم أحد بطلب إجازة."
 
 #. When a notification is sent
+#: onedesk/one/notifications.py
+msgid "When somebody approves or refuses a payment, bank details or an export you asked for."
+msgstr "عندما يعتمد أحد أو يرفض دفعة أو بيانات بنك أو تصديرًا طلبته."
+
+#. When a notification is sent
 #: onedesk/one_mail/notifications.py
 msgid "When somebody asks for a mail rule on the workspace address issued to them."
 msgstr "عندما يطلب أحد قاعدة بريد على عنوان مساحة العمل الممنوح له."
@@ -63844,6 +64127,16 @@ msgid "When somebody cancels leave that was already decided."
 msgstr "عندما يُلغي أحدهم إجازة تقرّرت."
 
 #. When a notification is sent
+#: onedesk/one_book/notifications.py
+msgid "When somebody changes the bank details a supplier, a customer or an employee is paid into."
+msgstr "عندما يغيّر أحد بيانات البنك التي يُدفع إليها لمورد أو عميل أو موظف."
+
+#. When a notification is sent
+#: onedesk/one_hr/notifications.py
+msgid "When somebody changes the bank details your pay goes into."
+msgstr "عندما يغيّر أحد بيانات البنك التي يُودع فيها راتبك."
+
+#. When a notification is sent
 #: onedesk/one_task/notifications.py
 msgid "When somebody changes the due date of a task given to you."
 msgstr "عندما يغيّر أحدهم تاريخ استحقاق مهمة أُسندت إليك."
@@ -63867,6 +64160,11 @@ msgstr "عندما يعلّق أحدهم على مهمة أُسندت إليك �
 #: onedesk/one_task/notifications.py
 msgid "When somebody else completes a task you gave them, made, or share with them."
 msgstr "عندما يُنجز شخص آخر مهمة أسندتها إليه أو أنشأتها أو تشاركها معه."
+
+#. When a notification is sent
+#: onedesk/one/notifications.py
+msgid "When somebody exports more records at once than the workspace allows."
+msgstr "عندما يصدّر أحد سجلات دفعة واحدة أكثر مما تسمح به مساحة العمل."
 
 #. When a notification is sent
 #: onedesk/one_book/notifications.py
@@ -64092,6 +64390,11 @@ msgstr "عندما يتعذّر إعادة احتساب قيم المخزون، 
 #: onedesk/account_center/doctype/workspace_account/workspace_account.json:116
 msgid "When the administrator last answered."
 msgstr "متى أجاب المدير آخر مرة."
+
+#. When a notification is sent
+#: onedesk/one_book/notifications.py
+msgid "When the bank details a supplier or customer is paid into are changed."
+msgstr "عند تغيير بيانات البنك التي يُدفع إليها لمورد أو عميل."
 
 #. When a notification is sent
 #: onedesk/one/notifications.py
@@ -65180,6 +65483,11 @@ msgstr "من طلبه"
 #: onedesk/one_factory/notifications.py
 msgid "Whoever asked for it, and the project's manager"
 msgstr "من طلبه، ومدير المشروع"
+
+#. Who a notification is sent to
+#: onedesk/one/notifications.py
+msgid "Whoever asked for the export"
+msgstr "من طلب التصدير"
 
 #. Who a notification is sent to
 #: onedesk/one_mail/notifications.py
@@ -67331,6 +67639,11 @@ msgstr "لقد أرسلت كل شيء. لا يزال بإمكانك استبدا
 msgid "Your Approvals"
 msgstr "موافقاتك"
 
+#. Name of a notification
+#: onedesk/one_hr/notifications.py
+msgid "Your Bank Details Changed"
+msgstr "تغيّرت بيانات بنكك"
+
 #: onedesk/public/js/one_calendar/calendar_control.js:40
 msgid "Your Calendar Link"
 msgstr "رابط تقويمك"
@@ -67529,6 +67842,12 @@ msgstr "عنوانك: {0}"
 msgid "Your appraisal for {cycle} has started"
 msgstr "بدأ تقييمك لـ {cycle}"
 
+#. Subject of a notification
+#: onedesk/one_book/notifications.py
+#, python-brace-format
+msgid "Your bank details with {company} were changed"
+msgstr "تغيّرت بيانات بنكك لدى {company}"
+
 #: onedesk/one_book/home.py:328
 msgid "Your bank statement matched to what is in the books."
 msgstr "كشف حسابك البنكي مطابقًا لما في الدفاتر."
@@ -67631,6 +67950,12 @@ msgstr "مطالبة نفقاتك بقيمة {amount}: {status}"
 #: onedesk/one_hr/notifications.py
 msgid "Your expense claim was paid"
 msgstr "دُفعت مطالبة نفقاتك"
+
+#. Subject of a notification
+#: onedesk/one/notifications.py
+#, python-brace-format
+msgid "Your export of {records} {doctype} waits for approval"
+msgstr "تصديرك لـ {records} {doctype} بانتظار الاعتماد"
 
 #: onedesk/one_display/starters.py:667
 msgid "Your feedback helps us do better."
@@ -67788,6 +68113,11 @@ msgstr "تم تغيير كلمة مرورك"
 msgid "Your password, your passkey and where you are signed in."
 msgstr "كلمة مرورك ومفتاح مرورك والأماكن التي سجلت الدخول منها."
 
+#. Message of a notification
+#: onedesk/one_hr/notifications.py
+msgid "Your pay goes into the new account once a second person approves it. If you did not ask for this, tell HR at once."
+msgstr "يُودع راتبك في الحساب الجديد بعد أن يعتمده شخص ثانٍ. إن لم تطلب ذلك، فأبلغ الموارد البشرية فورًا."
+
 #: onedesk/trust_center/services.py:122
 msgid "Your plan doesn't include this service."
 msgstr "خطتك لا تشمل هذه الخدمة."
@@ -67881,6 +68211,10 @@ msgstr "دورك لا يسمح بتغيير هذا."
 #, python-brace-format
 msgid "Your role doesn't allow changing {0}. Make a copy to edit it in OneOS, or view it read-only."
 msgstr "لا يسمح دورك بتغيير {0}. أنشئ نسخة لتحريرها في OneOS، أو اعرضه للقراءة فقط."
+
+#: onedesk/one/second.py:132
+msgid "Your role doesn't allow deciding this."
+msgstr "لا يسمح دورك باتخاذ هذا القرار."
 
 #: onedesk/one_portal/invite.py:39
 msgid "Your role doesn't allow inviting this contact to the portal."
@@ -69336,6 +69670,10 @@ msgstr "موظف الاستقبال"
 msgid "red"
 msgstr ""
 
+#: onedesk/one/tell.py:720
+msgid "refused"
+msgstr "رُفض"
+
 #: onedesk/public/js/one_crm/crm_record.js:34
 msgid "register number"
 msgstr "رقم السجل التجاري"
@@ -70326,6 +70664,11 @@ msgstr "يرد {0} على المحادثات الجديدة من الخارج ب
 #, python-brace-format
 msgid "{0} appears in the app's sidebar under {1}."
 msgstr "يظهر {0} في الشريط الجانبي للتطبيق ضمن {1}."
+
+#: onedesk/one/second.py:156
+#, python-brace-format
+msgid "{0} approved."
+msgstr "اعتُمد {0}."
 
 #: frontend/src/cloud/CloudItems.vue:180
 #, python-brace-format
@@ -71831,6 +72174,11 @@ msgstr "يحتاج {1} إلى {0}، لذا لا يمكن إيقافه."
 msgid "{0} is needed."
 msgstr "{0} مطلوب."
 
+#: onedesk/one_book/unusual.py:142
+#, python-brace-format
+msgid "{0} is no longer a draft."
+msgstr "لم يعد {0} مسودة."
+
 #: onedesk/one/unsubscribe.py:119
 #, python-brace-format
 msgid "{0} is no longer emailed to {1}."
@@ -73210,6 +73558,11 @@ msgstr "{0} سجلات"
 msgid "{0} refused"
 msgstr "{0} مرفوضة"
 
+#: onedesk/one/second.py:162
+#, python-brace-format
+msgid "{0} refused."
+msgstr "رُفض {0}."
+
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.js:27
 #, python-brace-format
 msgid "{0} released."
@@ -74523,6 +74876,12 @@ msgstr "أُوقف {by} عن إتمام بيع لهم. عليهم {outstanding} 
 msgid "{candidate}, whom you referred, was {status}"
 msgstr "{candidate}، الذي رشّحته: {status}"
 
+#. Message of a notification
+#: onedesk/one_book/notifications.py
+#, python-brace-format
+msgid "{changes}. Nothing is paid to them until a second person approves the new details."
+msgstr "{changes}. لن يُدفع لهم شيء حتى يعتمد شخص ثانٍ البيانات الجديدة."
+
 #. Subject of a notification
 #: onedesk/one_project/notifications.py
 #, python-brace-format
@@ -75140,6 +75499,12 @@ msgid "{quotation} for {customer} holds until {date}"
 msgstr "عرض السعر {quotation} لـ {customer} سارٍ حتى {date}"
 
 #. Message of a notification
+#: onedesk/one_book/notifications.py
+#, python-brace-format
+msgid "{reasons}. Approve it or refuse it."
+msgstr "{reasons}. اعتمده أو ارفضه."
+
+#. Message of a notification
 #: onedesk/one_crm/notifications.py
 #, python-brace-format
 msgid "{reason}<br>It is marked Lost."
@@ -75369,6 +75734,12 @@ msgstr "{usage}. انقل مساحات العمل عنه أو اطلب خادم�
 msgid "{warehouse} posts to the wrong account"
 msgstr "{warehouse} يُرحِّل إلى الحساب الخطأ"
 
+#. Subject of a notification
+#: onedesk/one/notifications.py
+#, python-brace-format
+msgid "{what} was {status} by {by}"
+msgstr "{what}: {status} بواسطة {by}"
+
 #. Message of a notification
 #: onedesk/one_calendar/notifications.py
 #, python-brace-format
@@ -75430,6 +75801,18 @@ msgid "{who} asked you to review {task}"
 msgstr "طلب منك {who} مراجعة {task}"
 
 #. Subject of a notification
+#: onedesk/one/notifications.py
+#, python-brace-format
+msgid "{who} asks to export {records} {doctype}"
+msgstr "يطلب {who} تصدير {records} {doctype}"
+
+#. Subject of a notification
+#: onedesk/one_book/notifications.py
+#, python-brace-format
+msgid "{who} asks you to approve a payment of {amount} to {party}"
+msgstr "يطلب منك {who} اعتماد دفعة بقيمة {amount} إلى {party}"
+
+#. Subject of a notification
 #: onedesk/one_task/notifications.py
 #, python-brace-format
 msgid "{who} assigned you {task}"
@@ -75452,6 +75835,18 @@ msgstr "ألغى {who} {task}"
 #, python-brace-format
 msgid "{who} changed its status."
 msgstr "غيّر {who} حالته."
+
+#. Subject of a notification
+#: onedesk/one_book/notifications.py
+#, python-brace-format
+msgid "{who} changed the bank details of {party}"
+msgstr "غيّر {who} بيانات بنك {party}"
+
+#. Subject of a notification
+#: onedesk/one_hr/notifications.py
+#, python-brace-format
+msgid "{who} changed your bank details"
+msgstr "غيّر {who} بيانات بنكك"
 
 #. Subject of a notification
 #: onedesk/one_studio/notifications.py
