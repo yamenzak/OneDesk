@@ -824,6 +824,12 @@ body.one-barred .dock-item-icon .one-flat {
 	}
 }
 
+@media (min-width: 1100px) {
+	.one-copy-band[data-at="bar"] {
+		flex: none;
+	}
+}
+
 .one-copy-edge {
 	position: fixed;
 	inset: 0;

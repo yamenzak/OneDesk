@@ -1659,7 +1659,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			plan: { title: __("Not on This Plan"), description: __("The workspace's plan doesn't include Training Copies.") },
 			agreed: { title: __("Training Copies Is Off"), description: __("Turn on Training Copies in Optional Services to make a copy.") },
 		}[data.why_not];
-		if (!data.why_not) this.page.set_primary_action(__("New Training Copy"), () => this.new_copy(data), "plus");
+		if (!data.why_not && !data.unheard) this.page.set_primary_action(__("New Training Copy"), () => this.new_copy(data), "plus");
 		if (data.why_not !== "linked") this.page.add_inner_button(__("Refresh"), () => this.refresh());
 		const told = why
 			? `<div class="one-record-news">${frappe.ui.alert.html({ ...why, theme: "yellow" })}${
@@ -1667,7 +1667,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			  }</div>`
 			: "";
 		const unheard = data.unheard ? `<div class="one-record-news">${frappe.ui.alert.html({ title: __("Account Not Reached"), description: __("The copies show once the account answers again."), theme: "yellow" })}</div>` : "";
-		this.$content.html(told + unheard + '<div class="one-shell-section" data-list="copies"></div>');
+		this.$content.html(told + unheard + (data.unheard ? "" : '<div class="one-shell-section" data-list="copies"></div>'));
 		this.$content.find("[data-services]").on("click", () => this.leave(() => onedesk.centers.open("trust", { at: "services" })));
 		const kinds = AccountSection.copy_kinds();
 		const fields = Object.fromEntries((data.fields || []).map((one) => [one.value, one.label]));
