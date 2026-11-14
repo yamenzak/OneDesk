@@ -61930,6 +61930,11 @@ msgstr "ما يقوله الزر حين لا يكون نص الإجراء نفس
 msgid "What the chart is called, when not its own name."
 msgstr "اسم المخطط، إن لم يكن اسمه الأصلي."
 
+#. Description of the 'Field' (Data) field in DocType 'Account Request'
+#: onedesk/one_admin/doctype/account_request/account_request.json:127
+msgid "What the company does, which set the apps and setup answers it started with."
+msgstr "ما تعمل فيه الشركة، الذي حدّد التطبيقات وإجابات الإعداد التي بدأت بها."
+
 #. Description of the 'advance_amount' field in DocType 'Employee Advance'
 #: onedesk/one_hr/custom/employee_advance.json:12
 msgid "What the company hands over up front, before anything is spent or claimed."
