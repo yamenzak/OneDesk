@@ -640,7 +640,10 @@ NOT_FOR_AI = {
 	"drafts.unschedule": "Taking back a message about to go is its writer's own choice, made on the message.",
 }
 
+ACCOUNTANT = "one_book"
+
 TOOLS = ("incoming", "hand_on")
+WAKES = {"mail": "incoming"}
 """What its agent calls in the workspace (one_ai/agents/api.py)."""
 
 LEVELS = {
@@ -1504,14 +1507,15 @@ def incoming(message: str, asked_by: str | None = None) -> dict:
 	OneAI reads: which of what Intake read of it are invoices to hand on."""
 	if not frappe.has_permission("Communication", "read", message):
 		frappe.throw(_("Not allowed."), frappe.PermissionError)
-	return {"message": message, "invoices": [one.name for one in readings_of(message) if is_invoice(one)]}
+	invoices = [one.name for one in readings_of(message) if is_invoice(one)]
+	return {"message": message, "invoices": invoices, "next": [{"tool": "hand_on", "args": {"message": message, "reading": one, "to": ACCOUNTANT}} for one in invoices]}
 
 
-def hand_on(message: str, reading: str, to: str = "one_book", asked_by: str | None = None) -> dict:
+def hand_on(message: str, reading: str, to: str = ACCOUNTANT, asked_by: str | None = None) -> dict:
 	"""The receptionist hands an invoice to another app's agent, and says so
 	on the mail, where its people read it (docs/ARC-AI.md, The agents)."""
 	from onedesk.one.registry import agents
-	from onedesk.one_ai.agents import door, users
+	from onedesk.one_ai.agents import door, users, work
 	from onedesk.one_ai.reading.act import Action
 
 	other = agents.get(to)
@@ -1526,4 +1530,4 @@ def hand_on(message: str, reading: str, to: str = "one_book", asked_by: str | No
 		asked_by=asked_by,
 		reading=held,
 	)
-	return {"to": to, "reading": reading, "action": row}
+	return {"to": to, "reading": reading, "action": row, "next": [work.handing(to, {"reading": reading})]}

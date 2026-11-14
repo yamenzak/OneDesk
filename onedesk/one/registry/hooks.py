@@ -74,6 +74,35 @@ def ai_parts() -> dict[str, str]:
 	}
 
 
+HEARD = "onedesk.one_ai.agents.work.heard"
+"""What an agent's WATCH names a record's event for (one_ai/agents/work.py)."""
+
+
+def watched(events: dict) -> dict:
+	"""doc_events, with work.heard beside what is there for each record type
+	and event an agent's WATCH names; a job on the round is the scheduler's."""
+	out = {doctype: dict(said) for doctype, said in events.items()}
+	for app in registry.apps():
+		path = registry.FOLDERS / app.id / "agent.py"
+		if not path.exists():
+			continue
+		for doctype, when, _job in _literal(path, "WATCH").values():
+			if not (when.startswith("on_") or when.startswith("after_")):
+				continue
+			held = out.setdefault(doctype, {}).get(when)
+			listed = [held] if isinstance(held, str) else list(held or [])
+			listed += [HEARD] if HEARD not in listed else []
+			out[doctype][when] = listed[0] if len(listed) == 1 else listed
+	return out
+
+
+def _literal(path: Path, name: str) -> dict:
+	for node in ast.parse(path.read_text(encoding="utf-8")).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == name:
+			return ast.literal_eval(node.value)
+	return {}
+
+
 def centres(centre: str) -> list[str]:
 	"""The apps whose manifest says they have a part in a centre beyond
 	what their files declare (`centres`)."""

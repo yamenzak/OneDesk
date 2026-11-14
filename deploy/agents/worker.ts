@@ -3,7 +3,10 @@
  * `{workspace}.{app}`. A workspace wakes an agent with a signed event; the agent
  * works through the workspace's own tools, each call carrying a token of its
  * own, so everything it reads and writes stays in the workspace and is done
- * there as the agent's user.
+ * there as the agent's user. What an agent does is the workspace's to say: the
+ * event names the tool it runs, and each tool's answer names the steps after it
+ * (`next`), a tool of its own or a hand-off to another agent, so a new agent
+ * needs nothing here.
  */
 
 import { Agent, getAgentByName, routeAgentRequest } from "agents";
@@ -14,20 +17,25 @@ export interface Env {
 	ONE_SECRET: string;
 }
 
+export type Step = { tool: string; args?: Record<string, unknown>; to?: string };
+
 export type Event = {
-	kind: "mail" | "handed";
+	kind: string;
 	host: string;
-	message?: string;
-	reading?: string;
+	tool?: string;
+	args?: Record<string, unknown>;
 	from?: string;
 	asked_by?: string;
 };
 
-type Incoming = { message: string; invoices: string[] };
+type Answer = { next?: Step[] } | null;
+
+export const MOST_STEPS = 50;
 
 const TOOL = "/api/method/onedesk.one_ai.agents.api.tool";
 const NAME = /^([a-z0-9][a-z0-9-]{0,62})\.([a-z][a-z_]{1,40})$/;
 const HOST = /^[a-z0-9.-]+$/;
+const APP = /^[a-z][a-z_]{1,40}$/;
 
 export function named(name: string): { workspace: string; app: string } | null {
 	const found = NAME.exec(name || "");
@@ -64,14 +72,25 @@ export class ModuleAgent extends Agent<Env> {
 	}
 
 	async receive(event: Event): Promise<void> {
-		this.sql`INSERT INTO handed (at, from_app, to_app, reading) VALUES (${Date.now()}, ${event.from || ""}, ${named(this.name)?.app || ""}, ${event.reading || ""})`;
+		const reading = typeof event.args?.reading === "string" ? event.args.reading : "";
+		this.sql`INSERT INTO handed (at, from_app, to_app, reading) VALUES (${Date.now()}, ${event.from || ""}, ${named(this.name)?.app || ""}, ${reading})`;
 		await this.schedule(0, "work", event, { retry: { maxAttempts: 3 } });
 	}
 
 	async work(event: Event): Promise<void> {
 		const who = named(this.name);
-		const job = who && JOBS[who.app];
-		if (job) await job(this, who.workspace, event);
+		if (!who || !event.tool) return;
+		const steps: Step[] = [{ tool: event.tool, args: event.args || {} }];
+		for (let taken = 0; steps.length && taken < MOST_STEPS; taken++) {
+			const step = steps.shift() as Step;
+			if (step.to !== undefined) {
+				if (!APP.test(step.to)) continue;
+				await this.handOn(who.workspace, step.to, { ...event, tool: step.tool, args: step.args || {} });
+				continue;
+			}
+			const answer = await this.tool<Answer>(who.workspace, event, step.tool, step.args || {});
+			steps.push(...(answer?.next || []));
+		}
 	}
 
 	async tool<T>(workspace: string, event: Event, tool: string, args: Record<string, unknown>): Promise<T> {
@@ -93,24 +112,6 @@ export class ModuleAgent extends Agent<Env> {
 		await other.receive({ ...event, kind: "handed", from: named(this.name)?.app });
 	}
 }
-
-type Job = (agent: ModuleAgent, workspace: string, event: Event) => Promise<void>;
-
-const receptionist: Job = async (agent, workspace, event) => {
-	if (event.kind !== "mail" || !event.message) return;
-	const came = await agent.tool<Incoming>(workspace, event, "incoming", { message: event.message });
-	for (const reading of came.invoices) {
-		await agent.tool(workspace, event, "hand_on", { message: came.message, reading, to: "one_book" });
-		await agent.handOn(workspace, "one_book", { ...event, reading });
-	}
-};
-
-const accountant: Job = async (agent, workspace, event) => {
-	if (event.kind !== "handed" || !event.reading) return;
-	await agent.tool(workspace, event, "draft_purchase_invoice", { reading: event.reading });
-};
-
-export const JOBS: Record<string, Job> = { one_mail: receptionist, one_book: accountant };
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {

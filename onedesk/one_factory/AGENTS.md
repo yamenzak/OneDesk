@@ -97,7 +97,11 @@ heir of ERPNext's Manufacturing and Subcontracting.
 - `agent.py` — OneAI on the floor: `on_the_floor`, `plant_floor_now`,
   `sent_out_now`, `work_order_facts` (one work order's materials, steps and
   cost so far) and `plan_work_order` (a draft from an item's bill), with
-  each page's suggestions and the Shop Floor's sentence (`page`).
+  each page's suggestions and the Shop Floor's sentence (`page`). Its
+  production planner's one job (`WATCH`, `watch.ordered`): a submitted
+  Sales Order's lines with a default bill and short in their warehouse
+  (Bin's projected quantity, which already counts the order), each a draft
+  Work Order for what is short, at Draft (one_ai/agents/work.py).
 - `boards.py` — ERPNext's Manufacturing dashboard, the rail's Overview,
   corrected after every sync and migrate.
 - `access.py` — the Subcontracting BOM, the System Manager's alone in

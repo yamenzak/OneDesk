@@ -1,7 +1,8 @@
 """OneAI in OneQuality: what it suggests asking on each of its record types
 and on its Home, and quality_now, which reads what the Home shows. It reads
 the records through the generic tools (about_record, read_record,
-list_records) and changes none of them."""
+list_records) and changes none of them. Its inspector raises a rejected
+inspection as a non conformance (WATCH, watch.py)."""
 
 import frappe
 from frappe import _lt
@@ -9,6 +10,16 @@ from frappe import _lt
 REACH = {}
 
 NOT_FOR_AI = {}
+
+WATCH = {
+	"raise_non_conformance": ("Quality Inspection", "on_submit", "onedesk.one_quality.watch.rejected"),
+}
+LEVELS = {
+	"raise_non_conformance": "Draft",
+}
+LABELS = {
+	"raise_non_conformance": _lt("Raise Non Conformance"),
+}
 
 _OPEN = {
 	"label": _lt("What is still open?"),

@@ -15,6 +15,7 @@ clause(
 		In OneFactory, OneAI reads bills of materials, work orders, job cards, workstations and subcontracting
 		orders as you see them. That covers what is being made, how far each step has got, who is on it, and
 		what is out with which supplier. A work order it suggests is made only when you approve it. It stays
-		a draft until it is submitted.
+		a draft until it is submitted. When a sales order asks for more than the stores hold, the production
+		planner, OneFactory's agent, drafts a work order for what is short.
 	""",
 )

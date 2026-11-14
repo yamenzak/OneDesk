@@ -1,7 +1,9 @@
 """What every module's checks share (one_demo/check.py runs them): `check`,
 which registers one, a request asked as a person, the demo's projects by
 name, a told-of notification, and the three ways a record is changed besides
-its form."""
+its form, and the agents' work run at once."""
+
+from contextlib import contextmanager
 
 import frappe
 from frappe.utils import flt
@@ -229,3 +231,28 @@ DOT_PNG = (
 
 
 CENTS = 0.05
+
+
+AGENTS_WORK = "onedesk.one_ai.agents.work."
+
+QUEUED = ("queue", "enqueue_after_commit", "timeout", "job_id", "deduplicate", "now", "is_async", "at_front", "job_name")
+
+
+@contextmanager
+def at_once():
+	"""The agents' work queued by a change runs at once and here, not on the
+	Worker, and nothing it commits escapes the suite's rollback, so a check
+	reads what an agent did straight after the change."""
+	from unittest import mock
+
+	from onedesk.one_ai.agents import connect
+
+	queued = frappe.enqueue
+
+	def enqueue(method, **kwargs):
+		if isinstance(method, str) and method.startswith(AGENTS_WORK):
+			return frappe.get_attr(method)(**{key: value for key, value in kwargs.items() if key not in QUEUED})
+		return queued(method, **kwargs)
+
+	with mock.patch.object(frappe, "enqueue", enqueue), mock.patch.object(connect, "on", lambda: False), mock.patch.object(frappe.db, "commit", lambda *a, **k: None):
+		yield

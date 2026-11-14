@@ -106,3 +106,53 @@ Riyadh's Home only. An action made from the problem carries it,
 			pass
 		else:
 			raise AssertionError("somebody outside quality opened OneQuality's Home")
+
+
+@check
+def onequality_the_inspector_raises_a_rejected_inspection():
+	"""A Quality Inspection submitted as rejected is raised by OneQuality's
+	inspector as a non conformance with its readings, through the agents'
+	door at the level its tab shows, for whoever submitted it: made against
+	the only procedure, or a card where it is not sure which. Submitted
+	again, nothing more is raised."""
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import levels, work
+	from onedesk.one_demo.checking import at_once
+
+	received = frappe.get_all("Purchase Receipt Item", filters={"docstatus": 1}, fields=["parent", "item_code"], limit=1)[0]
+	frappe.db.set_single_value("Stock Settings", "allow_to_make_quality_inspection_after_purchase_or_delivery", 1)
+	inspection = frappe.get_doc(
+		{
+			"doctype": "Quality Inspection",
+			"report_date": frappe.utils.today(),
+			"inspection_type": "Incoming",
+			"reference_type": "Purchase Receipt",
+			"reference_name": received.parent,
+			"item_code": received.item_code,
+			"sample_size": 1,
+			"inspected_by": "Administrator",
+			"manual_inspection": 1,
+			"status": "Rejected",
+			"remarks": "Seals split on two of five.",
+		}
+	)
+	with at_once():
+		inspection.insert().submit()
+	rows = frappe.get_all(
+		"Reading Action",
+		filters={"agent": agents.email("one_quality"), "agent_action": "raise_non_conformance", "key": f"one_quality|inspection|{inspection.name}"},
+		fields=["name", "level", "agent_level", "target_name", "on_behalf_of"],
+	)
+	assert len(rows) == 1, rows
+	row = rows[0]
+	assert row.agent_level == levels.of("one_quality", "raise_non_conformance") == "Draft", row
+	assert row.on_behalf_of == "Administrator", row
+	only = len(frappe.get_all("Quality Procedure", filters={"is_group": 0}, limit=2)) == 1
+	assert row.level == ("Done" if only else "Proposed"), row
+	if row.level == "Done":
+		problem = frappe.get_doc("Non Conformance", row.target_name)
+		assert inspection.name in problem.subject and problem.status == "Open" and "Seals split" in problem.details, problem.as_dict()
+		assert problem.owner == agents.email("one_quality"), problem.owner
+	with at_once():
+		assert work.do("one_quality", "raise_non_conformance", "Quality Inspection", inspection.name) in ([], [row.name])
+	assert frappe.db.count("Reading Action", {"key": f"one_quality|inspection|{inspection.name}"}) == 1

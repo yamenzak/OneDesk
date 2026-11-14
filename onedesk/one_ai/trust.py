@@ -122,8 +122,8 @@ clause(
 		reads and changes your records only through your workspace, as a user of its own with its app's roles.
 		{registry.name("one_mail")}'s receptionist may also read the records a mail is linked to, and only the mail
 		of a mailbox your administrator lets {registry.name("one_ai")} read. Every call it makes back is signed for your workspace alone and lasts two minutes at most. Cloudflare
-		keeps, for each agent, the work waiting for it and which mail and documents it was handed, by their
-		names in your workspace.
+		keeps, for each agent, the work waiting for it and which mail, documents and records it was handed,
+		by their names in your workspace.
 	""",
 )
 
@@ -131,7 +131,7 @@ subprocessor(
 	name="Cloudflare, Inc.",
 	module=M,
 	purpose="Workers and Durable Objects, where each app's agent runs and keeps the work it was handed",
-	data="The names of the mail and documents an agent was handed, and the work waiting for it",
+	data="The names of the mail, documents and records an agent was handed, and the work waiting for it",
 	where="Cloudflare's network, in the location nearest the workspace's server when the agent first worked",
 	safeguard=CLOUDFLARE,
 	url="https://www.cloudflare.com/cloudflare-customer-dpa/",

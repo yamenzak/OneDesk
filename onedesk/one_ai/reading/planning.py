@@ -28,16 +28,12 @@ def run(name: str, which: str) -> None:
 		return
 	from onedesk.one_ai.agents import work
 
-	said = _said(reading)
-	ctx = context(reading, said)
+	said, ctx = prepared(reading, which)
 	if which == "parties":
 		wanted = _shared(plans.supplier(said, ctx)) + work.planned("parties", said, ctx)
 	elif which == "money":
-		_money(ctx, reading)
 		wanted = handed_on(reading, work.planned("money", said, ctx))
 	else:
-		_payable(ctx, reading)
-		ctx["project"] = _project_named(reading) if _supplier(reading) or reading.kind in PROJECT_KINDS else None
 		wanted = _shared(plans.referred(said, ctx) + plans.enrich(said, ctx)) + work.planned("rest", said, ctx)
 	made = [work.take(app, name, work.keyed(reading, action), reading) for app, name, action in wanted]
 	frappe.db.commit()
@@ -50,6 +46,19 @@ def run(name: str, which: str) -> None:
 	if which == "rest":
 		tell.arrived_after_closing(reading, ctx)
 		_hold_iban(reading)
+
+
+def prepared(reading, which: str) -> tuple[dict, dict]:
+	"""What one stage's planners read: the reading as said, and its context
+	for that stage."""
+	said = _said(reading)
+	ctx = context(reading, said)
+	if which == "money":
+		_money(ctx, reading)
+	elif which == "rest":
+		_payable(ctx, reading)
+		ctx["project"] = _project_named(reading) if _supplier(reading) or reading.kind in PROJECT_KINDS else None
+	return said, ctx
 
 
 def _shared(actions: list) -> list:
@@ -67,7 +76,7 @@ def handed_on(reading, wanted: list) -> list:
 
 	bills = [one for one in wanted if one[2].doctype == "Purchase Invoice"]
 	message = gate.message_of(reading.name) if bills and connect.on() else None
-	if not message or not connect.wake("one_mail", {"kind": "mail", "message": message}):
+	if not message or not connect.wake("one_mail", "mail", {"message": message}):
 		return wanted
 	return [one for one in wanted if one[2].doctype != "Purchase Invoice"]
 

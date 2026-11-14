@@ -1,4 +1,4 @@
-from onedesk.one.registry.hooks import heirs, hook, makers, settles
+from onedesk.one.registry.hooks import heirs, hook, makers, settles, watched
 from onedesk.one.stamp import stamped
 
 app_name = "onedesk"
@@ -142,6 +142,7 @@ scheduler_events = {
 		"onedesk.one.errors.pushed",
 		"onedesk.one.copies.said",
 		"onedesk.one_ai.brief.due",
+		"onedesk.one_ai.agents.work.rounds",
 	],
 	"weekly": ["onedesk.one_ai.reading.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
 	"monthly": [
@@ -152,7 +153,7 @@ scheduler_events = {
 
 override_email_send = "onedesk.one_mail.outbound.send"
 
-doc_events = {
+doc_events = watched({
 	# A screen is woken to ask again when what it shows changes (one_display/live.py).
 	"Display Screen": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
 	"Display Channel": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
@@ -170,7 +171,7 @@ doc_events = {
 	"BOM": {"onload": "onedesk.one_factory.costs.onload"},
 	"Quality Action": {"before_validate": "onedesk.one_quality.company.fill"},
 	# An agent's draft or question lands in its conversation in OneChat (one_chat/cards.py).
-	"Reading Action": {"after_insert": "onedesk.one_chat.cards.posted"},
+	"Reading Action": {"after_insert": "onedesk.one_chat.cards.posted", "on_change": "onedesk.one_ai.agents.work.approved"},
 	"Non Conformance": {
 		"before_validate": "onedesk.one_quality.company.fill",
 		"validate": "onedesk.one_quality.resolve.guard",
@@ -658,7 +659,7 @@ doc_events = {
 		"before_validate": "onedesk.one_hr.shift.before_validate",
 		"before_submit": "onedesk.one_hr.shift.before_submit",
 	},
-}
+})
 
 clear_cache = ["onedesk.one.outside.forget"]
 

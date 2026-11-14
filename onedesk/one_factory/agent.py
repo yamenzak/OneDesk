@@ -1,7 +1,8 @@
 """What OneAI does in OneFactory: reads the work orders, the shop floor, the
 plant floors and the work sent to suppliers as the reader sees them, and
-drafts a work order as a card the reader approves. AGENTS.md lists each
-tool.
+drafts a work order as a card the reader approves. Its production planner
+drafts the work orders a sales order needs (WATCH, watch.py). AGENTS.md
+lists each tool.
 """
 
 from typing import Annotated
@@ -16,6 +17,16 @@ REACH = {}
 
 NOT_FOR_AI = {
 	"control.save_workshop": "The company's cost account and warehouses are set once, in Settings, by whoever keeps the books.",
+}
+
+WATCH = {
+	"draft_work_orders": ("Sales Order", "on_submit", "onedesk.one_factory.watch.ordered"),
+}
+LEVELS = {
+	"draft_work_orders": "Draft",
+}
+LABELS = {
+	"draft_work_orders": _lt("Draft Work Orders"),
 }
 
 FLOOR = "floor"

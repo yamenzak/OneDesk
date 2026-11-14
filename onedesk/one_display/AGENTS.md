@@ -338,7 +338,11 @@ playlist **Paused**, its length read from the file, and whoever asked is told
 (**Made by OneAI**, or **Not Made by OneAI**). A voice model is told only its own words, never
 OneAI's voice, which it would read aloud (`jobs.MAKES`). `agent.py` gives the
 chat `queue_now`, `screens_now` and `plan_voice_ad` (a card), and says in
-`NOT_FOR_AI` why every other change is a person's.
+`NOT_FOR_AI` why every other change is a person's. Its screen keeper's one
+job (`WATCH`, `watch.at_risk`, on the hourly round): a paired screen, not
+turned off, that is at risk (`screens._risks`) gets a ToDo with its reasons
+for the first OneDisplay Manager, once a day and only while none on it is
+open, at Draft (one_ai/agents/work.py).
 
 ## Who may do what
 
@@ -395,6 +399,7 @@ one).
 | `voices.py`, `make.py` | What OneAI records and makes |
 | `worker.py` | Serves the TV's service worker |
 | `tell.py`, `notifications.py` | What it tells people |
+| `watch.py` | The screen keeper's job |
 | `access.py`, `trust.py`, `setup.py`, `tour.py`, `agent.py` | The READY pieces |
 | `demo.py`, `checks.py`, `tests/` | The showroom, its checks, the pure tests |
 | `page/counter/` | The counter's island |

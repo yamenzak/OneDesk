@@ -1,6 +1,7 @@
 """What OneAI does in OneDisplay: says how a queue stands and which screens
 are online, and suggests a spoken ad as a card. It never puts anything on a
-screen by itself."""
+screen by itself. Its screen keeper asks a person to check a screen that
+may stop working (WATCH, watch.py)."""
 
 from typing import Annotated
 
@@ -36,6 +37,16 @@ NOT_FOR_AI = {
 	"voices.record": "It is OneAI recording a voice ad, which the person listens to before it plays.",
 	"boards.change": "A board is changed by whoever is with the item, as it changes in front of them.",
 	"playlist.add_media": "The pictures and videos are files a person uploads from their own device.",
+}
+
+WATCH = {
+	"report_screen_at_risk": ("Display Screen", "hourly", "onedesk.one_display.watch.at_risk"),
+}
+LEVELS = {
+	"report_screen_at_risk": "Draft",
+}
+LABELS = {
+	"report_screen_at_risk": _lt("Report Screen at Risk"),
 }
 
 ONLINE = 90

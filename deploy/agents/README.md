@@ -9,7 +9,7 @@ the workspace's tools, as the agent's own user there.
 ## How it is reached
 
 - **A workspace wakes an agent** with `POST /agents/agent/{workspace}.{app}`,
-  the body an event (`{"kind": "mail", "message": ..., "host": ...}`) and a
+  the body an event (`{"kind": "mail", "tool": "incoming", "args": {"message": ...}, "host": ...}`) and a
   token for the agents' way in `x-one-agent-token`
   (`onedesk/one_ai/agents/connect.py`, `wake`). The agent answers 202 and does
   the work as a scheduled task, so a restart does not lose it.
@@ -21,10 +21,15 @@ the workspace's tools, as the agent's own user there.
   (`handOn`, then `receive`); each hand-off is also a comment on the record in
   the workspace, so people can read it.
 
-What each agent does is `JOBS` in `worker.ts`: OneMail's receptionist looks at
-a mail that arrived (`incoming`), hands each invoice on (`hand_on`) to
-OneBook's accountant, which drafts the Purchase Invoice
-(`draft_purchase_invoice`).
+What an agent does is the workspace's to say, so the Worker has one job for
+every agent (`work` in `worker.ts`): the wake names the tool it runs and its
+arguments (`{"kind", "tool", "args", "host"}`), and each tool's answer may
+name the steps after it, `{"next": [{"tool", "args"}, {"to", "tool",
+"args"}]}`: a tool of its own, run in turn, or a hand-off to another agent,
+at most 50 steps an event. OneMail's receptionist looks at a mail that
+arrived (`incoming`), which names a hand-off (`hand_on`) for each invoice,
+which names OneBook's accountant's `draft_purchase_invoice`. A new agent
+needs no change here (`onedesk/one_ai/agents/work.py`).
 
 ## The token
 

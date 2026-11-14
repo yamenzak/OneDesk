@@ -88,8 +88,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Accounting Period | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Accounts Settings | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | no | general |  |  |  |  | ar 1 |  |
 | Advance Payment Ledger Entry | engine: advances against orders, kept as they are paid | OneBook | untouched | yes | general |  | yes |  | **only an ID** |  |  |
-| Bank | through a form's link (Payment Order: company_bank) | OneBook | events, 1 fields, 1 settings | yes | general |  | yes |  |  |  |  |
-| Bank Account | on a rail or a home | OneBook | a head, events | yes | general |  | yes |  |  |  |  |
+| Bank | through a form's link (Payment Order: company_bank) | OneBook | 1 fields, 1 settings | yes | general |  | yes |  |  |  |  |
+| Bank Account | on a rail or a home | OneBook | a head | yes | general |  | yes |  |  |  |  |
 | Bank Account Balance | inside: a statement's balance, entered in the Bank Reconciliation Tool | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Bank Account Subtype | through a form's link (Bank Account: account_subtype) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Bank Account Type | through a form's link (Bank Account: account_type) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
@@ -102,7 +102,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Bank Transaction Rule | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Bisect Accounting Statements | left out: a developer's search for the day the books stopped balancing; the Ledger Health Monitor and Invalid Ledger Entries answer it for a workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Bisect Nodes | engine: the steps Bisect Accounting Statements takes | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
-| Budget | through a form's connections (Fiscal Year's Connections) | OneBook, OneProject | events | yes | taught |  | yes |  |  |  | Over Budget |
+| Budget | through a form's connections (Fiscal Year's Connections) | OneBook, OneProject | untouched | yes | taught |  | yes |  |  |  | Over Budget |
 | Cashier Closing | left out: the point of sale, until One has a till screen of its own | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Chart of Accounts Importer | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Cheque Print Template | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
@@ -110,7 +110,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Cost Center Allocation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Coupon Code | through a form's link (Sales Order: coupon_code) | OneBook, OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Currency Exchange Settings | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
-| Dunning | on a rail or a home | OneBook | events, 1 fields | yes | general |  | yes | ours |  |  |  |
+| Dunning | on a rail or a home | OneBook | 1 fields | yes | general |  | yes | ours |  |  |  |
 | Dunning Type | through a form's link (Dunning: dunning_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Exchange Rate Revaluation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Finance Book | on a rail or a home | OneBook, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
@@ -119,7 +119,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | GL Entry | engine: one line per posting; the General Ledger report shows them | OneBook | untouched | yes | taught |  | yes |  |  |  |  |
 | Invoice Discounting | through a form's connections (Sales Invoice's Connections) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Item Tax Template | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Journal Entry | on a rail or a home | OneBook | a head, events, 1 settings | yes | general |  | yes |  |  |  |  |
+| Journal Entry | on a rail or a home | OneBook | a head, 1 settings | yes | general |  | yes |  |  |  |  |
 | Journal Entry Template | through a form's link (Journal Entry: from_template) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Ledger Health | engine: what the Ledger Health Monitor found | **nobody** | untouched | yes | general |  | **none** |  | **only an ID** |  |  |
 | Ledger Health Monitor | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
@@ -136,7 +136,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | POS Profile | through a form's connections (Sales Taxes and Charges Template's Connections) | OneBook | 2 settings | yes | general |  | **none** |  |  |  |  |
 | POS Settings | left out: the point of sale, until One has a till screen of its own | OneBook, OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Party Link | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Payment Entry | on a rail or a home | OneBook | a head, events, 3 settings | yes | general | makes it | yes |  |  |  |  |
+| Payment Entry | on a rail or a home | OneBook | a head, 3 settings | yes | general | makes it | yes |  |  |  |  |
 | Payment Gateway Account | through a form's link (Subscription Plan: payment_gateway) | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Payment Ledger Entry | engine: one line per payment against an invoice; the Payment Ledger report shows them | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Payment Order | through a form's connections (Payment Request's Connections) | OneBook | untouched | yes | general |  | **none** | ours |  |  |  |
@@ -145,7 +145,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Payment Term | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pegged Currencies | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
-| Period Closing Voucher | on a rail or a home | OneBook | events | yes | general |  | **none** |  |  |  |  |
+| Period Closing Voucher | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | 1 settings | yes | general |  | yes |  |  |  |  |
 | Process Deferred Accounting | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Payment Reconciliation | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
@@ -154,11 +154,11 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Process Statement Of Accounts | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Process Subscription | engine: subscriptions billed on their dates | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Promotional Scheme | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, events, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  | Bill Due |
+| Purchase Invoice | on a rail or a home | OneBook, OneInventory | a head, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  | Bill Due |
 | Purchase Taxes and Charges Template | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Accounting Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Repost Payment Ledger | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Sales Invoice | on a rail or a home | OneBook | a head, events, form script, 10 fields, 5 settings | yes | taught |  | yes | ours |  |  | Invoice Overdue |
+| Sales Invoice | on a rail or a home | OneBook | a head, form script, 10 fields, 5 settings | yes | taught |  | yes | ours |  |  | Invoice Overdue |
 | Sales Taxes and Charges Template | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Share Transfer | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Share Type | on a rail or a home | OneBook, OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -184,10 +184,10 @@ Reports: Account Balance (under a list's related reports (Bank Account's list));
 | Asset Capitalization | on a rail or a home | OneBook, OneFactory, OneInventory, OneQuality | untouched | yes | general |  | **none** |  |  |  |  |
 | Asset Category | on a rail or a home | OneBook, OneInventory, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Depreciation Schedule | inside: an asset's form draws its schedule | OneBook, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
-| Asset Maintenance | opened by our screens | OneFactory, OneInventory, OneQuality | a head, events | yes | taught |  | yes |  |  |  |  |
-| Asset Maintenance Log | on a rail or a home | OneFactory, OneInventory | a head, events, form script, 1 fields, 8 settings | yes | taught |  | yes |  |  |  |  |
+| Asset Maintenance | opened by our screens | OneFactory, OneInventory, OneQuality | a head | yes | taught |  | yes |  |  |  |  |
+| Asset Maintenance Log | on a rail or a home | OneFactory, OneInventory | a head, form script, 1 fields, 8 settings | yes | taught |  | yes |  |  |  |  |
 | Asset Maintenance Team | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Asset Movement | on a rail or a home | OneBook, OneHR, OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
+| Asset Movement | on a rail or a home | OneBook, OneHR, OneInventory | a head | yes | taught |  | yes |  |  |  |  |
 | Asset Repair | on a rail or a home | OneBook, OneFactory, OneInventory, OneQuality | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
 | Asset Shift Allocation | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Asset Shift Factor | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
@@ -208,10 +208,10 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (under a list's
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 1 |  |
-| Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 6 fields, 10 settings | yes | taught |  | yes | ours |  |  | Order Late |
-| Request for Quotation | on a rail or a home | OneFactory, OneInventory | a head, events, form script, list script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
-| Supplier | on a rail or a home | OneBook, OneInventory | a head, events, form script, list script, 6 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
-| Supplier Quotation | on a rail or a home | OneFactory, OneInventory | a head, events, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
+| Purchase Order | on a rail or a home | OneInventory | a head, form script, list script, 6 fields, 10 settings | yes | taught |  | yes | ours |  |  | Order Late |
+| Request for Quotation | on a rail or a home | OneFactory, OneInventory | a head, form script, list script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
+| Supplier | on a rail or a home | OneBook, OneInventory | a head, form script, list script, 6 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
+| Supplier Quotation | on a rail or a home | OneFactory, OneInventory | a head, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Period | through a form's connections (Supplier Scorecard's Connections) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -224,7 +224,7 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Appointment | on a rail or a home | everybody | a head, events, form script, 4 settings | yes | general |  | yes |  |  |  |  |
+| Appointment | on a rail or a home | everybody | a head, form script, 4 settings | yes | general |  | yes |  |  |  |  |
 | Appointment Booking Settings | on a rail or a home | OneCRM, OneHR | untouched | no | general |  |  |  |  |  |  |
 | CRM Settings | on a rail or a home | OneCRM | 9 settings | no | general |  |  |  |  | ar 1 |  |
 | Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -232,13 +232,13 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 | Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it | yes |  |  |  | Contract Expiring |
 | Contract Template | through a form's link (Contract: contract_template) | OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Email Campaign | on a rail or a home | OneCRM | a head, 2 settings | yes | general |  | yes |  |  |  |  |
-| Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 32 settings | yes | taught | makes it | yes |  |  |  | New Lead Waiting |
+| Lead | on a rail or a home | OneCRM | a head, form script, list script, 7 fields, 32 settings | yes | taught | makes it | yes |  |  |  | New Lead Waiting |
 | Market Segment | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 5 fields, 37 settings | yes | taught |  | yes |  |  |  |  |
+| Opportunity | on a rail or a home | OneCRM | a head, form script, list script, 5 fields, 37 settings | yes | taught |  | yes |  |  |  |  |
 | Opportunity Lost Reason | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity Type | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Prospect | on a rail or a home | OneCRM | list script, 7 settings | yes | general |  | yes |  |  |  |  |
-| Sales Stage | on a rail or a home | OneCRM | events, list script, 3 fields, 2 settings | yes | general |  | yes |  |  |  |  |
+| Sales Stage | on a rail or a home | OneCRM | list script, 3 fields, 2 settings | yes | general |  | yes |  |  |  |  |
 
 Reports: Campaign Efficiency (on a rail or a home); First Response Time for Opportunity (on a rail or a home); Lead Conversion Time (on a rail or a home); Lead Details (under a list's related reports (Lead's list)); Lead Owner Efficiency (on a rail or a home); Lost Opportunity (under a list's related reports (Opportunity's list)); Opportunity Summary by Sales Stage (under a list's related reports (Opportunity's list)); Prospects Engaged But Not Converted (on a rail or a home); Sales Pipeline Analytics (under a list's related reports (Opportunity's list)).
 
@@ -274,7 +274,7 @@ Reports: Maintenance Schedules (on a rail or a home).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| BOM | on a rail or a home | OneFactory, OneInventory | a head, events, form script, list script, 10 settings | yes | taught |  | yes |  |  |  |  |
+| BOM | on a rail or a home | OneFactory, OneInventory | a head, form script, list script, 10 settings | yes | taught |  | yes |  |  |  |  |
 | BOM Creator | on a rail or a home | OneFactory | untouched | yes | general |  | yes |  |  |  |  |
 | BOM Update Log | engine: what a BOM Update Tool run changed | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
 | BOM Update Tool | on a rail or a home | OneFactory | untouched | no | general |  |  |  |  |  |  |
@@ -289,7 +289,7 @@ Reports: Maintenance Schedules (on a rail or a home).
 | Production Plan Schedule | through a form's connections (Production Plan's Connections) | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
 | Routing | on a rail or a home | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
 | Sales Forecast | on a rail or a home | OneCRM, OneFactory | untouched | yes | general |  | yes |  |  |  |  |
-| Work Order | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 15 settings | yes | taught |  | yes |  |  |  | Work Order Done, Work Order Late |
+| Work Order | on a rail or a home | OneFactory, OneInventory | a head, list script, 15 settings | yes | taught |  | yes |  |  |  | Work Order Done, Work Order Late |
 | Workstation | on a rail or a home | OneFactory | untouched | yes | taught |  | yes |  |  |  |  |
 | Workstation Operating Component | through a form's link (Workstation Type: operating_component) | OneFactory | untouched | yes | general |  | yes |  |  |  |  |
 | Workstation Type | through a form's link (Routing: workstation_type) | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
@@ -304,14 +304,14 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Activity Cost | inside: an Activity Type's Connections, one rate for each person | OneProject | untouched | yes | general |  | **none** |  |  |  |  |
 | Activity Type | on a rail or a home | everybody | form script | yes | taught |  | yes |  |  |  |  |
-| Project | on a rail or a home | OneBook, OneHR, OneProject | a head, class, events, form script, list script, tree script, 31 fields, 42 settings | yes | taught |  | yes |  |  |  | Added to Project, Comment on Project, Hours Over Plan, Made Project Manager, Milestone Done, Over Budget, Project Completed, Project End Moved, Project Health, Project Resumed, Project Stopped, Project Summary, Project Update Asked |
-| Project Template | on a rail or a home | OneProject | a head, events, form script, list script, 11 fields, 1 settings | yes | taught |  | yes |  |  |  |  |
+| Project | on a rail or a home | OneBook, OneHR, OneProject | a head, class, form script, list script, tree script, 31 fields, 42 settings | yes | taught |  | yes |  |  |  | Added to Project, Comment on Project, Hours Over Plan, Made Project Manager, Milestone Done, Over Budget, Project Completed, Project End Moved, Project Health, Project Resumed, Project Stopped, Project Summary, Project Update Asked |
+| Project Template | on a rail or a home | OneProject | a head, form script, list script, 11 fields, 1 settings | yes | taught |  | yes |  |  |  |  |
 | Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Project Update | opened by our screens | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
-| Projects Settings | opened by our screens | OneProject | events, 6 fields, 3 settings | no | general |  |  |  |  |  |  |
-| Task | on a rail or a home | everybody | a head, events, form script, list script, tree script, 6 fields, 21 settings | yes | taught | makes it | yes |  |  |  | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Milestone Late, Pending Review, Sent Back, Task Cancelled, Task Done, Task Ready, Task Reopened |
+| Projects Settings | opened by our screens | OneProject | 6 fields, 3 settings | no | general |  |  |  |  |  |  |
+| Task | on a rail or a home | everybody | a head, form script, list script, tree script, 6 fields, 21 settings | yes | taught | makes it | yes |  |  |  | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Milestone Late, Pending Review, Sent Back, Task Cancelled, Task Done, Task Ready, Task Reopened |
 | Task Type | on a rail or a home | OneHR, OneProject | 1 settings | yes | general |  | **none** |  |  |  |  |
-| Timesheet | on a rail or a home | everybody | a head, class, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes | ours |  |  |  |
+| Timesheet | on a rail or a home | everybody | a head, class, form script, list script, 2 fields, 34 settings | yes | taught |  | yes | ours |  |  |  |
 
 Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (on a rail or a home); Project Summary (under a list's related reports (Project's list)); Project wise Stock Tracking (under a list's related reports (Project's list)); Timesheet Billing Summary (on a rail or a home).
 
@@ -319,8 +319,8 @@ Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (o
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Non Conformance | on a rail or a home | everybody | a head, events, 1 fields, 5 settings | yes | taught |  | yes |  |  |  | Non Conformance Raised, Non Conformance Resolved |
-| Quality Action | on a rail or a home | everybody | a head, events, 2 fields | yes | taught |  | yes |  |  |  | Quality Step Overdue |
+| Non Conformance | on a rail or a home | everybody | a head, 1 fields, 5 settings | yes | taught |  | yes |  |  |  | Non Conformance Raised, Non Conformance Resolved |
+| Quality Action | on a rail or a home | everybody | a head, 2 fields | yes | taught |  | yes |  |  |  | Quality Step Overdue |
 | Quality Feedback | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Feedback Template | on a rail or a home | OneQuality | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Goal | on a rail or a home | everybody | a head | yes | general |  | yes |  |  |  |  |
@@ -345,16 +345,16 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, 6 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Credit Limit Crossed |
+| Customer | on a rail or a home | OneBook, OneCRM, OneInventory | a head, 6 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Credit Limit Crossed |
 | Delivery Schedule Item | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Industry Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Installation Note | through a form's connections (Customer's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
 | Party Specific Item | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
-| Quotation | on a rail or a home | OneCRM | a head, events, form script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
+| Quotation | on a rail or a home | OneCRM | a head, form script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 7 fields, 5 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
+| Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, form script, list script, 7 fields, 5 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Selling Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | untouched | no | general |  |  |  |  | ar 1 |  |
 
@@ -369,27 +369,27 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Authorization Control | engine: what an Authorization Rule checks when a record is submitted | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Authorization Rule | replaced: Approvals in Workspace Settings, where a step can ask a manager to approve above an amount | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
-| Company | opened by our screens | everybody | events, 3 fields | yes | taught |  | yes |  |  |  |  |
+| Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | 1 fields | yes | general |  | **none** |  |  |  |  |
+| Company | opened by our screens | everybody | 3 fields | yes | taught |  | yes |  |  |  |  |
 | Currency Exchange | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  |  |  |
-| Department | on a rail or a home | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Department | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Designation | on a rail or a home | OneCRM, OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Driver | on a rail or a home | OneHR, OneInventory | 1 settings | yes | general |  | yes |  |  |  |  |
 | Email Digest | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 28 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
+| Employee | on a rail or a home | everybody | a head, form script, 11 fields, 28 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Global Defaults | inside: One's ControlCenter › Region and Formats: how amounts read | **nobody** | events | no | general |  |  |  |  |  |  |
+| Global Defaults | inside: One's ControlCenter › Region and Formats: how amounts read | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Incoterm | through a form's link (Supplier Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | untouched | yes | taught |  | yes |  |  |  |  |
 | Party Type | through a form's link (Bank Transaction Rule: party_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Quotation Lost Reason | through a form's link (Quotation: lost_reason) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Sales Partner | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Sales Person | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Supplier Group | on a rail or a home | OneBook, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Supplier Group | on a rail or a home | OneBook, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Terms and Conditions | on a rail or a home | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Territory | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Territory | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Transaction Deletion Record | opened by our screens | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | UOM Conversion Factor | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -402,11 +402,11 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Batch | on a rail or a home | OneInventory | a head, list script, 1 settings | yes | taught |  | yes |  |  |  | Expiring Soon |
 | Bin | engine: what each warehouse holds of each item; Stock Summary reads it | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 1 fields, 6 settings | yes | taught |  | yes | ours |  |  |  |
+| Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, form script, list script, 1 fields, 6 settings | yes | taught |  | yes | ours |  |  |  |
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
-| Delivery Trip | on a rail or a home | OneInventory | a head, events, form script | yes | general |  | yes |  |  |  |  |
+| Delivery Trip | on a rail or a home | OneInventory | a head, form script | yes | general |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Item | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | a head, events, form script, list script, 6 fields, 3 settings | yes | taught |  | yes |  |  |  |  |
+| Item | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | a head, form script, list script, 6 fields, 3 settings | yes | taught |  | yes |  |  |  |  |
 | Item Alternative | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Attribute | on a rail or a home | OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Item Lead Time | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -415,32 +415,32 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Item Standard Cost | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Variant Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Landed Cost Voucher | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Manufacturer | opened by our screens | OneInventory | events | yes | general |  | yes |  |  |  |  |
-| Material Request | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Done, Material Request Raised, Material Request Receipt Notification (theirs), Material Request Stopped, Stock Asked |
+| Manufacturer | opened by our screens | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Material Request | on a rail or a home | OneFactory, OneInventory | a head, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Done, Material Request Raised, Material Request Receipt Notification (theirs), Material Request Stopped, Stock Asked |
 | Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pick List | on a rail or a home | OneFactory, OneInventory | a head | yes | general |  | yes | ours |  |  |  |
 | Price List | on a rail or a home | OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it | yes | ours |  |  |  |
+| Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, list script, 1 settings | yes | taught | makes it | yes | ours |  |  |  |
 | Putaway Rule | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Inspection | on a rail or a home | OneInventory, OneQuality | a head | yes | taught |  | yes |  |  |  |  |
 | Quality Inspection Parameter | through a form's link (Quality Inspection: specification) | OneFactory, OneInventory, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Inspection Parameter Group | through a form's link (Quality Inspection Parameter: parameter_group) | OneFactory, OneInventory, OneQuality | untouched | yes | general |  | **none** |  |  |  |  |
 | Quality Inspection Template | through a form's link (Quality Inspection: quality_inspection_template) | OneFactory, OneInventory, OneQuality | untouched | yes | general |  | **none** |  |  |  |  |
 | Quick Stock Balance | replaced: Stock Summary | OneInventory | untouched | no | general |  |  |  |  |  |  |
-| Repost Item Valuation | engine: ERPNext revalues stock after a back-dated move by itself | OneBook, OneInventory | events | yes | general |  | yes |  |  |  | Reposting Failed |
+| Repost Item Valuation | engine: ERPNext revalues stock after a back-dated move by itself | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  | Reposting Failed |
 | Serial No | on a rail or a home | OneCRM, OneInventory | 1 settings | yes | taught |  | yes |  |  |  |  |
 | Serial and Batch Bundle | through a form's link (Asset Capitalization: serial_and_batch_bundle) | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Shipment | through a form's connections (Delivery Note's Connections) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Shipment Parcel Template | through a form's link (Shipment: parcel_template) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Closing Balance | through a form's connections (Stock Closing Entry's Connections) | OneBook, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Stock Closing Entry | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Stock Entry | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 7 settings | yes | taught |  | yes | ours |  |  |  |
+| Stock Entry | on a rail or a home | OneFactory, OneInventory | a head, list script, 7 settings | yes | taught |  | yes | ours |  |  |  |
 | Stock Entry Type | through a form's link (Stock Entry: stock_entry_type) | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Ledger Entry | engine: one line per stock move; the Stock Ledger report shows them | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Reconciliation | on a rail or a home | OneInventory | a head, form script, 9 settings | yes | taught |  | yes |  |  |  |  |
 | Stock Reposting Settings | left out: how ERPNext paces revaluing stock; its defaults suit every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Stock Reservation Entry | through a form's connections (Pick List's Connections) | OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Stock Settings | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory, OneProject | events, 1 fields, 1 settings | no | general |  |  |  |  | ar 1 |  |
+| Stock Settings | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory, OneProject | 1 fields, 1 settings | no | general |  |  |  |  | ar 1 |  |
 | UOM Category | through a form's link (UOM Conversion Factor: category) | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Warehouse | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | a head, tree script | yes | taught |  | yes |  |  |  | Stock Account Wrong |
 | Warehouse Type | through a form's link (Warehouse: warehouse_type) | OneBook, OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -477,7 +477,7 @@ Reports: First Response Time for Issues (on a rail or a home); Issue Analytics (
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Call Log | on a rail or a home | everybody | events | yes | taught |  | yes |  |  |  |  |
+| Call Log | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Incoming Call Settings | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Telephony Call Type | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Voice Call Settings | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
@@ -496,10 +496,10 @@ Reports: YouTube Interactions (left out: ERPNext's library of YouTube help video
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Assignment Rule | on a rail or a home | OneCRM | events | no | general |  | yes |  |  |  |  |
+| Assignment Rule | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Auto Repeat | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  | Repeat Failed |
 | Automation Event Subscription | engine: what an Automation listens for | **nobody** | untouched | no | general |  | **none** |  |  | ar 6 |  |
-| Automation Flow | on a rail or a home | the administrator | events, form script | no | taught |  | **none** |  |  |  |  |
+| Automation Flow | on a rail or a home | the administrator | form script | no | taught |  | **none** |  |  |  |  |
 | Automation Run | engine: each time an Automation ran | **nobody** | untouched | no | general |  | **none** |  |  | ar 8 |  |
 | Automation Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  | ar 13 |  |
 | Automation Trigger Queue | engine: Automations waiting to run | **nobody** | untouched | no | general |  | **none** |  |  | ar 9 |  |
@@ -511,9 +511,9 @@ Reports: YouTube Interactions (left out: ERPNext's library of YouTube help video
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Address | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
-| Address Template | inside: One's ControlCenter › Lists, the Address Book's | the administrator | events, list script, 1 settings | yes | general |  | yes |  |  |  |  |
-| Contact | on a rail or a home | everybody | events, form script, list script, 4 fields, 12 settings | yes | taught | makes it | yes |  |  |  |  |
+| Address | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Address Template | inside: One's ControlCenter › Lists, the Address Book's | the administrator | list script, 1 settings | yes | general |  | yes |  |  |  |  |
+| Contact | on a rail or a home | everybody | form script, list script, 4 fields, 12 settings | yes | taught | makes it | yes |  |  |  |  |
 | Gender | through a form's link (User: gender) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Salutation | through a form's link (Contact: salutation) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
@@ -529,8 +529,8 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Attachment Queue | engine: frappe's queue of files waiting to be attached to a record | everybody | untouched | no | general |  | **none** |  |  | ar 4, de 4 |  |
 | Audit Trail | replaced: Audit Log › Changes | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Background Task | engine: work run after a click, whose result the page shows | everybody | untouched | no | general |  | **none** |  |  | ar 5 |  |
-| Comment | engine: a record's comments, written and read on the record | **nobody** | events | no | taught |  | yes |  |  |  |  |
-| Communication | inside: a record's activity, and OneMail | everybody | events, 8 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
+| Comment | engine: a record's comments, written and read on the record | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
+| Communication | inside: a record's activity, and OneMail | everybody | 8 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
 | Custom DocPerm | inside: AccessCenter › Roles and Profiles | **nobody** | untouched | no | general |  | yes |  |  | ar 1 |  |
 | Custom Icon | replaced: One's dock | **nobody** | untouched | no | general |  | yes |  |  | ar 3 |  |
 | Custom Role | inside: AccessCenter › Roles and Profiles, which writes it | **nobody** | 2 settings | no | general |  | yes |  |  |  |  |
@@ -538,18 +538,18 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Data Import | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 2 |  |
 | Data Import Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 1 |  |
 | Deleted Document | on a rail or a home | everybody | form script, list script, 1 fields, 3 settings | no | taught |  | yes |  |  |  |  |
-| DocShare | inside: a record's Share | **nobody** | events | no | taught |  | yes |  |  |  |  |
+| DocShare | inside: a record's Share | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | DocType | through a form's link (Customize Form: doc_type) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | DocType Layout | through a form's link (Workspace: doctype_layout) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | DocType Settings Map | engine: which settings record holds a kind's settings | **nobody** | untouched | no | general |  | yes |  |  | ar 3 |  |
-| Document Naming Rule | inside: OneStudio's ControlCenter › Numbering, which writes it | the administrator | events | no | taught |  | **none** |  |  |  |  |
+| Document Naming Rule | inside: OneStudio's ControlCenter › Numbering, which writes it | the administrator | untouched | no | taught |  | **none** |  |  |  |  |
 | Document Naming Settings | replaced: OneStudio's ControlCenter › Numbering | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Document Share Key | engine: the key a shared record's link carries | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Domain | through a form's link (DocType: restrict_to_domain) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3 |  |
 | Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
-| File | through a form's link (Workbook: file) | everybody | class, events, 19 fields | no | taught |  | yes |  |  |  | Added to a Library, Closed in OneOS, Deleted While Open, File Ready, Shared With You |
+| File | through a form's link (Workbook: file) | everybody | class, 19 fields | no | taught |  | yes |  |  |  | Added to a Library, Closed in OneOS, Deleted While Open, File Ready, Shared With You |
 | File Blob | engine: a file's bytes under frappe's second way of storing files, which One leaves off; One keeps files in OneCloud | **nobody** | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Language | through a form's link (Print Format: default_print_language) | everybody | untouched | no | general |  | yes |  |  |  |  |
@@ -571,7 +571,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | RQ Job | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | RQ Worker | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Recorder | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Report | through a form's link (Print Format: report) | everybody | events | no | taught |  | yes |  |  |  |  |
+| Report | through a form's link (Print Format: report) | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | Role | through a form's link (DocType: role) | OneHR | 1 fields | no | taught |  | yes |  |  |  |  |
 | Role Permission for Page and Report | replaced: each app's own grants, which open its pages and reports (one/roles.py) | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Role Profile | through a form's link (User: role_profile) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
@@ -581,18 +581,18 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Scheduled Job Type | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Scheduler Event | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Security Settings | the platform's: the site's security.txt, the same for every workspace | **nobody** | untouched | no | general |  |  |  |  | ar 1 |  |
-| Server Script | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | general |  | yes |  |  | ar 1, de 1 |  |
+| Server Script | replaced: OneStudio, whose changes are these underneath | **nobody** | untouched | no | general |  | yes |  |  | ar 1, de 1 |  |
 | Session Default Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Submission Queue | engine: a large record submitted in the background | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Success Action | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| System Settings | inside: One's ControlCenter › Region and Formats, Sign-in and Sharing | **nobody** | events, 2 fields | no | taught |  |  |  |  | ar 12, de 8 |  |
+| System Settings | inside: One's ControlCenter › Region and Formats, Sign-in and Sharing | **nobody** | 2 fields | no | taught |  |  |  |  | ar 12, de 8 |  |
 | Translation | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| User | through a form's link (Project Update: user) | **nobody** | events, 2 fields, 1 settings | no | taught |  | yes |  |  |  |  |
+| User | through a form's link (Project Update: user) | **nobody** | 2 fields, 1 settings | no | taught |  | yes |  |  |  |  |
 | User Group | inside: AccessCenter › Roles and Profiles, which writes it | everybody | untouched | no | taught |  | **none** |  |  |  |  |
 | User Invitation | replaced: AccountCenter › People, Invite | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | User Permission | inside: AccessCenter › Roles and Profiles, holding a person to some records | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | User Type | through a form's link (User: user_type) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Version | opened by our screens | the administrator | events, list script, 1 settings | no | taught |  | yes |  |  |  |  |
+| Version | opened by our screens | the administrator | list script, 1 settings | no | taught |  | yes |  |  |  |  |
 | View Log | engine: who opened a record, for Audit Log | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
 Reports: Database Storage Usage By Tables (the platform's: the site's own workings, which the platform keeps for every workspace); Document Share Report (inside: a record's Share, which says who it is shared with); Permitted Documents For User (under a list's related reports (User's list)); Prepared Report Analytics (the platform's: the site's own workings, which the platform keeps for every workspace); User Doctype Permissions (under a list's related reports (User's list)).
@@ -603,10 +603,10 @@ Pages: component-explorer (the platform's: frappe's own gallery of its component
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Client Script | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | general |  | yes |  |  |  |  |
-| Custom Field | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | taught |  | yes |  |  | ar 4 |  |
+| Client Script | replaced: OneStudio, whose changes are these underneath | **nobody** | untouched | no | general |  | yes |  |  |  |  |
+| Custom Field | replaced: OneStudio, whose changes are these underneath | **nobody** | untouched | no | taught |  | yes |  |  | ar 4 |  |
 | Customize Form | opened by our screens | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
-| Property Setter | replaced: OneStudio, whose changes are these underneath | **nobody** | events | no | taught |  | yes |  |  | ar 1 |  |
+| Property Setter | replaced: OneStudio, whose changes are these underneath | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
 
 Reports: Audit System Hooks (the platform's: the site's own workings, which the platform keeps for every workspace).
 
@@ -620,8 +620,8 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Custom HTML Block | through a form's link (Workspace: custom_block_name) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Custom Sidebar | inside: a rail's own Edit, and OneStudio, which write it | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | Custom Workspace | replaced: each app's Home | **nobody** | untouched | no | general |  | **none** |  |  | ar 6 |  |
-| Dashboard | on a rail or a home | everybody | events, form script | no | taught |  | yes |  |  |  |  |
-| Dashboard Chart | on a rail or a home | everybody | events | no | taught |  | yes |  |  |  |  |
+| Dashboard | on a rail or a home | everybody | form script | no | taught |  | yes |  |  |  |  |
+| Dashboard Chart | on a rail or a home | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | Dashboard Chart Source | through a form's link (Dashboard Chart: source) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Dashboard Settings | engine: a person's own dashboard charts, kept from the dashboard | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Desktop Icon | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
@@ -629,18 +629,18 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Desktop Settings | replaced: One's dock | **nobody** | untouched | no | general |  |  |  |  | ar 1 |  |
 | Dock | engine: the rail's apps, kept by One | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Document Template | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
-| Event | on a rail or a home | everybody | events, list script, 1 fields, 9 settings | no | taught | makes it | yes |  |  |  | Event Changed, Invited to an Event, Starting Soon |
+| Event | on a rail or a home | everybody | list script, 1 fields, 9 settings | no | taught | makes it | yes |  |  |  | Event Changed, Invited to an Event, Starting Soon |
 | Form Tour | through a form's link (Onboarding Step: form_tour) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Global Search Settings | engine: which kinds of record search finds | everybody | untouched | no | general |  |  |  |  |  |  |
-| Kanban Board | through a form's link (Workspace: kanban_board) | everybody | events | no | general |  | yes |  |  |  |  |
+| Kanban Board | through a form's link (Workspace: kanban_board) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | List Filter | engine: a list's saved filters, kept from the list | everybody | untouched | no | general |  | yes |  |  | ar 2 |  |
 | List View Settings | engine: how a list is laid out, set from the list | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Module Onboarding | through a form's link (Workspace: module_onboarding) | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Note | on a rail or a home | everybody | events, form script, list script, 1 fields, 7 settings | no | taught |  | yes |  |  |  |  |
-| Notification Log | replaced: the bell | everybody | class, events | no | general |  | yes |  |  | ar 1 |  |
-| Notification Settings | inside: NotificationCenter › Everything | everybody | events, 1 fields | no | taught |  | yes |  |  | ar 1 |  |
-| Notification Type | inside: NotificationCenter › Words and Rules, which writes it | the administrator | events, 15 fields | no | taught |  | yes |  |  |  |  |
-| Number Card | on a rail or a home | everybody | events | no | taught |  | yes |  |  |  |  |
+| Note | on a rail or a home | everybody | form script, list script, 1 fields, 7 settings | no | taught |  | yes |  |  |  |  |
+| Notification Log | replaced: the bell | everybody | class | no | general |  | yes |  |  | ar 1 |  |
+| Notification Settings | inside: NotificationCenter › Everything | everybody | 1 fields | no | taught |  | yes |  |  | ar 1 |  |
+| Notification Type | inside: NotificationCenter › Words and Rules, which writes it | the administrator | 15 fields | no | taught |  | yes |  |  |  |  |
+| Number Card | on a rail or a home | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | Onboarding Step | through a form's link (Module Onboarding: step) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Route History | engine: where a person has been, for search and Recent | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Sidebar | engine: One's rails, which each app ships | everybody | untouched | no | general |  | yes |  |  | ar 1 |  |
@@ -648,7 +648,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | System Health Report | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Tag | engine: a record's tags, set on the record and filtered on in its list | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Tag Link | engine: which record carries which tag | everybody | untouched | no | general |  | yes |  |  |  |  |
-| ToDo | replaced: OneTask | everybody | events | no | general |  | yes |  |  |  |  |
+| ToDo | replaced: OneTask | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Workspace | through a form's link (User: default_workspace) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Sidebar | replaced: One's rails | everybody | untouched | no | general |  | **none** |  |  |  |  |
 
@@ -660,18 +660,18 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Auto Email Report | on a rail or a home | the administrator | events | no | taught |  | **none** |  |  |  |  |
+| Auto Email Report | on a rail or a home | the administrator | untouched | no | taught |  | **none** |  |  |  |  |
 | Document Follow | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Email Account | through a form's link (User: email_account) | OneHR | events, 22 fields | no | taught |  | yes |  |  |  |  |
+| Email Account | through a form's link (User: email_account) | OneHR | 22 fields | no | taught |  | yes |  |  |  |  |
 | Email Domain | through a form's link (Email Account: domain) | the administrator | untouched | no | taught |  | **none** |  |  |  |  |
 | Email Flag Queue | engine: read and unread marks on their way to the mail server | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Email Group | on a rail or a home | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Group Member | inside: an Email Group's members, in OneCRM | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Queue | engine: mail on its way out | **nobody** | untouched | no | general |  | yes |  | **only an ID** |  |  |
 | Email Rule | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Email Template | through a form's link (Customize Form: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
+| Email Template | through a form's link (Customize Form: default_email_template) | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | Email Unsubscribe | engine: who asked for no more mail, which OneMail's rules honour | **nobody** | 1 fields | no | general |  | yes |  |  |  |  |
-| Notification | inside: NotificationCenter › Words and Rules, which writes it | the administrator | class, events, 1 fields, 1 settings | no | taught |  | yes |  |  | ar 1, de 1 |  |
+| Notification | inside: NotificationCenter › Words and Rules, which writes it | the administrator | class, 1 fields, 1 settings | no | taught |  | yes |  |  | ar 1, de 1 |  |
 | Unhandled Email | engine: mail a mailbox could not file, kept for the platform | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
 ## frappe / Flow
@@ -720,18 +720,18 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | Push Notification Settings | replaced: One's own push, sent with the site's keys (one/push.py) | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Social Login Key | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 3 |  |
 | Token Cache | engine: an outside service's sign-in, kept while it lasts | everybody | untouched | no | general |  | **none** |  | **only an ID** |  |  |
-| Webhook | on a rail or a home | the administrator | events, form script | no | taught |  | **none** |  |  |  |  |
+| Webhook | on a rail or a home | the administrator | form script | no | taught |  | **none** |  |  |  |  |
 | Webhook Request Log | on a rail or a home | the administrator | untouched | no | taught |  | **none** |  |  |  |  |
 
 ## frappe / Printing
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Letter Head | through a form's link (Report: default_letter_head) | everybody | events, 2 fields, 2 settings | no | taught |  | yes |  |  |  |  |
+| Letter Head | through a form's link (Report: default_letter_head) | everybody | 2 fields, 2 settings | no | taught |  | yes |  |  |  |  |
 | Network Printer Settings | left out: printing straight to a printer on the network; One prints from the browser | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Print Format | through a form's link (Customize Form: default_print_format) | the administrator | events | no | taught |  | yes |  |  |  |  |
+| Print Format | through a form's link (Customize Form: default_print_format) | the administrator | untouched | no | taught |  | yes |  |  |  |  |
 | Print Format Field Template | inside: One's print blocks, laid out in Printing's builder | the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Print Format Snippet | inside: OneStudio's ControlCenter › Printing | the administrator | events | no | general |  | **none** |  |  | ar 2 |  |
+| Print Format Snippet | inside: OneStudio's ControlCenter › Printing | the administrator | untouched | no | general |  | **none** |  |  | ar 2 |  |
 | Print Heading | through a form's link (Supplier Quotation: select_print_heading) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Print Settings | inside: OneStudio's ControlCenter › Printing | the administrator | untouched | no | general |  |  |  |  | ar 3, de 1 |  |
 | Print Style | replaced: One's print formats, which carry their own look | **nobody** | untouched | no | general |  | yes |  |  |  |  |
@@ -784,8 +784,8 @@ Reports: Website Analytics (left out: frappe's website builder; a workspace's pu
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Workflow | inside: OneStudio's ControlCenter › Approvals, which writes it | the administrator | events | no | taught |  | **none** |  |  |  |  |
-| Workflow Action | engine: an approval waiting on somebody; the bell and the record's head say it | everybody | events | no | general |  | **none** |  |  |  |  |
+| Workflow | inside: OneStudio's ControlCenter › Approvals, which writes it | the administrator | untouched | no | taught |  | **none** |  |  |  |  |
+| Workflow Action | engine: an approval waiting on somebody; the bell and the record's head say it | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Workflow Action Master | inside: OneStudio's ControlCenter › Approvals, which writes it | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Workflow State | inside: OneStudio's ControlCenter › Approvals, which writes it | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Workflow Transition Tasks | inside: OneStudio's ControlCenter › Approvals, an approval's steps | the administrator | untouched | no | general |  | **none** |  |  |  |  |
@@ -796,33 +796,33 @@ Pages: workflow-builder (opened by our screens).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Appointment Letter | on a rail or a home | OneHR | events | yes | general |  | yes |  |  |  |  |
+| Appointment Letter | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Appointment Letter Template | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Appraisal | on a rail or a home | everybody | a head, events, 1 settings | yes | taught |  | yes |  |  |  |  |
+| Appraisal | on a rail or a home | everybody | a head, 1 settings | yes | taught |  | yes |  |  |  |  |
 | Appraisal Cycle | on a rail or a home | everybody | 1 settings | yes | taught |  | yes |  |  |  |  |
 | Appraisal Template | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Attendance | on a rail or a home | everybody | a head, events, form script, list script, 5 settings | yes | taught |  | yes |  |  |  |  |
-| Attendance Request | on a rail or a home | everybody | a head, events, form script, 7 fields, 6 settings | yes | general |  | yes |  |  |  |  |
+| Attendance | on a rail or a home | everybody | a head, form script, list script, 5 settings | yes | taught |  | yes |  |  |  |  |
+| Attendance Request | on a rail or a home | everybody | a head, form script, 7 fields, 6 settings | yes | general |  | yes |  |  |  |  |
 | Compensatory Leave Request | through a form's connections (Leave Allocation's Connections) | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Employee Advance | on a rail or a home | everybody | a head, events, 1 settings | yes | general |  | yes |  |  |  | Advance Asked |
+| Employee Advance | on a rail or a home | everybody | a head, 1 settings | yes | general |  | yes |  |  |  | Advance Asked |
 | Employee Attendance Tool | on a rail or a home | OneHR | form script, 4 fields, 3 settings | no | general |  |  |  |  | ar 5, de 4 |  |
 | Employee Checkin | on a rail or a home | everybody | class, list script, 5 fields, 4 settings | yes | general |  | yes |  |  |  | Check-in Closed for You |
 | Employee Feedback Criteria | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Employee Grade | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Employee Grievance | on a rail or a home | everybody | events, 6 fields, 3 settings | yes | taught |  | yes |  |  |  | Grievance Raised |
+| Employee Grievance | on a rail or a home | everybody | 6 fields, 3 settings | yes | taught |  | yes |  |  |  | Grievance Raised |
 | Employee Health Insurance | inside: an employee's Health Insurance Provider, on their record | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Employee Onboarding | on a rail or a home | OneHR | events, 1 settings | yes | taught |  | yes |  |  |  |  |
+| Employee Onboarding | on a rail or a home | OneHR | 1 settings | yes | taught |  | yes |  |  |  |  |
 | Employee Onboarding Template | through a form's connections (Employee Grade's Connections) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Employee Performance Feedback | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
-| Employee Promotion | on a rail or a home | everybody | a head, events, 1 fields, 2 settings | yes | general |  | yes |  |  |  |  |
-| Employee Referral | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  | Referral Answered |
-| Employee Separation | on a rail or a home | OneHR | events, 2 settings | yes | taught |  | yes |  |  |  |  |
+| Employee Promotion | on a rail or a home | everybody | a head, 1 fields, 2 settings | yes | general |  | yes |  |  |  |  |
+| Employee Referral | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  | Referral Answered |
+| Employee Separation | on a rail or a home | OneHR | 2 settings | yes | taught |  | yes |  |  |  |  |
 | Employee Separation Template | through a form's connections (Employee Grade's Connections) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Employee Skill Map | on a rail or a home | OneHR | untouched | yes | taught |  | yes |  |  |  |  |
 | Employee Transfer | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Employment Type | through a form's link (Job Opening Template: employment_type) | OneHR, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Exit Interview | on a rail or a home | OneHR | 1 settings | yes | taught |  | yes |  |  |  | Exit Interview Scheduled (theirs) |
-| Expense Claim | on a rail or a home | everybody | a head, class, events, 5 fields, 6 settings | yes | taught | makes it | yes |  |  |  | Expense Claim Paid |
+| Expense Claim | on a rail or a home | everybody | a head, class, 5 fields, 6 settings | yes | taught | makes it | yes |  |  |  | Expense Claim Paid |
 | Expense Claim Type | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Full and Final Statement | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Goal | on a rail or a home | everybody | 2 settings | yes | taught |  | yes |  |  |  |  |
@@ -832,20 +832,20 @@ Pages: workflow-builder (opened by our screens).
 | Holiday List Assignment | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Identification Document Type | through a form's link (Travel Request: personal_id_type) | OneHR, the administrator | 1 fields | yes | general |  | yes |  |  |  |  |
 | Interest | left out: a list HRMS keeps that no form of its own asks for | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Interview | on a rail or a home | OneHR | a head, class, events, form script, 3 fields, 3 settings | yes | taught |  | yes |  |  |  | Interview Feedback Due, Interview Scheduled |
+| Interview | on a rail or a home | OneHR | a head, class, form script, 3 fields, 3 settings | yes | taught |  | yes |  |  |  | Interview Feedback Due, Interview Scheduled |
 | Interview Feedback | inside: an interview's Submit Feedback | OneHR | untouched | yes | taught |  | yes |  |  | ar 2 |  |
 | Interview Type | on a rail or a home | OneHR | untouched | yes | taught |  | yes |  |  |  |  |
-| Job Applicant | on a rail or a home | OneHR | a head, events, 6 fields, 3 settings | yes | taught | makes it | yes |  |  |  |  |
+| Job Applicant | on a rail or a home | OneHR | a head, 6 fields, 3 settings | yes | taught | makes it | yes |  |  |  |  |
 | Job Applicant Source | through a form's link (Job Applicant: source) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Job Offer | on a rail or a home | OneHR | 3 settings | yes | taught |  | yes |  |  |  |  |
 | Job Offer Term Template | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Job Opening | on a rail or a home | OneHR | 1 fields, 2 settings | yes | taught |  | yes |  |  |  |  |
 | Job Opening Template | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Job Requisition | on a rail or a home | OneHR | events, 1 settings | yes | taught |  | yes |  |  |  |  |
+| Job Requisition | on a rail or a home | OneHR | 1 settings | yes | taught |  | yes |  |  |  |  |
 | KRA | through a form's link (Appraisal Template: key_result_area) | OneHR, the administrator | untouched | yes | taught |  | yes |  |  |  |  |
 | Leave Adjustment | through a form's connections (Leave Allocation's Connections) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Leave Allocation | on a rail or a home | OneHR | a head, 10 settings | yes | general |  | yes |  |  |  | Leave Expiring |
-| Leave Application | on a rail or a home | everybody | a head, class, events, 9 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Leave Application Cancelled (theirs), Leave Application Pending Approval (theirs), Leave Application Status Update (theirs) |
+| Leave Application | on a rail or a home | everybody | a head, class, 9 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Leave Application Cancelled (theirs), Leave Application Pending Approval (theirs), Leave Application Status Update (theirs) |
 | Leave Block List | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Leave Control Panel | on a rail or a home | OneHR | form script | no | general |  |  |  |  | ar 3 |  |
 | Leave Encashment | on a rail or a home | everybody | a head, 5 settings | yes | general |  | yes |  |  |  |  |
@@ -855,14 +855,14 @@ Pages: workflow-builder (opened by our screens).
 | Leave Policy Assignment | on a rail or a home | OneHR | 3 settings | yes | general |  | yes |  |  |  |  |
 | Leave Type | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Offer Term | through a form's link (Job Offer Term Template: offer_term) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Overtime Slip | on a rail or a home | everybody | a head, events, form script, 2 fields, 2 settings | yes | general |  | yes |  |  |  |  |
+| Overtime Slip | on a rail or a home | everybody | a head, form script, 2 fields, 2 settings | yes | general |  | yes |  |  |  |  |
 | Overtime Type | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | PWA Notification | replaced: One's notifications, on the bell, by mail and by push | everybody | untouched | yes | general |  | **none** |  |  | ar 1 |  |
 | Purpose of Travel | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Shift Assignment | through a form's connections (Shift Type's Connections) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Shift Assignment Tool | on a rail or a home | OneHR | untouched | no | general |  |  |  |  | ar 4 |  |
 | Shift Location | on a rail or a home | everybody | form script, 3 fields | yes | general |  | yes |  |  |  |  |
-| Shift Request | on a rail or a home | everybody | a head, class, events, form script, 6 fields, 4 settings | yes | general |  | yes |  |  |  |  |
+| Shift Request | on a rail or a home | everybody | a head, class, form script, 6 fields, 4 settings | yes | general |  | yes |  |  |  |  |
 | Shift Schedule | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Shift Schedule Assignment | inside: the Shift Assignment Tool, assigning a Shift Schedule | everybody | untouched | yes | general |  | yes |  |  | ar 2 |  |
 | Shift Type | on a rail or a home | everybody | a head | yes | general |  | yes |  |  |  | Shift Not Reading Check-ins |
@@ -871,7 +871,7 @@ Pages: workflow-builder (opened by our screens).
 | Training Event | on a rail or a home | OneHR | 4 settings | yes | taught |  | yes |  |  |  | Training Scheduled (theirs) |
 | Training Feedback | on a rail or a home | everybody | 1 settings | yes | general |  | yes |  |  |  |  |
 | Training Program | on a rail or a home | everybody | 3 settings | yes | taught |  | yes |  |  |  |  |
-| Training Result | on a rail or a home | OneHR | events, 1 fields, 1 settings | yes | general |  | yes |  |  |  | Training Feedback (theirs) |
+| Training Result | on a rail or a home | OneHR | 1 fields, 1 settings | yes | general |  | yes |  |  |  | Training Feedback (theirs) |
 | Travel Request | on a rail or a home | everybody | 2 settings | yes | general |  | yes |  |  |  |  |
 | Vehicle Log | on a rail or a home | OneHR | a head, 4 settings | yes | general |  | yes |  |  |  |  |
 | Vehicle Service Item | through a form's link (Vehicle Log: service_item) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
@@ -887,8 +887,8 @@ Pages: organizational-chart (on a rail or a home).
 | Additional Salary | on a rail or a home | OneHR | 2 settings | yes | general |  | yes |  |  |  |  |
 | Arrear | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Bulk Salary Structure Assignment | on a rail or a home | OneHR | untouched | no | general |  |  |  |  | ar 3 |  |
-| Employee Benefit Application | on a rail or a home | everybody | events, 2 settings | yes | general |  | **none** |  |  |  |  |
-| Employee Benefit Claim | on a rail or a home | everybody | events | yes | general |  | **none** |  |  |  |  |
+| Employee Benefit Application | on a rail or a home | everybody | 2 settings | yes | general |  | **none** |  |  |  |  |
+| Employee Benefit Claim | on a rail or a home | everybody | untouched | yes | general |  | **none** |  |  |  |  |
 | Employee Benefit Ledger | engine: what each benefit paid out; Benefit Claim and the slip read it | everybody | untouched | yes | general |  | **none** |  |  | ar 4, de 4 |  |
 | Employee Incentive | on a rail or a home | everybody | 2 settings | yes | general |  | yes |  |  |  |  |
 | Employee Other Income | on a rail or a home | everybody | untouched | yes | general |  | **none** |  |  |  |  |
@@ -902,10 +902,10 @@ Pages: organizational-chart (on a rail or a home).
 | Payroll Correction | on a rail or a home | everybody | untouched | yes | general |  | **none** |  |  |  |  |
 | Payroll Entry | on a rail or a home | OneHR | a head, 8 settings | yes | taught |  | yes |  |  |  |  |
 | Payroll Period | through a form's link (Employee Benefit Application: payroll_period) | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Payroll Settings | on a rail or a home | OneHR | events | no | general |  |  |  |  | ar 7, de 4 |  |
+| Payroll Settings | on a rail or a home | OneHR | untouched | no | general |  |  |  |  | ar 7, de 4 |  |
 | Retention Bonus | on a rail or a home | everybody | 1 settings | yes | general |  | yes |  |  |  | Retention Bonus (theirs) |
-| Salary Component | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
-| Salary Slip | on a rail or a home | everybody | a head, events, 1 fields, 2 settings | yes | taught |  | yes |  |  |  |  |
+| Salary Component | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Salary Slip | on a rail or a home | everybody | a head, 1 fields, 2 settings | yes | taught |  | yes |  |  |  |  |
 | Salary Structure | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Salary Structure Assignment | on a rail or a home | everybody | 2 settings | yes | general |  | yes |  |  |  |  |
 | Salary Withholding | on a rail or a home | everybody | 5 settings | yes | general |  | yes |  |  |  |  |
@@ -925,7 +925,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | News Category | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | News Item | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
-| News Source | on a rail or a home | everybody | events | no | general |  | yes |  |  |  |  |
+| News Source | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Push Device | engine: a browser that asked for notifications, kept by the bell | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Weather Place | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
@@ -946,7 +946,7 @@ Pages: marketplace (opened by our screens); one (on a rail or a home); one-hub (
 | File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
-| Reading Action | on a rail or a home | everybody | events | no | taught |  | yes |  |  |  |  |
+| Reading Action | on a rail or a home | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | Reading Lesson | engine: what OneAI learnt from a correction | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Reading Settings | inside: AICenter › Reading | the administrator | untouched | no | general |  |  |  |  |  |  |
 
@@ -960,8 +960,8 @@ Reports: AI Credits (on a rail or a home); Deadlines (on a rail or a home); Read
 | Credit Ledger Entry | on a rail or a home | **nobody** | a head, form script, list script | no | general |  | **none** |  |  |  |  |
 | Credit Reservation | engine: credits held while OneAI works, released when it is done | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Health Check | opened by our screens | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Offering | on a rail or a home | **nobody** | a head, events, form script | no | taught |  | **none** |  |  |  |  |
-| One Admin Settings | opened by our screens | **nobody** | a head, events, form script | no | taught |  |  |  |  |  |  |
+| Offering | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  |  |
+| One Admin Settings | opened by our screens | **nobody** | a head, form script | no | taught |  |  |  |  |  |  |
 | OneOS Session | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Private App | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Provisioning Job | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  | Build Slow, Job Failed |
@@ -1034,21 +1034,21 @@ Pages: presentation (inside: a presentation opens on it from OneCloud).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Display Board | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Board | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Display Board Change | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Display Channel | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
-| Display Screen | on a rail or a home | OneDisplay, the administrator | events | yes | taught |  | yes |  |  |  | Screen Offline |
-| Display Settings | on a rail or a home | OneDisplay, the administrator | events | no | general |  |  |  |  |  |  |
-| Display Source | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Channel | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Display Screen | on a rail or a home | OneDisplay, the administrator | untouched | yes | taught |  | yes |  |  |  | Screen Offline |
+| Display Settings | on a rail or a home | OneDisplay, the administrator | untouched | no | general |  |  |  |  |  |  |
+| Display Source | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Display Voice | engine: a phrase OneDisplay's screens say in OneAI's voice, recorded once and kept | OneDisplay, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| Music Playlist | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
-| Queue | on a rail or a home | OneDisplay, the administrator | events | yes | taught |  | yes |  |  |  |  |
-| Queue Ticket | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  | Long Wait |
-| Slide Playlist | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Music Playlist | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Queue | on a rail or a home | OneDisplay, the administrator | untouched | yes | taught |  | yes |  |  |  |  |
+| Queue Ticket | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  | Long Wait |
+| Slide Playlist | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Sound Zone | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Voice Ad | on a rail or a home | OneDisplay, the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Voice Ad | on a rail or a home | OneDisplay, the administrator | untouched | yes | taught |  | yes |  |  |  |  |
 | Voice Pack | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Widget Collection | on a rail or a home | OneDisplay, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Widget Collection | on a rail or a home | OneDisplay, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 
 Pages: boards (on a rail or a home); counter (on a rail or a home).
 

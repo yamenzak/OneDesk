@@ -647,3 +647,44 @@ def onebook_its_accountant_drafts_what_mail_and_files_bring():
 	assert len(lines) >= 2 and {one.agent_action for one in lines} == {"add_bank_transactions"}, lines
 	made = frappe.get_all("Reading Action", filters={"target_doctype": "Supplier", "kind": "Create", "key": ["like", "%party|supplier"]}, fields=["agent"])
 	assert made and not {one.agent for one in made} & {one.email for one in agents.listed()}, made
+
+
+@check
+def onebook_the_accountant_drafts_a_bill_once_its_new_supplier_is_approved():
+	"""A bill from a supplier there is no record of waits on OneAI's card for
+	the supplier. Once the person it was read for approves that card, OneBook's
+	accountant drafts the bill through the agents' door at the level its tab
+	shows, and its row says what it waited for."""
+	import json
+
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import levels
+	from onedesk.one_ai.reading import act
+	from onedesk.one_demo import samples
+	from onedesk.one_demo.checking import at_once
+
+	path = next(one for one in samples.samples() if one.stem == "new-supplier-invoice")
+	reading = samples.readings_of(path)[0]
+	card = frappe.get_doc("Reading Action", {"reading": reading, "kind": "Create", "target_doctype": "Supplier"})
+	was = frappe.get_doc("Supplier", card.target_name)
+	for name in frappe.get_all("Reading Action", filters={"reading": reading, "target_doctype": "Purchase Invoice"}, pluck="name"):
+		frappe.delete_doc("Reading Action", name, force=True, ignore_permissions=True)
+	values = {"supplier_name": f"{was.supplier_name} Second", "supplier_group": was.supplier_group, "supplier_type": "Company"}
+	frappe.db.set_value("Reading Action", card.name, {"level": "Proposed", "target_name": None, "after": json.dumps(values), "checked_by": None})
+	with at_once(), as_user(card.on_behalf_of):
+		assert act.settle(card.name, 1)["level"] == "Done"
+	made = frappe.db.get_value("Reading Action", card.name, "target_name")
+	assert frappe.db.get_value("Supplier", made, "supplier_name") == values["supplier_name"], made
+	rows = frappe.get_all(
+		"Reading Action",
+		filters={"reading": reading, "target_doctype": "Purchase Invoice", "agent": agents.email("one_book")},
+		fields=["name", "level", "agent_level", "agent_action", "target_name", "why"],
+	)
+	assert len(rows) == 1, rows
+	row = rows[0]
+	assert row.agent_action == "draft_purchase_invoice" and row.agent_level == levels.of("one_book", "draft_purchase_invoice"), row
+	assert frappe._("Waited for {0} {1} to be approved.").format(frappe._("Supplier"), made) in (row.why or ""), row.why
+	assert row.level in ("Done", "Proposed"), row
+	if row.level == "Done":
+		bill = frappe.db.get_value("Purchase Invoice", row.target_name, ["supplier", "docstatus", "bill_no"], as_dict=True)
+		assert (bill.supplier, bill.docstatus, bill.bill_no) == (made, 0, "GS-11873"), bill

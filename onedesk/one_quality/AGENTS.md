@@ -56,7 +56,12 @@ a OneGovernance (policies, risk, compliance) would be a separate app.
   responsible for a step due yesterday.
 - `agent.py` — the suggestions on Home, a non conformance, an action and a
   procedure, the Home's sentence (`page`) and `quality_now`, which reads
-  what Home shows. OneAI changes nothing (`trust.py` says so).
+  what Home shows. OneAI changes nothing (`trust.py` says so), but for its
+  inspector's one job (`WATCH`, `watch.rejected`): a Quality Inspection
+  submitted as Rejected is an open Non Conformance with the readings that
+  failed, at Draft, against the procedure of the inspection's template's
+  name or the only procedure; where neither is known, against the one used
+  last, as a card (one_ai/agents/work.py).
 - `custom/quality_meeting.json` — the meeting list's columns.
 - The demo (`one_demo/quality.py`): the curtain wall's procedure, its goal
   and last month's failed review, the action it asked for, a non conformance
