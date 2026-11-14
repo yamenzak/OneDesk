@@ -861,7 +861,8 @@ def onemail_oneai_reaches_what_the_page_changes():
 			assert {row["user"]: row["sends"] for row in holders._people(ours)} == held
 
 			approve(agent.suggest_mail_policy(own_mailboxes=not external))
-			assert addresses.external() == (not external)
+			written = frappe.db.get_value("DefaultValue", {"parent": "__default", "defkey": addresses.EXTERNAL}, "defvalue")
+			assert written == str(int(not external)), (written, external)
 
 			approve(agent.default_mail_template("Interview", "Interview Reminder"))
 			assert mail_templates.default("Interview") == "Interview Reminder"

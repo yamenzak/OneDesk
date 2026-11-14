@@ -3442,6 +3442,7 @@
 "Extension",
 "Face",
 "File",
+"File Link",
 "Financial Report Template",
 "Fiscal Year",
 "Flow Skill",
@@ -3743,9 +3744,6 @@
 "Manufacturing User",
 "Shop Floor Manager",
 "Shop Floor User"
-],
-"intake": [
-"Desk User"
 ],
 "inventory": [
 "Item Manager",
