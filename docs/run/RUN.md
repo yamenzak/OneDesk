@@ -452,7 +452,9 @@ Only what needs his own hands:
   merge brings the queue fix that matters most to every workspace's
   migrate). **P1** (gate passed 13 Nov 02:40, 312 of 314, both D3's; the
   registry, every list of apps read from it, OneCloud and OneStudio as
-  modules).
+  modules). **P3, P5, P6, P9, P10** (gates passed 13 and 14 Nov; on 14 Nov a
+  run.localhost built from nothing passed 356 of 358, the two passing alone,
+  arcs at 82adc014).
 - The real-use gates of P8.1 and P8.2 (50 real invoices; a week on OneChat).
 
 ## Deferred
