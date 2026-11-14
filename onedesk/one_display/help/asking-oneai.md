@@ -15,3 +15,11 @@ itself: what it makes is kept only when you keep it.
 
 Each of these uses credits, and an administrator can turn {one_ai} off for
 {one_display} in {ai_center}.
+
+## The Screen Keeper
+
+When a screen says it may stop working, such as its memory nearly full or
+several restarts in a day, the screen keeper, {one_display}'s agent, gives
+the first {one_display} manager a to-do on that screen with the reasons.
+There is one a day at most, and none while one is still open. How far it
+goes is set on its tab in {ai_center}.

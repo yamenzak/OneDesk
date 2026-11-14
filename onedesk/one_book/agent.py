@@ -24,6 +24,7 @@ NOT_FOR_AI = {
 }
 
 TOOLS = ("draft_purchase_invoice",)
+WAKES = {"handed": "draft_purchase_invoice"}
 """What its agent calls in the workspace (one_ai/agents/api.py)."""
 
 PLANS = {
@@ -34,6 +35,7 @@ PLANS = {
 }
 """What its agent makes of what OneAI read, at which of Intake's stages (one_ai/agents/work.py)."""
 
+WAITS = {"draft_purchase_invoice": "Supplier"}
 LEVELS = {
 	"draft_purchase_invoice": "Draft",
 	"draft_payment_entry": "Draft",

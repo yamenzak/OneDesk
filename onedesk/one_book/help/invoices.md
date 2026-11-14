@@ -87,6 +87,10 @@ bank account that is not on file for the supplier, are marked **Needs
 Review** with the reason. Open one, correct it, and submit it as any
 bill.
 
+A bill from a supplier you have no record of waits for that supplier first:
+{one_ai} suggests the new supplier as a card. Once you approve it, the
+accountant drafts the bill, and its note says it waited for the supplier.
+
 ## Repeating Invoices and Bills
 
 Rent, a retainer, a monthly service: make the first invoice or bill as usual,

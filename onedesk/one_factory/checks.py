@@ -384,3 +384,49 @@ def onefactory_a_supplier_sees_the_work_sent_to_them():
 			pass
 		else:
 			raise AssertionError("a customer's contact has a tab for work sent to suppliers")
+
+
+@check
+def onefactory_the_planner_drafts_the_work_orders_a_sales_order_needs():
+	"""A Sales Order for more windows than the stores hold, once submitted,
+	has OneFactory's production planner draft a Work Order for what is
+	short, from the window's bill of materials, through the agents' door at
+	the level its tab shows. A second look drafts no second one."""
+	from frappe.utils import add_days, today
+
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import levels, work
+	from onedesk.one_demo.checking import at_once
+
+	customer = frappe.db.get_value("Sales Order", {"docstatus": 1, "company": COMPANY}, "customer")
+	due = add_days(today(), 21)
+	order = frappe.get_doc(
+		{
+			"doctype": "Sales Order",
+			"customer": customer,
+			"company": COMPANY,
+			"transaction_date": today(),
+			"delivery_date": due,
+			"items": [{"item_code": "WIN-CS12", "qty": 1, "rate": 100, "delivery_date": due}],
+		}
+	).insert()
+	row = order.items[0]
+	held = flt(frappe.db.get_value("Bin", {"item_code": "WIN-CS12", "warehouse": row.warehouse}, "projected_qty"))
+	row.qty = max(held, 0) + 3
+	order.save()
+	with at_once():
+		order.submit()
+	rows = frappe.get_all(
+		"Reading Action",
+		filters={"agent": agents.email("one_factory"), "agent_action": "draft_work_orders", "key": f"one_factory|ordered|{order.name}|WIN-CS12"},
+		fields=["name", "level", "agent_level", "target_name"],
+	)
+	assert len(rows) == 1, rows
+	assert rows[0].agent_level == levels.of("one_factory", "draft_work_orders") == "Draft", rows
+	assert rows[0].level == "Done", rows
+	made = frappe.get_doc("Work Order", rows[0].target_name)
+	assert (made.production_item, made.sales_order, made.docstatus, flt(made.qty)) == ("WIN-CS12", order.name, 0, 3), made.as_dict()
+	assert made.owner == agents.email("one_factory"), made.owner
+	with at_once():
+		assert work.do("one_factory", "draft_work_orders", "Sales Order", order.name) == []
+	assert frappe.db.count("Work Order", {"sales_order": order.name}) == 1

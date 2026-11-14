@@ -121,7 +121,7 @@ def test_change_edits_only_the_plain_values_a_card_proposed():
 
 def test_the_door_s_cards_land_in_onechat():
 	hooks = (tree.APP / "hooks.py").read_text()
-	assert '"Reading Action": {"after_insert": "onedesk.one_chat.cards.posted"}' in hooks
+	assert '"Reading Action": {"after_insert": "onedesk.one_chat.cards.posted",' in hooks
 	assert "frappe.get_hooks(\"one_ai_chat_kept\")" in (tree.APP / "one_ai" / "chat.py").read_text()
 	assert 'one_ai_chat_kept = hook("one_ai_chat_kept")' in hooks
 

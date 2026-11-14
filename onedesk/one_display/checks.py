@@ -750,3 +750,46 @@ def onedisplay_runs_the_news():
 			for doctype, name in (("Display Source", "Check Screen Headlines"), (news.SOURCE, "Check Screen News")):
 				if frappe.db.exists(doctype, name):
 					frappe.delete_doc(doctype, name, force=True)
+
+
+@check
+def onedisplay_the_screen_keeper_asks_somebody_to_check_a_screen_at_risk():
+	"""On its hourly round, OneDisplay's screen keeper gives whoever manages
+	OneDisplay first a ToDo on a screen that said it may stop working, with
+	its reasons, through the agents' door at the level its tab shows; while
+	that ToDo is open, the next round gives no second one, and a screen
+	turned off gets none."""
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import door, levels, work
+	from onedesk.one_demo.checking import at_once
+	from onedesk.one_display import screens
+
+	with as_user("Guest"):
+		started = screens.start("check")
+	with as_user(OWNER):
+		screen = screens.pair(started["code"], "Stores Corridor", CHANNEL)
+	try:
+		frappe.db.set_value("Display Screen", screen, {"at_risk": 1, "risk": "Page memory is 93% full."}, update_modified=False)
+		with at_once():
+			work.rounds()
+		rows = frappe.get_all(
+			"Reading Action",
+			filters={"agent": agents.email("one_display"), "agent_action": "report_screen_at_risk", "target_doctype": "ToDo"},
+			fields=["name", "level", "agent_level", "target_name"],
+		)
+		mine = [one for one in rows if one.target_name and frappe.db.get_value("ToDo", one.target_name, "reference_name") == screen]
+		assert len(mine) == 1 and mine[0].level == "Done", rows
+		assert mine[0].agent_level == levels.of("one_display", "report_screen_at_risk") == "Draft", mine
+		todo = frappe.get_doc("ToDo", mine[0].target_name)
+		assert "Stores Corridor" in todo.description and "93%" in todo.description, todo.description
+		assert todo.allocated_to == door.approver("one_display") and todo.status == "Open", todo.as_dict()
+		with at_once():
+			work.rounds()
+		assert frappe.db.count("ToDo", {"reference_type": "Display Screen", "reference_name": screen}) == 1, "one ToDo while it is open"
+		frappe.db.set_value("ToDo", todo.name, "status", "Closed")
+		frappe.db.set_value("Display Screen", screen, "dark", 1, update_modified=False)
+		with at_once():
+			work.rounds()
+		assert frappe.db.count("ToDo", {"reference_type": "Display Screen", "reference_name": screen}) == 1, "a screen turned off gets none"
+	finally:
+		frappe.delete_doc("Display Screen", screen, ignore_permissions=True, force=True)

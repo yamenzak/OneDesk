@@ -639,8 +639,9 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 	a user turned off with its app's User roles and its own, which nobody
 	else holds; a token signed for this workspace opens one tool of its
 	agent, as that agent, for its own body. OneMail's receptionist finds the kept sample invoice in its mail
-	and hands it on, a comment on the mail that can be undone; OneBook's
-	accountant finds the draft Intake made rather than making a second."""
+	and hands it on, a comment on the mail that can be undone, each answer
+	naming the step after it; OneBook's accountant finds the draft Intake
+	made rather than making a second, run as any agent's planners too."""
 	import time
 	from types import SimpleNamespace
 	from unittest import mock
@@ -674,6 +675,7 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 
 	came = called("one_mail", "incoming", {"message": message})
 	assert reading in came["invoices"], came
+	assert {"tool": "hand_on", "args": {"message": message, "reading": reading, "to": "one_book"}} in came["next"], came
 	for refused in (("one_mail", "draft_purchase_invoice", {"reading": reading}, None), ("one_book", "incoming", {"message": message}, None), ("one_mail", "incoming", {"message": message}, "{}")):
 		try:
 			called(*refused)
@@ -681,6 +683,7 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 		except frappe.PermissionError:
 			pass
 	handed = called("one_mail", "hand_on", {"message": message, "reading": reading, "to": "one_book"})
+	assert handed["next"] == [{"to": "one_book", "tool": "draft_purchase_invoice", "args": {"reading": reading}}], handed
 	row = frappe.get_doc("Reading Action", handed["action"])
 	assert (row.agent, row.agent_level, row.level, row.kind) == (agents.email("one_mail"), "Do it", "Done", "Comment"), row.as_dict()
 	assert frappe.db.get_value("Comment", json.loads(row.after)["comment"], "owner") == agents.email("one_mail")
@@ -690,6 +693,13 @@ def the_agents_call_back_with_one_token_for_one_tool_once():
 	drafted = called("one_book", "draft_purchase_invoice", {"reading": reading})["drafts"]
 	assert {one.target_doctype for one in drafted} <= {"Purchase Invoice"}, drafted
 	assert frappe.db.count("Purchase Invoice", {"bill_no": "GS-11873"}) == bills, "a second bill for the same invoice"
+	planned = called("one_book", "plan", {"reading": reading})["made"]
+	assert frappe.db.count("Purchase Invoice", {"bill_no": "GS-11873"}) == bills and all(frappe.db.get_value("Reading Action", one, "agent") in (None, "", agents.email("one_book")) for one in planned), planned
+	try:
+		called("one_book", "watched", {"action": "draft_purchase_invoice"})
+		raise AssertionError("an agent ran a job it does not watch for")
+	except frappe.ValidationError:
+		pass
 
 
 @check

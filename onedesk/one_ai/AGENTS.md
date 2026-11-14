@@ -2682,14 +2682,40 @@ AICenter has a tab for each (P8.2).
   `act.undo_one` takes it back, as the agent; a draft the agent made is
   deleted even though its role cannot delete.
 - **The Worker** (`deploy/agents`, its README). One Durable Object per agent
-  per workspace on the Agents SDK. Intake's money pass hands a bill that came
-  by mail to the receptionist (`planning.handed_on`) when the Worker takes
-  the wake, and drafts it itself when it does not. The receptionist calls
-  `incoming` and `hand_on` (one_mail/agent.py), the accountant
-  `draft_purchase_invoice` (one_book/agent.py), each through `agents/api.py`
-  with a token of its own (`agents/token.py`). The workspace learns where the
-  Worker is and its own secret from OneAdmin (`proxy.agents_config`), or from
+  per workspace on the Agents SDK, and one job for all of them: the wake
+  names the tool the agent runs (`connect.wake`, from `work.job`: its
+  agent.py's `WAKES`, else `plan` for a document handed to it and `watched`
+  for a record), and each tool's answer names the steps after it (`next`),
+  a tool of its own or a hand-off to another agent (`work.handing`). The
+  Worker names no agent, so a new agent needs no change there; `work.here`
+  is the same loop in the workspace, which the gate's samples run.
+  Intake's money pass hands a bill that came by mail to the receptionist
+  (`planning.handed_on`) when the Worker takes the wake, and drafts it
+  itself when it does not. The receptionist runs `incoming`, which names
+  `hand_on` for each invoice, which names the accountant's
+  `draft_purchase_invoice`; every tool goes through `agents/api.py` with a
+  token of its own (`agents/token.py`), and `plan` and `watched` are every
+  agent's (`levels.EVERY_AGENT`). The workspace learns where the Worker is
+  and its own secret from OneAdmin (`proxy.agents_config`), or from
   `one_agents` in its site config.
+- **Each agent's jobs on its own records** (`WATCH` in agent.py, run by
+  `work.py`). `{action: (record type, when, job)}`, `when` a record's
+  event (`on_submit` and the like, which `registry/hooks.watched` adds to
+  doc_events as `work.heard`) or `hourly` (`work.rounds`, on the
+  scheduler). Each job answers actions the door takes at the action's
+  level, on the Worker when it takes the wake, else here, after the change
+  is committed. OneQuality's inspector raises a rejected Quality Inspection
+  as a Non Conformance, OneFactory's production planner drafts the Work
+  Orders a submitted Sales Order is short of, and OneDisplay's screen keeper
+  gives a screen at risk a ToDo for the first OneDisplay Manager, once a day
+  while none is open. Each is Draft, and on its agent's tab in AICenter.
+- **What waited on a card** (`WAITS` in agent.py, `work.approved` on
+  Reading Action's `on_change`). A bill from a supplier there is no record
+  of makes nothing until OneAI's card for the supplier is approved; once a
+  person or the auditor approves it, the document is matched to the new
+  supplier and OneBook's accountant runs its bill planner on it again
+  (`work.waited`), through the door at its level, its row saying what it
+  waited for.
 - **Each agent's work on what OneAI read** (`agents/work.py`). Intake's
   planners moved to the apps that own what they make: each app's
   `planner.py` (pure, as plans.py was) and its agent.py's `PLANS`, an action

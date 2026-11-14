@@ -24,7 +24,12 @@ def seen(jti: str, until: int) -> bool:
 
 
 def tool_of(app: str, name: str):
-	"""The tool an agent may call: one its agent.py lists in TOOLS."""
+	"""The tool an agent may call: one its agent.py lists in TOOLS, or one
+	every agent has (levels.EVERY_AGENT, in work.py)."""
+	from onedesk.one_ai.agents import levels, work
+
+	if name in levels.EVERY_AGENT:
+		return getattr(work, name)
 	module = importlib.import_module(f"onedesk.{app}.agent")
 	if name not in getattr(module, "TOOLS", ()):
 		raise token.Refused("no such tool")

@@ -151,13 +151,99 @@ def _tools(folder: str) -> tuple:
 	return ()
 
 
-def test_the_worker_calls_only_tools_the_apps_list():
+def test_the_worker_runs_any_agent_as_the_workspace_says():
+	import re
+
+	from onedesk.one_ai.agents import levels, work
+
 	worker = (WORKER / "worker.ts").read_text()
-	assert "export const JOBS: Record<string, Job> = { one_mail: receptionist, one_book: accountant };" in worker
+	assert "JOBS" not in worker and set(re.findall(r"\bone_[a-z]+", worker)) == {"one_ai"}, "the Worker names no agent and no job"
 	assert 'const TOOL = "/api/method/onedesk.one_ai.agents.api.tool";' in worker
-	assert '"incoming", { message' in worker and '"hand_on", {' in worker and '"draft_purchase_invoice", {' in worker
-	assert {"incoming", "hand_on"} <= set(_tools("one_mail")) and "draft_purchase_invoice" in _tools("one_book")
+	assert "answer?.next" in worker and f"export const MOST_STEPS = {work.MOST_STEPS};" in worker
 	assert "this.fresh(claims, now)" in worker, "a wake is used once"
+	assert work.job("one_mail", "mail") == "incoming" and "incoming" in _tools("one_mail")
+	assert work.job("one_book", "handed") == "draft_purchase_invoice" in _tools("one_book")
+	assert work.job("one_quality", "record") == "watched" and work.job("one_crm", "handed") == "plan"
+	assert set(levels.EVERY_AGENT) == set(work.HANDED.values())
+	assert work.handing("one_book", {"reading": "R"}) == {"to": "one_book", "tool": "draft_purchase_invoice", "args": {"reading": "R"}}
+
+
+def test_here_runs_each_step_an_answer_names_as_its_agent(monkeypatch):
+	import frappe
+
+	from onedesk.one_ai.agents import api, work
+
+	ran = []
+	answers = {
+		("one_mail", "incoming"): {"next": [{"tool": "hand_on", "args": {"reading": "R"}}]},
+		("one_mail", "hand_on"): {"next": [work.handing("one_book", {"reading": "R"})]},
+		("one_book", "draft_purchase_invoice"): {"drafts": []},
+	}
+	users = []
+	monkeypatch.setattr(frappe, "session", frappe._dict(user="Administrator"), raising=False)
+	monkeypatch.setattr(frappe, "set_user", lambda user: users.append(user))
+
+	def tool_of(app, name):
+		return lambda asked_by=None, **args: ran.append((app, name, args, asked_by)) or answers[(app, name)]
+
+	monkeypatch.setattr(api, "tool_of", tool_of)
+	assert work.here("one_mail", "mail", {"message": "M"}, "huda@one.test") is True
+	assert [(app, name) for app, name, _args, _by in ran] == list(answers)
+	assert ran[-1][2:] == ({"reading": "R"}, "huda@one.test")
+	assert users == [agents.email("one_mail"), agents.email("one_mail"), agents.email("one_book"), "Administrator"]
+
+
+def test_a_job_and_a_wait_are_declared_with_a_level_and_a_label():
+	from onedesk.one_ai.agents import levels
+
+	good = """from frappe import _lt
+WATCH = {"raise_it": ("Quality Inspection", "on_submit", "onedesk.one_quality.watch.rejected")}
+LEVELS = {"raise_it": "Draft"}
+LABELS = {"raise_it": _lt("Raise It")}
+"""
+	assert levels.unlevelled(good) == []
+	assert levels.unlevelled(good.replace("on_submit", "on_a_whim")) == ["raise_it runs 'on_a_whim', which is not one of " + str(levels.WHEN)]
+	assert levels.unlevelled(good + 'WAITS = {"raise_it": "Supplier"}\n') == ["raise_it waits but is no planner in PLANS"]
+	assert levels.unlevelled(good + 'WAKES = {"handed": "nothing"}\n') == ["a handed wakes 'nothing', which is no tool it has"]
+	assert levels.unlevelled(good + 'WAKES = {"record": "watched"}\n') == []
+	assert "raise_non_conformance" in levels.actions("one_quality") and "draft_work_orders" in levels.actions("one_factory")
+	assert "report_screen_at_risk" in levels.actions("one_display")
+	assert levels.declared("one_display")["report_screen_at_risk"] == "Draft"
+
+
+def test_a_watched_record_wakes_its_agents_beside_what_hooks_there():
+	said = hooks.watched({"Sales Order": {"on_submit": ["a.b"]}, "Quality Inspection": {"on_submit": "c.d"}})
+	assert said["Sales Order"]["on_submit"] == ["a.b", hooks.HEARD]
+	assert said["Quality Inspection"]["on_submit"] == ["c.d", hooks.HEARD]
+	assert "Display Screen" not in said, "a job on the round is the scheduler's"
+	assert hooks.watched(said) == said
+	listed = (tree.APP / "hooks.py").read_text()
+	assert "onedesk.one_ai.agents.work.rounds" in listed and "doc_events = watched({" in listed
+	assert '"on_change": "onedesk.one_ai.agents.work.approved"' in listed
+
+
+def test_only_an_approved_card_that_makes_a_record_wakes_what_waited(monkeypatch):
+	import frappe
+
+	from onedesk.one_ai.agents import work
+
+	queued = []
+	monkeypatch.setattr(frappe, "enqueue", lambda method, **kwargs: queued.append(kwargs["action"]))
+	monkeypatch.setattr(work, "working", lambda: [agents.get("one_book")])
+
+	def row(level="Done", was="Proposed", **values):
+		before = frappe._dict(level=was) if was else None
+		said = frappe._dict(name="RA-1", kind="Create", level=level, reading="R", target_doctype="Supplier")
+		said.update(values)
+		said.get_doc_before_save = lambda: before
+		return said
+
+	for left in (row(level="Dismissed"), row(was="Done"), row(was=None), row(kind="Update"), row(target_doctype="Customer"), row(reading=None)):
+		work.approved(left)
+	assert queued == []
+	work.approved(row())
+	assert queued == ["RA-1"]
+	assert work.waits("one_book") == {"draft_purchase_invoice": "Supplier"}
 
 
 def test_set_up_cloudflare_deploys_the_agents_with_their_own_secret():

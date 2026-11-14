@@ -25,6 +25,7 @@ clause(
 	module=M,
 	body="""
 		In OneQuality, OneAI reads procedures, goals, reviews, non conformances, actions, meetings and
-		feedback as you see them. It changes none of them.
+		feedback as you see them. It changes none of them. When a quality inspection is rejected, the
+		quality inspector, OneQuality's agent, raises it as a non conformance.
 	""",
 )

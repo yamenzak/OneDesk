@@ -43,6 +43,7 @@ clause(
 	body="""
 		In OneDisplay, OneAI can say a call or an ad in a natural voice, make music for a playlist, or write
 		a widget from what you describe. It is sent only the words to say or the description you give, and
-		what it makes is kept in the workspace as a file you can replace.
+		what it makes is kept in the workspace as a file you can replace. When a screen says it may stop
+		working, the screen keeper, OneDisplay's agent, gives a OneDisplay manager a to-do to check it.
 	""",
 )

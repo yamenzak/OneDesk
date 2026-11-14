@@ -1,7 +1,7 @@
 """How far an agent goes with each action, a call REACH names, a tool
-TOOLS lists or a planner PLANS names: Do it, Draft or Ask First, declared in
-each app's agent.py as LEVELS, and Ask First where it is not
-(one_ai/AGENTS.md, The agents)."""
+TOOLS lists, a planner PLANS names or a job WATCH names: Do it, Draft or
+Ask First, declared in each app's agent.py as LEVELS, and Ask First where
+it is not (one_ai/AGENTS.md, The agents)."""
 
 import ast
 import importlib
@@ -14,6 +14,16 @@ CAUTIOUS = ASK_FIRST
 STAGES = ("parties", "money", "rest")
 """Intake's passes over an understood reading (reading/matters.py act_now),
 at which a planner in PLANS runs (work.py)."""
+
+ROUNDS = ("hourly",)
+"""When a job in WATCH runs without a record: on the scheduler's round."""
+
+WHEN = ("after_insert", "on_update", "on_submit", "on_cancel", *ROUNDS)
+"""When a job in WATCH runs: a record's own event, or a round."""
+
+EVERY_AGENT = ("plan", "watched")
+"""The tools every agent has beside its own TOOLS (work.py): its planners on
+a document handed to it, and one of its jobs."""
 
 
 def declared(app: str) -> dict:
@@ -38,12 +48,12 @@ def of(app: str, action: str) -> str:
 
 def actions(app: str) -> tuple[str, ...]:
 	"""Every action an app's agent has: each call REACH names, then each
-	tool, then each planner."""
+	tool, each planner and each job."""
 	try:
 		agent = importlib.import_module(f"onedesk.{app}.agent")
 	except ModuleNotFoundError:
 		return ()
-	return tuple(dict.fromkeys([*getattr(agent, "REACH", {}), *getattr(agent, "TOOLS", ()), *getattr(agent, "PLANS", {})]))
+	return tuple(dict.fromkeys([*getattr(agent, "REACH", {}), *getattr(agent, "TOOLS", ()), *getattr(agent, "PLANS", {}), *getattr(agent, "WATCH", {})]))
 
 
 def label(app: str, action: str) -> str:
@@ -57,17 +67,18 @@ def label(app: str, action: str) -> str:
 
 
 def unlevelled(source: str) -> list[str]:
-	"""Given an agent.py: a REACH call, a TOOLS entry or a PLANS planner
-	without a level or a label, a level that is none of the three, a level
-	or a label on something that is no action, a level on a call NOT_FOR_AI
-	keeps from OneAI, a tool agent.py lacks, or a planner at no stage of
-	STAGES or outside onedesk. Pure."""
+	"""Given an agent.py: a REACH call, a TOOLS entry, a PLANS planner or a
+	WATCH job without a level or a label, a level that is none of the three,
+	a level or a label on something that is no action, a level on a call
+	NOT_FOR_AI keeps from OneAI, a tool agent.py lacks, a planner at no
+	stage of STAGES or outside onedesk, a job at no time of WHEN or outside
+	onedesk, a wait on no planner, or a wake on no tool it has. Pure."""
 	said = _said(source)
 	labels = _labelled(source)
 	reach, refused, tools, levels = said.get("REACH", {}), said.get("NOT_FOR_AI", {}), said.get("TOOLS", ()), said.get("LEVELS", {})
-	plans = said.get("PLANS", {})
+	plans, watch, waits, wakes = said.get("PLANS", {}), said.get("WATCH", {}), said.get("WAITS", {}), said.get("WAKES", {})
 	functions = {node.name for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
-	actions = set(reach) | set(tools) | set(plans)
+	actions = set(reach) | set(tools) | set(plans) | set(watch)
 	wrong = [f"{one} has no level" for one in sorted(actions - set(levels))]
 	wrong += [f"{one}'s level {levels[one]!r} is not one of {LEVELS}" for one in sorted(levels) if levels[one] not in LEVELS]
 	wrong += [f"{one} has a level but is no action" for one in sorted(set(levels) - actions)]
@@ -77,6 +88,10 @@ def unlevelled(source: str) -> list[str]:
 	wrong += [f"{one} has a label but is no action" for one in sorted(set(labels) - actions)]
 	wrong += [f"{one}'s stage {plans[one][0]!r} is not one of {STAGES}" for one in sorted(plans) if plans[one][0] not in STAGES]
 	wrong += [f"{one}'s planner {plans[one][1]!r} is not in onedesk" for one in sorted(plans) if not str(plans[one][1]).startswith("onedesk.")]
+	wrong += [f"{one} runs {watch[one][1]!r}, which is not one of {WHEN}" for one in sorted(watch) if watch[one][1] not in WHEN]
+	wrong += [f"{one}'s job {watch[one][2]!r} is not in onedesk" for one in sorted(watch) if not str(watch[one][2]).startswith("onedesk.")]
+	wrong += [f"{one} waits but is no planner in PLANS" for one in sorted(set(waits) - set(plans))]
+	wrong += [f"a {kind} wakes {tool!r}, which is no tool it has" for kind, tool in sorted(wakes.items()) if tool not in (*tools, *EVERY_AGENT)]
 	return wrong
 
 
@@ -101,11 +116,13 @@ def _said(source: str) -> dict:
 
 def every(folders: Path) -> dict[str, list[str]]:
 	"""What is wrong with each app's levels, by folder, and each planner
-	PLANS names that is no function of ours."""
+	PLANS or job WATCH names that is no function of ours."""
 	out = {}
 	for path in sorted(folders.glob("*/agent.py")):
 		source = path.read_text(encoding="utf-8")
-		wrong = unlevelled(source) + [f"{one}'s planner {at} is no function" for one, (_stage, at) in sorted(_said(source).get("PLANS", {}).items()) if not _defined(folders, at)]
+		said = _said(source)
+		wrong = unlevelled(source) + [f"{one}'s planner {at} is no function" for one, (_stage, at) in sorted(said.get("PLANS", {}).items()) if not _defined(folders, at)]
+		wrong += [f"{one}'s job {at} is no function" for one, (_doctype, _when, at) in sorted(said.get("WATCH", {}).items()) if not _defined(folders, at)]
 		if wrong:
 			out[path.parent.name] = wrong
 	return out

@@ -108,7 +108,7 @@ def test_agents_turned_off_are_refused_at_the_door_the_way_in_and_the_wake(store
 		raise AssertionError("a wake went out while agents are off")
 
 	monkeypatch.setattr(connect.requests, "post", posted)
-	assert connect.wake("one_mail", {"kind": "mail"}) is False
+	assert connect.wake("one_mail", "mail", {}) is False
 	body = (ROOT / "onedesk" / "one_ai" / "agents" / "api.py").read_text().split("def tool(", 1)[1]
 	assert body.index("token.verify(") < body.index("workspace.refuse(agent.app)") < body.index("frappe.set_user(agent.email)")
 	door_body = (ROOT / "onedesk" / "one_ai" / "agents" / "door.py").read_text().split("def act_for(", 1)[1]

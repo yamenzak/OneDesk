@@ -52,17 +52,18 @@ def host() -> str:
 	return urlparse(frappe.conf.get("hostname") or frappe.utils.get_url()).netloc
 
 
-def wake(app: str, event: dict, asked_by: str | None = None) -> bool:
-	"""Hand an event to an app's agent on the Worker: signed for the agents'
-	way, for this agent and this body, for a minute. False when agents are
-	not set up, are turned off or this one is over its credits
+def wake(app: str, kind: str, args: dict, asked_by: str | None = None) -> bool:
+	"""Hand an event to an app's agent on the Worker, naming the tool it runs
+	for that kind of event (work.job) and that tool's arguments: signed for
+	the agents' way, for this agent and this body, for a minute. False when
+	agents are not set up, are turned off or this one is over its credits
 	(workspace.py), or the Worker did not take it."""
-	from onedesk.one_ai.agents import workspace
+	from onedesk.one_ai.agents import work, workspace
 
 	said = config()
 	if not on() or workspace.refusal(app):
 		return False
-	body = json.dumps({**event, "host": host()})
+	body = json.dumps({"kind": kind, "tool": work.job(app, kind), "args": args, "host": host()})
 	claims = {"aud": "agents", "ws": said["workspace"], "agent": app, **({"for": asked_by} if asked_by else {})}
 	signed = token.mint(said["secret"], claims, body, int(time.time()))
 	url = said["url"].rstrip("/") + PATH.format(workspace=said["workspace"], app=app)

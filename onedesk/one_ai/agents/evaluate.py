@@ -78,7 +78,7 @@ def run(live: int = 0) -> dict:
 def _drafted(path: Path, live: bool) -> dict | None:
 	import frappe
 
-	from onedesk.one_ai.agents import connect
+	from onedesk.one_ai.agents import connect, work
 	from onedesk.one_ai.reading import matters
 	from onedesk.one_demo import samples
 
@@ -91,35 +91,12 @@ def _drafted(path: Path, live: bool) -> dict | None:
 			held.enter_context(samples._answered(path.name, spec.get("answers") or {}, []))
 		held.enter_context(samples.unkept())
 		held.enter_context(patch.object(connect, "on", lambda: True))
-		held.enter_context(patch.object(connect, "wake", in_process))
+		held.enter_context(patch.object(connect, "wake", work.here))
 		samples._arrive(spec["file"], content)
 		readings = samples.readings_of(path)
 		for name in frappe.get_all("Reading", filters={"name": ["in", readings or [""]], "state": "Understood"}, pluck="name"):
 			matters.act_now(name)
 		return drafted_for(samples.readings_of(path))
-
-
-def in_process(app: str, event: dict, asked_by: str | None = None) -> bool:
-	"""What the Worker does when OneMail's receptionist is woken, here and
-	as each agent's user: look at the mail, hand each invoice on, draft it."""
-	import frappe
-
-	from onedesk.one.registry import agents
-	from onedesk.one_book import agent as accountant
-	from onedesk.one_mail import agent as receptionist
-
-	was = frappe.session.user
-	try:
-		frappe.set_user(agents.email("one_mail"))
-		came = receptionist.incoming(event["message"], asked_by=asked_by)
-		for reading in came["invoices"]:
-			frappe.set_user(agents.email("one_mail"))
-			receptionist.hand_on(came["message"], reading, "one_book", asked_by=asked_by)
-			frappe.set_user(agents.email("one_book"))
-			accountant.draft_purchase_invoice(reading, asked_by=asked_by)
-	finally:
-		frappe.set_user(was)
-	return True
 
 
 def drafted_for(readings: list[str]) -> dict | None:

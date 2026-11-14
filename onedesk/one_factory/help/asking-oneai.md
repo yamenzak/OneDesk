@@ -14,3 +14,11 @@ type your own.
 
 Anything {one_ai} makes, such as a work order, comes as a draft card you
 approve first.
+
+## The Production Planner
+
+When a sales order is submitted for something the workshop makes and the
+stores do not hold enough of, the production planner, {one_factory}'s
+agent, drafts a work order for what is short, from the item's bill of
+materials and due by the order's delivery date. You check it and submit it.
+How far it goes is set on its tab in {ai_center}.
