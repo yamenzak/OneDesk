@@ -272,6 +272,12 @@
 "Desk User",
 "System Manager"
 ],
+"Automation": [
+"Inbox User",
+"Mail Manager",
+"OneMail User",
+"System Manager"
+],
 "Automation Event Subscription": [
 "System Manager"
 ],
@@ -1705,9 +1711,6 @@
 ],
 "Mail Folder": [
 "Workspace Administrator"
-],
-"Mail Rule": [
-"Inbox User"
 ],
 "Maintenance Schedule": [
 "Maintenance Manager",
@@ -3332,6 +3335,7 @@
 "Attendance Reason",
 "Attendance Request",
 "Auto Repeat",
+"Automation",
 "BOM",
 "BOM Creator",
 "Bank",

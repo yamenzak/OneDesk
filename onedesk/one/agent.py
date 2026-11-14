@@ -13,6 +13,11 @@ from frappe import _lt
 REACH = {}
 
 NOT_FOR_AI = {
+	"automation_center.save": "Each automation belongs to the app its trigger is, and that app's agent suggests it as a card, through the same save.",
+	"automation_center.enable": "Turning an automation on or off is its app's card, through the same switch.",
+	"automation_center.delete": "Deleting an automation is its app's card, through the same delete.",
+	"automation_center.decide": "Approving an automation somebody asked for is its app's card, through the same decision.",
+	"automation_center.problems": "The builder asks it as each step changes; it changes nothing.",
 	"copies.end": "Ending a training copy deletes what people practised in it, so an administrator presses it.",
 	"copies.open_copy": "A one-time sign-in to a copy is for the administrator who asks for it in the browser.",
 	"copies.start": "A training copy runs on a server and, from our data, copies the workspace, so an administrator presses it.",

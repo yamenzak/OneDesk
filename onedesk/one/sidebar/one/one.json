@@ -278,10 +278,24 @@
    "link_type": "URL",
    "show_arrow": 0,
    "type": "Link",
+   "label": "AutomationCenter",
+   "icon": "workflow",
+   "url": "/desk/one?center=automation",
+   "idx": 21
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "link_type": "URL",
+   "show_arrow": 0,
+   "type": "Link",
    "label": "ShortcutCenter",
    "icon": "keyboard",
    "url": "/desk/one?center=shortcuts",
-   "idx": 21
+   "idx": 22
   },
   {
    "child": 1,
@@ -295,7 +309,7 @@
    "label": "HelpCenter",
    "icon": "circle-question-mark",
    "url": "/desk/one?center=help",
-   "idx": 22
+   "idx": 23
   },
   {
    "child": 1,
@@ -309,10 +323,10 @@
    "label": "UpdateCenter",
    "icon": "newspaper",
    "url": "/desk/one?center=updates",
-   "idx": 23
+   "idx": 24
   }
  ],
- "modified": "2026-11-13 18:00:00.000000",
+ "modified": "2026-11-14 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

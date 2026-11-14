@@ -42,7 +42,7 @@ def _texts(paths) -> dict[str, str]:
 
 def island_problems(name: str, entry: str, pages: dict[str, str], scripts: list[str], reports: list[str], parts: list[str], manifests: list[str]) -> list[str]:
 	"""What is wrong with one island: its name, its entry, nothing mounting it
-	(a desk page, a record tab or form, a report, a part OneInterface's
+	(a desk page, a record tab or form, a report, a centre's section, a part OneInterface's
 	renderer draws on every record of a kind, or a list view a manifest
 	names), or a page mounting it outside `island_page`. Pure."""
 	out = []
@@ -55,7 +55,7 @@ def island_problems(name: str, entry: str, pages: dict[str, str], scripts: list[
 		text
 		for text in scripts
 		if f'mount_island("{name}"' in text
-		and ("onedesk.record_tabs.register(" in text or "onedesk.check.report = " in text or "frappe.ui.form.on(" in text)
+		and ("onedesk.record_tabs.register(" in text or "onedesk.check.report = " in text or "frappe.ui.form.on(" in text or "onedesk.centers.declare(" in text)
 	]
 	reported = [text for text in reports if f'mount_island("{name}"' in text]
 	drawn = [text for text in parts if f'mount_island("{name}"' in text]

@@ -305,10 +305,10 @@ def suggest_mail_rule(
 		"now": int(bool(sort_inbox_now) and any(words.values())),
 		"title": _("Sort mail into {0}").format(label),
 		"summary": summary,
-		"route": ["List", "Mail Rule", {"account": box["name"]}],
+		"route": ["List", "Automation", {"scope": box["name"]}],
 	}
 	return {
-		"proposal": proposals.propose("Setup", "Mail Rule", changes=changes, why=why),
+		"proposal": proposals.propose("Setup", "Automation", changes=changes, why=why),
 		"state": "Proposed",
 		"next": "Say in one sentence what the rule does once approved. Nothing changes until they approve it.",
 	}
@@ -319,8 +319,9 @@ def make_rule(changes: dict) -> str:
 	made if it is missing, OneAI switched on to read the mailbox if the rule
 	is about what mail says, the rule, and what is in the Inbox now sorted
 	if that was asked."""
+	from onedesk.one.automation import engine, flow
 	from onedesk.one_ai.reading import switches
-	from onedesk.one_mail import actions, flow, rules
+	from onedesk.one_mail import actions, blocks, rules
 
 	account = changes["account"]
 	actions.require(account)
@@ -331,7 +332,7 @@ def make_rule(changes: dict) -> str:
 		folder = actions.create_folder(account, changes["label"])
 	if changes.get("read"):
 		switches.set_mailbox(account, 1)
-	steps = flow.from_fields(
+	steps = blocks.from_fields(
 		{
 			"from_contains": changes.get("from_contains"),
 			"subject_contains": changes.get("subject_contains"),
@@ -341,7 +342,8 @@ def make_rule(changes: dict) -> str:
 		}
 	)
 	rule = rules.save_rule(account, {"title": changes.get("title") or changes["label"], "steps": steps})
-	if changes.get("now") and not flow.needs_ai(steps) and frappe.db.get_value("Mail Rule", rule, "enabled"):
+	if changes.get("now") and not flow.needs_ai(steps) and frappe.db.get_value("Automation", rule, "enabled"):
+		known = engine.kinds_of(blocks.ARRIVES)
 		found = []
 		for one in frappe.get_all(
 			"Communication",
@@ -354,7 +356,7 @@ def make_rule(changes: dict) -> str:
 			order_by="communication_date desc",
 			limit=MOST_NOW,
 		):
-			if flow.walk(steps, rules.facts_of(one))[0]:
+			if flow.walk(steps, rules.facts_of(one), known)[0]:
 				found.append(one)
 		if found:
 			actions.move(found, folder)
@@ -997,7 +999,9 @@ def change_mail_rule(
 	mail_rules first."""
 	from onedesk.one_mail import holders
 
-	held = frappe.db.get_value("Mail Rule", rule, ["name", "account", "title", "requested_by"], as_dict=True)
+	from onedesk.one_mail.blocks import ARRIVES
+
+	held = frappe.db.get_value("Automation", {"name": rule, "trigger": ARRIVES}, ["name", "scope as account", "title", "requested_by"], as_dict=True)
 	if not held or not _held(held.account):
 		return _not("change_mail_rule", "Name a rule as mail_rules lists it.")
 	if act not in ("on", "off", "delete", "approve", "decline"):

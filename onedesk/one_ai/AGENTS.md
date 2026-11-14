@@ -2755,3 +2755,15 @@ The gate, 50 invoices with at most 2 corrected (`agents/evaluate.py`):
   same measure on real use: each draft the accountant made, and whether a
   person changed its supplier, number, dates, total, currency or lines, or
   took it back.
+
+**An agent as an automation's block.** `blocks.py` declares **Hand to an
+Agent** for AutomationCenter (one/AGENTS.md, AutomationCenter): an
+automation gives the record a run is about to an app's agent, with an
+instruction, once per automation and record (a cache key), after the run
+commits (`hand` enqueues `handed`). `handed` runs `talk.ask` as the
+automation's owner, so the agent may do only what both it and they may,
+through the door at its levels, and its cards wait as any do. Nothing runs
+while agents are off or over their month (`workspace.refusal`), or once the
+owner may no longer talk to it. It is offered only where OneAI may read what
+the trigger starts on (the block's `ai`), and the agents offered are those at
+work that the reader reaches.

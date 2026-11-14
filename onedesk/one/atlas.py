@@ -238,7 +238,6 @@ ANSWERS = {
 	("DocType", "Credit Reservation"): (ENGINE, "credits held while OneAI works, released when it is done"),
 	("DocType", "AI Chunk"): (ENGINE, "which pieces of documents, mail and records the search index on R2 holds, which Ctrl+K, OneCloud, OneMail and OneAI search"),
 	("DocType", "Face"): (ENGINE, "the faces OneMail draws beside a sender"),
-	("DocType", "Mail Rule"): (INSIDE, "OneMail's settings, a mailbox's Automation tab, which writes it"),
 	("DocType", "Mail Folder"): (ENGINE, "a mailbox's folders, which OneMail's sidebar shows and makes"),
 	("DocType", "Mail Draft"): (INSIDE, "OneMail's Drafts folder and a conversation's Continue Draft, which the composer writes as it is typed"),
 	("DocType", "Mail Conversation"): (INSIDE, "a conversation in OneMail: Assign, Mark Done, Snooze and Remind Me, and the notes for the team; its row opens there"),

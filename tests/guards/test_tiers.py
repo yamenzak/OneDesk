@@ -83,6 +83,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.onemail": None,
 		"onedesk.onecloud": None,
 		"onedesk.onechat": None,
+		"onedesk.automation": None,
 		"onedesk.oneadmin": None,
 		"onedesk.oneadmin_servers": None,
 		"onedesk.oneadmin_server_part": None,

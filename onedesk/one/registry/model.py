@@ -83,7 +83,7 @@ class Centre:
 	icon: str
 
 
-CENTRE_KEYS = ("help", "settings", "account", "updates", "trust", "access", "notifications", "ai", "shortcuts", "setup")
+CENTRE_KEYS = ("help", "settings", "account", "updates", "trust", "access", "notifications", "ai", "automation", "shortcuts", "setup")
 """Every centre's key, in the order One's rail and a module's ControlCenter
 offer them."""
 

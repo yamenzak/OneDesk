@@ -776,3 +776,47 @@ def aicenter_keeps_the_agents_levels_limits_and_switch():
 	finally:
 		for key, value in was.items():
 			frappe.db.set_default(key, value or "")
+
+
+@check
+def oneai_an_agent_is_a_block_an_automation_hands_mail_to():
+	"""Where OneAI may read Layla's own mailbox, AutomationCenter offers Hand
+	to an Agent with the agents she may talk to. An automation she saves with
+	it hands a new message to that agent once, after the run, and the agent
+	works on it as she asked it, with its own tools at its levels; while the
+	agents are off it does nothing."""
+	from unittest import mock
+
+	from onedesk.one import automation_center
+	from onedesk.one_ai import blocks as ai_blocks
+	from onedesk.one_demo import intake
+	from onedesk.one_mail import blocks, rules
+
+	account = intake.mailbox()
+	message = frappe.db.get_value("Communication", {"email_account": account, "sent_or_received": "Received"}, "name")
+	made = None
+	try:
+		with as_user(OWNER):
+			offered = automation_center.blocks(blocks.ARRIVES, account)
+			agent = next((one for one in offered["actions"] if one["key"] == "agent"), None)
+			assert agent and offered["ai"], "OneAI reads this mailbox, so an agent is a block here"
+			choices = next(one for one in agent["params"] if one["key"] == "agent")["options"]
+			assert choices, "the agents Layla may talk to"
+			app = next((one["value"] for one in choices if one["value"] == "one_book"), choices[0]["value"])
+			made = automation_center.save(blocks.ARRIVES, account, {"title": "To the Agent", "priority": 1, "steps": [{"type": "agent", "agent": app, "instruction": "Draft the bill this message brings."}]})
+		frappe.cache.delete_value(f"one_automation_agent:{made}:{message}")
+		with mock.patch("frappe.enqueue") as queued:
+			assert made in rules.run_rules(frappe.get_doc("Communication", message), headers={})
+			rules.run_rules(frappe.get_doc("Communication", message), headers={})
+		handed = [one for one in queued.call_args_list if one.args and one.args[0].endswith("blocks.handed")]
+		assert len(handed) == 1 and handed[0].kwargs["app"] == app and handed[0].kwargs["owner"] == OWNER, "handed once, as Layla asked"
+		with mock.patch("onedesk.one_ai.agents.talk.ask", return_value={"said": "Drafted."}) as asked:
+			ai_blocks.handed(app, "Communication", message, "Draft the bill this message brings.", OWNER)
+			assert asked.call_args.args[0] == app and message in asked.call_args.args[2]
+			assert frappe.session.user != OWNER, "back as whoever ran it"
+		with mock.patch("onedesk.one_ai.agents.workspace.refusal", return_value="Agents are turned off for this workspace."), mock.patch("onedesk.one_ai.agents.talk.ask") as asked:
+			assert ai_blocks.handed(app, "Communication", message, "Draft it.", OWNER) is None and not asked.called
+	finally:
+		if made:
+			frappe.cache.delete_value(f"one_automation_agent:{made}:{message}")
+			frappe.delete_doc("Automation", made, ignore_permissions=True, force=True)

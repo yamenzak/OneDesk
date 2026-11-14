@@ -53,4 +53,9 @@ APP = App(
 		Settle("access.settle"),
 	),
 	centres=("ai",),
+	makes=(
+		"Issue",
+		"Lead",
+		"Task",
+	),
 )

@@ -12,7 +12,7 @@ Both act on new mail without you, but they decide differently.
 | **Who decides** | You, in rules you write | {one_ai}, from reading each message |
 | **What it does** | The same thing every time | Sorts junk, files mail, makes the records and tasks a message asks for |
 | **Mails people outside** | Yes, a rule may reply or forward | Never |
-| **Where it lives** | **Automation** in the mailbox's **⋯** menu | **{one_ai}** in the mailbox's settings |
+| **Where it lives** | {automation_center}, where **Automation** in the mailbox's **⋯** menu opens | **{one_ai}** in the mailbox's settings |
 
 > **Where both would act, the rule wins.** A record a rule made from a message
 > is never made again by {one_ai}, and a message a rule moved out of the Inbox is
@@ -20,7 +20,10 @@ Both act on new mail without you, but they decide differently.
 
 ## Making a Rule
 
-1. Open **Automation** in the mailbox's **⋯** menu and click **New Rule**.
+Rules are kept in {automation_center}, under the mailbox they run on.
+
+1. Open {automation_center} from **Centers** in {one}'s rail, or **Automation** in
+   the mailbox's **⋯** menu, pick the mailbox and click **New Automation**.
 2. Start from **Blank** or one of the examples.
 3. Change anything, then **Save**.
 
@@ -42,8 +45,10 @@ that asks {one_ai} something carries its badge.
 
 ## How a Rule Reads
 
-A rule reads as sentences down a line, top to bottom. Each chip is a choice:
-click it to pick something else, or type in a blank.
+A rule is drawn as a flow, left to right: **When a message arrives**, then
+each step on its right, and a step that checks something splits into an arm
+for each answer. Click a step to change it in the panel beside the flow, and
+the plus at the end, or **Add Step After** in the panel, to add one.
 
 ![A rule that stars urgent customer mail after hours](rules-and-out-of-office/rule.png)
 
@@ -78,6 +83,7 @@ A rule is made of three kinds of step.
 | Assign, or tell someone on the bell | Anyone who uses the mailbox |
 | Link to the sender's customer, supplier or lead | Shows on their record |
 | Create a lead, issue or task | From the message |
+| Hand to an agent | Gives the message to an app's agent, such as {one_book}'s accountant, with what to do with it. It works on it as you asked it, so what it may not just do waits for you as a card. Only where {one_ai} may read the mailbox |
 | **Stop Here** | Keeps the rules after this one off the message |
 
 > **Rules run in order, on new mail only.** Switch one off in the list to pause
@@ -122,7 +128,7 @@ out which records the message is about and mentions only those.
 
 On the address the workspace gave you, a rule is asked for rather than made.
 
-1. **Request Rule**, build it, then **Send Request**.
+1. **Request Automation**, build it, then **Send Request**.
 2. It shows **Waiting for Approval**, and everybody who may change that
    mailbox's rules is told.
 3. Approved, it runs and you're told. Declined, it's removed and you're told.

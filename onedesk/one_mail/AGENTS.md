@@ -381,13 +381,22 @@ Stage 9, rules, out-of-office and bounces, is built.
 - `ai.suggest_mail_rule` is the card; `ai.make_rule`, run by `ai_setup.apply`
   as whoever approved it, makes the folder, switches Intake on and makes the
   rule, all behind `actions.require`.
-- `Mail Rule` is a mailbox's, and is seen and changed by its holders only
-  (a has_permission hook and a query condition). It matches all or any of
-  from, to or cc, subject and attachments, then moves, marks read and stars
-  through actions.py, on the server for a connected mailbox. `stop` ends
-  the rules for that message. A rule acts for its mailbox while
-  `frappe.flags.one_mail_rules` is set, which `actions.require` lets
-  through; nothing else sets it.
+- A mail rule is an `Automation` (AutomationCenter, one/AGENTS.md) that the
+  trigger `one_mail.arrives` starts, kept on its mailbox (`scope`). Its
+  conditions and actions are OneMail's blocks (`blocks.py`): every action is
+  the function a rule always called (actions.py, `rules.answer`, `forward`,
+  `assign`, `link`, `create`, `tell.rule_notice`), and `starters.py` is what
+  a new one may start from. `rules.run_rules` hands the message and its
+  facts (`facts_of`) to `engine.run`. Its rows are seen and changed by the
+  mailbox's holders only (`rule_allowed` and `rule_query`, which the
+  trigger names for Automation's permission hooks), and `save_rule`,
+  `enable_rule`, `delete_rule` and `decide_rule` keep asking and approving
+  as before. The patch `rules_are_automations` moved every Mail Rule over
+  under its own name, so a reply sent once, a topic OneAI reads for and a
+  record a rule made stay that rule's. `stop` ends the rules for that
+  message. A rule acts for its mailbox while `frappe.flags.one_mail_rules`
+  is set (`blocks._for_the_mailbox`), which `actions.require` lets through;
+  nothing else sets it.
   On a connected mailbox a rule acts on the server, so a phone sees the
   message where the rule put it.
 - Away is three fields on Email Account (`one_away`, `one_away_until`,

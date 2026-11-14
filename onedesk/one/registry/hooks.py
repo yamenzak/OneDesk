@@ -21,6 +21,7 @@ CONVENTIONS = {
 	"one_charts": ("heads", "CHARTS", None),
 	"one_calendar_layers": ("calendar", "LAYERS", None),
 	"one_portal": ("portal", None, None),
+	"one_automation_blocks": ("blocks", "BLOCKS", None),
 }
 """hook: (file stem, the name it must define or None for the module itself,
 "each" when the name is a tuple of tools to list one by one: a tool of the

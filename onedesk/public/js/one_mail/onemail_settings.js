@@ -730,12 +730,13 @@ onedesk.mail.sections = (ctx) => {
 		dialog.show();
 	};
 
-	// A mailbox's rules, in the order they run, each opened in the tab as
-	// steps (public/js/one_mail/rule_builder.js; rules.py: rules_of_mailbox,
-	// save_rule, enable_rule, delete_rule, decide_rule). Whoever manages the
-	// mailbox changes them; the person a workspace address is issued to
-	// asks, and a Mail Manager approves.
-	const builder_files = ["/assets/onedesk/js/one_mail/rule_builder.js", "/assets/onedesk/css/one_mail/rule_builder.css"];
+	// A mailbox's rules, in the order they run: its automations, which run from
+	// AutomationCenter (one/automation_center.py, public/js/one/automation_center.js),
+	// where each opens in its builder; rules.py rules_of_mailbox and
+	// enable_rule. Whoever manages the mailbox changes them; the person a
+	// workspace address is issued to asks, and a Mail Manager approves.
+	const automations = (box, record = null) =>
+		onedesk.centers.open("automation", { at: `one_mail.arrives:${box.name}`, ...(record ? { record } : {}) });
 	const rules_tab = (box) => ({
 		id: "rules",
 		label: __("Automation"),
@@ -748,20 +749,13 @@ onedesk.mail.sections = (ctx) => {
 			: managed,
 		actions:
 			box.may.rules || (box.hosted && !box.shared)
-				? [
-						{
-							label: box.may.rules ? __("New Rule") : __("Request Rule"),
-							icon: "plus",
-							click: (panel) => starters_view(panel, box),
-						},
-				  ]
+				? [{ label: __("Open {0}", [onedesk.names.of("automation_center")]), icon: "workflow", click: () => automations(box) }]
 				: [],
-		/** The mailbox's rules in order, each opening its builder: rows that open views of their own. */
+		/** The mailbox's rules in order, each opening it in AutomationCenter: rows that open another centre. */
 		async render(panel) {
 			const was = panel.shown;
 			const said = await frappe.xcall(R + "rules_of_mailbox", { account: box.name });
 			if (panel.shown !== was) return;
-			panel.said = said;
 			if (!said.may) return;
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			if (!said.rules.length) $list.append(empty(__("No rules")));
@@ -771,7 +765,7 @@ onedesk.mail.sections = (ctx) => {
 					title: rule.title || __("Mail Rule"),
 					sub: esc([rule.when, rule.then].filter(Boolean).join(" → ")),
 					end: chevron(),
-					open: () => rule_view(panel, box, rule),
+					open: () => automations(box, rule.name),
 				})
 					.appendTo($list)
 					.find(".one-set-end");
@@ -801,91 +795,6 @@ onedesk.mail.sections = (ctx) => {
 			});
 		},
 	});
-
-	// What the builder offers in this mailbox: its folders and people, and
-	// whether OneAI may read it.
-	const context_of = async (panel, box) => {
-		const said = panel.said || (await frappe.xcall(R + "rules_of_mailbox", { account: box.name }));
-		return {
-			email: box.email,
-			folders: said.folders || [],
-			people: said.people || [],
-			ai: !!said.ai,
-			reads: !!said.reads,
-			to_oneai: box.may.ai ? () => ctx.centre.activate("oneai") : null,
-		};
-	};
-
-	// A new rule starts from one of the examples, in groups, or from nothing.
-	const starters_view = async (panel, box) => {
-		await frappe.require(builder_files);
-		const context = await context_of(panel, box);
-		view(panel, {
-			title: box.may.rules ? __("New Mail Rule") : __("Request Mail Rule"),
-			description: __("Start from one of these, and change anything."),
-			render: (shown) => {
-				const groups = {};
-				for (const one of onedesk.rules.starters(context)) {
-					if (!groups[one.group]) {
-						if (one.group) $(`<div class="rb-starters-group"></div>`).text(one.group).appendTo(shown.body);
-						groups[one.group] = $(`<div class="rb-starters"></div>`).appendTo(shown.body);
-					}
-					$(`<button type="button" class="rb-starter"></button>`)
-						.html(
-							`<span class="rb-starter-title">${frappe.utils.icon(one.icon, "sm")}<span class="rb-starter-name">${esc(one.title)}</span>${
-								onedesk.rules.uses_ai(one.rule.steps) ? onedesk.oneai.tag(onedesk.names.of("one_ai")) : ""
-							}</span><span class="rb-starter-about">${esc(one.about)}</span>`
-						)
-						.on("click", () => rule_view(panel, box, null, one.rule))
-						.appendTo(groups[one.group]);
-				}
-			},
-		});
-	};
-
-	// One rule as steps, in the tab.
-	const rule_view = async (panel, box, rule, starter = null) => {
-		await frappe.require(builder_files);
-		const context = await context_of(panel, box);
-		let built = null;
-		const save = async () => {
-			await frappe.xcall(R + "save_rule", { account: box.name, values: built.value(), name: rule ? rule.name : null });
-			saved();
-			panel.refresh();
-		};
-		const decide = (approve) => async () => {
-			await frappe.xcall(R + "decide_rule", { name: rule.name, approve: approve ? 1 : 0 });
-			saved();
-			panel.refresh();
-		};
-		const asking = !box.may.rules;
-		const actions = [{ label: asking ? __("Send Request") : __("Save"), variant: "solid", click: save }];
-		if (rule && rule.requested_by && box.may.rules) {
-			actions.splice(0, 1, { label: __("Decline"), theme: "red", click: decide(false) }, { label: __("Approve"), variant: "solid", click: decide(true) });
-		}
-		if (rule && (asking ? rule.requested_by : !rule.requested_by)) {
-			actions.unshift({
-				label: __("Delete"),
-				theme: "red",
-				click: () =>
-					frappe.confirm(__("Delete this rule?"), async () => {
-						await frappe.xcall(R + "delete_rule", { name: rule.name });
-						panel.refresh();
-					}),
-			});
-		}
-		view(panel, {
-			title: rule ? rule.title || __("Mail Rule") : asking ? __("Request Mail Rule") : __("New Mail Rule"),
-			description:
-				rule && rule.requested_by
-					? __("{0} asked for this rule, which runs once approved.", [rule.requested_by_name || rule.requested_by])
-					: undefined,
-			actions,
-			render: (shown) => {
-				built = onedesk.rules.builder($(`<div></div>`).appendTo(shown.body), rule || starter || { title: "", steps: [] }, context);
-			},
-		});
-	};
 
 	// `focus` is the tab to open on: signature, away, auto, users or connection.
 	const open = async (name, from = "mailboxes", focus = null) => {

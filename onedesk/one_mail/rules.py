@@ -106,34 +106,19 @@ def _in_inbox(made) -> bool:
 
 
 def run_rules(made, about: set | None = None, headers=None) -> list[str]:
-	"""The rules of a message's mailbox, in order, until one says stop. On
-	arrival `about` is None and only the rules without an Ask OneAI run;
-	OneAI's reading runs those with one, `about` being the topics it found
-	(`by_meaning`, flow.topics). `headers` are the message's when it is
-	arriving, so a reply never answers a machine."""
-	from onedesk.one_mail import flow
+	"""The mailbox's automations (AutomationCenter, one/automation/engine.py)
+	on a message, in order, until one says stop. On arrival `about` is None
+	and only those without an Ask OneAI run; OneAI's reading runs those with
+	one, `about` being the topics it found (`by_meaning`). `headers` are the
+	message's when it is arriving, so a reply never answers a machine."""
+	from onedesk.one.automation import engine
+	from onedesk.one_mail.blocks import ARRIVES
 
-	done = []
-	facts = facts_of(made.name, headers)
-	for rule in rules_of(made.email_account, about is not None):
-		steps = flow_of(rule)
-		answers = flow.answers_of(rule.name, steps, about) if about is not None else None
-		todo, stopped = flow.walk(steps, facts, answers)
-		if todo:
-			perform(rule, made.name, todo, headers)
-			done.append(rule.name)
-		if stopped:
-			break
-	return done
-
-
-def flow_of(rule) -> list:
-	said = frappe.parse_json(rule.steps) if isinstance(rule.steps, str) else rule.steps
-	return said if isinstance(said, list) else []
+	return engine.run(ARRIVES, made.email_account, made.name, facts_of(made.name, headers), {"headers": headers}, about)
 
 
 def facts_of(name: str, headers=None) -> dict:
-	"""What a rule's conditions are tested against (flow.holds): the
+	"""What a mail automation's conditions are tested against: the
 	message's words, who sent it and whether they are the workspace's or one
 	of its customers, suppliers, leads, contacts or people, whether it starts
 	a conversation, and whether it came after hours or on a holiday."""
@@ -217,45 +202,6 @@ def after_hours() -> bool:
 	now = now_datetime().time()
 	start, end = get_time(hours[0]), get_time(hours[1])
 	return not (start <= now < end) if start < end else end <= now < start
-
-
-def perform(rule, name: str, todo: list, headers=None) -> None:
-	"""What a rule's steps said to do with one message, in order. Each is
-	tried on its own: one that fails is logged and the rest still happen."""
-	from onedesk.one_mail import actions
-
-	for step in todo:
-		kind = step.get("type")
-		frappe.flags.one_mail_rules = True
-		try:
-			if kind == "read":
-				actions.mark([name], 1)
-			elif kind == "star":
-				actions.star([name], 1)
-			elif kind == "move":
-				actions.move([name], step["folder"])
-			elif kind == "junk":
-				junk = actions.folder_of(frappe.db.get_value("Communication", name, "email_account"), "Junk")
-				if junk:
-					actions.move([name], junk)
-			elif kind == "reply":
-				answer(rule, step, name, headers)
-			elif kind == "forward":
-				forward(rule, step, name)
-			elif kind == "assign":
-				assign(rule, step, name)
-			elif kind == "notify":
-				from onedesk.one_mail import tell
-
-				tell.rule_notice(rule, step["user"], name)
-			elif kind == "link":
-				link(name)
-			elif kind == "create":
-				create(rule, step, name)
-		except Exception:
-			frappe.log_error(title=f"OneMail could not {kind} by the rule {rule.name}")
-		finally:
-			frappe.flags.one_mail_rules = False
 
 
 ONCE_IN = {"day": 24 * 3600, "week": 7 * 24 * 3600, "month": 30 * 24 * 3600}
@@ -475,39 +421,28 @@ def _send(account, comm, html: str) -> None:
 
 
 def rules_of(account: str, by_meaning: bool = False) -> list:
-	"""A mailbox's rules that are on, in order: those that run on arrival, or
-	only those that wait for OneAI's reading (flow.needs_ai)."""
-	from onedesk.one_mail import flow
+	"""A mailbox's automations that are on, in order: those that run on
+	arrival, or only those that wait for OneAI's reading."""
+	from onedesk.one.automation import engine
+	from onedesk.one_mail.blocks import ARRIVES
 
-	return [
-		rule
-		for rule in frappe.get_all(
-			"Mail Rule",
-			filters={"account": account, "enabled": 1},
-			fields=["name", "title", "steps", "owner"],
-			order_by="priority asc, creation asc",
-		)
-		if flow.needs_ai(flow_of(rule)) == by_meaning
-	]
+	return engine.listed(ARRIVES, account, by_meaning)
 
 
 def replies(account: str) -> bool:
-	"""Whether a mailbox answers mail by itself: a rule that is on replies."""
-	from onedesk.one_mail import flow
+	"""Whether a mailbox answers mail by itself: an automation on it that is on replies."""
+	from onedesk.one.automation import engine, flow
 
-	return any(
-		one.get("type") == "reply"
-		for rule in frappe.get_all("Mail Rule", filters={"account": account, "enabled": 1}, fields=["steps"])
-		for one in flow.actions_in(flow_of(rule))
-	)
+	return any(one.get("type") == "reply" for rule in rules_of(account) + rules_of(account, True) for one in flow.actions_in(engine.steps_of(rule)))
 
 
 def topics_of_mailbox(account: str) -> list[tuple[str, str]]:
-	"""Everything a mailbox's rules ask OneAI of a new message (flow.topics),
-	for its reading (one_ai/reading/understand.py)."""
-	from onedesk.one_mail import flow
+	"""Everything a mailbox's automations ask OneAI of a new message, for its
+	reading (one_ai/reading/understand.py)."""
+	from onedesk.one.automation import engine
+	from onedesk.one_mail.blocks import ARRIVES
 
-	return [one for rule in rules_of(account, True) for one in flow.topics(rule.name, flow_of(rule))]
+	return engine.topics(ARRIVES, account)
 
 
 def by_meaning(message: str, about: set) -> list[str]:
@@ -1003,18 +938,18 @@ def _issued_to(user: str | None) -> str | None:
 	return None
 
 
-def rule_allowed(doc, ptype=None, user=None, debug=False) -> bool:
-	"""A mailbox's rules are seen by its holders and whoever may change them
-	(holders.may, "rules"); rules_of_mailbox and save_rule say who changes
-	them."""
+def rule_allowed(doc, ptype=None, user=None) -> bool:
+	"""A mailbox's automations are seen by its holders and whoever may change
+	them (holders.may, "rules"); rules_of_mailbox and save_rule say who
+	changes them."""
 	from onedesk.one_mail import actions, holders
 
 	user = user or frappe.session.user
 	return (
 		user == "Administrator"
-		or not doc.account
-		or actions.holds(doc.account, user)
-		or holders.may(doc.account, "rules", user)
+		or not doc.scope
+		or actions.holds(doc.scope, user)
+		or holders.may(doc.scope, "rules", user)
 	)
 
 
@@ -1025,49 +960,72 @@ def rule_query(user=None) -> str:
 	if user == "Administrator" or rights.held("Email Account", "mail_rules", user):
 		return ""
 	return (
-		f"""(`tabMail Rule`.account in (select email_account from `tabUser Email` where parent = {frappe.db.escape(user)})"""
-		f""" or `tabMail Rule`.account in (select share_name from `tabDocShare` where share_doctype = 'Email Account'"""
+		f"""(`tabAutomation`.scope in (select email_account from `tabUser Email` where parent = {frappe.db.escape(user)})"""
+		f""" or `tabAutomation`.scope in (select share_name from `tabDocShare` where share_doctype = 'Email Account'"""
 		f""" and user = {frappe.db.escape(user)} and mail_rules = 1))"""
 	)
+
+
+def validate_rule(doc, steps: list) -> None:
+	"""What a mail automation must be beyond its steps: a folder of its own
+	mailbox, someone who uses it, and OneAI only where it may read it."""
+	from onedesk.one.automation import flow, kinds
+	from onedesk.one_mail import gate
+
+	holders = set(frappe.get_all("User Email", filters={"email_account": doc.scope}, pluck="parent"))
+	for one in flow.actions_in(steps):
+		if one.get("type") == "move" and frappe.db.get_value("Mail Folder", one["folder"], "account") != doc.scope:
+			frappe.throw(_("The folder must be in the rule's mailbox."))
+		if one.get("type") in ("assign", "notify") and one.get("user") not in holders:
+			frappe.throw(_("{0} doesn't use this mailbox.").format(frappe.utils.get_fullname(one.get("user"))))
+	uses_ai = flow.needs_ai(steps) or any(
+		(one.get("type") == "reply" and one.get("with") == "OneAI") or getattr(kinds.action(one.get("type")), "ai", False)
+		for one in flow.actions_in(steps)
+	)
+	if uses_ai and not gate.may_read(doc.scope):
+		frappe.throw(_("{0} is turned off for this mailbox.").format(registry.name("one_ai")))
+	if flow.needs_ai(steps) and doc.enabled and not gate.reads(doc.scope):
+		frappe.throw(_("This rule can't run while New Mail is set to Not Read in the mailbox's {0} tab.").format(registry.name("one_ai")))
 
 
 RULE_FIELDS = ("enabled", "priority", "title", "steps")
 
 
-@frappe.whitelist()
-def rules_of_mailbox(account: str) -> dict:
-	"""A mailbox's rules in the order they run, for its Automation tab in
-	OneMail's settings, and what the rule builder offers: the mailbox's
-	folders and people, and whether OneAI may read it. Whoever manages the
-	mailbox changes them; the person a workspace address is issued to asks
-	for them (`asks`), and each waits for a Mail Manager (save_rule)."""
+def mailboxes_ruled() -> list[dict]:
+	"""The mailboxes whose automations the reader changes (`manages`) or asks
+	for on the address the workspace issued them (`asks`), for
+	AutomationCenter: the workspace's first, then the shared ones, then
+	people's own."""
+	from onedesk.one_mail import holders
+
+	said = []
+	for one in frappe.get_all(
+		"Email Account",
+		or_filters={"one_hosted": 1, "one_connected": 1},
+		fields=["name", "email_id", "one_shared", "one_hosted"],
+		order_by="email_id asc",
+	):
+		manages = holders.may(one.name, "rules")
+		asks = not manages and holders.issued_to_them(one.name)
+		if manages or asks:
+			said.append({"scope": one.name, "label": one.email_id, "manages": int(manages), "asks": int(asks), "shared": int(bool(one.one_shared))})
+	ours = holders.workspace()
+	return sorted(said, key=lambda one: (one["scope"] != ours, -one["shared"], one["label"]))
+
+
+def offers(account: str) -> dict:
+	"""What a mailbox's automations may name: its folders (but its Inbox) and
+	its people, who writes a reply, how often, and whether OneAI may read it
+	and reads its new mail; `names` says each folder and person in words."""
 	from onedesk.one_mail import actions, gate, holders
 
-	manages = holders.may(account, "rules")
-	asks = not manages and holders.issued_to_them(account)
-	if not (manages or asks):
-		return {"may": False, "rules": []}
-	rows = frappe.get_all(
-		"Mail Rule",
-		filters={"account": account},
-		fields=["name", "requested_by", *RULE_FIELDS],
-		order_by="priority asc, creation asc",
-	)
-	from onedesk.one_mail import flow
-
+	holders.sees(account)
 	people = frappe.get_all("User Email", filters={"email_account": account, "one_cover_until": ["is", "not set"]}, pluck="parent")
-	folders = dict(frappe.get_all("Mail Folder", filters={"account": account}, fields=["name", "label"], as_list=True))
 	names = {one: frappe.utils.get_fullname(one) for one in people}
-	for one in rows:
-		one["steps"] = flow_of(one)
-		one["when"], one["then"] = flow.summary(one["steps"], folders, names)
-		one["needs_ai"] = int(flow.needs_ai(one["steps"]))
-		one["requested_by_name"] = frappe.utils.get_fullname(one.requested_by) if one.requested_by else None
+	names.update(dict(frappe.get_all("Mail Folder", filters={"account": account}, fields=["name", "label"], as_list=True)))
+	ai = bool(gate.may_read(account))
 	return {
-		"may": True,
-		"manages": int(manages),
-		"asks": int(asks),
-		"rules": rows,
+		"email": frappe.db.get_value("Email Account", account, "email_id") or account,
 		"folders": [
 			{"value": one.name, "label": _(one.label) if one.kind != "Other" else one.label}
 			for one in frappe.get_all(
@@ -1076,14 +1034,62 @@ def rules_of_mailbox(account: str) -> dict:
 			if one.name != actions.folder_of(account, "Inbox")
 		],
 		"people": [{"value": one, "label": names[one]} for one in people],
-		"ai": int(bool(gate.may_read(account))),
+		"writers": [{"value": "Text", "label": _("My Own Words")}, *([{"value": "OneAI", "label": registry.name("one_ai")}] if ai else [])],
+		"once": [
+			{"value": "conversation", "label": _("once per conversation")},
+			{"value": "day", "label": _("once a day to each sender")},
+			{"value": "week", "label": _("once a week to each sender")},
+			{"value": "month", "label": _("once a month to each sender")},
+		],
+		"names": names,
+		"ai": int(ai),
 		"reads": int(gate.reads(account)),
+		"unread": _("This step won't run. New Mail is set to Not Read in the {0} tab.").format(registry.name("one_ai")),
+	}
+
+
+@frappe.whitelist()
+def rules_of_mailbox(account: str) -> dict:
+	"""A mailbox's automations in the order they run, for AutomationCenter
+	and its Automation tab in OneMail's settings, and what they may name
+	(`offers`). Whoever manages the mailbox changes them; the person a
+	workspace address is issued to asks for them (`asks`), and each waits
+	for a Mail Manager (save_rule)."""
+	from onedesk.one.automation import engine, flow
+	from onedesk.one_mail import holders
+	from onedesk.one_mail.blocks import ARRIVES
+
+	manages = holders.may(account, "rules")
+	asks = not manages and holders.issued_to_them(account)
+	if not (manages or asks):
+		return {"may": False, "rules": []}
+	rows = frappe.get_all(
+		"Automation",
+		filters={"trigger": ARRIVES, "scope": account},
+		fields=["name", "requested_by", *RULE_FIELDS],
+		order_by="priority asc, creation asc",
+	)
+	offered = offers(account)
+	for one in rows:
+		one["steps"] = engine.steps_of(one)
+		one["when"], one["then"] = engine.summary(ARRIVES, one["steps"], offered)
+		one["needs_ai"] = int(flow.needs_ai(one["steps"]))
+		one["requested_by_name"] = frappe.utils.get_fullname(one.requested_by) if one.requested_by else None
+	return {
+		"may": True,
+		"manages": int(manages),
+		"asks": int(asks),
+		"rules": rows,
+		"folders": offered["folders"],
+		"people": offered["people"],
+		"ai": offered["ai"],
+		"reads": offered["reads"],
 	}
 
 
 def _changer(account: str) -> bool:
-	"""Whether the reader changes a mailbox's rules outright (True) or asks
-	for them (False); anyone else is refused."""
+	"""Whether the reader changes a mailbox's automations outright (True) or
+	asks for them (False); anyone else is refused."""
 	from onedesk.one_mail import holders
 
 	if holders.may(account, "rules"):
@@ -1094,21 +1100,32 @@ def _changer(account: str) -> bool:
 	return False
 
 
+def _rule(name: str):
+	from onedesk.one_mail.blocks import ARRIVES
+
+	doc = frappe.get_doc("Automation", name)
+	if doc.trigger != ARRIVES:
+		frappe.throw(_("That rule is not in this mailbox."))
+	return doc
+
+
 @frappe.whitelist(methods=["POST"])
 def save_rule(account: str, values: dict | str, name: str | None = None) -> str:
-	"""Make or change one of a mailbox's rules. On a workspace address the
-	person holds but doesn't manage, the rule is saved off and asked for, and
-	every Mail Manager hears of it; a change to a running rule is asked for
+	"""Make or change one of a mailbox's automations. On a workspace address
+	the person holds but doesn't manage, it is saved off and asked for, and
+	every Mail Manager hears of it; a change to a running one is asked for
 	again."""
+	from onedesk.one_mail.blocks import ARRIVES
+
 	values = frappe.parse_json(values) if isinstance(values, str) else values
 	outright = _changer(account)
-	doc = frappe.get_doc("Mail Rule", name) if name else frappe.new_doc("Mail Rule")
-	if name and doc.account != account:
+	doc = _rule(name) if name else frappe.new_doc("Automation")
+	if name and doc.scope != account:
 		frappe.throw(_("That rule is not in this mailbox."))
 	doc.update({key: values.get(key) for key in RULE_FIELDS if key in values})
 	if isinstance(doc.steps, list):
 		doc.steps = frappe.as_json(doc.steps, indent=None)
-	doc.account = account
+	doc.trigger, doc.scope_type, doc.scope = ARRIVES, "Email Account", account
 	if not outright:
 		doc.enabled = 0
 		doc.requested_by = frappe.session.user
@@ -1123,8 +1140,8 @@ def save_rule(account: str, values: dict | str, name: str | None = None) -> str:
 
 @frappe.whitelist(methods=["POST"])
 def enable_rule(name: str, enabled: int = 1) -> None:
-	doc = frappe.get_doc("Mail Rule", name)
-	if not _changer(doc.account):
+	doc = _rule(name)
+	if not _changer(doc.scope):
 		frappe.throw(_("A Mail Manager approves the rules of this mailbox."), frappe.PermissionError)
 	doc.enabled = int(enabled)
 	doc.flags.ignore_permissions = True
@@ -1133,22 +1150,23 @@ def enable_rule(name: str, enabled: int = 1) -> None:
 
 @frappe.whitelist(methods=["POST"])
 def delete_rule(name: str) -> None:
-	"""Delete a rule: whoever manages its mailbox, or the person who asked
-	for it while it still waits."""
-	doc = frappe.get_doc("Mail Rule", name)
-	if not _changer(doc.account) and doc.requested_by != frappe.session.user:
+	"""Delete an automation: whoever manages its mailbox, or the person who
+	asked for it while it still waits."""
+	doc = _rule(name)
+	if not _changer(doc.scope) and doc.requested_by != frappe.session.user:
 		frappe.throw(_("A Mail Manager approves the rules of this mailbox."), frappe.PermissionError)
-	frappe.delete_doc("Mail Rule", name, ignore_permissions=True)
+	frappe.delete_doc("Automation", name, ignore_permissions=True)
 
 
 @frappe.whitelist(methods=["POST"])
 def decide_rule(name: str, approve: int = 1) -> None:
-	"""A Mail Manager approves a rule somebody asked for, which turns it on,
-	or declines it, which deletes it. The person who asked hears either way."""
+	"""A Mail Manager approves an automation somebody asked for, which turns
+	it on, or declines it, which deletes it. The person who asked hears
+	either way."""
 	from onedesk.one_mail import holders, tell
 
-	doc = frappe.get_doc("Mail Rule", name)
-	holders.must(doc.account, "rules")
+	doc = _rule(name)
+	holders.must(doc.scope, "rules")
 	asker = doc.requested_by
 	if not asker:
 		frappe.throw(_("Nobody asked for this rule."))
@@ -1158,5 +1176,5 @@ def decide_rule(name: str, approve: int = 1) -> None:
 		doc.flags.ignore_permissions = True
 		doc.save()
 	else:
-		frappe.delete_doc("Mail Rule", name, ignore_permissions=True)
-	tell.rule_decided(doc.account, asker, bool(int(approve)))
+		frappe.delete_doc("Automation", name, ignore_permissions=True)
+	tell.rule_decided(doc.scope, asker, bool(int(approve)))
