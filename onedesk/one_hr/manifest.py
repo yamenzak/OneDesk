@@ -19,6 +19,7 @@ APP = App(
 		_lt("Payroll and salary slips"),
 		_lt("Hiring, appraisals, joining and leaving"),
 	),
+	media=("home.webp", "employees.webp", "org-chart.webp", "leave.webp", "salary-slip.webp"),
 	mark="onehr",
 	owns=(
 		"HR Setup",

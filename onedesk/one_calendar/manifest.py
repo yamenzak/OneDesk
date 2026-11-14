@@ -19,6 +19,7 @@ APP = App(
 		_lt("Holidays and who is off"),
 		_lt("A link for other calendar apps"),
 	),
+	media=("month.webp", "month-and-week.gif", "event.webp"),
 	mark="onecalendar",
 	rail=120,
 	sidebar="OneCalendar",

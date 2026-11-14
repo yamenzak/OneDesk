@@ -20,6 +20,7 @@ APP = App(
 		_lt("Queues with tickets and counters"),
 		_lt("Boards changed from a phone"),
 	),
+	media=("screens.webp", "channel.webp", "boards.webp"),
 	mark="onedisplay",
 	rail=130,
 	sidebar="OneDisplay",

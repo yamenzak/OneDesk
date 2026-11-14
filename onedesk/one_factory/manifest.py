@@ -20,6 +20,7 @@ APP = App(
 		_lt("Work sent to suppliers"),
 		_lt("What is late and what was made"),
 	),
+	media=("home.webp", "shop-floor.webp", "work-order.webp", "bill-of-materials.webp"),
 	mark="onefactory",
 	owns=("Manufacturing", "Subcontracting"),
 	rail=60,

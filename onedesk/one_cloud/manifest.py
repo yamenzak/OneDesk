@@ -19,6 +19,7 @@ APP = App(
 		_lt("Versions and activity on every file"),
 		_lt("Files a browser can't open, edited in {oneos}"),
 	),
+	media=("company.webp", "open-a-folder.gif", "a-file.webp", "records.webp"),
 	credits=("oneos", "office"),
 	mark="onecloud",
 	rail=20,

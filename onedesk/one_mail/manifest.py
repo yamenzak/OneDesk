@@ -19,6 +19,7 @@ APP = App(
 		_lt("Rules and out of office"),
 		_lt("Mail kept on its record"),
 	),
+	media=("inbox.webp", "open-a-message.gif", "message.webp", "mailboxes.webp"),
 	credits=("mail",),
 	mark="onemail",
 	rail=30,

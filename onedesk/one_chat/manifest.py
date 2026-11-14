@@ -19,6 +19,7 @@ APP = App(
 		_lt("The agents of your apps"),
 		_lt("Files from {one_cloud} or your computer"),
 	),
+	media=("conversation.webp", "agents.webp", "new-channel.webp"),
 	credits=("ai",),
 	mark="onechat",
 	rail=35,

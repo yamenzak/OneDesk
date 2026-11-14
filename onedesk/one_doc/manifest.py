@@ -19,6 +19,7 @@ APP = App(
 		_lt("Word and PDF, printed or sent"),
 		_lt("A document kept on its record"),
 	),
+	media=("document.webp", "start-from.webp", "file-menu.webp"),
 	mark="onedoc",
 	rail=22,
 	sidebar="OneDoc",
