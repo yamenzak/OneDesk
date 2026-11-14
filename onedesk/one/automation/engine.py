@@ -91,13 +91,19 @@ def summary(trigger: str, steps: list, offers: dict | None = None) -> tuple[str,
 		if block.words:
 			return block.words(one)
 		if block.kind == "flag":
-			return frappe._(block.label if one.get("value", True) else block.no)
-		return f"{frappe._(block.label)} {flow.op_words(one.get('op'), one.get('value'))}"
+			return said(block.label if one.get("value", True) else block.no)
+		return f"{said(block.label)} {flow.op_words(one.get('op'), one.get('value'))}"
 
 	def action(one: dict) -> str:
 		block = kinds.action(one.get("type"))
 		if not block:
 			return ""
-		return block.words(one, offers or {}) if block.words else frappe._(block.label)
+		return str(block.words(one, offers or {})) if block.words else said(block.label)
 
-	return flow.summary(steps, condition, action, frappe._(kinds.trigger(trigger).everything))
+	return flow.summary(steps, condition, action, said(kinds.trigger(trigger).everything))
+
+
+def said(text) -> str:
+	"""A block's declared words in the reader's language, as a string a
+	response or a summary can carry (blocks declare them with _lt)."""
+	return str(frappe._(text)) if text else ""

@@ -49,7 +49,7 @@ def unwhole(name: str, spec: dict, module: bool, file: bool, actions: set[str]) 
 	makes or is, answers Intake asks, and levels it knows. Pure."""
 	out = [] if module else [f"{name}'s folder is not a module"]
 	out += [] if file else [f"{name} has no {spec['file']}"]
-	out += [] if spec["makes"] or spec.get("verdict") or spec.get("states") else [f"{name} says nothing it makes or is"]
+	out += [] if spec["makes"] or spec.get("verdict") or spec.get("states") or spec.get("mail") else [f"{name} says nothing it makes or is"]
 	out += [] if set(spec.get("answers") or {}) <= actions else [f"{name} answers what Intake never asks"]
 	return out + [f"{name}: {want}" for want in spec["makes"] if want.get("level", "Done") not in ("Done", "Proposed")]
 
@@ -77,4 +77,5 @@ def test_the_sample_rules_catch_their_examples():
 	found = unwhole("bill.json", spec, False, False, set())
 	assert len(found) == 4 and "says nothing" not in " ".join(found)
 	assert unwhole("bill.json", {**spec, "makes": [{"doctype": "Lead"}]}, True, True, {"intake_who"}) == []
+	assert unwhole("mail.json", {"file": "mail.eml", "makes": [], "mail": {"held": True}}, True, True, set()) == []
 	assert not runs_the_samples("def every_intake_sample_left_what_it_should():\n\tpass\n")

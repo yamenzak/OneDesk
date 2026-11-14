@@ -275,6 +275,7 @@
 "Automation": [
 "Inbox User",
 "Mail Manager",
+"OneChat User",
 "OneMail User",
 "System Manager"
 ],
@@ -2566,6 +2567,10 @@
 "Scheduler Event": [
 "System Manager"
 ],
+"Second Approval": [
+"Desk User",
+"Workspace Administrator"
+],
 "Security Settings": [
 "System Manager"
 ],
@@ -3625,6 +3630,7 @@
 "Sales Taxes and Charges Template",
 "Salutation",
 "Scheduled Job Type",
+"Second Approval",
 "Serial No",
 "Serial and Batch Bundle",
 "Server Script",

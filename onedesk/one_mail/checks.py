@@ -34,7 +34,7 @@ def onemail_layla_reads_sorts_and_files_her_mail():
 		assert account in boxes and account in {one["name"] for one in holders.mailboxes()}
 		first = holders.mailboxes()[0]
 		assert first["workspace"] and first["unread"] == len(mail.MAILS), first
-		unread = frappe.db.count("Communication", {"email_account": account, "one_folder": "INBOX", "seen": 0})
+		unread = frappe.db.count("Communication", {"email_account": account, "one_folder": "INBOX", "seen": 0, "one_held": 0})
 		assert boxes[account]["unread"] == unread, (boxes[account]["unread"], unread)
 		inbox = next(one["name"] for one in boxes[account]["folders"] if one["kind"] == "Inbox")
 		listed = api.conversations(account, inbox)["items"]
@@ -1125,3 +1125,86 @@ def onemail_rules_are_automations_and_every_block_runs_from_automationcenter():
 		frappe.db.delete("ToDo", {"reference_type": "Communication", "reference_name": message, "allocated_to": OWNER})
 		frappe.db.set_value("Communication", message, dict(zip(("one_folder", "one_flagged", "seen"), was, strict=True)), update_modified=False)
 		frappe.db.delete("Notification Log", {"for_user": ["in", [OWNER, "rania@one.test"]], "creation": [">=", frappe.utils.add_to_date(None, minutes=-5)]})
+
+
+@check
+def onemail_risky_mail_is_scored_warned_and_held():
+	"""The mail samples in tests/samples/intake/one_mail, as they arrived in
+	Layla's mailbox: the failing DMARC, the macro attachment and the
+	mismatched link held as they arrived, the lookalike of Gulf Glass's
+	domain warned and then held once OneAI read it as phishing, and the
+	supplier's newsletter let through. Held lists them with their reasons
+	and the Inbox does not; nothing held was read; released, one goes to
+	OneAI and is never held again; deleted, one goes to Trash. Somebody who
+	doesn't hold the mailbox releases nothing. Layla sets the levels."""
+	from unittest import mock
+
+	from onedesk.one_demo import intake, samples
+	from onedesk.one_mail import api, held, lookalike, risk
+
+	ours = {path.stem: path for path in samples.samples() if path.parent.name == "one_mail"}
+	assert len(ours) == 5, ours
+	by = {stem: samples.message_of(path) for stem, path in ours.items()}
+	wrong = {stem: samples.risk_unmet(frappe.parse_json(path.read_text()), by[stem]) for stem, path in ours.items()}
+	assert not any(wrong.values()), wrong
+	assert "gulfglass.example" in lookalike.known(), "a supplier's contact's domain is known"
+	found = frappe.parse_json(by["lookalike-domain"].one_risks)["found"]
+	alone = risk.score([one for one in found if one["why"] != "phishing"])
+	at = held.levels()
+	assert at["warn"] <= alone < at["hold"], ("the lookalike alone is warned, not held", alone, at)
+	for stem in ("failing-dmarc", "macro-attachment", "mismatched-link"):
+		assert not samples.readings_of(ours[stem]), f"{stem} was read while held"
+
+	account = intake.mailbox()
+	thread_of = lambda name: frappe.db.get_value("Communication", name, "one_thread") or name  # noqa: E731
+	with as_user(OWNER):
+		box = next(one for one in api.mailboxes() if one["name"] == account)
+		folder = next((one for one in box["folders"] if one["kind"] == "Held"), None)
+		assert folder and folder["unread"] >= 4, box["folders"]
+		subjects = {one["subject"] for one in api.conversations(account, held.FOLDER)["items"]}
+		risky = {"Your payment could not be processed", "Delivery schedule for November", "Your online banking is locked", "New bank details for our invoices"}
+		assert risky <= subjects, subjects
+		inbox = next(one["name"] for one in box["folders"] if one["kind"] == "Inbox")
+		assert not {one["subject"] for one in api.conversations(account, inbox)["items"]} & risky, "held mail is not in the Inbox"
+		macro = by["macro-attachment"].name
+		assert not api.conversation(account, thread_of(macro))["messages"], "a held message is shown only in Held"
+		shown = api.conversation(account, thread_of(macro), held_back=1)["messages"][0]["risk"]
+		assert shown["held"] and shown["reasons"], shown
+		looks = by["lookalike-domain"].name
+		said = api.conversation(account, thread_of(looks), held_back=1)["messages"][0]["risk"]
+		assert said["imitates"] == "gulfglass.example" and any("gulfglass.example" in one for one in said["reasons"]), said
+
+		frappe.db.savepoint("onemail_held")
+		try:
+			with mock.patch("onedesk.one_ai.reading.pipeline.later") as later:
+				assert held.release([macro]) == 1
+			assert not frappe.db.get_value("Communication", macro, "one_held")
+			assert later.called, "released, it goes to OneAI's reading"
+			assert held.release([macro]) == 0, "only held mail is released"
+			held.judged(macro, "Phishing")
+			assert not frappe.db.get_value("Communication", macro, "one_held"), "a released message is not held again"
+			dmarc = by["failing-dmarc"].name
+			assert held.discard([dmarc]) == 1
+			trash = frappe.db.get_value("Mail Folder", {"account": account, "kind": "Trash"}, "path")
+			assert frappe.db.get_value("Communication", dmarc, ["one_folder", "one_held"]) == (trash, 0)
+			assert held.settings()["defaults"] == held.LEVELS
+			held.set_levels(30, 60)
+			assert held.levels() == {"warn": 30, "hold": 60}
+			try:
+				held.set_levels(60, 30)
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("Hold From below Warn From was kept")
+		finally:
+			from frappe.cache_manager import clear_defaults_cache
+
+			frappe.db.rollback(save_point="onemail_held")
+			clear_defaults_cache("__default")
+	with as_user("rania@one.test"):
+		try:
+			held.release([by["mismatched-link"].name])
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("someone who doesn't hold the mailbox released its mail")

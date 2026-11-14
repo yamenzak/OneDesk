@@ -98,9 +98,47 @@
    "read_only": 1,
    "module": "One Mail",
    "name": "Communication-one_verified"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "module": "One Mail",
+   "read_only": 1,
+   "fieldname": "one_risk",
+   "fieldtype": "Int",
+   "insert_after": "one_verified",
+   "label": "Risk",
+   "description": "How risky the message looked when it arrived, from 0 to 100, by its sender's checks, its links and its attachments.",
+   "name": "Communication-one_risk"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "module": "One Mail",
+   "read_only": 1,
+   "fieldname": "one_held",
+   "fieldtype": "Check",
+   "insert_after": "one_risk",
+   "label": "Held",
+   "description": "Kept out of its folder and run through no rule until someone who uses the mailbox releases it.",
+   "search_index": 1,
+   "name": "Communication-one_held"
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "Communication",
+   "module": "One Mail",
+   "read_only": 1,
+   "fieldname": "one_risks",
+   "fieldtype": "Small Text",
+   "insert_after": "one_held",
+   "label": "Why It's Risky",
+   "hidden": 1,
+   "name": "Communication-one_risks"
   }
  ],
  "doctype": "Communication",
+ "modified": "2026-11-14 18:00:00.000000",
  "sync_on_migrate": 1,
  "links": [],
  "property_setters": []

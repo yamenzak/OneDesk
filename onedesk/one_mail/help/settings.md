@@ -57,6 +57,7 @@ System and Organization Mailboxes.
 | **System Mailboxes** | **Send From New Addresses**, whether the address a new person gets can send, then each person's address with its own **Send**. Changing the default never changes an address already given. |
 | **Organization Mailboxes** | Every mailbox people hold at the company's domains, and **Connect Organization Mailbox** to connect one for somebody. |
 | **Private Mailboxes** | Whether people may connect mailboxes anywhere else, such as Gmail. **Allowed Domains** limits them; leave it empty to allow any. |
+| **Risky Mail** | **Warn From** and **Hold From**, the scores a message is warned and held from. See [Risky Mail](risky-mail). |
 | **Mail Templates** | Emails people start from. |
 | **Roles and Access** | Opens {access_center} on {one_mail}: what each role may do, everybody's role, and what people were given on one mailbox. See [Who Can Do What](who-can-do-what). |
 | **Notifications** | Opens {notification_center} on {one_mail}: what it tells you and how, and for administrators what it sends in the workspace. |

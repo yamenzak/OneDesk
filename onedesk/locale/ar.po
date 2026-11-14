@@ -712,9 +712,9 @@ msgid "A conversation is opened in OneMail's reading pane."
 msgstr "تُفتح محادثة في جزء القراءة في OneMail."
 
 #. Description of a DocType
-#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:109
-msgid "A conversation: a channel, two people, or a person and an agent."
-msgstr "محادثة: قناة، أو شخصان، أو شخص ووكيل."
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:195
+msgid "A conversation: a channel, two people, a person and an agent, or a room with a visitor."
+msgstr "محادثة: قناة، أو شخصان، أو شخص ووكيل، أو غرفة مع زائر."
 
 #: frontend/src/intake/IntakeFacts.vue:51
 #, python-brace-format
@@ -1148,13 +1148,28 @@ msgstr "بند من فاتورة أو إيصال."
 msgid "A link for other calendar apps"
 msgstr "رابط لتطبيقات التقويم الأخرى"
 
+#: onedesk/one_mail/risk.py:288
+#, python-brace-format
+msgid "A link hides where it goes behind {0}."
+msgstr "رابط يخفي وجهته خلف {0}."
+
 #: onedesk/one_portal/share.py:256
 msgid "A link needs an email address to go to."
 msgstr "يحتاج الرابط إلى عنوان بريد إلكتروني يُرسل إليه."
 
+#: onedesk/one_mail/risk.py:287
+#, python-brace-format
+msgid "A link opens a numbered address, {0}, not a website's name."
+msgstr "رابط يفتح عنوانًا رقميًا، {0}، لا اسم موقع."
+
 #: onedesk/one_book/home.py:325
 msgid "A link sent to a customer to pay online."
 msgstr "رابط يُرسل إلى العميل للدفع عبر الإنترنت."
+
+#: onedesk/one_mail/risk.py:286
+#, python-brace-format
+msgid "A link shows {0} but opens {1}."
+msgstr "رابط يعرض {0} لكنه يفتح {1}."
 
 #. Description of a DocType
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:6
@@ -1231,6 +1246,10 @@ msgstr "اجتماع محجوز مع عميل محتمل أو عميل."
 msgid "A message is being written anywhere in One: new, a reply or a forward."
 msgstr "تُكتب رسالة في أي مكان في One: جديدة أو ردًا أو إعادة توجيه."
 
+#: onedesk/public/js/one_mail/onemail_settings.js:1284
+msgid "A message scoring this or more shows a warning above it."
+msgstr "تُظهر الرسالة التي تبلغ هذه الدرجة أو أكثر تحذيرًا فوقها."
+
 #: onedesk/one_ai/reading/switches.py:72
 msgid "A message's attachments are read with its mailbox."
 msgstr "تُقرأ مرفقات الرسالة مع صندوق بريدها."
@@ -1281,6 +1300,10 @@ msgstr "ليس للصنف الجديد مستودع، فيطلب كل استلا
 #, python-brace-format
 msgid "A new item is kept in {0} unless it says otherwise."
 msgstr "يُحفظ الصنف الجديد في {0} ما لم يُذكر غير ذلك."
+
+#: onedesk/public/js/one_mail/onemail_settings.js:1293
+msgid "A new message scoring this or more waits in Held, unseen by any rule, reply or agent until someone releases it."
+msgstr "تنتظر الرسالة الجديدة التي تبلغ هذه الدرجة أو أكثر في المحتجز، دون أن تراها أي قاعدة أو رد أو وكيل حتى يُفرج عنها أحد."
 
 #: onedesk/one_deck/decks.py:187
 msgid "A new part"
@@ -1616,6 +1639,10 @@ msgstr "وظيفة طلب أحدهم التوظيف لها."
 #: onedesk/one/access.py:315 onedesk/one/access.py:526
 msgid "A role's name cannot have a colon in it."
 msgstr "لا يمكن أن يحتوي اسم الدور على نقطتين."
+
+#: onedesk/one_chat/channels.py:244
+msgid "A room is forwarded to a channel."
+msgstr "تُحوَّل الغرفة إلى قناة."
 
 #: onedesk/one_hr/home.py:281
 msgid "A round of appraisals, and who is in it."
@@ -4573,6 +4600,10 @@ msgstr "تُعرض المبالغ بدون رمز العملة."
 msgid "Amounts show their currency's symbol."
 msgstr "تظهر المبالغ برمز عملتها."
 
+#: onedesk/one_chat/starters.py:88
+msgid "An Agent Answers"
+msgstr "وكيل يجيب"
+
 #. Description of the 'AWS Access Key ID' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:274
@@ -4633,6 +4664,10 @@ msgstr "يراجع أحد المسؤولين الطلب. بعد ذلك يتم ت
 #, python-brace-format
 msgid "An administrator reviews the request. Then you're signed out, and your {0} chats, memory, notifications and devices are deleted."
 msgstr "يراجع مسؤول الطلب. بعدها يُسجَّل خروجك وتُحذف محادثاتك مع {0} وذاكرته وإشعاراتك وأجهزتك."
+
+#: onedesk/one_chat/starters.py:89
+msgid "An agent answers each new message in its thread, from what you tell it."
+msgstr "يجيب وكيل على كل رسالة جديدة في سلسلتها، بناءً على ما تخبره به."
 
 #: onedesk/public/js/one_ai/ai_center.js:460
 #, python-brace-format
@@ -4920,6 +4955,16 @@ msgstr "الإجابة من سجلاتهم"
 msgid "Answer Setup Questions"
 msgstr "الإجابة عن أسئلة الإعداد"
 
+#. Label of the website (Check) field in DocType 'Chat Channel'
+#: frontend/src/chat/Conversation.vue:109
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:98
+msgid "Answer Website Chats"
+msgstr "الرد على محادثات الموقع"
+
+#: onedesk/one_chat/starters.py:78
+msgid "Answer a visitor who starts a chat after hours or on a holiday."
+msgstr "الرد على زائر يبدأ محادثة خارج الدوام أو في عطلة."
+
 #: onedesk/public/js/one_mail/rule_builder.js:494
 msgid "Answer every message with the same words, once in each conversation."
 msgstr "الرد على كل رسالة بالكلمات نفسها، مرة واحدة في كل محادثة."
@@ -4933,6 +4978,10 @@ msgstr "الرد على البريد تلقائيًا أثناء إجازتك ح
 #: onedesk/public/js/one_mail/rule_builder.js:513
 msgid "Answer mail that arrives after hours or on a holiday."
 msgstr "الرد على البريد الذي يصل خارج ساعات العمل أو في عطلة."
+
+#: onedesk/one_chat/starters.py:35
+msgid "Answer messages posted after hours or on a holiday."
+msgstr "الرد على الرسائل المنشورة خارج الدوام أو في عطلة."
 
 #: onedesk/public/js/one_mail/rule_builder.js:502
 msgid "Answer new conversations from outside, once a day to each sender."
@@ -6804,6 +6853,10 @@ msgstr "الأتمتة والويب هوكس"
 msgid "Automations failed yesterday"
 msgstr "فشلت عمليات أتمتة أمس"
 
+#: onedesk/one_chat/automations.py:188
+msgid "Automations run in a channel only."
+msgstr "لا تعمل الأتمتة إلا في قناة."
+
 #: frontend/src/slide/components/PlaybackSection.vue:9
 msgid "Autoplay"
 msgstr "تشغيل تلقائي"
@@ -7411,6 +7464,10 @@ msgstr ""
 #: onedesk/one_inventory/manifest.py:21
 msgid "Batches and quality checks"
 msgstr "الدفعات وفحوص الجودة"
+
+#: frontend/src/mail/MailRisk.vue:3
+msgid "Be careful with this message"
+msgstr "احذر من هذه الرسالة"
 
 #. Label of the one_becomes (Data) field in DocType 'Employee Promotion'
 #: onedesk/one_hr/custom/employee_promotion.json:7
@@ -9607,6 +9664,11 @@ msgstr "متابعة {0}"
 msgid "Chat"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/one_chat/notifications.py
+msgid "Chat Automation Notice"
+msgstr "تنبيه أتمتة المحادثة"
+
 #. Name of a DocType
 #: onedesk/one_chat/doctype/chat_channel/chat_channel.json:101
 msgid "Chat Channel"
@@ -9631,6 +9693,10 @@ msgstr "إشارة في محادثة"
 #: onedesk/one_chat/doctype/chat_message/chat_message.json:150
 msgid "Chat Message"
 msgstr "رسالة محادثة"
+
+#: onedesk/one_chat/widget.py:90
+msgid "Chat isn't available right now."
+msgstr "المحادثة غير متاحة الآن."
 
 #: frontend/src/inventory/item/ItemBuying.vue:71
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:50
@@ -10048,6 +10114,11 @@ msgstr "اختر خطة أولًا."
 msgid "Choose a reaction."
 msgstr "اختر تفاعلًا."
 
+#: onedesk/one_mail/held.py:226
+#, python-brace-format
+msgid "Choose a score from 1 to {0}."
+msgstr "اختر درجة من 1 إلى {0}."
+
 #: onedesk/one_display/starters.py:393
 msgid "Choose a service"
 msgstr "اختر خدمة"
@@ -10129,6 +10200,10 @@ msgstr "اختر الضريبة المحتسبة افتراضيًا"
 #: onedesk/one_ai/blocks.py:68
 msgid "Choose the agent."
 msgstr "اختر الوكيل."
+
+#: onedesk/one_chat/blocks.py:53
+msgid "Choose the channel."
+msgstr "اختر القناة."
 
 #: onedesk/public/js/one_hr/hr_control.js:108
 msgid "Choose the country first."
@@ -10511,6 +10586,10 @@ msgstr "إغلاق"
 msgid "Close Calls"
 msgstr "قريبة من الحد"
 
+#: frontend/src/chat/Conversation.vue:104
+msgid "Close Chat"
+msgstr "إغلاق المحادثة"
+
 #: frontend/src/factory/floor/FloorSteps.vue:100
 #: onedesk/public/js/one_factory/floor_actions.js:66
 msgid "Close Operation"
@@ -10582,6 +10661,10 @@ msgstr "أُغلقت بناءً على طلبك."
 #, python-brace-format
 msgid "Closed at your request. It will be deleted on {0}. Reply to our email to keep it."
 msgstr "أُغلق بناءً على طلبك. سيُحذف في {0}. ردّ على رسالتنا للاحتفاظ به."
+
+#: onedesk/one_chat/starters.py:77
+msgid "Closed for Website Chats"
+msgstr "مغلق لمحادثات الموقع"
 
 #. Name of a notification
 #: onedesk/one_cloud/notifications.py
@@ -11868,6 +11951,10 @@ msgstr "المتابعة إلى الدفع"
 msgid "Continue to payment"
 msgstr "المتابعة إلى الدفع"
 
+#: onedesk/one_chat/blocks.py:112
+msgid "Continues a Website Chat"
+msgstr "يواصل محادثة على الموقع"
+
 #: onedesk/one/agent.py:2316
 #, python-brace-format
 msgid "Continues after {0} (was {1})"
@@ -12822,6 +12909,14 @@ msgstr "إنشاء رابط جديد؟ سيتوقف الرابط القديم ع
 #, python-brace-format
 msgid "Create a new {0}"
 msgstr "إنشاء {0} جديد"
+
+#: onedesk/one_chat/starters.py:51
+msgid "Create a task from each message that starts with todo."
+msgstr "إنشاء مهمة من كل رسالة تبدأ بـ todo."
+
+#: onedesk/one_chat/starters.py:59
+msgid "Create an issue from each new message, and say so in its thread."
+msgstr "إنشاء بلاغ من كل رسالة جديدة، وذكر ذلك في سلسلتها."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:406
 msgid "Create and Update Contacts"
@@ -18712,6 +18807,14 @@ msgstr "كل سطر في كل فاتورة مبيعات."
 msgid "Every mailbox you can read is here, and each opens to its folders."
 msgstr "كل صندوق بريد يمكنك قراءته موجود هنا، وكل واحد يفتح على مجلداته."
 
+#: onedesk/one_chat/blocks.py:91
+msgid "Every message"
+msgstr "كل رسالة"
+
+#: onedesk/public/js/one_mail/onemail_settings.js:1258
+msgid "Every message that arrives gets a score from 0 to 100, from its sender's checks, its links and its attachments."
+msgstr "تحصل كل رسالة تصل على درجة من 0 إلى 100، من فحوص مرسلها وروابطها ومرفقاتها."
+
 #: onedesk/one_studio/doctype/extension/extension.js:35
 msgid "Every month"
 msgstr "كل شهر"
@@ -21309,6 +21412,10 @@ msgstr "إعادة توجيه كل رسالة جديدة إلى عنوان آخ�
 msgid "Forward mail with a CV attached to whoever handles hiring."
 msgstr "إعادة توجيه البريد المرفق به سيرة ذاتية إلى المسؤول عن التوظيف."
 
+#: onedesk/one_chat/blocks.py:163
+msgid "Forward the Chat"
+msgstr "تحويل المحادثة"
+
 #: onedesk/one_mail/flow.py:320
 #, python-brace-format
 msgid "Forward to {0}"
@@ -21675,6 +21782,10 @@ msgstr "من المشروع"
 msgid "From Year"
 msgstr "من سنة"
 
+#: onedesk/one_chat/blocks.py:111
+msgid "From a Visitor"
+msgstr "من زائر"
+
 #: onedesk/one_hr/agent.py:368
 #, python-brace-format
 msgid "From a receipt: {0}, {1}."
@@ -21720,6 +21831,10 @@ msgstr "من العرض التجريبي"
 #: onedesk/public/js/one/news_add.js:11
 msgid "From the Library"
 msgstr "من المكتبة"
+
+#: onedesk/one_chat/blocks.py:111
+msgid "From the Team"
+msgstr "من الفريق"
 
 #: onedesk/public/js/one/one_control.js:202
 msgid "From the Web"
@@ -22899,6 +23014,10 @@ msgstr ""
 msgid "Has Expiry Date"
 msgstr ""
 
+#: onedesk/one_chat/blocks.py:110
+msgid "Has File"
+msgstr "فيها ملف"
+
 #. Label in the One Leave Adjustment print format
 #: onedesk/one_hr/print_format/one_leave_adjustment/one_leave_adjustment.json
 msgid "Has Now"
@@ -23164,6 +23283,10 @@ msgstr "محجوز منذ"
 msgid "Held back from this invoice, and taxed when the invoice releasing it is."
 msgstr "محتجز من هذه الفاتورة، وتُحتسب ضريبته عند الفاتورة التي تفرج عنه."
 
+#: frontend/src/mail/MailRisk.vue:3
+msgid "Held because it may be dangerous"
+msgstr "محتجزة لأنها قد تكون خطرة"
+
 #: frontend/portal/src/pages/Home.vue:5
 #, python-brace-format
 msgid "Hello, {0}"
@@ -23366,6 +23489,14 @@ msgstr "السجل"
 #: onedesk/public/js/trust_center/privacy_request.js:33
 msgid "Hold"
 msgstr ""
+
+#: onedesk/public/js/one_mail/onemail_settings.js:1289
+msgid "Hold From"
+msgstr "الاحتجاز من"
+
+#: onedesk/one_mail/held.py:228
+msgid "Hold From can't be lower than Warn From."
+msgstr "لا يمكن أن يكون الاحتجاز من أقل من التحذير من."
 
 #: onedesk/public/js/trust_center/privacy_request.js:23
 msgid "Hold Request"
@@ -24014,6 +24145,11 @@ msgstr "كيف سيعرفها الناس عندما يختارون طريقة ت
 msgid "How quotations, orders and prices work."
 msgstr "كيف تعمل عروض الأسعار والطلبات والأسعار."
 
+#. Description of the 'Risk' (Int) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json:111
+msgid "How risky the message looked when it arrived, from 0 to 100, by its sender's checks, its links and its attachments."
+msgstr "مدى خطورة الرسالة عند وصولها، من 0 إلى 100، حسب فحوص مرسلها وروابطها ومرفقاتها."
+
 #: onedesk/public/js/setup_wizard.js:68
 #, python-brace-format
 msgid "How should {0} look?"
@@ -24348,6 +24484,12 @@ msgstr "عند التفعيل، يوافق فحص ثانٍ على ما فعله 
 #: onedesk/one_project/custom/projects_settings.json:69
 msgid "If enabled, a user may log two timesheet rows for the same hours."
 msgstr "إذا فُعّل، يمكن للمستخدم تسجيل صفين في سجل الوقت للساعات نفسها."
+
+#. Description of the 'Answer Website Chats' (Check) field in DocType 'Chat
+#. Channel'
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:101
+msgid "If enabled, a visitor who starts a chat on the website opens a room for this channel's members."
+msgstr "إذا فُعّل، يفتح الزائر الذي يبدأ محادثة على الموقع غرفة لأعضاء هذه القناة."
 
 #. Description of the 'Submit Matching E-Invoices' (Check) field in DocType
 #. 'Reading Settings'
@@ -24750,6 +24892,10 @@ msgstr "بالحروف: {0}"
 #: onedesk/one_mail/flow.py:304
 msgid "In Working Hours"
 msgstr "في ساعات العمل"
+
+#: onedesk/one_chat/blocks.py:109
+msgid "In a Thread"
+msgstr "في سلسلة"
 
 #: frontend/src/mail/team.js:73
 msgid "In a Week"
@@ -25927,6 +26073,10 @@ msgstr "تحليلات البلاغات"
 msgid "Issue Answer Late"
 msgstr "تأخر الرد على المشكلة"
 
+#: onedesk/one_chat/starters.py:58
+msgid "Issue From a Message"
+msgstr "بلاغ من رسالة"
+
 #. Label in the One Stock Entry print format
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_studio/print_blocks.py:441
@@ -26020,6 +26170,16 @@ msgstr "استجاب لآخر فحص."
 #: onedesk/one_admin/notifications.py
 msgid "It answered its last check. Check that its workspaces are working."
 msgstr "استجاب لآخر فحص. تأكد أن مساحات العمل عليه تعمل."
+
+#: onedesk/one_mail/risk.py:281
+#, python-brace-format
+msgid "It came from a server {0} doesn't send from."
+msgstr "وصلت من خادم لا ترسل منه {0}."
+
+#: onedesk/one_mail/risk.py:282
+#, python-brace-format
+msgid "It came from a server {0} may not send from."
+msgstr "وصلت من خادم قد لا ترسل منه {0}."
 
 #: onedesk/one_studio/heads.py:38
 msgid "It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
@@ -26250,6 +26410,16 @@ msgstr "سيؤدي ذلك إلى إنهاء توظيف شخص ما."
 #, python-brace-format
 msgid "It would overwrite {0}."
 msgstr "سيؤدي ذلك إلى استبدال {0}."
+
+#: onedesk/one_mail/risk.py:293
+#, python-brace-format
+msgid "It's from {0}, which looks like {1} but isn't."
+msgstr "إنها من {0}، الذي يشبه {1} لكنه ليس هو."
+
+#: onedesk/one_mail/risk.py:294
+#, python-brace-format
+msgid "It's from {0}, written with letters from another alphabet."
+msgstr "إنها من {0}، المكتوب بحروف من أبجدية أخرى."
 
 #. Message of a notification
 #: onedesk/one_cloud/notifications.py
@@ -26677,6 +26847,11 @@ msgstr "أشخاصها وتطبيقاتها وتخزينها ورصيدها، و
 msgid "Its reviewers"
 msgstr "مراجعوه"
 
+#: onedesk/one_mail/risk.py:283
+#, python-brace-format
+msgid "Its signature from {0} doesn't match, so it may have been changed."
+msgstr "توقيعها من {0} غير مطابق، لذا ربما غُيّرت."
+
 #. Message of a notification
 #: onedesk/one_inventory/notifications.py
 #, python-brace-format
@@ -26995,6 +27170,11 @@ msgstr "محفوظ في مساحة العمل هذه، دون خادم خاص ب
 #: onedesk/one_book/print_format/one_payment_receipt/one_payment_receipt.json
 msgid "Kept on Account"
 msgstr "محفوظ في الحساب"
+
+#. Description of the 'Held' (Check) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json:123
+msgid "Kept out of its folder and run through no rule until someone who uses the mailbox releases it."
+msgstr "تبقى خارج مجلدها ولا تمر بأي قاعدة حتى يُفرج عنها أحد مستخدمي صندوق البريد."
 
 #: onedesk/public/js/one_ai/ai_center.js:373
 #, python-brace-format
@@ -27770,6 +27950,10 @@ msgstr ""
 msgid "Lead Conversion Time"
 msgstr ""
 
+#: onedesk/one_chat/starters.py:69
+msgid "Lead From a Website Chat"
+msgstr "عميل محتمل من محادثة على الموقع"
+
 #: onedesk/one_crm/calendar.py:22
 msgid "Lead Next Steps"
 msgstr "الخطوات التالية للعملاء المحتملين"
@@ -28427,6 +28611,10 @@ msgstr "الحصص حسب الوقت والغرفة."
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Lessons written up"
 msgstr "توثيق الدروس المستفادة"
+
+#: onedesk/one_chat/blocks.py:131
+msgid "Let an Agent Answer"
+msgstr "دع وكيلًا يجيب"
 
 #: onedesk/one_portal/manifest.py:11
 msgid "Let customers and suppliers sign in to see their quotes, orders and invoices, and answer them."
@@ -29927,6 +30115,10 @@ msgstr "إنشاء مجلد أو مصنف أو مستند أو عرض تقديم
 #: onedesk/public/js/one_mail/rule_builder.js:627
 msgid "Make a lead from a first message by someone the workspace doesn't know yet."
 msgstr "إنشاء عميل محتمل من أول رسالة يرسلها شخص لا تعرفه مساحة العمل بعد."
+
+#: onedesk/one_chat/starters.py:70
+msgid "Make a lead of each visitor who starts a chat, and say so in its thread."
+msgstr "إنشاء عميل محتمل من كل زائر يبدأ محادثة، وذكر ذلك في سلسلتها."
 
 #: onedesk/public/js/one_portal/portal.js:248
 msgid "Make a new link in its place? The old one stops opening."
@@ -32996,6 +33188,10 @@ msgstr "بلا تاريخ استحقاق"
 msgid "No End Date"
 msgstr "بلا تاريخ انتهاء"
 
+#: onedesk/one_chat/blocks.py:110
+msgid "No File"
+msgstr "بلا ملف"
+
 #: onedesk/public/js/one_interface/arrange.js:19
 #: onedesk/public/js/one_interface/arrange.js:25
 #: onedesk/public/js/one_interface/arrange.js:49
@@ -33672,6 +33868,10 @@ msgstr "لا توجد أدوار"
 msgid "No rows yet."
 msgstr "لا توجد صفوف بعد."
 
+#: frontend/src/mail/MailRisk.vue:8
+msgid "No rule, reply or agent has seen it. Release it only if you trust the sender."
+msgstr "لم ترها أي قاعدة أو رد أو وكيل. أفرج عنها فقط إن كنت تثق بالمرسل."
+
 #: onedesk/public/js/doctype_settings.js:236
 #: onedesk/public/js/one/notification_center.js:309
 #: onedesk/public/js/one_mail/onemail_settings.js:758
@@ -33895,6 +34095,10 @@ msgstr "لا أحد"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:240
 msgid "Nobody Applied"
 msgstr "لم يتقدم أحد"
+
+#: onedesk/one_chat/automations.py:155
+msgid "Nobody asked for this automation."
+msgstr "لم يطلب أحد هذه الأتمتة."
 
 #: onedesk/one_mail/rules.py:1148
 msgid "Nobody asked for this rule."
@@ -34351,6 +34555,10 @@ msgstr "غير موجود"
 msgid "Not in Document"
 msgstr "غير موجود في المستند"
 
+#: onedesk/one_chat/blocks.py:109
+msgid "Not in a Thread"
+msgstr "ليست في سلسلة"
+
 #: onedesk/one_book/heads.py:330 onedesk/one_book/heads.py:371
 msgid "Not in a bank statement yet"
 msgstr "لم يظهر في كشف البنك بعد"
@@ -34596,6 +34804,10 @@ msgstr "ملاحظة"
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 msgid "Note No"
 msgstr "رقم الإشعار"
+
+#: frontend/src/chat/Conversation.vue:93
+msgid "Note for the Team"
+msgstr "ملاحظة للفريق"
 
 #. Label in the One BOM Creator print format
 #. Label in the One Work Order print format
@@ -36516,6 +36728,10 @@ msgstr "لا يمكن فتح سوى ملفات Word كمستند."
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr "لا يمكن مشاركة خادم مع الجميع إلا لمسؤول مساحة العمل."
 
+#: onedesk/one_chat/channels.py:206
+msgid "Only a channel can answer website chats."
+msgstr "لا تجيب على محادثات الموقع إلا قناة."
+
 #: onedesk/one_chat/channels.py:159
 msgid "Only a channel can be left."
 msgstr "لا يمكن مغادرة إلا القنوات."
@@ -36587,6 +36803,14 @@ msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 #: onedesk/one_hr/request.py:68
 msgid "Only a request still waiting can be turned down."
 msgstr "لا يُرفض إلا طلب ما زال قيد الانتظار."
+
+#: onedesk/one_chat/channels.py:258
+msgid "Only a room can be closed."
+msgstr "لا يمكن إغلاق إلا غرفة."
+
+#: onedesk/one_chat/channels.py:241
+msgid "Only a room can be forwarded."
+msgstr "لا يمكن تحويل إلا غرفة."
 
 #: onedesk/one_admin/sessions.py:155
 msgid "Only a running session can be stopped."
@@ -40836,6 +41060,15 @@ msgstr "نشر سجلات الموقع"
 msgid "Post Update"
 msgstr "نشر تحديث"
 
+#: onedesk/one_chat/blocks.py:152
+msgid "Post in a Channel"
+msgstr "النشر في قناة"
+
+#: onedesk/one_chat/blocks.py:159
+#, python-brace-format
+msgid "Post in {0}"
+msgstr "النشر في {0}"
+
 #. Message of a notification
 #: onedesk/one_project/notifications.py
 msgid "Post your update on the project's page, or reply if this came by mail."
@@ -44323,6 +44556,10 @@ msgstr "مُفرج عنه"
 msgid "Released at Handover"
 msgstr "يُفرج عنه عند التسليم"
 
+#: frontend/src/mail/OneMail.vue:534
+msgid "Released to its folder"
+msgstr "أُفرج عنها إلى مجلدها"
+
 #. Label of a Sidebar Item
 #: frontend/src/admin/AdminHome.vue:86 frontend/src/admin/ReleasesHome.vue:11
 #: onedesk/one_admin/page/oneadmin_releases/oneadmin_releases.js:2
@@ -44891,6 +45128,11 @@ msgstr "تم الرد (%)"
 #: onedesk/public/js/one_mail/rule_builder.js:525
 msgid "Replies"
 msgstr "الردود"
+
+#: onedesk/one_mail/risk.py:284
+#, python-brace-format
+msgid "Replies go to {0}, not to the sender."
+msgstr "تذهب الردود إلى {0}، لا إلى المرسل."
 
 #: onedesk/one_chat/api.py:122
 msgid "Replies go under a message in this conversation."
@@ -45962,10 +46204,20 @@ msgstr "الحد الأيمن"
 msgid "Right to left"
 msgstr "من اليمين إلى اليسار"
 
+#. Label of the one_risk (Int) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json:110
+msgid "Risk"
+msgstr "الخطورة"
+
 #. Label of the risk (Small Text) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/display_screen/display_screen.json:135
 msgid "Risk Reason"
 msgstr "سبب الخطر"
+
+#: onedesk/public/js/one_mail/onemail_settings.js:1255
+#: onedesk/public/js/one_mail/onemail_settings.js:1257
+msgid "Risky Mail"
+msgstr "البريد الخطِر"
 
 #. Label of the role (Select) field in DocType 'Reading Party'
 #. Label in the One Staffing Plan print format
@@ -46035,6 +46287,13 @@ msgstr "سقف الخرسانة"
 #: onedesk/one_project/library/small_building_works.json
 msgid "Roof waterproofing"
 msgstr "عزل السطح"
+
+#. Option for the 'Type' (Select) field in DocType 'Chat Channel'
+#. Label of the section_room (Section Break) field in DocType 'Chat Channel'
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:44
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:106
+msgid "Room"
+msgstr "غرفة"
 
 #: onedesk/one_display/starters.py:464 onedesk/one_display/starters.py:604
 #: onedesk/one_display/starters.py:902 onedesk/one_display/starters.py:1044
@@ -46321,6 +46580,10 @@ msgstr "شغّل الآن"
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:167
 msgid "Run as Recipient"
 msgstr "التشغيل باسم المستلم"
+
+#: onedesk/one_chat/blocks.py:105
+msgid "Run in order on each message somebody posts in the channel or a visitor posts in its rooms."
+msgstr "تعمل بالترتيب على كل رسالة ينشرها أحد في القناة أو ينشرها زائر في غرفها."
 
 #: onedesk/public/js/one/automation_center.js:80
 msgid "Run in order on each new message once a Mail Manager approves them."
@@ -51089,6 +51352,10 @@ msgstr ""
 msgid "Start Again"
 msgstr "البدء من جديد"
 
+#: onedesk/public/js/one_chat/widget.js:96
+msgid "Start Chat"
+msgstr "بدء محادثة"
+
 #: onedesk/one_crm/heads.py:436
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:49
 msgid "Start Date"
@@ -51117,6 +51384,10 @@ msgstr "بدء الجلسة"
 #: onedesk/public/js/one_task/task_kanban.js:109
 msgid "Start Timer"
 msgstr "تشغيل المؤقت"
+
+#: onedesk/public/js/one_chat/widget.js:128
+msgid "Start a New Chat"
+msgstr "بدء محادثة جديدة"
 
 #: onedesk/one_mail/tour.py:19
 msgid "Start a new email here, or press C anywhere in OneMail."
@@ -51275,6 +51546,10 @@ msgstr "تبدأ عندما"
 #: onedesk/one_mail/flow.py:301
 msgid "Starts a Conversation"
 msgstr "يبدأ محادثة"
+
+#: onedesk/one_chat/blocks.py:112
+msgid "Starts a Website Chat"
+msgstr "يبدأ محادثة على الموقع"
 
 #: onedesk/one_inventory/heads.py:99
 msgid "Starts when registered"
@@ -51878,6 +52153,10 @@ msgstr "المخزون والمشتريات والمعدات"
 #: onedesk/public/js/one_project/project_actions.js:325
 msgid "Stop"
 msgstr "إيقاف"
+
+#: frontend/src/chat/Conversation.vue:109
+msgid "Stop Answering Website Chats"
+msgstr "إيقاف الرد على محادثات الموقع"
 
 #: onedesk/one_mail/flow.py:332 onedesk/public/js/one_mail/rule_builder.js:49
 msgid "Stop Here"
@@ -53120,6 +53399,10 @@ msgstr "أُلغيت المهمة"
 msgid "Task Done"
 msgstr "مهمة مكتملة"
 
+#: onedesk/one_chat/starters.py:50
+msgid "Task From a Message"
+msgstr "مهمة من رسالة"
+
 #. Name of a notification
 #: onedesk/one_task/notifications.py
 msgid "Task Given"
@@ -53611,6 +53894,10 @@ msgstr "إبلاغ أشخاص"
 msgid "Tell Someone"
 msgstr "إبلاغ شخص"
 
+#: onedesk/one_chat/starters.py:43
+msgid "Tell someone when a message says urgent."
+msgstr "أبلغ شخصًا عندما تقول رسالة عاجل."
+
 #: onedesk/public/js/one_mail/rule_builder.js:671
 msgid "Tell someone when customer mail marked urgent arrives after hours."
 msgstr "إبلاغ شخص عندما يصل بريد عاجل من عميل بعد ساعات العمل."
@@ -53993,6 +54280,10 @@ msgstr "شكرًا لزيارتكم"
 msgid "Thank you for waiting"
 msgstr "شكراً لانتظارك"
 
+#: onedesk/one_chat/starters.py:79
+msgid "Thank you for your message. Our office is closed now, and we will reply here when we open."
+msgstr "شكرًا لرسالتك. مكتبنا مغلق الآن، وسنرد هنا عندما نفتح."
+
 #: onedesk/public/js/one_mail/rule_builder.js:519
 msgid "Thank you for your message. Our office is closed now, and we will reply when we open."
 msgstr "شكرًا لرسالتك. مكتبنا مغلق الآن، وسنرد عند الافتتاح."
@@ -54019,6 +54310,10 @@ msgstr "رسائل الشكر والتسجيلات"
 #: onedesk/one_admin/accounts.py:335
 msgid "That address already has an account. Sign in with it instead."
 msgstr "لهذا العنوان حساب بالفعل. سجّل الدخول به بدلًا من ذلك."
+
+#: onedesk/one_chat/automations.py:119 onedesk/one_chat/automations.py:129
+msgid "That automation is not in this channel."
+msgstr "هذه الأتمتة ليست في هذه القناة."
 
 #: onedesk/one/access.py:521 onedesk/one/access.py:619
 #: onedesk/one/access.py:722 onedesk/one/access.py:759
@@ -54543,6 +54838,11 @@ msgstr "يشكّ المدقّق في {0} {1} هذا."
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "العدّاد الخاص بأداة المصادقة. القيمة الأقل من المخزَّنة تعني أن مفتاح المرور قد استُنسخ."
 
+#. Description of the 'Automation' (Link) field in DocType 'Chat Message'
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:61
+msgid "The automation that posted it."
+msgstr "الأتمتة التي نشرتها."
+
 #. Message of a notification
 #: onedesk/one_book/notifications.py
 #, python-brace-format
@@ -54604,6 +54904,11 @@ msgstr "التحدي"
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:206
 msgid "The change could not be saved. Try again."
 msgstr "تعذّر حفظ التغيير. حاول مرة أخرى."
+
+#. Description of the 'Channel' (Link) field in DocType 'Chat Channel'
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:116
+msgid "The channel whose members answer this room."
+msgstr "القناة التي يجيب أعضاؤها على هذه الغرفة."
 
 #: onedesk/one_inventory/ready.py:373
 msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
@@ -55348,6 +55653,11 @@ msgstr "العلامات التي تُباع بها الأصناف."
 msgid "The manager of the project with the order, unless they marked it done"
 msgstr "مدير المشروع صاحب الطلب، ما لم يكن هو من أكملها"
 
+#. Who a notification is sent to
+#: onedesk/one_chat/notifications.py
+msgid "The members of the channel that answers website chats"
+msgstr "أعضاء القناة التي تجيب على محادثات الموقع"
+
 #. Description of the 'Thread' (Link) field in DocType 'Chat Message'
 #: onedesk/one_chat/doctype/chat_message/chat_message.json:61
 msgid "The message it replies to."
@@ -56020,6 +56330,11 @@ msgstr "معرّفات النطاق التي مُنحت لعميل OAuth، مف�
 #: onedesk/public/js/doctype_settings.js:767
 msgid "The selected field becomes required and unique."
 msgstr "يصبح الحقل المحدد إلزامياً وفريداً."
+
+#: onedesk/one_mail/risk.py:285
+#, python-brace-format
+msgid "The sender's name shows {0}, but it came from {1}."
+msgstr "يعرض اسم المرسل {0}، لكنها وصلت من {1}."
 
 #: onedesk/one_admin/sessions.py:78
 msgid "The server could not say which release it runs, so the demo is built on this copy. That takes a while."
@@ -57049,6 +57364,11 @@ msgstr "هذه البطاقة ليست في أي محادثة."
 msgid "This certificate is issued at the employee's request, without any liability on the part of the company."
 msgstr "صدرت هذه الشهادة بناءً على طلب الموظف دون أدنى مسؤولية على الشركة."
 
+#: onedesk/one_chat/widget.py:77 onedesk/one_chat/widget.py:105
+#: onedesk/public/js/one_chat/widget.js:128
+msgid "This chat has ended."
+msgstr "انتهت هذه المحادثة."
+
 #: onedesk/www/s.py:21
 msgid "This code is incorrect or has expired."
 msgstr "هذا الرمز غير صحيح أو انتهت صلاحيته."
@@ -57565,6 +57885,10 @@ msgstr "كان هذا {0} من قبل."
 #: onedesk/www/s.html:64
 msgid "This was shared with specific people. Enter your email to get a code."
 msgstr "تمت مشاركة هذا مع أشخاص محددين. أدخل بريدك الإلكتروني لتحصل على رمز."
+
+#: onedesk/public/js/one_chat/widget.js:121
+msgid "This website"
+msgstr "هذا الموقع"
 
 #: onedesk/one_display/starters.py:689
 msgid "This week"
@@ -60437,6 +60761,10 @@ msgstr "عاجل بعد ساعات العمل"
 msgid "Urgent Grievance"
 msgstr "شكوى عاجلة"
 
+#: onedesk/one_chat/starters.py:42
+msgid "Urgent Messages"
+msgstr "الرسائل العاجلة"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:304
 #, python-brace-format
 msgid "Urgent requests are referred to {0}."
@@ -61113,6 +61441,25 @@ msgstr "الزيارة"
 msgid "Visit Our Website"
 msgstr "زر موقعنا"
 
+#: frontend/src/chat/Message.vue:10
+msgid "Visitor"
+msgstr "زائر"
+
+#. Label of the visitor_email (Data) field in DocType 'Chat Channel'
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:127
+msgid "Visitor Email"
+msgstr "بريد الزائر"
+
+#. Label of the visitor_key (Data) field in DocType 'Chat Channel'
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:134
+msgid "Visitor Key"
+msgstr "مفتاح الزائر"
+
+#. Label of the visitor_name (Data) field in DocType 'Chat Channel'
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:121
+msgid "Visitor Name"
+msgstr "اسم الزائر"
+
 #: onedesk/one_display/starters.py:258
 msgid "Visitors sign in at the front desk"
 msgstr "يسجّل الزوار حضورهم في الاستقبال"
@@ -61478,6 +61825,10 @@ msgstr ""
 msgid "Warn"
 msgstr "تنبيه"
 
+#: onedesk/public/js/one_mail/onemail_settings.js:1280
+msgid "Warn From"
+msgstr "التحذير من"
+
 #: frontend/src/sheet/shim/CellProblem.vue:4
 msgid "Warning"
 msgstr "تحذير"
@@ -61714,6 +62065,22 @@ msgstr "تعذّر على الويب هوكس التسليم أمس"
 #: onedesk/public/js/one_studio/studio_control.js:171
 msgid "Website"
 msgstr ""
+
+#. Name of a notification
+#: onedesk/one_chat/notifications.py
+msgid "Website Chat"
+msgstr "محادثة الموقع"
+
+#: frontend/src/chat/ChannelList.vue:83 frontend/src/chat/Conversation.vue:14
+#: onedesk/one_chat/starters.py:66 onedesk/one_chat/starters.py:74
+msgid "Website Chats"
+msgstr "محادثات الموقع"
+
+#. Label of the page (Data) field in DocType 'Chat Channel'
+#: onedesk/one_chat/blocks.py:113
+#: onedesk/one_chat/doctype/chat_channel/chat_channel.json:146
+msgid "Website Page"
+msgstr "صفحة الموقع"
 
 #: onedesk/public/js/one/news_add.js:114
 msgid "Website or Feed Address"
@@ -62298,8 +62665,8 @@ msgid "What happened, when this is sent."
 msgstr "ما الذي حدث عندما يُرسل هذا."
 
 #: onedesk/one/manifest.py:87
-msgid "What happens by itself when mail arrives, step by step."
-msgstr "ما يحدث تلقائيًا عند وصول البريد، خطوة بخطوة."
+msgid "What happens by itself when mail arrives or a message is posted, step by step."
+msgstr "ما يحدث تلقائيًا عند وصول بريد أو نشر رسالة، خطوة بخطوة."
 
 #. Description of a DocType
 #: onedesk/one/doctype/automation/automation.json:6
@@ -62594,6 +62961,10 @@ msgstr "نشاط الشركة"
 #: onedesk/one/tour.py:12
 msgid "What the Workspace Needs"
 msgstr "ما تحتاجه مساحة العمل"
+
+#: onedesk/one_chat/blocks.py:142
+msgid "What the agent knows and how it answers. It reads only this and the conversation."
+msgstr "ما يعرفه الوكيل وكيف يجيب. لا يقرأ إلا هذا والمحادثة."
 
 #. Description of the 'Parts' (JSON) field in DocType 'Chat Message'
 #: onedesk/one_chat/doctype/chat_message/chat_message.json:142
@@ -63288,6 +63659,11 @@ msgid "When a batch with some still in stock expires within a month."
 msgstr "عندما تنتهي صلاحية دفعة لا يزال منها شيء في المخزون خلال شهر."
 
 #. When a notification is sent
+#: onedesk/one_chat/notifications.py
+msgid "When a channel's automation says to tell you that a message it watches for was posted."
+msgstr "عندما تطلب أتمتة قناة إبلاغك بنشر رسالة تراقبها."
+
+#. When a notification is sent
 #: onedesk/one_hr/notifications.py
 msgid "When a check-in looks wrong and waits for somebody to accept or reject it."
 msgstr "عندما يبدو تسجيل حضور خاطئاً وينتظر من يقبله أو يرفضه."
@@ -63400,6 +63776,10 @@ msgstr "عندما يتوقف صندوق بريد تحمله عن الاتصال
 #: onedesk/one_mail/blocks.py:159
 msgid "When a message arrives"
 msgstr "عند وصول رسالة"
+
+#: onedesk/one_chat/blocks.py:86
+msgid "When a message is posted"
+msgstr "عند نشر رسالة"
 
 #. When a notification is sent
 #: onedesk/one_project/notifications.py
@@ -63617,6 +63997,11 @@ msgstr "عند جدولة فعالية تدريب تحضرها."
 #, python-brace-format
 msgid "When a video somebody asked {one_ai} for is ready, on a new slide of their presentation."
 msgstr "عندما يكون الفيديو الذي طلبه أحدهم من {one_ai} جاهزًا، على شريحة جديدة في عرضه التقديمي."
+
+#. When a notification is sent
+#: onedesk/one_chat/notifications.py
+msgid "When a visitor starts a chat on the website."
+msgstr "عندما يبدأ زائر محادثة على الموقع."
 
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
@@ -65724,6 +66109,11 @@ msgid "Whoever staffs one of the queue's counters"
 msgstr "من يعمل على أحد شبابيك الطابور"
 
 #. Who a notification is sent to
+#: onedesk/one_chat/notifications.py
+msgid "Whoever the automation names, while they are in the channel"
+msgstr "من تسمّيه الأتمتة، ما دام في القناة"
+
+#. Who a notification is sent to
 #: onedesk/one_crm/notifications.py
 msgid "Whoever the issue is assigned to, else the support team"
 msgstr "المكلّف بالمشكلة، وإلا فريق الدعم"
@@ -65793,6 +66183,11 @@ msgstr "صلاحيات مَن فُحصت حين كُتب هذا، وصلاحيا
 #: onedesk/one_hr/print_format/one_employee_referral/one_employee_referral.json
 msgid "Why"
 msgstr "السبب"
+
+#. Label of the one_risks (Small Text) field in DocType 'Communication'
+#: onedesk/one_mail/custom/communication.json:135
+msgid "Why It's Risky"
+msgstr "سبب الخطورة"
 
 #: onedesk/one_crm/stages.py:118
 msgid "Why Was It Lost?"
@@ -66942,6 +67337,10 @@ msgstr "اكتب قالب بريد لـ: "
 #: onedesk/one_chat/api.py:119
 msgid "Write a message or add a file."
 msgstr "اكتب رسالة أو أضف ملفًا."
+
+#: onedesk/one_chat/widget.py:45 onedesk/one_chat/widget.py:108
+msgid "Write a message."
+msgstr "اكتب رسالة."
 
 #: onedesk/one_mail/team.py:125
 msgid "Write a note first."
@@ -69980,6 +70379,10 @@ msgstr "للدفع"
 msgid "today"
 msgstr "اليوم"
 
+#: onedesk/one_chat/starters.py:52
+msgid "todo"
+msgstr "مهمة"
+
 #: frontend/src/kit/desk.js:260
 msgid "tomorrow"
 msgstr "غدًا"
@@ -70033,6 +70436,10 @@ msgstr "حتى {0}"
 #: onedesk/one_cloud/history.py:84
 msgid "uploaded a new version"
 msgstr "رفع إصدارًا جديدًا"
+
+#: onedesk/one_chat/starters.py:44
+msgid "urgent"
+msgstr "عاجل"
 
 #: onedesk/public/js/one_mail/rule_builder.js:676
 msgid "urgent, asap"
@@ -70215,6 +70622,11 @@ msgstr "{0} + {1} إضافات"
 #, python-brace-format
 msgid "{0} +{1}"
 msgstr "{0} +{1}"
+
+#: onedesk/one_chat/blocks.py:80
+#, python-brace-format
+msgid "{0} Answers"
+msgstr "{0} يجيب"
 
 #: onedesk/one/agent.py:3443
 #, python-brace-format
@@ -70731,6 +71143,11 @@ msgstr "يمكن لـ {0} إنشاء صورة أو موسيقى أو فيديو 
 #, python-brace-format
 msgid "{0} can no longer be changed on {1}."
 msgstr "لم يعد بالإمكان تغيير {0} في {1}."
+
+#: onedesk/one_mail/risk.py:292
+#, python-brace-format
+msgid "{0} can run macros when it's opened."
+msgstr "يمكن أن يشغّل {0} وحدات ماكرو عند فتحه."
 
 #: onedesk/one/layer.py:197
 #, python-brace-format
@@ -71631,6 +72048,16 @@ msgstr "{0} يحتجزها {1}"
 msgid "{0} held from {1}"
 msgstr "{0} محتجزة من {1}"
 
+#: onedesk/one_mail/risk.py:290
+#, python-brace-format
+msgid "{0} hides what kind of file it is."
+msgstr "يخفي {0} نوع الملف."
+
+#: onedesk/one_mail/risk.py:291
+#, python-brace-format
+msgid "{0} holds {1}, which can run code when opened."
+msgstr "يحوي {0} الملف {1}، الذي يمكن أن يشغّل شيفرة عند فتحه."
+
 #: onedesk/public/js/one_hr/hr_control.js:122
 #, python-brace-format
 msgid "{0} holidays added. Save to keep them."
@@ -71739,6 +72166,11 @@ msgstr "{0} صندوق بريد شخصي ولا يمكن مشاركته."
 #, python-brace-format
 msgid "{0} is a private app, and a private app installed stays."
 msgstr "{0} تطبيق خاص، والتطبيق الخاص المثبّت يبقى."
+
+#: onedesk/one_mail/risk.py:289
+#, python-brace-format
+msgid "{0} is a program that can run on your computer."
+msgstr "{0} برنامج يمكن أن يعمل على جهازك."
 
 #: onedesk/one_mail/connect.py:270
 #, python-brace-format
@@ -72697,6 +73129,11 @@ msgstr "{0} ليس معرّفًا مختصرًا صالحًا. استخدم ال
 msgid "{0} isn't an allowed file type."
 msgstr "{0} ليس نوع ملف مسموحًا به."
 
+#: onedesk/one_chat/automations.py:194
+#, python-brace-format
+msgid "{0} isn't in this channel."
+msgstr "{0} ليس في هذه القناة."
+
 #: onedesk/one_mail/holders.py:391
 #, python-brace-format
 msgid "{0} isn't in this workspace."
@@ -72727,6 +73164,11 @@ msgstr "{0} أصناف لها حد إعادة طلب، لكن لا يُطلب ش
 #, python-brace-format
 msgid "{0} items selected"
 msgstr "{0} عناصر محددة"
+
+#: onedesk/public/js/one_chat/widget.js:121
+#, python-brace-format
+msgid "{0} keeps this conversation to answer you."
+msgstr "تحتفظ {0} بهذه المحادثة للرد عليك."
 
 #: onedesk/public/js/one_interface/json_view.js:134
 #, python-brace-format
@@ -73454,6 +73896,16 @@ msgstr "{0} موعود به"
 msgid "{0} purchase orders drafted."
 msgstr "تم إعداد {0} أوامر شراء كمسودات."
 
+#: onedesk/one_mail/risk.py:295
+#, python-brace-format
+msgid "{0} read it as phishing."
+msgstr "قرأها {0} على أنها تصيّد."
+
+#: onedesk/one_mail/risk.py:296
+#, python-brace-format
+msgid "{0} read it as spam."
+msgstr "قرأها {0} على أنها بريد مزعج."
+
 #: onedesk/public/js/one_mail/rule_builder.js:758
 #, python-brace-format
 msgid "{0} reads each message and picks a label, and each label has its own steps."
@@ -73584,6 +74036,11 @@ msgstr "تم حفظ {0}."
 #, python-brace-format
 msgid "{0} saves"
 msgstr "{0} عمليات حفظ"
+
+#: onedesk/one_mail/risk.py:280
+#, python-brace-format
+msgid "{0} says it didn't send this message."
+msgstr "يقول {0} إنه لم يرسل هذه الرسالة."
 
 #: onedesk/public/js/one_mail/rule_builder.js:782
 #, python-brace-format
@@ -74075,6 +74532,11 @@ msgstr "{0} {1}"
 #, python-brace-format
 msgid "{0} {1} asked for"
 msgstr "{0} {1} مطلوبة"
+
+#: onedesk/one_chat/automations.py:360
+#, python-brace-format
+msgid "{0} {1} created."
+msgstr "أُنشئ {0} {1}."
 
 #: onedesk/one/linked.py:294
 #, python-brace-format
@@ -75458,6 +75920,11 @@ msgstr "{screen} غير متصلة"
 msgid "{sender_name} and {subject} fill in from the message."
 msgstr "يُملأ {sender_name} و{subject} من الرسالة."
 
+#: onedesk/one_chat/blocks.py:124
+#, python-brace-format
+msgid "{sender_name} fills in from the message."
+msgstr "يُملأ {sender_name} من الرسالة."
+
 #. Subject of a notification
 #: onedesk/one_admin/notifications.py
 #, python-brace-format
@@ -75565,6 +76032,12 @@ msgstr "{task} على {asset} مستحقة في {due}"
 #, python-brace-format
 msgid "{task} on {asset} is late"
 msgstr "{task} على {asset} متأخرة"
+
+#. Message of a notification
+#: onedesk/one_chat/notifications.py
+#, python-brace-format
+msgid "{text}<br>The automation {automation} told you."
+msgstr "{text}<br>أبلغتك الأتمتة {automation}."
 
 #. Subject of a notification
 #: onedesk/one_display/notifications.py
@@ -75978,6 +76451,12 @@ msgid "{who} shared {file} with you"
 msgstr "شارك {who} ‏{file} معك"
 
 #. Subject of a notification
+#: onedesk/one_chat/notifications.py
+#, python-brace-format
+msgid "{who} started a chat on the website"
+msgstr "بدأ {who} محادثة على الموقع"
+
+#. Subject of a notification
 #: onedesk/one_calendar/notifications.py
 #, python-brace-format
 msgid "{who} took you off {event}"
@@ -76006,6 +76485,12 @@ msgstr "شغّل {who} {title}"
 #, python-brace-format
 msgid "{who} wrote about {title}"
 msgstr "كتب {who} بشأن {title}"
+
+#. Subject of a notification
+#: onedesk/one_chat/notifications.py
+#, python-brace-format
+msgid "{who} wrote in {conversation}"
+msgstr "كتب {who} في {conversation}"
 
 #. Subject of a notification
 #: onedesk/one_mail/notifications.py

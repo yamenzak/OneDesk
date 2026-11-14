@@ -89,6 +89,9 @@ def run(name: str) -> None:
 		try:
 			topics = topics_of(reading, structured)
 			reading.verdict, about = look(reading, structured, topics)
+			if _held(reading):
+				_done(reading)
+				return
 			_sorted(reading, about if topics else None)
 			if reading.verdict not in READ_IN_FULL or _sorting_only(reading):
 				_done(reading)
@@ -103,6 +106,17 @@ def run(name: str) -> None:
 			return
 	apply(reading, said, dropped, structured)
 	_done(reading)
+
+
+def _held(reading) -> bool:
+	"""A message read as spam or phishing adds that to its risk in OneMail,
+	and once that holds it back, nothing more is done with it until a
+	person releases it (one_mail/held.py)."""
+	if reading.source_doctype != "Communication" or reading.verdict not in ("Spam", "Phishing"):
+		return False
+	from onedesk.one_mail import held
+
+	return held.judged(reading.source_name, reading.verdict)
 
 
 def _halted(reading) -> bool:

@@ -2670,15 +2670,15 @@ def turn_off_these_emails_works_without_signing_in():
 def _exported(user: str, call, **form) -> dict:
 	"""An export as the browser posts it, as `user`: what was answered."""
 	frappe.local.response = frappe._dict({"docs": []})
-	frappe.local.form_dict = frappe._dict(form)
 	with as_user(user):
+		frappe.local.form_dict = frappe._dict(form)
 		call()
 	return dict(frappe.local.response)
 
 
 @check
 def a_large_export_waits_for_an_administrator():
-	"""Over the workspace's export limit, Omar's export of the customer list
+	"""Over the workspace's export limit, Omar's export of the lead list
 	is not sent: Layla is asked, Omar sees a page saying so, and once Layla
 	approves he exports it again, once. Data Import's export, Data Export,
 	a report's export, the file list's zip and OneCloud's Download are held
@@ -2689,24 +2689,24 @@ def a_large_export_waits_for_an_administrator():
 
 	frappe.db.set_single_value("System Settings", exports.FIELD, 3)
 	assert exports.limit() == 3 and exports.rows("name\nA\nB\nC\nD\n") == 4 and exports.rows(None) == 0
-	customers = {"doctype": "Customer", "fields": '["`tabCustomer`.`name`"]', "filters": "[]", "file_format_type": "CSV", "title": "Customer"}
+	leads = {"doctype": "Lead", "fields": '["`tabLead`.`name`"]', "filters": "[]", "file_format_type": "CSV", "title": "Lead"}
 	with _Told() as told:
-		said = _exported("omar@one.test", lambda: exports.report_view(), **customers)
+		said = _exported("omar@one.test", lambda: exports.report_view(), **leads)
 		assert said.get("type") == "page" and not said.get("filecontent"), said
-		row = frappe.get_doc("Second Approval", {"kind": "Export", "asked_by": "omar@one.test", "export_from": "Customer", "status": "Waiting"})
+		row = frappe.get_doc("Second Approval", {"kind": "Export", "asked_by": "omar@one.test", "export_from": "Lead", "status": "Waiting"})
 		assert row.records > 3 and row.approver_role == "Workspace Administrator", row.as_dict()
 		assert OWNER in told.to("Export Waiting for Approval") and "omar@one.test" not in told.to("Export Waiting for Approval")
 	with _Told() as told, as_user(OWNER):
 		assert row.name in second.waiting_for(OWNER)
 		second.approve(row.name)
 		assert told.to("Approval Decided") == {"omar@one.test"}
-	said = _exported("omar@one.test", lambda: exports.report_view(), **customers)
+	said = _exported("omar@one.test", lambda: exports.report_view(), **leads)
 	assert said.get("filecontent") and exports.rows(said["filecontent"], said.get("filename") or "") == row.records, said.get("type")
 	assert frappe.db.get_value("Second Approval", row.name, "used_on"), "an approval is used once"
-	said = _exported("omar@one.test", lambda: exports.report_view(), **customers)
+	said = _exported("omar@one.test", lambda: exports.report_view(), **leads)
 	assert said.get("type") == "page", "the second time asks again"
 
-	said = _exported("omar@one.test", lambda: exports.data_import_export("Customer", export_fields='{"Customer": ["name"]}', export_records="all"))
+	said = _exported("omar@one.test", lambda: exports.data_import_export("Lead", export_fields='{"Lead": ["name"]}', export_records="all"))
 	assert said.get("type") == "page", said.get("type")
 
 	def made(**_kwargs):
@@ -2737,7 +2737,7 @@ def the_only_administrator_approves_alone_with_remarks():
 	from onedesk.one import exports, second
 
 	with as_user(OWNER):
-		row = exports.asked("Customer", exports.limit() + 1, "Report View")
+		row = exports.asked("Lead", exports.limit() + 1, "Report View")
 	with patch.object(second, "_holders", return_value={OWNER}), as_user(OWNER):
 		assert second.alone(row) and row.name in second.waiting_for(OWNER)
 		try:

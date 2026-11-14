@@ -1,0 +1,37 @@
+From: Amal Fares <dispatch@desertlog.example>
+To: Layla Haddad <layla.4dl@m.4dl.app>
+Subject: Delivery schedule for November
+Date: Mon, 09 Nov 2026 11:30:00 +0400
+Message-ID: <macro-attachment@samples.sahara-glass.test>
+Authentication-Results: mx.cloudflare.net; dkim=pass header.d=desertlog.example; spf=pass smtp.mailfrom=dispatch@desertlog.example; dmarc=pass header.from=desertlog.example
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="sample-boundary"
+
+--sample-boundary
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Dear Layla,
+
+The delivery schedule for November is attached. Please open it and enable
+editing to see your slots.
+
+Regards,
+Amal Fares
+Desert Logistics
+
+--sample-boundary
+Content-Type: application/vnd.ms-excel.sheet.macroEnabled.12; name="Delivery Schedule November.xlsm"
+Content-Disposition: attachment; filename="Delivery Schedule November.xlsm"
+Content-Transfer-Encoding: base64
+
+UEsDBBQAAAAAAA9Wbl3HHBc8CAAAAAgAAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDxUeXBlcy8+
+UEsDBBQAAAAAAA9Wbl3OnpgTCwAAAAsAAAAPAAAAeGwvd29ya2Jvb2sueG1sPHdvcmtib29rLz5Q
+SwMEFAAAAAAAD1ZuXR6ynqQdAAAAHQAAABEAAAB4bC92YmFQcm9qZWN0LmJpbkF0dHJpYnV0ZSBW
+Ql9OYW1lID0gIk1vZHVsZTEiUEsBAhQDFAAAAAAAD1ZuXcccFzwIAAAACAAAABMAAAAAAAAAAAAA
+AIABAAAAAFtDb250ZW50X1R5cGVzXS54bWxQSwECFAMUAAAAAAAPVm5dzp6YEwsAAAALAAAADwAA
+AAAAAAAAAAAAgAE5AAAAeGwvd29ya2Jvb2sueG1sUEsBAhQDFAAAAAAAD1ZuXR6ynqQdAAAAHQAA
+ABEAAAAAAAAAAAAAAIABcQAAAHhsL3ZiYVByb2plY3QuYmluUEsFBgAAAAADAAMAvQAAAL0AAAAA
+AA==
+
+--sample-boundary--

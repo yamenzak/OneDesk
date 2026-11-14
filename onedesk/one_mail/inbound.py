@@ -136,13 +136,16 @@ class Arrival(InboundMail):
 	def process(self):
 		made = super().process()
 		if made and made.name:
-			from onedesk.one_mail import linking, rules
+			from onedesk.one_mail import held, linking, rules
 
-			linking.arrived(frappe.get_doc("Communication", made.name))
+			kept_back = held.is_held(made.name)
+			if not kept_back:
+				linking.arrived(frappe.get_doc("Communication", made.name))
 			rules.after(frappe.get_doc("Communication", made.name), self)
 			from onedesk.one_ai.reading import pipeline
 
-			pipeline.mail_arrived(made, self)
+			if not kept_back:
+				pipeline.mail_arrived(made, self)
 			if not self.synced:
 				from onedesk.one_mail import actions
 
@@ -198,4 +201,7 @@ class Arrival(InboundMail):
 		)
 		if self.sent:
 			data["sent_or_received"] = "Sent"
+		from onedesk.one_mail import held
+
+		data.update(held.fields_of(self))
 		return data

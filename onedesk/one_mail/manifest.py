@@ -38,6 +38,7 @@ APP = App(
 		("rules-and-out-of-office", "workflow"),
 		("mail-on-records", "link"),
 		("attachments-and-pictures", "paperclip"),
+		("risky-mail", "shield-ban"),
 		("asking-oneai", "sparkles"),
 		("who-can-do-what", "shield"),
 		("settings", "settings"),

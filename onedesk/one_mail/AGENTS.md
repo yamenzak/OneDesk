@@ -475,6 +475,53 @@ Stage 10, drafts and the team inbox, is built (November 2026).
   names are found by their numbers, and links customers, suppliers and
   applicants by their own address.
 
+Stage 11, risky mail, is built (14 November 2026, P9.1, OneGuard's first
+part). Nothing in it needs AI, and nothing leaves the workspace.
+
+- **risk.py** scores a message from what it carries: the topmost
+  Authentication-Results and Received-SPF (DMARC fail, SPF fail or softfail,
+  DKIM fail with nothing that passed), a Reply-To at another domain, a
+  display name holding another address, links (`of_links`: words naming a
+  website other than the target's, a bare IP, a shortener), attachments
+  (`of_file`: a program by its ending, a double ending or a right-to-left
+  override, a macro type, an Office file holding `vbaProject.bin` or an old
+  one holding `_VBA_PROJECT`, a zip holding either), a lookalike domain, and
+  punycode. `WEIGHTS` is the table; each kind counts once, up to 100.
+  `of(arrival)` reads the From header itself, since frappe's
+  `InboundMail.from_email` is the Reply-To when there is one.
+- **lookalike.py**: a domain imitates a known one when their names' skeletons
+  match (punycode decoded, homoglyphs and `rn`, `vv`, `cl`, `i` folded,
+  hyphens dropped, the ending ignored), when the skeletons are one edit or one
+  swap apart and the known name has five letters or more, or when the domain
+  starts with the known one and goes on. A domain that is known, or under
+  one, imitates nothing. `known()` is the company's domains, every Email
+  Account's, Company, Customer and Supplier email and website, Employee
+  company and preferred email, and the Contact Emails of contacts linked to a
+  customer, supplier or employee, mail providers left out, cached ten minutes.
+- **held.py** files the score with the message (`fields_of`, from
+  `Arrival.as_dict`): `one_risk`, `one_risks` (the signals, and the headers
+  rules read when it is held) and `one_held`. A message is held at `HOLD`
+  (50) and warned at `WARN` (25) by default; a Mail Manager (`policy`) sets
+  both (`set_levels`, site defaults). Only new mail is held, and never one a
+  person released. A held message is kept out of every folder's list, unread
+  count and search (api.py, actions.recount, sync), out of `linking.arrived`,
+  the rules and the away reply (rules.after), out of OneAI's reading
+  (`pipeline.read_mail` refuses it), and no agent opens it (access.allowed).
+  The page lists it in a Held folder that `api.mailboxes` adds after the
+  Inbox while there is any; holders.mailboxes, which agents read, does not
+  have it. `release` runs what was held back with the kept headers;
+  `discard` moves it to Trash unheld, warned still, run through nothing.
+- OneAI adds to the score: understand.py's first look, on Spam or Phishing,
+  calls `held.judged`, and once that holds the message nothing more is done
+  with it. That is the only way a model reaches the score.
+- On a connected mailbox, holding is One's: the server's copy stays in its
+  folder. Moving it on the server would hide it on phones too, but a sync
+  that matches it by Message-ID would then file it in Junk; kept simple
+  until OneGuard opens links and files in a sandbox (P9.2).
+- The conversation draws `said_of` above each message with MailRisk.vue,
+  the kit's OneAlert: red with Release and Delete when held, yellow when
+  warned, the reasons in `risk.words`.
+
 ### Where Help's claims are kept
 
 The pages in `help/` name no code, so what each claim rests on is here. Their

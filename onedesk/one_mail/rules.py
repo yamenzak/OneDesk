@@ -89,7 +89,9 @@ def after(made, arrival) -> None:
 		if theirs.verified(arrival.mail, made.sender):
 			frappe.db.set_value("Communication", made.name, "one_verified", 1, update_modified=False)
 		bounce(made, arrival.mail)
-		if getattr(arrival, "fresh", True) and _in_inbox(made):
+		from onedesk.one_mail import held
+
+		if getattr(arrival, "fresh", True) and _in_inbox(made) and not held.is_held(made.name):
 			frappe.local.one_rule_replied = None
 			run_rules(made, headers=arrival.mail)
 			if not frappe.local.one_rule_replied:
@@ -294,8 +296,7 @@ def assign(rule, step: dict, name: str) -> None:
 			"assign_to": [step["user"]],
 			"description": frappe.db.get_value("Communication", name, "subject") or "",
 			"assigned_by": rule.owner,
-		},
-		ignore_permissions=True,
+		}
 	)
 
 

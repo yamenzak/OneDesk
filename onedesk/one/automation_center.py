@@ -30,7 +30,7 @@ def places() -> list[dict]:
 				as_list=True,
 			)
 		)
-		said.append({"trigger": one.key, "label": _(one.label), "icon": one.icon, "runs": _(one.runs).format(registry.name("one_ai")), "scopes": [{**place, "count": counts.get(place["scope"], 0)} for place in scopes]})
+		said.append({"trigger": one.key, "label": engine.said(one.label), "icon": one.icon, "runs": engine.said(one.runs).format(registry.name("one_ai")), "scopes": [{**place, "count": counts.get(place["scope"], 0)} for place in scopes]})
 	return said
 
 
@@ -45,12 +45,12 @@ def _param(one, offers: dict) -> dict:
 	options = (offers.get(one.options) or []) if isinstance(one.options, str) else [{"value": value, "label": _(label)} for value, label in one.options]
 	return {
 		"key": one.key,
-		"label": registry.filled(_(one.label)),
+		"label": registry.filled(engine.said(one.label)),
 		"type": one.type,
 		"options": options,
 		"default": one.default,
 		"shown": [[key, list(values)] for key, values in one.shown],
-		"description": registry.filled(_(one.description)) if one.description else "",
+		"description": registry.filled(engine.said(one.description)) if one.description else "",
 		"placeholder": one.placeholder,
 		"needed": int(one.needed),
 	}
@@ -72,12 +72,12 @@ def blocks(trigger: str, scope: str) -> dict:
 	return {
 		"trigger": {"key": held.key, "label": _(held.label), "icon": held.icon, "where": offers.get("where") or offers.get("email") or scope, "reads": int(held.reads)},
 		"conditions": [
-			{"key": one.key, "label": _(one.label), "kind": one.kind, "no": _(one.no) if one.no else "", "options": [{"value": value, "label": _(value)} for value in one.options]}
+			{"key": one.key, "label": engine.said(one.label), "kind": one.kind, "no": engine.said(one.no) if one.no else "", "options": [{"value": value, "label": _(value)} for value in one.options]}
 			for one in kinds.conditions(trigger)
 		],
 		"ops": flow.op_labels(),
 		"actions": [
-			{"key": one.key, "label": _(one.label), "icon": one.icon, "group": _(one.group) if one.group else "", "ai": int(one.ai), "params": [_param(param, offers) for param in one.params]}
+			{"key": one.key, "label": engine.said(one.label), "icon": one.icon, "group": engine.said(one.group) if one.group else "", "ai": int(one.ai), "params": [_param(param, offers) for param in one.params]}
 			for one in offered
 		],
 		"starters": held.starters(offers) if held.starters else [],

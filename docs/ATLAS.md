@@ -531,7 +531,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Audit Trail | replaced: Audit Log › Changes | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Background Task | engine: work run after a click, whose result the page shows | everybody | untouched | no | general |  | **none** |  |  | ar 5 |  |
 | Comment | engine: a record's comments, written and read on the record | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
-| Communication | inside: a record's activity, and OneMail | everybody | 8 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
+| Communication | inside: a record's activity, and OneMail | everybody | 11 fields | no | taught |  | yes |  |  |  | Mail Not Sent |
 | Custom DocPerm | inside: AccessCenter › Roles and Profiles | **nobody** | untouched | no | general |  | yes |  |  | ar 1 |  |
 | Custom Icon | replaced: One's dock | **nobody** | untouched | no | general |  | yes |  |  | ar 3 |  |
 | Custom Role | inside: AccessCenter › Roles and Profiles, which writes it | **nobody** | 2 settings | no | general |  | yes |  |  |  |  |
@@ -924,13 +924,13 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Automation | opened by our screens | OneMail | untouched | no | taught |  | yes |  |  |  |  |
+| Automation | opened by our screens | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | News Category | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | News Item | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | News Source | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Push Device | engine: a browser that asked for notifications, kept by the bell | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Second Approval | inside: Home › Waiting for Your Approval and its notification, each opening the approval, and the payment, bank account or employee it is about | not read | a head | no | general |  | **none** |  |  |  | Approval Decided, Bank Details Waiting for Approval, Export Held, Export Waiting for Approval, Payment Waiting for Approval |
+| Second Approval | inside: Home › Waiting for Your Approval and its notification, each opening the approval, and the payment, bank account or employee it is about | everybody | a head | no | general |  | yes |  |  |  | Approval Decided, Bank Details Waiting for Approval, Export Held, Export Waiting for Approval, Payment Waiting for Approval |
 | Weather Place | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 

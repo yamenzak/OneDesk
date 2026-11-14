@@ -61,7 +61,8 @@ def junk(automation, name, step, context):
 	"""The message moved to its mailbox's Junk."""
 	from onedesk.one_mail import actions
 
-	found = actions.folder_of(frappe.db.get_value("Communication", name, "email_account"), "Junk")
+	account = frappe.db.get_value("Communication", name, "email_account")
+	found = frappe.db.get_value("Mail Folder", {"account": account, "kind": "Junk", "hidden": 0}, "name")
 	if found:
 		actions.move([name], found)
 

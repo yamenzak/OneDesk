@@ -43,7 +43,11 @@ A sample is two files with the same name:
 - `verdict` says what the document must be taken for (`Phishing` for a mail
   that tells OneAI to ignore its instructions), and `states` what one of its
   readings must be left as (`Password Protected`). A sample that makes
-  nothing says one of them.
+  nothing says one of them, or `mail`.
+- `mail` says what OneMail makes of a mail's risk as it arrives
+  (one_mail/held.py): `held` or let through, `warned` or not, the domain it
+  `imitates`, and `why`, the signals it must give (an empty list for a clean
+  one). A sample held as it arrives is never read, so it needs no answers.
 - `intake_decide` and `intake_extract` answer the models that only sort
   (Clef) and only read fields (Clairic), in their own shape; a sample
   without them has those models unable to answer, so the talk model is

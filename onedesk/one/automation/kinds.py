@@ -6,7 +6,7 @@ nothing of its own: every action is its module's own function, so it can do
 no more than that module's own screens let its owner do."""
 
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import frappe
 from frappe import _, _lt
@@ -35,7 +35,7 @@ class Trigger:
 	everything: str
 	reads: bool = False
 	starters: Callable | None = None
-	runs: str = _lt("Run in order on each new message, before what {0} does.")
+	runs: str = field(default_factory=lambda: _lt("Run in order on each new message, before what {0} does."))
 
 	def keeper(self, what: str) -> Callable:
 		return frappe.get_attr(f"onedesk.{self.module}.{self.keeps[what]}")

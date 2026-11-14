@@ -91,7 +91,7 @@ def recount(account: str, path: str | None) -> None:
 	"""A folder's unread count, after a change here."""
 	folder = frappe.db.get_value("Mail Folder", {"account": account, "path": path}, "name") if path else None
 	if folder:
-		unread = frappe.db.count("Communication", {"email_account": account, "one_folder": path, "seen": 0})
+		unread = frappe.db.count("Communication", {"email_account": account, "one_folder": path, "seen": 0, "one_held": 0})
 		frappe.db.set_value("Mail Folder", folder, "unread", unread, update_modified=False)
 	live.changed(account)
 

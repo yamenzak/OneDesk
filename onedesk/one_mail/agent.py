@@ -351,6 +351,7 @@ def make_rule(changes: dict) -> str:
 				"email_account": account,
 				"one_folder": actions.folder_of(account, "Inbox"),
 				"sent_or_received": "Received",
+				"one_held": 0,
 			},
 			pluck="name",
 			order_by="communication_date desc",
@@ -640,6 +641,9 @@ NOT_FOR_AI = {
 	"drafts.save": "A draft is kept as its writer types; draft_reply writes one for the reader to finish.",
 	"drafts.discard": "Throwing a draft away is its writer's own choice, made where they wrote it.",
 	"drafts.unschedule": "Taking back a message about to go is its writer's own choice, made on the message.",
+	"held.release": "A message held as risky is kept from OneAI and every agent, so only a person who read why lets it in.",
+	"held.discard": "A message held as risky is kept from OneAI and every agent, so only a person decides what happens to it.",
+	"held.set_levels": "When mail is warned and held is a Mail Manager's decision about the workspace's safety, never OneAI's.",
 }
 
 ACCOUNTANT = "one_book"

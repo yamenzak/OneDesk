@@ -690,8 +690,8 @@ def onebook_the_accountant_drafts_a_bill_once_its_new_supplier_is_approved():
 		assert (bill.supplier, bill.docstatus, bill.bill_no) == (made, 0, "GS-11873"), bill
 
 
-def _payment_to(supplier: str | None = None, above: float = 0) -> str:
-	filters = {"company": COMPANY, "docstatus": 1, "outstanding_amount": [">", above], "currency": "AED"}
+def _payment_to(supplier: str | None = None, above: float = 0, but: str | None = None) -> str:
+	filters = {"company": COMPANY, "docstatus": 1, "outstanding_amount": [">", above], "currency": "AED", "name": ["!=", but or ""]}
 	if supplier:
 		filters["supplier"] = supplier
 	return frappe.get_all("Purchase Invoice", filters=filters, order_by="outstanding_amount desc", pluck="name", limit=1)[0]
@@ -761,7 +761,7 @@ def onebook_an_unusual_payment_waits_for_a_second_person():
 	done = frappe.get_doc("Second Approval", row.name)
 	assert (done.status, done.decided_by, done.alone) == ("Approved", "huda@one.test", 0), done.as_dict()
 	with as_user("karim@one.test"):
-		small = _drafted(bill, "CHK-ORDINARY")
+		small = _drafted(_payment_to(above=100, but=bill), "CHK-ORDINARY")
 		small.paid_amount = small.received_amount = 100
 		small.references[0].allocated_amount = 100
 		small.save()

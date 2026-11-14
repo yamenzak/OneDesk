@@ -88,6 +88,21 @@ clause(
 	order=20,
 )
 
+clause(
+	document="privacy",
+	section="modules",
+	key="onemail-risky-mail",
+	module=M,
+	body="""
+		OneMail checks each message that arrives for signs of fraud. It reads what the receiving server
+		found of the sender, the message's links and attachments, and whether the sender's domain imitates
+		one your workspace knows. The check runs in your workspace, and nothing of it is sent out. What it
+		found is kept with the message for as long as the message is kept. A message it holds back is seen
+		only by the people who use its mailbox. No rule or AI agent sees it until one of them releases it.
+	""",
+	order=30,
+)
+
 
 clause(
 	document="ai",

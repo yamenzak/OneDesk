@@ -498,6 +498,12 @@ CENTRES = {
 	"shortcuts": (
 		"The reader is in ShortcutCenter: every app's keyboard shortcuts, by where they work, and the keys "
 		"they chose for them. Which key does what is theirs to change there, never OneAI's."
+	),	"automation": (
+		"The reader is in AutomationCenter: what happens by itself when mail arrives in a mailbox or a message "
+		"is posted in a channel, each automation a trigger and its steps in order (Ifs, actions, a question for "
+		"OneAI, a hand-over to an app's agent), switched on or off, built in its editor. Mail automations are "
+		"OneMail's rules. How is in OneMail's Help under rules and out of office, and OneChat's under channels "
+		"(how_to)."
 	),
 }
 

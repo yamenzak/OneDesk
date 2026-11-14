@@ -234,7 +234,7 @@ def summary(steps: list, condition_words, action_words, everything: str) -> tupl
 			whens.append(_("{1}: {0}").format(step.get("question") or ", ".join(one.get("label") or "" for one in step.get("labels") or []), registry.name("one_ai")))
 	for one in actions_in(steps):
 		thens.append(_("Stop Here") if one.get("type") == "stop" else action_words(one))
-	return " · ".join(one for one in whens if one) or everything, " · ".join(dict.fromkeys(one for one in thens if one))
+	return " · ".join(str(one) for one in whens if one) or str(everything), " · ".join(dict.fromkeys(str(one) for one in thens if one))
 
 
 def group_words(group: dict | None, condition_words) -> str:

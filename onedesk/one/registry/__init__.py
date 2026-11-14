@@ -88,7 +88,7 @@ def filled(text: str) -> str:
 	notification's text) with its name put in; any other braces are left as
 	they are. Pure."""
 	known = names()
-	return SLOT.sub(lambda found: known.get(found.group(1), found.group(0)), text or "")
+	return SLOT.sub(lambda found: known.get(found.group(1), found.group(0)), str(text or ""))
 
 
 def by_name(name: str) -> App:

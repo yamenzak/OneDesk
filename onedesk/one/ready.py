@@ -80,6 +80,7 @@ SHARED = {
 	"brand/onechat.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onecrm.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onehr.svg": "every product's mark is drawn in brand/, into one sprite",
+	"tests/samples/intake/one_mail/": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_crm/business-card.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_crm/business-card.json": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_crm/enquiry-ar.eml": "reading's samples sit with every module's, under tests/samples",

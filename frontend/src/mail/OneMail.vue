@@ -53,7 +53,8 @@
         @changed="refresh"
         @write="write"
         @draft="openDraft"
-        @discard="discardDraft"
+        @discard="(draftName) => (draftName ? discardDraft(draftName) : run('delete', [thread]))"
+        @release="run('release', [thread])"
       >
         <template #commands>
           <template v-for="one in commands.filter((c) => !['link', 'clear'].includes(c.act))" :key="one.act">
@@ -167,6 +168,8 @@ const menu = ref([]);
 const these = computed(() => (picked.size ? [...picked] : thread.value ? [thread.value] : []));
 const theseItems = computed(() => items.value.filter((one) => these.value.includes(one.thread)));
 
+const holding = computed(() => folder.value?.kind === "Held" && !search.value);
+
 const heading = computed(() => {
   if (search.value) return __("Results for {0}", [search.value]);
   if (!folder.value) return "";
@@ -178,6 +181,12 @@ const heading = computed(() => {
 // row's other end for the one open when nothing is ticked.
 const commands = computed(() => {
   const none = !these.value.length;
+  if (holding.value)
+    return [
+      { act: "release", icon: "lucide-inbox", title: __("Release"), off: none },
+      { act: "delete", icon: "lucide-trash-2", title: __("Delete"), off: none },
+      ...(picked.size ? [{ act: "clear", icon: "lucide-x", title: __("Clear selection"), off: false }] : []),
+    ];
   const unread = theseItems.value.some((one) => one.unread);
   const starred = theseItems.value.length > 0 && theseItems.value.every((one) => one.flagged);
   const out = [
@@ -208,6 +217,13 @@ function menuFor(name) {
   const unread = rows.some((one) => one.unread);
   const starred = rows.length > 0 && rows.every((one) => one.flagged);
   const option = (label, icon, onClick, theme) => ({ label, icon, onClick, theme });
+  if (holding.value) {
+    menu.value = [
+      { group: "", hideLabel: true, options: [option(__("Open"), "lucide-mail-open", () => open(name)), option(__("Release"), "lucide-inbox", () => run("release", targets))] },
+      { group: "", hideLabel: true, options: [option(__("Delete"), "lucide-trash-2", () => run("delete", targets), "red")] },
+    ];
+    return;
+  }
   menu.value = [
     targets.length === 1 ? { group: "", hideLabel: true, options: [option(__("Open"), "lucide-mail-open", () => open(name))] } : null,
     {
@@ -458,7 +474,7 @@ async function open(name, { quiet = false, keep = false } = {}) {
   const first = !thread.value && !quiet;
   thread.value = name;
   setQuery("thread", name, { push: first });
-  const answer = await call(API + "conversation", { account: box.value.name, thread: name });
+  const answer = await call(API + "conversation", { account: box.value.name, thread: name, held_back: holding.value ? 1 : 0 });
   if (thread.value !== name) return;
   if (!(answer.messages || []).length) return close();
   messages.value = answer.messages;
@@ -484,7 +500,7 @@ function toggle(name, range) {
 }
 
 const moveTo = (then) =>
-  (box.value?.folders || []).filter((one) => !folder.value || one.name !== folder.value.name).map((one) => ({ label: folderLabel(one), onClick: () => then(one.name) }));
+  (box.value?.folders || []).filter((one) => one.kind !== "Held" && (!folder.value || one.name !== folder.value.name)).map((one) => ({ label: folderLabel(one), onClick: () => then(one.name) }));
 
 async function act(method, args, threads) {
   const found = await names(box.value.name, threads);
@@ -509,9 +525,14 @@ async function deleteThreads(threads) {
 
 async function run(what, threads) {
   if (!threads.length || !box.value) return;
+  if (holding.value && !["release", "delete", "read", "unread"].includes(what)) return;
   let was = null;
   try {
-    if (what === "read" || what === "unread") await act("mark", { seen: what === "read" ? 1 : 0 }, threads);
+    if (holding.value && (what === "release" || what === "delete")) {
+      const found = await names(box.value.name, threads, folder.value.name);
+      if (found.length) await call(`onedesk.one_mail.held.${what === "release" ? "release" : "discard"}`, { names: found });
+      toast(what === "release" ? __("Released to its folder") : __("Moved to Trash"));
+    } else if (what === "read" || what === "unread") await act("mark", { seen: what === "read" ? 1 : 0 }, threads);
     else if (what === "star" || what === "unstar") await act("star", { flagged: what === "star" ? 1 : 0 }, threads);
     else if (what === "archive") {
       const archive = box.value.folders.find((one) => one.kind === "Archive");
@@ -520,7 +541,7 @@ async function run(what, threads) {
     } else if (what === "delete") was = await deleteThreads(threads);
     else if (what.startsWith("move:")) was = await moveThreads(threads, what.slice(5));
   } finally {
-    const gone = ["archive", "delete"].includes(what) || what.startsWith("move:");
+    const gone = ["archive", "delete", "release"].includes(what) || what.startsWith("move:");
     if ((gone || what === "unread") && threads.includes(thread.value)) close();
     if (gone) picked.clear();
     refresh();
