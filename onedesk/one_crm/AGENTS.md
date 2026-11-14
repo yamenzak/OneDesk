@@ -470,3 +470,7 @@ quotation's timeline says who answered.
   record pages' own scripts (`crm_record.js`, `lead.js`, `lead_list.js`,
   `next_step.js`) are beside them in `public/js/one_crm/`.
 - **Its screens** are `frontend/src/crm/`, and **its checks** `checks.py`.
+
+### planner.py
+
+OneCRM's sales assistant's share of what OneAI reads (one_ai/agents/work.py): `customer_or_lead`, `contact` and `people` (who ordered, who asked, and the people who wrote), `sales_order`, `extra_work` and `contract`. agent.py's `PLANS` names each with its stage, level and label. A Contract and its reminder task are beyond Sales User, so each is a card for the person the mail was read for.

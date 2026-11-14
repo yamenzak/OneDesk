@@ -289,3 +289,20 @@ def onecrm_oneai_lists_the_quotations_still_waiting():
 	assert said and all(one["status"] in ("Open", "Replied") for one in said), said
 	days = [one["days_left"] for one in said if one["days_left"] is not None]
 	assert days == sorted(days), days
+
+
+@check
+def onecrm_its_sales_assistant_makes_what_mail_brings():
+	"""OneCRM's sales assistant's work on what OneAI read (planner.py): the
+	lead an enquiry asked for and the order a lead sent, each under its own
+	name and action, made as a draft as its level says; a contract it may
+	not make itself waits as a card for the person the mail was read for."""
+	from onedesk.one_demo import samples
+
+	lead = [one for one in samples.done_by("enquiry", "one_crm") if one.target_doctype == "Lead"]
+	assert lead and lead[0].agent_action == "add_customer_or_lead" and lead[0].agent_level == "Draft" and lead[0].level == "Done", lead
+	order = {one.target_doctype: one for one in samples.done_by("order-from-lead", "one_crm")}
+	assert {"Customer", "Sales Order"} <= set(order), order
+	assert order["Sales Order"].agent_action == "draft_sales_order" and frappe.db.get_value("Sales Order", order["Sales Order"].target_name, "docstatus") == 0
+	contract = [one for one in samples.done_by("transport-contract", "one_crm") if one.target_doctype == "Contract"]
+	assert contract and contract[0].level == "Proposed" and contract[0].on_behalf_of in (contract[0].why or ""), contract

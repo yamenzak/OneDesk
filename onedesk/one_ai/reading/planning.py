@@ -1,8 +1,9 @@
-"""Stage 6 of Intake on the site: what `plans.py` needs to know, and the flows
-it names.
+"""Stage 6 of Intake on the site: what the planners need to know, and the
+flows they name.
 
-`run` is called once a matter is quiet (matters.act_now), asks the pure
-planners what to do, and hands each action to the door.
+`run` is called once a matter is quiet (matters.act_now), asks OneAI's own
+planners (plans.py) and every agent's (each app's planner.py, through
+one_ai/agents/work.py) what to do, and hands each action to its door.
 """
 
 import json
@@ -25,23 +26,20 @@ def run(name: str, which: str) -> None:
 	reading = frappe.get_doc("Reading", name)
 	if not reading.on_behalf_of or cint(reading.history) or reading.state != "Understood":
 		return
+	from onedesk.one_ai.agents import work
+
 	said = _said(reading)
 	ctx = context(reading, said)
 	if which == "parties":
-		wanted = plans.parties(said, ctx)
+		wanted = _shared(plans.supplier(said, ctx)) + work.planned("parties", said, ctx)
 	elif which == "money":
-		from onedesk.one_ai.reading import money
-
 		_money(ctx, reading)
-		wanted = handed_on(reading, money.plan(said, ctx))
+		wanted = handed_on(reading, work.planned("money", said, ctx))
 	else:
 		_payable(ctx, reading)
 		ctx["project"] = _project_named(reading) if _supplier(reading) or reading.kind in PROJECT_KINDS else None
-		wanted = plans.second(said, ctx)
-	made = []
-	for action in wanted:
-		action.key = matters.key(reading, action.key) if action.key.startswith(("task", "event", "leave", "expense", "resignation", "employee", "books")) else f"{reading.key[:90]}|{action.key}"
-		made.append(act.apply(action, reading))
+		wanted = _shared(plans.referred(said, ctx) + plans.enrich(said, ctx)) + work.planned("rest", said, ctx)
+	made = [work.take(app, name, work.keyed(reading, action), reading) for app, name, action in wanted]
 	frappe.db.commit()
 	if which == "parties" and wanted:
 		rematch(reading, _made_for(reading, said, made))
@@ -54,18 +52,24 @@ def run(name: str, which: str) -> None:
 		_hold_iban(reading)
 
 
+def _shared(actions: list) -> list:
+	"""What OneAI does itself with what it read, through Intake's door."""
+	return [(None, None, one) for one in actions]
+
+
 def handed_on(reading, wanted: list) -> list:
 	"""With the agents set up, a bill that came by mail is OneMail's
-	receptionist's to hand to OneBook's accountant, which drafts it
-	(one_ai/agents): Intake drafts it only when the Worker did not take it."""
+	receptionist's to hand to OneBook's accountant on the Worker, which
+	drafts it (one_ai/agents): here the accountant drafts it only when the
+	Worker did not take it."""
 	from onedesk.one_ai.agents import connect
 	from onedesk.one_mail import gate
 
-	bills = [one for one in wanted if one.doctype == "Purchase Invoice"]
+	bills = [one for one in wanted if one[2].doctype == "Purchase Invoice"]
 	message = gate.message_of(reading.name) if bills and connect.on() else None
 	if not message or not connect.wake("one_mail", {"kind": "mail", "message": message}):
 		return wanted
-	return [one for one in wanted if one.doctype != "Purchase Invoice"]
+	return [one for one in wanted if one[2].doctype != "Purchase Invoice"]
 
 
 def _made_for(reading, said: dict, made: list) -> bool:

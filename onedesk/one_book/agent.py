@@ -26,13 +26,27 @@ NOT_FOR_AI = {
 TOOLS = ("draft_purchase_invoice",)
 """What its agent calls in the workspace (one_ai/agents/api.py)."""
 
+PLANS = {
+	"draft_purchase_invoice": ("money", "onedesk.one_book.planner.purchase"),
+	"draft_payment_entry": ("money", "onedesk.one_book.planner.payment"),
+	"add_bank_transactions": ("money", "onedesk.one_book.planner.bank"),
+	"ask_for_missing_invoice": ("money", "onedesk.one_book.planner.never_received"),
+}
+"""What its agent makes of what OneAI read, at which of Intake's stages (one_ai/agents/work.py)."""
+
 LEVELS = {
 	"draft_purchase_invoice": "Draft",
+	"draft_payment_entry": "Draft",
+	"add_bank_transactions": "Draft",
+	"ask_for_missing_invoice": "Draft",
 }
 """How far its agent goes with each action (one_ai/agents/levels.py)."""
 
 LABELS = {
 	"draft_purchase_invoice": _lt("Draft Purchase Invoice"),
+	"draft_payment_entry": _lt("Draft Payment Entry"),
+	"add_bank_transactions": _lt("Add Bank Transactions"),
+	"ask_for_missing_invoice": _lt("Ask for Missing Invoice"),
 }
 """Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
 
@@ -296,14 +310,15 @@ READS = (
 
 def draft_purchase_invoice(reading: str, asked_by: str | None = None) -> dict:
 	"""The accountant's job: a draft Purchase Invoice from an invoice
-	OneMail's receptionist handed on, as Intake's money planner reads it,
+	OneMail's receptionist handed on, as its planner reads it (planner.py),
 	through the agents' door at the level LEVELS gives it. Nothing is made
 	where the mailbox does not let OneAI make money records, or a mail rule
 	already made the bill."""
 	from frappe.utils import cint
 
-	from onedesk.one_ai.agents import door
-	from onedesk.one_ai.reading import matters, money, planning
+	from onedesk.one_ai.agents import door, work
+	from onedesk.one_ai.reading import planning
+	from onedesk.one_book import planner
 	from onedesk.one_mail import gate
 
 	doc = frappe.get_doc("Reading", reading)
@@ -314,9 +329,6 @@ def draft_purchase_invoice(reading: str, asked_by: str | None = None) -> dict:
 	said = planning._said(doc)
 	ctx = planning.context(doc, said)
 	planning._money(ctx, doc)
-	made = []
-	for action in money.purchase(said, ctx):
-		action.key = matters.key(doc, action.key)
-		made.append(door.act_for("one_book", "draft_purchase_invoice", action, asked_by=asked_by, reading=doc))
+	made = [door.act_for("one_book", "draft_purchase_invoice", work.keyed(doc, action), asked_by=asked_by, reading=doc) for action in planner.purchase(said, ctx)]
 	rows = frappe.get_all("Reading Action", filters={"name": ["in", [one for one in made if one] or [""]]}, fields=["name", "level", "target_doctype", "target_name", "why"])
 	return {"drafts": rows}

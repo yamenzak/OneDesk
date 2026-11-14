@@ -31,6 +31,27 @@ NOT_FOR_AI = {
 	"upkeep.done": "A service is recorded done by whoever did it.",
 }
 
+PLANS = {
+	"draft_purchase_receipt": ("money", "onedesk.one_inventory.planner.goods"),
+	"check_unordered_delivery": ("money", "onedesk.one_inventory.planner.unordered"),
+	"add_supplier_quotation": ("money", "onedesk.one_inventory.planner.quotation"),
+}
+"""What its agent makes of what OneAI read, at which of Intake's stages (one_ai/agents/work.py)."""
+
+LEVELS = {
+	"draft_purchase_receipt": "Draft",
+	"check_unordered_delivery": "Draft",
+	"add_supplier_quotation": "Draft",
+}
+"""How far its agent goes with each action (one_ai/agents/levels.py)."""
+
+LABELS = {
+	"draft_purchase_receipt": _lt("Draft Purchase Receipt"),
+	"check_unordered_delivery": _lt("Check Unordered Delivery"),
+	"add_supplier_quotation": _lt("Add Supplier Quotation"),
+}
+"""Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
+
 STOCK = "stock-on-hand"
 HOME = "inventory"
 

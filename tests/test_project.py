@@ -554,7 +554,7 @@ def test_a_bill_lands_on_the_one_project_it_names():
 	assert pick("Handrailsteel", projects) is None, "a name counts whole"
 	assert pick("", projects) is None
 	planning = (tree.APP / "one_ai" / "reading" / "planning.py").read_text()
-	money = (tree.APP / "one_ai" / "reading" / "money.py").read_text()
+	money = (tree.APP / "one_book" / "planner.py").read_text()
 	assert 'ctx["project"] = _project_named(reading)' in planning and "intake.named(" in planning
 	assert '"project": ctx.get("project")' in money and '{**row, "project": head["project"]}' in money
 

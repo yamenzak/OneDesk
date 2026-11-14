@@ -1585,7 +1585,7 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   date with no day through when it says a period, and `understand.counted`
   counts it with the workspace's holidays and writes the rule in the
   workspace's language. The model never counts; it only copies the period as
-  written. `money.contract` fills Cancel By with `deadlines.before`.
+  written. OneCRM's `planner.contract` fills Cancel By with `deadlines.before`.
 - `calendar.py` is both the three calendar layers and the Deadlines report's
   rows (`report/deadlines/`), so the two cannot disagree: a reading's
   deadline for the person it was read for (none once its matter is closed), a
@@ -2653,8 +2653,9 @@ number in §14, and the test for every change to a prompt.
 
 The first step of docs/ARC-AI.md (P8.1): each app's agent, its user, its
 levels, its one door for writes, and the Worker it thinks on. OneMail's
-receptionist and OneBook's accountant are the first two; the rest come with
-P8.3, AICenter's tab for each with P8.2.
+receptionist and OneBook's accountant were the first two; with P8.3 every
+agent that owns a record type Intake makes does that work itself, and
+AICenter has a tab for each (P8.2).
 
 - **Users** (`agents/users.py`, `one/registry/agents.py`). An app whose
   manifest names its `agent` ("accountant") and has User roles gets
@@ -2663,15 +2664,17 @@ P8.3, AICenter's tab for each with P8.2.
   roles: any other is taken away, and a manager's role or one that runs the
   workspace is refused at the registry.
 - **Levels** (`agents/levels.py`). Each app's agent.py declares `LEVELS`
-  for every call REACH names and every tool TOOLS lists: Do it (done as the
+  for every call REACH names, every tool TOOLS lists and every planner
+  PLANS names: Do it (done as the
   agent, can be undone), Draft (a new record made as a draft a person
   submits; any other change becomes a card, since there is nothing to draft)
   or Ask First (a card for the person who asked, else the app's first
   manager). An action not declared is Ask First. `tests/guards/test_levels.py`
   fails an action without one.
 - **The door** (`agents/door.py`). Intake's door with an agent in front:
-  the agent and the person who asked must both be allowed it
-  (`act.allowed`), the level decides, and every write is a Reading Action
+  the person who asked must be allowed it (`act.allowed`), else it is
+  refused; what the agent may not do is that person's card; the level
+  decides, and every write is a Reading Action
   row carrying `agent`, `agent_level` and `agent_action`. Its key is
   Intake's, so Intake and an agent never both make the same record.
   `act.undo_one` takes it back, as the agent; a draft the agent made is
@@ -2685,6 +2688,26 @@ P8.3, AICenter's tab for each with P8.2.
   with a token of its own (`agents/token.py`). The workspace learns where the
   Worker is and its own secret from OneAdmin (`proxy.agents_config`), or from
   `one_agents` in its site config.
+- **Each agent's work on what OneAI read** (`agents/work.py`). Intake's
+  planners moved to the apps that own what they make: each app's
+  `planner.py` (pure, as plans.py was) and its agent.py's `PLANS`, an action
+  each with its stage (parties, money, the rest), its level and its label.
+  OneBook's accountant drafts bills, payments and bank lines; OneCRM's sales
+  assistant makes customers, leads, contacts, sales orders, extra work and
+  contracts; OneHR's people officer applicants, a person's documents, leave
+  and expense claims; OneInventory's storekeeper receipts and supplier
+  quotations; OneProject's coordinator tasks, site logs and, for OneCalendar
+  and OneTask, which have no roles and so no agent, events and tasks.
+  `planning.run` reads once and asks each working agent (its app on, not
+  stopped in AICenter) at each stage; what stays OneAI's own is reading it:
+  the supplier who billed (plans.py `supplier`), the records a document
+  names filed with it (`referred`) and what it teaches its parties
+  (`enrich`), through Intake's door. Intake's gates hold first (what the
+  mailbox does not let OneAI do, what a mail rule made), then the door:
+  what the agent's own roles may not make (a contract, a task OneProject's
+  coordinator does not make) is a card for the person it was read for, and
+  Intake's floor still holds what it held. The auditor never applies a card
+  an agent put to a person by its level or its roles (`door.for_a_person`).
 - **The receptionist reads a mailbox OneAI reads** (one_mail/access.py):
   that switch is the mailbox holder's say, as it is for Intake.
 

@@ -26,7 +26,7 @@ def run(name: str) -> None:
 	rows = frappe.get_all(
 		"Reading Action",
 		filters={"reading": name, "level": ["in", ("Done", "Proposed")], "audit": ["in", ("", None)]},
-		fields=["name", "kind", "level", "target_doctype", "target_name", "why", "before", "after", "on_behalf_of", "flow"],
+		fields=["name", "kind", "level", "target_doctype", "target_name", "why", "before", "after", "on_behalf_of", "flow", "as_person", "agent", "agent_action"],
 		order_by="creation asc",
 	)
 	if not worth(rows):
@@ -100,13 +100,14 @@ def verdicts(said: dict, ids: set) -> dict[str, dict]:
 
 
 def decide(rows: list[dict], said: dict) -> None:
+	from onedesk.one_ai.agents import door
 	from onedesk.one_ai.reading import act
 
 	found = verdicts(said, {row["name"] for row in rows})
 	for row in rows:
 		verdict = found.get(row["name"]) or {"verdict": "unsure", "why": ""}
 		audit = verdict["verdict"].title()
-		if row["level"] == "Done" or held(row) or audit == "Unsure":
+		if row["level"] == "Done" or held(row) or audit == "Unsure" or (row.get("agent") and door.for_a_person(row)):
 			frappe.db.set_value("Reading Action", row["name"], {"audit": audit, "audit_why": verdict["why"]}, update_modified=False)
 			continue
 		act.settle_for(frappe.get_doc("Reading Action", row["name"]), audit == "Right", verdict["why"])

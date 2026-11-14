@@ -47,6 +47,16 @@ NOT_FOR_AI = {
 	"updates.post": "OneAI drafts the update with draft_update, and the person posts it in their own name.",
 }
 
+PLANS = {
+	"log_site_report": ("rest", "onedesk.one_project.planner.site_log"),
+	"add_task_from_document": ("rest", "onedesk.one_project.planner.tasks"),
+	"add_event": ("rest", "onedesk.one_calendar.planner.event"),
+	"add_task_from_promise": ("rest", "onedesk.one_project.planner.promises"),
+}
+"""What its agent makes of what OneAI read, at which of Intake's stages
+(one_ai/agents/work.py). OneTask and OneCalendar have no roles of their
+own and so no agent, so their tasks and events are its work."""
+
 LEVELS = {
 	"kinds.make": "Draft",
 	"status.change": "Draft",
@@ -54,6 +64,10 @@ LEVELS = {
 	"budget.set_budget": "Ask First",
 	"team.add": "Ask First",
 	"contacts.save": "Draft",
+	"log_site_report": "Draft",
+	"add_task_from_document": "Draft",
+	"add_event": "Draft",
+	"add_task_from_promise": "Draft",
 }
 """How far its agent goes with each action (one_ai/agents/levels.py)."""
 
@@ -64,6 +78,10 @@ LABELS = {
 	"budget.set_budget": _lt("Set Cost Budget"),
 	"team.add": _lt("Add Team Member"),
 	"contacts.save": _lt("Add Contact"),
+	"log_site_report": _lt("Log Site Report"),
+	"add_task_from_document": _lt("Add Task from Document"),
+	"add_event": _lt("Add Event"),
+	"add_task_from_promise": _lt("Add Task from Promise"),
 }
 """Each action as people read it, in AICenter (one_ai/agents/levels.py)."""
 

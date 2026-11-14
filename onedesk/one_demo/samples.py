@@ -116,6 +116,19 @@ def readings_of(path: Path) -> list[str]:
 	return [*top, *frappe.get_all("Reading", filters={"part_of": ["in", top]}, pluck="name")]
 
 
+def done_by(stem: str, app: str) -> list[dict]:
+	"""What an app's agent did with a sample the demo kept, as its Reading
+	Action rows (one_ai/agents/work.py), for each module's check of its agent."""
+	from onedesk.one.registry import agents
+
+	path = next(one for one in samples() if one.stem == stem)
+	return frappe.get_all(
+		"Reading Action",
+		filters={"reading": ["in", readings_of(path) or [""]], "agent": agents.email(app)},
+		fields=["name", "kind", "level", "target_doctype", "target_name", "agent_action", "agent_level", "why", "on_behalf_of"],
+	)
+
+
 def unmet(path: Path, handled: Handled) -> list[str]:
 	"""What a sample says Intake makes and it did not, and what Intake asked
 	that the sample does not answer."""

@@ -12,6 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import tree  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent / "onedesk" / "one_ai" / "reading"
+APP = ROOT.parent.parent
+PLANNERS = [APP / app / "planner.py" for app in ("one_book", "one_inventory", "one_crm")]
 
 
 def _getdate(value):
@@ -31,6 +33,9 @@ def _load(path, space, names=None):
 ACT = _load(ROOT / "act.py", {"dataclass": dataclass, "field": field, "hashlib": hashlib, "json": json, "cint": lambda v: int(v or 0), "flt": lambda v, p=None: float(v or 0)}, {"KINDS", "FLOOR", "CHANGES", "Action", "level", "_filled", "_same"})
 DEADLINES = SimpleNamespace(**_load(ROOT / "deadlines.py", {"calendar": __import__("calendar"), "re": __import__("re"), "date": date, "timedelta": timedelta}))
 MONEY = _load(ROOT / "money.py", {"_Action": ACT["Action"], "getdate": _getdate, "timedelta": timedelta, "deadlines": DEADLINES})
+for _path in PLANNERS:
+	_load(_path, MONEY, {name for name in ("UNIT", "posting_day", "lines", "TAX_ROUNDING", "taxed_by", "purchase", "payment", "bank", "never_received", "goods", "unordered", "_each", "quotation", "DELIVERY_DAYS", "sales_order", "extra_work", "contract")})
+MONEY["task_in"] = lambda project, day: project
 STEPS = _load(ROOT / "steps.py", {"getdate": _getdate, "flt": lambda v, p=None: float(v or 0), "json": json}, {"holds", "passed"})
 
 SAID = {
@@ -148,16 +153,17 @@ def test_pay_ticks_when_the_invoice_is_submitted_and_paid():
 
 
 def test_money_is_pure_and_nothing_is_submitted_by_it():
-	source = (ROOT / "money.py").read_text()
-	assert "frappe." not in source.replace("from frappe.utils import getdate", "")
-	assert ".submit(" not in source
+	for path in (ROOT / "money.py", *PLANNERS):
+		source = path.read_text()
+		assert "frappe." not in source.replace("from frappe.utils import getdate", "")
+		assert ".submit(" not in source
 	drafts = (ROOT / "drafts.py").read_text()
 	assert 'doc.check_permission("submit")' in drafts, "Submit all submits as the person pressing it"
 	assert '"submit_einvoices"' in drafts
 
 
 def test_every_money_draft_is_written_as_the_person():
-	made = MONEY["plan"](INVOICE, CTX)
+	made = MONEY["purchase"](INVOICE, CTX) + MONEY["payment"]({**INVOICE, "kind": "Payment Advice"}, {**CTX, "sales_invoice": "SINV-1"})
 	assert made and all(one.as_person for one in made)
 
 

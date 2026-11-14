@@ -1692,3 +1692,19 @@ def oneproject_riyadh_runs_its_own_job():
 	assert set(frappe.get_all("Task", {"project": job}, pluck="company")) == {"Sahara Glass Saudi"}
 	with as_user("rania@one.test"):
 		assert not frappe.has_permission("Project", "read", job)
+
+
+@check
+def oneproject_its_coordinator_makes_tasks_events_and_site_logs():
+	"""OneProject's coordinator's work on what OneAI read (planner.py, and
+	OneCalendar's, whose events it makes): a task for what a mail asks, an
+	appointment on the calendar and a site's day report on its project, each
+	under its own name and action."""
+	from onedesk.one_demo import samples
+
+	task = [one for one in samples.done_by("drawings-request", "one_project") if one.target_doctype == "Task"]
+	assert task and task[0].agent_action == "add_task_from_document" and task[0].level in ("Done", "Undone"), task
+	event = [one for one in samples.done_by("site-meeting", "one_project") if one.target_doctype == "Event"]
+	assert event and event[0].agent_action == "add_event" and event[0].level == "Done", event
+	log = [one for one in samples.done_by("site-log", "one_project") if one.target_doctype == "Project Update"]
+	assert log and log[0].agent_action == "log_site_report", log

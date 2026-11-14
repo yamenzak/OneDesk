@@ -1,9 +1,11 @@
 """The one door every agent's write goes through (docs/ARC-AI.md, Trust and
 permissions). It is Intake's door (reading/act.py) with an agent in front:
-the action is allowed only if both the agent and the person who asked may do
-it, its level (levels.py) decides whether it is done, drafted or put to a
-person, and every write is a Reading Action row under the agent's name, so
-act.undo_one takes it back as it takes back what Intake did."""
+what the person who asked may not do is refused; what the agent's own roles
+may not do is put to that person as a card, so only they make it; its level
+(levels.py) decides whether it is done, drafted or put to a person, and
+Intake's floor (`floor`) still holds what Intake would have held. Every
+write is a Reading Action row under the agent's name, so act.undo_one takes
+it back as it takes back what Intake did."""
 
 import json
 
@@ -21,7 +23,7 @@ DRAFTS = ("Create",)
 def act_for(app: str, name: str, action: act.Action, asked_by: str | None = None, reading=None) -> str | None:
 	"""Do, draft or propose one action of an app's agent; `name` is the
 	action as LEVELS names it. Answers the Reading Action row, or None when
-	the same action was already taken and nothing changes. Refused, with
+	the same action was already taken or would change nothing. Refused, with
 	the reason, while agents are off or this one is over its month's
 	credits (workspace.py), and nothing is written, so it can come again."""
 	agent = agents.get(app)
@@ -50,18 +52,27 @@ def act_for(app: str, name: str, action: act.Action, asked_by: str | None = None
 			"why": action.why[:1000] if action.why else None,
 			"after": json.dumps(action.values, default=str),
 			"flow": action.flow,
+			"as_person": int(bool(action.as_person)),
 		}
 	)
-	refused = [one for one in (agent.email, asked_by) if one and not act.allowed(action, one)]
+	refused = [one for one in (asked_by or asker,) if one and not act.allowed(action, one)]
 	if refused or not asker:
 		row.level = "Refused"
 		row.why = act._join(row.why, _("{0} doesn't have permission for this.").format(refused[0]) if refused else _("Nobody may approve this."))
 		return act._insert(row)
-	if level == levels.ASK_FIRST or (level == levels.DRAFT and action.kind not in DRAFTS):
+	if level == levels.ASK_FIRST or (level == levels.DRAFT and action.kind not in DRAFTS) or not act.allowed(action, agent.email):
 		row.level = "Proposed"
 		row.why = act._join(row.why, _("Waits for {0}.").format(asker))
 		return act._insert(row)
 	before = act._before(action)
+	if action.kind == "Update" and before and all(act._same(before.get(key), value) for key, value in (action.values or {}).items()):
+		return None
+	waits = floor(action, before, reading)
+	if waits:
+		row.level = "Proposed"
+		row.before = json.dumps(before, default=str) if before else None
+		row.why = act._join(row.why, waits)
+		return act._insert(row)
 	planned = drafted(action) if level == levels.DRAFT else action
 	frappe.db.savepoint("one_agent_act")
 	try:
@@ -80,6 +91,34 @@ def act_for(app: str, name: str, action: act.Action, asked_by: str | None = None
 	if action.kind == "Create":
 		mark.mark(action.doctype, row.target_name, reading.name if reading else None)
 	return act._insert(row)
+
+
+def for_a_person(row) -> bool:
+	"""Whether an agent's card waits for a person by its level or by what
+	the agent's roles may not do, rather than by Intake's floor: the auditor
+	(reading/audit.py) never applies such a card, since an agent goes
+	further only by a person's choice."""
+	agent = agents.by_email(row.agent)
+	if not agent:
+		return True
+	level = levels.of(agent.app, row.agent_action)
+	return level == levels.ASK_FIRST or (level == levels.DRAFT and row.kind not in DRAFTS) or not act.allowed(act.planned_of(row), agent.email)
+
+
+def floor(action: act.Action, before: dict, reading=None) -> str | None:
+	"""Why an action the agent may take still waits for a person, as
+	Intake's door decides it: it ends somebody's employment, its planner
+	leaves it to a person, it overwrites what a person wrote, it is below the
+	workspace's confidence floor, or people took it back often enough."""
+	owned = action.kind == "Update" and bool(action.name) and mark.is_marked(action.doctype, action.name)
+	level, why, fields = act.level(action, reading.as_dict() if reading else {}, before, act._floor(), owned)
+	if level != "Done":
+		return act.waits(why, fields, action.doctype)
+	if reading is None or (action.kind == "Create" and action.doctype == "File"):
+		return None
+	from onedesk.one_ai.reading import lessons
+
+	return lessons.rule_says(reading, action)
 
 
 def drafted(action: act.Action) -> act.Action:

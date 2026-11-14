@@ -410,6 +410,17 @@ registry.
   upgrade adds reaches people who arranged their rail. Folders and recent
   apps are user settings `One Rail`, by dock key. The rail's Apps button is
   everybody's launcher; turning apps on or off moves to its foot.
+- 14 Nov, Claude (P8.3): Intake's planners are each owner's `planner.py`,
+  named in its agent.py's `PLANS` with a level (every write Draft), and
+  run by `one_ai/agents/work.py` through the agents' door. What an agent's
+  own roles may not make (a Contract for OneCRM's Sales User, a Task for
+  any agent but OneProject's) becomes a card for the person the document
+  was read for, not a refusal: they may, so they make it, and "both may"
+  holds. Who sent a bill stays OneAI's own reading: the new Supplier is made
+  through Intake's door, since no agent's User role may make one and the
+  bill waits on it. OneTask and OneCalendar have no roles, so no agent: their
+  tasks and events are OneProject's coordinator's. The auditor never applies
+  an agent's card that waits by its level or its roles.
 - 12 Nov, Claude: an app is one self-contained folder whose parts are named
   for their centres (Folders); OneOS keeps its name for opening files and
   OneGuard is protection only (P9.4).

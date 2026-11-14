@@ -1497,3 +1497,7 @@ they are told.
 - **Its foot and settings** are `public/js/one_hr/hr_control.js`, whose
   Holidays tab is the administrators'.
 - **Its screens** are `frontend/src/hr/`, and **its checks** `checks.py`.
+
+### planner.py
+
+OneHR's people officer's share of what OneAI reads (one_ai/agents/work.py): `applicant` (a CV from outside), `employee_documents` (identity documents, certificates, a sick note as leave, a resignation proposed, a signed offer as the Employee, proposed) and `receipt` (a colleague's receipt as their Expense Claim). agent.py's `PLANS` names each with its stage, level and label; a renewal task is beyond HR User, so it is a card.
