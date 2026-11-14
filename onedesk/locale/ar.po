@@ -16245,6 +16245,10 @@ msgstr "مسودة إيصال استلام مشتريات"
 msgid "Draft Sales Order"
 msgstr "مسودة أمر بيع"
 
+#: onedesk/one_factory/agent.py:29
+msgid "Draft Work Orders"
+msgstr "مسودة أوامر عمل"
+
 #: onedesk/one_ai/jobs.py:49
 msgid "Draft a Reply"
 msgstr "صياغة رد"
@@ -25031,6 +25035,11 @@ msgstr "الفحص"
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Inspection before closing ceilings"
 msgstr "الفحص قبل إغلاق الأسقف"
+
+#: onedesk/one_quality/watch.py:32
+#, python-brace-format
+msgid "Inspection {0} was rejected."
+msgstr "رُفض الفحص {0}."
 
 #: frontend/src/one/MarketApp.vue:13
 msgid "Install"
@@ -42573,6 +42582,10 @@ msgstr "يجب أن يكون النطاق أكبر من 0."
 msgid "Rain"
 msgstr "مطر"
 
+#: onedesk/one_quality/agent.py:21
+msgid "Raise Non Conformance"
+msgstr "تسجيل عدم مطابقة"
+
 #. Label in the One Employee Grievance print format
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_quality/heads.py:78
@@ -43946,6 +43959,11 @@ msgstr ""
 msgid "Rejected goods are not billed"
 msgstr "البضائع المرفوضة لا تُفوتر"
 
+#: onedesk/one_quality/watch.py:28
+#, python-brace-format
+msgid "Rejected readings: {0}"
+msgstr "القراءات المرفوضة: {0}"
+
 #. Description of the 'Verdict' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:135
 msgid "Rejected sets Skip Auto Attendance on the check-in and excludes it from attendance. Nothing is deleted."
@@ -44667,6 +44685,10 @@ msgstr ""
 #: onedesk/one_studio/print_blocks.py:37
 msgid "Report No"
 msgstr "رقم التقرير"
+
+#: onedesk/one_display/agent.py:49
+msgid "Report Screen at Risk"
+msgstr "تقرير عن شاشة معرّضة للتوقف"
 
 #: frontend/src/quality/QualityHome.vue:211 onedesk/one_quality/shortcuts.py:8
 msgid "Report a Problem"
@@ -46258,6 +46280,11 @@ msgstr ""
 #: onedesk/one_factory/heads.py:216
 msgid "Sales Order or Material Request"
 msgstr "أمر البيع أو طلب المواد"
+
+#: onedesk/one_factory/watch.py:38
+#, python-brace-format
+msgid "Sales Order {0} needs {1} {2} of {3} more than the stores hold."
+msgstr "يحتاج أمر البيع {0} إلى {1} {2} من {3} أكثر مما في المخازن."
 
 #: onedesk/one_crm/home.py:157
 msgid "Sales Partner"
@@ -60818,6 +60845,11 @@ msgstr "انتظار"
 msgid "Wait for an Event"
 msgstr "انتظار حدث"
 
+#: onedesk/one_ai/agents/work.py:221 onedesk/one_book/checks.py:686
+#, python-brace-format
+msgid "Waited for {0} {1} to be approved."
+msgstr "انتظر اعتماد {0} {1}."
+
 #. Option for the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
@@ -70855,6 +70887,11 @@ msgstr "{0} صدّر {1}"
 msgid "{0} extra work"
 msgstr "{0} أعمال إضافية"
 
+#: onedesk/one_quality/watch.py:19
+#, python-brace-format
+msgid "{0} failed inspection {1}"
+msgstr "{0} لم يجتز الفحص {1}"
+
 #: onedesk/one_book/heads.py:133
 #, python-brace-format
 msgid "{0} falls due today."
@@ -72416,6 +72453,11 @@ msgstr "لا يجوز أن تقارن {0} إلا حقول السجل بقيم ب
 msgid "{0} may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified."
 msgstr "يمكن لـ {0} قراءة الطلبات والفواتير والتسليمات التي يراها المرسل في البوابة، بعد التحقق من عنوانه."
 
+#: onedesk/one_display/watch.py:25
+#, python-brace-format
+msgid "{0} may stop working soon."
+msgstr "قد يتوقف {0} عن العمل قريبًا."
+
 #: frontend/src/chat/ChannelList.vue:57
 #, python-brace-format
 msgid "{0} members"
@@ -73665,6 +73707,11 @@ msgstr "{0} {1} غير موجود"
 #, python-brace-format
 msgid "{0} {1} not found."
 msgstr "لم يُعثر على {0} {1}."
+
+#: onedesk/one_quality/watch.py:26
+#, python-brace-format
+msgid "{0} {1} on {2} {3}."
+msgstr "{0} {1} على {2} {3}."
 
 #: onedesk/one/linked.py:286
 #, python-brace-format
