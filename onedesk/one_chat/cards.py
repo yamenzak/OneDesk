@@ -61,6 +61,8 @@ def _as(user: str):
 
 def said(row) -> str:
 	"""The card's one line: what the agent did or asks."""
+	if row.kind == "Step":
+		return _("Set up {0} with these answers?").format(_step_title(row))
 	what = _(row.target_doctype or "")
 	if row.level == "Done" and row.audit == "Wrong":
 		return _("The auditor doubts this {0} {1}.").format(what, row.target_name or "").strip()
@@ -87,9 +89,26 @@ def card(name: str) -> dict:
 		"doubted": row.level == "Done" and row.audit == "Wrong",
 		"audit_why": row.audit_why or "",
 		"asked": row.on_behalf_of,
-		"fields": [{**one, "label": _(meta.get_label(one["fieldname"]))} for one in shown_values(values)] if meta else shown_values(values),
+		"fields": [{**one, "label": _(meta.get_label(one["fieldname"]))} for one in shown_values(values)] if meta else _step_fields(row, values),
 		"may_decide": _may(row),
 	}
+
+
+def _step_title(row) -> str:
+	from onedesk.one import setup_steps
+
+	found = setup_steps.step_of(json.loads(row.after or "{}"))
+	return str(_(found[1]["title"])) if found else ""
+
+
+def _step_fields(row, values: dict) -> list[dict]:
+	"""A card's values labelled as its step's form labels them, when it
+	fills a SetupCenter step; plain otherwise."""
+	from onedesk.one import setup_steps
+
+	found = setup_steps.step_of(values) if row.kind == "Step" else None
+	labels = {one["fieldname"]: str(_(one.get("label") or "")) for one in found[1]["fields"]} if found else {}
+	return [{**one, "label": labels[one["fieldname"]]} if one["fieldname"] in labels else one for one in shown_values(values)]
 
 
 def shown_values(values: dict) -> list[dict]:

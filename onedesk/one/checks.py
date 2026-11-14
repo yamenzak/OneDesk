@@ -1990,6 +1990,68 @@ def setupcenter_lists_each_apps_steps_and_saves_their_forms():
 
 
 @check
+def setupcenter_s_guide_answers_and_fills_a_step_as_a_card():
+	"""SetupCenter's setup guide (one/setup_center_agent.py): with
+	SetupCenter open, Layla's panel talks to it and Nadia's, who may do no
+	step, to Una; it has its own reads and fill_step, never create_record;
+	it answers her question with the model faked; asked to fill Private
+	Mailboxes it holds no role, so the answers are a card in her
+	conversation and nothing changes until she approves it there, and then
+	the step is saved and done and cannot be undone from the card."""
+	import json
+	from unittest import mock
+
+	from onedesk.one import setup_center_agent, setup_steps
+	from onedesk.one.registry import agents
+	from onedesk.one_ai.agents import levels, talk, users
+	from onedesk.one_chat import agents as members
+	from onedesk.one_chat import cards
+	from onedesk.one_mail import addresses
+
+	mail = "OneMail"
+	users.ensure()
+	guide = agents.get("setup_center")
+	assert guide and guide.roles == () and not set(frappe.get_roles(guide.email)) - {"All", "Guest"}, "the guide holds no role"
+	assert levels.of("setup_center", "fill_step") == levels.ASK_FIRST and levels.of("setup_center", "about_steps") == levels.DO_IT
+	with as_user(OWNER):
+		assert members.for_page({"page": "setup", "section": mail}) == "setup_center"
+		reads, suggests = talk.tools_of("setup_center")
+		named = {fn.__name__ for fn in reads + suggests}
+		assert {"about_steps", "about_apps", "how_to", "fill_step"} <= named and not named & {"create_record", "edit_record", "suggest_answer", "ask_agent"}, named
+		steps = {(one["app"], one["key"]): one for one in setup_center_agent.about_steps()}
+		assert steps[(mail, "private")]["may_fill"] and not steps[(mail, "templates")]["may_fill"], steps
+		assert setup_center_agent.about_apps(mail)["help"], "an app's Help"
+		model = {"done": True, "credits": 0, "turns": [{"role": "user", "text": "What is Private Mailboxes?"}, {"role": "model", "text": "It lets people connect their own mailbox."}]}
+		with mock.patch("onedesk.one_ai.run.turn", return_value=model) as asked:
+			out = talk.ask("setup_center", "chat", "What is Private Mailboxes?", [{"role": "user", "text": talk.who("setup_center"), "calls": [], "context": True}])
+		assert out["agent"] == "setup_center" and "fill_step" in {one["name"] for one in asked.call_args.args[3]}
+	with as_user("nadia@one.test"):
+		assert members.for_page({"page": "setup"}) == members.UNA
+	was = frappe.db.get_default(addresses.EXTERNAL)
+	flag = frappe.db.get_default(setup_steps.FLAG.format("one_mail", "private"))
+	frappe.db.savepoint("setup_guide_check")
+	try:
+		frappe.db.set_default(addresses.EXTERNAL, "1")
+		frappe.db.set_default(setup_steps.FLAG.format("one_mail", "private"), "")
+		with as_user(OWNER):
+			said = setup_center_agent.fill_step(mail, "private", {"allowed": 0, "domain": "elsewhere.example"}, "Only the company's mail.")
+			assert said["state"].startswith("Waiting"), said
+			row = frappe.get_last_doc("Reading Action", filters={"agent": guide.email, "kind": "Step"})
+			assert row.level == "Proposed" and row.on_behalf_of == OWNER and json.loads(row.after) == {"_app": mail, "_step": "private", "allowed": 0}
+			assert frappe.db.get_default(addresses.EXTERNAL) == "1", "nothing changes before the card is approved"
+			shown = cards.card(row.name)
+			assert cards.said(row) and [one["label"] for one in shown["fields"]] == [str(frappe._("People May Connect Their Own Mailboxes"))], shown
+			assert frappe.db.exists("Chat Message", {"action": row.name}), "the card is in her conversation with the guide"
+			cards.approve(row.name)
+			assert frappe.db.get_default(addresses.EXTERNAL) == "0" and frappe.db.get_default(setup_steps.FLAG.format("one_mail", "private")) == "1"
+			assert cards.undo(row.name)["undone"] == 0
+	finally:
+		frappe.db.rollback(save_point="setup_guide_check")
+		frappe.db.set_default(addresses.EXTERNAL, was if was is not None else "1")
+		frappe.db.set_default(setup_steps.FLAG.format("one_mail", "private"), flag or "")
+
+
+@check
 def tour_runs_once_then_from_help():
 	"""OneMail's tours (one/tours.py): one for its mailbox, six steps in the
 	reader's language, each at a mark; a reader who hasn't taken it has it in

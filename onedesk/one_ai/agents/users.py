@@ -13,7 +13,7 @@ from onedesk.one.registry import agents
 
 
 def ensure() -> None:
-	for agent in agents.listed():
+	for agent in (*agents.listed(), *agents.centred()):
 		_made(agent)
 		_roles(agent)
 		_only(agent)

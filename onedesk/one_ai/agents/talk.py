@@ -79,9 +79,15 @@ REMEMBER = re.compile(
 def tools_of(app: str | None) -> tuple[tuple, tuple]:
 	"""An agent's own tools, as (reads, suggestions): the shared reads, then
 	what its app declares; for Una (None) what the workspace and every app
-	with no agent declare, and `ask_agent`."""
+	with no agent declare, and `ask_agent`; for a centre's agent, which
+	holds no role, only what its own file offers (its `tools`)."""
 	from onedesk.one_ai import tools as surface
 	from onedesk.one_ai.ai_web import offered
+
+	if agents.is_centred(app):
+		from onedesk.one_ai.agents import levels
+
+		return levels.home(app).tools(guest=False)
 
 	own = surface.READS + surface.KEEPS + surface.SUGGESTS
 	shared = tuple(fn for fn in own if fn.__name__ in SHARED)
@@ -110,6 +116,10 @@ def who(app: str | None) -> str:
 	from onedesk.one import registry
 	from onedesk.one_ai.agents import users
 
+	if agents.is_centred(app):
+		from onedesk.one_ai.agents import levels
+
+		return levels.home(app).who(guest=False)
 	if not app:
 		return (
 			"You are Una, who people in this workspace talk to first. You answer from its records and do what "
@@ -132,9 +142,11 @@ def ask(
 	heard=None,
 	expects: str | None = None,
 	tools: tuple[tuple, tuple] | None = None,
+	most: int = ROUNDS,
 ) -> dict:
 	"""The agent's answer to the last of `turns`, looking things up with its
-	tools where the model asks; `tools` gives a job's own instead. `heard`
+	tools where the model asks; `tools` gives a job's own instead, and
+	`most` fewer rounds where a guest asks. `heard`
 	is told each step: a round starting, a tool it ran. Refused while the
 	agent is stopped or over its month (workspace.py)."""
 	from onedesk.one_ai import schema
@@ -156,9 +168,9 @@ def ask(
 	was = frappe.flags.one_agent
 	frappe.flags.one_agent = app
 	try:
-		for rounds in range(ROUNDS + 1):
+		for rounds in range(most + 1):
 			tell({"thinking": rounds})
-			last = rounds == ROUNDS or _spoken(turns) >= ROUNDS - 1
+			last = rounds == most or _spoken(turns) >= most - 1
 			if last:
 				turns = [*turns, _context(LAST)]
 			out = run.turn(action, text, turns, offered, reference=reference, agent=app)

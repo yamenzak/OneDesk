@@ -61,6 +61,7 @@ NOT_FOR_AI = {
 	"wizard.note": "The signup page sends where its reader is, and no operator is there.",
 	"wizard.pay": "Paying is done by whoever is signing up, on the signup page.",
 	"wizard.finish": "The setup is finished by whoever is signing up, on the signup page.",
+	"wizard_ask.ask": "The setup guide answers whoever is signing up, on the signup page, and is itself OneAI.",
 	"stripe.webhook": "Stripe calls this, and no person is there.",
 	"aws.link": "Connecting AWS is done by an operator signed in to that account.",
 	"cloudflare_signin.start": "Signing in to Cloudflare is done by an operator in their own browser.",

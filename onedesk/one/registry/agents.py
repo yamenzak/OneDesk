@@ -22,11 +22,16 @@ class Invalid(ValueError):
 
 @dataclass(frozen=True)
 class Agent:
+	"""`home` is the module that declares its tools, levels and labels: its
+	app's agent.py, or for a centre's agent a file of its own beside the
+	centre (one/setup_center_agent.py)."""
+
 	app: str
 	email: str
 	title: str
 	roles: tuple[str, ...]
 	only: tuple[str, ...] = ()
+	home: str = ""
 
 
 def email(app: str) -> str:
@@ -45,7 +50,21 @@ def of(app) -> Agent | None:
 	shared = [role for role in only if role in people]
 	if shared:
 		raise Invalid(f"{app.id}/manifest.py: {shared} are people's roles, not its agent's alone")
-	return Agent(app.id, email(app.id), app.agent, given + only, only)
+	return Agent(app.id, email(app.id), app.agent, given + only, only, f"onedesk.{app.id}.agent")
+
+
+@cache
+def centred() -> tuple[Agent, ...]:
+	"""The agents of centres, such as SetupCenter's setup guide: none holds
+	a role, so whatever it would change is a card for a person, and it is
+	not one of the departments' agents (`listed`) that Intake, the Worker
+	and AICenter's tabs work with. Each declares itself in
+	`onedesk/<folder>/<centre>_agent.py`."""
+	found = []
+	for folder, part in registry.part_folders():
+		if part.agent:
+			found.append(Agent(part.id, email(part.id), part.agent, (), (), f"onedesk.{folder}.{part.id}_agent"))
+	return tuple(found)
 
 
 @cache
@@ -60,8 +79,12 @@ def only() -> dict[str, str]:
 
 
 def by_email(address: str) -> Agent | None:
-	return next((one for one in listed() if one.email == address), None)
+	return next((one for one in (*listed(), *centred()) if one.email == address), None)
 
 
 def get(app: str) -> Agent | None:
-	return next((one for one in listed() if one.app == app), None)
+	return next((one for one in (*listed(), *centred()) if one.app == app), None)
+
+
+def is_centred(app: str | None) -> bool:
+	return any(one.app == app for one in centred())

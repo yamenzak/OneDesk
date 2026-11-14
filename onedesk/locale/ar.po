@@ -4876,6 +4876,10 @@ msgstr "رد"
 msgid "Answer From Their Records"
 msgstr "الإجابة من سجلاتهم"
 
+#: onedesk/one_ai/jobs.py:41
+msgid "Answer Setup Questions"
+msgstr "الإجابة عن أسئلة الإعداد"
+
 #: onedesk/public/js/one_mail/rule_builder.js:494
 msgid "Answer every message with the same words, once in each conversation."
 msgstr "الرد على كل رسالة بالكلمات نفسها، مرة واحدة في كل محادثة."
@@ -4939,6 +4943,11 @@ msgstr "يردّ على"
 #: onedesk/one_mail/flow.py:301
 msgid "Answers a Conversation"
 msgstr "يرد على محادثة"
+
+#: frontend/portal/src/start/Ask.vue:25
+#, python-brace-format
+msgid "Answers come from {0} and can be wrong. Nothing is chosen until you press Use This."
+msgstr "تأتي الإجابات من {0} وقد تكون خاطئة. لا يُختار شيء حتى تضغط استخدام هذا."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:332
 msgid "Answers from your own records"
@@ -5745,6 +5754,10 @@ msgstr "اسأل OneAI"
 msgid "Ask OneAI for a slide, a picture or a video, keep versions and print from File, and play the presentation."
 msgstr "اطلب من OneAI شريحة أو صورة أو فيديو، واحفظ النسخ واطبع من الملف، وشغّل العرض التقديمي."
 
+#: frontend/portal/src/start/Ask.vue:22
+msgid "Ask a question"
+msgstr "اطرح سؤالًا"
+
 #: onedesk/one_ai/manifest.py:14
 msgid "Ask about anything in the workspace, and have drafts, summaries and answers written for you."
 msgstr "اسأل عن أي شيء في مساحة العمل، واحصل على مسودات وملخصات وإجابات مكتوبة لك."
@@ -5817,6 +5830,10 @@ msgstr "اطلب الأسعار من الموردين"
 msgid "Ask suppliers for prices, see their answers side by side and order the cheapest."
 msgstr "اطلب الأسعار من الموردين، وقارن ردودهم جنبًا إلى جنب، واطلب الأرخص."
 
+#: frontend/portal/src/start/Ask.vue:2
+msgid "Ask the Setup Guide"
+msgstr "اسأل مرشد الإعداد"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:26
 msgid "Ask the owner to share it with you, then reload."
 msgstr "اطلب من المالك مشاركتها معك، ثم أعد التحميل."
@@ -5840,6 +5857,10 @@ msgstr "اسألنا عن أي شيء"
 #: onedesk/one_display/starters.py:805
 msgid "Ask us what it is"
 msgstr "اسألنا ما هو"
+
+#: frontend/portal/src/start/Ask.vue:6
+msgid "Ask what a question means, what a plan includes or which apps suit your company."
+msgstr "اسأل عن معنى سؤال، أو ما تشمله خطة، أو أي التطبيقات تناسب شركتك."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:190
 #: onedesk/public/js/one_interface/chrome.js:156
@@ -20077,6 +20098,10 @@ msgstr "ملء"
 msgid "Fill Color"
 msgstr "لون التعبئة"
 
+#: onedesk/one/setup_center_agent.py:45
+msgid "Fill In a Step"
+msgstr "تعبئة خطوة"
+
 #. Label of the fill (Check) field in DocType 'Display Slide'
 #: onedesk/one_display/doctype/display_slide/display_slide.json:54
 msgid "Fill Screen"
@@ -32901,6 +32926,10 @@ msgstr "لا توجد إضافات متاحة"
 msgid "No agents yet"
 msgstr "لا يوجد وكلاء بعد"
 
+#: frontend/portal/src/start/Ask.vue:60
+msgid "No answer came back. Ask again in other words."
+msgstr "لم تصل إجابة. اسأل مجددًا بكلمات أخرى."
+
 #: onedesk/public/js/doctype_settings.js:168
 #: onedesk/public/js/one_studio/studio_control.js:67
 msgid "No approvals"
@@ -42752,6 +42781,10 @@ msgstr "قُرئ حتى"
 msgid "Read Check-ins"
 msgstr "قراءة تسجيلات الحضور"
 
+#: onedesk/one/setup_center_agent.py:43
+msgid "Read Each App's Steps"
+msgstr "قراءة خطوات كل تطبيق"
+
 #. Label of the records (Check) field in DocType 'Reading Settings'
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json:22
 msgid "Read Files Attached to Records"
@@ -42790,6 +42823,10 @@ msgstr ""
 #: onedesk/one_ai/jobs.py:55
 msgid "Read Scans"
 msgstr "قراءة المستندات الممسوحة"
+
+#: onedesk/one/setup_center_agent.py:41
+msgid "Read Where Data Is Kept"
+msgstr "قراءة مكان حفظ البيانات"
 
 #: onedesk/one_ai/jobs.py:76
 msgid "Read Words Aloud"
@@ -42876,6 +42913,22 @@ msgstr "يُقرأ نيابةً عن {0}"
 #: frontend/src/slide/shim/EditorNavbar.vue:87
 msgid "Read only"
 msgstr "للقراءة فقط"
+
+#: onedesk/one/setup_center_agent.py:39
+msgid "Read the Apps"
+msgstr "قراءة التطبيقات"
+
+#: onedesk/one/setup_center_agent.py:38
+msgid "Read the Fields"
+msgstr "قراءة المجالات"
+
+#: onedesk/one/setup_center_agent.py:40
+msgid "Read the Plans"
+msgstr "قراءة الخطط"
+
+#: onedesk/one/setup_center_agent.py:42
+msgid "Read the Setup Questions"
+msgstr "قراءة أسئلة الإعداد"
 
 #: onedesk/one_project/agent.py:100
 msgid "Read this project, then suggest the tasks it still needs, each with a due date before its end, as cards I can approve."
@@ -48251,6 +48304,11 @@ msgstr "تجهيز المكان"
 msgid "Set up two-factor again on a new phone? Your old phone's codes stop working, and you scan a new code the next time you sign in."
 msgstr "إعادة إعداد التحقق بخطوتين على هاتف جديد؟ ستتوقف رموز هاتفك القديم، وستمسح رمزًا جديدًا في المرة القادمة التي تسجّل فيها الدخول."
 
+#: onedesk/one_chat/cards.py:65
+#, python-brace-format
+msgid "Set up {0} with these answers?"
+msgstr "إعداد {0} بهذه الإجابات؟"
+
 #: onedesk/one_studio/automations.py:111
 msgid "Set value of document fields."
 msgstr "يعيّن قيم حقول السجل."
@@ -48388,6 +48446,10 @@ msgstr "إجابات الإعداد"
 #: onedesk/public/js/outside.js:70
 msgid "Setup Auto Email"
 msgstr ""
+
+#: frontend/portal/src/start/Ask.vue:3
+msgid "Setup Guide"
+msgstr "مرشد الإعداد"
 
 #: onedesk/one_admin/accounts.py:179
 msgid "Setup hit a problem on our side. We're working on it."
@@ -52116,6 +52178,10 @@ msgstr "اقترح ترويسة رسالة"
 msgid "Suggest a letter head drawn from our details in One's ControlCenter (Company and Branding): the header and the footer presets that suit us, as the default."
 msgstr "اقترح ترويسة مأخوذة من بياناتنا في ControlCenter الخاص بـ One (الشركة والهوية): قوالب الرأس والتذييل التي تناسبنا، كافتراضية."
 
+#: onedesk/one/setup_center_agent.py:44
+msgid "Suggest an Answer"
+msgstr "اقتراح إجابة"
+
 #: onedesk/one/agent.py:183
 msgid "Suggest an approval for Purchase Invoices: a bill starts Pending, an accounts user approves it up to 5,000 and an accounts manager above that, and a manager may reject it."
 msgstr "اقترح موافقة لفواتير الشراء: تبدأ الفاتورة قيد الانتظار، ويعتمدها مستخدم الحسابات حتى 5,000 ومدير الحسابات فوق ذلك، ويمكن للمدير رفضها."
@@ -53746,6 +53812,10 @@ msgstr "هذا المجلد ليس في صندوق البريد هذا."
 #: onedesk/account_center/bills.py:146
 msgid "That invoice has nothing to book."
 msgstr "لا يوجد في هذه الفاتورة ما يُسجَّل."
+
+#: onedesk/one_admin/wizard_ask.py:81
+msgid "That is as many questions as one signup may ask today."
+msgstr "هذا أقصى عدد من الأسئلة لتسجيل واحد اليوم."
 
 #: onedesk/one_admin/proxy.py:242
 msgid "That is not a day and hour."
@@ -55702,6 +55772,14 @@ msgstr "رفض الخادم عنوان البريد الإلكتروني أو ك
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:50
 msgid "The server's name or address."
 msgstr "اسم الخادم أو عنوانه."
+
+#: onedesk/one_admin/wizard_ask.py:63
+msgid "The setup guide could not be reached. Try again in a moment."
+msgstr "تعذّر الوصول إلى مرشد الإعداد. حاول مجددًا بعد لحظة."
+
+#: onedesk/one_admin/wizard_ask.py:66
+msgid "The setup guide isn't available right now."
+msgstr "مرشد الإعداد غير متاح الآن."
 
 #. Description of the 'Last Step' (Data) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json:136
@@ -59185,6 +59263,10 @@ msgstr "النوع"
 msgid "Type / to insert a field of the record."
 msgstr "اكتب / لإدراج حقل من السجل."
 
+#: onedesk/one_admin/wizard_ask.py:57
+msgid "Type a question first."
+msgstr "اكتب سؤالًا أولًا."
+
 #: onedesk/one_interface/tour.py:12
 msgid "Type here to search what is on this screen, or press Ctrl+K to search everything."
 msgstr "اكتب هنا للبحث فيما على هذه الشاشة، أو اضغط Ctrl+K للبحث في كل شيء."
@@ -60139,6 +60221,10 @@ msgstr "استخدم طلب خادم أو ربط خادم لإضافة خادم.
 #: onedesk/public/js/one_mail/onemail_settings.js:951
 msgid "Use SSL"
 msgstr "استخدام SSL"
+
+#: frontend/portal/src/start/Ask.vue:14
+msgid "Use This"
+msgstr "استخدام هذا"
 
 #: onedesk/www/s.html:118
 msgid "Use Your Phone as the Remote"
@@ -61797,6 +61883,11 @@ msgstr "ماذا يدين لنا هذا العميل، وعلى أي فواتي�
 #: onedesk/one_inventory/agent.py:81
 msgid "What does this warehouse hold, what is it worth, and what in it is low or short?"
 msgstr "ماذا يحوي هذا المستودع، وكم قيمته، وما المنخفض أو الناقص فيه؟"
+
+#: onedesk/public/js/one/setup_center.js:71
+#, python-brace-format
+msgid "What does {0} set up, and what should we answer?"
+msgstr "ماذا يُعدّ {0}، وبماذا نجيب؟"
 
 #: onedesk/public/js/one/setup_center.js:78
 msgid "What each app needs set up so it works the way your company does."
@@ -68103,6 +68194,11 @@ msgstr "مفتاح مرور أُعيد ضبطه مرتين هذا الشهر"
 msgid "a position vaguer than the location"
 msgstr "موقع أقل دقة من المكان"
 
+#: onedesk/one_ai/reading/act.py:750
+#, python-brace-format
+msgid "a step's answers are changed again in {0}"
+msgstr "تُغيَّر إجابات الخطوة مجددًا في {0}"
+
 #: onedesk/one_studio/print_props.py:171
 msgid "a width in pixels, such as 120px"
 msgstr "عرضًا بالبكسل، مثل 120px"
@@ -69326,6 +69422,10 @@ msgstr "sections قائمة أقسام، كل منها قائمة أعمدة."
 #, python-brace-format
 msgid "sections is not JSON: {0}."
 msgstr "sections ليست JSON: {0}."
+
+#: onedesk/one/manifest.py:86
+msgid "setup guide"
+msgstr "مرشد الإعداد"
 
 #: onedesk/one_cloud/share.py:92
 #, python-brace-format

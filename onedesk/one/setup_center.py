@@ -90,7 +90,7 @@ def finish(
 	return load()
 
 
-def reaches() -> bool:
+def reaches(user: str | None = None) -> bool:
 	"""Whether the reader may do any app's step, so SetupCenter's row is on
-	their rail."""
-	return any(setup_steps.may(module, step) for module, step in setup_steps.declared())
+	their rail and its setup guide answers them."""
+	return any(setup_steps.may(module, step, user) for module, step in setup_steps.declared())

@@ -62,6 +62,10 @@ def reaches(agent: str, user: str | None = None) -> bool:
 	one = agents.get(agent)
 	if not one:
 		return False
+	if agents.is_centred(agent):
+		from onedesk.one_ai.agents import levels
+
+		return bool(levels.home(agent).reaches(user))
 	app = registry.get(agent)
 	held = set(frappe.get_roles(user or frappe.session.user))
 	return bool(held & {*app.roles.user, *app.roles.manager})
@@ -69,7 +73,7 @@ def reaches(agent: str, user: str | None = None) -> bool:
 
 def listed(user: str | None = None) -> list[dict]:
 	"""Una and every agent this person may talk to, in the rail's order."""
-	ids = [UNA, *(one.app for one in agents.listed())]
+	ids = [UNA, *(one.app for one in (*agents.listed(), *agents.centred()))]
 	return [shown(one) for one in ids if reaches(one, user)]
 
 
@@ -99,15 +103,28 @@ def face(agent: str) -> str | None:
 
 
 def for_page(page: dict | str | None) -> str:
-	"""Who the panel talks to on a page: the agent of the app the page
-	belongs to, when the reader may reach it, else Una."""
+	"""Who the panel talks to on a page: the agent of the centre open over
+	it or of the app the page belongs to, when the reader may reach it,
+	else Una."""
 	if isinstance(page, str):
 		page = frappe.parse_json(page) if page.strip() else None
-	module = _module(page if isinstance(page, dict) else {})
+	page = page if isinstance(page, dict) else {}
+	centre = _centre(page)
+	if centre and reaches(centre):
+		return centre
+	module = _module(page)
 	app = registry.of_module(module) if module else None
 	if app and agents.get(app.id) and reaches(app.id):
 		return app.id
 	return UNA
+
+
+def _centre(page: dict) -> str | None:
+	"""The agent of the centre the reader has open (oneai.js `where`, a
+	centre's key as its page), if that centre has one."""
+	key = page.get("page")
+	held = {registry.get(one.app).centre.key: one.app for one in agents.centred() if registry.get(one.app).centre}
+	return held.get(key) if key else None
 
 
 def _module(page: dict) -> str | None:

@@ -26,6 +26,19 @@ somebody does it.
 > **You see the steps your role can do.** An administrator sees every app's.
 > Someone who manages one app sees that app's steps alone.
 
+## Asking the Setup Guide
+
+**Ask** beside a step opens {one_ai}'s panel with {setup_center}'s setup
+guide, which answers what the step sets up and what to answer. Ask it to
+fill the step in and it puts the answers on a card in the conversation.
+Nothing is saved until you press **Approve** on the card, and a step saved
+that way is changed again here, not undone. The guide holds no role of its
+own, so it can't change anything else.
+
+The guide also answers people signing up for {one}, on each question of
+the signup. There it only suggests: a suggestion is used when the person
+presses **Use This**.
+
 ## After Turning an App On
 
 **Install** on an app's page in {one_marketplace} opens {setup_center} on

@@ -165,6 +165,24 @@ clause(
 clause(
 	document="privacy",
 	section="modules",
+	key="oneadmin-setup-guide",
+	module=M,
+	body=f"""
+		Our signup has a setup guide, which is {registry.name("one_ai")}. It answers only when you ask it something.
+		We then send your question, the conversation in its window and the question you are on to the model
+		that answers. We also send what you chose so far for your field, apps, plan, storage location, language
+		and time zone. The models and the companies that run them are those the AI Addendum and our
+		subprocessors list name. We do not keep your questions or the guide's answers. They stay in the page
+		and go when it closes. We keep how many credits each question used, against the signup, and we pay
+		for them. We count the questions from each network address and each signup for a day, to limit them.
+		Nothing the guide suggests is chosen until you press Use This.
+	""",
+)
+
+
+clause(
+	document="privacy",
+	section="modules",
 	key="oneadmin-account",
 	module=M,
 	body="""

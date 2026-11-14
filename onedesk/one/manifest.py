@@ -83,5 +83,5 @@ PARTS = (
 	App(id="shortcut_center", line=_lt("The keys for what you do most."), name="ShortcutCenter", kind="centre", module="", mark="shortcutcenter", centre=Centre("shortcuts", "keyboard")),
 	App(id="help_center", line=_lt("Help for the apps that are on."), name="HelpCenter", kind="centre", module="", mark="helpcenter", centre=Centre("help", "circle-question-mark")),
 	App(id="update_center", line=_lt("What changed and what is coming."), name="UpdateCenter", kind="centre", module="", mark="updatecenter", centre=Centre("updates", "sparkles")),
-	App(id="setup_center", line=_lt("Each app's setup steps, done and waiting."), name="SetupCenter", kind="centre", module="", mark="setupcenter", centre=Centre("setup", "list-checks")),
+	App(id="setup_center", line=_lt("Each app's setup steps, done and waiting."), name="SetupCenter", kind="centre", module="", mark="setupcenter", centre=Centre("setup", "list-checks"), agent=_lt("setup guide")),
 )

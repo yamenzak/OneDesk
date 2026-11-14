@@ -4876,6 +4876,10 @@ msgstr "Antwort"
 msgid "Answer From Their Records"
 msgstr "Aus ihren Datensätzen antworten"
 
+#: onedesk/one_ai/jobs.py:41
+msgid "Answer Setup Questions"
+msgstr "Einrichtungsfragen beantworten"
+
 #: onedesk/public/js/one_mail/rule_builder.js:494
 msgid "Answer every message with the same words, once in each conversation."
 msgstr "Jede Nachricht mit denselben Worten beantworten, einmal pro Unterhaltung."
@@ -4939,6 +4943,11 @@ msgstr "Antwortet an"
 #: onedesk/one_mail/flow.py:301
 msgid "Answers a Conversation"
 msgstr "Antwortet in einer Unterhaltung"
+
+#: frontend/portal/src/start/Ask.vue:25
+#, python-brace-format
+msgid "Answers come from {0} and can be wrong. Nothing is chosen until you press Use This."
+msgstr "Antworten kommen von {0} und können falsch sein. Nichts wird gewählt, bis Sie auf Übernehmen drücken."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:332
 msgid "Answers from your own records"
@@ -5745,6 +5754,10 @@ msgstr "OneAI fragen"
 msgid "Ask OneAI for a slide, a picture or a video, keep versions and print from File, and play the presentation."
 msgstr "Bitten Sie OneAI um eine Folie, ein Bild oder ein Video, bewahren Sie Versionen auf und drucken Sie über Datei, und spielen Sie die Präsentation ab."
 
+#: frontend/portal/src/start/Ask.vue:22
+msgid "Ask a question"
+msgstr "Eine Frage stellen"
+
 #: onedesk/one_ai/manifest.py:14
 msgid "Ask about anything in the workspace, and have drafts, summaries and answers written for you."
 msgstr "Fragen Sie alles im Arbeitsbereich und lassen Sie sich Entwürfe, Zusammenfassungen und Antworten schreiben."
@@ -5817,6 +5830,10 @@ msgstr "Preise bei Lieferanten anfragen"
 msgid "Ask suppliers for prices, see their answers side by side and order the cheapest."
 msgstr "Lieferanten nach Preisen fragen, ihre Antworten nebeneinander sehen und das Günstigste bestellen."
 
+#: frontend/portal/src/start/Ask.vue:2
+msgid "Ask the Setup Guide"
+msgstr "Den Einrichtungsassistenten fragen"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:26
 msgid "Ask the owner to share it with you, then reload."
 msgstr "Bitten Sie den Eigentümer, sie mit Ihnen zu teilen, und laden Sie dann neu."
@@ -5840,6 +5857,10 @@ msgstr "Fragen Sie uns alles"
 #: onedesk/one_display/starters.py:805
 msgid "Ask us what it is"
 msgstr "Fragen Sie uns, was es ist"
+
+#: frontend/portal/src/start/Ask.vue:6
+msgid "Ask what a question means, what a plan includes or which apps suit your company."
+msgstr "Fragen Sie, was eine Frage bedeutet, was ein Tarif enthält oder welche Apps zu Ihrem Unternehmen passen."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:190
 #: onedesk/public/js/one_interface/chrome.js:156
@@ -20077,6 +20098,10 @@ msgstr "Füllen"
 msgid "Fill Color"
 msgstr "Füllfarbe"
 
+#: onedesk/one/setup_center_agent.py:45
+msgid "Fill In a Step"
+msgstr "Schritt ausfüllen"
+
 #. Label of the fill (Check) field in DocType 'Display Slide'
 #: onedesk/one_display/doctype/display_slide/display_slide.json:54
 msgid "Fill Screen"
@@ -32901,6 +32926,10 @@ msgstr "Keine Zusatzpakete verfügbar"
 msgid "No agents yet"
 msgstr "Noch keine Agenten"
 
+#: frontend/portal/src/start/Ask.vue:60
+msgid "No answer came back. Ask again in other words."
+msgstr "Es kam keine Antwort. Fragen Sie mit anderen Worten erneut."
+
 #: onedesk/public/js/doctype_settings.js:168
 #: onedesk/public/js/one_studio/studio_control.js:67
 msgid "No approvals"
@@ -42752,6 +42781,10 @@ msgstr "Zurückgelesen bis"
 msgid "Read Check-ins"
 msgstr "Einchecken auswerten"
 
+#: onedesk/one/setup_center_agent.py:43
+msgid "Read Each App's Steps"
+msgstr "Schritte jeder App lesen"
+
 #. Label of the records (Check) field in DocType 'Reading Settings'
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json:22
 msgid "Read Files Attached to Records"
@@ -42790,6 +42823,10 @@ msgstr ""
 #: onedesk/one_ai/jobs.py:55
 msgid "Read Scans"
 msgstr "Scans lesen"
+
+#: onedesk/one/setup_center_agent.py:41
+msgid "Read Where Data Is Kept"
+msgstr "Lesen, wo Daten gespeichert werden"
 
 #: onedesk/one_ai/jobs.py:76
 msgid "Read Words Aloud"
@@ -42876,6 +42913,22 @@ msgstr "Gelesen im Namen von {0}"
 #: frontend/src/slide/shim/EditorNavbar.vue:87
 msgid "Read only"
 msgstr "Nur lesen"
+
+#: onedesk/one/setup_center_agent.py:39
+msgid "Read the Apps"
+msgstr "Apps lesen"
+
+#: onedesk/one/setup_center_agent.py:38
+msgid "Read the Fields"
+msgstr "Branchen lesen"
+
+#: onedesk/one/setup_center_agent.py:40
+msgid "Read the Plans"
+msgstr "Tarife lesen"
+
+#: onedesk/one/setup_center_agent.py:42
+msgid "Read the Setup Questions"
+msgstr "Einrichtungsfragen lesen"
 
 #: onedesk/one_project/agent.py:100
 msgid "Read this project, then suggest the tasks it still needs, each with a due date before its end, as cards I can approve."
@@ -48251,6 +48304,11 @@ msgstr "Location aufbauen"
 msgid "Set up two-factor again on a new phone? Your old phone's codes stop working, and you scan a new code the next time you sign in."
 msgstr "Zwei-Faktor auf einem neuen Telefon neu einrichten? Die Codes Ihres alten Telefons funktionieren nicht mehr, und Sie scannen bei der nächsten Anmeldung einen neuen Code."
 
+#: onedesk/one_chat/cards.py:65
+#, python-brace-format
+msgid "Set up {0} with these answers?"
+msgstr "{0} mit diesen Antworten einrichten?"
+
 #: onedesk/one_studio/automations.py:111
 msgid "Set value of document fields."
 msgstr "Setzt Werte von Feldern des Datensatzes."
@@ -48388,6 +48446,10 @@ msgstr "Antworten zur Einrichtung"
 #: onedesk/public/js/outside.js:70
 msgid "Setup Auto Email"
 msgstr ""
+
+#: frontend/portal/src/start/Ask.vue:3
+msgid "Setup Guide"
+msgstr "Einrichtungsassistent"
 
 #: onedesk/one_admin/accounts.py:179
 msgid "Setup hit a problem on our side. We're working on it."
@@ -52116,6 +52178,10 @@ msgstr "Einen Briefkopf vorschlagen"
 msgid "Suggest a letter head drawn from our details in One's ControlCenter (Company and Branding): the header and the footer presets that suit us, as the default."
 msgstr "Schlage einen Briefkopf aus unseren Daten im ControlCenter von One (Firma und Markenauftritt) vor: die passenden Vorlagen für Kopf- und Fußzeile, als Standard."
 
+#: onedesk/one/setup_center_agent.py:44
+msgid "Suggest an Answer"
+msgstr "Antwort vorschlagen"
+
 #: onedesk/one/agent.py:183
 msgid "Suggest an approval for Purchase Invoices: a bill starts Pending, an accounts user approves it up to 5,000 and an accounts manager above that, and a manager may reject it."
 msgstr "Schlage eine Freigabe für Eingangsrechnungen vor: Eine Rechnung beginnt als Ausstehend, ein Buchhaltungsbenutzer gibt sie bis 5.000 frei und ein Buchhaltungsleiter darüber, und ein Leiter kann sie ablehnen."
@@ -53746,6 +53812,10 @@ msgstr "Dieser Ordner ist nicht in diesem Postfach."
 #: onedesk/account_center/bills.py:146
 msgid "That invoice has nothing to book."
 msgstr "Diese Rechnung enthält nichts zu buchen."
+
+#: onedesk/one_admin/wizard_ask.py:81
+msgid "That is as many questions as one signup may ask today."
+msgstr "Das sind so viele Fragen, wie eine Registrierung heute stellen darf."
 
 #: onedesk/one_admin/proxy.py:242
 msgid "That is not a day and hour."
@@ -55702,6 +55772,14 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 #: onedesk/one_cloud/doctype/cloud_mount/cloud_mount.json:50
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
+
+#: onedesk/one_admin/wizard_ask.py:63
+msgid "The setup guide could not be reached. Try again in a moment."
+msgstr "Der Einrichtungsassistent ist nicht erreichbar. Versuchen Sie es gleich noch einmal."
+
+#: onedesk/one_admin/wizard_ask.py:66
+msgid "The setup guide isn't available right now."
+msgstr "Der Einrichtungsassistent ist gerade nicht verfügbar."
 
 #. Description of the 'Last Step' (Data) field in DocType 'Account Request'
 #: onedesk/one_admin/doctype/account_request/account_request.json:136
@@ -59185,6 +59263,10 @@ msgstr "Typ"
 msgid "Type / to insert a field of the record."
 msgstr "Tippen Sie /, um ein Feld des Datensatzes einzufügen."
 
+#: onedesk/one_admin/wizard_ask.py:57
+msgid "Type a question first."
+msgstr "Geben Sie zuerst eine Frage ein."
+
 #: onedesk/one_interface/tour.py:12
 msgid "Type here to search what is on this screen, or press Ctrl+K to search everything."
 msgstr "Tippen Sie hier, um auf diesem Bildschirm zu suchen, oder drücken Sie Strg+K, um alles zu durchsuchen."
@@ -60139,6 +60221,10 @@ msgstr "Verwenden Sie Server bestellen oder Server verbinden, um einen Server hi
 #: onedesk/public/js/one_mail/onemail_settings.js:951
 msgid "Use SSL"
 msgstr "SSL verwenden"
+
+#: frontend/portal/src/start/Ask.vue:14
+msgid "Use This"
+msgstr "Übernehmen"
 
 #: onedesk/www/s.html:118
 msgid "Use Your Phone as the Remote"
@@ -61797,6 +61883,11 @@ msgstr "Was schuldet uns dieser Kunde, auf welchen Rechnungen, und wie verspäte
 #: onedesk/one_inventory/agent.py:81
 msgid "What does this warehouse hold, what is it worth, and what in it is low or short?"
 msgstr "Was liegt in diesem Lager, was ist es wert, und was davon ist knapp oder fehlt?"
+
+#: onedesk/public/js/one/setup_center.js:71
+#, python-brace-format
+msgid "What does {0} set up, and what should we answer?"
+msgstr "Was richtet {0} ein, und was sollen wir antworten?"
 
 #: onedesk/public/js/one/setup_center.js:78
 msgid "What each app needs set up so it works the way your company does."
@@ -68103,6 +68194,11 @@ msgstr "ein Passkey, der diesen Monat zweimal zurückgesetzt wurde"
 msgid "a position vaguer than the location"
 msgstr "eine Position, ungenauer als der Ort"
 
+#: onedesk/one_ai/reading/act.py:750
+#, python-brace-format
+msgid "a step's answers are changed again in {0}"
+msgstr "die Antworten eines Schritts werden in {0} erneut geändert"
+
 #: onedesk/one_studio/print_props.py:171
 msgid "a width in pixels, such as 120px"
 msgstr "eine Breite in Pixeln, etwa 120px"
@@ -69326,6 +69422,10 @@ msgstr "sections ist eine Liste von Abschnitten, jeder eine Liste von Spalten."
 #, python-brace-format
 msgid "sections is not JSON: {0}."
 msgstr "sections ist kein JSON: {0}."
+
+#: onedesk/one/manifest.py:86
+msgid "setup guide"
+msgstr "Einrichtungsassistent"
 
 #: onedesk/one_cloud/share.py:92
 #, python-brace-format

@@ -98,6 +98,42 @@ export async function save(step, said = {}, events = []) {
   take(await ask("save", { request: held.request, key: held.key, step, ...said, events }));
 }
 
+export function chooseField(id) {
+  answers.field = id;
+  const preset = offer.value.fields.find((one) => one.id === id)?.apps || [];
+  answers.apps = Object.fromEntries(offer.value.apps.filter((one) => !one.always).map((one) => [one.id, preset.includes(one.id)]));
+}
+
+export async function use(suggestion) {
+  const given = suggestion.answers || {};
+  if (suggestion.question === "field") {
+    chooseField(given.field);
+    return save("field", { answers: { field: answers.field, apps: answers.apps } });
+  }
+  if (suggestion.question === "apps") {
+    answers.apps = { ...answers.apps, ...given.apps };
+    return save("apps", { answers: { apps: answers.apps } });
+  }
+  if (suggestion.question === "plan") {
+    held.plan = given.plan;
+    return save("plan", { plan: held.plan });
+  }
+  if (suggestion.question === "region") {
+    held.region = given.region;
+    return save("region", { region: held.region });
+  }
+}
+
+export const askGuide = (question, step, said) =>
+  call("onedesk.one_admin.wizard_ask.ask", {
+    question,
+    step,
+    said,
+    answers: { field: answers.field, apps: answers.apps, language: answers.language, time_zone: answers.time_zone, plan: held.plan, region: held.region },
+    request: held.request,
+    key: held.key,
+  });
+
 export const pay = () => ask("pay", { request: held.request, key: held.key });
 
 export const finish = (events) => ask("finish", { request: held.request, key: held.key, events });

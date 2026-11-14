@@ -17,7 +17,7 @@ from frappe.utils import cint, flt
 from onedesk.one_ai.reading import mark
 from onedesk.one_hr.hiring import AUTHOR
 
-KINDS = ("Create", "Update", "Add", "Link", "Attach", "Rename", "Move", "Tag", "Comment")
+KINDS = ("Create", "Update", "Add", "Link", "Attach", "Rename", "Move", "Tag", "Comment", "Step")
 
 NEEDS = {
 	"Create": "create",
@@ -29,6 +29,7 @@ NEEDS = {
 	"Move": "write",
 	"Tag": "read",
 	"Comment": "read",
+	"Step": "write",
 }
 
 FLOOR = 70
@@ -240,6 +241,10 @@ def as_oneai(person: str | None = None, acting_for: str | None = None):
 def allowed(action: Action, person: str) -> bool:
 	"""May the person OneAI acts for do this themselves?"""
 	ptype = NEEDS[action.kind]
+	if action.kind == "Step":
+		from onedesk.one import setup_steps
+
+		return setup_steps.allowed(action.values, person)
 	if action.kind == "Create":
 		return bool(frappe.has_permission(action.doctype, "create", user=person))
 	if not action.name or not frappe.db.exists(action.doctype, action.name):
@@ -439,6 +444,13 @@ def _comment(action: Action, before: dict) -> dict:
 	return {"name": action.name, "comment": made.name}
 
 
+def _step(action: Action, before: dict) -> dict:
+	"""A SetupCenter step saved from the answers on its card (setup_steps.filled)."""
+	from onedesk.one import setup_steps
+
+	return setup_steps.filled(action.values)
+
+
 WRITES = {
 	"Create": _create,
 	"Update": _update,
@@ -449,6 +461,7 @@ WRITES = {
 	"Move": _move,
 	"Tag": _tag,
 	"Comment": _comment,
+	"Step": _step,
 }
 
 
@@ -731,6 +744,12 @@ def _undo_comment(row, before, after) -> str | None:
 	return None
 
 
+def _undo_step(row, before, after) -> str | None:
+	from onedesk.one import registry
+
+	return _("a step's answers are changed again in {0}").format(registry.name("setup_center"))
+
+
 UNDO = {
 	"Create": _undo_create,
 	"Update": _undo_update,
@@ -741,6 +760,7 @@ UNDO = {
 	"Move": _undo_move,
 	"Tag": _undo_tag,
 	"Comment": _undo_comment,
+	"Step": _undo_step,
 }
 
 

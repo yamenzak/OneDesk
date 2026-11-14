@@ -2727,6 +2727,22 @@ AICenter has a tab for each (P8.2).
     `theirs.TOOLS` or none), and Intake's employee is the agent that took the
     document in (`reading/employee.py`).
 
+- **The setup guide** (`one/setup_center_agent.py`, P8.5). A centre may
+  declare an agent too (its part's `agent` in the manifest,
+  `registry/agents.centred`): SetupCenter's setup guide is
+  `setup-center@agents.one.invalid`, made on migrate with no role at all, and
+  its tools, levels and labels are in its own file (`levels.home`), checked
+  by the levels guard like an agent.py. It is not one of `listed()`: Intake,
+  the Worker (`api.tool` refuses it) and AICenter's tabs never see it. In a
+  workspace it answers whoever may do a step (`reaches`), and the panel
+  talks to it while SetupCenter is open (`one_chat/agents.for_page`); it
+  reads the steps, the apps and Help, and `fill_step` is a `Step` action
+  through the door, Ask First, so the answers are a card that runs the
+  step's own save once approved (`setup_steps.filled`) and cannot be undone
+  from the card. On OneAdmin it answers a guest in the signup wizard
+  (one_admin/AGENTS.md, The signup page) with the `setup_guide` job, its
+  offer reads and `suggest_answer`, which only returns a suggestion.
+
 The gate, 50 invoices with at most 2 corrected (`agents/evaluate.py`):
 
 - `bench --site SITE execute onedesk.one_ai.agents.evaluate.run` sends every
