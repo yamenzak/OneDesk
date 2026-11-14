@@ -195,3 +195,53 @@ def the_panel_is_a_conversation_with_an_agent():
 			api.leave(made)
 	finally:
 		frappe.db.rollback(save_point="chat_panel_check")
+
+
+@check
+def a_channel_s_automation_files_and_answers_what_it_watches_for():
+	"""Huda makes a channel with the owner and, in AutomationCenter, an
+	automation on it: a message that starts with todo becomes a task, said
+	in its thread with a reply in her name. The owner reads it and cannot
+	change it without making channels; Karim, outside, finds none. The run
+	is done here, as its background job does it. All undone."""
+	from onedesk.one import automation_center, rights
+	from onedesk.one_chat import api, automations
+
+	frappe.db.savepoint("chat_automation_check")
+	try:
+		with as_user(HUDA):
+			made = api.make("Automation check", private=1, people=json.dumps([OWNER]))["name"]
+			places = automation_center.places()
+			assert made in {scope["scope"] for place in places if place["trigger"] == automations.POSTED for scope in place["scopes"]}
+			offered = automation_center.blocks(automations.POSTED, made)
+			assert {"chat_reply", "chat_share", "chat_notify", "chat_create"} <= {one["key"] for one in offered["actions"]}
+			assert offered["starters"] and offered["trigger"]["where"] == "Automation check"
+			then = [{"type": "chat_create", "doctype": "Task"}, {"type": "chat_reply", "text": "On it, {sender_name}.", "thread": 1}]
+			steps = [{"type": "if", "id": "i1", "test": {"items": [{"field": "text", "op": "starts_with", "value": "todo"}]}, "then": then, "else": []}]
+			assert automation_center.problems(automations.POSTED, json.dumps(steps)) == []
+			name = automation_center.save(automations.POSTED, made, json.dumps({"title": "Todo", "enabled": 1, "steps": steps}))
+			listed = automation_center.automations(automations.POSTED, made)
+			assert [one["name"] for one in listed["rules"]] == [name] and listed["rules"][0]["then"]
+			sent = api.send(made, "todo count the petty cash")["message"]["name"]
+			other = api.send(made, "The petty cash is counted.")["message"]["name"]
+		assert automations.run(sent, made) == [name]
+		assert automations.run(other, made) == [], "what it does not watch for runs nothing"
+		replies = frappe.get_all("Chat Message", filters={"thread": sent}, fields=["text", "automation", "sender"])
+		assert len(replies) == 2 and {one.automation for one in replies} == {name} and {one.sender for one in replies} == {HUDA}
+		assert frappe.db.exists("Task", {"subject": "todo count the petty cash"}), "the task is made"
+		with as_user(OWNER):
+			assert name in {one.name for one in frappe.get_list("Automation", filters={"scope": made})}
+			if not rights.held("Chat Channel", "chat_channels"):
+				try:
+					automation_center.enable(name, 0)
+				except frappe.PermissionError:
+					pass
+				else:
+					raise AssertionError("the owner changed an automation without making channels")
+		with as_user(KARIM):
+			assert not frappe.get_list("Automation", filters={"scope": made}), "Karim reads no automation of a channel he is not in"
+		with as_user(HUDA):
+			automation_center.enable(name, 0)
+			automation_center.delete(name)
+	finally:
+		frappe.db.rollback(save_point="chat_automation_check")

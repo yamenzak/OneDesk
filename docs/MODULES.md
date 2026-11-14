@@ -90,7 +90,7 @@
 | Chat Channel Member | 3 | child |
 | Chat File | 1 | child |
 | Chat Mention | 2 | child |
-| Chat Message | 17 | document |
+| Chat Message | 18 | document |
 
 ## One Book
 

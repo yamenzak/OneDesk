@@ -72,6 +72,7 @@ def shaped(doc) -> dict:
 		"thread": doc.thread,
 		"sender": doc.sender,
 		"agent": doc.agent,
+		"automation": (frappe.db.get_value("Automation", doc.automation, "title") or doc.automation) if doc.automation else None,
 		"text": doc.text or "",
 		"creation": str(doc.creation),
 		"replies": cint(doc.replies),
@@ -139,14 +140,14 @@ def notify(doc, channel, mentioned: list[str]) -> None:
 	from onedesk.one import notify as hub
 
 	who = frappe.utils.get_fullname(doc.sender)
-	said = _short(doc.text) or _("Sent a file.")
+	said = short(doc.text) or _("Sent a file.")
 	link = f"/app/onechat?channel={channel.name}" + (f"&thread={doc.thread or doc.name}" if doc.thread or channel.kind == channels.CHANNEL else "")
 	for kind, users in told(channel.kind, channels.members_of(channel.name), doc.sender, mentioned).items():
 		if users:
 			hub.notify(kind, users, link=link, sender=doc.sender, who=who, conversation=channel.title, text=said)
 
 
-def _short(text: str | None) -> str:
+def short(text: str | None) -> str:
 	said = " ".join((text or "").split())
 	return said if len(said) <= SHOWN else said[: SHOWN - 1] + "…"
 

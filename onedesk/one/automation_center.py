@@ -30,7 +30,7 @@ def places() -> list[dict]:
 				as_list=True,
 			)
 		)
-		said.append({"trigger": one.key, "label": _(one.label), "icon": one.icon, "scopes": [{**place, "count": counts.get(place["scope"], 0)} for place in scopes]})
+		said.append({"trigger": one.key, "label": _(one.label), "icon": one.icon, "runs": _(one.runs).format(registry.name("one_ai")), "scopes": [{**place, "count": counts.get(place["scope"], 0)} for place in scopes]})
 	return said
 
 
@@ -70,7 +70,7 @@ def blocks(trigger: str, scope: str) -> dict:
 		if one.offers:
 			offers.update(one.offers())
 	return {
-		"trigger": {"key": held.key, "label": _(held.label), "icon": held.icon, "where": offers.get("email") or scope, "reads": int(held.reads)},
+		"trigger": {"key": held.key, "label": _(held.label), "icon": held.icon, "where": offers.get("where") or offers.get("email") or scope, "reads": int(held.reads)},
 		"conditions": [
 			{"key": one.key, "label": _(one.label), "kind": one.kind, "no": _(one.no) if one.no else "", "options": [{"value": value, "label": _(value)} for value in one.options]}
 			for one in kinds.conditions(trigger)

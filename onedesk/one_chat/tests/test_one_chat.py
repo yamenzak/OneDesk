@@ -144,3 +144,60 @@ def test_an_inline_ask_is_one_line_that_answers_in_place():
 def test_its_records_are_fixtures_of_its_own(name):
 	scrub = name.lower().replace(" ", "_")
 	assert (tree.APP / "one_chat" / "doctype" / scrub / f"{scrub}.json").exists()
+
+
+def test_a_channel_s_automations_are_its_members_and_run_on_what_people_post(monkeypatch):
+	"""AutomationCenter lists OneChat's automations by channel: a member reads
+	them, a member who may make channels changes them, and only a person's
+	message starts one, never an agent's or an automation's own."""
+	from onedesk.one import rights
+	from onedesk.one_chat import automations
+
+	monkeypatch.setattr(channels, "members_of", lambda channel: ["huda@x", "omar@x"])
+	monkeypatch.setattr(frappe, "db", _dict({"get_value": lambda *args, **kwargs: channels.CHANNEL, "exists": lambda *args, **kwargs: True, "escape": lambda value: f"'{value}'"}), raising=False)
+	monkeypatch.setattr(rights, "held", lambda doctype, ptype, user=None: user == "huda@x")
+	row = _dict({"scope": "c1"})
+	assert automations.allowed(row, "read", "omar@x") and not automations.allowed(row, "write", "omar@x")
+	assert automations.allowed(row, "write", "huda@x") and not automations.allowed(row, "read", "karim@x")
+	assert "`tabChat Channel Member`" in automations.query("omar@x")
+	queued = []
+	monkeypatch.setattr(frappe, "enqueue", lambda *args, **kwargs: queued.append(kwargs))
+	channel = _dict({"name": "c1", "kind": channels.CHANNEL})
+	for posted in (_dict({"name": "m1", "automation": "A1", "agent": ""}), _dict({"name": "m2", "automation": None, "agent": "one_book"})):
+		automations.fire(posted, channel)
+	assert not queued, "nothing an automation or an agent posts starts one"
+	automations.fire(_dict({"name": "m3", "automation": None, "agent": ""}), channel)
+	assert queued and queued[0]["message"] == "m3" and queued[0]["enqueue_after_commit"]
+
+
+def test_an_automation_s_agent_answers_from_the_instruction_and_the_thread_alone(monkeypatch):
+	from onedesk.one_chat import automations
+
+	monkeypatch.setattr(frappe.utils, "get_fullname", lambda user: user.split("@")[0].title())
+	said = [_dict({"sender": "huda@x", "text": "Is the printer fixed?"}), _dict({"sender": "it@agents", "agent": "", "text": "Not yet."}), _dict({"sender": "omar@x", "text": ""})]
+	turns = automations.told("You are IT's agent.", "Say the printer is fixed on Monday.", said, "it@agents")
+	assert turns[0]["context"] and "Say the printer is fixed on Monday." in turns[0]["text"] and "cannot look anything up" in turns[0]["text"]
+	assert [one["role"] for one in turns[1:]] == ["user", "model"], "its own words are its own, an empty message is left out"
+	assert turns[1]["text"] == "Huda: Is the printer fixed?"
+	assert automations.last_words({"turns": [{"role": "model", "text": "First"}, {"role": "tool"}, {"role": "model", "text": " Last "}]}) == "Last"
+	answered = (tree.APP / "one_chat" / "automations.py").read_text().split("def answered(", 1)[1].split("\ndef ", 1)[0]
+	assert "tools=((), ())" in answered, "no tools: nothing a record holds reaches the conversation"
+
+
+def test_the_working_day_runs_past_midnight_too():
+	from datetime import time
+
+	from onedesk.one.automation import hours
+
+	assert hours.outside(time(20), time(8), time(17)) and not hours.outside(time(9), time(8), time(17))
+	assert not hours.outside(time(23), time(22), time(6)) and hours.outside(time(12), time(22), time(6))
+
+
+def test_onechat_declares_its_own_blocks_and_the_engine_names_none():
+	blocks = (tree.APP / "one_chat" / "blocks.py").read_text()
+	assert "Trigger(\n\t\tPOSTED," in blocks and 'scope="Chat Channel"' in blocks
+	for key in ("chat_reply", "chat_answer", "chat_share", "chat_notify", "chat_create"):
+		assert f'"{key}"' in blocks, key
+	engine = "".join((tree.APP / "one" / "automation" / name).read_text() for name in ("engine.py", "flow.py", "kinds.py"))
+	assert "one_chat" not in engine and "Chat Message" not in engine
+	assert "automations.fire(message, doc)" in (tree.APP / "one_chat" / "api.py").read_text()

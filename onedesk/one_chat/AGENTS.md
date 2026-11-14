@@ -115,6 +115,42 @@ doubts (audit Wrong) from whoever did it. A doubted card has **Keep**
 what OneAI's Documents page did; a person's queue is their conversations with
 the agents, and read and unread are each conversation's.
 
+## Automations
+
+A channel's automations are AutomationCenter's (one/AGENTS.md, automation/),
+with OneChat's own blocks in `blocks.py`: the trigger `one_chat.posted`,
+"When a message is posted", whose place (`scope`) is a Chat Channel of kind
+Channel, so AutomationCenter lists them by channel as it lists OneMail's by
+mailbox. What people automate in a team chat was surveyed from Slack's
+Workflow Builder, Discord's AutoMod and Teams' keyword flows: a reply to
+words they watch for, a message passed to another channel, somebody told, a
+ticket or a task made, a bot answering. So the Ifs ask the message's Text,
+who it is From, In a Thread, Has File, After Hours and On a Holiday
+(`one/automation/hours.py`, which any trigger may use), and the actions are
+Reply, Post in a Channel, Tell Someone, Create a Record (a Task or an Issue,
+linked in the message's thread) and Let an Agent Answer; OneAI's Hand to an
+Agent is offered here as on every trigger.
+
+`automations.py` keeps them (the trigger's `keeps`): a member of the channel
+who holds Make Channels changes them (`manages`), every member reads them
+(`allowed`, `query`), and nobody asks for one, so `decide` refuses.
+`api.send` calls `fire`, which queues `run` after the message is saved: the
+engine walks the channel's automations on `facts_of` the message. Only a
+person's message starts one: a message an automation posts carries its
+`automation` (drawn as a badge with its title) and an agent's its `agent`,
+and neither fires, so no automation answers itself. Each action acts as
+whoever made the automation, and only while they are still in the channel
+(and in the other channel, for Post in a Channel).
+
+Let an Agent Answer runs `talk.ask` with no tools and one round
+(`answered`): the agent is told who it is, the automation's instruction and
+the thread, words only, and answers in the thread as itself. With no tools it
+can say only what the instruction and the conversation say, never what a
+record holds, so an automation cannot turn its owner's reach into a
+channel's. It answers at most `ANSWERS_A_CONVERSATION` times a day in one
+conversation for one automation, and not at all while OneAI or the agent is
+off or the owner may no longer talk to it.
+
 ## The panel
 
 `public/js/one_ai/panel/Panel.vue` reads and writes through `panel.py`: its

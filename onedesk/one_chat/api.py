@@ -7,7 +7,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint
 
-from onedesk.one_chat import agents, answers, cards, channels, messages
+from onedesk.one_chat import agents, answers, automations, cards, channels, messages
 
 PAGE = 50
 
@@ -126,7 +126,8 @@ def send(channel: str, text: str = "", thread: str | None = None, files=None, pa
 	mentions = [{"user": user} for user in people] + [{"agent": one} for one in named]
 	message = messages.post(doc, text, thread=thread, files=attached, mentions=mentions)
 	messages.notify(message, doc, people)
-	run = answers.ask(message, doc, agent, held, page=page, field=field) if agent else None
+	automations.fire(message, doc)
+	run =answers.ask(message, doc, agent, held, page=page, field=field) if agent else None
 	return {"message": messages.shaped(message), "run": run, "agent": agent}
 
 

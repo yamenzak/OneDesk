@@ -1,6 +1,6 @@
 // AutomationCenter (docs/ARC-AI.md, AutomationCenter; one/automation_center.py):
 // every automation the reader keeps or asks for, a section for each place
-// one runs (a mailbox), grouped by what starts it. A place lists its
+// one runs (a mailbox, a channel), grouped by what starts it. A place lists its
 // automations in the order they run; opening one, or New Automation, draws
 // its builder, the island onedesk.automation (frontend/src/automation/), on
 // frappe's own flow canvas. Save, Send Request, Approve, Decline and Delete
@@ -75,9 +75,7 @@ onedesk.centers.declare("automation", {
 			label: scope.label,
 			icon: place.icon,
 			title: scope.label,
-			description: scope.manages
-				? __("Run in order on each new message, before what {0} does.", [onedesk.names.of("one_ai")])
-				: __("Run in order on each new message once a Mail Manager approves them."),
+			description: scope.manages ? place.runs : __("Run in order on each new message once a Mail Manager approves them."),
 			count: scope.count || null,
 			actions: [{ label: scope.manages ? __("New Automation") : __("Request Automation"), icon: "plus", click: (panel) => builder(panel, place, scope) }],
 			/** The place's automations, each a row opening its builder, with its switch or what it waits for: rows that open views of their own. */

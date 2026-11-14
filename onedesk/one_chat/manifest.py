@@ -36,4 +36,8 @@ APP = App(
 	hooks={
 		"one_ai_waiting": ("cards.waiting",),
 	},
+	makes=(
+		"Issue",
+		"Task",
+	),
 )
