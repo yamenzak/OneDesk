@@ -21,6 +21,7 @@ USES = (
 	Use("oneos", _lt("Opening a file in {oneos} uses credits for each minute it is open.")),
 	Use("office", _lt("Turning a Word, Excel or PowerPoint file into a PDF uses credits for the seconds it takes.")),
 	Use("mail", _lt("Each mail sent from a workspace address uses one credit.")),
+	Use("guard", _lt("Previewing a link in a throwaway browser uses credits for the seconds it takes.")),
 )
 
 IDS = tuple(one.id for one in USES)

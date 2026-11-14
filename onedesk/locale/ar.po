@@ -647,6 +647,10 @@ msgstr "لا يمكن استخدام جدول فرعي كمصدر."
 msgid "A class of shares."
 msgstr "فئة من الأسهم."
 
+#: frontend/src/mail/MailFile.vue:41
+msgid "A clean copy was made"
+msgstr "أُنشئت نسخة نظيفة"
+
 #: onedesk/one_hr/home.py:90
 msgid "A clock-in the clock was not sure of, waiting for HR."
 msgstr "تسجيل حضور لم تتأكد منه الساعة، بانتظار الموارد البشرية."
@@ -9995,6 +9999,10 @@ msgstr "جارٍ تسجيل الانصراف…"
 msgid "Checking the app is on the server"
 msgstr "التحقق من وجود التطبيق على الخادم"
 
+#: frontend/src/mail/MailFile.vue:4
+msgid "Checking the file…"
+msgstr "جارٍ فحص الملف…"
+
 #: onedesk/one_admin/steps.py:45
 msgid "Checking the name is free"
 msgstr "التحقق من توفر الاسم"
@@ -12418,6 +12426,10 @@ msgstr "تعذّر حفظ الشريحة: احفظ العرض أولاً."
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:38
 msgid "Could not load the templates."
 msgstr "تعذر تحميل القوالب."
+
+#: onedesk/one_mail/sandbox.py:191
+msgid "Could not make a clean copy. Only the original can be opened."
+msgstr "تعذّر إنشاء نسخة نظيفة. لا يمكن فتح إلا الأصل."
 
 #: onedesk/one_deck/data.py:309
 msgid "Could not make presentations: there are no records you may file one on."
@@ -20273,6 +20285,10 @@ msgstr "حُفظ مع {0}"
 msgid "Files"
 msgstr "الملفات"
 
+#: frontend/src/mail/MailFile.vue:13
+msgid "Files Inside"
+msgstr "الملفات بداخله"
+
 #: onedesk/one_cloud/manifest.py:20
 #, python-brace-format
 msgid "Files a browser can't open, edited in {oneos}"
@@ -26197,6 +26213,11 @@ msgstr "تغيّر للجميع. اطّلع عليه في {one_studio} › ال�
 msgid "It could not be delivered to {to}. Open it to see why, and send it again."
 msgstr "تعذّر تسليمها إلى {to}. افتحها لترى السبب، وأرسلها مرة أخرى."
 
+#: frontend/src/mail/MailLink.vue:26
+#, python-brace-format
+msgid "It ends at {0}, not where the link points."
+msgstr "ينتهي عند {0}، لا حيث يشير الرابط."
+
 #: onedesk/one_admin/heads.py:299
 #, python-brace-format
 msgid "It expired on {0} with {1} of {2} credits unused."
@@ -28974,6 +28995,14 @@ msgstr "مرتبطة: {0}"
 #: onedesk/public/js/one_portal/portal.js:168
 msgid "Links"
 msgstr "الروابط"
+
+#: frontend/src/mail/MailRisk.vue:8
+msgid "Links in this message open Preview Link first."
+msgstr "تفتح الروابط في هذه الرسالة معاينة الرابط أولًا."
+
+#: frontend/src/mail/MailRisk.vue:8
+msgid "Links in this message open only in Preview Link."
+msgstr "لا تُفتح الروابط في هذه الرسالة إلا في معاينة الرابط."
 
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:95
 #, python-brace-format
@@ -35000,6 +35029,10 @@ msgstr "لم يُقرأ شيء بعد"
 msgid "Nothing requested or received"
 msgstr "لم يُطلب أو يُستلم شيء"
 
+#: frontend/src/mail/MailFile.vue:43
+msgid "Nothing risky was found"
+msgstr "لم يُعثر على ما هو خطِر"
+
 #: frontend/src/cloud/cloud.js:149
 msgid "Nothing shared with you"
 msgstr "لا شيء مُشارَك معك"
@@ -37162,6 +37195,10 @@ msgstr "فتح المقال"
 msgid "Open Automation"
 msgstr "افتح الأتمتة"
 
+#: frontend/src/mail/MailFile.vue:75
+msgid "Open Clean Copy"
+msgstr "فتح النسخة النظيفة"
+
 #. The button on a notification's mail
 #: onedesk/one_mail/notifications.py
 msgid "Open Conversation"
@@ -37260,6 +37297,10 @@ msgstr "فتح الأمر"
 #: onedesk/one_book/heads.py:697 onedesk/one_crm/heads.py:343
 msgid "Open Orders"
 msgstr ""
+
+#: frontend/src/mail/MailFile.vue:74
+msgid "Open Original"
+msgstr "فتح الأصل"
 
 #. The button on a notification's mail
 #: onedesk/account_center/notifications.py
@@ -37492,6 +37533,10 @@ msgstr "فُتح في"
 msgid "Opened once"
 msgstr "فُتح مرة واحدة"
 
+#: frontend/src/mail/MailLink.vue:39
+msgid "Opened without your sign-in or cookies."
+msgstr "فُتحت دون تسجيل دخولك أو ملفات تعريف الارتباط."
+
 #: frontend/src/quality/QualityHome.vue:198
 #, python-brace-format
 msgid "Opened {0}"
@@ -37566,6 +37611,10 @@ msgstr "ساعات العمل اليوم: 9:00 إلى 18:00"
 msgid "Opening payment…"
 msgstr "جارٍ فتح الدفع…"
 
+#: frontend/src/mail/MailLink.vue:20
+msgid "Opening the page in a throwaway browser…"
+msgstr "جارٍ فتح الصفحة في متصفح مؤقت…"
+
 #: onedesk/one_display/starters.py:997
 msgid "Opening words"
 msgstr "كلمة الافتتاح"
@@ -37578,6 +37627,10 @@ msgstr "جارٍ فتح {0} في OneOS…"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:224
 msgid "Openings"
 msgstr "الوظائف الشاغرة"
+
+#: frontend/src/mail/MailLink.vue:17
+msgid "Opens"
+msgstr "يفتح"
 
 #. Description of the 'Create AWS User' (Button) field in DocType 'One Admin
 #. Settings'
@@ -40521,6 +40574,10 @@ msgstr "الصورة"
 msgid "Picture and Text"
 msgstr "صورة ونص"
 
+#: frontend/src/mail/MailLink.vue:31
+msgid "Picture of the page"
+msgstr "صورة الصفحة"
+
 #: frontend/src/cloud/OneCloud.vue:1134
 msgid "Picture saved."
 msgstr "تم حفظ الصورة."
@@ -41335,6 +41392,11 @@ msgstr "معاينة"
 msgid "Preview Kept For"
 msgstr "المعاينة المحفوظة لـ"
 
+#: frontend/src/mail/MailConversation.vue:198 frontend/src/mail/MailLink.vue:2
+#: frontend/src/mail/MailRisk.vue:10
+msgid "Preview Link"
+msgstr "معاينة الرابط"
+
 #: frontend/src/cloud/CloudViewer.vue:52
 msgid "Preview as PDF"
 msgstr "معاينة كملف PDF"
@@ -41355,6 +41417,10 @@ msgstr "معاينة: {0}"
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:9
 msgid "Previewing"
 msgstr "معاينة"
+
+#: onedesk/one/registry/credits.py:24
+msgid "Previewing a link in a throwaway browser uses credits for the seconds it takes."
+msgstr "تستهلك معاينة رابط في متصفح مؤقت رصيدًا بقدر الثواني التي تستغرقها."
 
 #: frontend/portal/src/parts/Gallery.vue:9
 #: frontend/src/cloud/CloudViewer.vue:24
@@ -44185,6 +44251,15 @@ msgstr "سلة المحذوفات"
 #: frontend/src/cloud/cloud.js:13
 msgid "Red"
 msgstr ""
+
+#: frontend/src/mail/MailLink.vue:37
+msgid "Redirected once"
+msgstr "أُعيد توجيهه مرة واحدة"
+
+#: frontend/src/mail/MailLink.vue:37
+#, python-brace-format
+msgid "Redirected {0} times"
+msgstr "أُعيد توجيهه {0} مرات"
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:104
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:105
@@ -49834,6 +49909,10 @@ msgstr "سجّل حضورك هنا"
 msgid "Sign in on arrival"
 msgstr "سجّل حضورك عند الوصول"
 
+#: frontend/src/mail/MailLink.vue:24
+msgid "Sign in only on a site you opened yourself."
+msgstr "سجّل الدخول فقط في موقع فتحته بنفسك."
+
 #: onedesk/www/message.html:20
 msgid "Sign in to see this page."
 msgstr "سجّل الدخول لرؤية هذه الصفحة."
@@ -55316,6 +55395,10 @@ msgstr "تُملأ الحقول في هذا المستند من {0}."
 msgid "The figures a supplier's score is worked out from."
 msgstr "الأرقام التي يُحسب منها تقييم المورد."
 
+#: onedesk/one_admin/proxy.py:375
+msgid "The file could not be checked."
+msgstr "تعذّر فحص الملف."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:2032
 #, python-brace-format
 msgid "The file couldn’t be read: {0}"
@@ -55603,6 +55686,14 @@ msgstr "الترويسات وتنسيقات الطباعة التي تُطبع �
 msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
 msgstr "الخطوط المسحوبة من المساطر لمحاذاة العناصر عليها. تظهر في المحرر فقط."
 
+#: onedesk/one_admin/proxy.py:360
+msgid "The link could not be opened."
+msgstr "تعذّر فتح الرابط."
+
+#: onedesk/one_mail/sandbox.py:73
+msgid "The link couldn't be previewed right now. Try again later."
+msgstr "تعذّرت معاينة الرابط الآن. حاول لاحقًا."
+
 #: onedesk/public/js/outside.js:269 onedesk/www/404.html:16
 #: onedesk/www/error.py:18
 msgid "The link may be broken, or the page has moved."
@@ -55852,6 +55943,10 @@ msgstr "يُذكَّر المسؤول في هذا الوقت."
 msgid "The page"
 msgstr "الصفحة"
 
+#: onedesk/one_mail/sandbox.py:65
+msgid "The page couldn't be reached."
+msgstr "تعذّر الوصول إلى الصفحة."
+
 #: onedesk/one_studio/printing.py:559
 #, python-brace-format
 msgid "The page number position must be one of {0}."
@@ -55861,6 +55956,10 @@ msgstr "يجب أن يكون موضع رقم الصفحة أحد {0}."
 #: onedesk/one_studio/doctype/extension/extension.json:87
 msgid "The page the extension runs on and the event it waits for. Example: OneMail, when a conversation is opened."
 msgstr "الصفحة التي تعمل عليها الإضافة والحدث الذي تنتظره. مثال: OneMail عند فتح محادثة."
+
+#: onedesk/one_mail/sandbox.py:64
+msgid "The page took too long to open. The picture shows how far it got."
+msgstr "استغرق فتح الصفحة وقتًا طويلًا. تُظهر الصورة إلى أين وصلت."
 
 #: onedesk/one_crm/home.py:165
 msgid "The part of the market a lead or a customer is in."
@@ -56681,6 +56780,10 @@ msgstr "لا تفتح مساحة العمل عليه بعد."
 msgid "The workspace doesn't have enough credits to open this in OneOS."
 msgstr "لا يكفي رصيد مساحة العمل لفتح هذا في OneOS."
 
+#: onedesk/one_mail/sandbox.py:72
+msgid "The workspace has no credits left for this."
+msgstr "لم يبقَ لمساحة العمل رصيد لهذا."
+
 #: onedesk/one_ai/reading/tell.py:102
 msgid "The workspace has run out of credits. It is read as soon as more are added."
 msgstr "نفد رصيد مساحة العمل. ستتم القراءة فور إضافة المزيد."
@@ -57321,6 +57424,14 @@ msgstr "لا يضم هذا الحساب أي مساحة عمل بعد."
 msgid "This account is not a person's."
 msgstr "هذا الحساب لا يخص شخصاً."
 
+#: onedesk/one_mail/sandbox.py:205
+msgid "This attachment has no clean copy yet."
+msgstr "لا توجد نسخة نظيفة لهذا المرفق بعد."
+
+#: onedesk/one_mail/sandbox.py:137
+msgid "This attachment no longer exists."
+msgstr "لم يعد هذا المرفق موجودًا."
+
 #: onedesk/one_hr/review.py:40
 msgid "This attempt was already reviewed."
 msgstr "سبق أن روجعت هذه المحاولة."
@@ -57439,6 +57550,10 @@ msgstr "لم تجتز هذه الإضافة مراجعتها، لذا لا يم�
 msgid "This feed is not in the library."
 msgstr "هذه الخلاصة ليست في المكتبة."
 
+#: frontend/src/mail/MailFile.vue:40
+msgid "This file can't be opened here"
+msgstr "لا يمكن فتح هذا الملف هنا"
+
 #: frontend/src/cloud/CloudViewer.vue:71
 msgid "This file can't be shown here."
 msgstr "لا يمكن عرض هذا الملف هنا."
@@ -57474,6 +57589,10 @@ msgstr "هذا الملف أكبر من أن يوضع على شريحة."
 #: onedesk/www/r.py:17
 msgid "This file type isn't accepted."
 msgstr "نوع الملف هذا غير مقبول."
+
+#: frontend/src/mail/MailFile.vue:42
+msgid "This file wasn't checked"
+msgstr "لم يُفحص هذا الملف"
 
 #: frontend/src/cloud/cloud.js:159
 msgid "This folder is empty"
@@ -57583,6 +57702,10 @@ msgstr "هذا العنصر لم يعد موجودًا."
 msgid "This letter is issued at the employee's request."
 msgstr "صدر هذا الخطاب بناءً على طلب الموظف."
 
+#: onedesk/one_mail/sandbox.py:63
+msgid "This link downloads a file instead of opening a page."
+msgstr "ينزّل هذا الرابط ملفًا بدل فتح صفحة."
+
 #: onedesk/one_portal/share.py:419
 msgid "This link has been answered already."
 msgstr "تم الرد عبر هذا الرابط من قبل."
@@ -57590,6 +57713,10 @@ msgstr "تم الرد عبر هذا الرابط من قبل."
 #: onedesk/one_admin/accounts.py:359
 msgid "This link has been used or has expired. Ask for a new one from your account."
 msgstr "استُخدم هذا الرابط أو انتهت صلاحيته. اطلب رابطًا جديدًا من حسابك."
+
+#: onedesk/one_mail/sandbox.py:85
+msgid "This link isn't in the message."
+msgstr "هذا الرابط ليس في الرسالة."
 
 #: onedesk/www/r.html:17 onedesk/www/s.html:35
 msgid "This link isn't valid"
@@ -57622,6 +57749,10 @@ msgstr "هذه الرسالة أكبر من 5 ميغابايت. شارك الم�
 msgid "This message isn't in a mailbox."
 msgstr "هذه الرسالة ليست في صندوق بريد."
 
+#: onedesk/one_mail/sandbox.py:35
+msgid "This message no longer exists."
+msgstr "لم تعد هذه الرسالة موجودة."
+
 #: frontend/src/project/Months.vue:15 frontend/src/project/Overview.vue:93
 #: frontend/src/project/Overview.vue:96 onedesk/one_display/starters.py:934
 msgid "This month"
@@ -57643,6 +57774,10 @@ msgstr "هذه الشبكة ليست من الشبكات التي يجوز لك 
 #: onedesk/one_hr/overtime.py:269
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr "لا يوجد سعر محدد لهذا النوع من العمل الإضافي، فلا يدفع شيئاً."
+
+#: frontend/src/mail/MailLink.vue:23
+msgid "This page asks for a password."
+msgstr "تطلب هذه الصفحة كلمة مرور."
 
 #: onedesk/public/js/island_page.js:84
 msgid "This page has not been built"
@@ -71445,6 +71580,16 @@ msgstr "تعذّر على {0} صنع التسجيل. حاول مرة أخرى."
 msgid "{0} could not write the widget. Try again."
 msgstr "تعذّر على {0} كتابة الأداة. حاول مرة أخرى."
 
+#: onedesk/one_mail/sandbox.py:28
+#, python-brace-format
+msgid "{0} couldn't be checked right now. Try again later."
+msgstr "تعذّر فحص {0} الآن. حاول لاحقًا."
+
+#: onedesk/one_mail/sandbox.py:27
+#, python-brace-format
+msgid "{0} couldn't be read, so it wasn't checked."
+msgstr "تعذّرت قراءة {0}، لذا لم يُفحص."
+
 #: onedesk/public/js/one/deleted_document_list.js:24
 #, python-brace-format
 msgid "{0} couldn't be restored."
@@ -71837,6 +71982,11 @@ msgstr "لدى {0} عقد بالفعل. غيّره من أمر البيع الخ
 msgid "{0} has a kind but no place on the record."
 msgstr "لـ {0} نوع لكن لا مكان له على السجل."
 
+#: onedesk/one_mail/sandbox.py:22
+#, python-brace-format
+msgid "{0} has a password, so what it holds couldn't be checked."
+msgstr "لـ {0} كلمة مرور، لذا تعذّر فحص ما يحتويه."
+
 #: onedesk/one_studio/print_html.py:136
 #, python-brace-format
 msgid "{0} has a template error ({1})."
@@ -72017,6 +72167,11 @@ msgstr "وصلت {0} إلى {1}. لا يمكن إلا أن تزيد: الرقم 
 msgid "{0} has run into no errors, so there is nothing to fix."
 msgstr "لم تقع {0} في أي خطأ، فلا شيء لإصلاحه."
 
+#: onedesk/one_mail/sandbox.py:119
+#, python-brace-format
+msgid "{0} has scripts that run when it's opened."
+msgstr "يحوي {0} نصوصًا برمجية تعمل عند فتحه."
+
 #: onedesk/one_ai/agents/workspace.py:122
 #, python-brace-format
 msgid "{0} has used its {1} credits for this month."
@@ -72052,6 +72207,16 @@ msgstr "{0} محتجزة من {1}"
 #, python-brace-format
 msgid "{0} hides what kind of file it is."
 msgstr "يخفي {0} نوع الملف."
+
+#: onedesk/one_mail/sandbox.py:23
+#, python-brace-format
+msgid "{0} holds archives inside archives, too deep to check."
+msgstr "يحوي {0} أرشيفات داخل أرشيفات، أعمق من أن تُفحص."
+
+#: onedesk/one_mail/sandbox.py:25
+#, python-brace-format
+msgid "{0} holds too many files to check."
+msgstr "يحوي {0} ملفات أكثر من أن تُفحص."
 
 #: onedesk/one_mail/risk.py:291
 #, python-brace-format
@@ -72157,6 +72322,11 @@ msgstr "{0} جهاز مطلوب من AWS. لا يمكن تحرير إلا جها
 msgid "{0} is a folder. Choose the files in it."
 msgstr "{0} مجلد. اختر الملفات التي فيه."
 
+#: onedesk/one_mail/sandbox.py:26
+#, python-brace-format
+msgid "{0} is a kind of archive that can't be checked."
+msgstr "{0} نوع أرشيف لا يمكن فحصه."
+
 #: onedesk/one_mail/holders.py:386
 #, python-brace-format
 msgid "{0} is a personal mailbox and can't be shared."
@@ -72236,6 +72406,11 @@ msgstr "{0} مساحة عمل تجريبية. تُحدَّث على جهازها
 #, python-brace-format
 msgid "{0} is a test workspace. It isn't on our servers, so OneAdmin doesn't run jobs on it."
 msgstr "{0} مساحة عمل تجريبية. ليست على خوادمنا، لذا لا ينفّذ OneAdmin مهام عليها."
+
+#: onedesk/one_mail/sandbox.py:121
+#, python-brace-format
+msgid "{0} is a web page, which can ask for a password."
+msgstr "{0} صفحة ويب، وقد تطلب كلمة مرور."
 
 #: onedesk/one_book/ready.py:124
 #, python-brace-format
@@ -73044,6 +73219,11 @@ msgstr "{0} هو العنوان الرئيسي. اجعل عنوانًا آخر �
 msgid "{0} is there twice, or is a name the system keeps for itself."
 msgstr "{0} موجود مرتين، أو هو اسم يحتفظ به النظام لنفسه."
 
+#: onedesk/one_mail/sandbox.py:24
+#, python-brace-format
+msgid "{0} is too big to check."
+msgstr "{0} أكبر من أن يُفحص."
+
 #: onedesk/one_display/playlist.py:41
 #, python-brace-format
 msgid "{0} is too large to show on a screen."
@@ -73148,6 +73328,11 @@ msgstr "{0} ليس على نطاق بريد الاختبار."
 #, python-brace-format
 msgid "{0} isn't set, so {1}."
 msgstr "{0} غير مُعيّن، لذا {1}."
+
+#: onedesk/one_mail/sandbox.py:117
+#, python-brace-format
+msgid "{0} isn't the kind of file its name says."
+msgstr "{0} ليس من نوع الملف الذي يدل عليه اسمه."
 
 #: frontend/src/cloud/OneCloud.vue:285
 #: frontend/src/inventory/supplier/SupplierItems.vue:119

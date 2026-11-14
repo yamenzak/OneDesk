@@ -237,6 +237,9 @@ export const csrf = () => window.csrf_token || frappe().csrf_token || "";
 
 export const openTab = (url = "") => window.open(url, "_blank");
 
+// An address outside the workspace, in a tab that can't reach back to this one.
+export const openOutside = (url) => window.open(url, "_blank", "noopener,noreferrer");
+
 // a window of its own, to drag onto another screen (OneDeck's audience)
 export const openPopup = (url, name) => window.open(url, name, "popup,width=1280,height=760");
 

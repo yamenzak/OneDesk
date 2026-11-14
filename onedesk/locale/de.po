@@ -647,6 +647,10 @@ msgstr "Eine Untertabelle kann nicht als Quelle verwendet werden."
 msgid "A class of shares."
 msgstr "Eine Aktiengattung."
 
+#: frontend/src/mail/MailFile.vue:41
+msgid "A clean copy was made"
+msgstr "Eine saubere Kopie wurde erstellt"
+
 #: onedesk/one_hr/home.py:90
 msgid "A clock-in the clock was not sure of, waiting for HR."
 msgstr "Ein Check-in, bei dem die Uhr unsicher war, wartet auf die Personalabteilung."
@@ -9995,6 +9999,10 @@ msgstr "Auschecken läuft…"
 msgid "Checking the app is on the server"
 msgstr "Prüfen, ob die App auf dem Server ist"
 
+#: frontend/src/mail/MailFile.vue:4
+msgid "Checking the file…"
+msgstr "Datei wird geprüft…"
+
 #: onedesk/one_admin/steps.py:45
 msgid "Checking the name is free"
 msgstr "Prüfen, ob der Name frei ist"
@@ -12418,6 +12426,10 @@ msgstr "Die Folie konnte nicht behalten werden: Speichern Sie zuerst die Präsen
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:38
 msgid "Could not load the templates."
 msgstr "Die Vorlagen konnten nicht geladen werden."
+
+#: onedesk/one_mail/sandbox.py:191
+msgid "Could not make a clean copy. Only the original can be opened."
+msgstr "Es konnte keine saubere Kopie erstellt werden. Nur das Original kann geöffnet werden."
 
 #: onedesk/one_deck/data.py:309
 msgid "Could not make presentations: there are no records you may file one on."
@@ -20273,6 +20285,10 @@ msgstr "Abgelegt bei {0}"
 msgid "Files"
 msgstr "Dateien"
 
+#: frontend/src/mail/MailFile.vue:13
+msgid "Files Inside"
+msgstr "Enthaltene Dateien"
+
 #: onedesk/one_cloud/manifest.py:20
 #, python-brace-format
 msgid "Files a browser can't open, edited in {oneos}"
@@ -26197,6 +26213,11 @@ msgstr "Es hat sich für alle geändert. Sie finden es in {one_studio} › Benut
 msgid "It could not be delivered to {to}. Open it to see why, and send it again."
 msgstr "Sie konnte nicht an {to} zugestellt werden. Öffnen Sie sie, um den Grund zu sehen, und senden Sie sie erneut."
 
+#: frontend/src/mail/MailLink.vue:26
+#, python-brace-format
+msgid "It ends at {0}, not where the link points."
+msgstr "Er endet bei {0}, nicht dort, wohin der Link zeigt."
+
 #: onedesk/one_admin/heads.py:299
 #, python-brace-format
 msgid "It expired on {0} with {1} of {2} credits unused."
@@ -28974,6 +28995,14 @@ msgstr "Verknüpft: {0}"
 #: onedesk/public/js/one_portal/portal.js:168
 msgid "Links"
 msgstr "Links"
+
+#: frontend/src/mail/MailRisk.vue:8
+msgid "Links in this message open Preview Link first."
+msgstr "Links in dieser Nachricht öffnen zuerst die Linkvorschau."
+
+#: frontend/src/mail/MailRisk.vue:8
+msgid "Links in this message open only in Preview Link."
+msgstr "Links in dieser Nachricht öffnen sich nur in der Linkvorschau."
 
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:95
 #, python-brace-format
@@ -35000,6 +35029,10 @@ msgstr "Noch nichts gelesen"
 msgid "Nothing requested or received"
 msgstr "Nichts angefordert oder erhalten"
 
+#: frontend/src/mail/MailFile.vue:43
+msgid "Nothing risky was found"
+msgstr "Nichts Riskantes gefunden"
+
 #: frontend/src/cloud/cloud.js:149
 msgid "Nothing shared with you"
 msgstr "Nichts mit Ihnen geteilt"
@@ -37162,6 +37195,10 @@ msgstr "Artikel öffnen"
 msgid "Open Automation"
 msgstr "Automatisierung öffnen"
 
+#: frontend/src/mail/MailFile.vue:75
+msgid "Open Clean Copy"
+msgstr "Saubere Kopie öffnen"
+
 #. The button on a notification's mail
 #: onedesk/one_mail/notifications.py
 msgid "Open Conversation"
@@ -37260,6 +37297,10 @@ msgstr "Bestellung öffnen"
 #: onedesk/one_book/heads.py:697 onedesk/one_crm/heads.py:343
 msgid "Open Orders"
 msgstr ""
+
+#: frontend/src/mail/MailFile.vue:74
+msgid "Open Original"
+msgstr "Original öffnen"
 
 #. The button on a notification's mail
 #: onedesk/account_center/notifications.py
@@ -37492,6 +37533,10 @@ msgstr "Geöffnet am"
 msgid "Opened once"
 msgstr "Einmal geöffnet"
 
+#: frontend/src/mail/MailLink.vue:39
+msgid "Opened without your sign-in or cookies."
+msgstr "Ohne Ihre Anmeldung oder Cookies geöffnet."
+
 #: frontend/src/quality/QualityHome.vue:198
 #, python-brace-format
 msgid "Opened {0}"
@@ -37566,6 +37611,10 @@ msgstr "Öffnungszeiten heute: 9:00 bis 18:00"
 msgid "Opening payment…"
 msgstr "Zahlung wird geöffnet…"
 
+#: frontend/src/mail/MailLink.vue:20
+msgid "Opening the page in a throwaway browser…"
+msgstr "Die Seite wird in einem Wegwerf-Browser geöffnet…"
+
 #: onedesk/one_display/starters.py:997
 msgid "Opening words"
 msgstr "Begrüßungsworte"
@@ -37578,6 +37627,10 @@ msgstr "{0} wird in OneOS geöffnet…"
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:224
 msgid "Openings"
 msgstr "Stellenausschreibungen"
+
+#: frontend/src/mail/MailLink.vue:17
+msgid "Opens"
+msgstr "Öffnet"
 
 #. Description of the 'Create AWS User' (Button) field in DocType 'One Admin
 #. Settings'
@@ -40521,6 +40574,10 @@ msgstr "Bild"
 msgid "Picture and Text"
 msgstr "Bild und Text"
 
+#: frontend/src/mail/MailLink.vue:31
+msgid "Picture of the page"
+msgstr "Bild der Seite"
+
 #: frontend/src/cloud/OneCloud.vue:1134
 msgid "Picture saved."
 msgstr "Bild gespeichert."
@@ -41335,6 +41392,11 @@ msgstr "Vorschau"
 msgid "Preview Kept For"
 msgstr "Vorschau gespeichert für"
 
+#: frontend/src/mail/MailConversation.vue:198 frontend/src/mail/MailLink.vue:2
+#: frontend/src/mail/MailRisk.vue:10
+msgid "Preview Link"
+msgstr "Linkvorschau"
+
 #: frontend/src/cloud/CloudViewer.vue:52
 msgid "Preview as PDF"
 msgstr "Als PDF anzeigen"
@@ -41355,6 +41417,10 @@ msgstr "Vorschau: {0}"
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:9
 msgid "Previewing"
 msgstr "Vorschau von"
+
+#: onedesk/one/registry/credits.py:24
+msgid "Previewing a link in a throwaway browser uses credits for the seconds it takes."
+msgstr "Die Vorschau eines Links in einem Wegwerf-Browser verbraucht Guthaben für die benötigten Sekunden."
 
 #: frontend/portal/src/parts/Gallery.vue:9
 #: frontend/src/cloud/CloudViewer.vue:24
@@ -44185,6 +44251,15 @@ msgstr "Papierkorb"
 #: frontend/src/cloud/cloud.js:13
 msgid "Red"
 msgstr ""
+
+#: frontend/src/mail/MailLink.vue:37
+msgid "Redirected once"
+msgstr "Einmal umgeleitet"
+
+#: frontend/src/mail/MailLink.vue:37
+#, python-brace-format
+msgid "Redirected {0} times"
+msgstr "{0}-mal umgeleitet"
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:104
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:105
@@ -49834,6 +49909,10 @@ msgstr "Hier anmelden"
 msgid "Sign in on arrival"
 msgstr "Bei Ankunft anmelden"
 
+#: frontend/src/mail/MailLink.vue:24
+msgid "Sign in only on a site you opened yourself."
+msgstr "Melden Sie sich nur auf einer Website an, die Sie selbst geöffnet haben."
+
 #: onedesk/www/message.html:20
 msgid "Sign in to see this page."
 msgstr "Melden Sie sich an, um diese Seite zu sehen."
@@ -55316,6 +55395,10 @@ msgstr "Die Felder in diesem Dokument werden aus {0} gefüllt."
 msgid "The figures a supplier's score is worked out from."
 msgstr "Die Zahlen, aus denen die Bewertung eines Lieferanten berechnet wird."
 
+#: onedesk/one_admin/proxy.py:375
+msgid "The file could not be checked."
+msgstr "Die Datei konnte nicht geprüft werden."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:2032
 #, python-brace-format
 msgid "The file couldn’t be read: {0}"
@@ -55603,6 +55686,14 @@ msgstr "Die Briefköpfe und Druckformate, auf denen Dokumente gedruckt und verse
 msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
 msgstr "Die aus den Linealen gezogenen Linien, an denen Elemente ausgerichtet werden. Nur im Editor sichtbar."
 
+#: onedesk/one_admin/proxy.py:360
+msgid "The link could not be opened."
+msgstr "Der Link konnte nicht geöffnet werden."
+
+#: onedesk/one_mail/sandbox.py:73
+msgid "The link couldn't be previewed right now. Try again later."
+msgstr "Der Link kann gerade nicht in der Vorschau gezeigt werden. Versuchen Sie es später."
+
 #: onedesk/public/js/outside.js:269 onedesk/www/404.html:16
 #: onedesk/www/error.py:18
 msgid "The link may be broken, or the page has moved."
@@ -55852,6 +55943,10 @@ msgstr "Der Verantwortliche wird zu diesem Zeitpunkt erinnert."
 msgid "The page"
 msgstr "Die Seite"
 
+#: onedesk/one_mail/sandbox.py:65
+msgid "The page couldn't be reached."
+msgstr "Die Seite war nicht erreichbar."
+
 #: onedesk/one_studio/printing.py:559
 #, python-brace-format
 msgid "The page number position must be one of {0}."
@@ -55861,6 +55956,10 @@ msgstr "Die Position der Seitenzahl muss eine von {0} sein."
 #: onedesk/one_studio/doctype/extension/extension.json:87
 msgid "The page the extension runs on and the event it waits for. Example: OneMail, when a conversation is opened."
 msgstr "Die Seite, auf der die Erweiterung läuft, und das Ereignis, auf das sie wartet. Beispiel: OneMail, wenn eine Unterhaltung geöffnet wird."
+
+#: onedesk/one_mail/sandbox.py:64
+msgid "The page took too long to open. The picture shows how far it got."
+msgstr "Die Seite brauchte zu lange. Das Bild zeigt, wie weit sie kam."
 
 #: onedesk/one_crm/home.py:165
 msgid "The part of the market a lead or a customer is in."
@@ -56681,6 +56780,10 @@ msgstr "Der Arbeitsbereich ist darunter noch nicht erreichbar."
 msgid "The workspace doesn't have enough credits to open this in OneOS."
 msgstr "Der Arbeitsbereich hat nicht genug Credits, um dies in OneOS zu öffnen."
 
+#: onedesk/one_mail/sandbox.py:72
+msgid "The workspace has no credits left for this."
+msgstr "Der Arbeitsbereich hat dafür kein Guthaben mehr."
+
 #: onedesk/one_ai/reading/tell.py:102
 msgid "The workspace has run out of credits. It is read as soon as more are added."
 msgstr "Das Guthaben des Arbeitsbereichs ist aufgebraucht. Gelesen wird, sobald neues hinzugefügt wird."
@@ -57321,6 +57424,14 @@ msgstr "Dieses Konto hat noch keinen Arbeitsbereich."
 msgid "This account is not a person's."
 msgstr "Dieses Konto gehört keiner Person."
 
+#: onedesk/one_mail/sandbox.py:205
+msgid "This attachment has no clean copy yet."
+msgstr "Dieser Anhang hat noch keine saubere Kopie."
+
+#: onedesk/one_mail/sandbox.py:137
+msgid "This attachment no longer exists."
+msgstr "Dieser Anhang existiert nicht mehr."
+
 #: onedesk/one_hr/review.py:40
 msgid "This attempt was already reviewed."
 msgstr "Dieser Versuch wurde bereits geprüft."
@@ -57439,6 +57550,10 @@ msgstr "Diese Erweiterung hat ihre Prüfung nicht bestanden und kann daher nicht
 msgid "This feed is not in the library."
 msgstr "Dieser Feed ist nicht in der Bibliothek."
 
+#: frontend/src/mail/MailFile.vue:40
+msgid "This file can't be opened here"
+msgstr "Diese Datei kann hier nicht geöffnet werden"
+
 #: frontend/src/cloud/CloudViewer.vue:71
 msgid "This file can't be shown here."
 msgstr "Diese Datei kann hier nicht angezeigt werden."
@@ -57474,6 +57589,10 @@ msgstr "Diese Datei ist zu groß für eine Folie."
 #: onedesk/www/r.py:17
 msgid "This file type isn't accepted."
 msgstr "Dieser Dateityp wird nicht akzeptiert."
+
+#: frontend/src/mail/MailFile.vue:42
+msgid "This file wasn't checked"
+msgstr "Diese Datei wurde nicht geprüft"
 
 #: frontend/src/cloud/cloud.js:159
 msgid "This folder is empty"
@@ -57583,6 +57702,10 @@ msgstr "Dieses Element existiert nicht mehr."
 msgid "This letter is issued at the employee's request."
 msgstr "Dieses Schreiben wird auf Wunsch des Mitarbeiters ausgestellt."
 
+#: onedesk/one_mail/sandbox.py:63
+msgid "This link downloads a file instead of opening a page."
+msgstr "Dieser Link lädt eine Datei herunter, statt eine Seite zu öffnen."
+
 #: onedesk/one_portal/share.py:419
 msgid "This link has been answered already."
 msgstr "Über diesen Link wurde bereits geantwortet."
@@ -57590,6 +57713,10 @@ msgstr "Über diesen Link wurde bereits geantwortet."
 #: onedesk/one_admin/accounts.py:359
 msgid "This link has been used or has expired. Ask for a new one from your account."
 msgstr "Dieser Link wurde bereits verwendet oder ist abgelaufen. Fordern Sie in Ihrem Konto einen neuen an."
+
+#: onedesk/one_mail/sandbox.py:85
+msgid "This link isn't in the message."
+msgstr "Dieser Link ist nicht in der Nachricht."
 
 #: onedesk/www/r.html:17 onedesk/www/s.html:35
 msgid "This link isn't valid"
@@ -57622,6 +57749,10 @@ msgstr "Diese Nachricht ist größer als 5 MB. Teilen Sie große Dateien als {0}
 msgid "This message isn't in a mailbox."
 msgstr "Diese Nachricht liegt in keinem Postfach."
 
+#: onedesk/one_mail/sandbox.py:35
+msgid "This message no longer exists."
+msgstr "Diese Nachricht existiert nicht mehr."
+
 #: frontend/src/project/Months.vue:15 frontend/src/project/Overview.vue:93
 #: frontend/src/project/Overview.vue:96 onedesk/one_display/starters.py:934
 msgid "This month"
@@ -57643,6 +57774,10 @@ msgstr "Von diesem Netzwerk dürfen Sie nicht einchecken."
 #: onedesk/one_hr/overtime.py:269
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr "Für diese Überstundenart ist kein Satz hinterlegt, sie vergütet daher nichts."
+
+#: frontend/src/mail/MailLink.vue:23
+msgid "This page asks for a password."
+msgstr "Diese Seite fragt nach einem Passwort."
 
 #: onedesk/public/js/island_page.js:84
 msgid "This page has not been built"
@@ -71445,6 +71580,16 @@ msgstr "{0} konnte die Aufnahme nicht erstellen. Versuchen Sie es erneut."
 msgid "{0} could not write the widget. Try again."
 msgstr "{0} konnte das Widget nicht schreiben. Versuchen Sie es erneut."
 
+#: onedesk/one_mail/sandbox.py:28
+#, python-brace-format
+msgid "{0} couldn't be checked right now. Try again later."
+msgstr "{0} kann gerade nicht geprüft werden. Versuchen Sie es später."
+
+#: onedesk/one_mail/sandbox.py:27
+#, python-brace-format
+msgid "{0} couldn't be read, so it wasn't checked."
+msgstr "{0} konnte nicht gelesen werden und wurde daher nicht geprüft."
+
 #: onedesk/public/js/one/deleted_document_list.js:24
 #, python-brace-format
 msgid "{0} couldn't be restored."
@@ -71837,6 +71982,11 @@ msgstr "{0} hat bereits einen Vertrag. Ändern Sie ihn im Kundenauftrag."
 msgid "{0} has a kind but no place on the record."
 msgstr "{0} hat eine Art, aber keinen Platz am Datensatz."
 
+#: onedesk/one_mail/sandbox.py:22
+#, python-brace-format
+msgid "{0} has a password, so what it holds couldn't be checked."
+msgstr "{0} hat ein Passwort, daher konnte der Inhalt nicht geprüft werden."
+
 #: onedesk/one_studio/print_html.py:136
 #, python-brace-format
 msgid "{0} has a template error ({1})."
@@ -72017,6 +72167,11 @@ msgstr "{0} hat {1} erreicht. Sie kann nur steigen: eine niedrigere Nummer würd
 msgid "{0} has run into no errors, so there is nothing to fix."
 msgstr "Bei {0} sind keine Fehler aufgetreten, es gibt also nichts zu beheben."
 
+#: onedesk/one_mail/sandbox.py:119
+#, python-brace-format
+msgid "{0} has scripts that run when it's opened."
+msgstr "{0} enthält Skripte, die beim Öffnen laufen."
+
 #: onedesk/one_ai/agents/workspace.py:122
 #, python-brace-format
 msgid "{0} has used its {1} credits for this month."
@@ -72052,6 +72207,16 @@ msgstr "{0} bei {1} einbehalten"
 #, python-brace-format
 msgid "{0} hides what kind of file it is."
 msgstr "{0} verbirgt, welche Art Datei es ist."
+
+#: onedesk/one_mail/sandbox.py:23
+#, python-brace-format
+msgid "{0} holds archives inside archives, too deep to check."
+msgstr "{0} enthält Archive in Archiven, zu tief zum Prüfen."
+
+#: onedesk/one_mail/sandbox.py:25
+#, python-brace-format
+msgid "{0} holds too many files to check."
+msgstr "{0} enthält zu viele Dateien zum Prüfen."
 
 #: onedesk/one_mail/risk.py:291
 #, python-brace-format
@@ -72157,6 +72322,11 @@ msgstr "{0} ist eine bei AWS bestellte Box. Nur ein verbundener Rechner kann fre
 msgid "{0} is a folder. Choose the files in it."
 msgstr "{0} ist ein Ordner. Wählen Sie die Dateien darin."
 
+#: onedesk/one_mail/sandbox.py:26
+#, python-brace-format
+msgid "{0} is a kind of archive that can't be checked."
+msgstr "{0} ist eine Archivart, die nicht geprüft werden kann."
+
 #: onedesk/one_mail/holders.py:386
 #, python-brace-format
 msgid "{0} is a personal mailbox and can't be shared."
@@ -72236,6 +72406,11 @@ msgstr "{0} ist ein Test-Arbeitsbereich. Er wird auf seinem eigenen Rechner aktu
 #, python-brace-format
 msgid "{0} is a test workspace. It isn't on our servers, so OneAdmin doesn't run jobs on it."
 msgstr "{0} ist ein Test-Arbeitsbereich. Er liegt nicht auf unseren Servern, daher führt OneAdmin keine Aufträge darauf aus."
+
+#: onedesk/one_mail/sandbox.py:121
+#, python-brace-format
+msgid "{0} is a web page, which can ask for a password."
+msgstr "{0} ist eine Webseite, die nach einem Passwort fragen kann."
 
 #: onedesk/one_book/ready.py:124
 #, python-brace-format
@@ -73044,6 +73219,11 @@ msgstr "{0} ist die Hauptadresse. Machen Sie zuerst eine andere Adresse zur Haup
 msgid "{0} is there twice, or is a name the system keeps for itself."
 msgstr "{0} kommt doppelt vor oder ist ein Name, den das System selbst verwendet."
 
+#: onedesk/one_mail/sandbox.py:24
+#, python-brace-format
+msgid "{0} is too big to check."
+msgstr "{0} ist zu groß zum Prüfen."
+
 #: onedesk/one_display/playlist.py:41
 #, python-brace-format
 msgid "{0} is too large to show on a screen."
@@ -73148,6 +73328,11 @@ msgstr "{0} ist nicht auf der Test-Maildomain."
 #, python-brace-format
 msgid "{0} isn't set, so {1}."
 msgstr "{0} ist nicht gesetzt, daher {1}."
+
+#: onedesk/one_mail/sandbox.py:117
+#, python-brace-format
+msgid "{0} isn't the kind of file its name says."
+msgstr "{0} ist nicht die Dateiart, die sein Name angibt."
 
 #: frontend/src/cloud/OneCloud.vue:285
 #: frontend/src/inventory/supplier/SupplierItems.vue:119

@@ -64,6 +64,39 @@ who uses the mailbox can release or delete its held mail.
 > **Release only what you trust.** If a supplier writes from a new address
 > about new bank details, call them on a number you already have.
 
+## Previewing a Link
+
+**Preview Link** opens a link in a throwaway browser away from your
+workspace, without your sign-in or cookies, and shows you the page before you
+go there. It is in a warning, and in any message's **⋯** menu.
+
+| It shows | Why it matters |
+| --- | --- |
+| A picture of the page | You see it without visiting it |
+| Where it ended, after any redirects | A warning says when that isn't where the link points |
+| Whether it asks for a password | A red warning says so |
+
+Then **Open Link** opens it yourself. In a warned message every link opens
+Preview Link first. In a held message links can't be opened any other way,
+and Reply and Forward come back once you release it. Each preview uses
+credits.
+
+## Opening an Attachment
+
+Clicking an attachment checks it before it opens. It is read for what it
+really is, whatever its name says, and an archive is unpacked to see what it
+holds.
+
+| The attachment | What you can open |
+| --- | --- |
+| A Word, Excel or PowerPoint file | **Open Clean Copy**, a PDF without macros, first; then the original |
+| A program, or an archive holding one | Nothing: it can't be opened here |
+| An archive too deep, too big or with a password | The original, with a warning that it wasn't checked |
+| Anything else | **Open** |
+
+> **The original is never changed.** If the check can't run, it says so and
+> still offers the original.
+
 ## Changing the Levels
 
 A Mail Manager sets both levels in [Settings](settings), under **Risky

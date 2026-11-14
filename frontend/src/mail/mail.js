@@ -104,7 +104,23 @@ export const names = (account, threads, folder = null) => call(API + "names", { 
 // forms or handlers, a policy that lets nothing load, and pictures from
 // elsewhere held back until the reader asks for them (they tell a sender the
 // mail was read). The page's own colours are a printed letter's, whatever the
-// reader's theme, as the sender wrote it.
+// reader's theme, as the sender wrote it. A risky message's links are marked
+// so each opens Preview Link first (`guarded`); a held one's are only text
+// (`disarmed`).
+
+// The web addresses a message links to, each once, with the words it shows:
+// what Preview Link offers (one_mail/sandbox.py, links_of, reads the same).
+export function messageLinks(content) {
+	const raw = content || "";
+	const doc = new DOMParser().parseFromString(/<[a-z][\s\S]*>/i.test(raw) ? raw : `<pre>${raw}</pre>`, "text/html");
+	const found = new Map();
+	doc.querySelectorAll("a[href]").forEach((el) => {
+		const url = (el.getAttribute("href") || "").trim();
+		if (/^https?:\/\//i.test(url) && !found.has(url)) found.set(url, (el.textContent || "").trim());
+	});
+	for (const url of (doc.body?.textContent || "").match(/https?:\/\/[^\s<>"')]+/gi) || []) if (!found.has(url)) found.set(url, "");
+	return [...found].map(([url, words]) => ({ url, words: words === url ? "" : words }));
+}
 
 // A plain-text message as its sender wrote it. Frappe stores one with its
 // characters escaped and every line break doubled (frappe/email/receive.py),
@@ -116,7 +132,7 @@ export function plainText(stored) {
 	return text.replace(/\n{3,}/g, "\n\n").trim();
 }
 
-export function framePage(content, pictures = false, dark = false) {
+export function framePage(content, pictures = false, dark = false, links = "live") {
 	const escape = (text) => String(text).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 	let raw = content || "";
 	if (!/<[a-z][\s\S]*>/i.test(raw)) raw = `<div style="white-space: pre-wrap">${escape(plainText(raw))}</div>`;
@@ -125,6 +141,18 @@ export function framePage(content, pictures = false, dark = false) {
 	doc.querySelectorAll("*").forEach((el) => {
 		for (const attr of [...el.attributes]) if (/^on/i.test(attr.name)) el.removeAttribute(attr.name);
 	});
+	if (links !== "live") {
+		doc.querySelectorAll("a[href]").forEach((el) => {
+			const href = el.getAttribute("href") || "";
+			if (!/^https?:\/\//i.test(href)) return;
+			el.setAttribute("data-one-link", href);
+			if (links === "disarmed") {
+				el.removeAttribute("href");
+				el.setAttribute("role", "button");
+				el.setAttribute("tabindex", "0");
+			}
+		});
+	}
 	let held = 0;
 	const here = document.location.origin;
 	doc.querySelectorAll("img[src], img[srcset], [background]").forEach((el) => {
@@ -146,6 +174,8 @@ export function framePage(content, pictures = false, dark = false) {
 			blockquote { margin: 0 0 0 .6em; padding-left: .8em; border-left: 3px solid ${ink.quote}; color: ${ink.quoted}; }
 			pre { white-space: pre-wrap; }
 			table { max-width: 100%; }
+			[data-one-link] { cursor: pointer; }
+			a[data-one-link]:not([href]) { color: inherit; text-decoration: underline dotted; }
 	</style>`;
 	return { page: `<!doctype html><html><head>${head}</head><body dir="auto">${doc.body ? doc.body.innerHTML : ""}</body></html>`, held };
 }

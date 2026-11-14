@@ -86,7 +86,7 @@ SERVICES = (
 	Service("one-setup", "One Setup", 9999, "Your workspace set up with you: company, accounts, data moved from your old system, and your people shown how."),
 )
 
-MARKUP = {"ai": 2.0, "oneos": 2.0, "office": 2.0, "mail": 2.0}
+MARKUP = {"ai": 2.0, "oneos": 2.0, "office": 2.0, "mail": 2.0, "guard": 2.0}
 
 MAIL_CREDITS = 1
 

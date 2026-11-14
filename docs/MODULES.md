@@ -564,6 +564,8 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.domain_refresh`
 * `onedesk.one_admin.proxy.errors_seen`
 * `onedesk.one_admin.proxy.google_news`
+* `onedesk.one_admin.proxy.guard_file`
+* `onedesk.one_admin.proxy.guard_link`
 * `onedesk.one_admin.proxy.hello`
 * `onedesk.one_admin.proxy.mail_names`
 * `onedesk.one_admin.proxy.mail_send`
@@ -1109,6 +1111,9 @@ No doctypes yet.
 * `onedesk.one_mail.rules.save_rule`
 * `onedesk.one_mail.rules.set_away`
 * `onedesk.one_mail.rules.who_is_away`
+* `onedesk.one_mail.sandbox.check`
+* `onedesk.one_mail.sandbox.clean`
+* `onedesk.one_mail.sandbox.link`
 * `onedesk.one_mail.sender.about`
 * `onedesk.one_mail.signatures.presets_of`
 * `onedesk.one_mail.signatures.set_preset`
