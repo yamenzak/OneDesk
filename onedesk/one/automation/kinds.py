@@ -9,7 +9,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 
 STRUCTURE = ("if", "ask", "stop")
 """The steps every automation has, whatever starts it: an If, an Ask (of
@@ -22,7 +22,8 @@ class Trigger:
 	"""What an automation starts on: `scope` is the record type one belongs
 	to (the mailbox), `doctype` what each run is about (the message), and
 	`keeps` the module's functions that keep its automations, as its own
-	screens did (one/AGENTS.md, AutomationCenter, says each)."""
+	screens did (one/AGENTS.md, AutomationCenter, says each); `runs` is
+	said under a place's list of them, {0} being OneAI's name."""
 
 	key: str
 	label: str
@@ -34,6 +35,7 @@ class Trigger:
 	everything: str
 	reads: bool = False
 	starters: Callable | None = None
+	runs: str = _lt("Run in order on each new message, before what {0} does.")
 
 	def keeper(self, what: str) -> Callable:
 		return frappe.get_attr(f"onedesk.{self.module}.{self.keeps[what]}")

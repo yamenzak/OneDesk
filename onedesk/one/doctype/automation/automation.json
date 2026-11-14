@@ -94,7 +94,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-14 12:00:00.000000",
+ "modified": "2026-11-14 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Automation",
@@ -124,6 +124,13 @@
   },
   {
    "role": "Mail Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "OneChat User",
    "read": 1,
    "write": 1,
    "create": 1,

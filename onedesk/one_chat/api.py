@@ -7,21 +7,23 @@ import frappe
 from frappe import _
 from frappe.utils import cint
 
-from onedesk.one_chat import agents, answers, cards, channels, messages
+from onedesk.one_chat import agents, answers, automations, cards, channels, messages
 
 PAGE = 50
 
 
 @frappe.whitelist(methods=["GET"])
 def start() -> dict:
-	"""The reader, the agents they may talk to and their conversations."""
-	from onedesk.one import rights
+	"""The reader, the agents they may talk to and their conversations, and
+	whether they choose the channel that answers website chats."""
+	from onedesk.one import rights, roles
 
 	return {
 		"me": frappe.session.user,
 		"agents": agents.listed(),
 		"channels": conversations(),
 		"may_make": rights.held("Chat Channel", "chat_channels"),
+		"may_website": int(roles.administers()),
 	}
 
 
@@ -41,7 +43,7 @@ def conversations() -> list[dict]:
 	rows = frappe.get_all(
 		"Chat Channel",
 		filters={"name": ["in", list(read)]},
-		fields=["name", "title", "kind", "private", "agent", "about", "last_message_on"],
+		fields=["name", "title", "kind", "private", "agent", "about", "last_message_on", "closed", "website"],
 		order_by="last_message_on desc",
 		limit_page_length=0,
 	)
@@ -79,6 +81,8 @@ def _unread(channel: str, since, me: str) -> int:
 def channel(channel: str, before: str | None = None, thread: str | None = None) -> dict:
 	"""One conversation's messages, oldest first, a page at a time; or one
 	thread's: its first message and every reply."""
+	from onedesk.one import roles
+
 	doc = channels.opened(channel)
 	filters = {"channel": doc.name, "thread": thread or ("is", "not set")}
 	if before:
@@ -95,9 +99,27 @@ def channel(channel: str, before: str | None = None, thread: str | None = None) 
 		"about": doc.about,
 		"agent": doc.agent,
 		"members": [{"user": one.user, "agent": one.agent, "name": agents.name_of(one.agent) if one.agent else frappe.utils.get_fullname(one.user)} for one in doc.members],
+		"website": doc.website,
+		"may_website": int(roles.administers()) if doc.kind == channels.CHANNEL else 0,
+		"room": _room(doc) if doc.kind == channels.ROOM else None,
 		"messages": said,
 		"more": len(names) == PAGE,
 		"cards": {name: cards.card(name) for name in {one["action"] for one in said if one["action"]}},
+	}
+
+
+def _room(doc) -> dict:
+	"""Who a room is with, where they wrote from, its channel and the record
+	it is about."""
+	return {
+		"visitor": doc.visitor_name,
+		"email": doc.visitor_email,
+		"page": doc.page,
+		"closed": doc.closed,
+		"desk": doc.desk,
+		"desk_title": frappe.db.get_value("Chat Channel", doc.desk, "title") if doc.desk else None,
+		"reference_doctype": doc.reference_doctype,
+		"reference_name": doc.reference_name,
 	}
 
 
@@ -126,7 +148,8 @@ def send(channel: str, text: str = "", thread: str | None = None, files=None, pa
 	mentions = [{"user": user} for user in people] + [{"agent": one} for one in named]
 	message = messages.post(doc, text, thread=thread, files=attached, mentions=mentions)
 	messages.notify(message, doc, people)
-	run = answers.ask(message, doc, agent, held, page=page, field=field) if agent else None
+	automations.fire(message, doc)
+	run =answers.ask(message, doc, agent, held, page=page, field=field) if agent else None
 	return {"message": messages.shaped(message), "run": run, "agent": agent}
 
 
@@ -216,3 +239,23 @@ def undo(action: str) -> dict:
 @frappe.whitelist(methods=["POST"])
 def change(action: str, values) -> dict:
 	return cards.change(action, values)
+
+
+@frappe.whitelist(methods=["POST"])
+def forward(channel: str, to: str) -> dict:
+	"""A room handed to another channel the reader is in."""
+	return {"desk": channels.forward(channel, to).desk}
+
+
+@frappe.whitelist(methods=["POST"])
+def close(channel: str, closed: int = 1) -> dict:
+	"""A room closed, or opened again."""
+	channels.close(channel, bool(cint(closed)))
+	return {"closed": cint(closed)}
+
+
+@frappe.whitelist(methods=["POST"])
+def website(channel: str, on: int = 1) -> dict:
+	"""Whether a channel answers the website's chats."""
+	channels.answer_website(channel, bool(cint(on)))
+	return {"website": cint(on)}

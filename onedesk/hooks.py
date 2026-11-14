@@ -983,7 +983,7 @@ add_to_apps_screen = [
 
 get_website_user_home_page = "onedesk.one_admin.accounts.home_page"
 
-web_include_js = stamped(["/assets/onedesk/js/one_hr/login.js"])
+web_include_js = stamped(["/assets/onedesk/js/one_hr/login.js", "/assets/onedesk/js/one_chat/widget.js"])
 
 setup_wizard_requires = "/assets/onedesk/js/setup_wizard.js"
 setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
@@ -1017,7 +1017,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/lost.css",
 ])
 
-web_include_css = stamped(["/assets/onedesk/css/one_portal/portal.css", "/assets/onedesk/css/lost.css"])
+web_include_css = stamped(["/assets/onedesk/css/one_portal/portal.css", "/assets/onedesk/css/lost.css", "/assets/onedesk/css/one_chat/widget.css"])
 update_website_context = ["onedesk.one_portal.portal.light_or_dark"]
 
 page_js = {"print": "public/js/one_doc/print_documents.js"}

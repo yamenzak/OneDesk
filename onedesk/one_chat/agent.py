@@ -26,6 +26,11 @@ NOT_FOR_AI = {
 	"panel.say": "It is the person asking the agent, in the panel.",
 	"panel.rename": "A conversation is named by the person it belongs to.",
 	"api.seen": "It marks what the reader has read, as they open a conversation.",
+	"api.forward": "A website chat is handed on by somebody answering it, or by the channel's automation.",
+	"api.close": "A website chat is ended by somebody answering it.",
+	"api.website": "Putting a chat on the website is an administrator's own choice.",
+	"widget.start": "It is a website visitor starting a chat, with no account.",
+	"widget.send": "It is a website visitor's own words in their chat.",
 }
 
 

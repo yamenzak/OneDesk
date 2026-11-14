@@ -1183,7 +1183,10 @@ The administrators hear each morning of any that gave up the day before.
 ### automation/ and automation_center.py (AutomationCenter)
 
 An automation is a trigger, then steps, kept in `Automation` (one/doctype).
-Nothing in `automation/` knows mail: every block is declared by the module
+Two modules declare triggers today: OneMail's "When a message arrives",
+by mailbox, and OneChat's "When a message is posted", by channel
+(one_chat/AGENTS.md, Automations). Nothing in `automation/` knows mail or
+chat: every block is declared by the module
 that owns it, in its own `blocks.py` as `BLOCKS`, found through the
 `one_automation_blocks` hook the registry builds (registry/hooks.py
 CONVENTIONS). `kinds.py` has the four kinds:
@@ -1198,7 +1201,7 @@ CONVENTIONS). `kinds.py` has the four kinds:
   `delete` and `decide` change them (outright, or asked for and waiting for
   whoever approves), `allowed` and `query` are Automation's permission hooks
   for its rows (`who.py` asks the trigger), and `validate` what a place
-  needs beyond the steps.
+  needs beyond the steps. `runs` is said under a place's list.
 - **Condition**: what an If may test of the trigger's facts, "text",
   "flag" or "kind".
 - **Action**: one thing done, `run(automation, name, step, context)`, its
@@ -1207,7 +1210,8 @@ CONVENTIONS). `kinds.py` has the four kinds:
   `ai` (offered only where OneAI may read) and `offers` of its own.
 - **Param**: what an action asks, and when (`shown`).
 
-`flow.py` is pure: If, Ask and Stop, groups of All or Any, walking the steps
+`hours.py` is what any trigger may test of the day: After Hours and On a
+Holiday. `flow.py` is pure: If, Ask and Stop, groups of All or Any, walking the steps
 against the facts. `engine.run` is what a trigger's code calls with the
 record and its facts; each action is tried on its own and logged if it fails.
 No OneAI is needed for any of it: only an Ask and an AI block use it.

@@ -31,9 +31,15 @@ APP = App(
 		("channels", "hash"),
 		("messages", "message-circle"),
 		("agents", "bot"),
+		("website-chats", "globe"),
 		("who-can-do-what", "shield"),
 	),
 	hooks={
 		"one_ai_waiting": ("cards.waiting",),
 	},
+	makes=(
+		"Issue",
+		"Lead",
+		"Task",
+	),
 )

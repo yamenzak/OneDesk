@@ -225,7 +225,7 @@ def posted(doc, turns: list[dict]) -> None:
 		return
 	asked = asked[0]
 	channel = frappe.get_doc("Chat Channel", asked.channel)
-	thread = asked.thread or (asked.name if channel.kind == channels.CHANNEL else None)
+	thread = asked.thread or (asked.name if channel.kind in (channels.CHANNEL, channels.ROOM) else None)
 	for one in answered(turns):
 		parts = {key: one.get(key) for key in ("looked", "remembered", "cards", "files") if one.get(key)}
 		messages.post(

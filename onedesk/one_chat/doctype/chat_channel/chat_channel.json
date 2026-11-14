@@ -15,6 +15,17 @@
   "last_message_on",
   "direct_key",
   "ai_chat",
+  "website",
+  "section_room",
+  "desk",
+  "visitor_name",
+  "visitor_email",
+  "visitor_key",
+  "column_break_room",
+  "page",
+  "closed",
+  "reference_doctype",
+  "reference_name",
   "section_members",
   "members"
  ],
@@ -30,7 +41,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Type",
-   "options": "Channel\nDirect\nAgent",
+   "options": "Channel\nDirect\nAgent\nRoom",
    "default": "Channel",
    "in_list_view": 1,
    "in_standard_filter": 1,
@@ -82,6 +93,81 @@
    "read_only": 1
   },
   {
+   "fieldname": "website",
+   "fieldtype": "Check",
+   "label": "Answer Website Chats",
+   "default": "0",
+   "depends_on": "eval:doc.kind==\"Channel\"",
+   "description": "If enabled, a visitor who starts a chat on the website opens a room for this channel's members."
+  },
+  {
+   "fieldname": "section_room",
+   "fieldtype": "Section Break",
+   "label": "Room",
+   "depends_on": "eval:doc.kind==\"Room\""
+  },
+  {
+   "fieldname": "desk",
+   "fieldtype": "Link",
+   "label": "Channel",
+   "options": "Chat Channel",
+   "search_index": 1,
+   "read_only": 1,
+   "description": "The channel whose members answer this room."
+  },
+  {
+   "fieldname": "visitor_name",
+   "fieldtype": "Data",
+   "label": "Visitor Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "visitor_email",
+   "fieldtype": "Data",
+   "label": "Visitor Email",
+   "options": "Email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "visitor_key",
+   "fieldtype": "Data",
+   "label": "Visitor Key",
+   "hidden": 1,
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_room",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "page",
+   "fieldtype": "Data",
+   "label": "Website Page",
+   "read_only": 1
+  },
+  {
+   "fieldname": "closed",
+   "fieldtype": "Check",
+   "label": "Closed",
+   "default": "0",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Type",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Name",
+   "options": "reference_doctype",
+   "read_only": 1
+  },
+  {
    "fieldname": "section_members",
    "fieldtype": "Section Break",
    "label": "Members"
@@ -95,7 +181,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-13 12:00:00.000000",
+ "modified": "2026-11-14 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Chat",
  "name": "Chat Channel",
@@ -106,7 +192,7 @@
  "naming_rule": "Random",
  "title_field": "title",
  "show_title_field_in_link": 1,
- "description": "A conversation: a channel, two people, or a person and an agent.",
+ "description": "A conversation: a channel, two people, a person and an agent, or a room with a visitor.",
  "permissions": [
   {
    "create": 1,

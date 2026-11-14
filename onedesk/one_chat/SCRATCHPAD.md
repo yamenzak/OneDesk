@@ -5,8 +5,9 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 - An agent answers through OneAI's one chat loop, with all of OneAI's tools,
   as the person who asked; its own tools, procedures and memory come with
   P8.3. Una does not hand a job to another agent yet.
-- An agent's daily note in its department's channel, rooms with the outside
-  world, saved replies and automations are P8.4 (docs/ARC-AI.md).
+- An agent's daily note in its department's channel and saved replies wait
+  (docs/ARC-AI.md). A channel's automations cannot react with an emoji or
+  start when somebody joins; Slack's Workflow Builder can.
 - A message can't be edited or deleted, and a conversation can't be renamed
   from the screen but in the panel.
 - Faces are DiceBear's bottts drawn still; the animated face and OneChat's
@@ -15,3 +16,8 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   a card's table rows are not editable, only its plain fields.
 - Read state is per conversation; a thread's replies are not counted unread.
 - No Help pictures yet.
+- Website chats: the widget reads the room every three seconds while open,
+  not through socket.io, since a guest may not join a room's realtime; a
+  visitor cannot add a file; the portal (`frontend/portal`) has no chat yet,
+  only the website's pages; one channel answers at a time, so a visitor
+  cannot pick sales or support. A room cannot be opened from a record yet.

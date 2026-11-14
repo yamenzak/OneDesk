@@ -195,3 +195,116 @@ def the_panel_is_a_conversation_with_an_agent():
 			api.leave(made)
 	finally:
 		frappe.db.rollback(save_point="chat_panel_check")
+
+
+@check
+def a_channel_s_automation_files_and_answers_what_it_watches_for():
+	"""Huda makes a channel with the owner and, in AutomationCenter, an
+	automation on it: a message that starts with todo becomes a task, said
+	in its thread with a reply in her name. The owner reads it and cannot
+	change it without making channels; Karim, outside, finds none. The run
+	is done here, as its background job does it. All undone."""
+	from onedesk.one import automation_center, rights
+	from onedesk.one_chat import api, automations
+
+	frappe.db.savepoint("chat_automation_check")
+	try:
+		with as_user(HUDA):
+			made = api.make("Automation check", private=1, people=json.dumps([OWNER]))["name"]
+			places = automation_center.places()
+			assert made in {scope["scope"] for place in places if place["trigger"] == automations.POSTED for scope in place["scopes"]}
+			offered = automation_center.blocks(automations.POSTED, made)
+			assert {"chat_reply", "chat_share", "chat_notify", "chat_create"} <= {one["key"] for one in offered["actions"]}
+			assert offered["starters"] and offered["trigger"]["where"] == "Automation check"
+			then = [{"type": "chat_create", "doctype": "Task"}, {"type": "chat_reply", "text": "On it, {sender_name}.", "thread": 1}]
+			steps = [{"type": "if", "id": "i1", "test": {"items": [{"field": "text", "op": "starts_with", "value": "todo"}]}, "then": then, "else": []}]
+			assert automation_center.problems(automations.POSTED, json.dumps(steps)) == []
+			name = automation_center.save(automations.POSTED, made, json.dumps({"title": "Todo", "enabled": 1, "steps": steps}))
+			listed = automation_center.automations(automations.POSTED, made)
+			assert [one["name"] for one in listed["rules"]] == [name] and listed["rules"][0]["then"]
+			sent = api.send(made, "todo count the petty cash")["message"]["name"]
+			other = api.send(made, "The petty cash is counted.")["message"]["name"]
+		assert automations.run(sent, made) == [name]
+		assert automations.run(other, made) == [], "what it does not watch for runs nothing"
+		replies = frappe.get_all("Chat Message", filters={"thread": sent}, fields=["text", "automation", "sender"])
+		assert len(replies) == 2 and {one.automation for one in replies} == {name} and {one.sender for one in replies} == {HUDA}
+		assert frappe.db.exists("Task", {"subject": "todo count the petty cash"}), "the task is made"
+		with as_user(OWNER):
+			assert name in {one.name for one in frappe.get_list("Automation", filters={"scope": made})}
+			if not rights.held("Chat Channel", "chat_channels"):
+				try:
+					automation_center.enable(name, 0)
+				except frappe.PermissionError:
+					pass
+				else:
+					raise AssertionError("the owner changed an automation without making channels")
+		with as_user(KARIM):
+			assert not frappe.get_list("Automation", filters={"scope": made}), "Karim reads no automation of a channel he is not in"
+		with as_user(HUDA):
+			automation_center.enable(name, 0)
+			automation_center.delete(name)
+	finally:
+		frappe.db.rollback(save_point="chat_automation_check")
+
+
+@check
+def a_website_visitor_reaches_the_channel_that_answers_and_reads_only_their_chat():
+	"""The owner has a channel with Huda answer website chats. A visitor
+	starts a chat from the pricing page and writes again: the room is Huda's,
+	the first message opens it and the second does not. Huda answers, and
+	notes in a thread for the team: the visitor reads the answer, not the
+	note. Karim, outside, neither turns the website off nor reads the room.
+	Huda forwards it and closes it, and the visitor can write no more. All
+	undone."""
+	from onedesk.one_chat import api, automations, channels, widget
+
+	def refused(fn, *errors):
+		try:
+			fn()
+		except errors:
+			return
+		raise AssertionError(f"{fn} was not refused")
+
+	frappe.db.savepoint("chat_website_check")
+	try:
+		with as_user(OWNER):
+			desk = api.make("Website check", people=json.dumps([HUDA]))["name"]
+			other = api.make("Sales check", people=json.dumps([HUDA]))["name"]
+			api.website(desk, 1)
+			assert channels.website() == desk
+		with as_user(KARIM):
+			refused(lambda: api.website(desk, 0), frappe.PermissionError)
+		with as_user("Guest"):
+			assert widget.offered()["on"]
+			token = widget.start("Rana Visitor", "rana@visitor.test", "Do you deliver to Sharjah?", "/pricing")["token"]
+			widget.send(token, "And on Fridays?")
+			refused(lambda: widget.start("Rana", "not an address", "Hello"), frappe.ValidationError)
+		room = frappe.db.get_value("Chat Channel", {"visitor_key": widget.key_of(token)}, "name")
+		assert room and frappe.db.get_value("Chat Channel", room, "desk") == desk
+		with as_user(HUDA):
+			opened = api.channel(room)
+			assert opened["room"]["visitor"] == "Rana Visitor" and opened["room"]["page"] == "/pricing"
+			assert room in {one["name"] for one in api.conversations()}
+			first, second = (one["name"] for one in opened["messages"])
+			assert opened["messages"][0]["visitor"] == "Rana Visitor"
+			facts = automations.facts_of(first)
+			assert facts["visitor"] and facts["opens"] and facts["page"] == "/pricing"
+			assert not automations.facts_of(second)["opens"]
+			api.send(room, "Yes, every day.")
+			api.send(room, "Check the Friday van first.", thread=first)
+		with as_user("Guest"):
+			read = widget.said(token)
+			texts = [one["text"] for one in read["messages"]]
+			assert "Yes, every day." in texts and "Check the Friday van first." not in texts, "a thread is the team's"
+			assert all(set(one) == {"name", "text", "mine", "who", "at"} for one in read["messages"])
+			refused(lambda: widget.said("not-a-key"), frappe.DoesNotExistError)
+		with as_user(KARIM):
+			refused(lambda: api.channel(room), frappe.PermissionError)
+		with as_user(HUDA):
+			assert api.forward(room, other)["desk"] == other
+			api.close(room, 1)
+		with as_user("Guest"):
+			assert widget.said(token)["closed"]
+			refused(lambda: widget.send(token, "Hello?"), frappe.ValidationError)
+	finally:
+		frappe.db.rollback(save_point="chat_website_check")

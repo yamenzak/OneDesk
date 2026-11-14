@@ -14,6 +14,7 @@ const ICONS = {
 	"list-checks": "lucide-list-checks",
 	"mail-check": "lucide-mail-check",
 	"mail-open": "lucide-mail-open",
+	"message-square": "lucide-message-square",
 	moon: "lucide-moon",
 	newspaper: "lucide-newspaper",
 	octagon: "lucide-octagon",
