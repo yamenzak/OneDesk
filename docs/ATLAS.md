@@ -1006,8 +1006,8 @@ Pages: onecalendar (on a rail or a home).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Chat Channel | inside: a conversation, listed and opened in OneChat and in OneAI's panel | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Chat Message | inside: a message, read in its conversation in OneChat | everybody | untouched | yes | general |  | **none** |  |  |  |  |
+| Chat Channel | inside: a conversation, listed and opened in OneChat and in OneAI's panel | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Chat Message | inside: a message, read in its conversation in OneChat | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
 Pages: onechat (on a rail or a home).
 

@@ -71,26 +71,29 @@ def bill_in(doc, party_type: str, party: str) -> str:
 
 def payable_in(company: str, currency: str) -> str:
 	"""The company's payable in `currency`, Creditors USD and the like, made
-	once. In a group it is made at the group's root company, which ERPNext
-	then makes in every company under it, as it refuses an account a
-	company's root does not have."""
+	once. In a group it is made at the group's root company first, as ERPNext
+	refuses an account a company's root does not have, then in the company
+	if ERPNext did not make it there too."""
 	from erpnext.accounts.doctype.account.account import get_root_company
 
-	name = frappe.db.get_value("Account", {"company": company, "account_name": f"Creditors {currency}"})
-	if name:
-		return name
-	at = (get_root_company(company) or [company])[0]
-	parent = frappe.db.get_value("Account", {"company": at, "account_type": "Payable", "is_group": 0}, "parent_account")
-	account = frappe.get_doc(
-		{
-			"doctype": "Account",
-			"account_name": f"Creditors {currency}",
-			"parent_account": parent,
-			"company": at,
-			"account_type": "Payable",
-			"account_currency": currency,
-		}
-	)
-	account.flags.ignore_permissions = True
-	account.insert()
+	root = (get_root_company(company) or [company])[0]
+	for at in dict.fromkeys((root, company)):
+		if not _creditors(at, currency):
+			parent = frappe.db.get_value("Account", {"company": at, "account_type": "Payable", "is_group": 0}, "parent_account")
+			account = frappe.get_doc(
+				{
+					"doctype": "Account",
+					"account_name": f"Creditors {currency}",
+					"parent_account": parent,
+					"company": at,
+					"account_type": "Payable",
+					"account_currency": currency,
+				}
+			)
+			account.flags.ignore_permissions = True
+			account.insert()
+	return _creditors(company, currency)
+
+
+def _creditors(company: str, currency: str) -> str | None:
 	return frappe.db.get_value("Account", {"company": company, "account_name": f"Creditors {currency}"})
