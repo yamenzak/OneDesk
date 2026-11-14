@@ -349,7 +349,7 @@ registry.
 
 - [ ] P11.1 Every module and screen walked against docs/STANDARD.md (the passthrough skill), stamped Passed; Help pictures current; translations complete. — no screen unstamped without a reason.
 - [ ] P11.2 docs/ and every AGENTS.md read for truth; the ARC docs marked done or moved to BACKLOG. — nothing stale.
-- [ ] P11.3 The switchover items that were Yamen's (admin.4dl.dev retired, dev Cloudflare resources) prepared as a list for him.
+- [x] P11.3 The switchover items that were Yamen's (admin.4dl.dev retired, dev Cloudflare resources) prepared as a list for him. (14 Nov: under Waiting for Yamen, The switchover, in order.)
 
 ## Decisions
 - 13 Nov, Yamen: the signup wizard's privacy clause and the Terms' agreeing on the first page are a new revision of OneAdmin's privacy policy and terms: everyone agrees again.
@@ -457,6 +457,33 @@ Only what needs his own hands:
   arcs at 82adc014).
 - The real-use gates of P8.1 and P8.2 (50 real invoices; a week on OneChat).
 
+### The switchover, in order (P11.3)
+
+What needs Yamen's own hands to finish the run, each with where it stands:
+
+1. **Merge `arcs` into `main`.** Every gate that can pass before a release has
+   passed (above); the release builds and admin.4dl.app moves itself.
+2. **On admin.4dl.app after the release:** Set Up Cloudflare again (it deploys
+   the Agents Worker for P8.1 and gives the office Worker its Browser
+   Rendering binding for P9.2; if its token form asks for a Browser Rendering
+   permission, tick it), Set Up Again for the analytics permissions, Connect
+   GitHub (the GitHub App).
+3. **New Test Workspace** on admin.4dl.app for run.localhost; then gate.sh
+   links it with deploy/local/link.sh (P4's gate signs up there, asks the
+   setup guide a question, previews a link).
+4. **The Oracle box** (P4.1's drill): Release Server, run the line, Released;
+   Connect Again, run the line, Oracle found.
+5. **Retire dev's OneAdmin** for good: its [one-dev] Cloudflare tokens, the dev
+   buckets and Workers, the master token, and admin.4dl.dev's DNS; the site
+   itself is dropped only on his word (it is never dropped unasked).
+6. **Waiting on his go:** the old R2 releases' cleanup; Stripe live keys at
+   launch; port 22 on the admin box moving behind Cloudflare Access.
+7. **Real use:** P8.1's 50 invoices on a test workspace, P8.2's week on OneChat.
+8. **One worktree** is left: agent-af46cdf5 (OneAdmin work of 9 Nov, never
+   committed) refuses removal without force. Its diff and untracked files are
+   saved in ~/arcs-tools/af46cdf5-*; `git worktree remove --force` it when he
+   has looked.
+
 ## Deferred
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
@@ -476,7 +503,7 @@ Only what needs his own hands:
 - [ ] D5 OneAdmin's post to a workspace's `oneos.stopped` names `onedesk.one_cloud` again — at P2.9: until every workspace runs the rename, only the old path is on all of them (the shim answers it on the new)
 - [x] D3 Two demo checks pass alone and fail inside a full run (one_atlas_knows_who_may_open_what, onecloud_a_document_of_ones_own_is_edited_in_oneos, one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing): an earlier check leaves state a rollback doesn't undo (frappe's SQLite logs, or a commit inside a check); find which and make each check leave the site as it found it — at P3.3: the checks are reworked there. (13 Nov: none was order: atlas-site.json was stale since P2.10's migrate (File Link); the OneCloud check built its Word file twice and a .docx carries the second it was made in, so a second boundary made the same save two; the OneAI one passed in the last gates.)
 - [x] D2 A manifest's shipped fields (interface, help, roles, companies) count toward its module's fingerprint again; manifest.py is left out while P1 moves ready.MODULES into manifests, since that moved no module's version before — at P3.4: readiness is reworked there.
-- [ ] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it.
+- [x] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it. (14 Nov: agent-ae3e27f8 removed; agent-af46cdf5 refuses without force, its work saved in ~/arcs-tools, on the switchover list.)
 
 ## Noticed
 - 13 Nov: the tunnel routes only one.4dl.dev since dev's OneAdmin was retired, so a site linked to https://admin.4dl.dev (run.localhost) gets 404 on every live OneAdmin call; the checks fake those answers. P4's gate (a signup on the dev OneAdmin, a box calling back) needs admin.4dl.dev routed again for the drill, or the drill against production's OneAdmin: decide at the P4 gate.
