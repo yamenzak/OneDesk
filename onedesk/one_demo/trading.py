@@ -28,7 +28,7 @@ FIRM = Firm(
 	opening=650000,
 	people=(
 		Person("Vikram", "Rao", "vikram@one.test", "Management", "General Manager", "Male", "2019-11-10", 22000, (("one_inventory", "Manager"), ("one_book", "Manager"), ("one_crm", "Manager"), ("one_portal", "User"))),
-		Person("Lina", "Aziz", "lina@one.test", "Sales", "Sales Coordinator", "Female", "2022-03-07", 9000, (("one_crm", "User"), ("one_inventory", "User"))),
+		Person("Lina", "Aziz", "lina@one.test", "Sales", "Sales Coordinator", "Female", "2022-03-07", 9000, (("one_crm", "User"), ("one_inventory", "User"), ("one_book", "User"))),
 		Person("Suresh", "Pillai", None, "Dispatch", "Storekeeper", "Male", "2020-08-16", 5500),
 		Person("Iqbal", "Hussain", None, "Dispatch", "Driver", "Male", "2021-12-01", 4000),
 	),
