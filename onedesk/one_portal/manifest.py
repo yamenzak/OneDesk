@@ -16,6 +16,7 @@ APP = App(
 		_lt("Quotes and invoices answered"),
 		_lt("Only their own records"),
 	),
+	media=("customer-home.webp", "invoices.webp", "supplier-home.webp"),
 	mark="oneportal",
 	rail=140,
 	sidebar="OnePortal",

@@ -19,6 +19,7 @@ APP = App(
 		_lt("PowerPoint and PDF"),
 		_lt("The history of every change"),
 	),
+	media=("presentation.webp", "go-through-the-slides.gif", "file-menu.webp"),
 	mark="onedeck",
 	rail=26,
 	sidebar="OneDeck",

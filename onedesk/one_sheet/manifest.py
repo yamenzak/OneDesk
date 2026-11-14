@@ -19,6 +19,7 @@ APP = App(
 		_lt("Templates and the history of every change"),
 		_lt("A record's table as a sheet"),
 	),
+	media=("workbook.webp", "labour.webp", "file-menu.webp"),
 	mark="onesheet",
 	rail=24,
 	sidebar="OneSheet",

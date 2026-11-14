@@ -21,6 +21,7 @@ APP = App(
 		_lt("Batches and quality checks"),
 		_lt("Equipment and its depreciation"),
 	),
+	media=("home.webp", "stock-summary.webp", "item.webp", "reorder.webp"),
 	mark="oneinventory",
 	owns=("Stock", "Buying", "Assets"),
 	rail=50,

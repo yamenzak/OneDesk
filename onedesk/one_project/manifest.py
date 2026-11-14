@@ -16,6 +16,7 @@ APP = App(
 		_lt("Costs against the budget"),
 		_lt("Billing as the work is done"),
 	),
+	media=("project.webp", "projects.webp", "workload.webp", "timesheets.webp"),
 	mark="oneproject",
 	owns=("Projects",),
 	rail=110,

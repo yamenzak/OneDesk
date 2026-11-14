@@ -19,6 +19,7 @@ APP = App(
 		_lt("Quotations and sales orders"),
 		_lt("Support issues and appointments"),
 	),
+	media=("home.webp", "pipeline.webp", "deal.webp", "quotation.webp", "leads.webp"),
 	mark="onecrm",
 	owns=("CRM", "Selling", "Support", "Maintenance", "Telephony", "Communication"),
 	rail=80,

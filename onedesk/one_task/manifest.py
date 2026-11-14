@@ -19,6 +19,7 @@ APP = App(
 		_lt("Timers for the time spent"),
 		_lt("Repeating tasks"),
 	),
+	media=("my-tasks.webp", "a-task.webp", "tasks.webp"),
 	mark="onetask",
 	rail=100,
 	sidebar="OneTask",

@@ -19,6 +19,7 @@ APP = App(
 		_lt("Tax and closing the year"),
 		_lt("Several currencies"),
 	),
+	media=("home.webp", "invoice.webp", "invoices.webp", "receivable.webp"),
 	mark="onebook",
 	owns=("Accounts", "EDI", "ERPNext Integrations", "Regional"),
 	rail=40,

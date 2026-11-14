@@ -16,6 +16,7 @@ APP = App(
 		_lt("Automations and webhooks"),
 		_lt("Dashboards"),
 	),
+	media=("extension.webp", "collection.webp", "numbering.webp"),
 	credits=("ai",),
 	mark="onestudio",
 	rail=160,

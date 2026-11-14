@@ -19,6 +19,7 @@ APP = App(
 		_lt("Quality meetings and feedback"),
 		_lt("Steps overdue and goals failing"),
 	),
+	media=("home.webp", "problem.webp", "procedure.webp", "goal.webp"),
 	mark="onequality",
 	owns=("Quality Management",),
 	rail=70,

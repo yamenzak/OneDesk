@@ -29,7 +29,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneCloud 1.0.0
+## OneCloud 1.0.1
 
 Not marked ready yet.
 
@@ -55,7 +55,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneDoc 1.2.0
+## OneDoc 1.2.1
 
 Ready.
 
@@ -81,7 +81,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneSheet 1.2.0
+## OneSheet 1.2.1
 
 Ready.
 
@@ -107,7 +107,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneDeck 1.18.0
+## OneDeck 1.18.1
 
 Ready.
 
@@ -133,7 +133,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneMail 1.4.0
+## OneMail 1.4.1
 
 Ready.
 
@@ -159,7 +159,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneChat 1.0.0
+## OneChat 1.0.1
 
 Not marked ready yet.
 
@@ -185,7 +185,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneBook 1.4.0
+## OneBook 1.4.1
 
 Ready.
 
@@ -211,7 +211,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInventory 2.2.0
+## OneInventory 2.2.1
 
 Ready.
 
@@ -237,7 +237,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneFactory 1.2.0
+## OneFactory 1.2.1
 
 Not marked ready yet.
 
@@ -263,7 +263,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneQuality 1.3.0
+## OneQuality 1.3.1
 
 Not marked ready yet.
 
@@ -289,7 +289,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneCRM 1.4.0
+## OneCRM 1.4.1
 
 Ready.
 
@@ -315,7 +315,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneHR 1.3.0
+## OneHR 1.3.1
 
 Ready.
 
@@ -341,7 +341,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneTask 1.4.0
+## OneTask 1.4.1
 
 Ready.
 
@@ -367,7 +367,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneProject 2.3.0
+## OneProject 2.3.1
 
 Ready.
 
@@ -393,7 +393,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneCalendar 1.2.0
+## OneCalendar 1.2.1
 
 Ready.
 
@@ -419,7 +419,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneDisplay 2.7.0
+## OneDisplay 2.7.1
 
 Ready.
 
@@ -445,7 +445,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OnePortal 1.3.0
+## OnePortal 1.3.1
 
 Ready.
 
@@ -471,7 +471,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneAI 1.12.0
+## OneAI 1.12.1
 
 Ready.
 
@@ -497,7 +497,7 @@ What a person looks at:
 - **Plain words**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneStudio 1.0.0
+## OneStudio 1.0.1
 
 Not marked ready yet.
 

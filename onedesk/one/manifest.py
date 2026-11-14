@@ -22,6 +22,7 @@ APP = App(
 		_lt("Announcements and the recycle bin"),
 		_lt("Centres for settings, access, help and updates"),
 	),
+	media=("home.webp", "address-book.webp", "setup-center.webp", "help-center.webp"),
 	mark="one",
 	rail=10,
 	sidebar="One",

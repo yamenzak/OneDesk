@@ -19,6 +19,7 @@ APP = App(
 		_lt("Mail and files read and filed"),
 		_lt("Web search"),
 	),
+	media=("documents.webp", "read-a-receipt.gif", "suggestion.webp", "agents.webp"),
 	credits=("ai",),
 	mark="oneai",
 	rail=150,
