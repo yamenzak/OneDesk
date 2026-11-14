@@ -13,7 +13,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -39,7 +39,7 @@ Not marked ready yet.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -65,7 +65,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.2.0 |
 | 11. Notifications | 10 | in 1.2.0 |
-| 13. Plain words | 24 | in 1.2.0 |
+| 13. Plain words | 25 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -91,7 +91,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.2.0 |
 | 11. Notifications | 10 | in 1.2.0 |
-| 13. Plain words | 24 | in 1.2.0 |
+| 13. Plain words | 25 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -117,7 +117,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.18.0 |
 | 11. Notifications | 10 | in 1.18.0 |
-| 13. Plain words | 24 | in 1.18.0 |
+| 13. Plain words | 25 | in 1.18.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -143,7 +143,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.4.0 |
 | 11. Notifications | 10 | in 1.4.0 |
-| 13. Plain words | 24 | in 1.4.0 |
+| 13. Plain words | 25 | in 1.4.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -169,7 +169,7 @@ Not marked ready yet.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -195,7 +195,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -221,7 +221,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -247,7 +247,7 @@ Not marked ready yet.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -273,7 +273,7 @@ Not marked ready yet.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -299,7 +299,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -325,7 +325,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -351,7 +351,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.4.0 |
 | 11. Notifications | 10 | in 1.4.0 |
-| 13. Plain words | 24 | in 1.4.0 |
+| 13. Plain words | 25 | in 1.4.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -377,7 +377,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -403,7 +403,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.2.0 |
 | 11. Notifications | 10 | in 1.2.0 |
-| 13. Plain words | 24 | in 1.2.0 |
+| 13. Plain words | 25 | in 1.2.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -429,7 +429,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 2.7.0 |
 | 11. Notifications | 10 | in 2.7.0 |
-| 13. Plain words | 24 | in 2.7.0 |
+| 13. Plain words | 25 | in 2.7.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -455,7 +455,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.3.0 |
 | 11. Notifications | 10 | in 1.3.0 |
-| 13. Plain words | 24 | in 1.3.0 |
+| 13. Plain words | 25 | in 1.3.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -481,7 +481,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -507,7 +507,7 @@ Not marked ready yet.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -533,7 +533,7 @@ Not marked ready yet.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -559,7 +559,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -585,7 +585,7 @@ Not marked ready yet.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | not yet |
 | 11. Notifications | 10 | not yet |
-| 13. Plain words | 24 | not yet |
+| 13. Plain words | 25 | not yet |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |
@@ -611,7 +611,7 @@ Ready.
 | 5. Settings and setup | 5 | — |
 | 7. Our look | 82 | in 1.6.0 |
 | 11. Notifications | 10 | in 1.6.0 |
-| 13. Plain words | 24 | in 1.6.0 |
+| 13. Plain words | 25 | in 1.6.0 |
 | 14. Documented, with Help and a tour | 9 | — |
 | 15. Versioned, with What's New | 8 | — |
 | 16. OneAI knows and does | 17 | — |

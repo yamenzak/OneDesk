@@ -504,6 +504,13 @@ GUARDS = [
 		"tests/guards/test_translations.py::test_the_translation_rules_catch_their_examples",
 	),
 	Guard(
+		"extracted",
+		13,
+		"a desk string frappe's extractor misses, so no reader sees it translated",
+		"tests/guards/test_translations.py::test_every_desk_string_is_extracted",
+		"tests/guards/test_translations.py::test_the_translation_rules_catch_their_examples",
+	),
+	Guard(
 		"placeholders",
 		13,
 		"a translation that loses a placeholder",

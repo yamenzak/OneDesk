@@ -266,6 +266,7 @@ A person looks: every heading, description and message it shows reads as the cop
 - `no-commit-voice`: screen text that reads like a commit message (`tests/guards/test_wording.py::test_no_screen_text_reads_like_a_commit_message`, caught in `test_the_wording_rules_catch_their_examples`)
 - `island-translated`: island text not passed through __() (`tests/guards/test_islands.py::test_what_an_island_says_is_translated`, caught in `test_the_island_rules_catch_their_examples`)
 - `translated`: a string with no Arabic or German (`tests/guards/test_translations.py::test_every_string_reaches_a_reader`, caught in `test_the_translation_rules_catch_their_examples`)
+- `extracted`: a desk string frappe's extractor misses, so no reader sees it translated (`tests/guards/test_translations.py::test_every_desk_string_is_extracted`, caught in `test_the_translation_rules_catch_their_examples`)
 - `placeholders`: a translation that loses a placeholder (`tests/guards/test_translations.py::test_placeholders_survive_translation`, caught in `test_the_translation_rules_catch_their_examples`)
 - `brand-current`: onedesk/translations not what the snapshot's brand sentences make (`tests/guards/test_atlas.py::test_the_brand_translations_are_current`, caught in `test_the_answers_and_the_generated_files_catch_their_examples`)
 - `brand-said`: a sentence frappe, erpnext or hrms say that still names them, in English, Arabic or German (`tests/guards/test_atlas.py::test_nothing_upstream_says_names_them`, caught in `test_the_answers_and_the_generated_files_catch_their_examples`)

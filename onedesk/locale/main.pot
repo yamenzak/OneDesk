@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-14 04:11+0000\n"
-"PO-Revision-Date: 2026-11-14 04:11+0000\n"
+"POT-Creation-Date: 2026-11-14 05:09+0000\n"
+"PO-Revision-Date: 2026-11-14 05:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -122,6 +122,7 @@ msgstr ""
 
 #. Option for the 'Expires After' (Select) field in DocType 'Workspace Session'
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:93
+#: onedesk/public/js/account_center/account_center.js:1746
 msgid "1 Day"
 msgstr ""
 
@@ -435,6 +436,7 @@ msgstr ""
 #. Option for the 'Expires After' (Select) field in DocType 'Workspace Session'
 #: frontend/src/admin/ServiceHistory.vue:38
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:93
+#: onedesk/public/js/account_center/account_center.js:1746
 msgid "30 Days"
 msgstr ""
 
@@ -480,11 +482,13 @@ msgstr ""
 #: frontend/src/admin/ServerMetrics.vue:58
 #: frontend/src/admin/ServiceHistory.vue:37
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:93
+#: onedesk/public/js/account_center/account_center.js:1746
 msgid "7 Days"
 msgstr ""
 
 #. Option for the 'Expires After' (Select) field in DocType 'Workspace Session'
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:93
+#: onedesk/public/js/account_center/account_center.js:1746
 msgid "8 Hours"
 msgstr ""
 
@@ -2401,7 +2405,7 @@ msgstr ""
 msgid "Account No"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1669
+#: onedesk/public/js/account_center/account_center.js:1668
 msgid "Account Not Reached"
 msgstr ""
 
@@ -2711,6 +2715,7 @@ msgstr ""
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:18
 #: onedesk/public/js/account_center/account_center.js:612
 #: onedesk/public/js/account_center/account_center.js:1229
+#: onedesk/public/js/account_center/account_center.js:1816
 #: onedesk/public/js/doctype_settings.js:350
 #: onedesk/public/js/doctype_settings.js:924
 #: onedesk/public/js/one_admin/admin_control.js:142
@@ -2799,6 +2804,7 @@ msgid "Add Date"
 msgstr ""
 
 #: onedesk/public/js/account_center/account_center.js:1555
+#: onedesk/public/js/account_center/account_center.js:1804
 #: onedesk/public/js/one_mail/onemail_settings.js:1048
 #: onedesk/public/js/one_mail/onemail_settings.js:1075
 msgid "Add Domain"
@@ -3232,7 +3238,11 @@ msgstr ""
 msgid "Add the domain your company's mail is at, so people connect their mailbox there with its password alone."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1828
+#: onedesk/public/js/account_center/account_center.js:1591
+msgid "Add these at your DNS provider. Each address works a few minutes after its records are found."
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1827
 msgid "Add these records at your DNS provider."
 msgstr ""
 
@@ -3569,6 +3579,7 @@ msgstr ""
 #: onedesk/account_center/doctype/workspace_account/workspace_account.json:323
 #: onedesk/one/sidebar/one/one.json:87
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:156
+#: onedesk/public/js/account_center/account_center.js:1586
 msgid "Addresses"
 msgstr ""
 
@@ -4057,7 +4068,7 @@ msgstr ""
 msgid "All Agents"
 msgstr ""
 
-#: frontend/src/one/Home.vue:28 onedesk/public/js/one_interface/chrome.js:381
+#: frontend/src/one/Home.vue:28 onedesk/public/js/one_interface/chrome.js:384
 msgid "All Announcements"
 msgstr ""
 
@@ -4702,6 +4713,10 @@ msgstr ""
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1735
+msgid "An empty workspace set up like this one, with its companies, apps and settings, and no records."
+msgstr ""
+
 #: onedesk/one_studio/places.py:311
 msgid "An event's card is opened in OneCalendar."
 msgstr ""
@@ -4867,7 +4882,7 @@ msgstr ""
 #: frontend/src/one/Home.vue:28 onedesk/one/sidebar/one/one.json:25
 #: onedesk/one/tour.py:36 onedesk/public/js/one/note_list.js:12
 #: onedesk/public/js/one_interface/chrome.js:59
-#: onedesk/public/js/one_interface/chrome.js:283
+#: onedesk/public/js/one_interface/chrome.js:286
 msgid "Announcements"
 msgstr ""
 
@@ -7483,6 +7498,7 @@ msgid "Begin On (Days)"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemMaking.vue:18
+#: onedesk/public/js/account_center/account_center.js:1674
 msgid "Being Made"
 msgstr ""
 
@@ -9175,7 +9191,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json:155
 #: onedesk/public/js/one_interface/chrome.js:136
-#: onedesk/public/js/one_interface/chrome.js:207
+#: onedesk/public/js/one_interface/chrome.js:210
 msgid "Centers"
 msgstr ""
 
@@ -9925,8 +9941,8 @@ msgstr ""
 msgid "Choose For to show a table's rows."
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:313
-#: onedesk/public/js/one_interface/chrome.js:349
+#: onedesk/public/js/one_interface/chrome.js:316
+#: onedesk/public/js/one_interface/chrome.js:352
 msgid "Choose Sources"
 msgstr ""
 
@@ -11990,6 +12006,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:153
 #: frontend/src/slide/components/ElementContextMenu.vue:137
 #: onedesk/one_ai/doctype/reading/reading.json:331
+#: onedesk/public/js/account_center/account_center.js:1686
+#: onedesk/public/js/account_center/account_center.js:1782
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:451
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:543
 #: onedesk/public/js/one_interface/json_view.js:145
@@ -13503,6 +13521,10 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_hr/print_format/one_employee_performance_feedback/one_employee_performance_feedback.json
 msgid "Cycle"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1589
+msgid "DNS Records"
 msgstr ""
 
 #. Label of the dns_target (Data) field in DocType 'Workspace Account'
@@ -15466,7 +15488,7 @@ msgid "Developed Design"
 msgstr ""
 
 #: onedesk/public/js/one_interface/chrome.js:187
-msgid "Development site. Nothing here is real."
+msgid "Development site."
 msgstr ""
 
 #. Name of a DocType
@@ -16044,6 +16066,8 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json:223
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:25
 #: onedesk/one_ai/doctype/identifier/identifier.json:23
+#: onedesk/public/js/account_center/account_center.js:1611
+#: onedesk/public/js/account_center/account_center.js:1809
 #: onedesk/public/js/one_mail/onemail_settings.js:1101
 msgid "Domain"
 msgstr ""
@@ -16056,6 +16080,10 @@ msgstr ""
 #. Name of a notification
 #: onedesk/account_center/notifications.py
 msgid "Domain Working"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1820
+msgid "Domain added. It works a few minutes after the DNS record is set."
 msgstr ""
 
 #. Task in the Website project template
@@ -18033,7 +18061,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1706
+#: onedesk/public/js/account_center/account_center.js:1705
 msgid "End"
 msgstr ""
 
@@ -18060,7 +18088,7 @@ msgstr ""
 msgid "End the Presentation"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1726
+#: onedesk/public/js/account_center/account_center.js:1725
 msgid "End this training copy?"
 msgstr ""
 
@@ -18092,6 +18120,10 @@ msgstr ""
 msgid "Ended {0} days ago"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1677
+msgid "Ending"
+msgstr ""
+
 #. Label in the One Budget print format
 #. Label in the One Job Card print format
 #. Label in the One Training Event print format
@@ -18113,6 +18145,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:361
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_studio/print_blocks.py:93 onedesk/one_studio/print_blocks.py:96
+#: onedesk/public/js/account_center/account_center.js:1699
 msgid "Ends On"
 msgstr ""
 
@@ -18923,7 +18956,7 @@ msgstr ""
 msgid "Everyone in the workspace"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1848
+#: onedesk/public/js/account_center/account_center.js:1847
 msgid "Everyone in the workspace, and inviting someone new."
 msgstr ""
 
@@ -19343,6 +19376,7 @@ msgstr ""
 #. Label of the lasts (Select) field in DocType 'Workspace Session'
 #: frontend/src/admin/AdminSessions.vue:28
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:92
+#: onedesk/public/js/account_center/account_center.js:1761
 msgid "Expires After"
 msgstr ""
 
@@ -19887,6 +19921,7 @@ msgstr ""
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:91
 #: onedesk/one_studio/automations.py:120
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:21
+#: onedesk/public/js/account_center/account_center.js:1760
 #: onedesk/public/js/doctype_settings.js:764
 #: onedesk/public/js/doctype_settings.js:914
 msgid "Field"
@@ -21384,6 +21419,7 @@ msgstr ""
 #. Option for the 'Starts From' (Select) field in DocType 'Workspace Session'
 #: frontend/src/admin/AdminSessions.vue:65
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:55
+#: onedesk/public/js/account_center/account_center.js:1735
 msgid "Fresh"
 msgstr ""
 
@@ -21588,6 +21624,10 @@ msgstr ""
 msgid "From No"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1738
+msgid "From Our Data"
+msgstr ""
+
 #: onedesk/one_mail/flow.py:304
 msgid "From Outside the Workspace"
 msgstr ""
@@ -21637,6 +21677,10 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:207
 msgid "From the Customer"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1736
+msgid "From the Demo"
 msgstr ""
 
 #: onedesk/public/js/one/news_add.js:11
@@ -23189,7 +23233,7 @@ msgstr ""
 #: frontend/src/doc/components/ToC.vue:12
 #: frontend/src/doc/components/ToC.vue:99
 #: frontend/src/slide/shim/LayersPanel.vue:46
-#: onedesk/public/js/one_interface/chrome.js:317
+#: onedesk/public/js/one_interface/chrome.js:320
 msgid "Hide"
 msgstr ""
 
@@ -24415,7 +24459,7 @@ msgstr ""
 msgid "If yes"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1799
+#: onedesk/public/js/account_center/account_center.js:1798
 #, python-brace-format
 msgid "If yours doesn't, add www.{0} instead and redirect {0} to it."
 msgstr ""
@@ -27482,6 +27526,10 @@ msgstr ""
 msgid "Last day this grant can be used. Leave empty for no expiry."
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1739
+msgid "Last night's backup of this workspace, with each person's password cleared."
+msgstr ""
+
 #. Label of the last_opened (Datetime) field in DocType 'Cloud Link'
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:123
 msgid "Last opened"
@@ -29625,6 +29673,7 @@ msgstr ""
 
 #. Label of the is_main (Check) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:43
+#: onedesk/public/js/account_center/account_center.js:1622
 msgid "Main Address"
 msgstr ""
 
@@ -29713,6 +29762,10 @@ msgstr ""
 msgid "Make Code"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1763
+msgid "Make Copy"
+msgstr ""
+
 #: frontend/src/inventory/item/ItemManufacturerRow.vue:36
 #: frontend/src/inventory/item/ItemSuppliers.vue:86
 #: onedesk/one_book/report/books_check/books_check.js:48
@@ -29723,7 +29776,7 @@ msgstr ""
 msgid "Make It Again"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1632
+#: onedesk/public/js/account_center/account_center.js:1631
 msgid "Make Main Address"
 msgstr ""
 
@@ -29930,6 +29983,11 @@ msgstr ""
 #: onedesk/one_ai/reading/panel.py:203
 #, python-brace-format
 msgid "Make {0}"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1640
+#, python-brace-format
+msgid "Make {0} the main address? Sign-in, invitations and links in emails will use it."
 msgstr ""
 
 #. Label in the One Bill of Materials print format
@@ -31578,7 +31636,7 @@ msgstr ""
 #: onedesk/one_studio/letter_heads.py:53
 #: onedesk/public/js/account_center/account_center.js:1442
 #: onedesk/public/js/account_center/account_center.js:1501
-#: onedesk/public/js/account_center/account_center.js:1792
+#: onedesk/public/js/account_center/account_center.js:1791
 #: onedesk/public/js/doctype_settings.js:705
 #: onedesk/public/js/one/access_center.js:291
 #: onedesk/public/js/one/access_center.js:372
@@ -32306,6 +32364,11 @@ msgstr ""
 msgid "New Test Workspace"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1661
+#: onedesk/public/js/account_center/account_center.js:1748
+msgid "New Training Copy"
+msgstr ""
+
 #. Label of the draft (JSON) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.js:157
 #: onedesk/one_studio/doctype/extension/extension.json:194
@@ -32514,7 +32577,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_widget/display_widget.json:28
 #: onedesk/one_display/starters.py:1154 onedesk/one_display/widgets.py:65
 #: onedesk/one_display/widgets.py:74 onedesk/one_display/widgets.py:327
-#: onedesk/public/js/one_interface/chrome.js:283
+#: onedesk/public/js/one_interface/chrome.js:286
 msgid "News"
 msgstr ""
 
@@ -33233,6 +33296,10 @@ msgstr ""
 msgid "No documents this month"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1608
+msgid "No domains"
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/CellHistoryPopover.vue:8
 msgid "No edits recorded for this cell yet."
 msgstr ""
@@ -33778,6 +33845,10 @@ msgstr ""
 msgid "No timer running"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1683
+msgid "No training copies yet"
+msgstr ""
+
 #: onedesk/public/js/account_center/account_center.js:891
 msgid "No transactions"
 msgstr ""
@@ -34059,6 +34130,7 @@ msgstr ""
 
 #: onedesk/one/account.py:50
 #: onedesk/public/js/account_center/account_center.js:1041
+#: onedesk/public/js/account_center/account_center.js:1657
 #: onedesk/public/js/one_ai/ai_center.js:513
 msgid "Not Connected Yet"
 msgstr ""
@@ -34090,6 +34162,10 @@ msgstr ""
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:111
 #: onedesk/one_sheet/doctype/workbook/workbook.json:111
 msgid "Not Kept From File"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1678
+msgid "Not Made"
 msgstr ""
 
 #. Name of a notification
@@ -34167,6 +34243,10 @@ msgstr ""
 
 #: onedesk/public/js/trust_center/trust_center.js:373
 msgid "Not Used by This Workspace"
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1621
+msgid "Not Working"
 msgstr ""
 
 #: frontend/src/books/BooksStory.vue:76 onedesk/public/js/reports.js:373
@@ -34366,6 +34446,10 @@ msgstr ""
 msgid "Not matched to a payment yet."
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1658
+msgid "Not on This Plan"
+msgstr ""
+
 #: onedesk/one_mail/flow.py:305
 msgid "Not on a Holiday"
 msgstr ""
@@ -34498,6 +34582,10 @@ msgstr ""
 msgid "Not working"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1604
+msgid "Not working. Check the DNS records below, then remove the domain and add it again."
+msgstr ""
+
 #: onedesk/one_ai/chat.py:126 onedesk/one_chat/answers.py:44
 #: onedesk/public/js/one_mail/onemail_settings.js:711
 msgid "Not yet"
@@ -34619,6 +34707,10 @@ msgstr ""
 
 #: onedesk/one_ai/heads.py:42
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
+msgstr ""
+
+#: onedesk/public/js/one_interface/chrome.js:192
+msgid "Nothing here is real."
 msgstr ""
 
 #: onedesk/public/js/one/shortcut_center.js:215
@@ -36777,7 +36869,8 @@ msgstr ""
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:12
 #: onedesk/one_project/status.py:14 onedesk/one_task/custom/task.json:87
-#: onedesk/public/js/account_center/account_center.js:1705
+#: onedesk/public/js/account_center/account_center.js:1581
+#: onedesk/public/js/account_center/account_center.js:1704
 #: onedesk/public/js/doctype_settings.js:731
 #: onedesk/public/js/one/audit_list.js:6
 #: onedesk/public/js/one_ai/panel/Record.vue:15
@@ -36902,7 +36995,7 @@ msgstr ""
 msgid "Open Opportunities"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1666
+#: onedesk/public/js/account_center/account_center.js:1665
 msgid "Open Optional Services"
 msgstr ""
 
@@ -41870,7 +41963,7 @@ msgstr ""
 msgid "Provided"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1615
+#: onedesk/public/js/account_center/account_center.js:1613
 #, python-brace-format
 msgid "Provided by {0}"
 msgstr ""
@@ -43133,6 +43226,7 @@ msgstr ""
 #: onedesk/one/custom/personal_data_download_request.json:26
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:34
 #: onedesk/one_display/starters.py:771 onedesk/one_display/starters.py:880
+#: onedesk/public/js/account_center/account_center.js:1675
 #: onedesk/public/js/one_admin/admin_control.js:170
 msgid "Ready"
 msgstr ""
@@ -43901,8 +43995,9 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:29 frontend/src/cloud/OneCloud.vue:794
 #: frontend/src/cloud/OneCloud.vue:795 frontend/src/cloud/OneCloud.vue:818
 #: onedesk/one_admin/heads.py:499 onedesk/one_admin/heads.py:506
-#: onedesk/one_interface/shortcuts.py:17 onedesk/public/js/head.js:426
-#: onedesk/public/js/one_interface/frame.js:483
+#: onedesk/one_interface/shortcuts.py:17
+#: onedesk/public/js/account_center/account_center.js:1662
+#: onedesk/public/js/head.js:426 onedesk/public/js/one_interface/frame.js:483
 msgid "Refresh"
 msgstr ""
 
@@ -44333,7 +44428,7 @@ msgstr ""
 #: onedesk/public/js/account_center/account_center.js:269
 #: onedesk/public/js/account_center/account_center.js:634
 #: onedesk/public/js/account_center/account_center.js:863
-#: onedesk/public/js/account_center/account_center.js:1633
+#: onedesk/public/js/account_center/account_center.js:1632
 #: onedesk/public/js/one_admin/admin_control.js:120
 #: onedesk/public/js/one_ai/panel/Panel.vue:199
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:62
@@ -44449,6 +44544,11 @@ msgstr ""
 #: onedesk/public/js/one_mail/onemail_settings.js:1060
 #, python-brace-format
 msgid "Remove {0}? Mailboxes already connected at it keep working."
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1647
+#, python-brace-format
+msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr ""
 
 #: onedesk/one/ai_customize.py:189 onedesk/one_studio/ai_setup.py:645
@@ -46549,7 +46649,7 @@ msgstr ""
 #: onedesk/public/js/one_crm/next_step.js:27
 #: onedesk/public/js/one_interface/arrange.js:74
 #: onedesk/public/js/one_interface/centre.js:344
-#: onedesk/public/js/one_interface/chrome.js:363
+#: onedesk/public/js/one_interface/chrome.js:366
 #: onedesk/public/js/one_interface/form.js:441
 #: onedesk/public/js/one_interface/list.js:255
 #: onedesk/public/js/one_inventory/lots_actions.js:53
@@ -48987,7 +49087,7 @@ msgstr ""
 msgid "Show All"
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:309
+#: onedesk/public/js/one_interface/chrome.js:312
 msgid "Show Announcements"
 msgstr ""
 
@@ -49044,7 +49144,7 @@ msgstr ""
 msgid "Show More"
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:309
+#: onedesk/public/js/one_interface/chrome.js:312
 msgid "Show News"
 msgstr ""
 
@@ -50610,7 +50710,7 @@ msgstr ""
 #. Label of the sources (Long Text) field in DocType 'Presentation'
 #: onedesk/one/sidebar/one/one.json:124
 #: onedesk/one_deck/doctype/presentation/presentation.json:98
-#: onedesk/public/js/one_interface/chrome.js:354
+#: onedesk/public/js/one_interface/chrome.js:357
 msgid "Sources"
 msgstr ""
 
@@ -51078,6 +51178,7 @@ msgstr ""
 
 #. Label of the source (Select) field in DocType 'Workspace Session'
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:54
+#: onedesk/public/js/account_center/account_center.js:1753
 msgid "Starts From"
 msgstr ""
 
@@ -51318,6 +51419,8 @@ msgstr ""
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:45
 #: onedesk/one_studio/print_blocks.py:101
 #: onedesk/public/js/account_center/account_center.js:1054
+#: onedesk/public/js/account_center/account_center.js:1619
+#: onedesk/public/js/account_center/account_center.js:1693
 #: onedesk/public/js/one_interface/list.js:486
 msgid "Status"
 msgstr ""
@@ -51801,6 +51904,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Workspace Session'
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:75
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:45
+#: onedesk/public/js/account_center/account_center.js:1676
 msgid "Stopped"
 msgstr ""
 
@@ -53522,7 +53626,7 @@ msgstr ""
 msgid "Temporary copies of the workspace for its people to train on, once its administrators turn Training Copies on."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1853
+#: onedesk/public/js/account_center/account_center.js:1852
 msgid "Temporary copies of the workspace for people to train on."
 msgstr ""
 
@@ -54264,7 +54368,7 @@ msgstr ""
 msgid "The addresses on the repeat, and its maker when it fails"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1852
+#: onedesk/public/js/account_center/account_center.js:1851
 msgid "The addresses the workspace answers on."
 msgstr ""
 
@@ -54494,7 +54598,7 @@ msgstr ""
 msgid "The company's bank accounts."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1850
+#: onedesk/public/js/account_center/account_center.js:1849
 msgid "The company's computers and phones, and the passkeys on people's own."
 msgstr ""
 
@@ -54546,12 +54650,16 @@ msgstr ""
 msgid "The conversation opens here, with the records it is linked to above it."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1669
+#: onedesk/public/js/account_center/account_center.js:1668
 msgid "The copies show once the account answers again."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1726
+#: onedesk/public/js/account_center/account_center.js:1725
 msgid "The copy and everything done in it are deleted."
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1769
+msgid "The copy is being made. It says Ready here when it can be opened."
 msgstr ""
 
 #: onedesk/one_admin/sessions.py:355
@@ -54727,6 +54835,10 @@ msgstr ""
 
 #: onedesk/one/registry/features.py:26
 msgid "The demo company, built into a workspace that is not set up yet."
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1736
+msgid "The demo, with a year of records, opened on the company of the field you choose."
 msgstr ""
 
 #. The Events terms and conditions
@@ -55148,7 +55260,7 @@ msgstr ""
 msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1580
+#: onedesk/public/js/account_center/account_center.js:1578
 msgid "The main address. Sign-in, invitations and links in emails use it."
 msgstr ""
 
@@ -55562,7 +55674,7 @@ msgstr ""
 msgid "The plan's monthly credits."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1851
+#: onedesk/public/js/account_center/account_center.js:1850
 msgid "The plan, its seats and storage, credits and invoices."
 msgstr ""
 
@@ -56239,7 +56351,7 @@ msgstr ""
 msgid "The workspace's apps changed. Reload to see them."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1849
+#: onedesk/public/js/account_center/account_center.js:1848
 msgid "The workspace's companies, and adding another."
 msgstr ""
 
@@ -56270,6 +56382,7 @@ msgid "The workspace's owner"
 msgstr ""
 
 #: onedesk/one/copies.py:35
+#: onedesk/public/js/account_center/account_center.js:1658
 msgid "The workspace's plan doesn't include Training Copies."
 msgstr ""
 
@@ -57461,6 +57574,10 @@ msgstr ""
 #: onedesk/one/account.py:48 onedesk/one_ai/report/ai_credits/ai_credits.py:28
 #: onedesk/public/js/one/help_center.js:133
 msgid "This workspace isn't connected to its account yet, so this isn't available."
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1657
+msgid "This workspace isn't connected to its account yet, so training copies can't be made."
 msgstr ""
 
 #: onedesk/public/js/account_center/account_center.js:1567
@@ -58723,6 +58840,10 @@ msgstr ""
 msgid "Training Copies Agreed On"
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1659
+msgid "Training Copies Is Off"
+msgstr ""
+
 #: onedesk/one/copies.py:36
 msgid "Training Copies is off for this workspace. Turn it on in Optional Services first."
 msgstr ""
@@ -58765,9 +58886,13 @@ msgstr ""
 msgid "Training and disposable copies can now start on it. Open Sessions to start one."
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1727
+msgid "Training copy ended."
+msgstr ""
+
 #: onedesk/public/js/one_interface/chrome.js:186
 #, python-brace-format
-msgid "Training copy, ends {0}. Nothing here is real."
+msgid "Training copy, ends {0}."
 msgstr ""
 
 #. Task in the ERP Rollout project template
@@ -59132,6 +59257,10 @@ msgstr ""
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1659
+msgid "Turn on Training Copies in Optional Services to make a copy."
+msgstr ""
+
 #: onedesk/one/weather.py:179
 #, python-brace-format
 msgid "Turn on Weather in {0} to search for a place."
@@ -59324,7 +59453,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:37
 #: onedesk/one_studio/print_blocks.py:61 onedesk/one_studio/print_blocks.py:100
-#: onedesk/public/js/account_center/account_center.js:1792
+#: onedesk/public/js/account_center/account_center.js:1791
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:282
 msgid "Type"
 msgstr ""
@@ -60599,7 +60728,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
 #: onedesk/one_studio/automations.py:121
-#: onedesk/public/js/account_center/account_center.js:1792
+#: onedesk/public/js/account_center/account_center.js:1791
 #: onedesk/public/js/doctype_settings.js:916
 msgid "Value"
 msgstr ""
@@ -61025,6 +61154,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:37
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
 #: onedesk/one_studio/print_blocks.py:950
+#: onedesk/public/js/account_center/account_center.js:1596
 #: onedesk/public/js/one/help_center.js:152
 #: onedesk/public/js/one_ai/ai_center.js:139
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:475 onedesk/www/tv.py:55
@@ -61102,6 +61232,10 @@ msgstr ""
 #. Download Request'
 #: onedesk/one/custom/personal_data_download_request.json:28
 msgid "Waiting for an administrator to review it, being gathered, or ready for the person to download."
+msgstr ""
+
+#: onedesk/public/js/account_center/account_center.js:1603
+msgid "Waiting for the DNS records below."
 msgstr ""
 
 #: onedesk/one_admin/heads.py:414
@@ -64648,7 +64782,7 @@ msgstr ""
 msgid "Where you are could not be found. Type the place instead."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1844
+#: onedesk/public/js/account_center/account_center.js:1843
 msgid "Where you live, who to call and the details only HR sees."
 msgstr ""
 
@@ -66144,6 +66278,7 @@ msgstr ""
 #: frontend/src/admin/ServiceHistory.vue:57
 #: onedesk/one_admin/doctype/health_check/health_check.json:34
 #: onedesk/one_task/custom/task.json:87
+#: onedesk/public/js/account_center/account_center.js:1596
 msgid "Working"
 msgstr ""
 
@@ -66262,7 +66397,7 @@ msgstr ""
 #: onedesk/one_portal/access.py:21 onedesk/one_project/access.py:25
 #: onedesk/one_quality/access.py:19 onedesk/one_sheet/access.py:22
 #: onedesk/one_task/access.py:34
-#: onedesk/public/js/account_center/account_center.js:1884
+#: onedesk/public/js/account_center/account_center.js:1883
 #: onedesk/public/js/one/notification_center.js:112
 #: onedesk/public/js/one/notification_center.js:114
 #: onedesk/public/js/one/notification_center.js:149
@@ -67458,7 +67593,7 @@ msgstr ""
 msgid "Your Fonts"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1846
+#: onedesk/public/js/account_center/account_center.js:1845
 msgid "Your ID, passport and permits. HR is told when you add or change one."
 msgstr ""
 
@@ -67678,6 +67813,10 @@ msgstr ""
 msgid "Your desk session is signed in from a different address."
 msgstr ""
 
+#: onedesk/public/js/account_center/account_center.js:1789
+msgid "Your domain, such as office.example.com"
+msgstr ""
+
 #: onedesk/www/s.html:62
 msgid "Your email address"
 msgstr ""
@@ -67741,7 +67880,7 @@ msgstr ""
 msgid "Your interview is on {when}"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1845
+#: onedesk/public/js/account_center/account_center.js:1844
 msgid "Your job as HR keeps it, and your education and past work."
 msgstr ""
 
@@ -67790,7 +67929,7 @@ msgstr ""
 msgid "Your name · your email · your phone"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1843
+#: onedesk/public/js/account_center/account_center.js:1842
 msgid "Your name, photo, bio and language."
 msgstr ""
 
@@ -67845,7 +67984,7 @@ msgstr ""
 msgid "Your password was changed"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1847
+#: onedesk/public/js/account_center/account_center.js:1846
 msgid "Your password, your passkey and where you are signed in."
 msgstr ""
 
@@ -68098,7 +68237,7 @@ msgstr ""
 msgid "Your {reason} from {from_date} to {to_date} was {status}"
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1884
+#: onedesk/public/js/account_center/account_center.js:1883
 #: onedesk/public/js/one/notification_center.js:70
 #: onedesk/public/js/one/notification_center.js:72
 #: onedesk/public/js/one/notification_center.js:148
@@ -70347,7 +70486,7 @@ msgstr ""
 msgid "{0} always sends this. It can't be turned off."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1581
+#: onedesk/public/js/account_center/account_center.js:1579
 #, python-brace-format
 msgid "{0} always works too."
 msgstr ""
@@ -71534,7 +71673,7 @@ msgstr ""
 msgid "{0} is a retainer. Its hours are billed with its month."
 msgstr ""
 
-#: onedesk/public/js/account_center/account_center.js:1799
+#: onedesk/public/js/account_center/account_center.js:1798
 #, python-brace-format
 msgid "{0} is a root domain and needs a CNAME or ALIAS record, which not every DNS provider allows."
 msgstr ""
@@ -74080,7 +74219,7 @@ msgstr ""
 msgid "{0}, from {1}: {2}."
 msgstr ""
 
-#: onedesk/public/js/one_interface/chrome.js:239
+#: onedesk/public/js/one_interface/chrome.js:242
 #, python-brace-format
 msgid "{0}, high {1}, low {2}"
 msgstr ""

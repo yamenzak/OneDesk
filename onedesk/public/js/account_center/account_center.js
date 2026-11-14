@@ -1570,8 +1570,6 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					theme: "yellow",
 			  })}</div>`;
 		if (!rows.length && !changing) return this.$content.html(unlinked);
-		// The main address first, as the plan is on Plan and Credits: where
-		// sign-in, invitations and links in emails send people.
 		const main = primary
 			? `<div class="os-plan">
 				<div class="os-plan-mark">${frappe.utils.icon("globe", "lg")}</div>
@@ -1580,7 +1578,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					<div class="os-plan-holds">${esc(__("The main address. Sign-in, invitations and links in emails use it."))}</div>
 					${given && given !== primary ? `<div class="os-plan-meta">${esc(__("{0} always works too.", [given.domain]))}</div>` : ""}
 				</div>
-				${frappe.ui.button.html({ label: __("Open"), variant: "outline", attrs: { "data-open-domain": `https://${primary.domain}` } })}
+				${frappe.ui.button.html({ label: __("Open"), variant: "outline", attrs: { "data-open-domain": "https://" + primary.domain } })}
 			</div>`
 			: "";
 		this.$content.html(
@@ -1611,10 +1609,11 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			columns: [
 				{
 					label: __("Domain"),
-					render: (one) =>
-						`<div>${esc(one.domain)} ${one.given ? frappe.ui.badge.html({ label: __("Provided by {0}", [onedesk.names.of("one")]), theme: "gray" }) : ""}</div>${
-							said(one) ? `<div class="one-shell-quiet">${esc(said(one))}</div>` : ""
-						}`,
+					render: (one) => {
+						const badge = one.given ? frappe.ui.badge.html({ label: __("Provided by {0}", [onedesk.names.of("one")]), theme: "gray" }) : "";
+						const quiet = said(one) ? `<div class="one-shell-quiet">${esc(said(one))}</div>` : "";
+						return `<div>${esc(one.domain)} ${badge}</div>${quiet}`;
+					},
 				},
 				{
 					label: __("Status"),
@@ -1725,7 +1724,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			const session = of(event);
 			frappe.confirm(`<strong>${esc(__("End this training copy?"))}</strong><br>${esc(__("The copy and everything done in it are deleted."))}`, async () => {
 				await frappe.xcall("onedesk.one.copies.end", { session });
-				frappe.show_alert({ message: __("Training copy ended"), indicator: "green" });
+				frappe.show_alert({ message: __("Training copy ended."), indicator: "green" });
 				this.refresh();
 			});
 		});

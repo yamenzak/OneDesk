@@ -102,6 +102,30 @@ def test_placeholders_survive_translation(lang):
 	assert not wrong, f"{lang}.po loses or invents placeholders in:\n  " + "\n  ".join(wrong)
 
 
+SAID = re.compile(r'__\(\s*"((?:[^"\\]|\\.)*)"\s*\)')
+
+
+def unextracted(source: str) -> list[str]:
+	"""Each plain `__("...")` in a script that frappe's extractor, which
+	writes the POT, does not find. A `//` in a template nested inside another
+	(a URL) throws its lexer off, and what follows reaches no reader."""
+	from io import BytesIO
+
+	from frappe.gettext.extractors.javascript import extract
+
+	found = {one[2] if isinstance(one[2], str) else one[2][0] for one in extract(BytesIO(source.encode()), ["__"], [], {})}
+	return [one for one in SAID.findall(source) if one not in found]
+
+
+def test_every_desk_string_is_extracted():
+	missed = {
+		str(path.relative_to(ROOT)): left
+		for path in sorted((ROOT / "onedesk" / "public" / "js").rglob("*.js"))
+		if (left := unextracted(path.read_text(encoding="utf-8")))
+	}
+	assert not missed, missed
+
+
 def test_the_translation_rules_catch_their_examples(tmp_path):
 	assert pot_missing(tmp_path)
 	(tmp_path / "ar.po").write_text('msgid "Leave"\nmsgstr "إجازة"\n\nmsgid "Gone"\nmsgstr "ذهب"\n\nmsgid "Hi {0}"\nmsgstr "مرحبا"\n', encoding="utf-8")
@@ -113,3 +137,6 @@ def test_the_translation_rules_catch_their_examples(tmp_path):
 	assert unsaid(pot, ours) == ["Gone"]
 	assert lost_placeholders(ours) == ["Hi {0}"]
 	assert lost_placeholders({"Hi {0}": "مرحبا {0}"}) == []
+	nested = 'const m = p\n\t? `<div>\n\t\t${f({ label: __("Open"), attrs: { "x": `https://${p.d}` } })}\n\t</div>`\n\t: "";\nh(__("Lost") + `<i></i>`);\n'
+	assert unextracted(nested) == ["Open", "Lost"]
+	assert unextracted(nested.replace("`https://${p.d}`", '"https://" + p.d')) == []

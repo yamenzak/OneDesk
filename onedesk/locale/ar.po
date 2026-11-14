@@ -3231,6 +3231,10 @@ msgstr "أضف البريد الإلكتروني لجهة الاتصال أول�
 msgid "Add the domain your company's mail is at, so people connect their mailbox there with its password alone."
 msgstr "أضف النطاق الذي يوجد عليه بريد شركتك، ليربط الأشخاص صناديق بريدهم عليه بكلمة المرور وحدها."
 
+#: onedesk/public/js/account_center/account_center.js:1591
+msgid "Add these at your DNS provider. Each address works a few minutes after its records are found."
+msgstr "أضف هذه لدى مزوّد DNS. يعمل كل عنوان بعد دقائق من العثور على سجلاته."
+
 #: onedesk/public/js/account_center/account_center.js:1690
 msgid "Add these records at your DNS provider."
 msgstr "أضف هذه السجلات لدى مزوّد DNS الخاص بك."
@@ -4671,6 +4675,10 @@ msgstr "الموظف هو الشخص صاحب الحساب: دوره وقسمه 
 #: onedesk/one_hr/custom/hr_settings.json:38
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr "الموظف الذي لا يسجّل انصرافه يُكتب له سجل انصراف عند نهاية المناوبة، ويُعلَّم بأنه أُغلق تلقائياً."
+
+#: onedesk/public/js/account_center/account_center.js:1735
+msgid "An empty workspace set up like this one, with its companies, apps and settings, and no records."
+msgstr "مساحة عمل فارغة مُعدّة مثل هذه، بشركاتها وتطبيقاتها وإعداداتها، ودون سجلات."
 
 #: onedesk/one_studio/places.py:311
 msgid "An event's card is opened in OneCalendar."
@@ -13426,6 +13434,10 @@ msgstr ""
 msgid "Cycle"
 msgstr "الدورة"
 
+#: onedesk/public/js/account_center/account_center.js:1589
+msgid "DNS Records"
+msgstr "سجلات DNS"
+
 #. Label of the dns_target (Data) field in DocType 'Workspace Account'
 #: onedesk/account_center/doctype/workspace_account/workspace_account.json:312
 msgid "DNS Target"
@@ -15378,8 +15390,8 @@ msgid "Developed Design"
 msgstr "التصميم المطوَّر"
 
 #: onedesk/public/js/one_interface/chrome.js:187
-msgid "Development site. Nothing here is real."
-msgstr "موقع تطوير. لا شيء هنا حقيقي."
+msgid "Development site."
+msgstr "موقع تطوير."
 
 #. Name of a DocType
 #. Label of the label (Data) field in DocType 'Push Device'
@@ -15967,6 +15979,10 @@ msgstr "توقف النطاق عن العمل"
 #: onedesk/account_center/notifications.py
 msgid "Domain Working"
 msgstr "النطاق يعمل"
+
+#: onedesk/public/js/account_center/account_center.js:1820
+msgid "Domain added. It works a few minutes after the DNS record is set."
+msgstr "أُضيف النطاق. يعمل بعد دقائق من ضبط سجل DNS."
 
 #. Task in the Website project template
 #: onedesk/one_project/library/website.json
@@ -17993,6 +18009,10 @@ msgstr "انتهى في"
 #, python-brace-format
 msgid "Ended {0} days ago"
 msgstr "انتهى منذ {0} أيام"
+
+#: onedesk/public/js/account_center/account_center.js:1677
+msgid "Ending"
+msgstr "قيد الإنهاء"
 
 #. Label in the One Budget print format
 #. Label in the One Job Card print format
@@ -21473,6 +21493,10 @@ msgstr "ابتداءً من الاثنين"
 msgid "From No"
 msgstr "من رقم"
 
+#: onedesk/public/js/account_center/account_center.js:1738
+msgid "From Our Data"
+msgstr "من بياناتنا"
+
 #: onedesk/one_mail/flow.py:302
 msgid "From Outside the Workspace"
 msgstr "من خارج مساحة العمل"
@@ -21523,6 +21547,10 @@ msgstr "من مفتاح scripts/rescue.py. تُختم به نسخة إعدادا
 #: frontend/src/project/Overview.vue:207
 msgid "From the Customer"
 msgstr "لدى العميل"
+
+#: onedesk/public/js/account_center/account_center.js:1736
+msgid "From the Demo"
+msgstr "من العرض التجريبي"
 
 #: onedesk/public/js/one/news_add.js:11
 msgid "From the Library"
@@ -27352,6 +27380,10 @@ msgstr "آخر نشاط {0}"
 msgid "Last day this grant can be used. Leave empty for no expiry."
 msgstr "آخر يوم يمكن فيه استخدام هذه المنحة. اتركه فارغاً لعدم الانتهاء."
 
+#: onedesk/public/js/account_center/account_center.js:1739
+msgid "Last night's backup of this workspace, with each person's password cleared."
+msgstr "النسخة الاحتياطية لمساحة العمل هذه من الليلة الماضية، مع مسح كلمة المرور لكل شخص."
+
 #. Label of the last_opened (Datetime) field in DocType 'Cloud Link'
 #: onedesk/one_cloud/doctype/cloud_link/cloud_link.json:123
 msgid "Last opened"
@@ -29568,6 +29600,10 @@ msgstr "إنشاء القنوات"
 msgid "Make Code"
 msgstr "إنشاء رمز"
 
+#: onedesk/public/js/account_center/account_center.js:1763
+msgid "Make Copy"
+msgstr "إنشاء نسخة"
+
 #: frontend/src/inventory/item/ItemManufacturerRow.vue:36
 #: frontend/src/inventory/item/ItemSuppliers.vue:86
 #: onedesk/one_book/report/books_check/books_check.js:48
@@ -29786,6 +29822,11 @@ msgstr "أنشئ مفتاح المرور على هاتفك."
 #, python-brace-format
 msgid "Make {0}"
 msgstr "أنشئ {0}"
+
+#: onedesk/public/js/account_center/account_center.js:1640
+#, python-brace-format
+msgid "Make {0} the main address? Sign-in, invitations and links in emails will use it."
+msgstr "جعل {0} العنوان الرئيسي؟ سيستخدمه تسجيل الدخول والدعوات والروابط في الرسائل."
 
 #. Label in the One Bill of Materials print format
 #. Label in the One BOM Creator print format
@@ -32135,6 +32176,11 @@ msgstr "قالب جديد"
 msgid "New Test Workspace"
 msgstr "مساحة عمل تجريبية جديدة"
 
+#: onedesk/public/js/account_center/account_center.js:1661
+#: onedesk/public/js/account_center/account_center.js:1748
+msgid "New Training Copy"
+msgstr "نسخة تدريب جديدة"
+
 #. Label of the draft (JSON) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.js:157
 #: onedesk/one_studio/doctype/extension/extension.json:194
@@ -33055,6 +33101,10 @@ msgstr "لم يُعثر على مستندات"
 msgid "No documents this month"
 msgstr "لا توجد مستندات هذا الشهر"
 
+#: onedesk/public/js/account_center/account_center.js:1608
+msgid "No domains"
+msgstr "لا توجد نطاقات"
+
 #: frontend/src/sheet/components/SheetEditor/CellHistoryPopover.vue:8
 msgid "No edits recorded for this cell yet."
 msgstr "لم تُسجَّل أي تعديلات لهذه الخلية بعد."
@@ -33600,6 +33650,10 @@ msgstr "لا وقت مسجل بعد"
 msgid "No timer running"
 msgstr "لا يوجد مؤقت يعمل"
 
+#: onedesk/public/js/account_center/account_center.js:1683
+msgid "No training copies yet"
+msgstr "لا توجد نسخ تدريب بعد"
+
 #: onedesk/public/js/account_center/account_center.js:895
 msgid "No transactions"
 msgstr "لا توجد معاملات"
@@ -33913,6 +33967,10 @@ msgstr "لم تُفوتر بعد"
 msgid "Not Kept From File"
 msgstr "ما لا يُحفظ من الملف"
 
+#: onedesk/public/js/account_center/account_center.js:1678
+msgid "Not Made"
+msgstr "لم تُنشأ"
+
 #. Name of a notification
 #: onedesk/one_display/notifications.py
 msgid "Not Made by OneAI"
@@ -33989,6 +34047,10 @@ msgstr "لا يُتتبَّع"
 #: onedesk/public/js/trust_center/trust_center.js:335
 msgid "Not Used by This Workspace"
 msgstr "غير مستخدم في مساحة العمل هذه"
+
+#: onedesk/public/js/account_center/account_center.js:1621
+msgid "Not Working"
+msgstr "لا يعمل"
 
 #: frontend/src/books/BooksStory.vue:76 onedesk/public/js/reports.js:373
 msgid "Not Yet Due"
@@ -34185,6 +34247,10 @@ msgstr "غير مُسجَّل"
 msgid "Not matched to a payment yet."
 msgstr "لم تُطابق مع دفعة بعد."
 
+#: onedesk/public/js/account_center/account_center.js:1658
+msgid "Not on This Plan"
+msgstr "غير متاح في هذه الخطة"
+
 #: onedesk/one_mail/flow.py:303
 msgid "Not on a Holiday"
 msgstr "ليس في عطلة"
@@ -34317,6 +34383,10 @@ msgstr "غير مستخدم: {0}"
 msgid "Not working"
 msgstr "لا يعمل"
 
+#: onedesk/public/js/account_center/account_center.js:1604
+msgid "Not working. Check the DNS records below, then remove the domain and add it again."
+msgstr "لا يعمل. تحقق من سجلات DNS أدناه، ثم أزل النطاق وأضفه مجددًا."
+
 #: onedesk/one_ai/chat.py:125
 #: onedesk/public/js/one_mail/onemail_settings.js:703
 msgid "Not yet"
@@ -34439,6 +34509,10 @@ msgstr "لم يصل شيء من {0}، وكان مطلوبًا منذ {1}."
 #: onedesk/one_ai/heads.py:41
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "لم يحدث شيء بعد. ويُفحص مقابل صلاحياتك أنت عند تطبيقه."
+
+#: onedesk/public/js/one_interface/chrome.js:192
+msgid "Nothing here is real."
+msgstr "لا شيء هنا حقيقي."
 
 #: onedesk/public/js/one/shortcut_center.js:214
 msgid "Nothing here uses this key."
@@ -44271,6 +44345,11 @@ msgstr "إزالة {0}؟"
 #, python-brace-format
 msgid "Remove {0}? Mailboxes already connected at it keep working."
 msgstr "إزالة {0}؟ تبقى صناديق البريد المربوطة عليه تعمل."
+
+#: onedesk/public/js/account_center/account_center.js:1647
+#, python-brace-format
+msgid "Remove {0}? The workspace will no longer open at this domain."
+msgstr "إزالة {0}؟ لن تُفتح مساحة العمل على هذا النطاق بعد ذلك."
 
 #: onedesk/one/agent.py:1110 onedesk/one_studio/ai_setup.py:645
 msgid "Removed"
@@ -54324,6 +54403,10 @@ msgstr "تظهر النسخ عندما يستجيب الحساب مجددًا."
 msgid "The copy and everything done in it are deleted."
 msgstr "تُحذف النسخة وكل ما أُنجز فيها."
 
+#: onedesk/public/js/account_center/account_center.js:1769
+msgid "The copy is being made. It says Ready here when it can be opened."
+msgstr "يجري إنشاء النسخة. ستظهر هنا جاهز عندما يمكن فتحها."
+
 #: onedesk/one_admin/sessions.py:355
 msgid "The copy isn't ready yet. It can be opened once it says Ready."
 msgstr "النسخة ليست جاهزة بعد. يمكن فتحها عندما تظهر جاهز."
@@ -54491,6 +54574,10 @@ msgstr "لا تُنشأ الشركة التجريبية إلا على مواقع
 #: onedesk/one/registry/features.py:26
 msgid "The demo company, built into a workspace that is not set up yet."
 msgstr "الشركة التجريبية، تُبنى في مساحة عمل لم تُعدّ بعد."
+
+#: onedesk/public/js/account_center/account_center.js:1736
+msgid "The demo, with a year of records, opened on the company of the field you choose."
+msgstr "العرض التجريبي بسجلات سنة كاملة، مفتوحًا على شركة المجال الذي تختاره."
 
 #. The Events terms and conditions
 #: onedesk/one_project/library_terms.json
@@ -57220,6 +57307,10 @@ msgstr "مساحة العمل هذه غير متصلة بحسابها بعد، �
 msgid "This workspace isn't connected to its account yet, so this isn't available."
 msgstr "مساحة العمل هذه غير متصلة بحسابها بعد، لذا هذا غير متاح."
 
+#: onedesk/public/js/account_center/account_center.js:1657
+msgid "This workspace isn't connected to its account yet, so training copies can't be made."
+msgstr "مساحة العمل هذه غير مربوطة بحسابها بعد، لذا لا يمكن إنشاء نسخ تدريب."
+
 #: onedesk/public/js/account_center/account_center.js:1554
 #, python-brace-format
 msgid "This workspace isn't connected to its account. These are the addresses it last said, {0}. Adding or removing one waits until it's connected."
@@ -58469,6 +58560,10 @@ msgstr "نسخ التدريب"
 msgid "Training Copies Agreed On"
 msgstr "تاريخ الموافقة على نسخ التدريب"
 
+#: onedesk/public/js/account_center/account_center.js:1659
+msgid "Training Copies Is Off"
+msgstr "نسخ التدريب متوقفة"
+
 #: onedesk/one/copies.py:36
 msgid "Training Copies is off for this workspace. Turn it on in Optional Services first."
 msgstr "نسخ التدريب متوقفة في مساحة العمل هذه. شغّلها من الخدمات الاختيارية أولًا."
@@ -58511,10 +58606,14 @@ msgstr "جلسة تدريب"
 msgid "Training and disposable copies can now start on it. Open Sessions to start one."
 msgstr "يمكن الآن بدء نسخ التدريب والنسخ المؤقتة عليه. افتح الجلسات لبدء واحدة."
 
+#: onedesk/public/js/account_center/account_center.js:1727
+msgid "Training copy ended."
+msgstr "انتهت نسخة التدريب."
+
 #: onedesk/public/js/one_interface/chrome.js:186
 #, python-brace-format
-msgid "Training copy, ends {0}. Nothing here is real."
-msgstr "نسخة تدريب، تنتهي في {0}. لا شيء هنا حقيقي."
+msgid "Training copy, ends {0}."
+msgstr "نسخة تدريب، تنتهي في {0}."
 
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
@@ -58877,6 +58976,10 @@ msgstr "إيقاف وصول {0} إلى البوابة؟ سيتم تسجيل خر
 #, python-brace-format
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr "فعّل Advanced Certificate Manager للنطاق {0} في Cloudflare، ثم أعد الإعداد."
+
+#: onedesk/public/js/account_center/account_center.js:1659
+msgid "Turn on Training Copies in Optional Services to make a copy."
+msgstr "شغّل نسخ التدريب من الخدمات الاختيارية لإنشاء نسخة."
 
 #: onedesk/one/weather.py:179
 #, python-brace-format
@@ -60839,6 +60942,10 @@ msgstr "بانتظار مسؤول"
 #: onedesk/one/custom/personal_data_download_request.json:28
 msgid "Waiting for an administrator to review it, being gathered, or ready for the person to download."
 msgstr "بانتظار مراجعة مسؤول، أو قيد الجمع، أو جاهزة ليُنزّلها الشخص."
+
+#: onedesk/public/js/account_center/account_center.js:1603
+msgid "Waiting for the DNS records below."
+msgstr "بانتظار سجلات DNS أدناه."
 
 #: onedesk/one_admin/heads.py:414
 msgid "Waiting for the customer's DNS."
@@ -67388,6 +67495,10 @@ msgstr "بياناتك جاهزة"
 #: onedesk/one_hr/rules.py:27
 msgid "Your desk session is signed in from a different address."
 msgstr "جلستك في سطح المكتب مسجَّل دخولها من عنوان مختلف."
+
+#: onedesk/public/js/account_center/account_center.js:1789
+msgid "Your domain, such as office.example.com"
+msgstr "نطاقك، مثل office.example.com"
 
 #: onedesk/www/s.html:62
 msgid "Your email address"
