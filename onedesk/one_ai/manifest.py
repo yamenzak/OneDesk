@@ -51,5 +51,5 @@ APP = App(
 )
 
 PARTS = (
-	App(id="ai_center", line=_lt("The agents, what they may do and what they did."), name="AICenter", kind="centre", module="", centre=Centre("ai", "oneai")),
+	App(id="ai_center", line=_lt("The agents, what they may do and what they did."), name="AICenter", kind="centre", module="", mark="aicenter", centre=Centre("ai", "aicenter")),
 )

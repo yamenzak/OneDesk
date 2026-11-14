@@ -57,5 +57,5 @@ APP = App(
 )
 
 PARTS = (
-	App(id="one_credits", name="OneCredit", kind="engine", module=""),
+	App(id="one_credits", name="OneCredit", kind="engine", module="", mark="onecredit"),
 )

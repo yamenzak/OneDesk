@@ -75,13 +75,13 @@ APP = App(
 )
 
 PARTS = (
-	App(id="one_hub", name="OneHub", kind="centre", module="", mark="one"),
-	App(id="one_marketplace", line=_lt("Every app, what it does, and Install."), name="OneMarketplace", kind="centre", module=""),
-	App(id="control_center", line=_lt("Each app's settings."), name="ControlCenter", kind="centre", module="", centre=Centre("settings", "settings")),
-	App(id="notification_center", line=_lt("What reaches whom, and how."), name="NotificationCenter", kind="centre", module="", centre=Centre("notifications", "bell")),
-	App(id="access_center", line=_lt("Who may open which app, and at what level."), name="AccessCenter", kind="centre", module="", centre=Centre("access", "key-round")),
-	App(id="shortcut_center", line=_lt("The keys for what you do most."), name="ShortcutCenter", kind="centre", module="", centre=Centre("shortcuts", "keyboard")),
-	App(id="help_center", line=_lt("Help for the apps that are on."), name="HelpCenter", kind="centre", module="", centre=Centre("help", "circle-question-mark")),
-	App(id="update_center", line=_lt("What changed and what is coming."), name="UpdateCenter", kind="centre", module="", centre=Centre("updates", "sparkles")),
-	App(id="setup_center", line=_lt("Each app's setup steps, done and waiting."), name="SetupCenter", kind="centre", module="", centre=Centre("setup", "list-checks")),
+	App(id="one_hub", name="OneHub", kind="centre", module="", mark="onehub"),
+	App(id="one_marketplace", line=_lt("Every app, what it does, and Install."), name="OneMarketplace", kind="centre", module="", mark="onemarketplace"),
+	App(id="control_center", line=_lt("Each app's settings."), name="ControlCenter", kind="centre", module="", mark="controlcenter", centre=Centre("settings", "settings")),
+	App(id="notification_center", line=_lt("What reaches whom, and how."), name="NotificationCenter", kind="centre", module="", mark="notificationcenter", centre=Centre("notifications", "bell")),
+	App(id="access_center", line=_lt("Who may open which app, and at what level."), name="AccessCenter", kind="centre", module="", mark="accesscenter", centre=Centre("access", "key-round")),
+	App(id="shortcut_center", line=_lt("The keys for what you do most."), name="ShortcutCenter", kind="centre", module="", mark="shortcutcenter", centre=Centre("shortcuts", "keyboard")),
+	App(id="help_center", line=_lt("Help for the apps that are on."), name="HelpCenter", kind="centre", module="", mark="helpcenter", centre=Centre("help", "circle-question-mark")),
+	App(id="update_center", line=_lt("What changed and what is coming."), name="UpdateCenter", kind="centre", module="", mark="updatecenter", centre=Centre("updates", "sparkles")),
+	App(id="setup_center", line=_lt("Each app's setup steps, done and waiting."), name="SetupCenter", kind="centre", module="", mark="setupcenter", centre=Centre("setup", "list-checks")),
 )
