@@ -265,7 +265,7 @@ No doctypes yet.
 | Tenant Event | 9 | document |
 | Workspace Error | 10 | document |
 | Workspace Server | 22 | document |
-| Workspace Session | 18 | document |
+| Workspace Session | 20 | document |
 
 ## Account Center
 
@@ -382,6 +382,9 @@ No doctypes yet.
 * `onedesk.one.control.load`
 * `onedesk.one.control.save`
 * `onedesk.one.control.sections_of`
+* `onedesk.one.copies.end`
+* `onedesk.one.copies.open_copy`
+* `onedesk.one.copies.start`
 * `onedesk.one.head.foresee`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
@@ -533,6 +536,10 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.buy_credits`
 * `onedesk.one_admin.proxy.close`
 * `onedesk.one_admin.proxy.copies_agreed`
+* `onedesk.one_admin.proxy.copies_end`
+* `onedesk.one_admin.proxy.copies_listed`
+* `onedesk.one_admin.proxy.copies_sign_in`
+* `onedesk.one_admin.proxy.copies_start`
 * `onedesk.one_admin.proxy.credit_packs`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_drop`

@@ -2400,6 +2400,10 @@ msgstr "اسم الحساب"
 msgid "Account No"
 msgstr "رقم الحساب"
 
+#: onedesk/public/js/account_center/account_center.js:1669
+msgid "Account Not Reached"
+msgstr "تعذّر الوصول إلى الحساب"
+
 #: onedesk/one_book/report/books_check/books_check.js:12
 msgid "Account Number"
 msgstr "رقم الحساب"
@@ -9932,6 +9936,10 @@ msgstr "اختر مقدار ما تراه، وسيفتح التقويم على �
 msgid "Choose one of the colors offered."
 msgstr "اختر أحد الألوان المعروضة."
 
+#: onedesk/one/copies.py:34
+msgid "Choose one of the fields offered."
+msgstr "اختر أحد المجالات المعروضة."
+
 #: onedesk/one_mail/gate.py:343
 #, python-brace-format
 msgid "Choose one of {0}."
@@ -9972,6 +9980,10 @@ msgstr "اختر المكان الذي تريد عرض طقسه."
 #: onedesk/one_inventory/quotes.py:342
 msgid "Choose the suppliers to ask."
 msgstr "اختر الموردين المطلوب سؤالهم."
+
+#: onedesk/one/copies.py:33
+msgid "Choose what the copy starts from and how long it lasts."
+msgstr "اختر ما تبدأ منه النسخة ومدة بقائها."
 
 #: onedesk/one/rules.py:131
 msgid "Choose what the rule watches."
@@ -17885,6 +17897,10 @@ msgstr "إنهاء التنبيه"
 #: frontend/src/slide/shim/PresenterView.vue:16
 msgid "End the Presentation"
 msgstr "إنهاء العرض"
+
+#: onedesk/public/js/account_center/account_center.js:1726
+msgid "End this training copy?"
+msgstr "إنهاء نسخة التدريب هذه؟"
 
 #. Option for the 'Status' (Select) field in DocType 'Note'
 #. Option for the 'Stop Reason' (Select) field in DocType 'OneOS Session'
@@ -36669,6 +36685,10 @@ msgstr ""
 msgid "Open Opportunities"
 msgstr "الفرص المفتوحة"
 
+#: onedesk/public/js/account_center/account_center.js:1666
+msgid "Open Optional Services"
+msgstr "فتح الخدمات الاختيارية"
+
 #: frontend/src/project/Suppliers.vue:64
 msgid "Open Order"
 msgstr "فتح الأمر"
@@ -50706,6 +50726,11 @@ msgstr "بدأ"
 msgid "Started At"
 msgstr "بدأ في"
 
+#. Label of the started_by (Data) field in DocType 'Workspace Session'
+#: onedesk/one_admin/doctype/workspace_session/workspace_session.json:81
+msgid "Started By"
+msgstr "بدأها"
+
 #. Label of the started_at (Datetime) field in DocType 'OneOS Session'
 #. Label of the started_on (Datetime) field in DocType 'Interview Recording'
 #: onedesk/one_admin/doctype/oneos_session/oneos_session.json:103
@@ -53202,6 +53227,10 @@ msgstr "لا يزال الحساب الافتتاحي المؤقت يحمل {0}:
 msgid "Temporary copies of the workspace for its people to train on, once its administrators turn Training Copies on."
 msgstr "نسخ مؤقتة من مساحة العمل يتدرب عليها أفرادها، بعد أن يفعّل المسؤولون نسخ التدريب."
 
+#: onedesk/public/js/account_center/account_center.js:1853
+msgid "Temporary copies of the workspace for people to train on."
+msgstr "نسخ مؤقتة من مساحة العمل للتدرّب عليها."
+
 #. Name of a DocType
 #: onedesk/one_admin/doctype/tenant/tenant.json:518
 msgid "Tenant"
@@ -53941,6 +53970,11 @@ msgstr "العناوين في التكرار، ومنشئه عند الفشل"
 msgid "The addresses the workspace answers on."
 msgstr "العناوين التي تستجيب عليها مساحة العمل."
 
+#. Description of the 'Started By' (Data) field in DocType 'Workspace Session'
+#: onedesk/one_admin/doctype/workspace_session/workspace_session.json:78
+msgid "The administrator of the workspace who started it, when the workspace did."
+msgstr "مسؤول مساحة العمل الذي بدأها، إن كانت مساحة العمل هي من بدأها."
+
 #: onedesk/one_quality/home.py:29
 msgid "The agenda and the minutes of a quality meeting."
 msgstr "جدول أعمال اجتماع الجودة ومحضره."
@@ -54214,11 +54248,27 @@ msgstr "المحادثة التي ينتمي إليها الرد."
 msgid "The conversation opens here, with the records it is linked to above it."
 msgstr "تُفتح المحادثة هنا، والسجلات المرتبطة بها فوقها."
 
+#: onedesk/public/js/account_center/account_center.js:1669
+msgid "The copies show once the account answers again."
+msgstr "تظهر النسخ عندما يستجيب الحساب مجددًا."
+
+#: onedesk/public/js/account_center/account_center.js:1726
+msgid "The copy and everything done in it are deleted."
+msgstr "تُحذف النسخة وكل ما أُنجز فيها."
+
+#: onedesk/one_admin/sessions.py:355
+msgid "The copy isn't ready yet. It can be opened once it says Ready."
+msgstr "النسخة ليست جاهزة بعد. يمكن فتحها عندما تظهر جاهز."
+
 #. Message of a notification
 #: onedesk/one/notifications.py
 #, python-brace-format
 msgid "The copy of your data you asked for is ready to download from your profile. Withheld: {withheld}"
 msgstr "نسخة بياناتك التي طلبتها جاهزة للتنزيل من ملفك الشخصي. ما استُبعد: {withheld}"
+
+#: onedesk/one/copies.py:41
+msgid "The copy was not made."
+msgstr "لم تُنشأ النسخة."
 
 #. Description of the 'Country' (Link) field in DocType 'Identification
 #. Document Type'
@@ -54450,6 +54500,11 @@ msgstr "اسم الفعالية والوقت ورمز للبرنامج."
 #: onedesk/one_hr/heads.py:625
 msgid "The expense is booked and the money is owed to them."
 msgstr "تُسجَّل المصروفات ويصبح المبلغ مستحقًا لهم."
+
+#. Description of the 'Field' (Data) field in DocType 'Workspace Session'
+#: onedesk/one_admin/doctype/workspace_session/workspace_session.json:70
+msgid "The field a workspace chose for a copy from the demo, which says the demo company it opens on."
+msgstr "المجال الذي اختارته مساحة العمل لنسخة من العرض التجريبي، ويحدد الشركة التجريبية التي تُفتح عليها."
 
 #: frontend/src/doc/shim/PrintDialog.vue:8
 #, python-brace-format
@@ -55806,6 +55861,11 @@ msgstr "لا يكفي رصيد مساحة العمل لفتح هذا في OneOS.
 msgid "The workspace has run out of credits. It is read as soon as more are added."
 msgstr "نفد رصيد مساحة العمل. ستتم القراءة فور إضافة المزيد."
 
+#: onedesk/one/copies.py:37
+#, python-brace-format
+msgid "The workspace has {0} training copies already. End one first."
+msgstr "لدى مساحة العمل {0} من نسخ التدريب بالفعل. أنهِ إحداها أولًا."
+
 #. Message of a notification
 #: onedesk/account_center/notifications.py
 #, python-brace-format
@@ -55903,6 +55963,14 @@ msgstr "قاعدة مساحة العمل التي أُنشئ هذا النوع �
 #: onedesk/one_admin/notifications.py
 msgid "The workspace's owner"
 msgstr "صاحب مساحة العمل"
+
+#: onedesk/one/copies.py:35
+msgid "The workspace's plan doesn't include Training Copies."
+msgstr "لا تشمل خطة مساحة العمل نسخ التدريب."
+
+#: onedesk/one/copies.py:39
+msgid "The workspace's setup answers aren't kept, so a fresh copy can't be set up like it."
+msgstr "إجابات إعداد مساحة العمل غير محفوظة، لذا لا يمكن إعداد نسخة جديدة مثلها."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:245
 msgid "The writer's name"
@@ -56238,6 +56306,14 @@ msgstr "هناك يمكنك رؤية {what}.<br><br>يعمل الرابط لمد
 #, python-brace-format
 msgid "There's no exchange rate from {0} to {1}. Add one in Currency Exchange."
 msgstr "لا يوجد سعر صرف من {0} إلى {1}. أضفه في تصريف العملات."
+
+#: onedesk/one/copies.py:38
+msgid "There's no nightly backup of the workspace yet. Try again tomorrow."
+msgstr "لا توجد نسخة احتياطية ليلية لمساحة العمل بعد. حاول مجددًا غدًا."
+
+#: onedesk/one/copies.py:40
+msgid "There's no room for a training copy right now. Try again in an hour."
+msgstr "لا يوجد متسع لنسخة تدريب الآن. حاول مجددًا بعد ساعة."
 
 #. Message of a notification
 #: onedesk/one/notifications.py
@@ -57048,6 +57124,10 @@ msgstr "لا تتسع مساحة العمل هذه لـ {0} إضافية."
 msgid "This workspace has no subscription. Contact support to set one up."
 msgstr "لا يوجد اشتراك لمساحة العمل هذه. تواصل مع الدعم لإعداد واحد."
 
+#: onedesk/one_admin/sessions.py:337
+msgid "This workspace has no such training copy."
+msgstr "لا توجد نسخة تدريب كهذه في مساحة العمل هذه."
+
 #: onedesk/www/welcome.py:18 onedesk/www/welcome.py:19
 msgid "This workspace has not been paid for yet."
 msgstr "لم يُدفع ثمن مساحة العمل هذه بعد."
@@ -57055,6 +57135,10 @@ msgstr "لم يُدفع ثمن مساحة العمل هذه بعد."
 #: onedesk/one_admin/accounts.py:219
 msgid "This workspace is not in your account."
 msgstr "مساحة العمل هذه ليست في حسابك."
+
+#: onedesk/one/copies.py:107
+msgid "This workspace isn't connected to its account yet, so a copy can't be made."
+msgstr "مساحة العمل هذه غير مربوطة بحسابها بعد، لذا لا يمكن إنشاء نسخة."
 
 #: onedesk/public/js/account_center/account_center.js:1556
 msgid "This workspace isn't connected to its account yet, so its addresses can't be shown."
@@ -58316,6 +58400,10 @@ msgstr "نسخ التدريب"
 #: onedesk/one_admin/doctype/tenant/tenant.json:497
 msgid "Training Copies Agreed On"
 msgstr "تاريخ الموافقة على نسخ التدريب"
+
+#: onedesk/one/copies.py:36
+msgid "Training Copies is off for this workspace. Turn it on in Optional Services first."
+msgstr "نسخ التدريب متوقفة في مساحة العمل هذه. شغّلها من الخدمات الاختيارية أولًا."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:313 onedesk/one_hr/sidebar/onehr/onehr.json:1152

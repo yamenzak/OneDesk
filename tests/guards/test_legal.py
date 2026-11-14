@@ -20,10 +20,10 @@ from onedesk.trust_center import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "13.adb8cc97",
 	"aup": "1.87e4fdd0",
-	"privacy": "28.0f7998fa",
+	"privacy": "28.8d5f9e48",
 	"cookies": "2.946a434c",
 	"dpa": "7.a01dc637",
-	"subprocessors": "5.986a1865",
+	"subprocessors": "5.99011ae4",
 	"ai": "25.a383d3f8",
 	"licences": "1.c71daf62",
 }
@@ -48,6 +48,7 @@ HOSTS = {
 	"onedesk.one_admin.proxy.weather_reading": "OpenWeather Ltd",
 	"onedesk.one_admin.proxy.weather_places": "OpenWeather Ltd",
 	"onedesk.one_admin.proxy.copies_agreed": "Oracle Corporation",
+	"onedesk.one_admin.proxy.copies_start": "Oracle Corporation",
 	"fcm.googleapis.com": None,
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,

@@ -13,6 +13,9 @@ from frappe import _lt
 REACH = {}
 
 NOT_FOR_AI = {
+	"copies.end": "Ending a training copy deletes what people practised in it, so an administrator presses it.",
+	"copies.open_copy": "A one-time sign-in to a copy is for the administrator who asks for it in the browser.",
+	"copies.start": "A training copy runs on a server and, from our data, copies the workspace, so an administrator presses it.",
 	"update_window.set_window": "When the workspace is offline for an update is an administrator's decision.",
 	"update_window.update_now": "Taking the workspace offline for an update is an administrator's decision.",
 	"setup_job.wake": "A new site's build asks it to set itself up from its signup, before anybody works in it.",

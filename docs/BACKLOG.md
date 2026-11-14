@@ -6,6 +6,7 @@ module's README says what it does.
 
 ## Due now
 
+- OneChat's agent list cuts a long agent's name ("OneFactory's production p…", frontend/src/chat/ChannelList.vue): wrap it to two lines, or show the agent's role alone under the app's mark.
 - A rule: no lazy text (_lt) reaches a response. Five times on 13–14 Nov a `_(x)` of an _lt passed it on lazy and frappe failed to serialize it (the wizard's steps, AICenter's line, the hub's lines, OneCloud's Recent name): `str()` it where it is said, and a guard that finds `_(NAME)` of a module-level _lt or a response built from one.
 
 - A rule: no `__()` at a desk script's top level. AccountCenter's sections were translated when the script loaded, sometimes before the reader's messages, so People's line stayed English in German (13 Nov); they are a function now. The same check over every public/js file.

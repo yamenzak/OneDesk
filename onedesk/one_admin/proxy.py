@@ -23,6 +23,7 @@ A_MINUTE = 60
 CALLS_A_MINUTE = 120
 AN_HOUR = 3600
 CLAIMS_AN_HOUR = 20
+COPIES_AN_HOUR = 10
 
 
 def caller(serving: tuple = SERVING):
@@ -68,6 +69,44 @@ def copies_agreed() -> dict:
 	tenant = caller()
 	frappe.db.set_value("Tenant", tenant.name, "copies_agreed_on", frappe.utils.now_datetime(), update_modified=False)
 	return {"ok": True}
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=COPIES_AN_HOUR, seconds=AN_HOUR, ip_based=False)
+def copies_start(kind: str, lasts: str, by: str, field: str | None = None) -> dict:
+	"""A training copy this workspace's administrator `by` asked for
+	(one/copies.py, through services.call): `fresh`, `demo` on a field's
+	company, or `data`. `refused` names why when it may not be made."""
+	from onedesk.one_admin import sessions
+
+	return sessions.start_for(caller(), kind, lasts, field, by)
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def copies_listed() -> list[dict]:
+	"""This workspace's training copies that are not deleted yet."""
+	from onedesk.one_admin import sessions
+
+	return sessions.of_workspace(caller())
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def copies_end(session: str) -> dict:
+	"""One of this workspace's training copies, deleted now."""
+	from onedesk.one_admin import sessions
+
+	return sessions.end_for(caller(), session)
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=COPIES_AN_HOUR, seconds=AN_HOUR, ip_based=False)
+def copies_sign_in(session: str) -> dict:
+	"""A one-time sign-in to one of this workspace's training copies."""
+	from onedesk.one_admin import sessions
+
+	return sessions.sign_in_for(caller(), session)
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

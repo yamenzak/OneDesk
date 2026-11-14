@@ -38,6 +38,7 @@ SECTIONS = [
 	("devices", _lt("Devices"), "monitor-smartphone", "workspace"),
 	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
 	("domains", _lt("Domains"), "globe", "workspace"),
+	("copies", _lt("Training Copies"), "graduation-cap", "workspace"),
 ]
 
 ON_A_RECORD = ("people",)
@@ -91,6 +92,7 @@ def load(
 		"plan": _plan,
 		"domains": _domains,
 		"devices": _devices,
+		"copies": _copies,
 	}
 	if section not in loaders:
 		frappe.throw(_("There is no such section."))
@@ -741,3 +743,11 @@ def _devices() -> dict:
 	from onedesk.account_center import devices
 
 	return devices.for_settings()
+
+
+def _copies() -> dict:
+	"""Training Copies (one/copies.py): made, opened and ended through
+	OneAdmin."""
+	from onedesk.one import copies
+
+	return copies.section()
