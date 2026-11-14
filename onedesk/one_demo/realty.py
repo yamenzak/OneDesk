@@ -9,14 +9,14 @@ calendar."""
 import frappe
 from frappe.utils import add_days, add_months, get_last_day
 
-from onedesk.one_demo import firm
+from onedesk.one_demo import firm, realty_field
 from onedesk.one_demo.base import as_user, make, on, today
 from onedesk.one_demo.firm import Firm, Person
 
 FIRM = Firm(
-	name="Palm Key Properties",
+	name=realty_field.COMPANY,
 	abbr="PKP",
-	field="real_estate",
+	field=realty_field.REAL_ESTATE.id,
 	emirate="Dubai",
 	street="Office 1402, Marina Plaza, Dubai Marina",
 	phone="+971 4 455 9120",

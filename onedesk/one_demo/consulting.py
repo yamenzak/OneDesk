@@ -8,14 +8,14 @@ over it; a one-day strategy workshop is billed on its own."""
 import frappe
 from frappe.utils import add_days, add_months, get_first_day, get_last_day, getdate
 
-from onedesk.one_demo import firm
+from onedesk.one_demo import consulting_field, firm
 from onedesk.one_demo.base import as_user, make, on, save, today
 from onedesk.one_demo.firm import Firm, Person
 
 FIRM = Firm(
-	name="Bayan Consulting",
+	name=consulting_field.COMPANY,
 	abbr="BYC",
-	field="services",
+	field=consulting_field.SERVICES.id,
 	emirate="Dubai",
 	street="Office 2104, Burj Daman, DIFC",
 	phone="+971 4 389 6650",

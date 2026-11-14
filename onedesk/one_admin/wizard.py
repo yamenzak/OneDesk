@@ -10,7 +10,7 @@ from frappe.rate_limiter import rate_limit
 from frappe.utils import now_datetime
 
 from onedesk.one import registry, setup_answers
-from onedesk.one.registry import switches
+from onedesk.one.registry import fields, switches
 from onedesk.one_admin import signup, site, wizard_answers, wizard_offer
 
 A_MINUTE = 60
@@ -114,6 +114,8 @@ def save(request: str, key: str, step: str, answers: str | dict | None = None, p
 		_region(asked, region, paid)
 	else:
 		kept = _merged(held, step, said, paid)
+		if at == "field":
+			kept = _field(asked, held, kept)
 		if at == "people":
 			_seats(asked, kept)
 		_checked(kept)
@@ -252,6 +254,18 @@ def _named(asked, kept: dict) -> None:
 			if frappe.db.exists("Tenant", slug) or frappe.db.exists("Account Request", {"slug": slug, "status": ["in", signup.HOLDING], "name": ["!=", asked.name]}):
 				frappe.throw(_("{0} is taken.").format(slug), frappe.DuplicateEntryError)
 		asked.workspace_name, asked.slug = first["name"], slug
+
+
+def _field(asked, held: dict, kept: dict) -> dict:
+	"""The field's setup answers taken in, and the request keeps the field
+	(registry/fields.py, applied)."""
+	country = (kept.get("companies") or [{}])[0].get("country")
+	kept = fields.applied(kept, held.get("field"), kept.get("field"), wizard_offer.days_off(country))
+	asked.field = kept.get("field")
+	try:
+		return setup_answers.check(kept, partial=True)
+	except setup_answers.Invalid as wrong:
+		frappe.throw(_said(wrong))
 
 
 def _plan(asked, plan: str | None, paid: bool) -> None:

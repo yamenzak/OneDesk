@@ -7,14 +7,14 @@ appointments are on the calendar. Care is zero-rated for VAT."""
 import frappe
 from frappe.utils import add_days
 
-from onedesk.one_demo import firm
+from onedesk.one_demo import clinic_field, firm
 from onedesk.one_demo.base import as_user, dated, on, save, today
 from onedesk.one_demo.firm import Firm, Person
 
 FIRM = Firm(
-	name="Jumeirah Family Clinic",
+	name=clinic_field.COMPANY,
 	abbr="JFC",
-	field="clinic",
+	field=clinic_field.CLINIC.id,
 	emirate="Dubai",
 	street="Villa 22, Al Wasl Road, Jumeirah 1",
 	phone="+971 4 344 7810",

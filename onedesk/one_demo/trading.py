@@ -8,14 +8,14 @@ import frappe
 from frappe.utils import add_days
 
 from onedesk.one_book.currency import bill_in
-from onedesk.one_demo import firm
+from onedesk.one_demo import firm, trading_field
 from onedesk.one_demo.base import as_user, dated, on, once, save
 from onedesk.one_demo.firm import Firm, Person
 
 FIRM = Firm(
-	name="Creek Trading",
+	name=trading_field.COMPANY,
 	abbr="CRT",
-	field="trading",
+	field=trading_field.TRADING.id,
 	emirate="Dubai",
 	street="Warehouse 7, Al Ras, Deira",
 	phone="+971 4 226 5401",

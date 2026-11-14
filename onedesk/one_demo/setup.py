@@ -17,19 +17,20 @@ def answers(password=None) -> dict:
 	and the team invited from People with the apps each one's work needs
 	(one_demo/people.py), then each company's own people."""
 	from onedesk.one_demo import group
+	from onedesk.one_demo.making_field import CONTRACTING
 	from onedesk.one_demo.people import OWNER, PEOPLE
 
 	return {
 		"owner": {"email": BUILDER, "first_name": "Faisal", "last_name": "Al Mansoori", "password": password or frappe.generate_hash()},
 		"language": "en",
 		"time_zone": "Asia/Dubai",
-		"field": "contracting",
+		"field": CONTRACTING.id,
 		"theme": "Light",
 		"companies": [
 			{"name": COMPANY, "abbr": ABBR, "country": "United Arab Emirates", "currency": CURRENCY, "year_starts": "01-01", "parent": group.HOLDING},
 			*group.answers(),
 		],
-		"working_day": {"starts": "08:00", "ends": "17:00", "days_off": ["Sunday"]},
+		"working_day": {**CONTRACTING.answers["working_day"], "days_off": ["Sunday"]},
 		"people": [
 			{
 				"email": email,

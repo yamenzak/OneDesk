@@ -370,8 +370,11 @@ Set Up Later:
    (`acme.t.4dl.app`, from Tenant Domain in Settings), and its country. The
    Account Request is made here, with its lead (`sales.signed_up`).
 3. **Language and Currency**, with the time zone, from the country.
-4. **What the Company Does**: the field, which turns on its apps
-   (`one/registry/fields.py`).
+4. **What the Company Does**: the field, which turns on its apps and
+   gives its setup answers, a working day and some apps' steps, wherever
+   the person has not answered (`one/registry/fields.py`, `applied`). The
+   Account Request keeps the field. Each field is declared beside the demo
+   company that shows it (`one_demo/*_field.py`).
 5. **More Companies**, each with its country.
 6. **Apps**: each with its line; one another needs is turned on with it and
    can't be turned off while it does, and one always on says why (`kept`).

@@ -246,7 +246,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Account Request | 27 | document |
+| Account Request | 28 | document |
 | Account Request Step | 3 | child |
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |

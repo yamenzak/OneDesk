@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DEMO = ROOT / "onedesk" / "one_demo"
-TOOLS = {"__init__", "base", "build", "check", "checking", "checks", "firm", "history", "living", "manifest", "samples", "start"}
+TOOLS = {"__init__", "base", "build", "check", "checking", "checks", "firm", "history", "living", "manifest", "samples", "start", "field", "clinic_field", "consulting_field", "making_field", "realty_field", "trading_field"}
 
 
 def _assigned(path: Path, name: str):

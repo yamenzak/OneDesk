@@ -43,6 +43,11 @@ def offer() -> dict:
 	}
 
 
+def days_off(country: str | None) -> list[str]:
+	"""The days off a working week starts with in this country."""
+	return list(WEEKEND.get(country, WEEKEND_ELSEWHERE))
+
+
 def _mark(id: str) -> str | None:
 	path = BRAND / f"{id}.svg"
 	if not id or not path.is_file():

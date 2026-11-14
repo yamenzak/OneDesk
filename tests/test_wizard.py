@@ -28,6 +28,44 @@ def test_a_field_presets_its_own_apps_on_top_of_everyones():
 	assert "one_factory" not in fields.preset("services")
 
 
+def test_every_field_has_a_preset_beside_a_demo_company():
+	"""Each field the wizard offers is declared once, beside a company the
+	demo builds; one whose company is in another field says why; and its
+	setup answers are answers the setup job takes, each step one with those
+	fields."""
+	from onedesk.one import ready, setup_steps
+	from onedesk.one_demo import base, group
+
+	declared = [one.id for module in (fields.making_field, fields.clinic_field, fields.realty_field, fields.trading_field, fields.consulting_field) for one in module.FIELDS]
+	assert sorted(declared) == sorted(fields.ORDER) == sorted(fields.IDS)
+	own = {base.COMPANY: {"contracting", "manufacturer"}, **{firm.name: {firm.field} for firm in group.members()}}
+	steps = {(ready.MODULES[module]["folder"], step["key"]): {one["fieldname"] for one in step.get("fields") or ()} for module, step in setup_steps.declared()}
+	held = {"owner": {"email": "huda@example.com", "first_name": "Huda"}}
+	for one in fields.FIELDS:
+		assert one.demo in own, f"{one.id}: {one.demo!r} is not a company the demo builds"
+		assert bool(one.nearest) == (one.id not in own[one.demo]), f"{one.id}: say why it opens on {one.demo}, or that it doesn't need to"
+		said = fields.suggested(one.id, ["Saturday", "Sunday"])
+		assert "apps" not in said, f"{one.id}: its apps are `apps`, not an answer"
+		setup_answers.check({**held, "field": one.id, **said}, partial=True)
+		for app, given in (said.get("steps") or {}).items():
+			for key, values in given.items():
+				assert steps.get((app, key)), f"{one.id}: steps.{app}.{key} is not a step with fields"
+				assert set(values) <= steps[(app, key)], f"{one.id}: steps.{app}.{key} has a field the step has not"
+	assert fields.demo(None) == base.COMPANY
+
+
+def test_a_fields_answers_give_way_to_the_persons():
+	held = {"field": "clinic"}
+	clinic = fields.applied(held, None, "clinic", ["Saturday", "Sunday"])
+	assert clinic["working_day"] == {"starts": "08:00", "ends": "20:00", "days_off": ["Saturday", "Sunday"]}
+	assert clinic["steps"] == {"one_mail": {"private": {"allowed": 0}}}
+	shop = fields.applied({**clinic, "field": "retail"}, "clinic", "retail", ["Saturday", "Sunday"])
+	assert shop["working_day"]["starts"] == "10:00" and "steps" not in shop, "what the old field gave goes with it"
+	mine = {"field": "clinic", "working_day": {"starts": "07:30", "ends": "15:00", "days_off": ["Friday"]}, "steps": {"one_mail": {"private": {"allowed": 1}}}}
+	assert fields.applied(mine, None, "clinic", ["Sunday"]) == mine, "the person's own answers win"
+	assert fields.applied({"field": "other"}, None, "other") == {"field": "other"}
+
+
 def test_an_app_brings_what_it_needs_however_far_down(monkeypatch):
 	monkeypatch.setattr(switches, "_needs", lambda: {"factory": ("inventory",), "inventory": ("books",), "books": (), "deck": ()})
 	on = switches.with_needs(["factory", "deck"])

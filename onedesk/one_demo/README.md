@@ -301,6 +301,19 @@ straight into tables, so what the demo shows is what a workspace would. A
 step that has run is remembered and not run twice; a step that fails stops
 the build with what it tripped on, and the next run starts from it.
 
+### The field presets
+
+Each answer to the wizard's field question is declared beside the company
+that shows it: `making_field.py` (contracting and manufacturer, Sahara Glass),
+`clinic_field.py`, `realty_field.py`, `trading_field.py` and
+`consulting_field.py`, each a `Field` (`field.py`): its label and line, the
+apps it turns on, the setup answers it gives (a working day, and the clinic
+keeps mail to its own mailboxes), and the company a training copy from the
+demo opens on. Retail opens on Creek Trading and Other on Sahara Glass, and
+each says why in `nearest`. `one/registry/fields.py` gathers them in the
+wizard's order; the builders take their company's name and field from them,
+so the two can't drift.
+
 ### living.py
 
 A daily job, on a dev site with the demo company only: each working morning
