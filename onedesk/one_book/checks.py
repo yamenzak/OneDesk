@@ -790,7 +790,7 @@ def onebook_changed_bank_details_wait_and_hold_payments():
 	with _Told() as told, patch("onedesk.one.notify.mail", side_effect=lambda name, to, **k: mailed.append((name, to))), as_user("huda@one.test"):
 		account = frappe.get_doc({"doctype": "Bank Account", "account_name": f"{supplier} Check", "bank": bank, "party_type": "Supplier", "party": supplier, "iban": "AE070331234567890123456"}).insert()
 		assert not second.held("Supplier", supplier), "a first account asks nothing"
-		account.iban = "AE460260001015333439201"
+		account.iban = "AE580260001015333439201"
 		account.save()
 		row = frappe.get_doc("Second Approval", second.held("Supplier", supplier))
 		assert row.kind == "Bank Details" and "9201" in row.changes and "3439201" not in row.changes, row.changes

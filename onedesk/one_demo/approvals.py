@@ -12,7 +12,7 @@ from onedesk.one_demo.base import COMPANY, as_user, today
 
 SUPPLIER = "Gulf Office Supplies"
 
-IBAN, NEW_IBAN = "AE070331234567890123456", "AE460260001015333439201"
+IBAN, NEW_IBAN = "AE070331234567890123456", "AE580260001015333439201"
 
 
 def run(password=None):
