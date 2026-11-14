@@ -103,6 +103,44 @@ clause(
 	order=30,
 )
 
+clause(
+	document="privacy",
+	section="modules",
+	key="onemail-previews",
+	module=M,
+	body="""
+		Before you open a link in a message, OneMail can preview it. Only the link's address is sent to a
+		browser we run on Cloudflare, which opens it without your sign-in or cookies. A picture of the page,
+		where it ended and whether it asks for a password come back, and the browser is closed. Each preview
+		uses credits. Before you open an attachment, it is sent to a service we run on Cloudflare. That
+		service reads what the file is and what an archive holds, and keeps nothing. A Word, Excel or
+		PowerPoint file is also turned into a PDF without macros, in the containers OneCloud uses. That PDF
+		is kept with the file in the workspace. The original is never changed. This happens only when
+		somebody who uses the mailbox opens the link or the file.
+	""",
+	order=40,
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="A throwaway browser that opens a link from a message, when somebody asks to preview it",
+	data="The link's address, and the page it opens, for the seconds the preview takes",
+	where="Cloudflare's network",
+	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="Checking an attachment before it is opened, and turning an Office file into a PDF without macros",
+	data="The attachment, for the seconds the check takes",
+	where="Cloudflare's network, on the nearest location able to run the check",
+	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)
+
 
 clause(
 	document="ai",

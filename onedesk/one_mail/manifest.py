@@ -20,7 +20,7 @@ APP = App(
 		_lt("Mail kept on its record"),
 	),
 	media=("inbox.webp", "open-a-message.gif", "message.webp", "mailboxes.webp"),
-	credits=("mail",),
+	credits=("mail", "guard", "office"),
 	mark="onemail",
 	rail=30,
 	sidebar="OneMail",

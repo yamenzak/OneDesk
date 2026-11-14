@@ -42,6 +42,8 @@ NOT_FOR_AI = {
 	"proxy.copies_start": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.mail_send": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.office_convert": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.guard_file": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.guard_link": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.oneos_start": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.setup_answers": "A new workspace's own server calls this with its token, while it is being built.",
 	"proxy.oneos_stop": "A workspace's own server calls this with its token, when a person there asks.",

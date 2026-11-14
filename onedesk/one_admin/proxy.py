@@ -347,6 +347,36 @@ def office_convert(name: str, data: str, reference: str | None = None) -> dict:
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def guard_link(url: str) -> dict:
+	"""A link in this workspace's mail, opened in a throwaway browser and
+	billed to it: where it ended, its redirects, whether it asks for a
+	password, a picture of it, and its credits."""
+	from onedesk.one_admin import office
+
+	tenant = caller()
+	try:
+		return office.look(tenant.name, url)
+	except faults.Refused as raised:
+		frappe.throw(frappe._("The link could not be opened."), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def guard_file(name: str, data: str, programs: list | str | None = None) -> dict:
+	"""An attachment in this workspace's mail, checked from its bytes:
+	what it is, what an archive holds, whether it carries a program or
+	macros. Nothing is kept and nothing is billed."""
+	from onedesk.one_admin import office
+
+	caller()
+	try:
+		return office.inspect(name, base64.b64decode(data), list(frappe.parse_json(programs) or []) if isinstance(programs, str) else list(programs or []))
+	except faults.Refused as raised:
+		frappe.throw(frappe._("The file could not be checked."), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def oneos_start(file: str, file_name: str, user: str, file_url: str, save_url: str, again: str | None = None) -> dict:
 	"""A file of this workspace opened in OneOS for one of its people, billed
 	to it by the minute: the session and the address that opens it."""

@@ -522,6 +522,37 @@ part). Nothing in it needs AI, and nothing leaves the workspace.
   the kit's OneAlert: red with Release and Delete when held, yellow when
   warned, the reasons in `risk.words`.
 
+Stage 12, links and files seen safely, is built (14 November 2026, P9.2).
+
+- **sandbox.py** is the workspace's side; the work happens in the office
+  Worker (deploy/office/README.md, `look.js`), reached through OneAdmin
+  (`proxy.guard_link`, `proxy.guard_file`), so the workspace holds no
+  Cloudflare secret and nothing runs in its process.
+- `link(message, url)` takes only a link the message holds (`links_of`,
+  risk.links over the content), for somebody who holds its mailbox, and
+  sends only the address: Browser Rendering opens it in a browser launched
+  for it and closed after, with no cookie or session of ours. `looked`
+  turns the answer into what MailLink.vue shows; kept ten minutes per
+  address. Billed in `guard` credits by the browser's seconds.
+- `check(message, file)`: a name risk.of_file calls a program, a double
+  ending or an archive holding one is `never`, with nothing sent. Otherwise
+  the bytes go to the Worker, which sniffs, unpacks within its limits and
+  finds programs and macros; the answer is kept thirty days by content
+  hash. An Office file (by its bytes) gets a clean copy, the PDF
+  one_cloud/office.py makes and keeps on the File as its preview
+  (`one_preview_of`), so OneCloud shows the same one and it is made once;
+  `clean` serves it. `verdict` is the pure rule. A failure is `unchecked`
+  and still offers the original; the original File is never changed.
+- The island: MailBody's frame marks a warned message's links
+  (`guarded`: every click, Enter or middle click opens Preview Link) and
+  takes a held one's href away (`disarmed`); framePage in mail.js does it.
+  A held conversation shows no Reply, Reply all, Forward or draft, and the
+  keys do nothing in Held. An attachment chip opens MailFile.vue (the
+  check, Open Clean Copy first, never an Open for a program); Save to My
+  Files is left off a warned or held message's attachments. Preview Link is
+  in the warning and in each message's ⋯ menu (messageLinks reads the same
+  links the server accepts).
+
 ### Where Help's claims are kept
 
 The pages in `help/` name no code, so what each claim rests on is here. Their

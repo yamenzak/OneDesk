@@ -43,7 +43,8 @@ OFFICE = "one-office"
 OFFICE_IMAGE = "docker.io/gotenberg/gotenberg:8"
 OFFICE_TYPE = "standard-1"
 OFFICE_MOST = 2
-OFFICE_FILES = ("worker.js", "package.json")
+OFFICE_FILES = ("worker.js", "look.js", "package.json")
+OFFICE_CPU_MS = 30000
 ONEOS = "one-os"
 ONEOS_WORKFLOW = "oneos-image.yml"
 CORS = {
@@ -92,6 +93,7 @@ RUN_NEEDS = (
 	("Email Routing Rules Write", "Email Routing Rules Edit"),
 	("Workers Containers Write", "Workers Containers Edit"),
 	("Cloudchamber Write", "Cloudchamber Edit"),
+	("Browser Rendering*",),
 )
 LOCKED_DAYS = 30
 RECENT_DAYS = 7
@@ -927,7 +929,7 @@ class Setup:
 		both kept in the settings. Done again only when the code or the
 		image changes."""
 		name = for_env(self.env, OFFICE)
-		config = wrangler_config(name, "Office", "OFFICE", OFFICE_IMAGE, OFFICE_TYPE, OFFICE_MOST)
+		config = office_config(name)
 		self.contained("office", name, DEPLOY / "office", OFFICE_FILES, config, f"{OFFICE_IMAGE}{OFFICE_TYPE}{OFFICE_MOST}")
 
 	def oneos(self) -> None:
@@ -1102,6 +1104,18 @@ def wrangler_config(name: str, kind: str, binding: str, image: str, size: str, m
 		"durable_objects": {"bindings": [{"name": binding, "class_name": kind}]},
 		"migrations": [{"tag": "v1", "new_sqlite_classes": [kind]}],
 		"observability": {"enabled": True},
+	}
+
+
+def office_config(name: str) -> dict:
+	"""wrangler.jsonc for the office Worker: its Gotenberg containers, and a
+	throwaway browser from Cloudflare's Browser Rendering for the links
+	OneMail previews; each request may use OFFICE_CPU_MS of CPU. Pure."""
+	return {
+		**wrangler_config(name, "Office", "OFFICE", OFFICE_IMAGE, OFFICE_TYPE, OFFICE_MOST),
+		"compatibility_flags": ["nodejs_compat"],
+		"browser": {"binding": "BROWSER"},
+		"limits": {"cpu_ms": OFFICE_CPU_MS},
 	}
 
 

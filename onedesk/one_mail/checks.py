@@ -1208,3 +1208,142 @@ def onemail_risky_mail_is_scored_warned_and_held():
 			pass
 		else:
 			raise AssertionError("someone who doesn't hold the mailbox released its mail")
+
+
+@check
+def onemail_a_sample_link_and_file_are_shown_safely():
+	"""The held samples' link and attachment, seen before anybody opens them,
+	with the office Worker faked: the banking link opened in a throwaway
+	browser shows where it ends, that it asks for a password and a picture,
+	and only its address is sent; the macro workbook is checked, offered as
+	a clean PDF first, and the original stays as it was. A link the message
+	doesn't hold is refused, a program is never offered and nothing is sent
+	for it, a failure says so and still offers the original, and somebody
+	who doesn't hold the mailbox sees neither."""
+	import base64
+	import hashlib
+	import io
+	import os
+	from unittest import mock
+
+	from pypdf import PdfWriter
+
+	from onedesk.one_admin import faults
+	from onedesk.one_cloud import office
+	from onedesk.one_demo import samples
+	from onedesk.one_mail import risk, sandbox
+
+	ours = {path.stem: path for path in samples.samples() if path.parent.name == "one_mail"}
+	banking = samples.message_of(ours["mismatched-link"]).name
+	workbook = samples.message_of(ours["macro-attachment"]).name
+	attached = frappe.db.get_value(
+		"File",
+		{"attached_to_doctype": "Communication", "attached_to_name": workbook},
+		["name", "file_name", "content_hash"],
+		as_dict=True,
+	)
+	assert attached and attached.file_name == "Delivery Schedule November.xlsm", attached
+	link = "http://203.0.113.45/enbd/login"
+	assert link in sandbox.links_of(frappe.db.get_value("Communication", banking, "content"))
+	plain = io.BytesIO()
+	blank = PdfWriter()
+	blank.add_blank_page(100, 100)
+	blank.write(plain)
+	sent = []
+	answers = {
+		"onedesk.one_admin.proxy.guard_link": {
+			"final_url": "https://sign-in.example.com/login",
+			"redirects": [link],
+			"title": "Sign In",
+			"asks_password": True,
+			"picture": "AAAA",
+			"failed": None,
+			"credits": 1,
+		},
+		"onedesk.one_admin.proxy.guard_file": {
+			"kind": "ooxml", "named": "xlsm", "mismatch": False, "program": None, "macros": attached.file_name, "scripts": False,
+			"page": False, "inside": [], "count": 0, "unchecked": None, "office": True, "ending": "xlsm",
+		},
+		"onedesk.one_admin.proxy.office_convert": {"data": base64.b64encode(plain.getvalue()).decode(), "credits": 1},
+	}  # fmt: skip
+
+	def asked(endpoint, **said):
+		sent.append((endpoint, said))
+		return answers[endpoint]
+
+	keys = [
+		f"one_mail_looked:{hashlib.sha256(link.encode()).hexdigest()}",
+		f"one_mail_checked:{attached.content_hash or attached.name}",
+		f"one_cloud_office:{attached.content_hash}",
+	]
+
+	def forget():
+		for key in keys:
+			frappe.cache.delete_value(key)
+
+	forget()
+	frappe.db.savepoint("onemail_sandbox")
+	frappe.db.set_value("File", attached.name, "one_preview_of", None, update_modified=False)
+	try:
+		with as_user(OWNER), mock.patch("onedesk.one.account.ask", side_effect=asked):
+			seen = sandbox.link(banking, link)
+			assert seen["asks_password"] and seen["moved"] and seen["site"] == "sign-in.example.com", seen
+			assert seen["picture"] == "data:image/jpeg;base64,AAAA" and seen["redirects"] == 1, seen
+			assert sent == [("onedesk.one_admin.proxy.guard_link", {"url": link})], "only the address goes, no session or cookie"
+			sandbox.link(banking, link)
+			assert len(sent) == 1, "a link seen a moment ago is not opened again"
+			try:
+				sandbox.link(banking, "https://example.com/anything")
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("a link the message doesn't hold was opened")
+
+			said = sandbox.check(workbook, attached.name)
+			assert said["state"] == "clean" and said["clean"], said
+			assert risk.words({"why": "macro", "file": attached.file_name}) in said["reasons"], said
+			assert said["original"], "the original is still offered, after the clean copy"
+			endpoint, given = sent[1]
+			assert endpoint == "onedesk.one_admin.proxy.guard_file" and given["name"] == attached.file_name and "exe" in given["programs"]
+			assert sent[2][0] == "onedesk.one_admin.proxy.office_convert", sent
+			sandbox.clean(workbook, attached.name)
+			assert frappe.local.response.filecontent.startswith(b"%PDF")
+			assert frappe.local.response.filename == "Delivery Schedule November.pdf"
+			for key in ("type", "filecontent", "filename"):
+				frappe.local.response.pop(key, None)
+			assert frappe.db.get_value("File", attached.name, "content_hash") == attached.content_hash, "the original is untouched"
+
+			program = frappe.get_doc(
+				{
+					"doctype": "File",
+					"file_name": "Invoice 114.pdf.exe",
+					"content": b"MZ" + b"\0" * 64,
+					"is_private": 1,
+					"attached_to_doctype": "Communication",
+					"attached_to_name": workbook,
+				}
+			).insert(ignore_permissions=True)
+			before = len(sent)
+			never = sandbox.check(workbook, program.name)
+			assert never["state"] == "never" and never["original"] is None and len(sent) == before, never
+
+			forget()
+			frappe.db.set_value("File", attached.name, "one_preview_of", None, update_modified=False)
+			with mock.patch("onedesk.one.account.ask", side_effect=faults.Again("the account could not be reached")):
+				failed = sandbox.check(workbook, attached.name)
+				looked = sandbox.link(banking, link)
+			assert failed["state"] == "unchecked" and failed["original"] and failed["reasons"], failed
+			assert looked["failed"] == "service" and looked["warning"], looked
+		with as_user("rania@one.test"):
+			for tried in (lambda: sandbox.link(banking, link), lambda: sandbox.check(workbook, attached.name)):
+				try:
+					tried()
+				except frappe.PermissionError:
+					pass
+				else:
+					raise AssertionError("someone who doesn't hold the mailbox saw a link or a file")
+	finally:
+		frappe.db.rollback(save_point="onemail_sandbox")
+		forget()
+		if attached.content_hash and os.path.exists(office._on_disk(attached.content_hash)):
+			os.remove(office._on_disk(attached.content_hash))

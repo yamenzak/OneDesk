@@ -33,6 +33,8 @@ PATIENCE_FOR = {
 	"onedesk.one_admin.proxy.ai_make": 120,
 	"onedesk.one_admin.proxy.ai_collect": 150,
 	"onedesk.one_admin.proxy.office_convert": 200,
+	"onedesk.one_admin.proxy.guard_link": 60,
+	"onedesk.one_admin.proxy.guard_file": 75,
 }
 
 

@@ -1,9 +1,12 @@
 """Files a browser can't open, turned into PDFs in One's office containers
 (deploy/office/README.md), for a workspace and billed to it by the seconds
-the container worked and the idle minutes it then keeps running."""
+the container worked and the idle minutes it then keeps running. The same
+Worker checks a mail's attachment (`inspect`, free: no container runs) and
+opens a mail's link in a throwaway browser (`look`, billed by its seconds)."""
 
 import math
 import time
+from urllib.parse import quote
 
 import frappe
 import requests
@@ -22,6 +25,11 @@ WAIT = 150
 MOST_BYTES = 50 * 1024 * 1024
 HOLD = 5
 LEAST = 1
+#: Browser Rendering, per second of a browser open, in dollars.
+BROWSING = 0.09 / 3600
+MOST_CHECKED = 25 * 1024 * 1024
+LOOK_WAIT = 45
+CHECK_WAIT = 60
 
 
 def cost(seconds: float) -> float:
@@ -73,6 +81,51 @@ def convert(tenant: str, name: str, content: bytes, reference: str | None = None
 	charged = credits(seconds, price_list.MARKUP["office"], price_list.credits_per_dollar())
 	ledger.commit(holding, charged, cost(seconds), model="office/standard-1")
 	return {"data": answered.content, "credits": charged, "seconds": round(seconds, 1)}
+
+
+def look_credits(seconds: float, markup: float, per_dollar: float) -> int:
+	"""A link's look: its browser's seconds, marked up, in whole credits, at
+	least one. Pure."""
+	return max(LEAST, math.ceil(seconds * BROWSING * (markup or 1) * (per_dollar or 0)))
+
+
+def look(tenant: str, url: str) -> dict:
+	"""A link opened in a throwaway browser, billed to the workspace: where
+	it ended, the redirects on the way, whether it asks for a password, a
+	picture of it, and what it cost."""
+	site.require_admin()
+	where, secret = _where()
+	holding = ledger.reserve(tenant, HOLD, why="guard", reference=url[:140], action="guard_link")
+	began = time.monotonic()
+	try:
+		answered = requests.post(f"{where}/guard/link", headers={"x-one-secret": secret}, json={"url": url}, timeout=LOOK_WAIT)
+	except requests.RequestException as failed:
+		ledger.release(holding)
+		raise Refused(f"the link could not be opened: {failed}") from failed
+	seconds = time.monotonic() - began
+	if not answered.ok:
+		ledger.release(holding)
+		raise Refused(f"the link could not be opened: {answered.status_code}")
+	charged = look_credits(seconds, price_list.MARKUP["guard"], price_list.credits_per_dollar())
+	ledger.commit(holding, charged, seconds * BROWSING, model="guard/browser")
+	return {**answered.json(), "credits": charged}
+
+
+def inspect(name: str, content: bytes, programs: list[str]) -> dict:
+	"""What an attachment is, read from its bytes: archives unpacked within
+	limits, a program inside named, macros found. Nothing is kept."""
+	site.require_admin()
+	if len(content) > MOST_CHECKED:
+		raise Refused(f"{name} is over {MOST_CHECKED // 1024 // 1024} MB")
+	where, secret = _where()
+	headers = {"x-one-secret": secret, "x-one-name": quote(name), "x-one-programs": ",".join(programs), "content-type": "application/octet-stream"}
+	try:
+		answered = requests.post(f"{where}/guard/file", headers=headers, data=content, timeout=CHECK_WAIT)
+	except requests.RequestException as failed:
+		raise Refused(f"the file could not be checked: {failed}") from failed
+	if not answered.ok:
+		raise Refused(f"the file could not be checked: {answered.status_code}")
+	return answered.json()
 
 
 def starting(raised: Exception) -> bool:

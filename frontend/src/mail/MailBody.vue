@@ -25,7 +25,8 @@ import { Button } from "frappe-ui";
 import { __ } from "../kit";
 import { framePage } from "./mail";
 
-const props = defineProps({ content: { type: String, default: "" } });
+const props = defineProps({ content: { type: String, default: "" }, links: { type: String, default: "live" } });
+const emit = defineEmits(["link"]);
 
 const frame = ref(null);
 const allowed = ref(false);
@@ -37,7 +38,7 @@ const theme = new MutationObserver(seen);
 theme.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 onBeforeUnmount(() => theme.disconnect());
 
-const framed = computed(() => framePage(props.content, allowed.value, dark.value));
+const framed = computed(() => framePage(props.content, allowed.value, dark.value, props.links));
 const page = computed(() => framed.value.page);
 const held = computed(() => framed.value.held);
 
@@ -52,5 +53,14 @@ function fit() {
   };
   size();
   el.contentDocument.querySelectorAll("img").forEach((img) => img.addEventListener("load", size));
+  const asked = (event) => {
+    const link = event.target.closest?.("[data-one-link]");
+    if (!link || (event.type === "keydown" && event.key !== "Enter") || (event.type === "auxclick" && event.button !== 1)) return;
+    event.preventDefault();
+    emit("link", link.getAttribute("data-one-link"));
+  };
+  el.contentDocument.addEventListener("click", asked);
+  el.contentDocument.addEventListener("keydown", asked);
+  el.contentDocument.addEventListener("auxclick", asked);
 }
 </script>

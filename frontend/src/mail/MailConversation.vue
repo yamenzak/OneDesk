@@ -80,8 +80,8 @@
             </div>
             <span class="shrink-0 text-sm text-ink-gray-5" :title="when(message.communication_date, true)">{{ when(message.communication_date) }}</span>
             <span class="-my-1 flex shrink-0 items-center">
-              <Button size="sm" variant="ghost" icon="lucide-reply" :aria-label="__('Reply')" :title="__('Reply')" @click="emit('write', { reply: true })" />
-              <Dropdown :options="more">
+              <Button v-if="!held" size="sm" variant="ghost" icon="lucide-reply" :aria-label="__('Reply')" :title="__('Reply')" @click="emit('write', { reply: true })" />
+              <Dropdown v-if="moreOf(message).length" :options="moreOf(message)">
                 <template #trigger><Button size="sm" variant="ghost" icon="lucide-ellipsis-vertical" :aria-label="__('More')" :title="__('More')" /></template>
               </Dropdown>
             </span>
@@ -91,16 +91,24 @@
             <span class="min-w-0 flex-1 text-ink-gray-8">{{ __("Sends {0}", [when(message.scheduled, true)]) }}</span>
             <Button size="sm" variant="ghost" :label="__('Edit Before It Sends')" @click="unschedule(message)" />
           </div>
-          <MailRisk v-if="message.risk" :risk="message.risk" class="mt-3" @release="emit('release')" @discard="emit('discard')" />
-          <MailBody :content="message.content" class="mt-3" />
+          <MailRisk
+            v-if="message.risk"
+            :risk="message.risk"
+            :links="linksOf(message).length"
+            class="mt-3"
+            @release="emit('release')"
+            @discard="emit('discard')"
+            @preview="preview(message)"
+          />
+          <MailBody :content="message.content" :links="message.risk ? (message.risk.held ? 'disarmed' : 'guarded') : 'live'" class="mt-3" @link="(url) => preview(message, url)" />
           <div v-if="(message.attachments || []).length || (message.unsaved || []).length" class="mt-3 flex flex-wrap gap-2">
             <span v-for="file in message.attachments || []" :key="file.name" class="inline-flex items-center gap-1 rounded-3 border border-outline-gray-2 ps-2 text-sm">
-              <a :href="file.file_url" target="_blank" rel="noopener" class="inline-flex min-w-0 items-center gap-1.5 py-1 text-ink-gray-8" :title="file.file_name">
+              <button type="button" class="inline-flex min-w-0 items-center gap-1.5 py-1 pe-2 text-ink-gray-8" :title="file.file_name" @click="checking = { message: message.name, file }">
                 <span class="lucide-paperclip size-3.5 shrink-0 text-ink-gray-5" aria-hidden="true" />
                 <span class="max-w-48 truncate">{{ file.file_name }}</span>
                 <span class="text-ink-gray-5">{{ fileSize(file.file_size) }}</span>
-              </a>
-              <Button size="sm" variant="ghost" icon="lucide-folder-down" :aria-label="__('Save to My Files')" :title="__('Save to My Files')" @click="saveFile(file)" />
+              </button>
+              <Button v-if="!message.risk" size="sm" variant="ghost" icon="lucide-folder-down" :aria-label="__('Save to My Files')" :title="__('Save to My Files')" @click="saveFile(file)" />
             </span>
             <span
               v-for="file in message.unsaved || []"
@@ -115,13 +123,13 @@
         </article>
       </template>
 
-      <div v-if="draft" class="flex flex-wrap items-center gap-2 rounded-6 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-2.5 text-sm">
+      <div v-if="draft && !held" class="flex flex-wrap items-center gap-2 rounded-6 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-2.5 text-sm">
         <span class="lucide-file-pen-line size-4 text-ink-red-4" aria-hidden="true" />
         <span class="min-w-0 flex-1 text-ink-gray-8">{{ __("You have a draft of a reply") }}</span>
         <Button size="sm" variant="solid" :label="__('Continue Draft')" @click="emit('draft', draft)" />
         <Button size="sm" variant="ghost" :label="__('Discard')" @click="emit('discard', draft)" />
       </div>
-      <div class="flex flex-wrap gap-2 pb-2">
+      <div v-if="!held" class="flex flex-wrap gap-2 pb-2">
         <Button variant="subtle" icon-left="lucide-reply" :label="__('Reply')" @click="emit('write', { reply: true })" />
         <Button variant="subtle" icon-left="lucide-reply-all" :label="__('Reply all')" @click="emit('write', { reply: true, all: true })" />
         <Button variant="subtle" icon-left="lucide-forward" :label="__('Forward')" @click="emit('write', { forward: true })" />
@@ -140,6 +148,8 @@
     />
     </div>
     </template>
+    <MailLink :message="looking && looking.message" :link="looking && looking.link" :choices="(looking && looking.choices) || []" @close="looking = null" />
+    <MailFile :message="checking && checking.message" :file="checking && checking.file" @close="checking = null" />
   </div>
 </template>
 
@@ -151,9 +161,11 @@ import { Button, Dropdown } from "frappe-ui";
 
 import { PlaceSpot, __, alert, call, dateTime, dialog, fileSize, onedesk } from "../kit";
 import IntakePanel from "../intake/IntakePanel.vue";
-import { when } from "./mail";
+import { messageLinks, when } from "./mail";
 import MailBody from "./MailBody.vue";
 import MailFace from "./MailFace.vue";
+import MailFile from "./MailFile.vue";
+import MailLink from "./MailLink.vue";
 import MailPanel from "./MailPanel.vue";
 import MailRisk from "./MailRisk.vue";
 import { useTeam } from "./team";
@@ -171,9 +183,19 @@ const props = defineProps({
 const emit = defineEmits(["write", "draft", "discard", "changed", "back", "release"]);
 defineExpose({ fileOn, team: () => team });
 
-const more = [
-  { label: __("Reply all"), icon: "lucide-reply-all", onClick: () => emit("write", { reply: true, all: true }) },
-  { label: __("Forward"), icon: "lucide-forward", onClick: () => emit("write", { forward: true }) },
+const held = computed(() => props.messages.some((one) => one.risk?.held));
+const looking = ref(null);
+const checking = ref(null);
+const linksOf = (message) => messageLinks(message.content);
+const preview = (message, link = null) => (looking.value = { message: message.name, link, choices: linksOf(message) });
+const moreOf = (message) => [
+  ...(held.value
+    ? []
+    : [
+        { label: __("Reply all"), icon: "lucide-reply-all", onClick: () => emit("write", { reply: true, all: true }) },
+        { label: __("Forward"), icon: "lucide-forward", onClick: () => emit("write", { forward: true }) },
+      ]),
+  ...(linksOf(message).length ? [{ label: __("Preview Link"), icon: "lucide-scan-eye", onClick: () => preview(message) }] : []),
 ];
 const fullNote = __("Storage is full. Saved automatically once there's space.");
 const records = ref([]);

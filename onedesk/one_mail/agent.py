@@ -643,6 +643,8 @@ NOT_FOR_AI = {
 	"drafts.unschedule": "Taking back a message about to go is its writer's own choice, made on the message.",
 	"held.release": "A message held as risky is kept from OneAI and every agent, so only a person who read why lets it in.",
 	"held.discard": "A message held as risky is kept from OneAI and every agent, so only a person decides what happens to it.",
+	"sandbox.link": "Previewing a link is the reader's own look before they open it, and no agent opens a mail's links.",
+	"sandbox.check": "Checking an attachment is the reader's own step before they open it, and no agent opens a mail's files.",
 	"held.set_levels": "When mail is warned and held is a Mail Manager's decision about the workspace's safety, never OneAI's.",
 }
 

@@ -421,6 +421,19 @@ registry.
   bill waits on it. OneTask and OneCalendar have no roles, so no agent: their
   tasks and events are OneProject's coordinator's. The auditor never applies
   an agent's card that waits by its level or its roles.
+- 14 Nov, Claude (P9.2): links and attachments are seen in the office
+  Worker (deploy/office), through OneAdmin like a conversion, not in a new
+  service or in OneOS's desktop containers. A link opens in Cloudflare's
+  Browser Rendering, a browser launched per link and closed, which gives the
+  final address, the redirects and a password field that Gotenberg's own
+  Chromium screenshot does not, starts in a second rather than a container's
+  minutes, and runs on the same network the mail already crosses. A file is
+  unpacked and sniffed in the Worker's isolate, CPU-limited, and the clean
+  copy is OneCloud's existing PDF conversion, kept as the file's preview. No
+  optional service: like a conversion, nothing is sent until a person
+  clicks that link or file, and a switch that starts off would leave the
+  protection off where it is needed; a clause in privacy 28 (hash recorded)
+  and two Cloudflare rows say so.
 - 12 Nov, Claude: an app is one self-contained folder whose parts are named
   for their centres (Folders); OneOS keeps its name for opening files and
   OneGuard is protection only (P9.4).
