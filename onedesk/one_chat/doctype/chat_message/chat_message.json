@@ -54,9 +54,8 @@
   },
   {
    "fieldname": "automation",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Automation",
-   "options": "Automation",
    "read_only": 1,
    "description": "The automation that posted it."
   },
@@ -153,7 +152,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-14 18:00:00.000000",
+ "modified": "2026-11-14 12:28:02.926099",
  "modified_by": "Administrator",
  "module": "One Chat",
  "name": "Chat Message",

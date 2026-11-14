@@ -638,7 +638,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | List View Settings | engine: how a list is laid out, set from the list | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Module Onboarding | through a form's link (Workspace: module_onboarding) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Note | on a rail or a home | everybody | form script, list script, 1 fields, 7 settings | no | taught |  | yes |  |  |  |  |
-| Notification Log | replaced: the bell | everybody | class | no | general |  | yes |  |  | ar 1 |  |
+| Notification Log | replaced: the bell | everybody | class | no | general |  | **none** |  |  | ar 1 |  |
 | Notification Settings | inside: NotificationCenter › Everything | everybody | 1 fields | no | taught |  | yes |  |  | ar 1 |  |
 | Notification Type | inside: NotificationCenter › Words and Rules, which writes it | the administrator | 15 fields | no | taught |  | yes |  |  |  |  |
 | Number Card | on a rail or a home | everybody | untouched | no | taught |  | yes |  |  |  |  |
@@ -946,7 +946,7 @@ Pages: marketplace (opened by our screens); one (on a rail or a home); one-hub (
 | AI Memory | inside: AICenter › Yours lists and forgets what OneAI remembers | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  | yes |  |  |  |  |
 | AI Touch | engine: what OneAI wrote into a record, read back as the AI badge on it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | yes |  |  |  |  |
+| File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | **none** |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
 | Reading Action | on a rail or a home | everybody | untouched | no | taught |  | yes |  |  |  |  |

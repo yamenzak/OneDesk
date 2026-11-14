@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-14 11:53+0000\n"
-"PO-Revision-Date: 2026-11-14 11:53+0000\n"
+"POT-Creation-Date: 2026-11-14 12:32+0000\n"
+"PO-Revision-Date: 2026-11-14 12:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2048,7 +2048,7 @@ msgstr ""
 #. Label of the ai_chat (Link) field in DocType 'Chat Message'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:97
 #: onedesk/one_chat/doctype/chat_channel/chat_channel.json:90
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:142
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:141
 msgid "AI Chat"
 msgstr ""
 
@@ -6184,7 +6184,7 @@ msgstr ""
 #: frontend/src/intake/IntakeFacts.vue:74
 #: onedesk/one_ai/doctype/reading/reading.json:512
 #: onedesk/one_ai/reading/panel.py:154
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:135
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:134
 msgid "Asks"
 msgstr ""
 
@@ -6871,7 +6871,7 @@ msgid "Automatically Create New Batch"
 msgstr ""
 
 #. Name of a DocType
-#. Label of the automation (Link) field in DocType 'Chat Message'
+#. Label of the automation (Data) field in DocType 'Chat Message'
 #. Label of a Sidebar Item
 #: frontend/src/mail/OneMail.vue:361
 #: onedesk/one/doctype/automation/automation.json:100
@@ -9783,7 +9783,7 @@ msgid "Chat Mention"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:159
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:158
 msgid "Chat Message"
 msgstr ""
 
@@ -20465,7 +20465,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:564 frontend/src/cloud/OneCloud.vue:926
 #: frontend/src/cloud/OneCloud.vue:1567
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:124
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:109
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:108
 #: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:93
 #: onedesk/one_cloud/namespace.py:16
 #: onedesk/one_cloud/sidebar/onecloud/onecloud.json:15
@@ -27877,7 +27877,7 @@ msgid "Last Reminded"
 msgstr ""
 
 #. Label of the last_reply_on (Datetime) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:86
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:85
 msgid "Last Reply On"
 msgstr ""
 
@@ -31141,7 +31141,7 @@ msgid "Mentioned in the message"
 msgstr ""
 
 #. Label of the mentions (Table) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:102
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:101
 msgid "Mentions"
 msgstr ""
 
@@ -36421,7 +36421,7 @@ msgid "One look at a presentation through a OneCloud link: when, by whom if they
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:165
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:164
 msgid "One message in a conversation."
 msgstr ""
 
@@ -36694,7 +36694,7 @@ msgstr ""
 #. Name of a role
 #: onedesk/one/doctype/automation/automation.json:133
 #: onedesk/one_chat/doctype/chat_channel/chat_channel.json:209
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:179
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:178
 msgid "OneChat User"
 msgstr ""
 
@@ -39369,7 +39369,7 @@ msgstr ""
 #. Recording'
 #. Label of the parts (Table) field in DocType 'Interview Recording'
 #. Label in the One Repair Record print format
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:149
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:148
 #: onedesk/one_factory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json:148
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
@@ -43487,7 +43487,7 @@ msgid "Reached"
 msgstr ""
 
 #. Label of the reactions (JSON) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:115
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:114
 msgid "Reactions"
 msgstr ""
 
@@ -43725,7 +43725,7 @@ msgstr ""
 #. Label of the action (Link) field in DocType 'Chat Message'
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:204
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:68
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:127
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:126
 msgid "Reading Action"
 msgstr ""
 
@@ -45439,7 +45439,7 @@ msgstr ""
 
 #. Label of the replies (Int) field in DocType 'Chat Message'
 #: onedesk/one_chat/blocks.py:121 onedesk/one_chat/blocks.py:134
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:79
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:78
 #: onedesk/one_chat/starters.py:26 onedesk/one_mail/blocks.py:211
 #: onedesk/one_mail/starters.py:39
 msgid "Replies"
@@ -53553,7 +53553,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:91
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:76
 #: onedesk/one_chat/doctype/chat_channel/chat_channel.json:202
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:172
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:171
 #: onedesk/one_deck/doctype/presentation/presentation.json:29
 #: onedesk/one_deck/doctype/presentation_version/presentation_version.json:29
 #: onedesk/one_deck/doctype/presentation_view/presentation_view.json:30
@@ -54595,7 +54595,7 @@ msgstr ""
 #: onedesk/one/custom/notification_type.json:45
 #: onedesk/one_ai/doctype/reading/reading.json:533
 #: onedesk/one_chat/blocks.py:107
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:96
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:95
 #: onedesk/one_display/doctype/display_voice/display_voice.json:25
 #: onedesk/one_display/doctype/display_widget/display_widget.json:28
 #: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json:33
@@ -55139,7 +55139,7 @@ msgid "The agent that wrote it."
 msgstr ""
 
 #. Description of the 'Asks' (Data) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:137
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:136
 msgid "The agent this message asks."
 msgstr ""
 
@@ -55225,8 +55225,8 @@ msgstr ""
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr ""
 
-#. Description of the 'Automation' (Link) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:61
+#. Description of the 'Automation' (Data) field in DocType 'Chat Message'
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:60
 msgid "The automation that posted it."
 msgstr ""
 
@@ -56053,7 +56053,7 @@ msgid "The members of the channel that answers website chats"
 msgstr ""
 
 #. Description of the 'Thread' (Link) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:70
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:69
 msgid "The message it replies to."
 msgstr ""
 
@@ -58446,7 +58446,7 @@ msgstr ""
 #. Label of the one_thread (Data) field in DocType 'Communication'
 #: frontend/src/chat/Conversation.vue:9
 #: onedesk/one_ai/doctype/reading/reading.json:331
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:66
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:65
 #: onedesk/one_mail/custom/communication.json:33
 msgid "Thread"
 msgstr ""
@@ -63401,7 +63401,7 @@ msgid "What the agent knows and how it answers. It reads only this and the conve
 msgstr ""
 
 #. Description of the 'Parts' (JSON) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:151
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:150
 msgid "What the agent looked up and suggested in this answer."
 msgstr ""
 
@@ -63414,7 +63414,7 @@ msgid "What the agent should do with it, whole: it sees only this and the record
 msgstr ""
 
 #. Description of the 'Reading Action' (Link) field in DocType 'Chat Message'
-#: onedesk/one_chat/doctype/chat_message/chat_message.json:130
+#: onedesk/one_chat/doctype/chat_message/chat_message.json:129
 msgid "What the agent waits for a person to approve."
 msgstr ""
 
