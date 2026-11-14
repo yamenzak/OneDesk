@@ -45,6 +45,12 @@ def parts() -> tuple[App, ...]:
 
 
 @cache
+def part_folders() -> tuple[tuple[str, App], ...]:
+	"""Each part with the folder whose manifest declares it, as (folder, part)."""
+	return tuple((path.parent.name, one) for path in sorted(FOLDERS.glob("*/manifest.py")) for one in getattr(importlib.import_module(f"onedesk.{path.parent.name}.manifest"), "PARTS", ()))
+
+
+@cache
 def moved() -> dict[str, str]:
 	"""Each folder that is only an old name kept one release, read from the
 	`MOVED_TO` its __init__.py declares, and the package it now names. Such a

@@ -26,12 +26,20 @@ EVERY_AGENT = ("plan", "watched")
 a document handed to it, and one of its jobs."""
 
 
-def declared(app: str) -> dict:
+def home(app: str):
+	"""The module that declares an agent's actions: its app's agent.py, or a
+	centre's agent's own file (registry/agents.py `home`); None for none."""
+	from onedesk.one.registry import agents
+
+	one = agents.get(app)
 	try:
-		agent = importlib.import_module(f"onedesk.{app}.agent")
+		return importlib.import_module(one.home if one else f"onedesk.{app}.agent")
 	except ModuleNotFoundError:
-		return {}
-	return dict(getattr(agent, "LEVELS", {}) or {})
+		return None
+
+
+def declared(app: str) -> dict:
+	return dict(getattr(home(app), "LEVELS", {}) or {})
 
 
 def of(app: str, action: str) -> str:
@@ -49,20 +57,15 @@ def of(app: str, action: str) -> str:
 def actions(app: str) -> tuple[str, ...]:
 	"""Every action an app's agent has: each call REACH names, then each
 	tool, each planner and each job."""
-	try:
-		agent = importlib.import_module(f"onedesk.{app}.agent")
-	except ModuleNotFoundError:
+	agent = home(app)
+	if agent is None:
 		return ()
 	return tuple(dict.fromkeys([*getattr(agent, "REACH", {}), *getattr(agent, "TOOLS", ()), *getattr(agent, "PLANS", {}), *getattr(agent, "WATCH", {})]))
 
 
 def label(app: str, action: str) -> str:
 	"""An action as people read it, in their language: its LABELS entry."""
-	try:
-		agent = importlib.import_module(f"onedesk.{app}.agent")
-	except ModuleNotFoundError:
-		return action
-	held = (getattr(agent, "LABELS", {}) or {}).get(action)
+	held = (getattr(home(app), "LABELS", {}) or {}).get(action)
 	return str(held) if held else action
 
 
@@ -118,13 +121,13 @@ def every(folders: Path) -> dict[str, list[str]]:
 	"""What is wrong with each app's levels, by folder, and each planner
 	PLANS or job WATCH names that is no function of ours."""
 	out = {}
-	for path in sorted(folders.glob("*/agent.py")):
+	for path in sorted([*folders.glob("*/agent.py"), *folders.glob("*/*_center_agent.py")]):
 		source = path.read_text(encoding="utf-8")
 		said = _said(source)
 		wrong = unlevelled(source) + [f"{one}'s planner {at} is no function" for one, (_stage, at) in sorted(said.get("PLANS", {}).items()) if not _defined(folders, at)]
 		wrong += [f"{one}'s job {at} is no function" for one, (_doctype, _when, at) in sorted(said.get("WATCH", {}).items()) if not _defined(folders, at)]
 		if wrong:
-			out[path.parent.name] = wrong
+			out[path.parent.name if path.name == "agent.py" else f"{path.parent.name}/{path.stem}"] = wrong
 	return out
 
 

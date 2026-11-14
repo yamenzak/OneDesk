@@ -3,6 +3,7 @@
     <div class="flex h-8 items-center gap-3">
       <Button v-if="backable" variant="ghost" icon="lucide-chevron-left" :aria-label="__('Back')" @click="back" />
       <Progress class="flex-1" size="sm" :value="progress" />
+      <Ask v-if="offer && current" :step="current" />
     </div>
     <Empty v-if="failed" :title="__('Not found')" :line="failed" />
     <Loading v-else-if="!offer || !current" />
@@ -33,6 +34,7 @@ import { Button, ErrorMessage, Progress } from "frappe-ui";
 import Empty from "../parts/Empty.vue";
 import Loading from "../parts/Loading.vue";
 import AppStep from "../start/AppStep.vue";
+import Ask from "../start/Ask.vue";
 import Apps from "../start/Apps.vue";
 import Companies from "../start/Companies.vue";
 import Company from "../start/Company.vue";

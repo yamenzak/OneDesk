@@ -44,7 +44,7 @@ def tool(tool: str | None = None, args: dict | None = None):
 	try:
 		claims = token.verify(said.get("secret"), frappe.get_request_header(HEADER) or "", "workspace", body, int(time.time()), seen)
 		agent = agents.get(claims.get("agent"))
-		if claims.get("ws") != said.get("workspace") or not agent or claims.get("tool") != tool:
+		if claims.get("ws") != said.get("workspace") or not agent or agents.is_centred(agent.app) or claims.get("tool") != tool:
 			raise token.Refused("not this workspace's agent")
 		run = tool_of(agent.app, tool)
 		asked_by = claims.get("for")

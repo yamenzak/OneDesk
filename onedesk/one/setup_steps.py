@@ -121,16 +121,48 @@ def save(module: str, step: dict, values: dict) -> bool:
 	return True
 
 
-def may(module: str, step: dict) -> bool:
+def may(module: str, step: dict, user: str | None = None) -> bool:
 	from onedesk.one import rights, roles
 
-	if roles.administers():
+	if roles.administers(user):
 		return True
 	declared_abilities = rights.of_app(module)
 	if not declared_abilities or not step.get("needs"):
 		return False
 	ability = rights.ability(module, step["needs"])
-	return rights.held(declared_abilities.DOCTYPE, ability["all"])
+	return rights.held(declared_abilities.DOCTYPE, ability["all"], user)
+
+
+WHICH = ("_app", "_step")
+"""The keys of a step's card (SetupCenter's setup guide) that say which
+step it fills; the rest are the step's fields."""
+
+
+def step_of(values: dict) -> tuple[str, dict] | None:
+	"""The (module, step) a card's values fill, when it is a step with a
+	form."""
+	values = values or {}
+	found = next((one for one in declared() if one[0] == values.get("_app") and one[1]["key"] == values.get("_step")), None)
+	return found if found and found[1].get("fields") and found[1].get("save") else None
+
+
+def allowed(values: dict, person: str) -> bool:
+	"""Whether a person may save the step a card fills."""
+	found = step_of(values)
+	return bool(found) and may(*found, user=person)
+
+
+def filled(values: dict) -> dict:
+	"""The step a card fills, saved through its own save and marked done,
+	as SetupCenter's Save does: what was saved."""
+	found = step_of(values)
+	if not found:
+		frappe.throw(_("There is nothing to save here."))
+	module, step = found
+	given = {field["fieldname"]: values.get(field["fieldname"]) for field in step["fields"]}
+	step["save"](given)
+	mark(module, step)
+	return {**{key: values.get(key) for key in WHICH}, **given}
 
 
 def for_boot() -> dict:

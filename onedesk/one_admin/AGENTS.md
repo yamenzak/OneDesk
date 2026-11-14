@@ -403,6 +403,16 @@ Signups Stop where the unpaid ones ended (`wizard_answers.funnel`,
 `stopped`). The privacy policy's `oneadmin-setup-answers` says what is kept,
 and only what is typed into the wizard.
 
+- **Ask**, at the top of every screen, opens the setup guide
+  (`start/Ask.vue`, `wizard_ask.ask`), SetupCenter's agent
+  (`one/setup_center_agent.py`) answering a guest. It reads the wizard's
+  offer, the manifests and Help, and may only suggest a field, the apps, a
+  plan or a region: **Use This** puts the suggestion in the answers and
+  saves it as the person's own choice would. The model is asked through
+  this site's own account, so the house pays; each question is limited per
+  address (20 an hour, 60 a day) and per signup (40 a day, counted in the
+  cache), and takes at most four rounds. The conversation stays in the page;
+  the privacy policy's `oneadmin-setup-guide` says what is sent.
 - **Signed in to a One account**, the page doesn't ask for an email. It shows
   who's signed in, and the workspace joins that account. Otherwise it offers
   **Sign in**, and the email entered becomes the account (or joins an

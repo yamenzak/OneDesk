@@ -40,6 +40,7 @@ def offer() -> dict:
 		"domain": frappe.db.get_single_value("One Admin Settings", "tenant_domain") or "t.4dl.app",
 		"me": frappe.db.get_value("User", frappe.session.user, "email") if frappe.session.user != "Guest" else None,
 		"pay_note": pay_note(sold),
+		"names": {"one_ai": registry.name("one_ai")},
 	}
 
 

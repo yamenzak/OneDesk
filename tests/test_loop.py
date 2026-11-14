@@ -238,7 +238,7 @@ def test_a_tool_answers_in_types_json_has():
 def test_the_loop_stops_on_done_rather_than_on_a_guess():
 	said = spoken(TALK, "ask")
 	assert "out.get('done')" in said
-	assert "range(ROUNDS + 1)" in said and "rounds == ROUNDS" in said
+	assert "range(most + 1)" in said and "rounds == most" in said and "most: int=ROUNDS" in said
 
 
 def test_a_model_turn_is_the_assistant_in_openais_dialect():
@@ -311,7 +311,7 @@ def test_the_last_round_the_account_takes_is_told_to_answer():
 	assert room["_spoken"](asked + looked * 4) == 4
 	assert room["_spoken"](asked + looked * 2 + [{"role": "user", "context": True}] + looked) == 3
 	said = spoken(TALK, "ask")
-	assert "_spoken(turns) >= ROUNDS - 1" in said
+	assert "_spoken(turns) >= most - 1" in said
 	assert "or last" in said
 
 

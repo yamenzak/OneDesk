@@ -1,8 +1,9 @@
 // SetupCenter (one/setup_center.py): every app's setup steps, done and
 // waiting. Overview lists each app that has steps; each app's section lists
 // its steps, a step with fields as the wizard's own form, one without
-// opening the section that does it. `at` opens one app, as Apps does after
-// Install.
+// opening the section that does it; Ask puts the step to SetupCenter's
+// setup guide in OneAI's panel (one/setup_center_agent.py). `at` opens one
+// app, as Apps does after Install.
 onedesk.centers.declare("setup", {
 	help: ["One", "setup"],
 	css: "one-setup",
@@ -65,6 +66,10 @@ onedesk.centers.declare("setup", {
 						panel.refresh();
 					})
 					.appendTo($end);
+				if (onedesk.apps.ai())
+					kit.button({ label: __("Ask"), variant: "ghost" })
+						.on("click", () => onedesk.oneai.open({ ask: __("What does {0} set up, and what should we answer?", [step.title]) }))
+						.appendTo($end);
 			}
 			if (!one.steps.length) $list.append(kit.empty(__("Nothing to set up.")));
 		};

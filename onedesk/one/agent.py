@@ -21,7 +21,7 @@ NOT_FOR_AI = {
 	"setup_job.wake": "A new site's build asks it to set itself up from its signup, before anybody works in it.",
 	"company.use": "Which company a person works in is their own choice, from the frame.",
 	"unsubscribe.off": "A signed link in a mail, opened without signing in, while OneAI sets the same switch through NotificationCenter.",
-	"setup_center.save": "A step's answers are the workspace's own setup, typed by whoever sets it up in SetupCenter.",
+	"setup_center.save": "A step's answers are the workspace's own setup, typed by whoever sets it up in SetupCenter, and SetupCenter's setup guide fills a step's form as a card instead.",
 	"setup_center.finish": "Marking a step done is the word of whoever did it, never OneAI's.",
 	"marketplace.turn": "Which apps the workspace has is an administrator's decision in OneMarketplace, never OneAI's.",
 	"rail.save_workspace": "The order of the apps on everybody's rail is an administrator's choice in SetupCenter, never OneAI's.",

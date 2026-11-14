@@ -604,6 +604,7 @@ No doctypes yet.
 * `onedesk.one_admin.wizard.resume`
 * `onedesk.one_admin.wizard.save`
 * `onedesk.one_admin.wizard.start`
+* `onedesk.one_admin.wizard_ask.ask`
 * `onedesk.one_ai.actions.switch`
 * `onedesk.one_ai.agents.api.tool`
 * `onedesk.one_ai.brief.switch`

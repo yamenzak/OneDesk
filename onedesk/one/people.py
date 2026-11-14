@@ -48,7 +48,7 @@ own switch (one/apps.py) until P8.3 retires it."""
 LEVELS = ("None", "User", "Manager")
 
 
-NOT_PEOPLE = ("Administrator", "Guest", "oneai@one.invalid", *(one.email for one in agents.listed()))
+NOT_PEOPLE = ("Administrator", "Guest", "oneai@one.invalid", *(one.email for one in agents.listed()), *(one.email for one in agents.centred()))
 
 
 def level_of(held: set, used: tuple, managed: tuple, levels: tuple | list = ()) -> str:

@@ -38,6 +38,7 @@ class Job:
 
 JOBS = {
 	"chat": Job(_lt("Chat"), registry.name("one_ai"), "talk", tools=True, speaks=True, most=800),
+	"setup_guide": Job(_lt("Answer Setup Questions"), registry.name("one_ai"), "talk", tools=True, speaks=True, most=600),
 	"chat_title": Job(_lt("Title a Conversation"), registry.name("one_ai"), "talk", most=100),
 	"chat_earlier": Job(_lt("Recall Earlier in a Conversation"), registry.name("one_ai"), "talk", most=400),
 	"brief": Job(_lt("Summarise a Record"), registry.name("one_ai"), "talk", speaks=True, most=400),
