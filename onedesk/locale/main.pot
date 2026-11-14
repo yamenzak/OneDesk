@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-14 00:44+0000\n"
-"PO-Revision-Date: 2026-11-14 00:44+0000\n"
+"POT-Creation-Date: 2026-11-14 00:47+0000\n"
+"PO-Revision-Date: 2026-11-14 00:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -9946,7 +9946,7 @@ msgstr ""
 msgid "Choose a type of source."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:136
+#: onedesk/one_admin/sessions.py:173
 msgid "Choose a workspace to copy."
 msgstr ""
 
@@ -10045,7 +10045,7 @@ msgstr ""
 msgid "Choose where a new work order takes its materials and puts what it makes, so nobody is asked each time."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:133
+#: onedesk/one_admin/sessions.py:170
 msgid "Choose where the session starts from and how long it lasts."
 msgstr ""
 
@@ -18486,7 +18486,7 @@ msgstr ""
 msgid "Every company that receives data, and whether yours uses it."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:86
+#: onedesk/one_admin/sessions.py:123
 msgid "Every connected server is full. Delete a session first."
 msgstr ""
 
@@ -29261,6 +29261,11 @@ msgstr ""
 msgid "Made for {0}"
 msgstr ""
 
+#: onedesk/one_admin/sessions.py:75
+#, python-brace-format
+msgid "Made from the ready demo of release {0}, so it starts in about a minute."
+msgstr ""
+
 #: onedesk/one_ai/reading/planning.py:124
 #, python-brace-format
 msgid "Made from {0}."
@@ -33576,7 +33581,7 @@ msgstr ""
 msgid "No server connections"
 msgstr ""
 
-#: frontend/src/admin/AdminSessions.vue:6 onedesk/one_admin/sessions.py:84
+#: frontend/src/admin/AdminSessions.vue:6 onedesk/one_admin/sessions.py:121
 msgid "No server is connected yet. Connect one under Servers."
 msgstr ""
 
@@ -36362,7 +36367,7 @@ msgstr ""
 msgid "Only a request still waiting can be turned down."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:173
+#: onedesk/one_admin/sessions.py:215
 msgid "Only a running session can be stopped."
 msgstr ""
 
@@ -36374,7 +36379,7 @@ msgstr ""
 msgid "Only a saved report can be shown somewhere else."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:184
+#: onedesk/one_admin/sessions.py:226
 msgid "Only a stopped session can be started."
 msgstr ""
 
@@ -44014,6 +44019,11 @@ msgstr ""
 #: onedesk/one_admin/releasing.py:155
 #, python-brace-format
 msgid "Release {0} first."
+msgstr ""
+
+#: onedesk/one_admin/sessions.py:77
+#, python-brace-format
+msgid "Release {0} has no ready demo, so the demo is built on this copy. That takes a while."
 msgstr ""
 
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.js:35
@@ -55687,6 +55697,10 @@ msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:767
 msgid "The selected field becomes required and unique."
+msgstr ""
+
+#: onedesk/one_admin/sessions.py:78
+msgid "The server could not say which release it runs, so the demo is built on this copy. That takes a while."
 msgstr ""
 
 #: onedesk/one_mail/imap.py:341
@@ -71173,7 +71187,7 @@ msgstr ""
 msgid "{0} has not failed."
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:141
+#: onedesk/one_admin/sessions.py:178
 #, python-brace-format
 msgid "{0} has not turned on Training Copies."
 msgstr ""
@@ -73844,7 +73858,7 @@ msgstr ""
 msgid "{0}'s config isn't copied: there is no Config Copy Key in Settings"
 msgstr ""
 
-#: onedesk/one_admin/sessions.py:139
+#: onedesk/one_admin/sessions.py:176
 #, python-brace-format
 msgid "{0}'s plan doesn't include Training Copies."
 msgstr ""

@@ -1,6 +1,21 @@
 #!/bin/bash
 set -euo pipefail
 
+usage() {
+	echo "usage: build.sh [--dry-run] [--no-demo] [all|build|demo|publish]" >&2
+	exit 2
+}
+
+stage=all
+for arg in "$@"; do
+	case "$arg" in
+		--dry-run) PUBLISH=false ;;
+		--no-demo) ONE_DEMO=false ;;
+		all | build | demo | publish) stage="$arg" ;;
+		*) usage ;;
+	esac
+done
+
 repo="$(cd "$(dirname "$0")/../.." && pwd)"
 pin() { python3 -c "import json,sys; print(json.load(open('$repo/upstream.json'))[sys.argv[1]]['sha'])" "$1"; }
 in_pilot() { PYTHONPATH="$HOME/pilot" "$HOME/pilot/.admin-venv/bin/python" "$@"; }
@@ -12,10 +27,12 @@ branch="${RELEASE_BRANCH:-main}"
 name="r${sha:0:8}"
 bench="$HOME/pilot/benches/$name"
 site="template.one"
+demo_site="demo.one"
 out="${OUT:-/tmp/release}"
 base="${ONE_BASE:-}"
 template="${ONE_TEMPLATE:-}"
 gz="$(command -v pigz || echo gzip)"
+demo_part="$out/$(python3 "$repo/deploy/release/demo.py" name "$sha")"
 mkdir -p "$out"
 
 python_dirs() {
@@ -84,27 +101,6 @@ reuse() {
 	"$bench/env/bin/python" -c "import frappe, erpnext, hrms"
 }
 
-pilot -y new "$name" --frappe-branch develop --admin-password "Ci$(openssl rand -hex 12)-Z9"
-if reused; then
-	reuse
-	echo "base: reused $(cat "$base/name") at ${SECONDS}s"
-else
-	fresh
-	echo "base: built at ${SECONDS}s"
-fi
-
-(umask 077; python3 -c "
-import json, os
-print(json.dumps({'provider': 'github', 'token': os.environ['GH_TOKEN'], 'username': 'x-access-token', 'token_expires_at': None, 'is_token_valid': True}))
-" > "$bench/.bench.git.info")
-pilot -y -b "$name" get-app "https://github.com/$slug" --branch "$branch" --commit "$sha"
-rm -f "$bench/.bench.git.info"
-unshared
-echo "onedesk: built at ${SECONDS}s"
-in_pilot "$repo/deploy/release/private.py" "$bench" "$repo"
-echo "private apps: on the bench at ${SECONDS}s"
-
-cd "$bench"
 built() {
 	if [ -L "apps/$1" ]; then
 		git -C "$2" ls-files -o --directory
@@ -112,38 +108,21 @@ built() {
 		git -C "$2" ls-files -oi --exclude-standard --directory
 	fi
 }
-list="$(mktemp)"
-for app in $(cat sites/apps.txt); do
-	at="$(realpath --relative-to=. "apps/$app")"
-	built "$app" "$at" | awk -v at="$at/" '/\/(public|www)\// && !/node_modules|__pycache__/ { print at $0 }' >> "$list"
-done
-for one in assets.json assets-rtl.json css js locale; do
-	echo "sites/assets/$one" >> "$list"
-done
-tar -I "$gz" -cf "$out/$sha.tar.gz" -T "$list"
-sha256sum "$out/$sha.tar.gz" | cut -d' ' -f1 > "$out/$sha.tar.gz.sha256"
-
-held_python="$(python_dirs)"
-cd "$HOME"
-whole="$(mktemp)"
-{
-	printf '%s\n' "pilot/benches/$name" "pilot/benches/$name/sites" "pilot/benches/$name/sites/apps.txt"
-	find "pilot/benches/$name/apps" -name node_modules -prune -o -print
-	if [ -d "pilot/benches/$name/private-apps" ]; then
-		find "pilot/benches/$name/private-apps" -name node_modules -prune -o -print
-	fi
-	find "pilot/benches/$name/apps/frappe/node_modules" -print
-	find "pilot/benches/$name/env" "pilot/benches/$name/sites/assets" -print
-	for one in $held_python; do
-		find "$one" -print
-	done
-} | sort -u > "$whole"
-tar -I "$gz" -cf "$out/$sha.bench.tar.gz" --no-recursion -T "$whole"
-sha256sum "$out/$sha.bench.tar.gz" | cut -d' ' -f1 > "$out/$sha.bench.tar.gz.sha256"
-echo "$held_python" > "$out/$sha.bench.python"
-echo "archives: made at ${SECONDS}s"
 
 rule() { python3 "$repo/deploy/release/template.py" "$@"; }
+
+packed() {
+	local held="$1" archive="$2" made
+	made="$(mktemp -d)"
+	cp "$(ls -t "$held"/private/backups/*-database.sql.gz | head -1)" "$made/database.sql.gz" || return 1
+	"$bench/env/bin/python" "$repo/deploy/release/upload.py" config "$held/site_config.json" > "$made/site_config.json" || return 1
+	mkdir -p "$made/public" "$made/private"
+	cp -a "$held/public/files" "$made/public/" 2>/dev/null || mkdir -p "$made/public/files"
+	cp -a "$held/private/files" "$made/private/" 2>/dev/null || mkdir -p "$made/private/files"
+	tar czf "$archive.partial" -C "$made" database.sql.gz site_config.json public private || return 1
+	mv "$archive.partial" "$archive"
+	rm -rf "$made"
+}
 
 installed() {
 	pilot -y -b "$name" new-site "$site" --apps frappe erpnext hrms onedesk --admin-password "T$(openssl rand -hex 12)-Z9"
@@ -161,68 +140,201 @@ migrated() {
 	pilot -b "$name" frappe --site "$site" migrate || return 1
 }
 
-from=""
-why="no template was kept"
-if [ -n "$template" ] && [ -s "$template/site.tar.gz" ] && tar tzf "$template/site.tar.gz" > /dev/null; then
-	from="$(cat "$template/commit" 2> /dev/null || true)"
-	why="the kept template does not say which commit made it"
-	if [ -n "$from" ]; then
-		why="$(rule why "$repo" "$from" "$sha" 2>&1)" || why="the rule failed: $why"
-	fi
-fi
-
-if [ -n "$from" ] && [ "$from" = "$sha" ]; then
-	cp "$template/site.tar.gz" "$out/$sha.site.tar.gz"
-	echo "template: reused, made at this commit"
-else
-	began="$SECONDS"
-	pilot -b "$name" start > "$out/start.log" 2>&1 &
-	started=$!
-	pilot -b "$name" wait-for-database
-	how=""
-	if [ -n "$from" ] && [ -z "$why" ]; then
-		echo "template: migrating the one made at $from"
-		if migrated; then
-			how="migrated from $from"
-		else
-			echo "::warning::template: migrating the one made at $from failed, so it is installed afresh"
-			pilot -y -b "$name" drop-site "$site" --no-backup --force || rm -rf "$bench/sites/$site"
-		fi
+build_stage() {
+	date +%s > "$out/began"
+	pilot -y new "$name" --frappe-branch develop --admin-password "Ci$(openssl rand -hex 12)-Z9"
+	if reused; then
+		reuse
+		echo "base: reused $(cat "$base/name") at ${SECONDS}s"
 	else
-		echo "template: installing afresh, since"
-		echo "$why" | sed 's/^/  /'
+		fresh
+		echo "base: built at ${SECONDS}s"
 	fi
-	if [ -z "$how" ]; then
-		installed
-		how="installed afresh"
-	fi
-	pilot -b "$name" frappe --site "$site" execute onedesk.one_admin.spares.as_template
-	pilot -b "$name" frappe --site "$site" backup
-	kill "$started" || true
 
-	held="$bench/sites/$site"
-	made="$(mktemp -d)"
-	cp "$(ls -t "$held"/private/backups/*-database.sql.gz | head -1)" "$made/database.sql.gz"
-	"$bench/env/bin/python" "$repo/deploy/release/upload.py" config "$held/site_config.json" > "$made/site_config.json"
-	mkdir -p "$made/public" "$made/private"
-	cp -a "$held/public/files" "$made/public/" 2>/dev/null || mkdir -p "$made/public/files"
-	cp -a "$held/private/files" "$made/private/" 2>/dev/null || mkdir -p "$made/private/files"
-	tar czf "$out/$sha.site.tar.gz" -C "$made" database.sql.gz site_config.json public private
+	(umask 077; python3 -c "
+import json, os
+print(json.dumps({'provider': 'github', 'token': os.environ['GH_TOKEN'], 'username': 'x-access-token', 'token_expires_at': None, 'is_token_valid': True}))
+" > "$bench/.bench.git.info")
+	pilot -y -b "$name" get-app "https://github.com/$slug" --branch "$branch" --commit "$sha"
+	rm -f "$bench/.bench.git.info"
+	unshared
+	echo "onedesk: built at ${SECONDS}s"
+	in_pilot "$repo/deploy/release/private.py" "$bench" "$repo"
+	echo "private apps: on the bench at ${SECONDS}s"
+
+	cd "$bench"
+	local list at app one held_python whole
+	list="$(mktemp)"
+	for app in $(cat sites/apps.txt); do
+		at="$(realpath --relative-to=. "apps/$app")"
+		built "$app" "$at" | awk -v at="$at/" '/\/(public|www)\// && !/node_modules|__pycache__/ { print at $0 }' >> "$list"
+	done
+	for one in assets.json assets-rtl.json css js locale; do
+		echo "sites/assets/$one" >> "$list"
+	done
+	tar -I "$gz" -cf "$out/$sha.tar.gz" -T "$list"
+	sha256sum "$out/$sha.tar.gz" | cut -d' ' -f1 > "$out/$sha.tar.gz.sha256"
+
+	held_python="$(python_dirs)"
+	cd "$HOME"
+	whole="$(mktemp)"
+	{
+		printf '%s\n' "pilot/benches/$name" "pilot/benches/$name/sites" "pilot/benches/$name/sites/apps.txt"
+		find "pilot/benches/$name/apps" -name node_modules -prune -o -print
+		if [ -d "pilot/benches/$name/private-apps" ]; then
+			find "pilot/benches/$name/private-apps" -name node_modules -prune -o -print
+		fi
+		find "pilot/benches/$name/apps/frappe/node_modules" -print
+		find "pilot/benches/$name/env" "pilot/benches/$name/sites/assets" -print
+		for one in $held_python; do
+			find "$one" -print
+		done
+	} | sort -u > "$whole"
+	tar -I "$gz" -cf "$out/$sha.bench.tar.gz" --no-recursion -T "$whole"
+	sha256sum "$out/$sha.bench.tar.gz" | cut -d' ' -f1 > "$out/$sha.bench.tar.gz.sha256"
+	echo "$held_python" > "$out/$sha.bench.python"
+	echo "archives: made at ${SECONDS}s"
+
+	from=""
+	local why="no template was kept"
+	if [ -n "$template" ] && [ -s "$template/site.tar.gz" ] && tar tzf "$template/site.tar.gz" > /dev/null; then
+		from="$(cat "$template/commit" 2> /dev/null || true)"
+		why="the kept template does not say which commit made it"
+		if [ -n "$from" ]; then
+			why="$(rule why "$repo" "$from" "$sha" 2>&1)" || why="the rule failed: $why"
+		fi
+	fi
+
+	if [ -n "$from" ] && [ "$from" = "$sha" ]; then
+		cp "$template/site.tar.gz" "$out/$sha.site.tar.gz"
+		echo "template: reused, made at this commit"
+	else
+		local began started how
+		began="$SECONDS"
+		pilot -b "$name" start > "$out/start.log" 2>&1 &
+		started=$!
+		pilot -b "$name" wait-for-database
+		how=""
+		if [ -n "$from" ] && [ -z "$why" ]; then
+			echo "template: migrating the one made at $from"
+			if migrated; then
+				how="migrated from $from"
+			else
+				echo "::warning::template: migrating the one made at $from failed, so it is installed afresh"
+				pilot -y -b "$name" drop-site "$site" --no-backup --force || rm -rf "$bench/sites/$site"
+			fi
+		else
+			echo "template: installing afresh, since"
+			echo "$why" | sed 's/^/  /'
+		fi
+		if [ -z "$how" ]; then
+			installed
+			how="installed afresh"
+		fi
+		emptied "$site"
+		pilot -b "$name" frappe --site "$site" backup
+		kill "$started" || true
+
+		packed "$bench/sites/$site" "$out/$sha.site.tar.gz"
+		if [ -n "$template" ]; then
+			rm -f "$template/site.tar.gz" "$template/commit"
+			cp "$out/$sha.site.tar.gz" "$template/site.tar.gz"
+			echo "$sha" > "$template/commit"
+		fi
+		echo "template: $how in $((SECONDS - began))s, at ${SECONDS}s"
+	fi
+	sha256sum "$out/$sha.site.tar.gz" | cut -d' ' -f1 > "$out/$sha.site.tar.gz.sha256"
+	echo "built in ${SECONDS}s"
+}
+
+emptied() {
+	pilot -b "$name" frappe --site "$1" execute onedesk.one_admin.spares.as_template
+}
+
+demo_built() {
+	local kept
+	kept="$(mktemp -d)"
+	tar xzf "$out/$sha.site.tar.gz" -C "$kept" || return 1
+	if [ -d "$bench/sites/$demo_site" ]; then
+		pilot -y -b "$name" drop-site "$demo_site" --no-backup --force || rm -rf "$bench/sites/$demo_site"
+	fi
+	in_pilot "$repo/deploy/release/template.py" restore "$bench" "$demo_site" "$kept" "D$(openssl rand -hex 12)-Z9" || return 1
+	pilot -b "$name" frappe --site "$demo_site" set-config one_dev 1 --parse || return 1
+	pilot -b "$name" frappe --site "$demo_site" execute onedesk.one_demo.build.load --kwargs "{\"password\": \"D$(openssl rand -hex 12)-Z9\"}" || return 1
+	emptied "$demo_site" || return 1
+	pilot -b "$name" frappe --site "$demo_site" backup || return 1
+	packed "$bench/sites/$demo_site" "$demo_part" || return 1
+}
+
+demo_stage() {
+	rm -f "$demo_part" "$demo_part.sha256"
+	if [ "${ONE_DEMO:-true}" != true ]; then
+		echo "demo: not built, as asked; a copy from the demo builds its own"
+		return 0
+	fi
+	local began started over
+	began="$SECONDS"
+	if [ -n "$template" ] && [ -s "$template/demo.tar.gz" ] && [ "$(cat "$template/demo.commit" 2> /dev/null || true)" = "$sha" ]; then
+		cp "$template/demo.tar.gz" "$demo_part"
+		echo "demo: reused, made at this commit"
+	else
+		pilot -b "$name" start > "$out/demo-start.log" 2>&1 &
+		started=$!
+		pilot -b "$name" wait-for-database
+		if ! demo_built; then
+			echo "::warning::demo: building it failed, so this release has no ready demo and a copy from the demo builds its own"
+			rm -f "$demo_part"
+		fi
+		kill "$started" || true
+	fi
+	[ -s "$demo_part" ] || return 0
+	if ! over="$(python3 "$repo/deploy/release/demo.py" budget "$demo_part" 2>&1)"; then
+		echo "::warning::demo: $over, so this release has no ready demo"
+		rm -f "$demo_part"
+		return 0
+	fi
+	sha256sum "$demo_part" | cut -d' ' -f1 > "$demo_part.sha256"
 	if [ -n "$template" ]; then
-		rm -f "$template/site.tar.gz" "$template/commit"
-		cp "$out/$sha.site.tar.gz" "$template/site.tar.gz"
-		echo "$sha" > "$template/commit"
+		rm -f "$template/demo.tar.gz" "$template/demo.commit"
+		cp "$demo_part" "$template/demo.tar.gz"
+		echo "$sha" > "$template/demo.commit"
 	fi
-	echo "template: $how in $((SECONDS - began))s, at ${SECONDS}s"
-fi
-sha256sum "$out/$sha.site.tar.gz" | cut -d' ' -f1 > "$out/$sha.site.tar.gz.sha256"
+	echo "demo: $(stat -c %s "$demo_part") bytes, made in $((SECONDS - began))s"
+}
 
-for part in "$sha.tar.gz" "$sha.bench.tar.gz" "$sha.site.tar.gz"; do
-	[ "$(sha256sum "$out/$part" | cut -d' ' -f1)" = "$(cat "$out/$part.sha256")" ]
-	tar tzf "$out/$part" > /dev/null
-	echo "$part $(stat -c %s "$out/$part") bytes, $(tar tzf "$out/$part" | wc -l) entries"
-done
-tar xzf "$out/$sha.site.tar.gz" -O database.sql.gz | gzip -t
-echo "built in ${SECONDS}s"
-[ "${PUBLISH:-true}" = true ] || exit 0
-BUILT_IN="$SECONDS" "$bench/env/bin/python" "$repo/deploy/release/upload.py" publish "$out" "$sha" "$(pin frappe)" "$(pin erpnext)" "$(pin hrms)"
+checked() {
+	[ "$(sha256sum "$out/$1" | cut -d' ' -f1)" = "$(cat "$out/$1.sha256")" ] && tar tzf "$out/$1" > /dev/null \
+		&& tar xzf "$out/$1" -O database.sql.gz 2> /dev/null | gzip -t
+}
+
+publish_stage() {
+	local part
+	for part in "$sha.tar.gz" "$sha.bench.tar.gz" "$sha.site.tar.gz"; do
+		[ "$(sha256sum "$out/$part" | cut -d' ' -f1)" = "$(cat "$out/$part.sha256")" ]
+		tar tzf "$out/$part" > /dev/null
+		echo "$part $(stat -c %s "$out/$part") bytes, $(tar tzf "$out/$part" | wc -l) entries"
+	done
+	checked "$sha.site.tar.gz"
+	if [ -s "$demo_part" ]; then
+		if [ -s "$demo_part.sha256" ] && checked "$(basename "$demo_part")"; then
+			echo "$(basename "$demo_part") $(stat -c %s "$demo_part") bytes"
+		else
+			echo "::warning::demo: the archive does not check out, so this release has no ready demo"
+			rm -f "$demo_part" "$demo_part.sha256"
+		fi
+	fi
+	local dry=""
+	[ "${PUBLISH:-true}" = true ] || dry="--dry-run"
+	BUILT_IN="$(($(date +%s) - $(cat "$out/began" 2> /dev/null || date +%s)))" "$bench/env/bin/python" "$repo/deploy/release/upload.py" publish "$out" "$sha" "$(pin frappe)" "$(pin erpnext)" "$(pin hrms)" ${dry:+"$dry"}
+}
+
+case "$stage" in
+	build) build_stage ;;
+	demo) demo_stage ;;
+	publish) publish_stage ;;
+	all)
+		build_stage
+		demo_stage
+		publish_stage
+		;;
+esac

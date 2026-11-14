@@ -120,3 +120,20 @@ def test_the_connect_script_carries_the_first_boot_and_the_memory_limit():
 	assert "ONE_IN_CONTAINER=1" in box and "ONE_TUNNEL_TOKEN=token" in box and "ONE_PILOT_PASSWORD=p" in box
 	assert "ONE_SERVER=oracle-1\n" in script and "ONE_AGENT=a\n" in script and "ONE_ADMIN=https://admin.x\n" in script
 	assert "servers.located" in script and "X-One-Agent" in script
+
+
+def test_a_demo_from_its_ready_demo_is_restored_by_the_agent_then_configured():
+	walk = sessions.walk_of(sessions.DEMO, ready=True)
+	assert walk == sessions.READY_WALK and set(walk) <= set(sessions.STEPS)
+	assert walk[0] == sessions.READY and "create" not in walk and "demo" not in walk
+	assert walk.index("agent_done") < walk.index("configure"), "the copy's own config goes on after the agent has made the site"
+	assert sessions.after(sessions.DEMO, "agent_done", ready=True) == "configure"
+	assert sessions.after(sessions.DEMO, "agent_done") == sessions.LAST_STEP
+	assert sessions.walk_of(sessions.COPY, ready=True) == sessions.WALKS[sessions.COPY], "a copy's upload is no ready demo"
+
+
+def test_a_demo_is_restored_only_when_its_release_carries_one():
+	assert sessions.ready_release("abc", {"demo": {"sha256": "s", "size": 1}}) == "abc"
+	assert sessions.ready_release("abc", {"template": {}}) is None
+	assert sessions.ready_release("abc", None) is None
+	assert sessions.ready_release(None, {"demo": {"sha256": "s"}}) is None

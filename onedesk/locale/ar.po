@@ -29124,6 +29124,11 @@ msgstr "أنشأه {1} من {0}. لم تتم مراجعته بعد."
 msgid "Made for {0}"
 msgstr "مصمم لـ {0}"
 
+#: onedesk/one_admin/sessions.py:75
+#, python-brace-format
+msgid "Made from the ready demo of release {0}, so it starts in about a minute."
+msgstr "صُنعت من بيانات العرض التجريبي الجاهزة في الإصدار {0}، فتبدأ خلال دقيقة تقريبًا."
+
 #: onedesk/one_ai/reading/planning.py:110
 #, python-brace-format
 msgid "Made from {0}."
@@ -43849,6 +43854,11 @@ msgstr "حرّر {0} قبل حذفه."
 msgid "Release {0} first."
 msgstr "حرّر {0} أولًا."
 
+#: onedesk/one_admin/sessions.py:77
+#, python-brace-format
+msgid "Release {0} has no ready demo, so the demo is built on this copy. That takes a while."
+msgstr "لا يحمل الإصدار {0} بيانات عرض تجريبي جاهزة، فتُبنى على هذه النسخة. يستغرق ذلك بعض الوقت."
+
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.js:35
 #, python-brace-format
 msgid "Release {0}?"
@@ -55459,6 +55469,10 @@ msgstr "معرّفات النطاق التي مُنحت لعميل OAuth، مف�
 #: onedesk/public/js/doctype_settings.js:767
 msgid "The selected field becomes required and unique."
 msgstr "يصبح الحقل المحدد إلزامياً وفريداً."
+
+#: onedesk/one_admin/sessions.py:78
+msgid "The server could not say which release it runs, so the demo is built on this copy. That takes a while."
+msgstr "لم يستطع الخادم أن يحدد الإصدار الذي يعمل عليه، فتُبنى بيانات العرض التجريبي على هذه النسخة. يستغرق ذلك بعض الوقت."
 
 #: onedesk/one_mail/imap.py:341
 msgid "The server didn't respond in time."
