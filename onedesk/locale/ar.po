@@ -34661,10 +34661,6 @@ msgstr "لم يُضف شيء إلى {playlist}. حاول مرة أخرى، أو 
 msgid "Nothing was added to {presentation}. Try again, or describe it differently."
 msgstr "لم يُضف شيء إلى {presentation}. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
-#: onedesk/one_ai/chat.py:121
-msgid "Nothing was asked."
-msgstr "لم يُسأل شيء."
-
 #: onedesk/www/welcome.html:17
 msgid "Nothing was charged"
 msgstr "لم يُخصم أي مبلغ"
@@ -72112,11 +72108,6 @@ msgstr "{0} لا يعمل بعد، فلا يصلح أن يكون العنوان 
 #, python-brace-format
 msgid "{0} is not working."
 msgstr "{0} لا يعمل."
-
-#: onedesk/one_ai/chat.py:117
-#, python-brace-format
-msgid "{0} is off"
-msgstr "{0} متوقف"
 
 #: onedesk/one_cloud/mounts.py:89
 #, python-brace-format

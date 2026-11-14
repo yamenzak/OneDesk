@@ -8,6 +8,7 @@ APP = App(
 	kind="centre",
 	module="Trust Center",
 	line=_lt("Agreements, and the companies that receive your data."),
+	mark="trustcenter",
 	centre=Centre("trust", "shield-check"),
 	ui="bespoke",
 	regions=(

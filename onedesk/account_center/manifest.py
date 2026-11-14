@@ -8,6 +8,7 @@ APP = App(
 	kind="centre",
 	module="Account Center",
 	line=_lt("Your plan, credits, invoices and companies."),
+	mark="accountcenter",
 	centre=Centre("account", "user"),
 	screens="account",
 	names=("account_center", "accountcenter"),

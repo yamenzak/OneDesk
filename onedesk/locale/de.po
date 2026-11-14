@@ -34661,10 +34661,6 @@ msgstr "Zu {playlist} wurde nichts hinzugefügt. Versuchen Sie es erneut oder be
 msgid "Nothing was added to {presentation}. Try again, or describe it differently."
 msgstr "Zu {presentation} wurde nichts hinzugefügt. Versuchen Sie es erneut oder beschreiben Sie es anders."
 
-#: onedesk/one_ai/chat.py:121
-msgid "Nothing was asked."
-msgstr "Es wurde nichts gefragt."
-
 #: onedesk/www/welcome.html:17
 msgid "Nothing was charged"
 msgstr "Es wurde nichts abgebucht"
@@ -72112,11 +72108,6 @@ msgstr "{0} funktioniert noch nicht und kann daher nicht die Hauptadresse sein."
 #, python-brace-format
 msgid "{0} is not working."
 msgstr "{0} funktioniert nicht."
-
-#: onedesk/one_ai/chat.py:117
-#, python-brace-format
-msgid "{0} is off"
-msgstr "{0} ist aus"
 
 #: onedesk/one_cloud/mounts.py:89
 #, python-brace-format

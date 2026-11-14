@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-14 06:03+0000\n"
-"PO-Revision-Date: 2026-11-14 06:03+0000\n"
+"POT-Creation-Date: 2026-11-14 08:29+0000\n"
+"PO-Revision-Date: 2026-11-14 08:29+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -515,7 +515,7 @@ msgstr ""
 msgid "A Column for Each Status"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1124 onedesk/one_mail/rules.py:1136
+#: onedesk/one_mail/rules.py:1128 onedesk/one_mail/rules.py:1140
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr ""
 
@@ -1712,7 +1712,7 @@ msgstr ""
 msgid "A shared device can't hold a passkey."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:823
+#: onedesk/one_mail/rules.py:827
 msgid "A shared mailbox answers by a mail rule instead."
 msgstr ""
 
@@ -2701,7 +2701,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
-#: frontend/src/chat/Conversation.vue:180 frontend/src/one/Marketplace.vue:58
+#: frontend/src/chat/Conversation.vue:178 frontend/src/one/Marketplace.vue:58
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/index.vue:632
 #: frontend/src/sheet/components/SheetEditor/index.vue:635
@@ -2867,7 +2867,7 @@ msgstr ""
 msgid "Add Operator"
 msgstr ""
 
-#: frontend/src/chat/Conversation.vue:93 frontend/src/chat/Conversation.vue:179
+#: frontend/src/chat/Conversation.vue:93 frontend/src/chat/Conversation.vue:177
 msgid "Add People"
 msgstr ""
 
@@ -3894,7 +3894,7 @@ msgstr ""
 msgid "Agents Secret"
 msgstr ""
 
-#: onedesk/one_ai/agents/workspace.py:118 onedesk/one_ai/checks.py:739
+#: onedesk/one_ai/agents/workspace.py:118 onedesk/one_ai/checks.py:755
 msgid "Agents are turned off for this workspace."
 msgstr ""
 
@@ -5499,7 +5499,7 @@ msgstr ""
 msgid "Approving this puts {0} on {1} {2}."
 msgstr ""
 
-#: onedesk/public/js/one_ai/panel/Panel.vue:736
+#: onedesk/public/js/one_ai/panel/Panel.vue:738
 #, python-brace-format
 msgid "Approving “{0}” did not go through: {1} Correct it and suggest it again."
 msgstr ""
@@ -5523,7 +5523,7 @@ msgstr ""
 msgid "Apps"
 msgstr ""
 
-#: onedesk/one/apps.py:190
+#: onedesk/one/apps.py:191
 msgid "Apps Not Saved"
 msgstr ""
 
@@ -20955,7 +20955,7 @@ msgstr ""
 msgid "For any package"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:690
+#: onedesk/one_mail/rules.py:694
 #, python-brace-format
 msgid "For anything urgent, write to {0} at {1}."
 msgstr ""
@@ -24105,11 +24105,11 @@ msgstr ""
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:683
+#: onedesk/one_mail/rules.py:687
 msgid "I'm away and will reply when I'm back."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:681
+#: onedesk/one_mail/rules.py:685
 #, python-brace-format
 msgid "I'm on leave and back on {0}. I'll reply then."
 msgstr ""
@@ -29146,13 +29146,13 @@ msgid "Looked For On"
 msgstr ""
 
 #: frontend/src/chat/Message.vue:81
-#: onedesk/public/js/one_ai/panel/Panel.vue:747
+#: onedesk/public/js/one_ai/panel/Panel.vue:749
 #, python-brace-format
 msgid "Looked at {0}"
 msgstr ""
 
 #: frontend/src/chat/Message.vue:81
-#: onedesk/public/js/one_ai/panel/Panel.vue:747
+#: onedesk/public/js/one_ai/panel/Panel.vue:749
 msgid "Looked something up"
 msgstr ""
 
@@ -29444,11 +29444,11 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Label of a Sidebar Item
 #: onedesk/one_admin/doctype/health_check/health_check.json:24
-#: onedesk/one_admin/offerings.py:135 onedesk/one_ai/chat.py:328
+#: onedesk/one_admin/offerings.py:135
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:39
-#: onedesk/one_cloud/namespace.py:411 onedesk/one_mail/cloud.py:66
-#: onedesk/one_mail/linking.py:60
+#: onedesk/one_ai/drawn.py:111 onedesk/one_cloud/namespace.py:411
+#: onedesk/one_mail/cloud.py:66 onedesk/one_mail/linking.py:60
 #: onedesk/one_mail/sidebar/onemail/onemail.json:15
 #: onedesk/public/js/one_admin/admin_control.js:177
 #: onedesk/public/js/one_interface/form.js:152
@@ -31636,7 +31636,7 @@ msgstr ""
 #: onedesk/public/js/one/news_add.js:63
 #: onedesk/public/js/one/role_matrix.js:120
 #: onedesk/public/js/one/role_matrix.js:143
-#: onedesk/public/js/one_ai/panel/Panel.vue:525
+#: onedesk/public/js/one_ai/panel/Panel.vue:527
 #: onedesk/public/js/one_cloud/onecloud_dialogs.js:279
 #: onedesk/public/js/one_hr/leave_control_panel.js:11
 #: onedesk/public/js/one_interface/form.js:568
@@ -32380,7 +32380,7 @@ msgstr ""
 msgid "New Workbook"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:92 onedesk/one_chat/panel.py:91
+#: onedesk/one_chat/answers.py:62 onedesk/one_chat/panel.py:93
 #: onedesk/public/js/one_ai/panel/Panel.vue:26
 #: onedesk/public/js/one_ai/panel/Panel.vue:28
 #: onedesk/public/js/one_ai/panel/Panel.vue:35
@@ -32883,7 +32883,7 @@ msgstr ""
 #: onedesk/one/access.py:26 onedesk/one/ai_approvals.py:200
 #: onedesk/one/ai_automations.py:201 onedesk/one/ai_printing.py:238
 #: onedesk/one/ai_printing.py:241 onedesk/one_ai/access.py:22
-#: onedesk/one_ai/chat.py:700 onedesk/one_book/access.py:20
+#: onedesk/one_ai/drawn.py:422 onedesk/one_book/access.py:20
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_book/print_format/one_pos_invoice/one_pos_invoice.json
@@ -33904,7 +33904,7 @@ msgstr ""
 msgid "Nobody Applied"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1150
+#: onedesk/one_mail/rules.py:1154
 msgid "Nobody asked for this rule."
 msgstr ""
 
@@ -34273,7 +34273,7 @@ msgstr ""
 msgid "Not allowed."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:431 onedesk/one_ai/chat.py:434
+#: onedesk/one_chat/answers.py:155 onedesk/one_chat/answers.py:158
 msgid "Not answered"
 msgstr ""
 
@@ -34567,7 +34567,7 @@ msgstr ""
 msgid "Not working. Check the DNS records below, then remove the domain and add it again."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:126 onedesk/one_chat/answers.py:44
+#: onedesk/one_chat/answers.py:48
 #: onedesk/public/js/one_mail/onemail_settings.js:711
 msgid "Not yet"
 msgstr ""
@@ -34862,10 +34862,6 @@ msgstr ""
 #: onedesk/one_deck/notifications.py
 #, python-brace-format
 msgid "Nothing was added to {presentation}. Try again, or describe it differently."
-msgstr ""
-
-#: onedesk/one_ai/chat.py:122
-msgid "Nothing was asked."
 msgstr ""
 
 #: onedesk/www/welcome.html:17
@@ -35247,7 +35243,7 @@ msgstr ""
 
 #: frontend/src/one/Marketplace.vue:92 onedesk/one/ai_printing.py:241
 #: onedesk/one/control.py:390 onedesk/one/rights.py:290
-#: onedesk/one_ai/chat.py:699
+#: onedesk/one_ai/drawn.py:421
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:76
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
 #: onedesk/one_studio/heads.py:23
@@ -35405,7 +35401,7 @@ msgstr ""
 #: frontend/src/one/MarketApp.vue:12 frontend/src/one/Marketplace.vue:31
 #: frontend/src/one/Marketplace.vue:47 frontend/src/one/Marketplace.vue:91
 #: onedesk/one/ai_approvals.py:200 onedesk/one/ai_automations.py:201
-#: onedesk/one/rights.py:290 onedesk/one_ai/chat.py:699
+#: onedesk/one/rights.py:290 onedesk/one_ai/drawn.py:421
 #: onedesk/one_doc/agent.py:172
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:18
@@ -39748,7 +39744,7 @@ msgstr ""
 #. Label of a Card Break in the OneHR Setup Workspace
 #. Label of a Sidebar Item
 #: frontend/portal/src/pages/Start.vue:80
-#: frontend/src/chat/Conversation.vue:174 onedesk/account_center/center.py:36
+#: frontend/src/chat/Conversation.vue:172 onedesk/account_center/center.py:36
 #: onedesk/one/home.py:163 onedesk/one_admin/wizard_answers.py:28
 #: onedesk/one_cloud/doctype/cloud_file_request/cloud_file_request.json:105
 #: onedesk/one_display/doctype/display_board/display_board.json:76
@@ -42901,7 +42897,7 @@ msgstr ""
 msgid "Re-recording {0} clips."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:879
+#: onedesk/one_mail/rules.py:883
 #, python-brace-format
 msgid "Re: {0}"
 msgstr ""
@@ -43191,7 +43187,7 @@ msgstr ""
 msgid "Reading the check-ins"
 msgstr ""
 
-#: onedesk/public/js/one_ai/panel/Panel.vue:641
+#: onedesk/public/js/one_ai/panel/Panel.vue:643
 msgid "Reading what it found…"
 msgstr ""
 
@@ -44577,11 +44573,11 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:39
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 #: onedesk/public/js/one_ai/panel/Panel.vue:23
-#: onedesk/public/js/one_ai/panel/Panel.vue:532 onedesk/public/js/record.js:160
+#: onedesk/public/js/one_ai/panel/Panel.vue:534 onedesk/public/js/record.js:160
 msgid "Rename"
 msgstr ""
 
-#: onedesk/public/js/one_ai/panel/Panel.vue:531
+#: onedesk/public/js/one_ai/panel/Panel.vue:533
 msgid "Rename Conversation"
 msgstr ""
 
@@ -44820,10 +44816,9 @@ msgstr ""
 #: frontend/src/mail/MailConversation.vue:83
 #: frontend/src/mail/MailConversation.vue:124
 #: frontend/src/sheet/components/SheetEditor/index.vue:1124
-#: onedesk/one_ai/chat.py:317
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
-#: onedesk/one_mail/agent.py:946
+#: onedesk/one_ai/drawn.py:100 onedesk/one_mail/agent.py:946
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
 #: onedesk/one_mail/flow.py:320 onedesk/one_mail/shortcuts.py:11
 #: onedesk/public/js/one_mail/rule_builder.js:43
@@ -49572,8 +49567,9 @@ msgid "Sign-off to go live"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/mail/OneMail.vue:342 onedesk/one_ai/chat.py:348
+#: frontend/src/mail/OneMail.vue:342
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
+#: onedesk/one_ai/drawn.py:131
 #: onedesk/public/js/one_mail/onemail_settings.js:198
 #: onedesk/public/js/one_mail/onemail_settings.js:200
 msgid "Signature"
@@ -51535,7 +51531,7 @@ msgstr ""
 msgid "Still Owed"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:126 onedesk/one_chat/answers.py:44
+#: onedesk/one_chat/answers.py:48
 msgid "Still answering the last question."
 msgstr ""
 
@@ -52221,7 +52217,7 @@ msgstr ""
 #: frontend/src/mail/MailList.vue:21
 #: onedesk/one/custom/notification_type.json:55
 #: onedesk/one/notification_words.py:227 onedesk/one/notify.py:274
-#: onedesk/one/rules.py:44 onedesk/one_ai/chat.py:327
+#: onedesk/one/rules.py:44 onedesk/one_ai/drawn.py:110
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:41
@@ -52384,11 +52380,11 @@ msgstr ""
 msgid "Suggested"
 msgstr ""
 
-#: onedesk/public/js/one_ai/panel/Panel.vue:746
+#: onedesk/public/js/one_ai/panel/Panel.vue:748
 msgid "Suggested a change"
 msgstr ""
 
-#: onedesk/public/js/one_ai/panel/Panel.vue:746
+#: onedesk/public/js/one_ai/panel/Panel.vue:748
 #, python-brace-format
 msgid "Suggested a change to {0}"
 msgstr ""
@@ -52398,7 +52394,7 @@ msgstr ""
 msgid "Suggested by {0} and approved by {1}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:734 onedesk/one_hr/agent.py:395
+#: onedesk/one_ai/tools.py:680 onedesk/one_hr/agent.py:395
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -53961,7 +53957,7 @@ msgstr ""
 #: onedesk/one/notification_center.py:154 onedesk/one/people.py:112
 #: onedesk/one/people.py:125 onedesk/one/rights.py:87 onedesk/one/rights.py:185
 #: onedesk/one_mail/agent.py:1334 onedesk/one_mail/flow.py:202
-#: onedesk/one_mail/rules.py:825 onedesk/one_studio/ai_setup.py:825
+#: onedesk/one_mail/rules.py:829 onedesk/one_studio/ai_setup.py:825
 #: onedesk/one_studio/reports.py:210 onedesk/one_studio/reports.py:242
 msgid "That cannot be set."
 msgstr ""
@@ -53970,7 +53966,7 @@ msgstr ""
 msgid "That code doesn't open an app for this workspace."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:192 onedesk/public/js/one_ai/panel/Panel.vue:676
+#: onedesk/one_chat/answers.py:122 onedesk/public/js/one_ai/panel/Panel.vue:678
 msgid "That did not go through."
 msgstr ""
 
@@ -54064,7 +54060,7 @@ msgstr ""
 msgid "That plan is no longer on offer. Start again."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1103
+#: onedesk/one_mail/rules.py:1107
 msgid "That rule is not in this mailbox."
 msgstr ""
 
@@ -54791,7 +54787,7 @@ msgstr ""
 msgid "The day before your exit interview."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:827
+#: onedesk/one_mail/rules.py:831
 msgid "The day it ends can't be before the day it starts."
 msgstr ""
 
@@ -56856,8 +56852,8 @@ msgid "Things only an administrator can put right, such as a mailbox that stoppe
 msgstr ""
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:412
-#: onedesk/public/js/one_ai/panel/Panel.vue:589
-#: onedesk/public/js/one_ai/panel/Panel.vue:641
+#: onedesk/public/js/one_ai/panel/Panel.vue:591
+#: onedesk/public/js/one_ai/panel/Panel.vue:643
 msgid "Thinking…"
 msgstr ""
 
@@ -56962,7 +56958,7 @@ msgstr ""
 msgid "This conversation doesn't exist."
 msgstr ""
 
-#: onedesk/one_chat/panel.py:54
+#: onedesk/one_chat/panel.py:56
 msgid "This conversation isn't with an agent."
 msgstr ""
 
@@ -58109,7 +58105,7 @@ msgstr ""
 #. Label in the One Timesheet print format
 #: frontend/src/chat/ChannelList.vue:120 frontend/src/intake/IntakePay.vue:33
 #: frontend/src/mail/MailConversation.vue:78
-#: frontend/src/slide/shim/WidgetSection.vue:44 onedesk/one_ai/chat.py:326
+#: frontend/src/slide/shim/WidgetSection.vue:44 onedesk/one_ai/drawn.py:109
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
 #: onedesk/one_book/print_format/one_journal_credit_note/one_journal_credit_note.json
@@ -59602,7 +59598,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: onedesk/one_chat/agents.py:24
+#: onedesk/one_chat/agents.py:23
 msgid "Una"
 msgstr ""
 
@@ -60122,11 +60118,11 @@ msgstr ""
 #: frontend/portal/src/pages/Password.vue:4
 #: frontend/src/admin/ServerMetrics.vue:115
 #: frontend/src/doc/components/WriterSettings.vue:134
-#: onedesk/one_ai/chat.py:337
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading/reading.json:324
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:39
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
+#: onedesk/one_ai/drawn.py:120
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 #: onedesk/public/js/doctype_settings.js:413
 #: onedesk/public/js/doctype_settings.js:924
@@ -67114,7 +67110,7 @@ msgstr ""
 #: onedesk/one/access.py:26 onedesk/one/ai_approvals.py:200
 #: onedesk/one/ai_automations.py:201 onedesk/one/ai_printing.py:238
 #: onedesk/one/ai_printing.py:241 onedesk/one_ai/access.py:22
-#: onedesk/one_ai/chat.py:700 onedesk/one_book/access.py:20
+#: onedesk/one_ai/drawn.py:422 onedesk/one_book/access.py:20
 #: onedesk/one_calendar/access.py:22 onedesk/one_chat/access.py:23
 #: onedesk/one_crm/access.py:25 onedesk/one_deck/access.py:24
 #: onedesk/one_display/access.py:18 onedesk/one_doc/access.py:24
@@ -67933,7 +67929,7 @@ msgstr ""
 msgid "Your mailboxes and folders that {0} reads, files and acts on as you."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:879
+#: onedesk/one_mail/rules.py:883
 msgid "Your message"
 msgstr ""
 
@@ -69049,7 +69045,7 @@ msgid "kept the changes not saved to {0}"
 msgstr ""
 
 #: onedesk/one/ai_customize.py:252 onedesk/one/ai_customize.py:254
-#: onedesk/one/shortcut_center.py:97
+#: onedesk/one/shortcut_center.py:97 onedesk/one_chat/answers.py:65
 #: onedesk/one_display/doctype/widget_collection/widget_collection.py:21
 #: onedesk/one_display/doctype/widget_collection/widget_collection.py:23
 msgid "label"
@@ -70720,7 +70716,7 @@ msgstr ""
 msgid "{0} can't be sent by a webhook."
 msgstr ""
 
-#: onedesk/one/apps.py:307
+#: onedesk/one/apps.py:308
 #, python-brace-format
 msgid "{0} can't be turned off."
 msgstr ""
@@ -70730,7 +70726,7 @@ msgstr ""
 msgid "{0} can't be turned off. Shared links depend on it."
 msgstr ""
 
-#: onedesk/one/apps.py:186
+#: onedesk/one/apps.py:187
 #, python-brace-format
 msgid "{0} can't be turned off. {1}"
 msgstr ""
@@ -70926,12 +70922,12 @@ msgstr ""
 msgid "{0} costs, {1}"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:187
+#: onedesk/one_chat/answers.py:117
 #, python-brace-format
 msgid "{0} could not answer. Try again in a moment."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:430
+#: onedesk/one_chat/answers.py:154
 #, python-brace-format
 msgid "{0} could not be reached. The question is still here — try again."
 msgstr ""
@@ -72035,7 +72031,7 @@ msgstr ""
 msgid "{0} is more than the {1} still owed."
 msgstr ""
 
-#: onedesk/one/apps.py:188
+#: onedesk/one/apps.py:189
 #, python-brace-format
 msgid "{0} is needed by {1}, so it can't be turned off."
 msgstr ""
@@ -72240,7 +72236,7 @@ msgstr ""
 msgid "{0} is not a template for {1}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:706
+#: onedesk/one_ai/tools.py:652
 #, python-brace-format
 msgid "{0} is not a tool."
 msgstr ""
@@ -72442,11 +72438,6 @@ msgstr ""
 msgid "{0} is not working."
 msgstr ""
 
-#: onedesk/one_ai/chat.py:117
-#, python-brace-format
-msgid "{0} is off"
-msgstr ""
-
 #: onedesk/one_cloud/mounts.py:89
 #, python-brace-format
 msgid "{0} is on a private network. {1} can't connect to it."
@@ -72588,8 +72579,7 @@ msgstr ""
 msgid "{0} is turned off for this workspace, so this opens read-only."
 msgstr ""
 
-#: onedesk/one/apps.py:90 onedesk/one_ai/chat.py:117
-#: onedesk/one_chat/answers.py:41
+#: onedesk/one/apps.py:91 onedesk/one_chat/answers.py:45
 #, python-brace-format
 msgid "{0} is turned off for this workspace."
 msgstr ""
@@ -73876,7 +73866,7 @@ msgstr ""
 msgid "{0} was already {1}."
 msgstr ""
 
-#: onedesk/one/apps.py:192
+#: onedesk/one/apps.py:193
 #, python-brace-format
 msgid "{0} was also turned on for {1}."
 msgstr ""
@@ -74231,7 +74221,7 @@ msgstr ""
 msgid "{0}, free until {1}"
 msgstr ""
 
-#: onedesk/one_ai/chat.py:754
+#: onedesk/one_ai/drawn.py:441
 #, python-brace-format
 msgid "{0}, from the card above"
 msgstr ""

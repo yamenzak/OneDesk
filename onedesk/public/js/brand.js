@@ -102,10 +102,15 @@ onedesk.brand.text = (node, inside = false) => {
 };
 
 /** The sprite's mark for a product, as its manifest names it. */
-onedesk.brand.mark_of = (rest) => {
-	const id = Object.values(frappe.boot?.one_names || {}).find((one) => one.name === `One${rest}`)?.mark;
+onedesk.brand.mark_named = (name) => {
+	const id = Object.values(frappe.boot?.one_names || {}).find((one) => one.name === name)?.mark;
 	return id && document.getElementById(`icon-${id}`) ? id : null;
 };
+
+onedesk.brand.mark_of = (rest) => onedesk.brand.mark_named(`One${rest}`);
+
+/** A centre's own mark, HelpCenter's from "Help", or One's where it has none. */
+onedesk.brand.center_mark = (first) => onedesk.brand.mark_named(`${first}Center`) || "one";
 
 /** A product's name: One light. In a sentence its mark goes before it, as
  * the lone One's does; a label that is only the name draws its own icon. */
@@ -133,13 +138,13 @@ onedesk.brand.named = (rest, marked = false) => {
 // Where a centre's name already has its own icon beside it: a rail row.
 onedesk.brand.CENTER_ICONED = ".sidebar-item-label, .settings-dialog-tab-label, .one-set-row:has(> .one-set-lead) .one-set-title";
 
-/** A centre's name, such as HelpCenter: One's mark, the first word light
+/** A centre's name, such as HelpCenter: its mark, the first word light
  * and Center after it, in a sentence and at the top of the centre alike;
  * on a rail row, beside the row's own icon, without the mark. */
 onedesk.brand.center = (first, marked = true) => {
 	const name = document.createElement("span");
 	name.className = marked ? "one-name one-solo" : "one-name";
-	if (marked) name.innerHTML = frappe.utils.icon("one", { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
+	if (marked) name.innerHTML = frappe.utils.icon(onedesk.brand.center_mark(first), { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
 	const word = document.createElement("span");
 	const light = document.createElement("span");
 	light.className = "one-light";

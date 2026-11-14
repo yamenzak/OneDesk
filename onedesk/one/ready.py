@@ -75,6 +75,8 @@ SHARED = {
 	"brand/oneinventory.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onefactory.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onequality.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/accountcenter.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/trustcenter.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onechat.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onecrm.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onehr.svg": "every product's mark is drawn in brand/, into one sprite",
