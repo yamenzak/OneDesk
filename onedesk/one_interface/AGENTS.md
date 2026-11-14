@@ -219,6 +219,38 @@ in that ink with its white parts cut back to the frame, generated beside the
 coloured one by `scripts/icons.py` as `NAME-flat`, the app you are in as
 well. Saving it reaches open screens at once (`one_frame`).
 
+## The workspace's identity
+
+A workspace's own name, logo and colour are one setting, One's
+ControlCenter › Branding, under Workspace (`one_interface/identity.py`,
+`one/control.py`), and each is kept in frappe's own field where frappe
+has one: **Workspace Name** is Website Settings' `app_name` (with System
+Settings' `app_name`), **Workspace Logo** is Website Settings' `app_logo`
+(with Navbar Settings' `app_logo`, the `favicon` and the `splash_image`),
+and the colour is the company's **Brand Colour** (`one_brand_colour`),
+since frappe keeps none for a site. A field still on One's own
+(`one/brand.py` DEFAULTS) is unset, so a workspace that sets none looks as
+it did. What reads it:
+
+- the top bar: the logo and the name at its start (chrome.js `brand`,
+  from boot's `one_brand`); unset, the name is the workspace account's;
+- frappe's sign-in page, the desk's tab title and icon and its splash,
+  which read those fields themselves (scripts/overrides.py rows);
+- the installed app: `identity.manifest`, linked from the desk's head;
+- every framed mail (`notify.one_mail_brand`): the name and a logo that is
+  not an SVG, else the company's logo as before;
+- the accent of every look, palette and theme: the server works out the
+  colour's shades (`identity.shades`: the colour with the letter heads'
+  ink, the colour darkened to read on white, and lifted to read on the dark
+  page with ink on it), chrome.js sets them on the root as `--one-brand*`
+  with `data-one-brand`, and tokens.css (The workspace's colour) points
+  `--one-primary-bg`, `--one-primary-ink`, `--one-accent` and `--one-focus`
+  at them under selectors that outweigh every palette's light and dark
+  blocks. `--one-chosen` and `--one-check` follow, being made of those.
+
+One's own marks (the One mark atop the rail, OneHub, the centres) stay
+One's. Saving reaches open screens at once (`one_brand`).
+
 ## The record panel
 
 A form's sidebar is the window's details pane (`details({ pane })`): the

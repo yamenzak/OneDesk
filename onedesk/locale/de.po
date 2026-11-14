@@ -49140,6 +49140,15 @@ msgstr "Wird auf allen Bildschirmen angezeigt, bis der Alarm beendet ist."
 msgid "Shown on the screen at {0}, or on a radio at {1}."
 msgstr "Wird auf dem Bildschirm unter {0} oder auf einem Radio unter {1} angezeigt."
 
+#: onedesk/one/control.py:207
+msgid "Shown on the sign-in page, the browser tab, the top bar and mails."
+msgstr "Wird auf der Anmeldeseite, im Browser-Tab, in der oberen Leiste und in E-Mails angezeigt."
+
+#: onedesk/one/control.py:214
+#, python-brace-format
+msgid "Shown on the sign-in page, the browser tab, the top bar and mails. Leave empty for {0}'s own."
+msgstr "Wird auf der Anmeldeseite, im Browser-Tab, in der oberen Leiste und in E-Mails angezeigt. Leer lassen, um das von {0} zu verwenden."
+
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:43
 msgid "Shown only once, for deploy/local/link.sh on the machine that serves the site."
 msgstr "Wird nur einmal angezeigt, für deploy/local/link.sh auf dem Rechner, der die Website bereitstellt."
@@ -54985,10 +54994,6 @@ msgstr "Die Listen, in denen Preise für Einkauf und Verkauf stehen."
 msgid "The lock that lets the holder save this file."
 msgstr "Die Sperre, mit der die belegende Person diese Datei speichern kann."
 
-#: onedesk/public/js/one/one_control.js:285
-msgid "The logo and colours on letter heads and around every screen."
-msgstr "Das Logo und die Farben auf Briefköpfen und um jeden Bildschirm."
-
 #. Description of the 'Folder' (Data) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json:21
 msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
@@ -56104,6 +56109,10 @@ msgstr "Die Dateien des Arbeitsbereichs belegen {used} der {limit}, die sein Tar
 #: onedesk/one_admin/heads.py:406
 msgid "The workspace's main address."
 msgstr "Die Hauptadresse des Arbeitsbereichs."
+
+#: onedesk/public/js/one/one_control.js:312
+msgid "The workspace's name, logo and colours, and the logo on letter heads."
+msgstr "Name, Logo und Farben des Arbeitsbereichs sowie das Logo auf Briefköpfen."
 
 #. Description of the 'Rule' (Data) field in DocType 'Notification Type'
 #: onedesk/one/custom/notification_type.json:177
@@ -60198,13 +60207,13 @@ msgstr "Von {1} verbraucht, {0} Aufrufe"
 msgid "Used for attendance, leave and the calendar."
 msgstr "Wird für Anwesenheit, Urlaub und den Kalender verwendet."
 
+#: onedesk/one/control.py:351
+msgid "Used for buttons and highlights on every screen, and for letter heads and mails."
+msgstr "Wird für Schaltflächen und Hervorhebungen auf jedem Bildschirm sowie für Briefköpfe und E-Mails verwendet."
+
 #: frontend/src/inventory/to_order/ToOrderPage.vue:163
 msgid "Used for lines without a default supplier."
 msgstr "Wird für Positionen ohne Standardlieferanten verwendet."
-
-#: onedesk/one/control.py:325
-msgid "Used for the company name, lines and banner in letter heads."
-msgstr "Wird für Firmenname, Linien und Banner im Briefkopf verwendet."
 
 #: frontend/portal/src/pages/Start.vue:72
 msgid "Used for the workspace, its books and its dates."
@@ -66236,6 +66245,10 @@ msgstr "Arbeitsbereich-ID"
 #: onedesk/public/js/one_ai/ai_center.js:374
 msgid "Workspace Knowledge"
 msgstr "Wissen des Arbeitsbereichs"
+
+#: onedesk/one/control.py:212
+msgid "Workspace Logo"
+msgstr "Logo des Arbeitsbereichs"
 
 #. Label of the one_shared (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json:33

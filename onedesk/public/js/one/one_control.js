@@ -59,7 +59,15 @@ onedesk.OneSection = class OneSection extends onedesk.CenterSection {
 	}
 
 	draw_branding(data) {
-		this.form(data, { rows: [["company_logo", "one_brand_colour"], ["one_frame_colour", ""]] });
+		this.form(data, {
+			rows: [
+				{ heading: __("Workspace") },
+				["app_name", "app_logo"],
+				["one_brand_colour", "one_frame_colour"],
+				{ heading: __("Documents") },
+				["company_logo", ""],
+			],
+		});
 	}
 
 	draw_formats(data) {
@@ -301,7 +309,7 @@ onedesk.centers.part("settings", "One", {
 		const said = await frappe.xcall(onedesk.OneSection.API + "sections_of");
 		const about = {
 			company: __("The company, how to reach it and its address."),
-			branding: __("The logo and colours on letter heads and around every screen."),
+			branding: __("The workspace's name, logo and colours, and the logo on letter heads."),
 			formats: __("Language, time zone, how dates and numbers read, and amounts."),
 			signin: __("How people sign in to the workspace, and for how long."),
 			sharing: __("What people may share outside their own access."),

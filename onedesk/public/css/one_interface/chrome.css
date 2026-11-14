@@ -530,6 +530,17 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	white-space: nowrap;
 }
 
+/* The workspace's logo before its name, when Branding sets one
+   (chrome.js `brand`). */
+.one-bar-logo {
+	height: 16px;
+	width: auto;
+	max-width: 64px;
+	margin-inline-start: 6px;
+	object-fit: contain;
+	border-radius: var(--one-radius-small);
+}
+
 /* The window on screen tells the bottom bar what is here and pages through
    it (frame.js place_status): frappe's own count and paging, on the frame. */
 .one-bar-status {

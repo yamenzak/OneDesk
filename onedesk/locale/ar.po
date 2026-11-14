@@ -49140,6 +49140,15 @@ msgstr "يُعرض على جميع الشاشات حتى ينتهي التنبي
 msgid "Shown on the screen at {0}, or on a radio at {1}."
 msgstr "يظهر على الشاشة في {0}، أو على الراديو في {1}."
 
+#: onedesk/one/control.py:207
+msgid "Shown on the sign-in page, the browser tab, the top bar and mails."
+msgstr "يظهر في صفحة تسجيل الدخول وتبويب المتصفح والشريط العلوي والرسائل."
+
+#: onedesk/one/control.py:214
+#, python-brace-format
+msgid "Shown on the sign-in page, the browser tab, the top bar and mails. Leave empty for {0}'s own."
+msgstr "يظهر في صفحة تسجيل الدخول وتبويب المتصفح والشريط العلوي والرسائل. اتركه فارغًا لاستخدام ما لدى {0}."
+
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:43
 msgid "Shown only once, for deploy/local/link.sh on the machine that serves the site."
 msgstr "تُعرض مرة واحدة فقط، لاستخدامها في deploy/local/link.sh على الجهاز الذي يخدم الموقع."
@@ -54985,10 +54994,6 @@ msgstr "القوائم التي تُحفظ فيها الأسعار، للشرا�
 msgid "The lock that lets the holder save this file."
 msgstr "القفل الذي يتيح لصاحب الحجز حفظ هذا الملف."
 
-#: onedesk/public/js/one/one_control.js:285
-msgid "The logo and colours on letter heads and around every screen."
-msgstr "الشعار والألوان على الترويسات وحول كل شاشة."
-
 #. Description of the 'Folder' (Data) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json:21
 msgid "The mailbox folder it is in, by its name on the server, or INBOX, Sent, Archive, Junk or Trash for an address on the mail domain."
@@ -56104,6 +56109,10 @@ msgstr "تشغل ملفات مساحة العمل {used} من {limit} تسمح �
 #: onedesk/one_admin/heads.py:406
 msgid "The workspace's main address."
 msgstr "العنوان الرئيسي لمساحة العمل."
+
+#: onedesk/public/js/one/one_control.js:312
+msgid "The workspace's name, logo and colours, and the logo on letter heads."
+msgstr "اسم مساحة العمل وشعارها وألوانها، والشعار على الترويسات."
 
 #. Description of the 'Rule' (Data) field in DocType 'Notification Type'
 #: onedesk/one/custom/notification_type.json:177
@@ -60198,13 +60207,13 @@ msgstr "استخدمه {1}، {0} طلبات"
 msgid "Used for attendance, leave and the calendar."
 msgstr "يُستخدم للحضور والإجازات والتقويم."
 
+#: onedesk/one/control.py:351
+msgid "Used for buttons and highlights on every screen, and for letter heads and mails."
+msgstr "يُستخدم للأزرار والإبرازات في كل شاشة، وللترويسات والرسائل."
+
 #: frontend/src/inventory/to_order/ToOrderPage.vue:163
 msgid "Used for lines without a default supplier."
 msgstr "يُستخدم للبنود التي ليس لها مورد افتراضي."
-
-#: onedesk/one/control.py:325
-msgid "Used for the company name, lines and banner in letter heads."
-msgstr "يُستخدم لاسم الشركة والخطوط والشريط في الترويسات."
 
 #: frontend/portal/src/pages/Start.vue:72
 msgid "Used for the workspace, its books and its dates."
@@ -66236,6 +66245,10 @@ msgstr "معرّف مساحة العمل"
 #: onedesk/public/js/one_ai/ai_center.js:374
 msgid "Workspace Knowledge"
 msgstr "معرفة مساحة العمل"
+
+#: onedesk/one/control.py:212
+msgid "Workspace Logo"
+msgstr "شعار مساحة العمل"
 
 #. Label of the one_shared (Check) field in DocType 'Email Account'
 #: onedesk/one_mail/custom/email_account.json:33

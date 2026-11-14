@@ -242,6 +242,48 @@
 }
 
 
+/* ── The workspace's colour ───────────────────────────────────────── */
+
+/* A workspace's Brand Colour (One's ControlCenter › Branding,
+   one_interface/identity.py) is the accent in every look, palette and
+   theme: the main button, what is chosen (--one-chosen is made of the
+   main button's colour), done steps, ticks and the focus ring. chrome.js
+   (`brand`) sets its shades on the root with data-one-brand, each worked
+   out on the server to read where it stands: in light the button is the
+   colour with white or ink on it, and the accent is the colour darkened
+   until it reads on white; in dark all three are the colour lifted until
+   it reads on the dark page, with ink on it. These are their names until
+   then; without data-one-brand nothing here applies, and every palette
+   draws its own. The selectors outweigh a palette's light and dark
+   blocks. */
+:root[data-one-brand] {
+	--one-brand: var(--one-ink-strong);
+	--one-brand-ink: var(--one-surface);
+	--one-brand-accent: var(--one-ink-strong);
+	--one-brand-dark: var(--one-ink-strong);
+	--one-brand-dark-ink: var(--one-surface);
+}
+
+:root[data-one-brand][data-theme],
+:root[data-one-brand][data-theme][data-one-palette],
+:root[data-one-brand] .one-sample[data-theme] {
+	--one-primary-bg: var(--one-brand);
+	--one-primary-ink: var(--one-brand-ink);
+	--one-accent: var(--one-brand-accent);
+	--one-accent-ink: var(--one-over-white-950);
+	--one-focus: var(--one-brand-accent);
+}
+
+:root[data-one-brand][data-theme="dark"],
+:root[data-one-brand][data-theme="dark"][data-one-palette],
+:root[data-one-brand] .one-sample[data-theme="dark"] {
+	--one-primary-bg: var(--one-brand-dark);
+	--one-primary-ink: var(--one-brand-dark-ink);
+	--one-accent: var(--one-brand-dark);
+	--one-accent-ink: var(--one-brand-dark-ink);
+	--one-focus: var(--one-brand-dark);
+}
+
 /* ── Islands: what a palette's greys are, for a shadow root to read ── */
 
 /* An island draws in its own shadow root with frappe-ui's own greys, which

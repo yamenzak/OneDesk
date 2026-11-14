@@ -10,10 +10,11 @@ from typing import Annotated
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import avatars, roles, tell
+from onedesk.one import avatars, registry, roles, tell
 from onedesk.one.sections import as_opened
 from onedesk.one.sections import fields as fields_of
 from onedesk.one.sections import opened as opened_of
+from onedesk.one_interface import identity
 
 SECTIONS = [
 	("company", _lt("Company"), "building-2"),
@@ -29,7 +30,7 @@ SECTIONS = [
 # still asks for it by that name (the demo's build and checks).
 HOLDS = {
 	"company": ("phone_no", "email", "website", "tax_id", "address_line1", "address_line2", "city", "state", "pincode", "email_footer_address"),
-	"branding": ("company_logo", "one_brand_icon", "one_brand_colour", "one_frame_colour"),
+	"branding": ("app_name", "app_logo", "company_logo", "one_brand_icon", "one_brand_colour", "one_frame_colour"),
 	"formats": (
 		"language",
 		"time_zone",
@@ -149,6 +150,7 @@ def _general(section: str = "general") -> dict:
 		+ fields_of("Address", ADDRESS)
 		+ _zones(_switches(fields_of("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
 		+ _switches(fields_of("Global Defaults", AMOUNTS))
+		+ _identity_fields(account.workspace_name or (company.company_name if company else ""))
 	)
 	said = {
 		"name": account.workspace_name,
@@ -160,6 +162,8 @@ def _general(section: str = "general") -> dict:
 		+ _sharing_fields()
 		+ _amount_fields(),
 		"values": {
+			"app_name": identity.name() or "",
+			"app_logo": identity.logo() or "",
 			"company_logo": company.company_logo if company else None,
 			**{name: company.get(name) if company else None for name in (*ON_DOCUMENTS, *ON_SCREEN)},
 			**{name: address.get(name) if address else None for name in ADDRESS},
@@ -188,6 +192,28 @@ def _general(section: str = "general") -> dict:
 	said["brand"] = company.get("one_brand_colour") if company else None
 	said["frame"] = company.get("one_frame_colour") if company else None
 	return said
+
+
+def _identity_fields(workspace: str) -> list:
+	"""The workspace's own name and logo (one_interface/identity.py), each
+	kept in Website Settings' own field, so frappe's sign-in page reads it.
+	The logo is uploaded public, since it is shown before anyone signs in."""
+	return [
+		{
+			"fieldname": "app_name",
+			"fieldtype": "Data",
+			"label": _("Workspace Name"),
+			"placeholder": workspace,
+			"description": _("Shown on the sign-in page, the browser tab, the top bar and mails."),
+		},
+		{
+			"fieldname": "app_logo",
+			"fieldtype": "Attach Image",
+			"label": _("Workspace Logo"),
+			"options": {"make_attachments_public": 1},
+			"description": _("Shown on the sign-in page, the browser tab, the top bar and mails. Leave empty for {0}'s own.").format(registry.name("one")),
+		},
+	]
 
 
 def _mail_address(company, address) -> str:
@@ -322,7 +348,7 @@ EXPIRY = (
 
 GENERAL_SAID = {
 	"company_logo": _lt("On printed and sent invoices, quotes and orders."),
-	"one_brand_colour": _lt("Used for the company name, lines and banner in letter heads."),
+	"one_brand_colour": _lt("Used for buttons and highlights on every screen, and for letter heads and mails."),
 	"one_frame_colour": _lt("The rail and the bars around every screen, for everyone. Leave it empty for One's own."),
 	"language": _lt("For everyone who hasn't chosen their own in Profile."),
 	"time_zone": _lt("For everyone who hasn't chosen their own in Profile."),
@@ -447,6 +473,7 @@ def _switches(fields: list) -> list:
 
 def _save_general(values: dict) -> None:
 	company = _company()
+	branded = False
 	if company:
 		changed = {
 			name: values[name] or None
@@ -456,6 +483,7 @@ def _save_general(values: dict) -> None:
 		if changed:
 			as_opened(company).update(changed)
 			company.save(ignore_permissions=True)
+		branded = "one_brand_colour" in changed
 		if "one_frame_colour" in changed:
 			from onedesk.one import company as workspace_company
 
@@ -471,11 +499,16 @@ def _save_general(values: dict) -> None:
 		footer = values.get("email_footer_address", frappe.db.get_single_value("System Settings", "email_footer_address"))
 		if any(name in values for name in ADDRESS) and (footer or "").strip() in ("", was):
 			values["email_footer_address"] = _mail_address(company, _company_address(company))
+	branded = identity.save(values) or branded
+	if branded:
+		frappe.publish_realtime("one_brand", identity.boot(), after_commit=True)
 	_save_amounts(values)
 	system = as_opened(frappe.get_single("System Settings"))
 	guarded = (*SIGNING_IN, "enable_two_factor_auth", "enable_password_policy", "minimum_password_score", "disable_document_sharing")
 	was = {name: system.get(name) for name in guarded}
 	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER) if name in values})
+	if "app_name" in values:
+		system.app_name = (values.get("app_name") or "").strip() or None
 	if "one_record_sharing" in values:
 		system.disable_document_sharing = 0 if frappe.utils.cint(values["one_record_sharing"]) else 1
 	if "one_password" in values:

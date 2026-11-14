@@ -108,7 +108,6 @@ def run(password=None):
 
 
 LOOK = {
-	"one_brand_colour": "#0E6E8C",
 	"phone_no": "+971 4 885 2210",
 	"email": "hello@saharaglass.test",
 	"website": "saharaglass.test",
@@ -116,6 +115,9 @@ LOOK = {
 	"address_line1": "Plot 597-1024, Dubai Investments Park 2",
 	"city": "Dubai",
 }
+
+
+BRAND = {"app_logo": "/assets/onedesk/images/demo/sahara-glass.png", "one_brand_colour": "#0E6E8C"}
 
 
 HEAD = {
@@ -126,12 +128,14 @@ HEAD = {
 
 def _look():
 	"""The company's look and its letter head, set by the owner as a new
-	workspace sets them: General in One's ControlCenter, then Printing."""
+	workspace sets them: General and Branding in One's ControlCenter (the
+	workspace's logo and colour, one_interface/identity.py), then Printing."""
 	from onedesk.one import control
 	from onedesk.one_studio import printing
 
 	with _as(OWNER):
 		control.save("general", LOOK)
+		control.save("branding", BRAND)
 		if not frappe.db.exists("Letter Head", COMPANY):
 			printing.save_letter_head({"letter_head_name": COMPANY, "is_default": 1, **HEAD})
 

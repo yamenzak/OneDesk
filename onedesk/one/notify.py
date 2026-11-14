@@ -687,11 +687,14 @@ def plain(subject: str | None) -> str:
 
 def one_mail_brand(ones: bool = False) -> dict:
 	"""Above every framed mail, and the colour of its button: the workspace's
-	name, its company's logo when a mail can show it (an SVG is shown by
-	almost no client) and its company's Brand Colour. A mail One sends about
-	itself (`from_one`), and every mail from the admin site, wears One's."""
+	own name and logo as Branding sets them (one_interface/identity.py),
+	else its name and its company's logo, when a mail can show it (an SVG is
+	shown by almost no client), and its company's Brand Colour. A mail One
+	sends about itself (`from_one`), and every mail from the admin site,
+	wears One's."""
 	from onedesk.one.privacy_public import workspace
 	from onedesk.one_admin.site import is_admin
+	from onedesk.one_interface import identity
 
 	if ones or is_admin():
 		return {"name": "One", "logo": frappe.utils.get_url(ONE_MARK), "colour": INK, "ink": "#ffffff"}
@@ -701,11 +704,11 @@ def one_mail_brand(ones: bool = False) -> dict:
 		if company
 		else (None, None)
 	)
-	shown = logo and not logo.lower().split("?")[0].endswith(".svg")
+	logo = next((one for one in (identity.logo(), logo) if one and not one.lower().split("?")[0].endswith(".svg")), None)
 	colour = colour if re.fullmatch(r"#[0-9a-fA-F]{6}", colour or "") else INK
 	return {
-		"name": workspace(),
-		"logo": frappe.utils.get_url(logo) if shown else None,
+		"name": identity.name() or workspace(),
+		"logo": frappe.utils.get_url(logo) if logo else None,
 		"colour": colour,
 		"ink": ink(colour),
 	}
