@@ -16,3 +16,8 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   a card's table rows are not editable, only its plain fields.
 - Read state is per conversation; a thread's replies are not counted unread.
 - No Help pictures yet.
+- Website chats: the widget reads the room every three seconds while open,
+  not through socket.io, since a guest may not join a room's realtime; a
+  visitor cannot add a file; the portal (`frontend/portal`) has no chat yet,
+  only the website's pages; one channel answers at a time, so a visitor
+  cannot pick sales or support. A room cannot be opened from a record yet.

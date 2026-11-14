@@ -41,8 +41,8 @@ Holiday**. Then it can:
   you are in.
 - **Tell Someone** in the channel, on the bell and by email or push as they
   chose.
-- **Create a Record**: a task or an issue from the message, linked in its
-  thread.
+- **Create a Record**: a task or an issue from the message, or a lead from a
+  visitor's (Website Chats), linked in its thread.
 - **Let an Agent Answer**, with {one_ai} on: the agent you choose answers in
   the message's thread from the **Instruction** and the conversation alone. It
   looks nothing up, so it can say only what you told it.

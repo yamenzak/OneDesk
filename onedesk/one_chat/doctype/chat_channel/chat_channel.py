@@ -1,4 +1,4 @@
-"""A conversation. Who reads it is its members alone (one_chat/channels.py, has_permission)."""
+"""A conversation. Who reads it is its members, and a room's channel's too (one_chat/channels.py, readers)."""
 
 from frappe.model.document import Document
 

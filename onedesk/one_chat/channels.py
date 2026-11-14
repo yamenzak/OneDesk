@@ -2,8 +2,10 @@
 Raven's channels are (docs/ARC-AI.md, OneChat). A channel that is not
 private can be found and joined by everybody; reading it still takes
 joining. A direct conversation is two people's, an Agent conversation one
-person's with one agent. No role reads around this, an administrator's
-neither: what people say to each other is theirs."""
+person's with one agent. A Room is a conversation with a visitor from the
+website (widget.py): read by its members and by the members of the channel
+it belongs to (`desk`), who answer it. No role reads around this, an
+administrator's neither: what people say to each other is theirs."""
 
 import frappe
 from frappe import _
@@ -11,7 +13,10 @@ from frappe.utils import now_datetime
 
 from onedesk.one_chat import agents
 
-CHANNEL, DIRECT, AGENT = "Channel", "Direct", "Agent"
+CHANNEL, DIRECT, AGENT, ROOM = "Channel", "Direct", "Agent", "Room"
+
+VISITOR = "Guest"
+"""Who a visitor's message is from: they have no user of their own."""
 
 TITLE = 80
 
@@ -25,27 +30,40 @@ def members_of(channel: str) -> list[str]:
 	return frappe.get_all("Chat Channel Member", filters={"parent": channel, "parenttype": "Chat Channel"}, pluck="user")
 
 
+def readers(channel) -> list[str]:
+	"""Who reads a conversation: its members, and a room's channel's too."""
+	if isinstance(channel, str):
+		channel = frappe.db.get_value("Chat Channel", channel, ["name", "kind", "desk"], as_dict=True) or frappe._dict()
+		inside = members_of(channel.name) if channel.name else []
+	else:
+		inside = [one.user for one in channel.get("members") or []]
+	if channel.get("kind") == ROOM and channel.get("desk"):
+		inside = [*inside, *members_of(channel.desk)]
+	return inside
+
+
 def has_permission(doc, ptype=None, user=None, debug=False) -> bool:
-	"""Chat Channel: a member reads and writes it; anybody may make one."""
+	"""Chat Channel: whoever reads it writes it; anybody may make one."""
 	user = user or frappe.session.user
 	if ptype == "create" or doc.is_new():
 		return True
-	return reads([one.user for one in doc.get("members") or []], user)
+	return reads(readers(doc), user)
+
+
+def _mine(user: str) -> str:
+	return f"select parent from `tabChat Channel Member` where parenttype = 'Chat Channel' and user = {user}"
 
 
 def query(user=None) -> str:
 	user = frappe.db.escape(user or frappe.session.user)
-	return (
-		"`tabChat Channel`.name in (select parent from `tabChat Channel Member` "
-		f"where parenttype = 'Chat Channel' and user = {user})"
-	)
+	return f"(`tabChat Channel`.name in ({_mine(user)}) or (`tabChat Channel`.kind = 'Room' and `tabChat Channel`.desk in ({_mine(user)})))"
 
 
 def message_permission(doc, ptype=None, user=None, debug=False) -> bool:
 	"""Chat Message: whoever reads its conversation reads it; only who wrote
 	it changes it."""
 	user = user or frappe.session.user
-	if not reads(members_of(doc.channel), user):
+	if not reads(readers(doc.channel), user):
 		return False
 	if ptype in (None, "read", "create", "select", "print"):
 		return True
@@ -54,10 +72,8 @@ def message_permission(doc, ptype=None, user=None, debug=False) -> bool:
 
 def message_query(user=None) -> str:
 	user = frappe.db.escape(user or frappe.session.user)
-	return (
-		"`tabChat Message`.channel in (select parent from `tabChat Channel Member` "
-		f"where parenttype = 'Chat Channel' and user = {user})"
-	)
+	rooms = f"select name from `tabChat Channel` where kind = 'Room' and desk in ({_mine(user)})"
+	return f"(`tabChat Message`.channel in ({_mine(user)}) or `tabChat Message`.channel in ({rooms}))"
 
 
 def opened(channel: str):
@@ -66,7 +82,7 @@ def opened(channel: str):
 	if not channel or not frappe.db.exists("Chat Channel", channel):
 		frappe.throw(_("This conversation doesn't exist."), frappe.DoesNotExistError)
 	doc = frappe.get_doc("Chat Channel", channel)
-	if not reads([one.user for one in doc.members], frappe.session.user):
+	if not reads(readers(doc), frappe.session.user):
 		frappe.throw(_("You aren't a member of this conversation."), frappe.PermissionError)
 	return doc
 
@@ -170,3 +186,75 @@ def read(channel: str) -> None:
 		now_datetime(),
 		update_modified=False,
 	)
+
+
+def website() -> str | None:
+	"""The channel that answers website chats, if one does."""
+	return frappe.db.get_value("Chat Channel", {"kind": CHANNEL, "website": 1}, "name")
+
+
+def answer_website(channel: str, on: bool) -> None:
+	"""Whether a channel answers website chats: one at a time, so turning it
+	on for one turns it off for the one before. An administrator's call, since
+	it puts a chat on the workspace's website."""
+	from onedesk.one import roles
+
+	doc = opened(channel)
+	if not roles.administers():
+		frappe.throw(_("Your role doesn't allow changing this."), frappe.PermissionError)
+	if doc.kind != CHANNEL:
+		frappe.throw(_("Only a channel can answer website chats."))
+	if on:
+		for one in frappe.get_all("Chat Channel", filters={"website": 1, "name": ["!=", doc.name]}, pluck="name"):
+			frappe.db.set_value("Chat Channel", one, "website", 0)
+	frappe.db.set_value("Chat Channel", doc.name, "website", 1 if on else 0)
+
+
+def room(desk: str, name: str, email: str, key: str, page: str = ""):
+	"""A new room with a visitor, for the people of the channel that answers
+	it. Made for a guest, so nobody is its first member but them."""
+	people = [one for one in members_of(desk) if one and not agents.of_user(one)]
+	doc = frappe.new_doc("Chat Channel")
+	doc.update(
+		{
+			"title": name[:TITLE],
+			"kind": ROOM,
+			"private": 1,
+			"desk": desk,
+			"visitor_name": name,
+			"visitor_email": email,
+			"visitor_key": key,
+			"page": page,
+			"last_message_on": now_datetime(),
+		}
+	)
+	for user in people:
+		doc.append("members", {"user": user})
+	doc.insert(ignore_permissions=True)
+	return doc
+
+
+def forward(channel: str, to: str):
+	"""A room handed to another channel, whose people join it."""
+	doc = opened(channel)
+	if doc.kind != ROOM:
+		frappe.throw(_("Only a room can be forwarded."))
+	target = opened(to)
+	if target.kind != CHANNEL:
+		frappe.throw(_("A room is forwarded to a channel."))
+	held = {one.user for one in doc.members}
+	for user in members_of(target.name):
+		if user and user not in held and not agents.of_user(user):
+			doc.append("members", {"user": user})
+	doc.desk = target.name
+	doc.save(ignore_permissions=True)
+	return doc
+
+
+def close(channel: str, closed: bool = True):
+	"""A room closed, or opened again: closed, its visitor writes no more."""
+	doc = opened(channel)
+	if doc.kind != ROOM:
+		frappe.throw(_("Only a room can be closed."))
+	frappe.db.set_value("Chat Channel", doc.name, "closed", 1 if closed else 0)
+	return doc

@@ -1,10 +1,11 @@
 """OneChat's blocks in AutomationCenter (one/automation/kinds.py): a message
-posted in a channel starts an automation, what is known of the message is
-what its Ifs ask, and each action is OneChat's own function
-(automations.py). What people automate in a team chat, as Slack's Workflow
-Builder and Discord's AutoMod offer it: a reply to words they watch for, a
-message passed to another channel, somebody told, a task or an issue made,
-and an agent answering."""
+posted in a channel, or in one of its rooms, starts an automation, what is
+known of the message is what its Ifs ask, and each action is OneChat's own
+function (automations.py). What people automate in a team chat, as Slack's
+Workflow Builder and Discord's AutoMod offer it, and with a website's
+visitor, as Intercom and Crisp do: a reply to words they watch for, a
+message passed to another channel, a room forwarded, somebody told, a task,
+an issue or a lead made, and an agent answering."""
 
 from frappe import _, _lt
 
@@ -24,13 +25,18 @@ def share(automation, name, step, context):
 	automations.share(automation, name, step)
 
 
+def forward(automation, name, step, context):
+	"""A room handed to another channel (automations.forward)."""
+	automations.forward(automation, name, step)
+
+
 def notify(automation, name, step, context):
 	"""Somebody in the channel told (automations.notify)."""
 	automations.notify(automation, name, step)
 
 
 def create(automation, name, step, context):
-	"""A task or an issue made from the message (automations.create)."""
+	"""A task, an issue or a lead made from the message (automations.create)."""
 	automations.create(automation, name, step)
 
 
@@ -96,12 +102,15 @@ BLOCKS = (
 			"validate": "automations.validate",
 		},
 		starters=starters.of,
-		runs=_lt("Run in order on each message somebody posts in the channel."),
+		runs=_lt("Run in order on each message somebody posts in the channel or a visitor posts in its rooms."),
 	),
 	Condition("text", _lt("Text"), "text", POSTED),
 	Condition("from", _lt("From"), "text", POSTED),
 	Condition("thread", _lt("In a Thread"), "flag", POSTED, no=_lt("Not in a Thread")),
 	Condition("file", _lt("Has File"), "flag", POSTED, no=_lt("No File")),
+	Condition("visitor", _lt("From a Visitor"), "flag", POSTED, no=_lt("From the Team")),
+	Condition("opens", _lt("Starts a Website Chat"), "flag", POSTED, no=_lt("Continues a Website Chat")),
+	Condition("page", _lt("Website Page"), "text", POSTED),
 	Condition("after_hours", _lt("After Hours"), "flag", POSTED, no=_lt("In Working Hours")),
 	Condition("holiday", _lt("On a Holiday"), "flag", POSTED, no=_lt("Not on a Holiday")),
 	Action(
@@ -148,6 +157,17 @@ BLOCKS = (
 		params=(Param("channel", _lt("Channel"), "choice", "channels"),),
 		check=_shares,
 		words=lambda step, offers: _("Post in {0}").format(_name_of(offers, step.get("channel"))),
+	),
+	Action(
+		"chat_forward",
+		_lt("Forward the Chat"),
+		"users",
+		forward,
+		group=_lt("Forwarding"),
+		triggers=(POSTED,),
+		params=(Param("channel", _lt("Channel"), "choice", "channels"),),
+		check=_shares,
+		words=lambda step, offers: _("Forward to {0}").format(_name_of(offers, step.get("channel"))),
 	),
 	Action(
 		"chat_notify",

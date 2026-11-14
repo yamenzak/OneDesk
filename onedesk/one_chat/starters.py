@@ -60,6 +60,25 @@ def of(offers: dict) -> list[dict]:
 			[_when([{"field": "thread", "value": False}], [{"type": "chat_create", "doctype": "Issue"}])],
 		),
 	]
+	opens = {"field": "opens", "value": True}
+	said += [
+		_starter(
+			_("Website Chats"),
+			"lead",
+			"user-plus",
+			_("Lead From a Website Chat"),
+			_("Make a lead of each visitor who starts a chat, and say so in its thread."),
+			[_when([opens], [{"type": "chat_create", "doctype": "Lead"}])],
+		),
+		_starter(
+			_("Website Chats"),
+			"closed_chat",
+			"moon",
+			_("Closed for Website Chats"),
+			_("Answer a visitor who starts a chat after hours or on a holiday."),
+			[_when([opens, closed], [{"type": "chat_reply", "text": _("Thank you for your message. Our office is closed now, and we will reply here when we open.")}])],
+		),
+	]
 	if offers.get("ai"):
 		said.append(
 			_starter(

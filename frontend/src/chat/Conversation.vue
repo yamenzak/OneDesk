@@ -4,12 +4,16 @@
       <Button v-if="back" size="sm" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" @click="$emit('back')" />
       <img v-if="agentOf(info.agent)?.face" :src="face(agentOf(info.agent))" alt="" class="size-6 rounded-full bg-surface-gray-2" />
       <span v-else-if="!thread && info.kind === 'Channel'" :class="info.private ? 'lucide-lock' : 'lucide-hash'" class="size-4 text-ink-gray-5" aria-hidden="true" />
+      <Avatar v-else-if="!thread && room" :label="room.visitor" size="md" />
       <div class="flex min-w-0 flex-1 flex-col">
         <h2 class="truncate text-base font-semibold text-ink-gray-9">{{ thread ? __("Thread") : info.title }}</h2>
-        <span v-if="!thread && info.about" class="truncate text-sm text-ink-gray-5">{{ info.about }}</span>
+        <span v-if="!thread && room" class="truncate text-sm text-ink-gray-5" dir="auto">{{ roomLine }}</span>
+        <span v-else-if="!thread && info.about" class="truncate text-sm text-ink-gray-5">{{ info.about }}</span>
       </div>
+      <Badge v-if="!thread && room && room.closed" :label="__('Closed')" theme="gray" size="sm" />
+      <Badge v-else-if="!thread && info.website" :label="__('Website Chats')" theme="gray" size="sm" />
       <People v-if="!thread && info.kind === 'Channel'" :users="people" :people="peopleInfo" size="sm" />
-      <Dropdown v-if="!thread && info.kind === 'Channel'" :options="menu">
+      <Dropdown v-if="!thread && (info.kind === 'Channel' || room)" :options="menu">
         <template #trigger><Button size="sm" variant="ghost" icon="lucide-more-horizontal" :aria-label="__('More')" /></template>
       </Dropdown>
       <Button v-if="thread" size="sm" variant="ghost" icon="lucide-x" :aria-label="__('Close')" @click="$emit('close')" />
@@ -28,7 +32,7 @@
           :agents="agents"
           :card="one.action ? cards[one.action] : null"
           :first="thread && at === 0"
-          :threads="!thread && info.kind === 'Channel'"
+          :threads="!thread && (info.kind === 'Channel' || !!room)"
           @thread="$emit('thread', one.name)"
           @react="(emoji) => react(one, emoji)"
           @card="(card) => (cards = { ...cards, [card.name]: card })"
@@ -55,9 +59,9 @@
 
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref } from "vue";
-import { Button, Dropdown, LoadingIndicator } from "frappe-ui";
+import { Avatar, Badge, Button, Dropdown, LoadingIndicator } from "frappe-ui";
 
-import { Loading, OneAlert, People, __, call, get, listen, listenTo, mentionable, onedesk, prompt, userInfo } from "../kit";
+import { Loading, OneAlert, People, __, call, get, goTo, listen, listenTo, mentionable, onedesk, prompt, userInfo } from "../kit";
 import { face, method } from "./chat";
 import Composer from "./Composer.vue";
 import Message from "./Message.vue";
@@ -83,16 +87,51 @@ let running = null;
 const agentOf = (agent) => props.agents.find((one) => one.agent === agent);
 const people = computed(() => (info.value.members || []).filter((one) => one.user && !one.agent).map((one) => one.user));
 const peopleInfo = computed(() => Object.fromEntries(people.value.map((user) => [user, userInfo(user)])));
+const room = computed(() => info.value.room || null);
+const roomLine = computed(() => [room.value?.email, room.value?.page, room.value?.desk_title].filter(Boolean).join(" · "));
 const placeholder = computed(() => {
+  if (props.thread && room.value) return __("Note for the Team");
   if (props.thread) return __("Reply");
   if (info.value.kind === "Agent") return __("Ask {0}", [agentOf(info.value.agent)?.name || info.value.title || ""]);
   return __("Message {0}", [info.value.title || ""]);
 });
 
-const menu = computed(() => [
-  { label: __("Add People"), icon: "user-plus", onClick: addPeople },
-  { label: __("Leave Channel"), icon: "log-out", onClick: leave },
-]);
+const menu = computed(() => {
+  if (room.value) {
+    return [
+      ...(room.value.reference_name ? [{ label: __("Open {0}", [__(room.value.reference_doctype)]), icon: "external-link", onClick: () => goTo("Form", room.value.reference_doctype, room.value.reference_name) }] : []),
+      { label: __("Forward"), icon: "forward", onClick: forward },
+      room.value.closed ? { label: __("Open Again"), icon: "rotate-ccw", onClick: () => close(0) } : { label: __("Close Chat"), icon: "check", onClick: () => close(1) },
+    ];
+  }
+  return [
+    { label: __("Add People"), icon: "user-plus", onClick: addPeople },
+    ...(info.value.may_website ? [{ label: info.value.website ? __("Stop Answering Website Chats") : __("Answer Website Chats"), icon: "globe", onClick: website }] : []),
+    { label: __("Leave Channel"), icon: "log-out", onClick: leave },
+  ];
+});
+
+function forward() {
+  prompt(
+    { fieldname: "to", fieldtype: "Link", options: "Chat Channel", label: __("Channel"), reqd: 1, get_query: () => ({ filters: { kind: "Channel", name: ["!=", room.value.desk] } }) },
+    async ({ to }) => {
+      await call(method("forward"), { channel: props.channel, to });
+      load();
+    },
+    __("Forward"),
+    __("Forward"),
+  );
+}
+
+async function close(closed) {
+  await call(method("close"), { channel: props.channel, closed });
+  load();
+}
+
+async function website() {
+  await call(method("website"), { channel: props.channel, on: info.value.website ? 0 : 1 });
+  load();
+}
 
 async function load(before) {
   const got = await get(method("channel"), { channel: props.channel, thread: props.thread, before });

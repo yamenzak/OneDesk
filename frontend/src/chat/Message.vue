@@ -7,6 +7,7 @@
         <span class="text-base font-semibold text-ink-gray-9">{{ who }}</span>
         <Badge v-if="message.agent" :label="__('Agent')" theme="gray" size="sm" />
         <Badge v-else-if="message.automation" :label="message.automation" theme="gray" size="sm" />
+        <Badge v-else-if="message.visitor" :label="__('Visitor')" theme="gray" size="sm" />
         <time class="text-sm text-ink-gray-5" :datetime="message.creation" :title="message.creation">{{ ago(message.creation) }}</time>
         <div class="ms-auto flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100">
           <Dropdown :options="reactions">
@@ -71,8 +72,8 @@ const props = defineProps({
 const emit = defineEmits(["thread", "react", "card", "suggestions"]);
 
 const agent = computed(() => props.agents.find((one) => one.agent === props.message.agent) || null);
-const person = computed(() => userInfo(props.message.sender));
-const who = computed(() => (agent.value ? agent.value.name : person.value.name));
+const person = computed(() => (props.message.visitor ? { name: props.message.visitor } : userInfo(props.message.sender)));
+const who = computed(() => (agent.value ? agent.value.name : props.message.visitor || person.value.name));
 
 const reactions = REACTIONS.map((emoji) => ({ label: emoji, onClick: () => emit("react", emoji) }));
 

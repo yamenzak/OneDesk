@@ -86,7 +86,7 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Chat Channel | 11 | document |
+| Chat Channel | 22 | document |
 | Chat Channel Member | 3 | child |
 | Chat File | 1 | child |
 | Chat Mention | 2 | child |
@@ -706,9 +706,11 @@ No doctypes yet.
 * `onedesk.one_chat.api.browse`
 * `onedesk.one_chat.api.change`
 * `onedesk.one_chat.api.channel`
+* `onedesk.one_chat.api.close`
 * `onedesk.one_chat.api.conversations`
 * `onedesk.one_chat.api.direct`
 * `onedesk.one_chat.api.dismiss`
+* `onedesk.one_chat.api.forward`
 * `onedesk.one_chat.api.join`
 * `onedesk.one_chat.api.keep`
 * `onedesk.one_chat.api.leave`
@@ -719,6 +721,7 @@ No doctypes yet.
 * `onedesk.one_chat.api.start`
 * `onedesk.one_chat.api.talk`
 * `onedesk.one_chat.api.undo`
+* `onedesk.one_chat.api.website`
 * `onedesk.one_chat.panel.actions`
 * `onedesk.one_chat.panel.agent_for`
 * `onedesk.one_chat.panel.conversations`
@@ -729,6 +732,10 @@ No doctypes yet.
 * `onedesk.one_chat.panel.start`
 * `onedesk.one_chat.panel.suggested`
 * `onedesk.one_chat.panel.suggestions`
+* `onedesk.one_chat.widget.offered`
+* `onedesk.one_chat.widget.said`
+* `onedesk.one_chat.widget.send`
+* `onedesk.one_chat.widget.start`
 * `onedesk.one_cloud.api.attach`
 * `onedesk.one_cloud.api.capacity`
 * `onedesk.one_cloud.api.color`

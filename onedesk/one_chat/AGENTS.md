@@ -115,6 +115,45 @@ doubts (audit Wrong) from whoever did it. A doubted card has **Keep**
 what OneAI's Documents page did; a person's queue is their conversations with
 the agents, and read and unread are each conversation's.
 
+## Rooms and the website
+
+A **Room** is a Chat Channel of its own kind: a conversation with somebody
+outside the workspace, a website visitor, that people and agents work in
+together. It is built on channels rather than beside them (docs/ARC-AI.md,
+Rooms with the outside world), because everything a room needs a channel
+already has: members, threads, live updates, unread, notifications, cards,
+an agent's answer. What it adds is who it is with (`visitor_name`,
+`visitor_email`), the page they wrote from, `desk`, the channel that
+answers it, `closed`, and the record it is about (`reference_doctype`,
+`reference_name`, set when an automation makes a lead or an issue from it).
+
+Who reads a room: its members, who are the desk's people when it opened,
+and anybody in its desk later (`channels.readers`, in has_permission,
+query, message_permission and message_query), so somebody who joins the
+channel reads its rooms. A room is answered like a channel: what is written
+in the room is what the visitor reads, and a thread is the team's note. An
+agent mentioned in a room answers in a thread, as in a channel, since it
+answers with the asker's tools (answers.posted). **Forward** hands a room to
+another channel the reader is in, whose people join it; **Close Chat** ends
+it for the visitor. Choosing the channel that answers website chats
+(`website`, one at a time) is an administrator's: it puts a chat on the
+workspace's public website.
+
+`widget.py` is the visitor's side, guest calls each limited per network
+address (frappe's rate_limit): `offered` (whether there is a chat, the
+workspace's name and the channel's description), `start` (a room, the
+first message, the room's people told by Website Chat), `send` and `said`.
+The visitor has no account: `start` answers a random key, the browser keeps
+it (`public/js/one_chat/widget.js`, drawn with the DOM, every word a text
+node) and only its sha256 is kept, on the room, so the key opens that room
+and nothing here can give it back. `said` answers the words of the room's
+messages, never a thread, a card, what an agent looked up or a file, and a
+person by their first name. A visitor's message is from `Guest`
+(`channels.VISITOR`), drawn with the visitor's name; it starts the desk's
+automations like a person's. The widget is on every website page but
+sign-in, the portal and the desk, and never for somebody signed in to the
+desk.
+
 ## Automations
 
 A channel's automations are AutomationCenter's (one/AGENTS.md, automation/),
@@ -134,7 +173,11 @@ Agent is offered here as on every trigger.
 `automations.py` keeps them (the trigger's `keeps`): a member of the channel
 who holds Make Channels changes them (`manages`), every member reads them
 (`allowed`, `query`), and nobody asks for one, so `decide` refuses.
-`api.send` calls `fire`, which queues `run` after the message is saved: the
+A room's messages run its desk's automations (`scope_of`), which can ask
+From a Visitor, Starts a Website Chat and Website Page, and Forward the
+Chat; Create a Record makes a lead of the visitor, never two for one
+address, and makes it the room's record. `api.send` and `widget` call
+`fire`, which queues `run` after the message is saved: the
 engine walks the channel's automations on `facts_of` the message. Only a
 person's message starts one: a message an automation posts carries its
 `automation` (drawn as a badge with its title) and an agent's its `agent`,
@@ -144,7 +187,9 @@ whoever made the automation, and only while they are still in the channel
 
 Let an Agent Answer runs `talk.ask` with no tools and one round
 (`answered`): the agent is told who it is, the automation's instruction and
-the thread, words only, and answers in the thread as itself. With no tools it
+the thread, words only, and answers in the thread as itself; in a room it
+answers the visitor from the room's conversation without its threads, and
+stops once somebody of the team has written there (`taken_over`). With no tools it
 can say only what the instruction and the conversation say, never what a
 record holds, so an automation cannot turn its owner's reach into a
 channel's. It answers at most `ANSWERS_A_CONVERSATION` times a day in one

@@ -100,6 +100,8 @@ LOOKED = {
 	("fetching", "onedesk/public/js/one_display/tv.js"),
 	("fetching", "onedesk/public/js/one_display/worker.js"),
 	("per-user state", "onedesk/public/js/one_display/tv.js"),
+	# The website's chat keeps a visitor's key: a guest has no user settings.
+	("per-user state", "onedesk/public/js/one_chat/widget.js"),
 	("icons", "onedesk/public/js/one_display/tv.js"),
 	# A QR code, and a slide's star or arrow on a screen, are drawn as SVG; neither is an icon.
 	("icons", "onedesk/public/js/one_deck/play.js"),

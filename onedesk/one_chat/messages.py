@@ -73,6 +73,7 @@ def shaped(doc) -> dict:
 		"sender": doc.sender,
 		"agent": doc.agent,
 		"automation": (frappe.db.get_value("Automation", doc.automation, "title") or doc.automation) if doc.automation else None,
+		"visitor": frappe.db.get_value("Chat Channel", doc.channel, "visitor_name") if doc.sender == channels.VISITOR else None,
 		"text": doc.text or "",
 		"creation": str(doc.creation),
 		"replies": cint(doc.replies),

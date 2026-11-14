@@ -1,6 +1,6 @@
 <template>
   <nav class="flex min-h-0 flex-col overflow-y-auto rounded-6 border border-outline-gray-1 bg-surface-elevation-2 p-2" :aria-label="__('Conversations')" data-tour="onechat-list">
-    <section v-for="group in groups" :key="group.kind" class="mb-3">
+    <section v-for="group in shownGroups" :key="group.kind" class="mb-3">
       <div class="flex items-center justify-between px-2 py-1">
         <h3 class="text-sm font-medium text-ink-gray-5">{{ group.label }}</h3>
         <Dropdown v-if="group.kind === 'Channel'" :options="channelMenu">
@@ -17,7 +17,7 @@
         @click="$emit('open', one.name)"
       >
         <img v-if="one.agent && agentOf(one.agent)?.face" :src="face(agentOf(one.agent))" alt="" class="size-5 shrink-0 rounded-full bg-surface-gray-2" />
-        <Avatar v-else-if="one.kind === 'Direct'" :label="one.with?.name || one.title" :image="one.with?.image" size="sm" />
+        <Avatar v-else-if="one.kind === 'Direct' || one.kind === 'Room'" :label="one.with?.name || one.title" :image="one.with?.image" size="sm" />
         <span v-else :class="one.private ? 'lucide-lock' : 'lucide-hash'" class="size-4 shrink-0 text-ink-gray-5" aria-hidden="true" />
         <span class="min-w-0 flex-1 truncate" :class="{ 'font-semibold text-ink-gray-9': one.unread }">{{ one.kind === "Direct" ? one.with?.name || one.title : one.title }}</span>
         <Badge v-if="one.unread" :label="String(one.unread)" theme="blue" size="sm" />
@@ -80,9 +80,12 @@ const emit = defineEmits(["open", "talk", "direct", "made"]);
 
 const groups = computed(() => [
   { kind: "Channel", label: __("Channels"), rows: props.channels.filter((one) => one.kind === "Channel"), empty: __("No channels yet") },
+  { kind: "Room", label: __("Website Chats"), rows: props.channels.filter((one) => one.kind === "Room" && !one.closed) },
   { kind: "Direct", label: __("Direct Messages"), rows: props.channels.filter((one) => one.kind === "Direct") },
   { kind: "Agent", label: __("With Agents"), rows: props.channels.filter((one) => one.kind === "Agent") },
 ]);
+
+const shownGroups = computed(() => groups.value.filter((group) => group.kind !== "Room" || group.rows.length));
 
 const agentOf = (agent) => props.agents.find((one) => one.agent === agent);
 

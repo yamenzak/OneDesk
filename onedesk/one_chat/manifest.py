@@ -31,6 +31,7 @@ APP = App(
 		("channels", "hash"),
 		("messages", "message-circle"),
 		("agents", "bot"),
+		("website-chats", "globe"),
 		("who-can-do-what", "shield"),
 	),
 	hooks={
@@ -38,6 +39,7 @@ APP = App(
 	},
 	makes=(
 		"Issue",
+		"Lead",
 		"Task",
 	),
 )

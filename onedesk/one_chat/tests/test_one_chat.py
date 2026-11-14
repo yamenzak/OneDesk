@@ -36,7 +36,7 @@ def test_only_members_read_a_conversation():
 
 
 def test_a_message_is_read_by_its_conversation_s_members_and_changed_by_its_writer(monkeypatch):
-	monkeypatch.setattr(channels, "members_of", lambda channel: ["huda@x", "omar@x"])
+	monkeypatch.setattr(channels, "readers", lambda channel: ["huda@x", "omar@x"])
 	said = _dict({"channel": "c1", "sender": "huda@x"})
 	assert channels.message_permission(said, "read", "omar@x")
 	assert not channels.message_permission(said, "read", "karim@x")
@@ -193,10 +193,44 @@ def test_the_working_day_runs_past_midnight_too():
 	assert not hours.outside(time(23), time(22), time(6)) and hours.outside(time(12), time(22), time(6))
 
 
+def test_a_room_is_read_by_its_members_and_its_channel_s(monkeypatch):
+	monkeypatch.setattr(channels, "members_of", lambda channel: {"desk": ["karim@x"]}.get(channel, []))
+	monkeypatch.setattr(frappe, "db", _dict({"escape": lambda value: f"'{value}'"}), raising=False)
+	room = _dict({"kind": channels.ROOM, "desk": "desk", "members": [_dict({"user": "huda@x"})], "is_new": lambda: False})
+	room["get"] = lambda key, default=None: room[key] if key in room else default
+	assert set(channels.readers(room)) == {"huda@x", "karim@x"}, "somebody who joins the channel later reads its rooms"
+	assert channels.has_permission(room, "read", "karim@x") and not channels.has_permission(room, "read", "omar@x")
+	assert ".kind = 'Room'" in channels.query("omar@x") and "kind = 'Room'" in channels.message_query("omar@x")
+
+
+def test_a_visitor_holds_a_key_only_its_hash_is_kept_and_they_read_words_alone(monkeypatch):
+	from onedesk.one_chat import widget
+
+	assert widget.key_of("abc") == widget.key_of("abc") != widget.key_of("abd") and len(widget.key_of("abc")) == 64
+	assert widget.checked(" Rana ", "Rana@Example.com ", " Hi ") == ("Rana", "rana@example.com", "Hi")
+	assert widget.EMAIL.match("rana@example.com") and not widget.EMAIL.match("nobody")
+	monkeypatch.setattr(frappe.utils, "get_fullname", lambda user: "Huda Saleh")
+	room = _dict({"visitor_name": "Rana"})
+	assert widget.shown({"name": "m", "sender": "huda@x", "text": "Yes", "creation": "t"}, room) == {"name": "m", "text": "Yes", "mine": 0, "who": "Huda", "at": "t"}
+	assert widget.shown({"name": "n", "sender": channels.VISITOR, "text": "Hi"}, room)["who"] == "Rana"
+	said = (tree.APP / "one_chat" / "widget.py").read_text().split("def said(", 1)[1].split("\ndef ", 1)[0]
+	assert '"thread": ("is", "not set")' in said and '"action": ("is", "not set")' in said, "never a thread or a card"
+	source = (tree.APP / "one_chat" / "widget.py").read_text()
+	assert source.count("@rate_limit(") == 5 and source.count("allow_guest=True") == 4, "every guest call is limited"
+	assert "/assets/onedesk/js/one_chat/widget.js" in tree.hooks()
+
+
+def test_an_agent_in_a_room_answers_the_visitor_until_the_team_does():
+	source = (tree.APP / "one_chat" / "automations.py").read_text()
+	answered = source.split("def answered(", 1)[1].split("\ndef ", 1)[0]
+	assert "taken_over(channel.name)" in answered and "held.thread if room else" in answered
+	assert 'channel.kind in (channels.CHANNEL, channels.ROOM)' in (tree.APP / "one_chat" / "answers.py").read_text(), "a mentioned agent answers in a thread, never to the visitor"
+
+
 def test_onechat_declares_its_own_blocks_and_the_engine_names_none():
 	blocks = (tree.APP / "one_chat" / "blocks.py").read_text()
 	assert "Trigger(\n\t\tPOSTED," in blocks and 'scope="Chat Channel"' in blocks
-	for key in ("chat_reply", "chat_answer", "chat_share", "chat_notify", "chat_create"):
+	for key in ("chat_reply", "chat_answer", "chat_share", "chat_forward", "chat_notify", "chat_create"):
 		assert f'"{key}"' in blocks, key
 	engine = "".join((tree.APP / "one" / "automation" / name).read_text() for name in ("engine.py", "flow.py", "kinds.py"))
 	assert "one_chat" not in engine and "Chat Message" not in engine
