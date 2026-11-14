@@ -42,7 +42,7 @@ def automations(trigger: str, scope: str) -> dict:
 
 
 def _param(one, offers: dict) -> dict:
-	options = (offers.get(one.options) or []) if isinstance(one.options, str) else [{"value": value, "label": _(label)} for value, label in one.options]
+	options = (offers.get(one.options) or []) if isinstance(one.options, str) else [{"value": value, "label": engine.said(label)} for value, label in one.options]
 	return {
 		"key": one.key,
 		"label": registry.filled(engine.said(one.label)),
@@ -70,7 +70,7 @@ def blocks(trigger: str, scope: str) -> dict:
 		if one.offers:
 			offers.update(one.offers())
 	return {
-		"trigger": {"key": held.key, "label": _(held.label), "icon": held.icon, "where": offers.get("where") or offers.get("email") or scope, "reads": int(held.reads)},
+		"trigger": {"key": held.key, "label": engine.said(held.label), "icon": held.icon, "where": offers.get("where") or offers.get("email") or scope, "reads": int(held.reads)},
 		"conditions": [
 			{"key": one.key, "label": engine.said(one.label), "kind": one.kind, "no": engine.said(one.no) if one.no else "", "options": [{"value": value, "label": _(value)} for value in one.options]}
 			for one in kinds.conditions(trigger)

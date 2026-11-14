@@ -53,7 +53,7 @@ await buildIslands({
 	app: "onedesk",
 	root: import.meta.dirname,
 	entries: ISLANDS,
-	plugins: [slideSeams, sheetSeams, docSeams, lucideIconsPlugin(), { name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
+	plugins: [slideSeams, sheetSeams, docSeams, lucideIconsPlugin(), { name: "one-flow-once", config: () => ({ resolve: { dedupe: ["@vue-flow/core", "@vue-flow/background"] } }) }, { name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
 	production: process.argv.includes("--production"),
 	watch: process.argv.includes("--watch"),
 });

@@ -4,9 +4,10 @@
   <div v-else class="flex flex-col gap-3">
     <TextInput v-model="state.title" :placeholder="__('Name this automation')" :aria-label="__('Name')" :disabled="readonly" />
     <p v-if="problems.length && !readonly" class="text-p-sm text-ink-red-4">{{ problems[0] }}</p>
-    <div class="flex flex-col gap-3 md:flex-row">
-      <div class="h-80 overflow-hidden rounded-3 border border-outline-gray-2 md:h-96 md:min-w-0 md:flex-1" dir="ltr">
+    <div class="flex flex-col gap-3">
+      <div class="h-80 overflow-hidden rounded-3 border border-outline-gray-2 md:h-96" dir="ltr">
         <AutomationCanvas
+          ref="canvas"
           :nodes="drawn.nodes"
           :edges="drawn.edges"
           :selected-id="selected"
@@ -17,7 +18,6 @@
         />
       </div>
       <StepPanel
-        class="md:w-80 md:shrink-0"
         :step="step"
         :id="selected"
         :catalogue="catalogue"
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
 import { TextInput, debounce } from "frappe-ui";
 import { AutomationCanvas } from "@framework/ui/AutomationCanvas";
 
@@ -53,6 +53,7 @@ const props = defineProps({
 });
 
 const catalogue = ref(null);
+const canvas = ref(null);
 const picking = ref(false);
 const state = reactive({ title: "", steps: [] });
 const selected = ref(START);
@@ -178,6 +179,8 @@ onMounted(async () => {
     const held = await get(C + "automation", { name: props.automation });
     state.title = held.title || "";
     state.steps = held.steps || [];
+    await nextTick();
+    requestAnimationFrame(() => requestAnimationFrame(() => canvas.value?.fitView()));
   } else picking.value = true;
 });
 </script>

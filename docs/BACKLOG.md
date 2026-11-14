@@ -6,6 +6,8 @@ module's README says what it does.
 
 ## Due now
 
+- AutomationCenter's builder fits a flow at about 43% inside the centre dialog, too small to read: open it enlarged (the centre's Enlarge), or lay the flow top to bottom once frappe's AutomationCanvas takes top and bottom handles. Its island is also 3.3 MB, over the 2 MB budget: find what its entry pulls in.
+- Website chat has no channel answering it in the demo, so its widget never shows there: the demo should pick one, and a check should open the widget.
 - The setup guide's dialog (wizard_ask) waits as long as OneAdmin's ai_run patience, 120 seconds a round, before saying it could not be reached: a guest should hear within about 20 seconds, with a shorter patience for the guest's first round.
 - AICenter's agent tab draws an empty box for each of Waiting on a Person, What It Read, What It Learned and What It Did when there is nothing (the ui rule: an empty list is not drawn); and the demo never runs the screen keeper's, the planner's or the inspector's jobs, so their tabs say 0 done: the demo should leave one of each.
 - AICenter's What It Did rows read like code ("Create · Purchase Invoice ACC-PINV-2026-00027", then "Done · Draft Purchase Invoice"): say it as an activity line, "Drafted Purchase Invoice ACC-PINV-2026-00027", with the level only when it is not Done.

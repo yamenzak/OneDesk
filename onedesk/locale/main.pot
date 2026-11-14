@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-14 12:32+0000\n"
-"PO-Revision-Date: 2026-11-14 12:32+0000\n"
+"POT-Creation-Date: 2026-11-14 13:09+0000\n"
+"PO-Revision-Date: 2026-11-14 13:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid " in the {0} department"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:69
+#: frontend/src/automation/AutomationBuilder.vue:70
 #: onedesk/one/automation/flow.py:244
 msgid " or "
 msgstr ""
@@ -6047,8 +6047,8 @@ msgstr ""
 msgid "Ask what a question means, what a plan includes or which apps suit your company."
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:114
-#: frontend/src/automation/AutomationBuilder.vue:130
+#: frontend/src/automation/AutomationBuilder.vue:115
+#: frontend/src/automation/AutomationBuilder.vue:131
 #: frontend/src/automation/StepPanel.vue:112
 #: frontend/src/chat/Conversation.vue:95
 #: frontend/src/slide/shim/EditorNavbar.vue:347
@@ -9801,8 +9801,8 @@ msgstr ""
 
 #. Label of the signal (Data) field in DocType 'Clock Signal'
 #. Label in the One Quality Inspection print format
-#: frontend/src/automation/AutomationBuilder.vue:111
-#: frontend/src/automation/AutomationBuilder.vue:131
+#: frontend/src/automation/AutomationBuilder.vue:112
+#: frontend/src/automation/AutomationBuilder.vue:132
 #: frontend/src/automation/StepPanel.vue:111
 #: onedesk/one_book/report/books_check/books_check.py:15
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json:19
@@ -16197,11 +16197,11 @@ msgstr ""
 msgid "Distribute columns"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:116
 #: frontend/src/automation/AutomationBuilder.vue:117
-#: frontend/src/automation/AutomationBuilder.vue:133
+#: frontend/src/automation/AutomationBuilder.vue:118
 #: frontend/src/automation/AutomationBuilder.vue:134
-#: frontend/src/automation/AutomationBuilder.vue:137
+#: frontend/src/automation/AutomationBuilder.vue:135
+#: frontend/src/automation/AutomationBuilder.vue:138
 #: frontend/src/automation/StepPanel.vue:113
 #: frontend/src/automation/StepPanel.vue:114 onedesk/one_deck/decks.py:89
 msgid "Do"
@@ -20592,7 +20592,7 @@ msgstr ""
 msgid "Fill in {0}"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:105
+#: frontend/src/automation/AutomationBuilder.vue:106
 #, python-brace-format
 msgid "Fill in {0}."
 msgstr ""
@@ -24652,8 +24652,8 @@ msgstr ""
 msgid "Idle Warning"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:111
-#: frontend/src/automation/AutomationBuilder.vue:129
+#: frontend/src/automation/AutomationBuilder.vue:112
+#: frontend/src/automation/AutomationBuilder.vue:130
 #: frontend/src/automation/StepPanel.vue:111
 #: onedesk/public/js/doctype_settings.js:477
 msgid "If"
@@ -52533,8 +52533,8 @@ msgstr ""
 msgid "Stop Answering Website Chats"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:116
-#: frontend/src/automation/AutomationBuilder.vue:137
+#: frontend/src/automation/AutomationBuilder.vue:117
+#: frontend/src/automation/AutomationBuilder.vue:138
 #: frontend/src/automation/StepPanel.vue:113 onedesk/one/automation/flow.py:236
 msgid "Stop Here"
 msgstr ""
@@ -52622,7 +52622,7 @@ msgstr ""
 msgid "Stop {1} reading new mail in {0}?"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:116
+#: frontend/src/automation/AutomationBuilder.vue:117
 #: frontend/src/automation/StepPanel.vue:47
 msgid "Stop, and skip the rules after this one"
 msgstr ""
@@ -54698,7 +54698,7 @@ msgstr ""
 msgid "That automation is not in this channel."
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:103 onedesk/one/access.py:521
+#: frontend/src/automation/AutomationBuilder.vue:104 onedesk/one/access.py:521
 #: onedesk/one/access.py:619 onedesk/one/access.py:722
 #: onedesk/one/access.py:759 onedesk/one/access.py:784
 #: onedesk/one/access.py:843 onedesk/one/automation/flow.py:183
@@ -59975,7 +59975,7 @@ msgstr ""
 msgid "Tries"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:123
+#: frontend/src/automation/AutomationBuilder.vue:124
 #: frontend/src/automation/StepPanel.vue:110
 #: onedesk/public/js/one/notification_center.js:461
 msgid "Trigger"
@@ -67901,7 +67901,7 @@ msgstr ""
 msgid "Write the offer terms"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:99
+#: frontend/src/automation/AutomationBuilder.vue:100
 #: onedesk/one/automation/flow.py:195
 #, python-brace-format
 msgid "Write the question for {0}."
@@ -67927,7 +67927,7 @@ msgstr ""
 msgid "Write up a call"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:95
+#: frontend/src/automation/AutomationBuilder.vue:96
 #: onedesk/one/automation/flow.py:188
 msgid "Write what each condition looks for."
 msgstr ""
@@ -69541,7 +69541,7 @@ msgstr ""
 msgid "another check-in in the same second"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:111
+#: frontend/src/automation/AutomationBuilder.vue:112
 msgid "any message"
 msgstr ""
 
@@ -69972,7 +69972,7 @@ msgstr ""
 msgid "is"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:73
+#: frontend/src/automation/AutomationBuilder.vue:74
 #: frontend/src/automation/ConditionRow.vue:29
 msgid "is a"
 msgstr ""
@@ -69991,7 +69991,7 @@ msgstr ""
 msgid "isn't"
 msgstr ""
 
-#: frontend/src/automation/AutomationBuilder.vue:73
+#: frontend/src/automation/AutomationBuilder.vue:74
 #: frontend/src/automation/ConditionRow.vue:30
 msgid "isn't a"
 msgstr ""
