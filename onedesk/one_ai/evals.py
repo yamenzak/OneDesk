@@ -399,12 +399,14 @@ def scored(case: dict, called: list[str], cards: int, said: str, error: str | No
 	return {"passed": not why, "why": "; ".join(why)}
 
 
-def run(only: str | None = None, every: bool = False) -> list[dict]:
-	"""Ask every case (or those whose id holds `only`) through the account,
-	as the panel does, and print a table. `every` gives each case every tool,
-	as before tools were grouped."""
-	from onedesk.one_ai import chat, groups, suggest
-	from onedesk.one_ai import run as runner
+def run(only: str | None = None) -> list[dict]:
+	"""Ask every case (or those whose id holds `only`) of the agent the panel
+	gives its page, with that agent's tools, through the account, and print
+	a table: a case whose tool is another agent's fails, as it would for
+	the person asking."""
+	from onedesk.one_ai import here, suggest
+	from onedesk.one_ai.agents import talk
+	from onedesk.one_chat import agents, answers
 
 	out = []
 	for case in CASES:
@@ -414,16 +416,11 @@ def run(only: str | None = None, every: bool = False) -> list[dict]:
 		frappe.set_user(asker)
 		started = frappe.utils.now_datetime()
 		page = case["page"]() if callable(case.get("page")) else case.get("page") or {}
-		turns = chat._asked(case["ask"], page)
+		app = answers.app_of(agents.for_page(page))
+		turns = here.asked(case["ask"], page, who=talk.who(app))
 		at = time.monotonic()
 		try:
-			said = runner.ask(
-				chat.CHAT,
-				case["ask"],
-				turns=turns,
-				expects=suggest.expected(case["ask"]),
-				groups=None if every else groups.chosen(case["ask"], page, turns),
-			)
+			said = talk.ask(app, answers.CHAT, case["ask"], turns, expects=suggest.expected(case["ask"]))
 		except Exception as e:
 			frappe.db.rollback()
 			said = {"turns": [], "proposals": [], "credits": 0, "rounds": 0, "error": str(e)[:200]}
@@ -440,7 +437,7 @@ def run(only: str | None = None, every: bool = False) -> list[dict]:
 			"credits": said.get("credits"),
 			"seconds": seconds,
 			"model": said.get("model"),
-			"groups": said.get("groups"),
+			"agent": app or agents.UNA,
 			"said": (last.get("text") or said.get("error") or "")[:160],
 			"refused": [
 				f"{t.get('tool')}: {str((t.get('result') or {}).get('error'))[:200]}"
@@ -462,7 +459,7 @@ def run(only: str | None = None, every: bool = False) -> list[dict]:
 	with open(path, "a") as f:
 		f.write(
 			json.dumps(
-				{"on": str(frappe.utils.now_datetime()), "every": every, "results": out},
+				{"on": str(frappe.utils.now_datetime()), "results": out},
 				default=str,
 			)
 			+ "\n"

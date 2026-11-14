@@ -458,9 +458,11 @@ async function attach(then) {
 async function offer() {
 	offered.value = [];
 	try {
-		offered.value = await frappe.xcall("onedesk.one_ai.chat.suggestions", {
-			page: (useHere.value && props.here) || onedesk.oneai.home(),
-		});
+		offered.value = await frappe.xcall(
+			"onedesk.one_chat.panel.suggestions",
+			{ page: (useHere.value && props.here) || onedesk.oneai.home() },
+			"GET"
+		);
 	} catch (e) {
 	}
 }
@@ -622,7 +624,7 @@ function follow(run) {
 	watching = {
 		run,
 		poll: setInterval(
-			() => frappe.xcall("onedesk.one_ai.chat.progress", { run }).then((state) => heard({ ...state, run })),
+			() => frappe.xcall("onedesk.one_chat.panel.progress", { run }, "GET").then((state) => heard({ ...state, run })),
 			POLL
 		),
 	};
@@ -685,7 +687,7 @@ async function load() {
 		actions.value = Object.fromEntries((found || []).map((one) => [one.name, one]));
 	}
 	if (!named.length) return;
-	const found = await frappe.xcall("onedesk.one_ai.chat.cards", { names: named });
+	const found = await frappe.xcall("onedesk.one_chat.panel.suggested", { names: named }, "GET");
 	cards.value = Object.fromEntries((found || []).map((one) => [one.name, one]));
 }
 

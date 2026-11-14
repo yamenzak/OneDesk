@@ -66,16 +66,16 @@ def test_a_records_story_is_read_live_through_the_sidebars_own_function():
 
 
 def test_the_context_turn_carries_the_workspace_the_reader_and_what_is_remembered():
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	asked = _body(chat, "_asked")
+	here = (tree.APP / "one_ai" / "here.py").read_text()
+	asked = _body(here, "asked")
 	for said in ("_today()", "_workspace()", "_reader()", "memory.told("):
 		assert said in asked, said
-	assert 'frappe.get_hooks("one_ai_workspace")' in chat
+	assert 'frappe.get_hooks("one_ai_workspace")' in here
 
 
 def test_the_same_call_twice_in_one_answer_is_not_run_twice():
-	run = (tree.APP / "one_ai" / "run.py").read_text()
-	assert "if key in asked:" in run and "already made and answered" in run
+	talk = (tree.APP / "one_ai" / "agents" / "talk.py").read_text()
+	assert "if key in asked:" in talk and "already made and answered" in talk
 
 
 def test_a_read_uses_the_one_value_a_link_filter_plainly_meant():
@@ -93,8 +93,8 @@ def test_past_chats_rank_on_what_was_said_and_skip_the_one_asking():
 
 
 def test_a_card_hides_what_the_form_hides():
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	assert 'field.hidden or field.fieldname == "naming_series"' in _body(chat, "_drawn")
+	drawn = (tree.APP / "one_ai" / "drawn.py").read_text()
+	assert 'field.hidden or field.fieldname == "naming_series"' in _body(drawn, "card_of")
 
 
 def test_a_type_guessed_from_an_id_is_found_by_the_id():
@@ -105,8 +105,8 @@ def test_a_type_guessed_from_an_id_is_found_by_the_id():
 
 
 def test_asked_to_remember_and_nothing_kept_is_asked_for_the_call():
-	run = (tree.APP / "one_ai" / "run.py").read_text()
-	assert "_unkept(text, called)" in run and "KEEP_IT.format(text)" in run
+	talk = (tree.APP / "one_ai" / "agents" / "talk.py").read_text()
+	assert 'REMEMBER.search(text or "")' in talk and "KEEP_IT.format(text)" in talk
 
 
 def test_what_is_remembered_is_told_as_known_not_as_asked():
@@ -118,15 +118,15 @@ def test_what_is_remembered_is_told_as_known_not_as_asked():
 def test_each_call_shows_its_own_answer():
 	"""Gemini's call id is the tool's name; matched by id, every earlier call to
 	a tool showed the last answer it gave."""
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	shown = _body(chat, "shown")
+	drawn = (tree.APP / "one_ai" / "drawn.py").read_text()
+	shown = _body(drawn, "shown")
 	assert "_answering(call" in shown and 'call.get("id")' not in shown
 
 
 def test_keeping_a_memory_is_not_drawn_in_the_conversation():
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	assert 'QUIET_TOOLS = ("remember",)' in chat
-	assert "not in QUIET_TOOLS" in _body(chat, "shown")
+	drawn = (tree.APP / "one_ai" / "drawn.py").read_text()
+	assert 'QUIET_TOOLS = ("remember",)' in drawn
+	assert "not in QUIET_TOOLS" in _body(drawn, "shown")
 
 
 def test_an_ai_run_is_waited_on_as_long_as_the_account_waits_on_the_provider():

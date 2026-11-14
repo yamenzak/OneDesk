@@ -556,26 +556,6 @@ def _column(one) -> str:
 	return str(one)
 
 
-def more_tools(
-	groups: Annotated[list[str], "The groups to be given, by name, from the list in this tool's description."],
-) -> dict:
-	"""Be given more tools: what you have are those for the page the person is
-	on and for what they asked. If what they ask needs something else One
-	does, ask for its group here, and its tools are yours from the next step.
-	Never say something cannot be done before asking for the group it would
-	be in. The groups:"""
-	from onedesk.one_ai import groups as grouped
-
-	wanted = [str(one).strip().lower() for one in groups or []]
-	known = [one for one in wanted if one in grouped.GROUPS and grouped.offered(one)]
-	unknown = [one for one in wanted if one not in known]
-	return {
-		"given": known,
-		"tools": [tool for one in known for tool in grouped.GROUPS[one]["tools"]],
-		**({"unknown": unknown, "error": "There are no groups called " + ", ".join(unknown)} if unknown else {}),
-	}
-
-
 READS = (
 	list_records,
 	read_record,
@@ -592,7 +572,6 @@ READS = (
 	memory.recall,
 	memory.search_my_chats,
 	guide.how_to,
-	more_tools,
 )
 
 SUGGESTS = (create_record, create_records, edit_record, delete_record, move_record)
@@ -616,20 +595,11 @@ def hooked() -> tuple[tuple, tuple]:
 
 
 def _every() -> tuple[tuple, tuple]:
-	"""What runs now (reads, and keeping a memory, and the tools a run was
-	handed for itself, such as OneAI's) and what becomes a card."""
+	"""What runs now (reads, and keeping a memory) and what becomes a card."""
 	from onedesk.one_ai.ai_web import offered
 
 	reads, suggests = hooked()
-	own = tuple((frappe.flags.get("one_ai_tools") or {}).values())
-	return READS + KEEPS + tuple(filter(offered, reads)) + own, SUGGESTS + suggests
-
-
-def declared_only(names: list[str]) -> list[dict]:
-	"""These tools and no others, as a provider's function declarations."""
-	reads, suggests = _every()
-	known = {fn.__name__: fn for fn in reads + suggests}
-	return [schema.of(known[name]) for name in names if name in known]
+	return READS + KEEPS + tuple(filter(offered, reads)), SUGGESTS + suggests
 
 
 def _unshown(tool: str | None) -> tuple:
@@ -653,34 +623,10 @@ def shown_result(tool: str | None, result):
 	return {key: ("…" if key in hidden else value) for key, value in result.items()}
 
 
-def declared(given: list[str] | None = None) -> list[dict]:
-	"""The tools a request is given, as a provider's function declarations:
-	every one, or the core and the groups `given` (one_ai/groups.py), in a
-	fixed order so a provider's cache keeps what it has, with `more_tools`
-	saying what else there is."""
-	from onedesk.one_ai import groups
-
+def declared() -> list[dict]:
+	"""Every tool, as a provider's function declarations."""
 	reads, suggests = _every()
-	every = reads + suggests
-	if given is None:
-		return [schema.of(fn) for fn in every if fn is not more_tools]
-	order = {name: at for at, name in enumerate(given)}
-	kept = [fn for fn in every if fn.__name__ in groups.CORE or groups.of(fn.__name__) in order]
-	kept.sort(key=lambda fn: -1 if fn.__name__ in groups.CORE else order[groups.of(fn.__name__)])
-	out = [schema.of(fn) for fn in kept]
-	for one in out:
-		if one["name"] == "more_tools":
-			one["description"] += "\n" + groups.catalogue(given)
-	return out
-
-
-def action_of(name: str | None) -> str | None:
-	"""The action a tool asks to be run under, when it is not whichever is
-	running: a tool a small model gets wrong names a stronger one (Print
-	Design), and the loop hands the conversation to it."""
-	reads, suggests = _every()
-	fn = {one.__name__: one for one in reads + suggests}.get(name or "")
-	return getattr(fn, "action", None)
+	return [schema.of(fn) for fn in reads + suggests]
 
 
 def named(name: str | None):

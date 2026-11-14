@@ -633,9 +633,8 @@ answer for the workbook's File); `draft_workbook`, `write_cells` and
 `ai.approved`), which on approval writes into the saved shape (`written`,
 `noted`) through `save_sheet`, so it is a version like any save, and tells
 the approver's open editor (`one_sheet_written`), which reloads when it has nothing
-unsaved. The tools are the `workbooks` group (`one_ai/groups.py`), given
-on the workbook page or when a request says sheet, formula, cell or the
-like. A cell's result is worked out only in the browser, so a read says a
+unsaved. The tools are Una's, since OneSheet has no agent of its own
+(one_ai/agents/talk.py). A cell's result is worked out only in the browser, so a read says a
 formula as written.
 
 ### History, `versions.py`

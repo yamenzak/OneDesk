@@ -189,8 +189,6 @@ def test_oneai_gives_a_task_only_on_approval_and_as_the_approver():
 	assert "from frappe.desk.form.assign_to import add" in approved and "_add(" not in approved
 	assert '"expects": "assign_task"' in source
 	assert '"onedesk.one_task.agent.assign_task",' in HOOKS
-	groups = (tree.APP / "one_ai" / "groups.py").read_text()
-	assert '"assign_task"' in groups.split('"you": {', 1)[1].split("},", 1)[0]
 	setup = (tree.APP / "one_studio" / "ai_setup.py").read_text()
 	assert 'if what == "assign":' in setup and "task_ai.assigned(changes)" in setup
 	assert '"tools": ("assign_task",)' in (tree.APP / "one_ai" / "evals.py").read_text()

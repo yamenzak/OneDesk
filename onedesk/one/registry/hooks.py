@@ -34,7 +34,6 @@ ENGINES = {"one_portal": "one_portal"}
 IRREGULAR = (
 	"one_ai_reader",
 	"one_ai_workspace",
-	"one_ai_chat_kept",
 	"one_ai_actions",
 	"automation_actions",
 	"one_homes",

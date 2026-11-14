@@ -726,7 +726,7 @@ def _repaired(text: str) -> dict:
 
 
 # What Gemini 3 is handed back for a call it did not make, such as one a
-# conversation's first model made before it was handed on (run.ask):
+# conversation's first model made before it was handed on (one_ai/agents/talk.py):
 # measured, without it the request is refused, and with it Gemini answers.
 BORROWED = "skip_thought_signature_validator"
 

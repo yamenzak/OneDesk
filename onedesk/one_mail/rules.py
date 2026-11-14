@@ -411,11 +411,12 @@ def create(rule, step: dict, name: str) -> str | None:
 
 
 def _drafted(step: dict, comm) -> str:
-	"""OneAI's reply (the "reply" action), counted against the mailbox. Set
-	to read the sender's records and sent by one the receiving server
-	verified, it is handed their records in short and may open any of them
-	in full (theirs.TOOLS), and nothing else."""
-	from onedesk.one_ai import run
+	"""The receptionist's reply (the "reply" action), counted against the
+	mailbox and against OneMail's agent, which writes it. Set to read the
+	sender's records and sent by one the receiving server verified, it is
+	handed their records in short and may open any of them in full
+	(theirs.TOOLS), and nothing else; otherwise it has no tool at all."""
+	from onedesk.one_ai.agents import talk
 	from onedesk.one_mail import theirs
 
 	text = frappe.utils.strip_html_tags(comm.content or "")[:MOST_ASKED]
@@ -432,14 +433,17 @@ def _drafted(step: dict, comm) -> str:
 		"Write the reply in the message's language, as plain text, paragraphs apart by a blank line. "
 		"It is sent as it is, so leave no blank or placeholder for a person to fill in."
 	)
-	if not reads:
-		return (run.once("reply", asked, reference=comm.name) or "").strip()
-	frappe.flags.one_ai_tools = {fn.__name__: fn for fn in theirs.TOOLS}
-	frappe.flags.one_mail_sender = comm.sender
+	frappe.flags.one_mail_sender = comm.sender if reads else None
 	try:
-		out = run.ask("reply", asked, reference=comm.name, only=[fn.__name__ for fn in theirs.TOOLS], nudges=False)
+		out = talk.ask(
+			"one_mail",
+			"reply",
+			asked,
+			[{"role": "user", "text": asked, "calls": []}],
+			reference=comm.name,
+			tools=(theirs.TOOLS if reads else (), ()),
+		)
 	finally:
-		frappe.flags.one_ai_tools = None
 		frappe.flags.one_mail_sender = None
 	return (out.get("said") or "").strip()
 

@@ -36,11 +36,11 @@ def run(password=None):
 				{"doctype": "AI Knowledge", "title": title, "applies_to": applies_to or None, "enabled": 1, "body": body}
 			).insert(ignore_permissions=True)
 	if not frappe.db.exists("AI Chat", {"owner": OWNER, "title": "Site visits at Bayview Tower"}):
-		from onedesk.one_ai import chat
+		from onedesk.one_chat import transcript
 
 		doc = frappe.get_doc({"doctype": "AI Chat", "title": "Site visits at Bayview Tower", "titled": 1})
 		doc.insert(ignore_permissions=True)
 		frappe.db.set_value("AI Chat", doc.name, "owner", OWNER, update_modified=False)
 		doc.reload()
-		chat._keep(doc, [said(ASKED), said(ANSWERED, role="model")], spent=0.0)
+		transcript.keep(doc, [said(ASKED), said(ANSWERED, role="model")], spent=0.0)
 	frappe.db.commit()

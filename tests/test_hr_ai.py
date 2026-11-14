@@ -121,7 +121,7 @@ def test_leave_with_nobody_to_approve_it_is_refused_before_the_card():
 
 def test_a_suggestion_card_follows_the_form_order():
 	"""Stored changes come back alphabetical; the card reads them in form order."""
-	said = _source(tree.APP / "one_ai" / "chat.py", "_suggests")
+	said = _source(tree.APP / "one_ai" / "drawn.py", "_suggests")
 	assert "sorted(changes.items()" in said
 
 
@@ -170,8 +170,8 @@ def test_a_cv_is_matched_to_its_file_the_way_a_person_would():
 
 
 def test_the_record_on_screen_is_told_by_what_it_says():
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	page = chat.split("def _page(", 1)[1].split("\ndef ", 1)[0]
+	here = (tree.APP / "one_ai" / "here.py").read_text()
+	page = here.split("def said_of(", 1)[1].split("\ndef ", 1)[0]
 	assert "_brief(doctype, record)" in page
 
 
@@ -203,10 +203,10 @@ def test_feedback_is_a_card_in_the_readers_own_name_and_never_a_rating():
 
 def test_a_suggestion_that_exists_to_make_a_card_is_asked_for_it():
 	""""Draft my feedback" answered with the draft in the chat and no card."""
-	run = (tree.APP / "one_ai" / "run.py").read_text()
-	assert "expects not in called" in run and "CALL_IT.format(expects)" in run
-	assert "and not _asks(out)" in run, "a question to the person is theirs to answer first"
-	assert "expects=suggest.expected(text)" in (tree.APP / "one_ai" / "chat.py").read_text()
+	talk = (tree.APP / "one_ai" / "agents" / "talk.py").read_text()
+	assert "expects not in called" in talk and "CALL_IT.format(expects)" in talk
+	assert "and not _asks(out)" in talk, "a question to the person is theirs to answer first"
+	assert "expects=suggest.expected(text)" in (tree.APP / "one_chat" / "answers.py").read_text()
 	hr = (tree.APP / "one_hr" / "agent.py").read_text()
 	for tool in ("claim_expense", "add_applicant", "draft_feedback"):
 		assert f'"expects": "{tool}"' in hr, tool
@@ -223,9 +223,10 @@ def test_a_model_that_asks_the_person_something_is_not_pressed_for_the_card():
 	"""OneStudio, asked for an extension on a customer's email: the email is on
 	the Contact, so it asked which one was meant, and was pressed to write
 	anyway."""
-	run = (tree.APP / "one_ai" / "run.py").read_text()
+	talk = (tree.APP / "one_ai" / "agents" / "talk.py").read_text()
 	namespace = {}
-	exec("def _asks(" + run.split("def _asks(", 1)[1].split("\ndef ", 1)[0], namespace)
+	for name in ("_last_words", "_asks"):
+		exec(f"def {name}(" + talk.split(f"def {name}(", 1)[1].split("\ndef ", 1)[0], namespace)
 	asks = namespace["_asks"]
 
 	def said(text):

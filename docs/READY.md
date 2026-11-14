@@ -934,7 +934,7 @@ German before it is committed.
 **16 OneAI knows and does.** OneAI reads a project as its reader sees it on
 the page, and does what the page does as a card: a project, its status, a
 milestone, time, a budget, a member, a contact, a reminder, a template
-(`one_project/agent.py`, the `projects` group in `one_ai/groups.py`). Approving
+(`one_project/agent.py`, its coordinator's own tools). Approving
 a card runs the page's own code (`one_studio/ai_setup.py`).
 
 **17 Intake.** OneProject's sample is a scaffolding bill that names the

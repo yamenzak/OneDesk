@@ -229,7 +229,7 @@ def onebook_oneai_reads_the_money_as_home_does():
 	"""What OneAI reads in OneBook agrees with Home: the figures are Home's,
 	the overdue invoices are Today's, one invoice says what settled it, the
 	bank lines are Today's; and Home offers its three questions."""
-	from onedesk.one_ai import chat, suggest
+	from onedesk.one_ai import here, suggest
 	from onedesk.one_book import agent, home, story
 
 	with as_user("huda@one.test"):
@@ -244,7 +244,7 @@ def onebook_oneai_reads_the_money_as_home_does():
 		assert agent.bank_to_match()["lines"] == home.needs_you()["bank"]["count"]
 		offered = [one["label"] for one in suggest.for_page({"page": "books"})]
 		assert "How is the money doing?" in offered, offered
-		assert "OneBook's Home" in chat._page({"page": "books"})
+		assert "OneBook's Home" in here.said_of({"page": "books"})
 	with as_user("rania@one.test"):
 		assert agent.bank_to_match().get("error") and agent.late_invoices().get("error"), "outside the books, nothing is read"
 

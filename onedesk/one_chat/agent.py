@@ -39,10 +39,3 @@ def page(said: dict) -> str | None:
 		)
 	return None
 
-
-def kept(doc, turns: list[dict]) -> None:
-	"""one_ai_chat_kept: OneAI kept an answer, which is posted into the
-	conversation it was asked in (answers.kept)."""
-	from onedesk.one_chat import answers
-
-	answers.kept(doc, turns)

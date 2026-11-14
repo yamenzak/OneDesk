@@ -3,7 +3,9 @@ Una, or the agent of the app the reader is in. Each of the panel's
 conversations is an Agent conversation of OneChat, kept as Chat Messages
 like any other, and opens in OneChat too; the agent answers through
 answers.py, and what it looked up and suggested rides on its message
-(`parts`), drawn by the panel as it always was."""
+(`parts`), drawn by the panel as it always was. The panel alone writes into
+the field or the mail the reader was in, offers the page's questions and
+takes a suggestion into the open form; OneChat does none of those."""
 
 import frappe
 from frappe import _
@@ -107,9 +109,7 @@ def rename(channel: str, title: str) -> dict:
 	title = (title or "").strip()[: channels.TITLE] or doc.title
 	doc.db_set("title", title, update_modified=False)
 	if doc.ai_chat:
-		from onedesk.one_ai import chat
-
-		chat.rename(doc.ai_chat, title)
+		frappe.db.set_value("AI Chat", doc.ai_chat, {"title": title, "titled": 1}, update_modified=False)
 	return {"name": doc.name, "title": title}
 
 
@@ -124,3 +124,30 @@ def actions(names) -> list[dict]:
 		cards.reach(name)
 		shown.append(cards.card(name))
 	return shown
+
+
+@frappe.whitelist(methods=["GET"])
+def suggested(names) -> list[dict]:
+	"""The AI Proposals a conversation named, as they stand now, each drawn
+	as the record it is about (one_ai/drawn.py)."""
+	from onedesk.one_ai import drawn
+
+	return drawn.suggested(names)
+
+
+@frappe.whitelist(methods=["GET"])
+def suggestions(page=None) -> list[dict]:
+	"""What the panel offers on this page (one_ai/suggest.py)."""
+	from onedesk.one_ai import suggest
+
+	if isinstance(page, str):
+		page = frappe.parse_json(page) if page.strip() else None
+	return suggest.for_page(page if isinstance(page, dict) else None)
+
+
+@frappe.whitelist(methods=["GET"])
+def progress(run: str) -> dict:
+	"""Where an agent's answer has got to, for a browser that missed its steps."""
+	from onedesk.one_chat import answers
+
+	return answers.progress(run)

@@ -97,7 +97,7 @@ Ledger Entry links to it.
   Action, the action dialog with Allow Model Choice, Extra Instructions, Try
   It and Reset to Default) and their server side in `settings.py` and
   `run.py`;
-- the panel's model pill and `chat.py`'s chosen model;
+- the panel's model pill and the chat's chosen model;
 - `instructions.py`, `logos.py`, `tell.py` (OneAI Changed), the AI Action
   Setting doctype, and the AI Action fixture's instructions and models.
 

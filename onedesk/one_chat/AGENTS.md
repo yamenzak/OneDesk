@@ -77,15 +77,17 @@ hub (`one/notify.py`).
 
 An agent is asked by writing in an Agent conversation, or by mentioning it in
 a channel (the first agent mentioned answers, in a thread under the
-message). `answers.ask` hands the message to OneAI's chat loop as it is today
-(`one_ai/chat.py say`, then `answer` in the background, as the person who
-asked): no model call of OneChat's own. The loop keeps its transcript in an
-**AI Chat**, one per person and conversation or thread (`answers.transcript`);
-the asking message names it (`ai_chat`, `asks`). When the loop keeps its
-answer, `one_ai/chat.py _keep` runs the `one_ai_chat_kept` hook, and
-`answers.kept` posts what the model said since the last question as the
-agent's message, with what it looked up and suggested in `parts`. Una and an
-app's agent answer the same way until P8.3 gives each its own tools.
+message). `answers.ask` puts the message, with where the person was and who
+answers, on the conversation's transcript, an **AI Chat** for each person
+and conversation or thread (`answers.held`, `transcript.py`), which the
+asking message names (`ai_chat`, `asks`), and queues `answers.answer`. That
+runs in the background as the person who asked: the agent answers with its
+own tools, at its levels (`one_ai/agents/talk.py`, one_ai/AGENTS.md, How an
+agent answers), and `answers.posted` posts what it said since the last
+question as its message, with what it looked up and suggested in `parts`.
+Una answers for herself and hands a department's work to its agent. Each
+step is told to the asker's browser (`one_ai_run`), and `panel.progress`
+answers a browser that missed one.
 
 Who may talk to whom: Una to everybody, an app's agent to whoever holds one
 of its app's roles (`agents.reaches`), as docs/ARC-AI.md says. An agent's
@@ -125,7 +127,7 @@ answers under itself with the call they always made.
 
 ## Connections
 
-- **From OneAI**: An agent's answer comes from OneAI's chat loop, the panel is a conversation here, and an agent's Draft and Ask First land as cards in its conversation with the person asked.
+- **From OneAI**: An agent answers with its own tools (one_ai/agents/talk.py), the panel is a conversation here, and an agent's Draft and Ask First land as cards in its conversation with the person asked.
 - **From OneCloud**: A file is added to a message from OneCloud or the computer.
 - **To One**: A mention and a direct message are told on the bell, and by email or push.
 
@@ -134,8 +136,10 @@ answers under itself with the call they always made.
 - `manifest.py`, `access.py` (one role, OneChat User, given to everybody),
   `channels.py` (members and permissions), `messages.py` (writing, live,
   mentions, reactions), `agents.py` (Una and the app agents as members),
-  `answers.py` (asking an agent), `cards.py` (the door's cards), `api.py`
-  (the island's calls), `panel.py` (the panel's calls), `trust.py`.
+  `answers.py` (asking an agent and posting its answer), `transcript.py`
+  (what the agent is sent of a conversation), `cards.py` (the door's
+  cards), `api.py` (the island's calls), `panel.py` (the panel's calls),
+  `trust.py`.
 - `frontend/src/chat/`: `OneChat.vue` (the frame), `ChannelList.vue`,
   `Conversation.vue` (a conversation or a thread), `Message.vue`,
   `AgentCard.vue`, `Composer.vue`.

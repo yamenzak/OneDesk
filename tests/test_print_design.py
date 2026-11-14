@@ -83,7 +83,7 @@ def test_the_page_number_is_a_format_setting():
 	assert "page_number not in PAGE_NUMBER" in _body(PRINTING, "format_doc")
 
 
-RUN = (tree.APP / "one_ai" / "run.py").read_text()
+TALK = (tree.APP / "one_ai" / "agents" / "talk.py").read_text()
 
 
 def test_a_document_of_trade_prints_who_and_how_much():
@@ -97,9 +97,9 @@ def test_a_design_that_does_not_hold_is_mended_not_reported():
 	made rather than that it was."""
 	redo = _body(AI, "_redo")
 	assert '"mend": "design_print_format"' in redo and '"starting_layout"' in redo
-	assert "MEND_IT.format(mend)" in RUN and "GAVE_UP.format(mend)" in RUN
-	assert "nothing was made" in RUN.split("GAVE_UP = (", 1)[1].split("\n)\n", 1)[0]
-	assert '_unsaid(out["turns"])' in RUN
+	assert "(GAVE_UP if mended else MEND_IT).format(mend)" in TALK
+	assert "nothing was made" in TALK.split("GAVE_UP = (", 1)[1].split("\n)\n", 1)[0]
+	assert '_unsaid(out["turns"])' in TALK
 
 
 def test_a_typeface_is_frappes_own_font():
@@ -141,9 +141,7 @@ def test_print_design_runs_on_a_model_that_lays_a_page_out():
 	(one_ai/models.py), with room for a page's long answer."""
 
 	assert 'print_layout.action = design_print_format.action = "print_design"' in AI
-	tools = (tree.APP / "one_ai" / "tools.py").read_text()
-	assert 'getattr(fn, "action", None)' in _body(tools, "action_of")
-	assert "surface.action_of(" in RUN and "action = sorted(wanted)[0]" in RUN
+	assert 'getattr(known.get(want.get("tool")), "action", None)' in TALK and "handed, action = True, sorted(wanted)[0]" in TALK
 	sys.path.insert(0, str(tree.ROOT))
 	from onedesk.one_ai import jobs
 

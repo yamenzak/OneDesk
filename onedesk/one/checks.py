@@ -407,7 +407,8 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 
 	from onedesk.one import apps
 	from onedesk.one_admin import faults
-	from onedesk.one_ai import chat, run, yours
+	from onedesk.one_ai import run, yours
+	from onedesk.one_chat import panel
 	from onedesk.one_ai.reading import pipeline, switches
 	from onedesk.one_hr import hiring
 
@@ -428,7 +429,7 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 			else:
 				raise AssertionError("OneAI off still asked a model")
 			try:
-				chat.say("hello")
+				panel.say("hello")
 			except frappe.ValidationError:
 				pass
 			else:

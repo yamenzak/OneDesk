@@ -82,8 +82,9 @@ def intake_on() -> bool:
 
 
 def refuse_ai() -> None:
-	"""Every model call goes through run.ask or run.once, which ask this
-	first. A Refused is what their callers already handle."""
+	"""Every model call goes through run.py (turn, once, read, make and
+	begin), which ask this first. A Refused is what their callers already
+	handle."""
 	if not ai_on():
 		from onedesk.one_admin import faults
 

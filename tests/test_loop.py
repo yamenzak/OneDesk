@@ -23,7 +23,7 @@ import tree
 
 GATEWAY = tree.APP / "one_admin" / "gateway.py"
 ACTIONS = tree.APP / "one_admin" / "actions.py"
-RUN = tree.APP / "one_ai" / "run.py"
+TALK = tree.APP / "one_ai" / "agents" / "talk.py"
 TOOLS = tree.APP / "one_ai" / "tools.py"
 
 LIFTED = (
@@ -220,7 +220,7 @@ def test_tools_are_offered_only_where_the_job_says_so():
 
 def test_a_tool_that_refuses_comes_back_as_a_result():
 	"""A refusal a model can read beats a traceback where the answer was one line away."""
-	said = spoken(RUN, "_tried")
+	said = spoken(TALK, "_tried")
 	assert "except Exception" in said
 	assert "'ran': False" in said
 	body = ast.parse(said).body[0]
@@ -236,9 +236,9 @@ def test_a_tool_answers_in_types_json_has():
 
 
 def test_the_loop_stops_on_done_rather_than_on_a_guess():
-	said = spoken(RUN, "ask")
+	said = spoken(TALK, "ask")
 	assert "out.get('done')" in said
-	assert "rounds >= ROUNDS" in said
+	assert "range(ROUNDS + 1)" in said and "rounds == ROUNDS" in said
 
 
 def test_a_model_turn_is_the_assistant_in_openais_dialect():
@@ -254,11 +254,11 @@ def test_an_empty_answer_is_asked_again_tool_or_no_tool():
 	"""Measured on Gemma 4: asked to sort mail, it once answered nothing and
 	called nothing, and the panel stayed blank. An empty answer is asked for
 	again whether or not a tool was called."""
-	source = (GATEWAY.parent.parent / "one_ai" / "run.py").read_text(encoding="utf-8")
+	source = TALK.read_text(encoding="utf-8")
 	body = ast.parse(source)
-	wanted = [n for n in body.body if isinstance(n, ast.FunctionDef) and n.name in ("_silent", "_used")]
+	wanted = [n for n in body.body if isinstance(n, ast.FunctionDef) and n.name in ("_silent", "_used", "_last_words")]
 	room: dict = {}
-	exec(compile(ast.Module(body=wanted, type_ignores=[]), "run.py", "exec"), room)
+	exec(compile(ast.Module(body=wanted, type_ignores=[]), "talk.py", "exec"), room)
 	blank = {"turns": [{"role": "user", "text": "sort my mail"}, {"role": "model", "text": "", "calls": []}]}
 	assert room["_silent"](blank, []) and not room["_used"](blank)
 	answered = {"turns": [*blank["turns"][:1], {"role": "model", "text": "Done."}]}
@@ -305,12 +305,12 @@ def test_a_call_gemma_wrote_as_text_is_read_as_a_call():
 def test_the_last_round_the_account_takes_is_told_to_answer():
 	"""The account refuses a sixth model turn, and a run that reached it ended
 	in that refusal. The fifth is told to answer with what it has."""
-	room = _lifted(RUN, ("_spoken",), {})
+	room = _lifted(TALK, ("_spoken",), {})
 	asked = [{"role": "user", "text": "q"}]
 	looked = [{"role": "model", "calls": [{}]}, {"role": "tool"}]
 	assert room["_spoken"](asked + looked * 4) == 4
 	assert room["_spoken"](asked + looked * 2 + [{"role": "user", "context": True}] + looked) == 3
-	said = spoken(RUN, "ask")
+	said = spoken(TALK, "ask")
 	assert "_spoken(turns) >= ROUNDS - 1" in said
 	assert "or last" in said
 
@@ -318,8 +318,8 @@ def test_the_last_round_the_account_takes_is_told_to_answer():
 def test_a_handover_moves_the_job_and_nothing_else():
 	"""Handed to print design, the conversation runs as that job: its words,
 	its tools, its kind of model. No model travels with it."""
-	said = spoken(RUN, "ask")
-	assert "action = sorted(wanted)[0]" in said and "tooled = _tooled(action)" in said
+	said = spoken(TALK, "ask")
+	assert "handed, action = (True, sorted(wanted)[0])" in said
 	assert "pinned" not in said and "chose" not in said
 
 
@@ -342,14 +342,6 @@ def test_extension_code_sent_on_one_line_is_read_as_its_lines():
 	kept = 'a = 1\nb = "x\\ny"'
 	assert room["_unescaped"](kept) == kept, "code with real lines is left as written"
 	assert "code=_unescaped(code)" in spoken(tree.APP / "one_studio" / "agent.py", "write_extension")
-
-
-def test_an_action_with_no_tools_is_never_told_to_look_something_up():
-	"""A summary carries figures and has nothing to look them up with."""
-	said = spoken(RUN, "ask")
-	assert "tooled and (not cards) and (not doubted)" in said
-	assert "tooled and (not called) and (not doubted)" in said
-	assert "tooled = _tooled(action)" in said
 
 
 def test_a_blank_answer_is_asked_again_with_a_turn_only_the_model_sees():

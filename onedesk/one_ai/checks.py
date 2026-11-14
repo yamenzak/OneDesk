@@ -149,32 +149,46 @@ def oneai_is_told_what_every_place_shows():
 
 @check
 def oneai_a_conversation_its_cards_and_its_settings():
-	"""Omar's conversation with OneAI from start to forgotten, the cards it
+	"""Omar's conversation in the panel with OneCRM's agent, asked on a deal
+	and answered in the background with its own tools, the cards it
 	suggests waiting, refused, applied and taken into a form, and Layla's
 	OneAI settings, where nothing about a model is set. A model is not
 	called: what the account and the model would say is said here."""
 	from unittest import mock
 
 	from onedesk.one import ai_workspace
-	from onedesk.one_ai import center, chat, files, proposals, run
+	from onedesk.one_ai import center, files, proposals, run
+	from onedesk.one_ai.agents import talk
+	from onedesk.one_chat import answers, panel
 	from onedesk.one_crm import agent as crm
 
 	deal = frappe.db.get_value("Opportunity", {"title": "Webb Hotel lobby curtain wall"})
+	page = {"doctype": "Opportunity", "name": deal}
 	with as_user("omar@one.test"):
-		started = chat.start()
-		assert chat.rename(started["name"], "Webb hotel follow-up")["title"] == "Webb hotel follow-up"
+		assert panel.agent_for(page)["agent"] == "one_crm"
+		started = panel.start(page=page)
+		assert panel.rename(started["name"], "Webb hotel follow-up")["title"] == "Webb hotel follow-up"
 		with mock.patch("frappe.enqueue") as queued:
-			said = chat.say("What is next on the Webb hotel deal?", started["name"], {"doctype": "Opportunity", "name": deal})
-		assert said["run"] and queued.call_args.kwargs["chat"] == started["name"]
-		assert chat.opened(started["name"])["said"] and started["name"] in {one.name for one in chat.chats()}
-		assert chat.progress(said["run"])["chat"] == started["name"]
-		assert files.attached(started["name"]) == []
-		assert chat.suggestions({"doctype": "Opportunity", "name": deal})
+			said = panel.say("What is next on the Webb hotel deal?", started["name"], page=page)
+		asked = queued.call_args.kwargs
+		assert said["run"] and asked["agent"] == "one_crm" and asked["chat"] == said["ai_chat"], asked
+		assert said["name"] in {one["name"] for one in panel.conversations()}
+		assert panel.progress(said["run"])["chat"] == said["ai_chat"]
+		assert files.attached(said["ai_chat"]) == []
+		assert panel.suggestions(page)
+		reads, suggests = talk.tools_of("one_crm")
+		mine = {fn.__name__ for fn in reads + suggests}
+		assert {"crm_facts", "plan_next_step", "read_record", "create_record"} <= mine and not mine & {"money_now", "delete_record", "ask_agent"}, mine
+		model = {"done": True, "credits": 0.2, "turns": [{"role": "user", "text": "What is next on the Webb hotel deal?"}, {"role": "model", "text": "Call them to agree the price."}]}
+		with mock.patch("onedesk.one_ai.run.turn", return_value=model), mock.patch("onedesk.one_chat.transcript.title"):
+			answers.answer(asked["chat"], asked["agent"], asked["text"], None, asked["run"], page)
+		answered = panel.opened(said["name"])["said"]
+		assert answered[-1]["role"] == "model" and answered[-1]["text"] == "Call them to agree the price.", answered
 
 		card = crm.plan_next_step("Opportunity", deal, "Call to agree the price", str(add_days(today(), 2)))["proposal"]
 		other = crm.add_lead("Joanna Pike", "joanna@pike.example", "Pike Hotels")["proposal"]
 		assert {card, other} <= {one["name"] for one in run.waiting()}
-		assert {one["name"] for one in chat.cards([card, other])} == {card, other}
+		assert {one["name"] for one in panel.suggested([card, other])} == {card, other}
 		run.refuse(other)
 		assert frappe.db.get_value("AI Proposal", other, "state") == "Refused"
 		assert run.took(card)["changes"]["one_next_step"] == "Call to agree the price"
@@ -188,15 +202,13 @@ def oneai_a_conversation_its_cards_and_its_settings():
 		assert len(run.tools()) > 50
 		used = run.use("crm_facts", {"record_type": "Opportunity", "name": deal})
 		assert used["ran"] and used["answer"]["history"], used
-		chat.forget(started["name"])
-		assert not frappe.db.exists("AI Chat", started["name"])
 	with as_user(OWNER):
 		with mock.patch("onedesk.one.account.ask", return_value=[{"tier": "balanced", "credits": 0.4}]):
 			held = center.state()
 		assert set(held) == {"on", "tier", "tiers", "credits"} and held["tier"] in {"fast", "balanced", "full"}, "a workspace sets no model and no words"
 		with (
 			mock.patch("onedesk.one.account.configured", return_value=True),
-			mock.patch("onedesk.one.account.ask", return_value={"actions": [{"action": chat.CHAT, "calls": 3, "credits": 1.5}]}),
+			mock.patch("onedesk.one.account.ask", return_value={"actions": [{"action": answers.CHAT, "calls": 3, "credits": 1.5}]}),
 		):
 			said = ai_workspace.workspace_oneai()
 		assert said["last_30_days"][0]["calls"] == 3 and said["summaries"], said
@@ -572,12 +584,16 @@ def ai_center_sets_the_tier_and_a_modules_part():
 
 @check
 def oneai_searches_the_web_only_while_its_service_is_on():
-	"""Web search (one_ai/ai_web.py): off, OneAI isn't given the tool or its
-	group, and asking it reaches nobody; on, the question alone goes to the
+	"""Web search (one_ai/ai_web.py): off, OneAI and Una aren't given the
+	tool, and asking it reaches nobody; on, the question alone goes to the
 	account, and the pages come back."""
 	from unittest import mock
 
-	from onedesk.one_ai import ai_web, groups, tools
+	from onedesk.one_ai import ai_web, tools
+	from onedesk.one_ai.agents import talk
+
+	def una() -> set[str]:
+		return {fn.__name__ for fn in talk.tools_of(None)[0]}
 	from onedesk.trust_center import services
 
 	with as_user(OWNER):
@@ -585,13 +601,13 @@ def oneai_searches_the_web_only_while_its_service_is_on():
 		try:
 			services.switch(ai_web.SERVICE, 0)
 			frappe.local.one_services = {}
-			assert "web_search" not in tools.names() and "web" not in groups.chosen("look up Gulf Extrusions online")
+			assert "web_search" not in tools.names() and "web_search" not in una()
 			with mock.patch("onedesk.one.account.ask") as asked:
 				assert ai_web.web_search("Gulf Extrusions Dubai")["pages"] == []
 				asked.assert_not_called()
 			services.switch(ai_web.SERVICE, 1)
 			frappe.local.one_services = {}
-			assert "web_search" in tools.names() and "web" in groups.chosen("look up Gulf Extrusions online")
+			assert "web_search" in tools.names() and "web_search" in una()
 			page = {"url": "https://gulf.example", "title": "Gulf Extrusions", "about": "Aluminium profiles"}
 			with mock.patch("onedesk.one.account.ask", return_value={"pages": [page]}) as asked:
 				assert ai_web.web_search("Gulf Extrusions Dubai") == {"pages": [page]}

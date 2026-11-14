@@ -456,7 +456,7 @@ in `notifications/one_cloud` until OneDeck is a module of its own).
 OneDoc's **Make a Picture with OneAI** is the same picture job
 (`one_doc/api.py`, `make_picture`).
 
-In OneAI's panel (the `presentations` group in `one_ai/groups.py`), `page`
+In OneAI's panel (Una's tools, since OneDeck has no agent of its own), `page`
 tells the model which presentation and slide are open (the editor's
 `aiSees`), the record it is filed on, its chips, the kinds of slide and the
 words each takes (`decks.WORDS`) and One's decks as recipes. Its tools are

@@ -1139,10 +1139,6 @@ one_ai_reader = hook("one_ai_reader")
 
 one_ai_workspace = hook("one_ai_workspace")
 
-# What keeps OneAI's answer where it was asked: OneChat posts it into the
-# conversation (one_chat/answers.py).
-one_ai_chat_kept = hook("one_ai_chat_kept")
-
 # What a person is shown of what still waits on them once the auditor has
 # had its say on a document: OneChat posts each as a card (one_chat/cards.py).
 one_ai_waiting = hook("one_ai_waiting")

@@ -635,11 +635,8 @@ def test_oneai_reads_a_project_as_its_page_does():
 	for tool in ("project_facts", "projects_needing_attention"):
 		assert f'"onedesk.one_project.agent.{tool}"' in HOOKS
 	assert '"onedesk.one_project.agent.SUGGESTIONS"' in HOOKS
-	groups = (tree.APP / "one_ai" / "groups.py").read_text()
-	tools = groups.split('"projects": {', 1)[1].split("},", 1)[0]
-	for tool in ("project_facts", "projects_needing_attention", "draft_update", "remind_customer", "add_member", "add_contact", "project_templates", "draft_template"):
-		assert f'"{tool}"' in tools
-	assert '"one_project": "projects"' in groups
+	for tool in ("draft_update", "remind_customer", "add_member", "add_contact", "project_templates", "draft_template"):
+		assert f'"onedesk.one_project.agent.{tool}"' in HOOKS, f"{tool} is not the coordinator's"
 	for page in ("notifications", "asking-oneai", "who-can-do-what"):
 		assert (PROJECT / "help" / f"{page}.md").exists(), page
 	assert "## Who Sees a Project" in (PROJECT / "help" / "who-can-do-what.md").read_text()

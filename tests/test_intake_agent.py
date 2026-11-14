@@ -40,7 +40,7 @@ def test_it_runs_as_the_person_and_hands_their_session_back():
 	think = _fn(AGENT, "think")
 	assert "frappe.set_user(reading.on_behalf_of)" in think
 	assert think.index("finally:") < think.index("frappe.set_user(was)")
-	assert "nudges=False" in think and "only=" in think
+	assert "tools=(looks + HANDS, ())" in think and "taker(reading)" in think, "its own tools, as the agent that took it in"
 
 
 def test_it_is_shown_what_was_done_and_told_not_to_repeat_it():

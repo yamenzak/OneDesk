@@ -136,8 +136,6 @@ async function refreshCard(action) {
   if (found && found[0]) cards.value = { ...cards.value, [action]: found[0] };
 }
 
-// An agent's answer runs in the background (one_ai/chat.py); its steps are
-// told to the asker, and the answer arrives as a message.
 function followed(step) {
   if (!running || step.run !== running) return;
   if (step.failed) {

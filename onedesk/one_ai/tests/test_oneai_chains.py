@@ -70,10 +70,9 @@ def test_several_records_are_one_step():
 	tools = (AI / "tools.py").read_text(encoding="utf-8")
 	assert "def create_records(" in tools
 	assert "SUGGESTS = (create_record, create_records," in tools
-	groups = (AI / "groups.py").read_text(encoding="utf-8")
-	assert '"create_records"' in groups[: groups.index("GROUPS")], "every request is given create_records"
-	run = (AI / "run.py").read_text(encoding="utf-8")
-	assert "def _cards(" in run and "'cards'" in _source(AI / "run.py", "_cards")
+	talk = (AI / "agents" / "talk.py").read_text(encoding="utf-8")
+	assert '"create_records"' in talk.split("FOR_THE_PERSON = (", 1)[1].split(")", 1)[0], "Una is given create_records"
+	assert "'cards'" in _source(AI / "agents" / "talk.py", "_cards")
 
 
 def test_ready_makes_the_record_as_approve_will_and_rolls_it_back():
@@ -94,7 +93,7 @@ def test_the_panel_approves_them_all_and_hands_a_failure_back():
 
 
 def test_an_error_is_answered_with_what_mends_it():
-	tried = _source(AI / "run.py", "_tried")
+	tried = _source(AI / "agents" / "talk.py", "_tried")
 	assert "heal.said(" in tried and "heal.unknown(" in tried
 	assert "[:500]" not in tried
 
@@ -136,7 +135,7 @@ def test_every_field_oneai_set_is_marked_and_so_is_a_record_it_made():
 
 
 def test_what_earlier_questions_read_is_sent_cut_down_and_kept_whole():
-	room = _lifted(AI / "chat.py", ("EARLIER_ROWS", "EARLIER_TEXT", "lighter", "_cut", "_whole"), {})
+	room = _lifted(AI.parent / "one_chat" / "transcript.py", ("EARLIER_ROWS", "EARLIER_TEXT", "lighter", "_cut", "whole"), {})
 	rows = [{"name": str(n)} for n in range(30)]
 	turns = [
 		{"role": "user", "text": "first"},
@@ -149,7 +148,7 @@ def test_what_earlier_questions_read_is_sent_cut_down_and_kept_whole():
 	assert len(sent[1]["result"]) == room["EARLIER_ROWS"] + 1 and sent[1]["result"][-1] == {"left_out": 25}
 	assert sent[4]["result"] == rows, "what answers this question goes whole"
 	assert turns[1]["result"] == rows, "the conversation itself is not cut"
-	back = room["_whole"](turns, [*sent, {"role": "model", "text": "done"}])
+	back = room["whole"](turns, [*sent, {"role": "model", "text": "done"}])
 	assert back[1]["result"] == rows and back[-1]["text"] == "done"
 
 

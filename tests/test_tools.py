@@ -96,7 +96,7 @@ def test_every_tool_is_a_function_a_schema_can_be_read_off():
 			for target in node.targets:
 				if isinstance(target, ast.Name) and target.id in ("READS", "SUGGESTS"):
 					named |= {e.id for e in node.value.elts if isinstance(e, ast.Name)}
-	assert len(named) == 17, named
+	assert len(named) == 16, named
 	for name in named:
 		fn = functions[name]
 		assert ast.get_docstring(fn), f"{name} tells a model nothing about itself"
@@ -259,18 +259,18 @@ def test_only_what_frappe_can_resolve_without_guessing_is_resolved():
 
 
 def test_the_model_is_told_who_is_asking_and_what_the_type_holds():
-	said = (tree.APP / "one_ai" / "chat.py").read_text()
-	asked = said.split("def _asked(", 1)[1].split("\ndef ", 1)[0]
-	assert "_today()" in asked and "_reader()" in asked
+	said = (tree.APP / "one_ai" / "here.py").read_text()
+	asked = said.split("def asked(", 1)[1].split("\ndef ", 1)[0]
+	assert "_today()" in asked and "_reader()" in asked and "who" in asked
 	assert 'frappe.get_hooks("one_ai_reader")' in said
-	assert "_fields_said(doctype)" in said.split("def _page(", 1)[1].split("\ndef ", 1)[0]
+	assert "_fields_said(doctype)" in said.split("def said_of(", 1)[1].split("\ndef ", 1)[0]
 
 
 def test_a_card_carries_every_field_it_would_set_and_only_those_that_change():
 	"""Approving a card approves all of it: a card setting twenty settings had
 	shown six, and the ones already right rode along as noise."""
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	suggests = chat.split("def _suggests(", 1)[1].split("\ndef ", 1)[0]
+	drawn = (tree.APP / "one_ai" / "drawn.py").read_text()
+	suggests = drawn.split("def _suggests(", 1)[1].split("\ndef ", 1)[0]
 	assert "[: proposals.MOST_FIELDS]" in suggests and "[:FIELDS]" not in suggests
 	assert 'drawn["was"]' in suggests
 	propose = (tree.APP / "one_ai" / "proposals.py").read_text().split("def propose(", 1)[1].split("\ndef ", 1)[0]
@@ -284,8 +284,8 @@ def test_a_big_change_is_said_as_what_it_touches_and_marked_on_the_page():
 	assert "MANY = 4" in card and "onedesk.oneai.changed(frm" in card
 	js = (tree.APP / "public" / "js" / "one_ai" / "oneai.js").read_text()
 	assert "onedesk.oneai.changed = function" in js and "onedesk.oneai.unchanged(frm)" in js
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	assert '"fieldname": field' in chat and 'frappe._("On")' in chat
+	drawn = (tree.APP / "one_ai" / "drawn.py").read_text()
+	assert '"fieldname": field' in drawn and 'frappe._("On")' in drawn
 
 
 def test_no_tool_takes_a_type_a_model_cannot_be_told():

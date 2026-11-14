@@ -687,23 +687,22 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 	other = frappe.get_all("Purchase Invoice", filters={"docstatus": 1}, pluck="name", limit=1)[0]
 	assert len(theirs.records("khalid@mansour.example", f"About {other}")) == len(rows), "a name not theirs adds nothing"
 
-	asked, looked = [], []
+	asked, looked, agent = [], [], []
 
-	def ask(action, text, reference=None, only=None, nudges=True):
-		from onedesk.one_ai import tools as surface
-
+	def ask(app, action, text, turns, reference=None, tools=None):
+		agent.append(app)
 		asked.append(text)
-		looked.append(surface.run("their_record", {"doctype": "Sales Invoice", "name": mine})["answer"]["totals"])
-		try:
-			surface.run("their_record", {"doctype": "Purchase Invoice", "name": other})
-			looked.append("leaked")
-		except frappe.ValidationError:
-			pass
+		reads = {fn.__name__: fn for fn in tools[0]}
+		if reads:
+			looked.append(reads["their_record"]("Sales Invoice", mine)["totals"])
+			try:
+				reads["their_record"]("Purchase Invoice", other)
+				looked.append("leaked")
+			except frappe.ValidationError:
+				pass
 		return {"said": "ok"}
 
-	with mock.patch("onedesk.one_ai.run.once", side_effect=lambda kind, text, reference=None: asked.append(text) or "ok"), mock.patch(
-		"onedesk.one_ai.run.ask", side_effect=ask
-	):
+	with mock.patch("onedesk.one_ai.agents.talk.ask", side_effect=ask):
 		mail = frappe._dict(name=None, sender="khalid@mansour.example", subject="Invoice", content="How much do we owe?")
 		rules._drafted({"instruction": "Answer from their records.", "records": 1}, frappe._dict(mail, one_verified=1))
 		rules._drafted({"instruction": "Answer from their records.", "records": 1}, frappe._dict(mail, one_verified=0))
@@ -711,7 +710,8 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 		rules._drafted({"instruction": "Answer.", "records": 1}, frappe._dict(mail, sender="nobody@stranger.example", one_verified=1))
 	assert mine in asked[0] and "Mansour & Sons" in asked[0]
 	assert len(looked) == 1 and any(one.get("label") == "To pay" for one in looked[0]), "one record in full, only theirs"
-	assert not frappe.flags.one_ai_tools and not frappe.flags.one_mail_sender, "the tools go with the run"
+	assert not frappe.flags.one_mail_sender, "the sender goes with the run"
+	assert set(agent) == {"one_mail"}, "every reply is the receptionist's"
 	assert all("SINV" not in one and "could not be confirmed" in one for one in asked[1:2])
 	assert "SINV" not in asked[2] and "Say nothing about any order" in asked[2]
 	assert "SINV" not in asked[3] and "Nothing is known" in asked[3]

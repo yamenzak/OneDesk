@@ -1,7 +1,9 @@
-"""OneAI as an employee: after the planners, OneAI looks things up as
-the person it reads for and acts through the one door, with five tools.
-Each act is marked, undoable, checked against that person's permissions,
-and waits in the inbox below the workspace's floor. README, employee.py.
+"""OneAI as an employee: after the planners, the agent that took the
+document in (OneMail's receptionist for mail, Una for a file) looks things
+up as the person it reads for and acts through Intake's door, with five
+tools. Each act is marked, undoable, checked against that person's
+permissions, and waits in the inbox below the workspace's floor. README,
+employee.py.
 """
 
 import json
@@ -14,7 +16,7 @@ from onedesk.one_ai.reading import act, guard
 
 ACTION = "intake_act"
 
-#: What the model may read with: the chat's own, as the person.
+#: What the model may read with: the shared reads, as the person.
 LOOKS = (
 	"find_by_meaning",
 	"search_everywhere",
@@ -35,7 +37,8 @@ LINES, ASKS = 20, 10
 def think(name: str) -> None:
 	"""The agent's pass over one understood reading, after the planners."""
 	from onedesk.one import account, apps
-	from onedesk.one_ai import run
+	from onedesk.one_ai import tools
+	from onedesk.one_ai.agents import talk
 
 	reading = frappe.get_doc("Reading", name)
 	if not _worth(reading) or not apps.intake_on() or not account.configured():
@@ -43,22 +46,32 @@ def think(name: str) -> None:
 	asked = told(reading)
 	if guard.holds(reading, asked):
 		return
+	looks = tuple(fn for fn in tools.hooked()[0] + tools.READS if fn.__name__ in LOOKS)
 	was = frappe.session.user
 	frappe.flags.one_intake_reading = reading.name
-	frappe.flags.one_ai_tools = {fn.__name__: fn for fn in HANDS}
 	frappe.set_user(reading.on_behalf_of)
 	try:
-		run.ask(
+		talk.ask(
+			taker(reading),
 			ACTION,
 			asked,
+			[{"role": "user", "text": asked, "calls": []}],
 			reference=reading.name,
-			only=[*LOOKS, *(fn.__name__ for fn in HANDS)],
-			nudges=False,
+			tools=(looks + HANDS, ()),
 		)
 	finally:
 		frappe.set_user(was)
-		frappe.flags.one_ai_tools = None
 		frappe.flags.one_intake_reading = None
+
+
+def taker(reading) -> str | None:
+	"""The agent that took a document in: OneMail's receptionist for a mail,
+	while it works; else Una (None)."""
+	from onedesk.one_ai.agents import work
+
+	if reading.source_doctype != "Communication":
+		return None
+	return next((one.app for one in work.working() if one.app == "one_mail"), None)
 
 
 def _worth(reading) -> bool:

@@ -216,22 +216,24 @@ The files come first. After them: where the money lives, the gateway, the
 models, credits, how a call is billed, which model answers, and what is
 deliberately not here.
 
-- `chat.py`: a conversation (`AI Chat`) and the panel's calls (`start`, `say`,
-  `answer`, `rename`, `suggestions`, `cards`). The page travels as a pointer,
-  never as the record's values.
+- `agents/talk.py`, `here.py`, `drawn.py`: an agent answering a person, what
+  it is told of where they are, and what it read and suggested drawn for
+  them. OneChat keeps the conversation and its transcript
+  (one_chat/answers.py, transcript.py, AGENTS.md there); the page travels
+  as a pointer, never as the record's values.
 
   A conversation is kept rather than held in a tab, because a chat that dies
-  when the tab does is one nobody starts anything long in. `AI Chat` holds a
-  title, when it was last said to, what it has cost, and the turns: the same
-  turns the gateway speaks, because the conversation *is* the turns and a
-  second shape beside them is a second shape to keep in step.
+  when the tab does is one nobody starts anything long in. Its transcript is
+  an `AI Chat`: a title, when it was last said to, what it has cost, and the
+  turns, the same turns the gateway speaks, because the conversation *is*
+  the turns and a second shape beside them is a second shape to keep in step.
 
   **The page is a pointer, not a payload.** What travels is the route: the
-  doctype, the record's id, which view. Not the record's values: the model has
-  `read_record` for that, and that runs as whoever is signed in, so a pointer
-  at something the reader may not see buys nothing. It also keeps a
-  conversation honest over time: the context of the third message is where
-  they were for the third message, not where they are now.
+  doctype, the record's id, which view (`here.said_of`). Not the record's
+  values: the model has `read_record` for that, and that runs as whoever is
+  signed in, so a pointer at something the reader may not see buys nothing.
+  It also keeps a conversation honest over time: the context of the third
+  message is where they were for the third message, not where they are now.
 
   What the person just dropped on the panel goes to a tool that attaches what
   it read to what it suggests, a receipt to its claim. Only this question's
@@ -240,9 +242,9 @@ deliberately not here.
 
   **What earlier questions read is sent cut down.** The whole conversation is
   sent on every round, so a hundred rows read three questions ago were paid
-  for again on every round of this one. `lighter` sends a few rows of each
+  for again on every round of this one. `transcript.lighter` sends a few rows of each
   earlier tool answer and the start of each long text, saying how much was
-  left out; what answers this question goes whole, and `_whole` puts the
+  left out; what answers this question goes whole, and `transcript.whole` puts the
   full answers back before the conversation is kept, so the panel still
   shows every row it showed.
 - `run.py`: asks the account to run a job (`proxy.ai_run` on OneAdmin). `once`
@@ -257,48 +259,12 @@ deliberately not here.
   answer it, whether there are credits: all of that is admin's, for the same
   reason a workspace cannot sign its own upload URL.
 
-  `ask` runs one action, looking things up for the model where it asks. The
-  loop is here rather than on the account, and that is the whole shape of it:
-  the model is on the account and the records are here, the account never
-  calls a workspace, and a tool means nothing unless it runs as whoever is
-  signed in. So the workspace asks, is told what the model wants, looks it up
-  with its own permissions, and asks again. A tool that refuses comes back as
-  a result saying so rather than as an exception. A model told "you may not
-  see that" can say so; a model told nothing at all writes something plausible
-  instead.
-
-  `heard` is told each thing as it
-  happens (a round starting, a tool it ran), so a panel watching a background
-  run can say what it is doing rather than that it is busy.
-
-  Within the loop:
-  - The model reached for a tool that another action runs, on a model that
-    does it well: Print Design lays a page out, which the chat's small model
-    gets wrong. That action takes the conversation from here, asked the same
-    thing again, and keeps it to the end of the run; its calls are charged to
-    it.
-  - A suggestion that exists to make a card ("Draft my feedback") answered
-    with the draft in the chat and no card is asked for the call it was for,
-    with what it just wrote. Not when it ended by asking the person something:
-    that is theirs to answer, and the card comes after.
-  - Measured on Gemma 4: asked for a scheduled extension with only the
-    reader's own tools given, it answered "I do not have a tool for that, but
-    I can write an extension with write_extension". Before saying it cannot,
-    it looks at every tool there is.
-  - A tool's turn holds what the tool answered, and nothing else. The
-    bookkeeping sits beside it rather than inside it, because `result` is the
-    only part a provider is sent, and a model handed
-    `{"tool": ..., "ran": ..., "answer": [...]}` quotes the wrapper back at the
-    reader as if it were the answer.
-  - What a round parked is somebody's to answer, and a round that fails after
-    it should not take it away. It is committed each round rather than at the
-    end of the request, which on a run with five model calls in it is minutes
-    off, and a transaction held open across all of them is a transaction
-    holding locks across all of them.
-- `tools.py`, `schema.py`, `groups.py`: the tools. A read runs as the session
-  user. A create, edit or delete writes an `AI Proposal`. A tool's schema is
-  read off its signature. `groups.py` picks the tools a request is given, and
-  `more_tools` lets the model ask for another group.
+  `turn` is one round with tools: the model's next turn, which answers or
+  asks for tools. The rounds are an agent's (`agents/talk.py`).
+- `tools.py`, `schema.py`: the tools. A read runs as the session user. A
+  create, edit or delete writes an `AI Proposal`. A tool's schema is read
+  off its signature. Which of them an agent is given is its own
+  (`agents/talk.py`, below).
 
   `tools.py` is what a model may ask for, and what it may only suggest.
   Everything a person can do here a tool can do (read a list, read a record,
@@ -356,26 +322,6 @@ deliberately not here.
   "properties[fields].items: missing field") while OpenAI's dialect accepts
   it, so the stricter reading is the one written.
 
-  `groups.py` decides which tools a request is given. OneAI has some 120
-  tools, and a model handed all of them on every round reads every one of them
-  every round and picks among them all: measured, Gemma 4 reached for
-  `search_everywhere` to find an extension, and the 120 cost some 20,000
-  tokens a round. So the tools are grouped, and a request is given the tools
-  everybody needs (`CORE`, the `you` group and `more_tools`) and the groups it
-  looks like it needs:
-  - the group of the page the person is on (`MODULES`, `DOCTYPES`, `PAGES`);
-  - a group whose words the request uses (`words`, in English, German and
-    Arabic: a guess, and a cheap one);
-  - a group the conversation already used, so a follow-up keeps its tools and
-    the provider's cache keeps what it has.
-
-  None of that is a wall. `more_tools` names every group and what it is for,
-  so the model knows all One can do and asks for a group it was not given; it
-  has it on the next round. A guess that misses costs a round, never an
-  answer. The groups are declared in `groups.py` rather than worked out from
-  module paths, because a group is what a person asks about (their mail, the
-  workspace's setup), and that is not always where the code lives: `one/ai_workspace.py`
-  holds both somebody's own day and the workspace's people.
 - `proposals.py`: the card. Permissions are checked when it is written and
   again when it is applied, as an ordinary insert, save or delete. A card
   whose record moved past its `modified` is Stale.
@@ -420,7 +366,7 @@ deliberately not here.
   a model's diff quietly undoing a person's.
 - `ai_web.py`: `web_search`, the one tool that needs an optional service.
   Given only while the workspace has web search on in TrustCenter
-  (`offered`, which `tools._every` and `groups.offered` ask), and run
+  (`offered`, which `tools._every` and `talk.tools_of` ask), and run
   through `services.call`, so with it off nothing leaves. Only the question
   goes, to the account (`proxy.ai_web_search`), which asks Cloudflare's web
   search for Exa's pages.
@@ -657,8 +603,10 @@ deliberately not here.
       bench --site <site> execute onedesk.one_ai.evals.run --kwargs '{"model": "google-ai-studio:gemini-2.5-flash"}'
       bench --site <site> execute onedesk.one_ai.evals.run --kwargs '{"only": "mail"}'
 
-  Each case is asked as `user` from `page`, through `run.ask` with the same
-  context turn the panel sends. It passes when the run called one of `tools`
+  Each case is asked as `user` from `page`, of the agent the panel gives that
+  page, with that agent's tools and the context turn the panel sends
+  (`talk.ask`), so a case whose tool is another agent's fails as it would
+  for the person. It passes when the run called one of `tools`
   (or none, for `tools=()`), made a card if `card`, and said something. What
   it wrote is not graded: the cards and the tools are where a wrong answer
   shows, and a judge model would grade its own kind. Cards and memories a
@@ -1619,9 +1567,12 @@ What is not built yet is in `docs/BACKLOG.md`.
 #### employee.py
 
 OneAI as an employee. After `parties`, filing, `money` and `second`,
-`matters.act_now` calls `employee.think`, which runs the `intake_act` action on
-OneAI's own loop (`run.ask` with `only` and `nudges=False`) as the reading's
-`on_behalf_of`, so every lookup is that person's. The model is shown the
+`matters.act_now` calls `employee.think`, which runs the `intake_act` action as
+the agent that took the document in (`taker`: OneMail's receptionist for a
+mail while it works, else Una), with its own tools only (`talk.ask`, `tools=`),
+counted against that agent, as the reading's `on_behalf_of`, so every lookup
+is that person's. Its acts go through Intake's door, not the receptionist's:
+the document is OneAI's own reading, as the supplier a bill waits on is. The model is shown the
 reading (`told`): what it says, who it names, its references, asks and
 lines, and `already_done`, the Reading Actions the planners took. It reads
 with the chat's tools (`LOOKS`) and acts with six of its own (`HANDS`):
@@ -2738,6 +2689,43 @@ AICenter has a tab for each (P8.2).
   an agent put to a person by its level or its roles (`door.for_a_person`).
 - **The receptionist reads a mailbox OneAI reads** (one_mail/access.py):
   that switch is the mailbox holder's say, as it is for Intake.
+- **How an agent answers** (`agents/talk.py`). A person asks Una or an
+  app's agent in OneChat or the panel; the agent answers in the background,
+  as that person, a round at a time through the account (`run.turn`),
+  counted against its month and refused while it is stopped
+  (`workspace.refuse`). The loop is here, not on the Worker: the tools read
+  as the person, whose session is here, and the model is the account's.
+  - **Its own tools** (`tools_of`). The reads every agent shares
+    (`SHARED`: the records, Help, the person's memory and conversations),
+    then what its app declares to OneAI (`one_ai_reads`, `one_ai_suggests`
+    whose path is in its folder). Una holds those of the workspace itself and
+    of every app with no agent (OneCloud, the editors, OneStudio, OneTask,
+    OneCalendar, the console on One's own), web search while it is on, and
+    `ask_agent`, which hands a department's work to the agent the person may
+    reach and passes back its answer and its cards. This replaced guessing
+    groups of tools from the words asked.
+  - **Both may.** A shared read on a record type the agent's own roles
+    cannot read is refused with who answers it (`_not_its`); the person's
+    permission holds as it always did.
+  - **Its writes go through its door.** An app agent's `create_record` and
+    `edit_record` are `door.act_for` as the person who asked, at its level
+    (Ask First, since neither is in LEVELS), so a card lands in the
+    conversation (one_chat/cards.py); what the agent's roles may not make is
+    that person's card, what the person may not is refused. An app's own
+    suggestions stay AI Proposals the person approves, as Ask First. No agent
+    deletes. Una, who has no user, suggests as the person, by card.
+  - **Within the loop.** A tool that names another action (Print Design)
+    takes the conversation to it; a tool whose answer says `mend` is asked
+    for once more, then the model says nothing was made; a suggested
+    question that exists for one tool (`expects`) is pressed for it once,
+    unless it ended by asking the person; "remember that" with nothing kept
+    is asked for the call; an empty answer is asked for again; the last
+    round is told to answer; the same call twice is answered from the first.
+    A refusal comes back as a result, never a traceback. What a round parked
+    is committed each round.
+  - OneMail's reply rule is the receptionist's (`rules._drafted`, with only
+    `theirs.TOOLS` or none), and Intake's employee is the agent that took the
+    document in (`reading/employee.py`).
 
 The gate, 50 invoices with at most 2 corrected (`agents/evaluate.py`):
 

@@ -149,9 +149,9 @@ def test_the_code_never_reaches_the_conversation():
 	)
 	tools = (tree.APP / "one_ai" / "tools.py").read_text()
 	assert "def shown_args(" in tools and "def shown_result(" in tools
-	chat = (tree.APP / "one_ai" / "chat.py").read_text()
-	assert "tools.shown_args(" in chat and "tools.shown_result(" in chat
-	assert "surface.shown_args(" in (tree.APP / "one_ai" / "run.py").read_text()
+	kept = (tree.APP / "one_chat" / "transcript.py").read_text()
+	assert "tools.shown_args(" in kept and "tools.shown_result(" in kept
+	assert "surface.shown_args(" in (tree.APP / "one_ai" / "agents" / "talk.py").read_text()
 
 
 def test_it_is_wired():
@@ -459,7 +459,6 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert 'bool((page.get("record") or "").strip()) != one["record"]' in suggest
 	assert '"onedesk.one_studio.agent.forms_here"' in HOOKS
-	assert '"forms_here"' in (tree.APP / "one_ai" / "groups.py").read_text()
 	forms = (STUDIO / "forms.py").read_text()
 	assert "module in one.owns" in forms and "\tmay(doctype)\n" in forms
 

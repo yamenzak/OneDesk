@@ -2,9 +2,8 @@
 everybody talks to first, and each app's agent from the registry
 (registry/agents.py), reached by whoever may open its app. An agent is
 asked in a conversation of its own (an Agent channel) or by being mentioned
-in a channel, and answers through OneAI's chat loop as it stands today
-(one_ai/chat.py say and answer), as the person who asked: AGENTS.md, How an
-agent answers."""
+in a channel, and answers with its own tools as the person who asked
+(answers.py, one_ai/agents/talk.py): AGENTS.md, How an agent answers."""
 
 import frappe
 from frappe import _

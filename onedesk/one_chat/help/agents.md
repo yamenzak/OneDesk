@@ -15,8 +15,13 @@ you are in, or to Una, and its conversations are listed under **With Agents**.
 In a channel, mention an agent to ask it in front of everybody, as in "@{one_book},
 why is this invoice unpaid?". It answers in a thread under your message.
 
-> An agent answers with what you may see yourself, and only one question of
-> yours at a time in each conversation.
+Each agent works with its own app's tools only: ask {one_book}'s accountant
+about money, {one_crm}'s sales assistant about sales. Una answers what no
+app's agent does, such as your files, documents and the workspace's setup,
+and asks the right agent for the rest.
+
+> An agent answers with what both you and it may see, and only one question
+> of yours at a time in each conversation.
 
 ## Cards
 

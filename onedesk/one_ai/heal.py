@@ -57,7 +57,7 @@ def unknown(tool: str | None, known: list[str]) -> str:
 	return (
 		f"There is no tool called {tool!r}."
 		+ (f" Did you mean {', '.join(near)}?" if near else "")
-		+ " Call more_tools to see every group of tools there is."
+		+ " Use one of the tools you have, or say which agent does this."
 	)
 
 

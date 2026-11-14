@@ -155,14 +155,15 @@ def what_waits_after_the_auditor_is_a_card_kept_or_undone():
 @check
 def the_panel_is_a_conversation_with_an_agent():
 	"""Huda asks the panel on a purchase invoice: the conversation is with
-	OneBook's accountant, her question is a message and, once OneAI keeps
-	its answer, so is the accountant's, in the same conversation. She names
+	OneBook's accountant, her question is a message, the accountant answers
+	it in the background with its own tools and, once it has, its answer
+	is a message in the same conversation. She names
 	it and opens it in OneChat; she browses, joins and leaves a channel the
 	owner made and added Karim to. A model is not called: the answer is said
 	here. All undone."""
 	from unittest import mock
 
-	from onedesk.one_chat import agent, api, panel
+	from onedesk.one_chat import answers, api, panel
 
 	frappe.db.savepoint("chat_panel_check")
 	try:
@@ -171,11 +172,11 @@ def the_panel_is_a_conversation_with_an_agent():
 			assert panel.agent_for(page)["agent"] == "one_book", "the app's agent on its page"
 			with mock.patch("frappe.enqueue") as queued:
 				said = panel.say("Which bills are due this week?", agent="one_book", page=page)
-			assert said["run"] and queued.called, "the answer is OneAI's own loop"
+			assert said["run"] and queued.call_args.kwargs["agent"] == "one_book", "the accountant answers"
 			channel = said["name"]
 			doc = frappe.get_doc("AI Chat", said["ai_chat"])
 			turns = [*frappe.parse_json(doc.turns), {"role": "model", "text": "Two bills are due this week.", "calls": []}]
-			agent.kept(doc, turns)
+			answers.posted(doc, turns)
 			opened = panel.opened(channel)
 			assert [one["role"] for one in opened["said"]] == ["you", "model"] and opened["agent"]["agent"] == "one_book"
 			assert panel.rename(channel, "Bills due")["title"] == "Bills due"

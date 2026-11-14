@@ -29,7 +29,7 @@ def test_only_safe_passes():
 
 
 def test_the_agent_asks_before_it_acts_and_a_failed_check_holds():
-	assert AGENT.index("guard.holds(reading, asked)") < AGENT.index("run.ask(")
+	assert AGENT.index("guard.holds(reading, asked)") < AGENT.index("talk.ask(")
 	assert "held = True" in GUARD, "a check that could not run is not a pass"
 
 

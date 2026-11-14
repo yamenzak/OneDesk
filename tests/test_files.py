@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 FILES = tree.APP / "one_ai" / "files.py"
-CHAT = tree.APP / "one_ai" / "chat.py"
+DRAWN = tree.APP / "one_ai" / "drawn.py"
 ACTIONS = tree.APP / "one_admin" / "actions.py"
 GATEWAY = tree.APP / "one_admin" / "gateway.py"
 sys.path.insert(0, str(tree.ROOT))
@@ -89,7 +89,7 @@ def test_a_conversation_row_never_holds_a_base64():
 	for key in ("'name'", "'url'", "'type'", "'size'"):
 		assert key in said
 
-	assert "key != 'data'" in spoken(CHAT, "shown")
+	assert "key != 'data'" in spoken(DRAWN, "shown")
 
 
 def test_each_provider_is_handed_a_file_its_own_way():

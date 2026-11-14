@@ -7,9 +7,6 @@ tools for everything else are in tools.py, ai_web.py and reading/agent.py."""
 REACH = {}
 
 NOT_FOR_AI = {
-	"chat.start": "A conversation with OneAI is started by the person who talks in it.",
-	"chat.say": "What is said to OneAI is the person's own words.",
-	"chat.rename": "A conversation is named by the person it belongs to.",
 	"run.apply": "Applying a suggestion is the person answering OneAI's card.",
 	"run.refuse": "Refusing a suggestion is the person answering OneAI's card.",
 	"run.took": "This records that the person took a suggestion into a form.",

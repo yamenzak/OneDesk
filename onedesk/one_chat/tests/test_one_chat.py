@@ -122,15 +122,15 @@ def test_change_edits_only_the_plain_values_a_card_proposed():
 def test_the_door_s_cards_land_in_onechat():
 	hooks = (tree.APP / "hooks.py").read_text()
 	assert '"Reading Action": {"after_insert": "onedesk.one_chat.cards.posted",' in hooks
-	assert "frappe.get_hooks(\"one_ai_chat_kept\")" in (tree.APP / "one_ai" / "chat.py").read_text()
-	assert 'one_ai_chat_kept = hook("one_ai_chat_kept")' in hooks
+	answer = (tree.APP / "one_chat" / "answers.py").read_text().split("def answer(", 1)[1].split("\ndef ", 1)[0]
+	assert "posted(doc, turns)" in answer and "talk.ask(" in (tree.APP / "one_chat" / "answers.py").read_text()
 
 
 def test_the_panel_is_a_conversation_in_onechat():
 	panel = (JS / "panel" / "Panel.vue").read_text()
 	for call in ("onedesk.one_chat.panel.say", "onedesk.one_chat.panel.opened", "onedesk.one_chat.panel.conversations"):
 		assert call in panel
-	for gone in ("onedesk.one_ai.chat.say", "onedesk.one_ai.chat.opened", "onedesk.one_ai.chat.chats"):
+	for gone in ("onedesk.one_ai.chat.",):
 		assert gone not in panel
 
 

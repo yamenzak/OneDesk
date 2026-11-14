@@ -12,7 +12,7 @@ import tree  # noqa: E402
 
 ADMIN = (tree.APP / "one_admin" / "web.py").read_text()
 WORKSPACE = (tree.APP / "one_ai" / "ai_web.py").read_text()
-GROUPS = (tree.APP / "one_ai" / "groups.py").read_text()
+TALK = (tree.APP / "one_ai" / "agents" / "talk.py").read_text()
 TOOLS = (tree.APP / "one_ai" / "tools.py").read_text()
 
 
@@ -48,5 +48,4 @@ def test_the_tool_is_offered_and_run_only_while_the_service_is_on():
 	assert 'services.call(SERVICE, account.ask, ASKED' in WORKSPACE, "asked only through services.call"
 	assert "web_search.service = SERVICE" in WORKSPACE
 	assert "tuple(filter(offered, reads))" in TOOLS, "a tool that needs a service is not given while it is off"
-	assert '"service": "web_search"' in GROUPS and "services.on(needs)" in GROUPS, "nor is its group named"
-	assert "grouped.offered(one)" in TOOLS, "nor given when asked for by name"
+	assert "if offered(fn)" in TALK, "nor given to an agent while it is off"

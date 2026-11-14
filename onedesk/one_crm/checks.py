@@ -89,11 +89,11 @@ def onecrm_home_tells_how_selling_is_going():
 		for row in said["everything"]:
 			kind = "DocType" if row["kind"] == "List" else row["kind"]
 			assert frappe.db.exists(kind, row["target"]), row
-		from onedesk.one_ai import chat, suggest
+		from onedesk.one_ai import here, suggest
 
 		offered = [one["label"] for one in suggest.for_page({"page": "onecrm"})]
 		assert "Why are we losing opportunities?" in offered, offered
-		assert "OneCRM's Home" in chat._page({"page": "onecrm"})
+		assert "OneCRM's Home" in here.said_of({"page": "onecrm"})
 
 
 @check
