@@ -1,5 +1,5 @@
 <template>
-  <Button variant="ghost" icon-left="lucide-message-circle-question" :label="__('Ask')" :aria-label="__('Ask the Setup Guide')" @click="open = true" />
+  <Button variant="ghost" icon-left="lucide-message-circle-question" :label="__('Ask', null, 'Ask a question')" :aria-label="__('Ask the Setup Guide')" @click="open = true" />
   <Dialog v-model:open="open" :title="__('Setup Guide')" icon="lucide-message-circle-question" size="lg">
     <template #default>
       <div ref="list" class="flex max-h-[55dvh] flex-col gap-3 overflow-y-auto">

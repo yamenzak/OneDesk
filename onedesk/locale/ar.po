@@ -5717,6 +5717,11 @@ msgstr "كما يسمّيه {0} الآن"
 msgid "Ask"
 msgstr "اطلب"
 
+#: frontend/portal/src/start/Ask.vue:2 onedesk/public/js/one/setup_center.js:70
+msgctxt "Ask a question"
+msgid "Ask"
+msgstr "اسأل"
+
 #: onedesk/one/privacy_public.py:65
 msgid "Ask Again"
 msgstr "اطلب مجددًا"

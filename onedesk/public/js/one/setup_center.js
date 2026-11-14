@@ -67,7 +67,7 @@ onedesk.centers.declare("setup", {
 					})
 					.appendTo($end);
 				if (onedesk.apps.ai())
-					kit.button({ label: __("Ask"), variant: "ghost" })
+					kit.button({ label: __("Ask", null, "Ask a question"), variant: "ghost" })
 						.on("click", () => onedesk.oneai.open({ ask: __("What does {0} set up, and what should we answer?", [step.title]) }))
 						.appendTo($end);
 			}

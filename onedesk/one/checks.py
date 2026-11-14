@@ -2002,6 +2002,8 @@ def setupcenter_s_guide_answers_and_fills_a_step_as_a_card():
 	from unittest import mock
 
 	from onedesk.one import setup_center_agent, setup_steps
+	from frappe.permissions import AUTOMATIC_ROLES
+
 	from onedesk.one.registry import agents
 	from onedesk.one_ai.agents import levels, talk, users
 	from onedesk.one_chat import agents as members
@@ -2011,7 +2013,7 @@ def setupcenter_s_guide_answers_and_fills_a_step_as_a_card():
 	mail = "OneMail"
 	users.ensure()
 	guide = agents.get("setup_center")
-	assert guide and guide.roles == () and not set(frappe.get_roles(guide.email)) - {"All", "Guest"}, "the guide holds no role"
+	assert guide and guide.roles == () and not set(frappe.get_roles(guide.email)) - set(AUTOMATIC_ROLES), "the guide holds no role"
 	assert levels.of("setup_center", "fill_step") == levels.ASK_FIRST and levels.of("setup_center", "about_steps") == levels.DO_IT
 	with as_user(OWNER):
 		assert members.for_page({"page": "setup", "section": mail}) == "setup_center"

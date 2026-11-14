@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-14 09:11+0000\n"
-"PO-Revision-Date: 2026-11-14 09:11+0000\n"
+"POT-Creation-Date: 2026-11-14 09:27+0000\n"
+"PO-Revision-Date: 2026-11-14 09:27+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5759,8 +5759,12 @@ msgstr ""
 msgid "As {0} names it now"
 msgstr ""
 
-#: frontend/portal/src/start/Ask.vue:2 onedesk/public/js/one/setup_center.js:70
 #: onedesk/public/js/one_inventory/quotes_actions.js:36
+msgid "Ask"
+msgstr ""
+
+#: frontend/portal/src/start/Ask.vue:2 onedesk/public/js/one/setup_center.js:70
+msgctxt "Ask a question"
 msgid "Ask"
 msgstr ""
 
@@ -39795,7 +39799,7 @@ msgstr ""
 msgid "People"
 msgstr ""
 
-#: onedesk/one/checks.py:2043 onedesk/one_mail/setup.py:55
+#: onedesk/one/checks.py:2045 onedesk/one_mail/setup.py:55
 msgid "People May Connect Their Own Mailboxes"
 msgstr ""
 
